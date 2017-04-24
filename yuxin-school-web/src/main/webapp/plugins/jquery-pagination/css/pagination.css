@@ -1,0 +1,40 @@
+.mypage{
+	width:98%;
+	margin:10px auto;
+	padding: 0 1%;
+	clear:both;
+	overflow:hidden;
+}
+.pagination {
+	 font-size: 14px;
+	 float:right;	 
+}
+        
+.pagination a {
+	padding:0 10px;
+	border:1px solid #CCC;
+	background:#eee;
+}
+
+.pagination a, .pagination span {
+	float:left;
+	height:27px; 
+	line-height:25px;
+	text-align:center; 
+	overflow:hidden; 
+	margin-left:10px;
+	display:block;
+}
+
+.pagination .current {
+    padding:0 10px;
+    color: #fff;
+	border:1px solid #CCC;
+	background:#53B84E;
+}
+
+.pagination .current.prev, .pagination .current.next{
+	color:#999;
+	border:1px solid #CCC;
+	background:#fff;
+}

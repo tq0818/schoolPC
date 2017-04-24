@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.auth.mapper.AuthUserRoleMapper">
+	<resultMap type="com.yuxin.wx.model.auth.AuthUserRole" id="authUserRoleResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="roleUid" column="role_uid" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		role_uid,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{roleUid},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.auth.AuthUserRole" useGeneratedKeys="true" keyProperty="id">
+		insert into auth_user_role( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into auth_user_role( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from auth_user_role
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from auth_user_role
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		update auth_user_role 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="roleUid != null and roleUid != ''">role_uid = #{roleUid},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authUserRoleResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from auth_user_role
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authUserRoleResultMap">
+		select <include refid="table_columns" /> 
+		from auth_user_role
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="roleUid != null and roleUid != ''">and role_uid = #{roleUid}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	
+	
+	<select id="page" resultMap="authUserRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		select <include refid="table_columns" />
+		from auth_user_role
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		select count(id) from auth_user_role
+		<include refid="page_where" />
+	</select>
+	
+	<select id="findOne" resultMap="authUserRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		select <include refid="table_columns" />
+		from auth_user_role
+		<include refid="page_where" />
+		limit 1
+	</select>
+	
+	<select id="findListByUserId" resultMap="authUserRoleResultMap" parameterType="int">
+		select <include refid="table_columns" />
+		from auth_user_role where 
+		user_id=#{userId}
+	</select>
+	
+	<select id="findByroleUid" resultMap="authUserRoleResultMap" parameterType="int">
+		select <include refid="table_columns" />
+		from auth_user_role where 
+		role_uid=#{roleUid}
+	</select>
+	<select id="findUserRoles" resultType="com.yuxin.wx.vo.privilege.RoleVo" parameterType="com.yuxin.wx.vo.privilege.RoleVo">
+		select ur.id,ur.role_uid as roleUid,ur.user_id as userId ,ur.create_time as createTime ,ur.creator,ur.update_time as updateTime ,ur.updator,r.role_name as roleName,r.company_id as companyId
+		from auth_user_role ur ,auth_role r where ur.role_uid=r.id and  ur.user_id=#{userId}
+	</select>
+	<!-- 其他自定义SQL -->
+	<delete id="deleteByUser" parameterType="int">
+		delete from auth_user_role
+		where user_id = #{userId}
+	</delete>
+	<select id="findByRoleId" parameterType="String" resultMap="authUserRoleResultMap">
+		select <include refid="table_columns"/>
+		from auth_user_role
+		where user_id = #{id}
+	</select>
+</mapper>

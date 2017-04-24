@@ -1,0 +1,429 @@
+@font-face {
+	font-family: 'iconfont';
+	src: url('fonts/iconfont.eot');
+	src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+		url('fonts/iconfont.woff') format('woff'), url('fonts/iconfont.ttf')
+		format('truetype'), url('fonts/iconfont.svg#iconfont') format('svg')
+}
+.clear:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.margin-t3{
+	margin-top:5px;
+}
+.success-color {
+	color: #090 !important
+}
+
+.info-color {
+	color: #0cf !important
+}
+
+.danger-color {
+	color: #f00 !important
+}
+
+.tiku {
+	position: relative;
+	margin-top: 15px;
+	margin-bottom: 15px
+}
+
+.tiku .h-type {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	color: #666;
+	font-size: 14px;
+	font-size: 1.4rem
+}
+
+.tiku .h-type .c {
+	color: #333
+}
+
+.tiku .classes-type {
+	position: relative
+}
+
+.tiku .classes-type p.c {
+	margin-top: 10px
+}
+
+.tiku .classes-type p:first-child {
+	margin-top: 0
+}
+
+.tiku .classes-type span {
+	display: inline-block;
+	width: 75%;
+}
+
+.tiku .classes-type span.t-title,.tiku .classes-type div.t-title {
+	width: 80px;
+	margin-right: 15px;
+	text-align: right
+}
+.title-p{
+	position: relative;
+}
+.title-p div.t-title{
+	display: inline-block;
+	/* position: relative;
+	top:0; */
+}
+.fl-left{
+	float: left;
+}
+/* .title-p .t-content{
+	position: absolute;
+	left:95px;
+} */
+
+.tiku .classes-type a.btn {
+	margin-right: 10px;
+	margin: 3px 1px;
+}
+
+.tiku .classes-type .search {
+	position: absolute;
+	top: 10px;
+	right: 0
+}
+
+.tiku .class-list {
+	width: 960px;
+	margin: 0 auto;
+	*zoom: 1
+}
+
+.tiku .class-list:after {
+	content: '\20';
+	display: block;
+	height: 0;
+	clear: both
+}
+
+.tiku .class-list ul {
+	width: 1020px
+}
+
+.tiku .class-list ul li {
+	float: left;
+	width: 300px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	padding: 20px 10px;
+	background-color: #099;
+	*zoom: 1
+}
+
+.tiku .class-list ul li:after {
+	content: '\20';
+	display: block;
+	height: 0;
+	clear: both
+}
+
+.tiku .class-list ul li .c-title {
+	position: relative;
+	padding: 5px 0;
+	border-bottom: 1px solid #ddd
+}
+
+.tiku .class-list ul li .c-title .h5 {
+	padding: 0;
+	color: #fff
+}
+
+.tiku .class-list ul li .c-title i {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	cursor: pointer
+}
+
+.tiku .class-list ul li .c-infos {
+	padding: 30px 0 10px
+}
+
+.tiku .class-list ul li .c-infos p {
+	line-height: 3;
+	color: #fff;
+	text-align: center
+}
+
+.tiku .class-list ul li p.add {
+	padding: 60px 0;
+	color: #fff;
+	text-align: center;
+	font-size: 72px;
+	font-size: 7.2rem;
+	cursor: pointer
+}
+
+.tiku .class-list ul li p.add .iconfont {
+	font-size: 72px;
+	font-size: 7.2rem
+}
+
+.tiku .table-list {
+	margin-top: 30px
+}
+
+.tiku .table-list li {
+	margin-bottom: 10px
+}
+
+.tiku .table-list .table.files-list {
+	margin-bottom: 20px
+}
+
+.tiku .table-list .table.files-list td {
+	padding: 10px 10px
+}
+
+.tiku .table-list .table.files-list td span {
+	color: #999
+}
+
+.tiku .table-list .table.files-list td span em {
+	display: inline-block;
+	margin-left: 10px;
+	color: #333
+}
+
+.tiku .table-list .table tr td {
+	background-color: #fff
+}
+
+.tiku .table-list .table tr td.btns {
+	position: relative;
+	background-color: transparent;
+    vertical-align: top;
+}
+
+.tiku .table-list .table tr td.btns .btn {
+	display: block;
+	width: 34px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	line-height: 24px;
+	text-align: center
+}
+
+.tiku .table-list .table tr td.btns .btn.btn-b {
+	position: absolute;
+	top: 5px;
+	left: 75px;
+	padding: 0;
+	width: 76px;
+	height: 76px;
+	line-height: 76px;
+	text-align: center
+}
+
+.tiku .table-list .table tr td .status {
+	font-size: 14px;
+	font-size: 1.4rem;
+	display: block;
+	text-align: center;
+}
+
+.tiku .table-list .table tr td .status.s1 {
+	color: #666
+}
+
+.tiku .table-list .table tr td .status.s2 {
+	color: #0cf
+}
+
+.tiku .table-list .table tr td .status.s3 {
+	color: #090
+}
+
+.tiku .table-list .table tr td .status.s4 {
+	color: #f00
+}
+
+.tiku .table-list .table tr td .l-title {
+	font-size: 14px;
+	font-size: 1.4rem
+}
+
+.tiku .qution-content .qution-control {
+	margin-bottom: 10px
+}
+
+.tiku .qution-content .qution-control .table td {
+	padding: 15px 10px;
+	background-color: #fff
+}
+
+.tiku .qution-content .qution-control .table-background td {
+	background-color: transparent
+}
+
+.tiku .qution-content .qution-control .qution-title {
+	display: inline-block;
+	width: 80px;
+	margin-right: 20px;
+	text-align: right
+}
+
+.tiku .qution-content .qution-control .qution-input.cc {
+	display: inline-block;
+	width: 800px;
+	min-height: 50px;
+	background-color: #fff
+}
+
+.tiku .qution-content .qution-control .qution-input textarea {
+	display: inline-block;
+	width: 800px;
+	height: 50px;
+	resize: none
+}
+
+.tiku .qution-content .qution-control .qution-input input[type="text"] {
+	width: 600px
+}
+
+.tiku .qution-content .qution-control .qution-input label {
+	display: inline-block
+}
+
+.tiku .qution-content .qution-control .qution-input .q-i-i {
+	position: relative;
+	top: 5px
+}
+
+.tiku .qution-content .qution-control .qution-input .q-i-i .iconfont {
+	position: relative;
+	left: 15px
+}
+
+.tiku .tabs {
+	position: relative;
+	top: 1px
+}
+
+.tiku .parts {
+	width: 1040px;
+	margin: 0 auto;
+	*zoom: 1
+}
+
+.tiku .parts:after {
+	content: '\20';
+	display: block;
+	height: 0;
+	clear: both
+}
+
+.tiku .parts .p-1, .tiku .parts .p-2, .tiku .parts .p-3 {
+	float: left
+}
+
+.tiku .parts .p-1 {
+	width: 300px;
+	margin-right: 20px
+}
+
+.tiku .parts .p-2 {
+	width: 400px;
+	margin-right: 20px
+}
+
+.tiku .parts .p-3 {
+	width: 300px
+}
+
+.qustion-list {
+	margin-bottom: 30px
+}
+
+.qustion-list .qution-content {
+	position: relative;
+	margin-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #fff;
+	overflow: hidden
+}
+
+.qustion-list .qution-content .qution-status {
+	position: absolute;
+	left: 10px;
+	font-size: 14px;
+	font-size: 1.2rem
+}
+
+.qustion-list .qution-content .left-more {
+	left: 25px;
+	margin-top: 1px;
+}
+
+.qustion-list .qution-content .qution-titles {
+	padding-left: 45px
+}
+
+.qustion-list .qution-content .qution-icons {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 10px
+}
+
+.qustion-list .qution-content .qution-icons a.btn {
+	padding-left: 10px;
+	padding-right: 10px
+}
+
+.qustion-list .qution-content:hover .qution-icons {
+	display: block
+}
+
+.mt20 {
+	margin-top: 20px
+}
+
+.qution-part {
+	margin: 20px auto 0;
+	padding: 10px 10px 5px;
+	background-color: #dfdfdf
+}
+
+.qution-part .qustion-list {
+	margin-bottom: 0
+}
+
+.qution-part .qustion-list .qution-content {
+	margin-bottom: 10px
+}
+
+h2.h5 {
+	width: 200px
+}
+
+.add-topicname-ckeditor {
+	display: none;
+	position: fixed;
+	top: 30%;
+	left: 30%;
+	width: 521px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	z-index: 99
+}
+
+.i-edit {
+	cursor: pointer;
+	font-size: 30px;
+}
+.mt4{margin-top: 4px;color: #999;}

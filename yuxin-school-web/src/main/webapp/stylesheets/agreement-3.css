@@ -1,0 +1,250 @@
+.u-wrap .mainbackground.nopadding {
+    height: 876px;
+}
+
+.u-wrap .content .inp-1,
+.u-wrap .content .inp-2 ,
+.u-wrap .content .inp-3 ,
+.u-wrap .content .inp-4,
+.u-wrap .content .inp-5 {
+    margin-left: 63px;
+    margin-bottom:20px;
+    color: #999;
+    font-size: 12px
+}
+.u-wrap .content .inp-6 div{
+    margin-left: 63px;
+    margin-bottom: 10px;
+    font-size: 12px
+}
+
+.u-wrap .content div span {
+    color: #666;
+}
+
+.u-wrap .content .inp-5 {
+    color: #666;
+}
+
+.u-wrap .content .inp-1 {
+    margin-left: 87px;
+}
+
+.u-wrap .content .inp-1 input {
+    width: 218px;
+    height: 28px;
+    padding: 0;
+}
+
+.u-wrap .content .inp-2 input {
+    width: 218px;
+    height: 28px;
+    padding: 0;
+}
+
+.u-wrap .content .inp-3 select {
+    width: 133px;
+    height: 28px;
+    padding: 0;
+}
+
+.u-wrap .content .inp-4 select {
+    width: 133px;
+    height: 28px;
+    padding: 0;
+}
+
+/*.inp-6:after {
+    content: "";
+    display: block;
+    clear: both
+}*/
+
+/*.inp-6 {
+  *zoom: 1;
+}*/
+
+
+
+
+
+/*.inp-6 {
+  *zoom: 1;
+}
+.inp-6:before,
+.inp-6:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.inp-6:after {
+  clear: both;
+}
+*/
+
+
+
+/*.inp-6 .left {
+    float: left;
+}
+
+.inp-6 .right {
+    float: left;
+}
+
+.u-wrap .content .inp-6>.right {
+    margin-left: -122px;
+}
+
+.right-1 div {
+    float: left;
+}
+
+.right-1 div.right-r {
+    margin-left: 180px;
+}
+
+.right-2 div {
+    float: left;
+}
+
+.right-2 div.right-r {
+    margin-left: 64px;
+}
+
+.right-3 div {
+    float: left;
+}
+
+.right-3 div.right-r {
+    margin-left: 175px;
+}
+
+.right-4 div {
+    float: left;
+}
+
+.right-4 div.right-r {
+    margin-left: 166px;
+}*/
+
+
+/*ie*/
+.inp-6 .left {
+    float: left;
+}
+
+.inp-6 .right {
+    float: left;
+}
+
+.u-wrap .content .inp-6>.right {
+    margin-left: -110px;
+}
+
+.right-1 div {
+    float: left;
+}
+
+.u-wrap .content .right-1{
+    margin-bottom: 0;
+}
+
+
+.right-1 div.right-r {
+    padding-left: 180px;
+}
+
+.right-2 div {
+    float: left;
+}
+.u-wrap .content .right-2{
+    margin-bottom: 0;
+}
+
+
+.right-2 div.right-r {
+    padding-left: 64px;
+}
+
+.right-3 div {
+    float: left;
+}
+.u-wrap .content .right-3{
+    margin-bottom: 0;
+}
+
+.right-3 div.right-r {
+    padding-left: 175px;
+}
+
+.right-4 div {
+    float: left;
+}
+
+.u-wrap .content .right-4{
+    margin-bottom: 0;
+}
+
+.right-4 div.right-r {
+    padding-left: 166px;
+}
+
+
+
+
+
+
+.right-1 {
+  *zoom: 1;
+}
+.right-1:before,
+.right-1:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.right-1:after {
+  clear: both;
+}
+
+.right-2 {
+  *zoom: 1;
+}
+.right-2:before,
+.right-2:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.right-2:after {
+  clear: both;
+}
+
+.right-3 {
+  *zoom: 1;
+}
+.right-3:before,
+.right-3:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.right-3:after {
+  clear: both;
+}
+
+
+.right-4 {
+  *zoom: 1;
+}
+.right-4:before,
+.right-4:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.right-4:after {
+  clear: both;
+}
+

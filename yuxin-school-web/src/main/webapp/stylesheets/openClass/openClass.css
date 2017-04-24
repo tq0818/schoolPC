@@ -1,0 +1,48 @@
+.poAbso{
+	position: absolute;
+}
+.img{
+	width: 285px;
+	height: 155px;
+}
+.p1 {
+	display: block;
+	position: absolute;
+	z-index: 2000;
+	top: 10px;
+	right: -280px;
+}
+
+.p2 {
+	display: block;
+	position: absolute;
+	z-index: 2000;
+	top: 10px;
+	right: -280px;
+}
+
+.p3 {
+	display: block;
+	position: absolute;
+	z-index: 2000;
+	top: 10px;
+	right: -280px;
+}
+
+.p1 .preview-container {
+	width: 446px;
+	height: 241px;
+	overflow: hidden;
+}
+
+.p2 .preview-container {
+	width: 255px;
+	height: 138px;
+	overflow: hidden;
+}
+
+.p3 .preview-container {
+	width: 181px;
+	height: 96px;
+	overflow: hidden;
+}

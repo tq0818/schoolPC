@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigItemMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigItem" id="sysConfigItemResultMap">
+		<result property="id" column="id" />
+		<result property="itemName" column="item_name" />
+		<result property="itemType" column="item_type" />
+		<result property="parentId" column="parent_id" />
+		<result property="status" column="status" />
+		<result property="delFlag" column="del_flag" />
+		<result property="remark" column="remark" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="companyId" column="company_id" />
+		<result property="itemPic" column="item_pic" />
+		<result property="relationStatus" column="relation_status"/>
+		<result property="itemBackPic" column="item_back_pic" />
+	</resultMap>
+
+	<resultMap type="com.yuxin.wx.model.system.SysSchoolItemRelation" id="sysSchoolItemRelationResultMap">
+		<result property="id" column="id"/>
+		<result property="schoolId" column="school_id"/>
+		<result property="itemId" column="item_id"/>
+		<result property="delFlag" column="del_flag"/>
+		<result property="createTime" column="create_time"/>
+		<result property="creator" column="creator"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="updator" column="updator"/>
+		<result property="trueDelFlag" column="true_del_flag"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		item_name,
+		item_type,
+		parent_id,
+		status,
+		del_flag,
+		remark,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		company_id,
+		item_pic,
+		item_back_pic
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{itemName},
+		#{itemType},
+		#{parentId},
+		#{status},
+		#{delFlag},
+		#{remark},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{companyId},
+		#{itemPic},
+		#{itemBackPic}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigItem"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into sys_config_item(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_item
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_item
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigItem">
+		update sys_config_item
+		<trim prefix="set" suffixOverrides=",">
+			<if test="itemName != null and itemName != ''">item_name = #{itemName},</if>
+			<if test="itemType != null and itemType != ''">item_type = #{itemType},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="itemPic != null and itemPic != ''">item_pic = #{itemPic},</if>
+			<if test="itemBackPic != null and itemBackPic != ''">item_back_pic = #{itemBackPic},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="sysConfigItemResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from sys_config_item
+		where id = #{id}
+	</select>
+<select id="findByItemTwo" resultMap="sysConfigItemResultMap"
+		parameterType="hashmap">
+		select
+		i.id,
+		i.item_name,
+		i.item_type,
+		i.parent_id,
+		i.status,
+		i.del_flag,
+		i.remark,
+		i.create_time,
+		i.creator,
+		i.update_time,
+		i.updator,
+		i.company_id,
+		i.item_pic,
+		i.item_back_pic,
+		i.sort
+		from sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.item_type=2 and i.parent_id = #{pid} and
+		i.company_id=#{companyId} and r.school_id=#{schoolId} and r.del_flag=0 and i.status = 1
+		order by i.sort ASC,i.id ASC;
+	</select>
+
+	<select id="findByItemOne" resultMap="sysConfigItemResultMap" parameterType="String">
+		select
+		i.id,
+		i.item_name,
+		i.item_type,
+		i.parent_id,
+		i.status,
+		i.del_flag,
+		i.remark,
+		i.create_time,
+		i.creator,
+		i.update_time,
+		i.updator,
+		i.company_id,
+		i.item_pic,
+		i.item_back_pic,
+		i.sort
+		from sys_config_item i
+			inner join sys_school_item_relation r
+			on r.item_id = i.id 
+		where r.school_id = #{schoolId} and 
+			i.company_id = #{companyId} and 
+			i.item_type = 1 and 
+			i.`status` = 1 and 
+			r.true_del_flag = 0 and 
+			r.del_flag = 0
+			order by i.sort ASC,i.id ASC;
+	</select>
+	<select id="queryAll" resultMap="sysConfigItemResultMap">
+		select
+		<include refid="table_columns" />
+		from sys_config_item
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="id != null and id != ''">and id = #{id}</if>
+			<if test="itemName != null and itemName != ''">and item_name = #{itemName}</if>
+			<if test="itemType != null and itemType != ''">and item_type = #{itemType}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			and del_flag = 0 
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="sysConfigItemResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigItem">
+		select
+		<include refid="table_columns" />
+		from sys_config_item
+		<include refid="page_where" />
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.system.SysConfigItem">
+		select count(id) from sys_config_item
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="selectItem" resultMap="sysConfigItemResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigItem">
+		select
+		i.id,
+		i.item_name,
+		i.item_type,
+		i.parent_id,
+		i.status,
+		i.del_flag,
+		i.remark,
+		i.create_time,
+		i.creator,
+		i.update_time,
+		i.updator,
+		i.company_id,
+		i.item_pic,
+		i.item_back_pic
+		from sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id
+			<if test="id != null and id != ''">and i.id = #{id}</if>
+			<if test="itemName != null and itemName != ''">and i.item_name = #{itemName}</if>
+			<if test="itemType != null and itemType != ''">and i.item_type = #{itemType}</if>
+			<if test="parentId != null and parentId != ''">and i.parent_id = #{parentId}</if>
+			<if test="status != null and status != ''">and i.status = #{status}</if>
+			<if test="companyId != null and companyId != ''">and i.company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and r.school_id = #{schoolId}</if>
+			<if test="remark != null and remark != ''">and i.remark = #{remark}</if>
+			<if test="createTime != null and createTime != ''">and i.create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and i.creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and i.update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and i.updator = #{updator}</if>
+			<if test="delFlag != null">and r.del_flag = #{delFlag}</if>
+			<if test="status != null and status != ''">and i.status = #{status}</if>
+	</select>
+	
+	<!-- 根据公司id和一级项目查询二级项目 -->
+	<select id="selectSecondItem" resultMap="sysConfigItemResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigItem">
+		select
+		i.id,
+		i.item_name,
+		i.item_type,
+		i.parent_id,
+		i.status,
+		i.del_flag,
+		i.remark,
+		i.create_time,
+		i.creator,
+		i.update_time,
+		i.updator,
+		i.company_id,
+		i.item_pic,
+		i.item_back_pic
+		from sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.company_id = #{companyId} and r.del_flag =0
+			<if test="itemType != null and itemType != ''">and i.item_type = #{itemType}</if>
+			<if test="parentId != null and parentId != ''">and i.parent_id = #{parentId}</if>
+			<if test="status != null and status != ''">and i.status = #{status}</if>
+			<if test="schoolId != null and schoolId != ''">and r.school_id = #{schoolId}</if>
+	</select>
+	
+	<!-- 根据学校id 查询项目数 -->
+	<select id="findProjectBySchoolId" resultType="Integer" parameterType="Integer">
+		select count(l.id)
+		from sys_config_item l
+		inner join sys_school_item_relation r
+		on l.id = r.item_id
+		where r.school_id = #{schoolId} 
+			and l.item_type = 1
+			and r.del_flag = 0
+			and l.del_flag = 0
+			and r.true_del_flag = 0
+		limit 1			
+	</select>
+	
+	<select id="findTwoByOneId" resultMap="sysConfigItemResultMap"
+		parameterType="Integer">
+		select
+		<include refid="table_columns" />
+		from sys_config_item
+		where item_type=2 and parent_id = #{oneItemId} 
+		and del_flag=0 
+		order by id
+	</select>
+	
+	<select id="findItemByCompanyId" resultMap="sysConfigItemResultMap" >
+		select <include refid="table_columns"/>
+			from sys_config_item 
+		where company_id = #{companyId} and
+			del_flag = 0 and status = 1
+			 <if test="itemType != null and itemType != ''">and item_type = #{itemType} </if> 
+		order by id asc
+		
+	</select>
+	
+	<insert id="insertRelation" parameterType="map"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_school_item_relation(
+			school_id,item_id,del_flag,creator,create_time,updator,update_time,true_del_flag
+		)
+		values (
+			#{schoolId},#{itemId},#{delFlag},#{creator},#{createTime},#{updator},#{updateTime},#{trueDelFlag}
+		)
+	</insert>
+	
+	<update id="updateRelation" parameterType="map">
+		update sys_school_item_relation 
+		set del_flag = #{delFlag},
+			updator = #{updator},
+			update_time = #{updateTime}
+			<if test="trueDelFlag != null">
+				,true_del_flag = #{trueDelFlag}
+			</if>
+		where id = #{id}
+	</update>
+	
+	<select id="findExist" parameterType="map" resultMap="sysSchoolItemRelationResultMap">
+		select id,
+			school_id,
+			item_id,
+			del_flag,
+			create_time,
+			creator,
+			update_time,
+			updator,
+			true_del_flag
+		from sys_school_item_relation 
+		where school_id = #{schoolId} and 
+			item_id = #{itemId}
+			<if test="trueDelFlag != null and trueDelFlag != ''">
+				and true_del_flag = #{trueDelFlag}
+			</if>
+			limit 1
+	</select>
+	
+	<select id="findUnquieItem" resultType="Integer"
+		parameterType="map">
+		select
+			count(i.id)
+		from sys_config_item i
+		left join sys_school_item_relation r
+			on r.item_id = i.id 
+		where  
+			i.item_name = #{itemName} and 
+			i.company_id = #{companyId} and
+			i.item_type = #{itemType} and 
+			i.status = 1  and 
+			r.school_id = #{schoolId} and 
+			r.true_del_flag = 0
+			<if test="parentId != null">
+				and parent_id = #{parentId}
+			</if>
+			limit 1
+	</select>
+	
+	<select id="findUnquieItemByUpdate" resultType="Integer"
+		parameterType="map">
+		select
+			count(i.id)
+		from sys_config_item i
+		left join sys_school_item_relation r
+			on r.item_id = i.id 
+		where  
+			i.item_name = #{itemName} and 
+			i.company_id = #{companyId} and
+			i.item_type = #{itemType} and 
+			i.status = 1  and 
+			r.school_id = #{schoolId} and 
+			r.true_del_flag = 0
+			<if test="id != null">and i.id not in (#{id})</if>
+			<if test="parentId != null">
+				and i.parent_id = #{parentId}
+			</if>
+			limit 1
+	</select>
+	<select id="findOneItemByCompanyId" resultMap="sysConfigItemResultMap" parameterType="Integer">
+		select
+		<include refid="table_columns" />
+		from sys_config_item
+		where item_type=1 and company_id = #{companyId}
+	</select>
+	
+	<update id="updateTwoByOne" parameterType="com.yuxin.wx.model.system.SysConfigItem">
+		update sys_config_item 
+			set status = #{status},
+				update_time = #{updateTime},
+				updator = #{updator}
+		where parent_id = #{parentId} and 
+			del_flag = 0 and 
+			item_type = 2
+	</update>
+	
+	<select id="findItemBySchoolCompanyId" parameterType="map" resultMap="sysConfigItemResultMap">
+		select 
+			i.id,
+			i.item_name,
+			i.item_type,
+			i.parent_id,
+			i.status,
+			i.del_flag,
+			i.remark,
+			i.create_time,
+			i.creator,
+			i.update_time,
+			i.updator,
+			i.company_id,
+			i.item_pic,
+		i.item_back_pic
+		from sys_config_item i
+			inner join sys_school_item_relation r
+			on r.item_id = i.id 
+		where r.school_id = #{schoolId} and 
+			i.company_id = #{companyId} and 
+			r.del_flag = 0 and 
+			i.del_flag = 0 and 
+			r.true_del_flag = 0 
+			<if test="itemType != null and itemType != ''">
+				and i.item_type = #{itemType} 
+			</if>
+			and i.status = '1'
+			order by i.sort,i.id
+	</select>
+	<select id="selectCount" parameterType="String" resultType="int">
+		select count(id) from sys_config_item where company_id=#{companyId} limit 1
+	</select>
+	
+	<select id="findStatus" parameterType="com.yuxin.wx.model.system.SysConfigItem" resultMap="sysConfigItemResultMap">
+		select 
+			i.id,
+			i.item_name,
+			i.item_type,
+			i.parent_id,
+			i.`status`,
+			i.del_flag,
+			i.remark,
+			i.create_time,
+			i.creator,
+			i.update_time,
+			i.updator,
+			i.company_id,
+			i.item_pic, 
+			r.del_flag relation_status,
+			i.item_back_pic
+		from sys_config_item i
+			inner join sys_school_item_relation r
+			on r.item_id = i.id 
+		where r.school_id = #{schoolId} and 
+			i.company_id = #{companyId} and 
+			i.item_type = #{itemType} and 
+			i.`status` = 1 and 
+			r.true_del_flag = 0
+			<if test="parentId != null and parentId != ''">
+				and i.parent_id = #{parentId}
+			</if>
+			<if test="delFlag!= null">
+				and r.del_flag = #{delFlag}
+			</if>
+			order by i.sort,i.id
+	</select>
+	
+	<select id="findNotInByItemId" resultMap="sysConfigItemResultMap" parameterType="map">
+		select <include refid="table_columns"/>
+		from sys_config_item
+		where company_id = #{companyId}
+		<if test="parentId != null and parentId != ''">
+			and parent_id = #{parentId}
+		</if>
+		<if test="companyIds != null and companyIds != ''">
+			and id not in 
+				<foreach collection="companyIds" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		</if>
+		<if test="twoIds != null and twoIds != ''">
+			and id not in 
+				<foreach collection="twoIds" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		</if>
+		and item_type = #{itemType} 
+		and status = 1
+		order by sort,id
+	</select>
+	<!-- 查询是否是空 或者删除 -->
+	<select id="findDelNullByName" parameterType="com.yuxin.wx.model.system.SysConfigItem" resultMap="sysConfigItemResultMap">
+		select <include refid="table_columns"/>
+		from sys_config_item
+		where item_name = #{itemName} and 
+			company_id = #{companyId} and 
+			status = 1 and 
+			item_type = #{itemType} 
+			<if test="parentId != null">and parent_id = #{parentId}</if>
+			limit 1
+	</select>
+	
+	<!-- 查询其他分校是否还有使用 -->
+	<select id="findUseByItemId" parameterType="Integer" resultMap="sysSchoolItemRelationResultMap">
+		select id,
+			school_id,
+			item_id,
+			del_flag,
+			create_time,
+			creator,
+			update_time,
+			updator,
+			true_del_flag
+		from sys_school_item_relation 
+		where item_id = #{itemId} and 
+			true_del_flag = 0 and
+			school_id not in (#{schoolId})
+	</select>
+	
+	<select id="findItemByIds" resultMap="sysConfigItemResultMap" parameterType="list">
+		select
+		<include refid="table_columns" />
+		from sys_config_item
+		where id in 
+		<foreach item="item" collection="list" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

@@ -1,0 +1,1144 @@
+em, i {
+    font-style: normal;
+}
+
+.w210 {
+    width: 210px;
+}
+
+.w310 {
+    width: 310px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.p-relative {
+    position: relative;
+}
+
+/*优惠码*/
+.coupon-code .classify-tit {
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.coupon-code .classify-box .classify {
+    height: 110px;
+    border-radius: 0;
+    position: relative;
+}
+
+.coupon-code .classify > div {
+    padding: 0px;
+}
+.classify-box .rule-wrap{
+    position: absolute;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    color: #999;
+    left: 210px;
+    width: 300px;
+    top: 0;
+}
+.classify-box .rule-wrap p{
+    color: #999;
+    margin-top: 0;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.coupon-code .classify img {
+    display: none;
+}
+
+.coupon-code .classify .active img {
+    display: block;
+}
+
+/*优惠码管理*/
+.coupon-page .table > tbody > tr > td.active {
+    color: #fe5151;
+}
+
+.search-cont {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.use-time {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.use-time input {
+    width: 90px;
+}
+
+.a-more {
+    position: relative;
+}
+
+.a-more.active {
+    color: #0033ff;
+}
+
+.a-more .iconfont {
+    font-size: 12px;
+    position: absolute;
+    right: -4px;
+    top: 0;
+    display: none;
+}
+
+.operate-cont {
+    display: inline-block;
+    position: relative;
+}
+
+.a-more-cont {
+    position: absolute;
+    display: block;
+    width: 46px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    z-index: 9;
+    right: -9px;
+    top: 20px;
+    display: none;
+}
+
+.a-more-cont a {
+    display: block;
+    line-height: 24px;
+}
+
+.operate-cont > a:last-of-type {
+    padding-bottom: 15px;
+    padding-right: 15px;
+}
+
+.layer-tips-content i {
+    color: #fe5151;
+}
+
+/*查看优惠码*/
+.layer-tips.check-coupon-code {
+    width: 960px;
+    padding: 10px 20px 20px 20px;
+    top: 50%;
+    margin-left: -400px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: rgb(153, 153, 153) 0px 0px 6px;
+    border: none;
+    border-radius: 5px;
+}
+
+.layer-tips.check-coupon-code .layer-tips-title {
+    background: #fff;
+    color: #474747;
+    font-size: 18px;
+    padding-left: 0;
+    border-color: #e0e0e0;
+}
+
+.check-cont {
+    margin: 10px auto;
+}
+
+.check-cont table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.check-cont table > tbody > tr > th {
+    background-color: #eee;
+}
+
+/*优惠码详情*/
+.user-list{
+    position: relative;
+}
+.money{
+    position: absolute;
+    right: 0;
+    top:-22px;
+    font-size: 14px;
+    color:#333;
+    line-height: 14px;
+}
+.money em{
+    color:#fe5151;
+}
+.coupon-page .user-list td{
+    background: #fff;
+}
+.layer-tips.coupon-code-detail {
+    width: 960px;
+    padding: 10px 20px 20px 20px;
+    margin-left: -500px;
+    padding-bottom: 10px;
+    top: 50%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    background: #fff;
+    box-shadow: rgb(153, 153, 153) 0px 0px 6px;
+    border: none;
+    border-radius: 5px;
+}
+
+.layer-tips.coupon-code-detail .layer-tips-title {
+    background: #fff;
+    color: #474747;
+    font-size: 18px;
+    padding-left: 0;
+    border-color: #e0e0e0;
+}
+
+.coupon-code-detail {
+    background: #eee;
+}
+
+.coupon-basic-info {
+    background: #f6f6f6;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.coupon-code-detail h3 {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 32px;
+    color: #474747;
+    padding-left: 10px;
+}
+
+.coupon-code-detail .info-cont li {
+    float: left;
+    width: 50%;
+    font-size: 12px;
+    color: #949494;
+    line-height: 30px;
+}
+
+.coupon-code-detail .info-cont li .itm-tilte {
+    display: inline-block;
+    width: 60px;
+    padding-right: 20px;
+    text-align: right;
+}
+
+/*优惠码使用情况*/
+
+.coupon-use-detail table th {
+    font-size: 12px;
+    background: #f2f2f2;
+    color: #474747;
+    font-weight: normal;
+}
+
+.sort-btn {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+.sort-btn .iconfont {
+    position: relative;
+    display: block;
+    font-size: 12px;
+    transform: scale(.6, .6);
+}
+
+.sort-btn .iconfont:first-child {
+    top: 3px;
+}
+
+.sort-btn .iconfont:last-child {
+    top: -3px;
+}
+
+/*线上发放*/
+.coupon-title-tab {
+    height: 40px;
+    line-height: 40px;
+    background: #ffffff;
+    margin: 10px 0 40px;
+}
+
+.coupon-title-tab .tab-itm {
+    font-size: 14px;
+    color: #616161;
+    margin: 0 30px;
+    padding: 4px;
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    transition: all .3s;
+    -o-transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+}
+
+.coupon-title-tab .tab-itm:hover, .coupon-title-tab .tab-itm.active {
+    color: #009dee;
+    border-bottom-color: #00a0e9;
+}
+
+.coupon-block {
+    margin-bottom: 30px;
+}
+
+.coupon-block span {
+    font-size: 14px;
+}
+
+.coupon-block .t-label {
+    width: 80px;
+    line-height: 30px;
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.coupon-block .t-label .iconfont {
+    font-size: 12px;
+    color: #fe5151;
+    position: absolute;
+    left: 4px;
+}
+
+.coupon-block input[type="text"] {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #616161;
+    border-color: #bbb;
+}
+
+.coupon-type {
+    color: #474747;
+    font-size: 14px;
+    line-height: 32px;
+}
+
+.coupon-type span {
+    margin-right: 50px;
+}
+
+.coupon-type-cont {
+    min-width: 316px;
+    height: 56px;
+    background: #eaedef;
+    margin-top: 10px;
+    padding: 12px 20px 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: none;
+}
+
+.coupon-type-cont p {
+    display: none;
+}
+.coupon-type-cont p span{
+    padding-left: 10px;
+    font-size: 12px;
+    color: #949494;
+}
+.coupon-type-cont input {
+    border-radius: 0;
+    width: 80px;
+    margin: 0 5px;
+}
+
+span.give-out-nume {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: -190px;
+}
+
+.coupon-block input[type="radio"], .coupon-block input[type="checkbox"] {
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+
+.coupon-block p {
+    line-height: 30px;
+}
+
+.member-p {
+    color: #474747;
+    margin-top: 10px;
+    display: none;
+}
+
+.member-p span {
+    margin-right: 50px;
+}
+
+.member-p span:last-child {
+    margin-right: 0;
+}
+
+.coupon-block .l-note {
+    font-size: 12px;
+    color: #949494;
+}
+
+.coupon-name p {
+    margin-bottom: 20px;
+}
+
+p.message-info i {
+    color: #fe5151;
+    margin-left: 20px;
+}
+
+.msg-content {
+    width: 500px;
+    height: 140px;
+}
+
+.msg-content textarea {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    resize: none;
+    border-radius: 0;
+    font-size: 12px;
+    color: #474747;
+}
+
+.manage-screen .manage-btn {
+    width: 100px;
+    height: 34px;
+    line-height: 26px;
+    text-align: center;
+    padding: 0;
+    border-width: 1px;
+    border-color: transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.manage-screen .manage-btn.mr20 {
+    margin-right: 20px;
+}
+
+.manage-screen .manage-btn-cancel {
+    border-color: #999999;
+    color: #474747;
+    background: #fff;
+}
+.manage-btn-cancel:hover{
+    background-color: #F3F3F3;
+}
+.manage-btn-success {
+    border-color: #00b7ee;
+    color: #fff;
+    background:  #00b7ee;
+}
+.manage-btn-success:hover{
+    border-color: #01aadd;
+    background:  #01aadd;
+}
+.screen-right-cont .bnts-wrap {
+    padding-left: 100px;
+    text-align: center;
+}
+
+.coupon-set {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.coupon-set select {
+    margin: 0 10px;
+    padding: 5px;
+}
+
+.coupon-block select {
+    border-color: #bbbbbb;
+}
+
+.coupon-block textarea {
+    border-color: #e0e0e0;
+}
+
+.coupon-downline {
+    display: none;
+}
+
+.coupon-block .select2-container {
+    min-width: 150px;
+    max-width: 200px;
+}
+.add-alert-content{
+    display: none;
+    z-index:1000 ;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top:0;
+    bottom: 0;
+    right: 0;
+    z-index:1000 ;
+    overflow: auto;
+    overflow-y: scroll;
+}
+.add-alert-content-box{
+    overflow-y: hidden;
+}
+.s_box{
+
+    position: relative;
+    top:10px;
+}
+.lead-out-code .s_box{
+    top:50px;
+}
+/*优惠对象select模拟*/
+.user-chose-wrap {
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    background: #fff;
+    min-width: 160px;
+    max-width: 200px;
+    border-radius: 4px;
+}
+.select-sanjiao{
+    height: 26px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+    cursor: pointer;
+}
+.select-sanjiao b{
+    border-color: #888 transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    height: 0;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -2px;
+    position: absolute;
+    top: 50%;
+    width: 0;
+}
+.select-sanjiao b.active{
+    border-color: transparent transparent #888 transparent;
+    border-width: 0 4px 5px 4px;
+}
+.user-choses-selected {
+    position: absolute;
+    top: 0px;
+    padding-left: 8px;
+    width: 100%;
+    height: 100%;
+    border: #bbb 1px solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.user-chose-wrap .user-chose-position {
+    position: absolute;
+    top: 25px;
+    left: 0px;
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    z-index: 10;
+}
+
+.user-chose-wrap .user-chose-position div {
+    padding-left: 8px;
+    border-left: #bbb 1px solid;
+    border-right: #bbb 1px solid;
+    background: #fff;
+    cursor: pointer;
+}
+.user-chose-wrap .user-chose-position div:hover{
+    background: #f0f0f0;
+    color: #949494;
+    transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+}
+.user-chose-wrap .user-chose-position div:first-child{
+    border-top:#bbb 1px solid;
+}
+.user-chose-wrap .user-chose-position div:last-child{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: 1px solid  #bbb;
+}
+/*.................*/
+
+/*公用*/
+.s_box{
+    width: 930px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    box-shadow: rgb(153, 153, 153) 0px 0px 6px;
+    margin-bottom: 20px;
+    background: #fff;
+
+}
+.s_box h3{
+    font-size: 18px;
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #E0E0E0;
+}
+.s_box .top{
+    position: relative;
+}
+.s_box .tr1 td{
+    background-color: #F2F2F2;
+}
+.s_box .tabCont{
+    background-color: #F2F2F2;
+}
+table{
+    border-collapse: collapse;
+}
+.tabCont table{
+    position: relative;
+    top:-5px;
+}
+.q_page{
+    text-align: right;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+.q_page input{
+    display: inline-block;
+    height: 10px;
+    width: 2em;
+    vertical-align: middle;
+}
+.q_page .prev,.q_page .next{
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #CACACA;
+    border-radius: 3px;
+    vertical-align: middle;
+    height: 25px;
+    line-height: 25px;
+    color: #464646;
+}
+.q_page .prev{
+    padding-left: 5px;
+    padding-right: 8px;
+}
+.q_page .next{
+    padding-left: 8px;
+    padding-right: 5px;
+}
+.q_page .prev i,.q_page .next i{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    line-height: 12px;
+    text-align: center;
+    margin-top: -2px;
+}
+.q_page .prev i{
+    margin-right: 5px;
+}
+.q_page .next i{
+    margin-left: 5px;
+}
+.q_page a:hover{
+    color: red;
+}
+/*指定用户*/
+.top .s_right{
+    position: absolute;
+    right: 10px;
+    top:12px;
+}
+
+.s_box .s_cont{
+    font-size: 12px;
+}
+.s_box .inputCont{
+    padding-top: 25px;
+    padding-bottom: 25px;
+    height: 25px;
+    line-height: 25px;
+}
+.s_box .inputCont select,.s_box .inputCont input{
+    margin-right: 5px;
+}
+.s_box .inputCont a{
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+    line-height:25px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #00B7EE;
+    font-weight: bold;
+    border-radius: 2px;
+    vertical-align: middle;
+}
+.s_box .inputCont b{
+    float: right;
+    height: 25px;
+    line-height: 25px;
+
+
+}
+.s_box .inputCont b label{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+
+
+}
+.s_box input[type=checkbox]{
+    width: 15px;
+    height: 15px;
+
+}
+.s_box .inputCont b input,.inputCont b label{
+    vertical-align: middle;
+}
+
+.s_box table input{
+    vertical-align: middle;
+}
+
+.s_box tbody .stop{
+    color: red;
+}
+.s_box .tabCont{
+    position: relative;
+}
+
+.s_box  .toggle{
+    position: absolute;
+    left:50%;
+    margin-left: -16px;
+    bottom:-23px;
+}
+.s_box .toggle span{
+    display: inline-block;
+    width: 33px;
+    height: 20px;
+    border-radius:0 0  20px 20px;
+    background-color: #E4EAF0;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+}
+.s_box .toggle i{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.choice{
+    display: none;
+}
+.s_box .choice p{
+    height: 53px;
+    line-height: 53px;
+
+}
+.s_box .choice p span{
+    color: red;
+}
+.s_box .group{
+    max-height: 160px;
+    _height:160px;
+    overflow-y: auto;
+}
+.s_box .group span{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background-color: #F6F6F6;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    color: #A8A8A8;
+}
+.s_box .tanslatX{
+    transition:transform 0.5s;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);	/* Safari 和 Chrome */
+    -moz-transform: rotate(180deg);	/* Firefox */
+}
+.s_box .tanslateY{
+    transition:transform 0.5s;
+    transform:rotate(0deg);
+    -webkit-transform: rotate(0deg);	/* Safari 和 Chrome */
+    -moz-transform: rotate(0deg);	/* Firefox */
+}
+.s_box .group i{
+    width: 15px;
+    height: 15px;
+    float: right;
+    text-align: center;
+    line-height: 1;
+    margin-top: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+
+}
+.s_box .conserve{
+    padding: 35px 0 25px;
+    text-align: center;
+}
+.s_box .conserve button{
+    display: inline-block;
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 20px;
+    border-radius: 2px;
+    padding: 0;
+}
+.s_box .conserve .con{
+    background-color: #009DEE;
+    color: #ffffff;
+    border: 0;
+}
+.s_box .conserve .delet{
+    border: 1px solid #949494;
+}
+
+/*导出优惠码*/
+.s_box .top .right{
+    position:absolute;
+    right: 0;
+    top:0;
+}
+.s_box .right{
+    text-align: right;
+    padding-top: 15px;
+}
+.s_box .right span{
+    color: #9B9B9B;
+    line-height: 35px;
+
+}
+.s_box .right a{
+    display: inline-block;
+    width: 105px;
+    height: 30px;
+    background-color: #009DED;
+    border-radius: 2px;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-bottom: 5px;
+    margin-left: 17px;
+}
+.s_box .cont{
+    font-size: 12px;
+    padding-top: 30px;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+
+.s_box tbody tr td,.s_box tbody  tr{
+    border: 1px solid #D7D7D7;
+    background-color: #ffffff;
+    color: #949494;
+    padding: 5px 4px;
+}
+.s_box tbody  tr.tr1 td{
+    color: #474747;
+}
+
+.s_box .tr1 td{
+    background-color: #F2F2F2;
+}
+.s_box .tabCont{
+    padding-bottom:10px;
+    background: #f2f2f2;
+
+}
+
+
+
+/*新加内容--------------------------------------------------------------开始*/
+.coupon-online-card{
+    margin-top:40px;
+}
+.coupon-online-card .w118{
+    width: 118px;
+    margin-right: 6px;
+}
+.coupon-online-card .coupon-block .t-label{
+    width: 100px;
+}
+.user-chose-searchBox{
+    width: 100%;
+    position: relative;
+    background-color: #fff;
+    margin:0;
+    padding-left: 10px;
+    padding-top: 7px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border:#2792fc 1px solid;
+    border-bottom:none;
+}
+.relative-coupon .user-chose-searchBox input{
+    width:190px;
+    height: 25px;
+    padding-right: 25px;
+}
+.relative-coupon .user-choses-selected{
+    width: 215px;
+}
+.relative-coupon .user-chose-wrap{
+    min-width: 215px;
+    max-width: 100%;
+}
+.relative-coupon .user-chose-position div{
+    border-left: #2792fc 1px solid;
+    border-right: #2792fc 1px solid;
+}
+.relative-coupon .user-chose-position div:last-child{
+    border-bottom: #2792fc 1px solid;
+}
+.iconfontSear{
+    font-family: iconfont !important;
+    font-size: 16px;
+    color:#d8d8d8;
+    position: absolute;
+    right: 20px;
+    top:12px;
+    line-height: 16px;
+}
+
+.set-coupon .search-cont{
+    margin-bottom: 30px;
+    margin-top:20px;
+}
+.search-coupon h2.fl{
+    font-size: 14px;
+    color:#999;
+    line-height: 26px;
+    font-weight: normal;
+    width: 74px;
+    text-align: right;
+    margin-right:15px;
+}
+.search-coupon div.fl{
+    font-size: 0;
+}
+.search-coupon div.fl input{
+    padding:6px 12px;
+    font-size:12px;
+    color:#999;
+    line-height: 12px;
+    border-radius: 4px;
+    border:1px solid #d7d7d7;
+    margin-right: 15px;
+}
+
+.fromToTime input{
+    padding:7px 12px;
+    border-radius: 4px;
+    border:none;
+    font-size: 12px;
+    color:#fff;
+    line-height: 12px;
+    margin-right: 10px;
+}
+.fromToTime .use-time{
+    vertical-align: top;
+    margin-left:0;
+}
+.search-coupon .fromToTime.fl input{
+    width: 95px;
+    height: 26px;
+    border-color:#ccc;
+    border-radius: 2px;
+    margin-right: 0;
+}
+.fromToTime .use-time em{
+    font-size: 12px;
+    color:#616161;
+    line-height:12px;
+    position: relative;
+    top:5px;
+    margin:0 10px;
+}
+.search-coupon div.price label{
+    display: inline-block;
+    position: relative;
+}
+.search-coupon div.price input{
+    width: 90px;
+    height: 26px;
+    border-radius: 2px;
+    border:1px solid #ccc;
+    padding-left:20px;
+    margin-right: 0;
+}
+.search-coupon .price i{
+    font-size: 12px;
+    color:#666;
+    line-height:12px;
+    position: absolute;
+    left:6px;
+    top:6px;
+}
+.price em{
+    font-size: 12px;
+    color:#666;
+    line-height:12px;
+    position: relative;
+    top:4px;
+    margin:0 10px;
+}
+.search-coupon .prox{
+    width: 180px;
+    height: 26px;
+    border:1px solid #ccc;
+    margin:0 20px 0 30px;
+}
+.btn-coupon-searh{
+    padding:6px 10px;
+    background-color: #00b7ee;
+    border-radius: 4px;
+    font-size: 12px;
+    color:#fff;
+    line-height: 12px;
+}
+.btn-coupon-searh:hover{
+    background-color: #01aadd;
+}
+table.couponsList > tbody > tr > th,table.couponsList > tbody > tr > td{
+    padding: 10px 5px;
+    font-weight: normal;
+}
+.couponsList td{
+    font-size: 12px;
+    color:#666;
+}
+.couponsList .operate-cont,.couponsList a{
+    color:#00B7EE;
+}
+.couponsList a:hover{
+    color:#01aadd;
+}
+.layer-tips.couponDetail{
+    width: 860px;
+    padding:0;
+}
+.layer-tips.couponDetail .layer-tips-title{
+    font-size: 16px;
+    padding-left: 20px;
+}
+.couponDetail .layer-tips-title{
+   height: 40px;
+    line-height: 40px;
+}
+.couponDetail .layer-tips-title i.close{
+    top:13px;
+    right: 10px;
+}
+.couponCodeDetail .search-cont{
+    margin:20px 0;
+}
+.couponCodeDetail .search-coupon h2.fl{
+    width: 85px;
+}
+.couponCodeDetail .search-coupon select.fl{
+    width: 95px;
+    height: 26px;
+    padding:0px 7px;
+    border:1px solid #ccc;
+}
+.couponCodeDetail .search-coupon .prox{
+    margin-left: 20px;
+}
+.couponUseDetail{
+    padding:0 20px 10px;
+}
+.couponCodeDetail > tbody > tr > td,.couponCodeDetail > tbody > tr > th{
+    padding: 7px 5px;
+}
+.couponCodeDetail td{
+    font-size: 12px;
+    color:#949494;
+}
+
+input:not([type="image"]), textarea {
+    box-sizing: border-box;
+}
+
+.search-coupon div.inputBut input:hover{
+    background-color: #f3f3f3
+}
+.search-coupon div.fl input.active{
+    background-color: #00cc99;
+    border:none;
+    color:#fff;
+    height: 26px;
+}
+.search-coupon div.inputBut .active:hover,.search-coupon .fromToTime.fl .active:hover{
+    background-color: #1ca983;
+}
+.search-coupon .fromToTime.fl .from{
+    margin-right: 0;
+    margin-left:15px;
+}
+
+
+
+
+
+
+
+

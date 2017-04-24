@@ -1,0 +1,86 @@
+.AgreeExr {
+  width: 100%;
+  padding: 5px 20px 40px;
+  box-sizing: border-box;
+  font-size: 0;
+}
+.AgreeExr span {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 14px;
+  color: #666;
+  margin-right: 92px;
+}
+.AgreeExr address {
+  display: inline-block;
+  font-style: normal;
+}
+.artTitle {
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid #e5e5e5;
+}
+.artTitle h3 {
+  width: 100%;
+  font-size: 24px;
+  color: #333;
+  line-height: 62px;
+  text-align: center;
+  font-weight: normal;
+}
+.artTitle a {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+}
+.artTitle a:hover {
+  color: #00b7ee;
+}
+.artTitle a:hover .iUpload {
+  color: #00b7ee;
+}
+i.iUpload {
+  font-size: 18px;
+  line-height: 20px;
+  color: #333;
+}
+.userAgre {
+  width: 960px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 10px 50px;
+}
+.artCon {
+  padding: 12px 0 42px;
+}
+.artCon dt {
+  font-size: 14px;
+  line-height: 44px;
+  color: #333;
+  font-weight: 500;
+}
+.artCon dd {
+  font-size: 14px;
+  line-height: 20px;
+  color: #666;
+}
+.userAgre-wihte {
+  margin-bottom: 80px;
+  border: 1px solid #e0e0e0;
+}
+.AgreeExr-wihte {
+  width: 1200px;
+  padding: 40px 0 50px;
+  margin: 0 auto;
+}
+.AgreeExr-wihte span {
+  color: #999;
+  margin-right: 130px;
+}
+.AgreeExr-wihte address,
+.AgreeExr-wihte time {
+  color: #333;
+}

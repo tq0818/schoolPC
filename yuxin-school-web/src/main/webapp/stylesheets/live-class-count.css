@@ -1,0 +1,44 @@
+.title-tab{
+    margin: 15px 0;
+    height: 34px;
+    line-height: 34px;
+    border-bottom: 2px solid #ddd;
+    position: relative;
+    font-size: 0;
+}
+.title-tab span{
+    display: inline-block;
+    height: 100%;
+    padding: 0 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.title-tab button{
+    position: absolute;
+    right: 0;
+    top:2px;
+    display: none;
+}
+
+.title-tab span.active{
+    color: #0099FF;
+    border-bottom: 2px solid #0099FF;
+}
+.live-class-count .tables{
+    margin-top: 10px;
+     width: 100%;
+     margin-left: 0;
+}
+.live-class-count .btn.btn-sm{
+    padding: 6px 17px;
+    font-size: 12px;
+}
+
+.count-chose span{
+    margin-left: 20px;
+    color: #999;
+}
+.student-info{
+    display: none;
+}

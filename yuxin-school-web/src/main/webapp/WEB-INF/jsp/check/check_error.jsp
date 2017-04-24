@@ -1,0 +1,51 @@
+<%@page import="com.yuxin.wx.model.company.Company"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-cn">
+<head>
+    <title>新手导航</title>
+     <%@include file="/decorators/import.jsp" %>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
+   	<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css">
+   	<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/help.css">
+	<script type="text/javascript" src="/manage/javascripts/plus/jquery.min.js"></script>
+	<script type="text/javascript">
+	var second=3;
+	var timer;
+	function change()
+	{
+	  second--;
+
+	 if(second>-1)
+	 {
+	  document.getElementById("second").innerHTML=second;
+	  timer = setTimeout('change()',1000);//调用自身实现
+	 }
+	 else
+	 {
+		 //window.location.href=rootPath+"/companyMemberService/showFace";
+	   //clearTimeout(timer);
+	 }
+	}
+	//timer = setTimeout('change()',1000);
+	</script>
+</head>
+<body>
+<!-- 二级导航 -->
+
+
+<div class="u-wrap help">
+    <div class="mainbackground nopadding" >
+        <div class="help-list" style="height:420px" >
+        	<div style="height:130px"></div>
+        	<div>
+        	<h5 align="center" style="color:gray">${error_msg }</h5>
+        	</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

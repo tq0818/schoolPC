@@ -1,0 +1,21 @@
+.test-padding{
+    padding: 15px 7%;
+}
+.test-in-padd{
+    padding: 0 3%;
+}
+.test-padding p{
+    font-size: 14px;
+    color: #333;
+}
+.test-padding>p{
+    line-height: 23px;
+    margin-bottom: 15px;
+}
+.test-in-padd>p{
+    line-height: 23px;
+    margin-bottom: 15px;
+}
+.test-in-padd{
+    display: none;
+}

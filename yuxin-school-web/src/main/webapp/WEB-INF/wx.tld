@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd" version="2.0">
+
+<tlib-version>1.0</tlib-version>
+<short-name>wx</short-name>
+	<function>
+       <description>转义字典,代码转为汉字</description>
+       <name>dictCode2Name</name>
+       <function-class>com.yuxin.wx.common.SysLoader</function-class>
+       <function-signature>
+                java.lang.String dictCode2Name(java.lang.String)
+       </function-signature>
+       <example>${wx:dictCode2Name(str)}</example>
+    </function>
+    
+   <function>
+       <description>转义字典,汉字转为代码</description>
+       <name>dictName2Code</name>
+       <function-class>com.yuxin.wx.common.SysLoader</function-class>
+       <function-signature>
+                java.lang.String dictName2Code(java.lang.String)
+       </function-signature>
+       <example>${wx:dictName2Code(str)}</example>
+    </function>
+    
+   <function>
+       <description>获取字典列表</description>
+       <name>dict</name>
+       <function-class>com.yuxin.wx.common.SysLoader</function-class>
+       <function-signature>
+                java.lang.String dict(java.lang.String)
+       </function-signature>
+       <example>${wx:dict(str)}</example>
+    </function>
+</taglib>

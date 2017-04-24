@@ -1,0 +1,410 @@
+@charset "utf-8";
+.q_box {
+    /*邀请码页面*/
+    /*公用*/
+    /*统计页面*/
+    /*alert*/
+}
+
+.q_box .screen-right-cont .prompt-font {
+    font-size: 14px;
+    color: #616161;
+    height: 74px;
+    line-height: 74px;
+    margin-bottom: 30px;
+    padding-left: 10px;
+}
+.q_box .p-relative {
+    position: relative;
+}
+.q_box .coupon-block .t-label {
+    line-height: 30px;
+}
+.q_box .user-chose-wrap {
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    background: #fff;
+    min-width: 166px;
+    max-width: 200px;
+    border-radius: 1px;
+}
+.q_box .user-choses-selected {
+    position: absolute;
+    top: 0px;
+    padding-left: 8px;
+    width: 100%;
+    height: 100%;
+    border: #bbb 1px solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.q_box .user-chose-wrap .user-chose-position {
+    position: absolute;
+    top: 28px;
+    left: 0px;
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    z-index: 10;
+    border-bottom: #bbb 1px solid;
+}
+.q_box .user-chose-wrap .user-chose-position div {
+    padding-left: 8px;
+    border-left: #bbb 1px solid;
+    border-right: #bbb 1px solid;
+    background: #fff;
+    cursor: pointer;
+}
+.q_box .select-sanjiao {
+    height: 26px;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+    cursor: pointer;
+}
+.q_box .select-sanjiao b {
+    border-color: #888 transparent transparent transparent;
+    border-style: solid;
+    border-width: 5px 4px 0 4px;
+    height: 0;
+    left: 50%;
+    margin-left: -4px;
+    margin-top: -2px;
+    position: absolute;
+    top: 50%;
+    width: 0;
+}
+.q_box .coupon-block .t-label {
+    width: 129px;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 14px;
+    color: #616161;
+}
+.q_box .coupon-block .text {
+    padding-left: 20px;
+    font-size: 12px;
+    color: #949494;
+    height: 30px;
+    line-height: 30px;
+}
+.q_box .coupon-block {
+    margin-bottom: 10px;
+}
+.q_box .btn-cro i {
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    font-size: 14px;
+    color: #616161;
+}
+.q_box .btn-cont .text1 {
+    font-size: 14px;
+    color: #949494;
+}
+.q_box .btn-cont .text1 .text-left {
+    display: inline-block;
+    width: 250px;
+    height: 25px;
+    line-height: 28px;
+    text-align: right!important;
+    font-size: 14px;
+    color: #616161;
+    margin-right: 20px;
+}
+.q_box .btn-cont .text1 .qcheck {
+    height: 25px;
+    display: inline-block;
+    line-height: 25px;
+    width: 80px;
+    background: none;
+}
+.q_box .btn-cont .text1 .qcheck input {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.q_box .btn-cont .text1 .text-right input {
+    display: inline-block;
+    width: 60px;
+    border-radius: 0;
+    margin-right: 10px;
+    padding: 3px 9px;
+}
+.q_box .q-screen {
+    border: none;
+}
+.q_box .q-btn {
+    margin-top: 20px;
+}
+.q_box .btn-cont {
+    margin-bottom: 20px;
+}
+.q_box .text1 .text {
+    display: inline-block;
+    font-size: 12px;
+    color: #949494;
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+.q_box .text1 input.radio {
+    vertical-align: middle;
+}
+
+.q_box .btn-cro .q-radio .text1 {
+    margin-bottom: 20px;
+}
+.q_box .btn-cro .first {
+    padding-top: 10px;
+}
+.q_box .btn-cont .text1 .normal {
+    margin-left: 5px;
+    margin-top: 2px;
+}
+.q_box .btn-cont .second .text1 .text-left {
+    width: 468px;
+}
+.q_box .btn-cont .second .mg10 {
+    padding-top: 10px;
+}
+.q_box .foter {
+    text-align: center;
+    padding-top: 30px;
+}
+.q_box .foter span {
+    display: inline-block;
+    width: 98px;
+    height: 33px;
+    border-radius: 3px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 33px;
+    cursor: pointer;
+}
+.q_box .foter .delate {
+    border: 1px solid #999999;
+    color: #474747;
+    background-color: transparent;
+}
+.q_box .foter .save {
+    padding: 1px;
+    color: #ffffff;
+    background-color: #009DEE;
+}
+.q_box .second .wd270 {
+    width: 250px;
+    margin-right: 20px;
+}
+.q_box .second .normal {
+    margin-right: 5px;
+}
+.q_box .screen-right-cont {
+    width: 94%;
+}
+.q_box .screen-right .search-cont .timer {
+    font-size: 14px;
+    color: #616161;
+}
+.q_box .screen-right .search-cont {
+    margin-bottom: 30px;
+}
+.q_box .screen-right .search-cont .serch {
+    display: inline-block;
+    width: 180px;
+    /* height: 20px; */
+    border-color: #E0E0E0;
+    border-radius: 2px;
+    /*padding: 4px;*/
+    margin-left: 15px;
+    padding: 7px 10px;
+}
+.q_box .screen-right .search-cont .use-time em {
+    border-radius: 2px;
+    display: inline-block;
+    padding: 0 15px;
+    height: 28px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #949494;
+    border: 1px solid #E0E0E0;
+    line-height: 30px;
+    cursor: pointer;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+}
+.q_box .screen-right .search-cont .use-time .all {
+    background-color: #1EBB90;
+    color: white;
+    border: none;
+    padding: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.q_box .screen-right .search-cont .manage-button {
+    width: 60px;
+    height: 30px;
+    border-radius: 2px;
+    margin-left: 20px;
+    line-height: 10px;
+}
+.q_box .text {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #616161;
+    margin-bottom: 20px;
+}
+.q_box .text span {
+    display: inline-block;
+    margin-right: 27px;
+}
+.q_box .a-derive {
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    background-color: #1EBB90;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+.q_box .operate-cont > a:last-of-type {
+    padding-right: 0;
+    color: #00b7ee;
+    font-size: 12px;
+}
+.q_box .search-cont {
+    margin-top: 30px;
+}
+.q_box tbody {
+    font-size: 12px;
+}
+.q_box tbody tr th {
+    color: #474747;
+    font-weight: normal;
+}
+.q_box tbody tr td {
+    color: #949494;
+}
+.q_box .layer-tips.coupon-code-detail {
+    border-radius: 0;
+}
+.q_box .layer-tips .select {
+    padding-top: 25px;
+    margin-bottom: 20px;
+    padding-left: 0;
+}
+.q_box .select select {
+    border: 1px solid #E0E0E0;
+    width: 108px;
+    height: 25px;
+    padding: 0px;
+    border-radius: 0;
+    font-size: 12px;
+    color: #474747;
+}
+.q_box .select select option {
+    font-size: 12px;
+    color: #474747;
+    padding: 0;
+}
+.q_box .layer-tips.coupon-code-detail {
+    margin-left: -480px !important;
+    margin-top: -250px!important;
+}
+.q_box .layer-tips .text-two {
+    margin-bottom: 10px;
+}
+.q_box .layer-tips .text-two span {
+    margin-right: 20px;
+    font-size: 12px;
+    color: #474747;
+}
+.q_box .layer-tips .text-two i {
+    color: #ff6604;
+}
+.q_box .table.table-center > tbody > tr > td.red {
+    color: red;
+}
+.q_box .pd20 {
+    padding-top: 20px;
+}
+.q_box .btn-success {
+    color: #fff;
+    background-color: #00CCCC;
+    background-image: none;
+    border-color: #00CCCC;
+}
+.q_box .screen-right-cont em.qnormal {
+    display: inline-block;
+    line-height: 18px;
+    margin-left: 2px;
+    font-size: 23px;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.q_box .screen-right-title .qi {
+    font-size: 12px;
+}
+.q_box .coupon-block {
+    margin-top: -20px;
+}
+.q_box .table-center tbody .tr1 {
+    background-color: #F2F2F2;
+}
+.q_box .set-system .user-list-stu {
+    margin-left: 15px;
+}
+.q_box .ctr-hei,
+.q_box .ctr-alert,
+.q_box .ctr-alert1 {
+    overflow: hidden;
+}
+/*
+.q_box .ctr-hei,.q_box .ctr-alert {
+    border-bottom: 1px solid #ddd;
+}
+*/
+.q_box .q_page {
+    padding-top: 10px;
+}
+.q_box .lead-out-code .s_box {
+    top: 80px;
+}
+.q_box .btn-cro .q-active{color: #333333;}
+.q_box .user-chose-wrap .user-chose-position div:hover{
+    background: #f0f0f0;
+    color: #949494;
+    transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+}
+.q_box .btn-cont .text1 .qcheck label{
+    float: right;
+    margin-top: -5px;
+    margin-right: 10px;
+}
+.layer-tips-bg{
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    background-color:rgba(0,0,0,.2);
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+}
+

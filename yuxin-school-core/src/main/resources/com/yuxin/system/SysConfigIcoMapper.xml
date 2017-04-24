@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigIcoMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigIco" id="sysConfigIcoResultMap">
+		<result property="id" column="id" />
+		<result property="path" column="path" />
+		<result property="companyId" column="company_id" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		path,
+		company_id,
+		status,
+		create_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{path},
+		#{companyId},
+		#{status},
+		#{createTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.path},
+		#{item.companyId},
+		#{item.status},
+		#{item.createTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigIco" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_ico( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_ico( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_ico
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_ico
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigIco">
+		update sys_config_ico 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="path != null and path != ''">path = #{path},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigIcoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_ico
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigIcoResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_ico
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="path != null and path != ''">and path = #{path}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigIcoResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIco">
+		select <include refid="table_columns" />
+		from sys_config_ico
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigIco">
+		select count(id) from sys_config_ico
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!-- 查询当前公司下所有的Ico文件 -->
+	<select id="queryAllIcoLists" parameterType="com.yuxin.wx.model.system.SysConfigIco" resultMap="sysConfigIcoResultMap">
+		select <include refid="table_columns" />
+		from sys_config_ico where company_id=#{companyId}
+	</select>
+	
+	<!-- 查询当前公司下启用ico文件 -->
+	<select id="queryUseIco" parameterType="int" resultMap="sysConfigIcoResultMap">
+		select <include refid="table_columns" />
+		from sys_config_ico where company_id=#{companyId} and status=1
+	</select>
+	
+</mapper>

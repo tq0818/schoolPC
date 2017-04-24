@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyFootInfoMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyFootInfo" id="companyFootInfoResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="tencentWeibo" column="tencent_weibo" />
+		<result property="sinaWeibo" column="sina_weibo" />
+		<result property="tencentWechat" column="tencent_wechat" />
+		<result property="logoType" column="logo_type" />
+		<result property="logoPic" column="logo_pic" />
+		<result property="logoText" column="logo_text" />
+		<result property="copyright" column="copyright" />
+		<result property="companyName" column="company_name" />
+		<result property="overview" column="overview" />
+		<result property="icpNo" column="icp_no" />
+		<result property="tencentWeiboFlag" column="tencent_weibo_flag" />
+		<result property="sinaWeiboFlag" column="sina_weibo_flag" />
+		<result property="tencentWechatFlag" column="tencent_wechat_flag" />
+		
+		<result property="securityIco" column="security_ico" />
+		<result property="securityRegno" column="security_regno" />
+		<result property="securityLink" column="security_link" />
+		<result property="contactNumber" column="contact_number" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		tencent_weibo,
+		sina_weibo,
+		tencent_wechat,
+		logo_type,
+		logo_pic,
+		logo_text,
+		copyright,
+		company_name,
+		overview,
+		icp_no,
+		tencent_weibo_flag,
+		sina_weibo_flag,
+		tencent_wechat_flag,
+		themes,
+		security_ico,
+		security_regno,
+		security_link,
+		contact_number
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{tencentWeibo},
+		#{sinaWeibo},
+		#{tencentWechat},
+		#{logoType},
+		#{logoPic},
+		#{logoText},
+		#{copyright},
+		#{companyName},
+		#{overview},
+		#{icpNo},
+		#{tencentWeiboFlag},
+		#{sinaWeiboFlag},
+		#{tencentWechatFlag},
+		#{themes},
+		#{securityIco},
+		#{securityRegno},
+		#{securityLink},
+		#{contactNumber}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.tencentWeibo},
+		#{item.sinaWeibo},
+		#{item.tencentWechat},
+		#{item.logoType},
+		#{item.logoPic},
+		#{item.logoText},
+		#{item.copyright},
+		#{item.companyName},
+		#{item.overview},
+		#{item.icpNo},
+		#{item.tencentWeiboFlag},
+		#{item.sinaWeiboFlag},
+		#{item.tencentWechatFlag},
+		#{item.securityIco},
+		#{item.securityRegno},
+		#{item.securityLink},
+		#{item.contactNumber}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyFootInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into company_foot_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_foot_info( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_foot_info
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyFootInfo">
+		update company_foot_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="tencentWeibo != null and tencentWeibo != ''">tencent_weibo = #{tencentWeibo},</if>
+			<if test="sinaWeibo != null and sinaWeibo != ''">sina_weibo = #{sinaWeibo},</if>
+			<if test="tencentWechat != null and tencentWechat != ''">tencent_wechat = #{tencentWechat},</if>
+			<if test="logoType != null and logoType != ''">logo_type = #{logoType},</if>
+			<if test="logoPic != null and logoPic != ''">logo_pic = #{logoPic},</if>
+			<if test="logoText != null and logoText != ''">logo_text = #{logoText},</if>
+			<if test="copyright != null and copyright != ''">copyright = #{copyright},</if>
+			<if test="companyName != null and companyName != ''">company_name = #{companyName},</if>
+			<if test="overview != null">overview = #{overview},</if>
+			<if test="icpNo != null and icpNo != ''">icp_no = #{icpNo},</if>
+			<if test="tencentWeiboFlag != null">tencent_weibo_flag = #{tencentWeiboFlag},</if>
+			<if test="sinaWeiboFlag != null">sina_weibo_flag = #{sinaWeiboFlag},</if>
+			<if test="tencentWechatFlag != null">tencent_wechat_flag = #{tencentWechatFlag},</if>
+			<if test="themes != null and themes != ''">themes = #{themes},</if>
+			<if test="contactNumber != null">contact_number = #{contactNumber},</if>
+			security_ico=#{securityIco},security_regno=#{securityRegno},security_link=#{securityLink}
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateByCompanyId" parameterType="com.yuxin.wx.model.company.CompanyFootInfo">
+		update company_foot_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="tencentWeibo != null and tencentWeibo != ''">tencent_weibo = #{tencentWeibo},</if>
+			<if test="sinaWeibo != null and sinaWeibo != ''">sina_weibo = #{sinaWeibo},</if>
+			<if test="tencentWechat != null and tencentWechat != ''">tencent_wechat = #{tencentWechat},</if>
+			<if test="logoType != null and logoType != ''">logo_type = #{logoType},</if>
+			<if test="logoPic != null and logoPic != ''">logo_pic = #{logoPic},</if>
+			<if test="logoText != null and logoText != ''">logo_text = #{logoText},</if>
+			<if test="copyright != null and copyright != ''">copyright = #{copyright},</if>
+			<if test="companyName != null and companyName != ''">company_name = #{companyName},</if>
+			<if test="overview != null">overview = #{overview},</if>
+			<if test="icpNo != null and icpNo != ''">icp_no = #{icpNo},</if>
+			<if test="tencentWeiboFlag != null">tencent_weibo_flag = #{tencentWeiboFlag},</if>
+			<if test="sinaWeiboFlag != null">sina_weibo_flag = #{sinaWeiboFlag},</if>
+			<if test="tencentWechatFlag != null">tencent_wechat_flag = #{tencentWechatFlag},</if>
+			<if test="themes != null and themes != ''">themes = #{themes},</if>
+			security_ico=#{securityIco},security_regno=#{securityRegno},security_link=#{securityLink}
+		</trim>
+		<where>company_id = #{companyId}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyFootInfoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_foot_info
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyFootInfoResultMap">
+		select <include refid="table_columns" /> 
+		from company_foot_info
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="tencentWeibo != null and tencentWeibo != ''">and tencent_weibo = #{tencentWeibo}</if>
+			<if test="sinaWeibo != null and sinaWeibo != ''">and sina_weibo = #{sinaWeibo}</if>
+			<if test="tencentWechat != null and tencentWechat != ''">and tencent_wechat = #{tencentWechat}</if>
+			<if test="logoType != null and logoType != ''">and logo_type = #{logoType}</if>
+			<if test="logoPic != null and logoPic != ''">and logo_pic = #{logoPic}</if>
+			<if test="logoText != null and logoText != ''">and logo_text = #{logoText}</if>
+			<if test="copyright != null and copyright != ''">and copyright = #{copyright}</if>
+			<if test="companyName != null and companyName != ''">and company_name = #{companyName}</if>
+			<if test="overview != null and overview != ''">and overview = #{overview}</if>
+			<if test="icpNo != null and icpNo != ''">and icp_no = #{icpNo}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyFootInfoResultMap" parameterType="com.yuxin.wx.model.company.CompanyFootInfo">
+		select <include refid="table_columns" />
+		from company_foot_info
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyFootInfo">
+		select count(id) from company_foot_info
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByCompanyId" resultMap="companyFootInfoResultMap" parameterType="int" >
+		select <include refid="table_columns" />
+		from company_foot_info
+		where company_id = #{companyId}
+		limit 1
+	</select>
+	
+</mapper>

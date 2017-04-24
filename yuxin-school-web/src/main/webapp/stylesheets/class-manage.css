@@ -1,0 +1,291 @@
+.right-side .h5.class-manage-head{
+    display: inline-block;
+}
+/*.place-hold{*/
+    /*height: 100%;*/
+    /*border: 1px dashed #ccc;*/
+
+/*}*/
+.head-btn{
+    float: right;
+    width: 60px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #237fd5;
+    font-size: 12px;
+    color: #fff;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.right-side .heading>em{
+    float: right;
+    font-size: 14px;
+    color: #999;
+    margin-right: 24px;
+}
+.ui-state-parent{
+    margin-bottom: 8px;
+}
+
+.right-side .ui-state-default{
+    color: #666;
+    background-color: #fff;
+    border: 1px solid #CCCCCC;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    margin-bottom: 3px;
+}
+.right-side .sortable-sec .ui-state-default{
+    border: 0;
+}
+
+.right-side .ui-state-default span{
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 14px;
+    color: #333;
+    vertical-align: middle;
+}
+.right-side .ui-state-default em{
+    float: right;
+    margin-left: 10px;
+}
+.right-side .sec-title{
+    height: auto;
+    line-height: 22px;
+    color: #666;
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #fff;
+    /*border: 1px solid #CCCCCC;*/
+    margin-bottom: 10px;
+    margin-left: 25px;
+}
+.right-side .sec-title b{
+    color: #999;
+    margin: 0 10px 0 2px;
+}
+
+.right-side .ui-state-default.course-manage{
+    height: 100px;
+    padding: 10px 15px;
+}
+.course-manage-cont{
+    float: right;
+    width: 80%;
+    height: 100px;
+}
+.course-manage-cont>.iconfont{
+    line-height: 5px;
+    font-size: 14px;
+    color: #333;
+    text-align: right;
+}
+.course-manage-title span{
+    font-size: 14px;
+    color: #333;
+}
+.course-manage-title i,.course-manage-title em{
+    float: right;
+    font-size: 14px;
+}
+.course-manage-title i{
+    color: #999;
+}
+.course-manage-title em{
+    color: #FE5151;
+    margin-right: 100px;
+}
+
+.course-manage-bottom{
+    margin-top: 28px;
+}
+.right-side .ui-state-default span.play-status{
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+}
+.right-side .ui-state-default span.remove-btn{
+    float: right;
+    width: 80px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: #999;
+    margin-top: 4px;
+    cursor: pointer;
+}
+.number-box{
+    float: right;
+    font-size: 12px;
+    color: #666;
+}
+.blue-bg{
+    background-color: #3399cc;
+}
+.yellow-bg{
+    background-color: #ffcc33;
+}
+.red-bg{
+    background-color: #cc6666;
+}
+
+/*弹出框添加阶段*/
+.add-grade-content{
+    width: 530px;
+    margin: 0 auto;
+    text-align: left;
+}
+.add-grade-content p{
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+.add-grade-content p span{
+    display: inline-block;
+    width: 85px;
+    height: 30px;
+    text-align: right;
+    margin-right: 10px;
+    color: #333;
+    font-size: 14px;
+}
+.add-grade-content>div{
+    text-align: center;
+    padding: 10px 0;
+}
+.add-grade-content>div span{
+    display: inline-block;
+    width: 70px;
+    height: 28px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 28px;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.add-grade-content>div span.yes-btn{
+    background-color: #237fd5;
+    border: 1px solid #237fd5;
+    color: #fff;
+}
+.add-grade-content>div span.cancel-btn{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #999;
+}
+.tit-font {
+     line-height: 30px;
+     margin: 0;
+     border-left: 0;
+     position: relative;
+}
+
+.pop-course{
+    height: 100px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.pop-course.active{
+    background: rgba(238,238,238,0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99eeeeee,endColorstr=#99eeeeee);
+}
+.pop-course .mask{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    top:0;
+    cursor:default;
+}
+.pop-course:hover{
+    transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    -o--transition-duration: 0.5s;
+    background: rgba(238,238,238,0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99eeeeee,endColorstr=#99eeeeee);
+}
+.choice-class-pop span.play-status {
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+}
+.top-right-tag{
+    position: relative;
+    line-height: 5px;
+    font-size: 12px;
+    color: #333;
+}
+.top-right-tag span{
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    width: 60px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    background-color: #ffcc33;
+    z-index: 20;
+}
+.choice-class-box{
+    text-align: center;
+    padding-bottom: 20px;
+}
+.choice-class-box>span{
+    display: inline-block;
+    width: 70px;
+    height: 28px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 28px;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.choice-class-box .yes-btn{
+    background-color: #237fd5;
+    border: 1px solid #237fd5;
+    color: #fff;
+}
+.choice-class-box .cancel-btn{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #999;
+}
+.no-content-prompt{
+    text-align: center;
+    margin: 100px 0 150px;
+    font-size: 14px;
+    color: #666;
+}
+.no-content-prompt a{
+    color: #0af;
+}
+.no-content-prompt em{
+    font-size: 12px;
+    color: #FE5151;
+    margin-left: 20px;
+}
+.

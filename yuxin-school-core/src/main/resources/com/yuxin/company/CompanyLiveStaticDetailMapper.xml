@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveStaticDetailMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveStaticDetail"
+		id="companyLiveStaticDetailResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="liveDate" column="live_date" />
+		<result property="classLessonId" column="class_lesson_id" />
+		<result property="liveNum" column="live_num" />
+	</resultMap>
+	<!-- 查询所有的直播上课统计 -->
+	<resultMap type="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo"
+		id="companyLiveStaticDetailVoResultMap">
+		<result property="lessonName" column="lesson_name" />
+		
+		<result property="mobile" column="mobile" />
+		<result property="userName" column="username" />
+		<result property="nickName" column="nick_name" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		
+		<result property="liveDate" column="live_date" />
+		<result property="inTime" column="in_time" />
+		<result property="outTime" column="out_time" />
+		<result property="watchType" column="watch_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		live_date,
+		class_lesson_id,
+		live_num
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{liveDate},
+		#{classLessonId},
+		#{liveNum}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.liveDate},
+		#{item.classLessonId},
+		#{item.liveNum}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDetail"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_static_detail(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into company_live_static_detail(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_static_detail
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDetail">
+		update company_live_static_detail
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="liveDate != null and liveDate != ''">live_date = #{liveDate},</if>
+			<if test="classLessonId != null and classLessonId != ''">class_lesson_id = #{classLessonId},</if>
+			<if test="liveNum != null and liveNum != ''">live_num = #{liveNum},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="companyLiveStaticDetailResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from company_live_static_detail
+		where id = #{id}
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="liveDate != null and liveDate != ''">and live_date = #{liveDate}</if>
+			<if test="classLessonId != null and classLessonId != ''">and class_lesson_id = #{classLessonId}</if>
+			<if test="liveNum != null and liveNum != ''">and live_num = #{liveNum}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="companyLiveStaticDetailResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDetail">
+		select
+		<include refid="table_columns" />
+		from company_live_static_detail
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDetail">
+		select count(id) from company_live_static_detail
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+
+	<!-- 定时任务 -->
+	<select id="findMaxOnline" parameterType="map" resultType="Integer">
+		select live_num
+		from company_live_static_detail
+		where live_num = (select
+		max(live_num) from
+		company_live_static_detail group by live_num)
+		and
+		company_id = #{companyId}
+		and live_date = #{date}
+		order by live_num desc
+		limit 0,1
+	</select>
+
+	<!-- 查询所有的直播上课统计 -->
+	<select id="queryAllCompanyLiveStaticDetail" resultMap="companyLiveStaticDetailVoResultMap"
+		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
+		select DISTINCT clsr.id,clsr.live_date,clsr.in_time,clsr.out_time,clsr.watch_type,uf.mobile,uf.username,uf.nick_name,s.`name`,s.email,e.lesson_name
+		FROM student_pay_master spm
+		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
+		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
+		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
+		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
+		INNER JOIN users_front uf ON uf.id = clsr.user_id
+		INNER JOIN student s on s.user_id = uf.id
+		WHERE spm.company_id = #{companyId}
+		and spm.commodity_id =  #{classTypeId}
+		AND spm.commodity_type = 'COMMODITY_CLASS'
+		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
+		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+		AND sps.slave_status_code!='SUB_ORDER_DELTED'
+		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
+	 	<if test="mobile != null and mobile != ''">and (uf.mobile = '${mobile}' or uf.username like '%${mobile}%' )</if>
+	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<!-- 查询直播上课统计条数 -->
+		<select id="pageCountQueryAllCompanyLiveStaticDetail" resultType="int"
+		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
+		select count(DISTINCT clsr.id)
+		FROM student_pay_master spm
+		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
+		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
+		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
+		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
+		INNER JOIN users_front uf ON uf.id = clsr.user_id
+		INNER JOIN student s on s.user_id = uf.id
+		WHERE spm.company_id = #{companyId}
+		and spm.commodity_id =  #{classTypeId}
+		AND spm.commodity_type = 'COMMODITY_CLASS'
+		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
+		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+		AND sps.slave_status_code!='SUB_ORDER_DELTED'
+		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
+	 	<if test="mobile != null and mobile != ''">and (uf.mobile = '${mobile}' or uf.username like '%${mobile}%' )</if>
+	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
+	</select>
+	
+
+
+	<!-- 通过课程编号查询所有的课次 -->
+	<select id="queryLessonByClassTypeId"
+		resultType="com.yuxin.wx.model.statistics.QueryLessonByClassTypeVo"
+		parameterType="java.lang.Integer">
+		SELECT e.id,e.lesson_name
+		FROM class_type a
+		INNER JOIN class_type_module_relation b ON a.id = b.class_type_id
+		inner join class_module cm on cm.id = b.module_id		
+		INNER JOIN class_module_no cmn ON cmn.module_id = cm.id
+		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
+		WHERE a.id =#{classTypeId}
+		and cmn.del_flag = 0 and cmn.publish_status='MODULE_NO_ON_SALE' and e.del_flag = 0
+		and  cm.teach_method='TEACH_METHOD_LIVE'
+	</select>
+	
+	<select id="queryAllCompanyLiveStaticDetailByStudentNamePhone"
+		resultMap="companyLiveStaticDetailVoResultMap"
+		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
+		select clsr.live_date,clsr.in_time,clsr.out_time,clsr.watch_type,uf.mobile,uf.username,uf.nick_name,s.`name`,s.email,cml.lesson_name
+		FROM student_pay_master spm
+		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
+		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
+		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
+		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
+		INNER JOIN users_front uf ON uf.id = clsr.user_id
+		INNER JOIN student s on s.user_id = uf.id
+		WHERE spm.commodity_id =  #{classTypeId}
+		AND spm.commodity_type = 'COMMODITY_CLASS'
+		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
+		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+		AND sps.slave_status_code!='SUB_ORDER_DELTED'
+		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
+		<if test="mobile != null and mobile != ''">and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%')</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="pageCountQueryAllCompanyLiveStaticDetailByStudentNamePhone" resultType="int"
+		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
+		select count(*)
+		FROM student_pay_master spm
+		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
+		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
+		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
+		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
+		INNER JOIN users_front uf ON uf.id = clsr.user_id
+		INNER JOIN student s on s.user_id = uf.id
+		WHERE spm.commodity_id =  #{classTypeId}
+		AND spm.commodity_type = 'COMMODITY_CLASS'
+		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
+		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+		AND sps.slave_status_code!='SUB_ORDER_DELTED'
+		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
+		<if test="mobile != null and mobile != ''">and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%')</if>
+	</select>
+	<!-- 查询合计上课次数 -->
+	<select id="sumCountClass"  resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
+		SELECT COUNT(*) FROM (
+			SELECT DISTINCT e.id
+			FROM users_front uf 
+			INNER JOIN student s ON uf.id = s.user_id
+			INNER JOIN student_pay_master spm ON spm.stu_id = s.id
+			INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
+			INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
+			INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
+			WHERE spm.company_id = #{companyId}
+			<if test="name != null and name != ''">and s.name = '${name}'</if>
+			<if test="mobile != null and mobile != ''">and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%')</if>
+			and spm.commodity_id =  #{classTypeId}
+			AND spm.commodity_type = 'COMMODITY_CLASS'
+			AND sps.resource_type = 'TEACH_METHOD_LIVE'
+			AND sps.slave_status_code!='SUB_ORDER_DELTED'
+			and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+		) t
+	</select>
+	
+</mapper>

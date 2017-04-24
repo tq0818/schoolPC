@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuChapterMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuChapter" id="tikuChapterResultMap">
+		<result property="id" column="id" />
+		<result property="chapterName" column="chapter_name" />
+		<result property="chapterOrder" column="chapter_order" />
+		<result property="delFlag" column="del_flag" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		chapter_name,
+		chapter_order,
+		del_flag,
+		tiku_category_id,
+		tiku_subject_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{chapterName},
+		#{chapterOrder},
+		#{delFlag},
+		#{tikuCategoryId},
+		#{tikuSubjectId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.chapterName},
+		#{item.chapterOrder},
+		#{item.delFlag},
+		#{item.tikuCategoryId},
+		#{item.tikuSubjectId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuChapter" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_chapter( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_chapter( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_chapter
+		where id = #{id}
+	</delete>
+	
+	<delete id="deleteByTikuId">
+		delete from tiku_chapter
+		where tiku_category_id = #{tikuId}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_chapter
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuChapter">
+		update tiku_chapter 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="chapterName != null and chapterName != ''">chapter_name = #{chapterName},</if>
+			<if test="chapterOrder != null">chapter_order = #{chapterOrder},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">tiku_category_id = #{tikuCategoryId},</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">tiku_subject_id = #{tikuSubjectId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuChapterResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_chapter
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuChapterResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_chapter
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="chapterName != null and chapterName != ''">and chapter_name = #{chapterName}</if>
+			<if test="chapterOrder != null and chapterOrder != ''">and chapter_order = #{chapterOrder}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">and tiku_subject_id = #{tikuSubjectId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuChapterResultMap" parameterType="com.yuxin.wx.model.tiku.TikuChapter">
+		select <include refid="table_columns" />
+		from tiku_chapter
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuChapter">
+		select count(id) from tiku_chapter
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findTikuChapter" resultMap="tikuChapterResultMap" parameterType="com.yuxin.wx.model.tiku.TikuChapter">
+		select <include refid="table_columns" />
+		from tiku_chapter
+		<include refid="page_where" />
+		order by chapter_order
+	</select>
+	
+	<select id="selectSecByChapter" resultType="Integer" parameterType="Integer">
+		select count(id) from tiku_section where chapter_id = #{chapterId}
+	</select>
+	
+	<select id="findChapterByCond" parameterType="map" resultMap="tikuChapterResultMap">
+		select <include refid="table_columns"/>
+		from tiku_chapter
+		where company_id = #{companyId} and 
+			tiku_category_id = #{categoryId} and
+			tiku_subject_id = #{subId} and 
+			del_flag = 0 
+			order by chapter_order
+	</select>
+	
+	<select id="findMaxChapterOrder" parameterType="Integer" resultType="Integer">
+		select max(chapter_order) from tiku_chapter where tiku_subject_id = #{subId}
+	</select>
+	
+	<select id="findInfoBySubId" parameterType="Integer" resultType="Integer">
+		select count(id) from tiku_topic where tiku_subject_id = #{subId}
+	</select>
+	
+	<delete id="deleteBySubId">
+		delete from tiku_chapter
+		where tiku_subject_id = #{subId}
+	</delete>
+</mapper>

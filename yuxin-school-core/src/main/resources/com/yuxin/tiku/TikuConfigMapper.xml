@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuConfigMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuConfig" id="tikuConfigResultMap">
+		<result property="id" column="id" />
+		<result property="configType" column="config_type" />
+		<result property="configValue" column="config_value" />
+		<result property="otherValue" column="other_value" />
+		<result property="anotherValue" column="another_value" />
+		<result property="companyId" column="company_id" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		config_type,
+		config_value,
+		other_value,
+		another_value,
+		company_id,
+		del_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{configType},
+		#{configValue},
+		#{otherValue},
+		#{anotherValue},
+		#{companyId},
+		#{delFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.configType},
+		#{item.configValue},
+		#{item.otherValue},
+		#{item.anotherValue},
+		#{item.companyId},
+		#{item.delFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_config
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuConfig">
+		update tiku_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="configType != null and configType != ''">config_type = #{configType},</if>
+			<if test="configValue != null and configValue != ''">config_value = #{configValue},</if>
+			<if test="otherValue != null and otherValue != ''">other_value = #{otherValue},</if>
+			<if test="anotherValue != null and anotherValue != ''">another_value = #{anotherValue},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuConfigResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="configType != null and configType != ''">and config_type = #{configType}</if>
+			<if test="configValue != null and configValue != ''">and config_value = #{configValue}</if>
+			<if test="otherValue != null and otherValue != ''">and other_value = #{otherValue}</if>
+			<if test="anotherValue != null and anotherValue != ''">and another_value = #{anotherValue}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuConfigResultMap" parameterType="com.yuxin.wx.model.tiku.TikuConfig">
+		select <include refid="table_columns" />
+		from tiku_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuConfig">
+		select count(id) from tiku_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<!-- 查询集合 -->
+	<select id="findList" parameterType="map" resultMap="tikuConfigResultMap">
+		select <include refid="table_columns"/>
+		from tiku_config
+		where config_type = #{configType}
+			and company_id = #{companyId}
+	</select>
+	
+	<select id="findByCodeValue" parameterType="map" resultMap="tikuConfigResultMap">
+		select <include refid="table_columns"/>
+		from tiku_config
+		where config_value = #{configValue}
+			and company_id = #{companyId}
+			limit 1
+	</select>
+	
+</mapper>

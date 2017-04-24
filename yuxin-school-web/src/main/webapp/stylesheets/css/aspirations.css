@@ -1,0 +1,61 @@
+.box-sizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.asButton button,
+.asButton .intFile {
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  padding: 7px 15px;
+}
+.asButton .intFile {
+  font-size: 0;
+}
+.asButton span {
+  line-height: 30px;
+}
+.allowAdmin {
+  width: 710px;
+}
+.allowAdmin .Layer-tips-content {
+  padding: 30px 30px 0 30px;
+}
+.allowAdmin .portrait .right {
+  margin-left: 20px;
+}
+.L-allowAdmissionsTc-b.allowAdmin {
+  margin-left: -350px;
+}
+.allowAdmin .name,
+.allowAdmin .sort,
+.allowAdmin .portrait {
+  padding-bottom: 30px;
+  margin-bottom: 0;
+}
+i.star {
+  color: #fe5151;
+  line-height: 18px;
+}
+.allowAdmin .idea .right {
+  width: 568px;
+}
+.allowAdmin .idea .number {
+  right: 13px;
+  bottom: 5px;
+}
+.allowAdmin .portrait .right {
+  color: #666;
+  background: -webkit-linear-gradient(bottom, #e0e0e0, #f8f8f8);
+  background: -moz-linear-gradient(bottom, #e0e0e0, #f8f8f8);
+  background: -ms-linear-gradient(bottom, #e0e0e0, #f8f8f8);
+  background: -o-linear-gradient(bottom, #e0e0e0, #f8f8f8);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e0e0e0, endColorstr=#f8f8f8);
+  /*IE<9>*/
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#e0e0e0, endColorstr=#f8f8f8);
+  /*IE8+*/
+}
+.uploadImg.asButton {
+  margin-top: 20px;
+}

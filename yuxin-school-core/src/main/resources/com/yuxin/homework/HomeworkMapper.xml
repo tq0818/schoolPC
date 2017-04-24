@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.homework.mapper.HomeworkMapper">
+	<resultMap type="com.yuxin.wx.model.homework.Homework" id="homeworkResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="type" column="type" />
+		<result property="desciption" column="desciption" />
+		<result property="resourceId" column="resource_id" />
+		<result property="paperId" column="paper_id" />
+		<result property="courseId" column="course_id" />
+		<result property="lessonId" column="lesson_id" />
+		<result property="courseName" column="course_name" />
+		<result property="lessonName" column="lesson_name" />
+		<result property="createTime" column="create_time" />
+		<result property="status" column="stauts" />
+		<result property="lecture_id" column="lectureId" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		teacher_id,
+		type,
+		desciption,
+		resource_id,
+		paper_id,
+		course_id,
+		lesson_id,
+		course_name,
+		lesson_name,
+		status,
+		lecture_id,
+		create_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{teacherId},
+		#{type},
+		#{desciption},
+		#{resourceId},
+		#{paperId},
+		#{courseId},
+		#{lessonId},
+		#{courseName},
+		#{lessonName},
+		#{status},
+		#{lectureId},
+		#{createTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.teacherId},
+		#{item.type},
+		#{item.desciption},
+		#{item.resourceId},
+		#{item.paperId},
+		#{item.courseId},
+		#{item.lessonId},
+		#{item.courseName},
+		#{item.lessonName},
+		#{item.status},
+		#{item.lectureId},
+		#{item.createTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.homework.Homework" useGeneratedKeys="true" keyProperty="id">
+		insert into homework( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into homework( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from homework
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from homework
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.homework.Homework">
+		update homework 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="desciption != null and desciption != ''">desciption = #{desciption},</if>
+			<!-- <if test="resourceId != null and resourceId != ''"></if>
+			<if test="paperId != null and paperId != ''"></if> -->
+			resource_id = #{resourceId},paper_id = #{paperId},
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="courseName != null and courseName != ''">course_name = #{courseName},</if>
+			<if test="lessonName != null and lessonName != ''">lesson_name = #{lessonName},</if>
+			<if test="status != null">status = #{status}</if>
+			<if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId}</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="homeworkResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from homework
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="homeworkResultMap">
+		select <include refid="table_columns" /> 
+		from homework
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="desciption != null and desciption != ''">and desciption = #{desciption}</if>
+			<if test="resourceId != null and resourceId != ''">and resource_id = #{resourceId}</if>
+			<if test="paperId != null and paperId != ''">and paper_id = #{paperId}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="lessonId != null and lessonId != ''">and lesson_id = #{lessonId}</if>
+			<if test="courseName != null and courseName != ''">and course_name = #{courseName}</if>
+			<if test="lessonName != null and lessonName != ''">and lesson_name = #{lessonName}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="homeworkResultMap" parameterType="com.yuxin.wx.model.homework.Homework">
+		select <include refid="table_columns" />
+		from homework
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.homework.Homework">
+		select count(id) from homework
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findHomeworkByLessonId" resultMap="homeworkResultMap" parameterType="int">
+		select <include refid="table_columns" /> from homework h
+		where company_id = #{companyId}
+		<if test="lessonId != null and lessonId != ''">and lesson_id = #{lessonId}</if>
+		<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+		limit 1;
+	</select>
+	
+	<select id="findLessonStuByCount" resultType="int" parameterType="com.yuxin.wx.vo.homework.HomeWorkVo">
+		select count(*) from (
+			select DISTINCT sps.stu_id,sps.resource_id,sps.module_id
+			from student_pay_slave sps 
+			INNER JOIN student_pay_master spm on sps.pay_master_id = spm.id
+			LEFT  JOIN class_package_relation cpr on spm.commodity_id = cpr.class_package_id
+			where sps.module_id = #{moduleId}
+			and sps.resource_id = #{morl}
+			AND sps.slave_status_code!='SUB_ORDER_DELTED'
+			and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+			and ((spm.commodity_id = #{courseId} and commodity_type = 'COMMODITY_CLASS') or 
+			(commodity_type = 'COMMODITY_PACKAGE' and cpr.class_type_id = #{courseId}))
+		) t;
+	</select>
+	
+	<select id="findHomeworkByCourseIdAndStuId" resultType="com.yuxin.wx.model.homework.HomeworkStudentComplete" parameterType="map">
+		select * from homework_student_complete hsc
+		where hsc.homework_id in
+		( select h.id from homework h
+		where h.company_id = #{companyId}
+		and h.course_id = #{courseId} )
+		and hsc.stu_id = #{stuId}
+	</select>
+	
+</mapper>

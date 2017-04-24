@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigIndexPageTemplateMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigIndexPageTemplate" id="sysConfigIndexPageTemplateResultMap">
+		<result property="id" column="id" />
+		<result property="moduleName" column="module_name" />
+		<result property="customName" column="custom_name" />
+		<result property="status" column="status" />
+		<result property="moduleType" column="module_type" />
+		<result property="widthSetting" column="width_setting" />
+		<result property="link" column="link" />
+		<result property="picPath" column="pic_path" />
+		<result property="itemOneIdList" column="item_one_id_list" />
+		<result property="dataSortBy" column="data_sort_by" />
+		<result property="dataLimitNum" column="data_limit_num" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="displaySeq" column="display_seq" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		module_name,
+		custom_name,
+		status,
+		module_type,
+		width_setting,
+		link,
+		pic_path,
+		item_one_id_list,
+		data_sort_by,
+		data_limit_num,
+		company_id,
+		school_id,
+		display_seq
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{moduleName},
+		#{customName},
+		#{status},
+		#{moduleType},
+		#{widthSetting},
+		#{link},
+		#{picPath},
+		#{itemOneIdList},
+		#{dataSortBy},
+		#{dataLimitNum},
+		#{companyId},
+		#{schoolId},
+		#{displaySeq}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.moduleName},
+		#{item.customName},
+		#{item.status},
+		#{item.moduleType},
+		#{item.widthSetting},
+		#{item.link},
+		#{item.picPath},
+		#{item.itemOneIdList},
+		#{item.dataSortBy},
+		#{item.dataLimitNum},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.displaySeq}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_index_page_template( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true"  keyProperty="id">
+		insert into sys_config_index_page_template( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_index_page_template
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_index_page_template
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate">
+		update sys_config_index_page_template 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="moduleName != null and moduleName != ''">module_name = #{moduleName},</if>
+			<if test="customName != null and customName != ''">custom_name = #{customName},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="moduleType != null and moduleType != ''">module_type = #{moduleType},</if>
+			<if test="widthSetting != null">width_setting = #{widthSetting},</if>
+			<if test="link != null and link != ''">link = #{link},</if>
+			<if test="picPath != null and picPath != ''">pic_path = #{picPath},</if>
+			<if test="itemOneIdList != null and itemOneIdList != ''">item_one_id_list = #{itemOneIdList},</if>
+			<if test="dataSortBy != null and dataSortBy != ''">data_sort_by = #{dataSortBy},</if>
+			<if test="dataLimitNum != null and dataLimitNum != ''">data_limit_num = #{dataLimitNum},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="displaySeq != null">display_seq = #{displaySeq},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigIndexPageTemplateResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_index_page_template
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigIndexPageTemplateResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_index_page_template
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="moduleName != null and moduleName != ''">and module_name = #{moduleName}</if>
+			<if test="customName != null and customName != ''">and custom_name = #{customName}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="moduleType != null and moduleType != ''">and module_type = #{moduleType}</if>
+			<if test="widthSetting != null and widthSetting != ''">and width_setting = #{widthSetting}</if>
+			<if test="link != null and link != ''">and link = #{link}</if>
+			<if test="picPath != null and picPath != ''">and pic_path = #{picPath}</if>
+			<if test="itemOneIdList != null and itemOneIdList != ''">and item_one_id_list = #{itemOneIdList}</if>
+			<if test="dataSortBy != null and dataSortBy != ''">and data_sort_by = #{dataSortBy}</if>
+			<if test="dataLimitNum != null and dataLimitNum != ''">and data_limit_num = #{dataLimitNum}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="displaySeq != null and displaySeq != ''">and display_seq = #{displaySeq}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigIndexPageTemplateResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate">
+		select <include refid="table_columns" />
+		from sys_config_index_page_template
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate">
+		select count(id) from sys_config_index_page_template
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findBySearch" resultMap="sysConfigIndexPageTemplateResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate">
+		select * from sys_config_index_page_template
+		where company_id = #{companyId}
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="moduleName != null and moduleName != ''">and module_name = #{moduleName}</if>
+		<if test="customName != null and customName != ''">and custom_name = #{customName}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		<if test="moduleType != null and moduleType != ''">and module_type = #{moduleType}</if>
+		<if test="widthSetting != null and widthSetting != ''">and width_setting = #{widthSetting}</if>
+		<if test="link != null and link != ''">and link = #{link}</if>
+		<if test="picPath != null and picPath != ''">and pic_path = #{picPath}</if>
+		<if test="itemOneIdList != null and itemOneIdList != ''">and item_one_id_list = #{itemOneIdList}</if>
+		<if test="dataSortBy != null and dataSortBy != ''">and data_sort_by = #{dataSortBy}</if>
+		<if test="dataLimitNum != null and dataLimitNum != ''">and data_limit_num = #{dataLimitNum}</if>
+		<if test="displaySeq != null and displaySeq != ''">and display_seq = #{displaySeq}</if>
+		order by status desc,display_seq,id desc;
+	</select>
+</mapper>

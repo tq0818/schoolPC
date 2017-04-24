@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyIntegralConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyIntegralConfig" id="companyIntegralConfigResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="description" column="description" />
+		<result property="ico" column="ico" />
+		<result property="exchangeScale" column="exchange_scale" />
+		<result property="buyIntegralSwitch" column="buy_integral_switch" />
+		<result property="getIntegralSwitch" column="get_integral_switch" />
+		<result property="registNum" column="regist_num" />
+		<result property="loginNum" column="login_num" />
+		<result property="continueLoginNum" column="continue_login_num" />
+		<result property="consumeNum" column="consume_num" />
+		<result property="inviteNum" column="Invite_num" />
+		<result property="commentsNum" column="comments_num" />
+		<result property="questionNum" column="question_num" />
+		<result property="answerNum" column="answer_num" />
+		<result property="classCost" column="class_cost" />
+		<result property="classCostMaxScale" column="class_cost_max_scale" />
+		<result property="classPackageCost" column="class_package_cost" />
+		<result property="classPackageCostMaxScale" column="class_package_cost_max_scale" />
+		<result property="companyId" column="company_id" />
+		<result property="costMoreThen" column="cost_more_then" />
+		<result property="quesMaxNum" column="ques_max_num" />
+		<result property="anseMaxNum" column="anse_max_num" />
+		<result property="registFlag" column="regist_flag" />
+		<result property="loginFlag" column="login_flag" />
+		<result property="consumeFlag" column="consume_flag" />
+		<result property="inviteFlag" column="invite_flag" />
+		<result property="commentsFlag" column="comments_flag" />
+		<result property="questionFlag" column="question_flag" />
+		<result property="answerFlag" column="answer_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		description,
+		ico,
+		exchange_scale,
+		buy_integral_switch,
+		get_integral_switch,
+		regist_num,
+		login_num,
+		continue_login_num,
+		consume_num,
+		Invite_num,
+		comments_num,
+		question_num,
+		answer_num,
+		class_cost,
+		class_cost_max_scale,
+		class_package_cost,
+		class_package_cost_max_scale,
+		company_id,
+		cost_more_then,
+		ques_max_num,
+		anse_max_num,
+		regist_flag,
+		login_flag,
+		consume_flag,
+		invite_flag,
+		comments_flag,
+		question_flag,
+		answer_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{description},
+		#{ico},
+		#{exchangeScale},
+		#{buyIntegralSwitch},
+		#{getIntegralSwitch},
+		#{registNum},
+		#{loginNum},
+		#{continueLoginNum},
+		#{consumeNum},
+		#{inviteNum},
+		#{commentsNum},
+		#{questionNum},
+		#{answerNum},
+		#{classCost},
+		#{classCostMaxScale},
+		#{classPackageCost},
+		#{classPackageCostMaxScale},
+		#{companyId},
+		#{costMoreThen},
+		#{quesMaxNum},
+		#{anseMaxNum},
+		#{registFlag},
+		#{loginFlag},
+		#{consumeFlag},
+		#{inviteFlag},
+		#{commentsFlag},
+		#{questionFlag},
+		#{answerFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.description},
+		#{item.ico},
+		#{item.exchangeScale},
+		#{item.buyIntegralSwitch},
+		#{item.getIntegralSwitch},
+		#{item.registNum},
+		#{item.loginNum},
+		#{item.continueLoginNum},
+		#{item.consumeNum},
+		#{item.inviteNum},
+		#{item.commentsNum},
+		#{item.questionNum},
+		#{item.answerNum},
+		#{item.classCost},
+		#{item.classCostMaxScale},
+		#{item.classPackageCost},
+		#{item.classPackageCostMaxScale},
+		#{item.companyId},
+		#{item.costMoreThen},
+		#{item.quesMaxNum},
+		#{item.anseMaxNum},
+		#{item.registFlag},
+		#{item.loginFlag},
+		#{item.consumeFlag},
+		#{item.inviteFlag},
+		#{item.commentsFlag},
+		#{item.questionFlag},
+		#{item.answerFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyIntegralConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_integral_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_integral_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_integral_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyIntegralConfig">
+		update company_integral_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="ico != null and ico != ''">ico = #{ico},</if>
+			<if test="exchangeScale != null and exchangeScale != ''">exchange_scale = #{exchangeScale},</if>
+			<if test="buyIntegralSwitch != null">buy_integral_switch = #{buyIntegralSwitch},</if>
+			<if test="getIntegralSwitch != null">get_integral_switch = #{getIntegralSwitch},</if>
+			<if test="registNum != null">regist_num = #{registNum},</if>
+			<if test="loginNum != null">login_num = #{loginNum},</if>
+			<if test="continueLoginNum != null">continue_login_num = #{continueLoginNum},</if>
+			<if test="consumeNum != null">consume_num = #{consumeNum},</if>
+			<if test="inviteNum != null">Invite_num = #{inviteNum},</if>
+			<if test="commentsNum != null">comments_num = #{commentsNum},</if>
+			<if test="questionNum != null">question_num = #{questionNum},</if>
+			<if test="answerNum != null">answer_num = #{answerNum},</if>
+			<if test="classCost != null">class_cost = #{classCost},</if>
+			<if test="classCostMaxScale != null">class_cost_max_scale = #{classCostMaxScale},</if>
+			<if test="classPackageCost != null">class_package_cost = #{classPackageCost},</if>
+			<if test="classPackageCostMaxScale != null">class_package_cost_max_scale = #{classPackageCostMaxScale},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="costMoreThen != null">cost_more_then = #{costMoreThen},</if>
+			<if test="quesMaxNum != null">ques_max_num = #{quesMaxNum},</if>
+			<if test="anseMaxNum != null">anse_max_num = #{anseMaxNum},</if>
+			<if test="registFlag != null">regist_flag = #{registFlag},</if>
+			<if test="loginFlag != null">login_flag = #{loginFlag},</if>
+			<if test="consumeFlag != null">consume_flag = #{consumeFlag},</if>
+			<if test="inviteFlag != null">invite_flag = #{inviteFlag},</if>
+			<if test="commentsFlag != null">comments_flag = #{commentsFlag},</if>
+			<if test="questionFlag != null">question_flag = #{questionFlag},</if>
+			<if test="answerFlag != null">answer_flag = #{answerFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyIntegralConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_integral_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyIntegralConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_integral_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="ico != null and ico != ''">and ico = #{ico}</if>
+			<if test="exchangeScale != null and exchangeScale != ''">and exchange_scale = #{exchangeScale}</if>
+			<if test="buyIntegralSwitch != null and buyIntegralSwitch != ''">and buy_integral_switch = #{buyIntegralSwitch}</if>
+			<if test="getIntegralSwitch != null and getIntegralSwitch != ''">and get_integral_switch = #{getIntegralSwitch}</if>
+			<if test="registNum != null and registNum != ''">and regist_num = #{registNum}</if>
+			<if test="loginNum != null and loginNum != ''">and login_num = #{loginNum}</if>
+			<if test="continueLoginNum != null and continueLoginNum != ''">and continue_login_num = #{continueLoginNum}</if>
+			<if test="consumeNum != null and consumeNum != ''">and consume_num = #{consumeNum}</if>
+			<if test="inviteNum != null and inviteNum != ''">and Invite_num = #{inviteNum}</if>
+			<if test="commentsNum != null and commentsNum != ''">and comments_num = #{commentsNum}</if>
+			<if test="questionNum != null and questionNum != ''">and question_num = #{questionNum}</if>
+			<if test="answerNum != null and answerNum != ''">and answer_num = #{answerNum}</if>
+			<if test="classCost != null and classCost != ''">and class_cost = #{classCost}</if>
+			<if test="classCostMaxScale != null and classCostMaxScale != ''">and class_cost_max_scale = #{classCostMaxScale}</if>
+			<if test="classPackageCost != null and classPackageCost != ''">and class_package_cost = #{classPackageCost}</if>
+			<if test="classPackageCostMaxScale != null and classPackageCostMaxScale != ''">and class_package_cost_max_scale = #{classPackageCostMaxScale}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="costMoreThen != null and costMoreThen != ''">and cost_more_then = #{costMoreThen}</if>
+			<if test="quesMaxNum != null and quesMaxNum != ''">and ques_max_num = #{quesMaxNum}</if>
+			<if test="anseMaxNum != null and anseMaxNum != ''">and anse_max_num = #{anseMaxNum}</if>
+			<if test="registFlag != null and registFlag != ''">and regist_flag = #{registFlag}</if>
+			<if test="loginFlag != null and loginFlag != ''">and login_flag = #{loginFlag}</if>
+			<if test="consumeFlag != null and consumeFlag != ''">and consume_flag = #{consumeFlag}</if>
+			<if test="inviteFlag != null and inviteFlag != ''">and invite_flag = #{inviteFlag}</if>
+			<if test="commentsFlag != null and commentsFlag != ''">and comments_flag = #{commentsFlag}</if>
+			<if test="questionFlag != null and questionFlag != ''">and question_flag = #{questionFlag}</if>
+			<if test="answerFlag != null and answerFlag != ''">and answer_flag = #{answerFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyIntegralConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyIntegralConfig">
+		select <include refid="table_columns" />
+		from company_integral_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyIntegralConfig">
+		select count(id) from company_integral_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findIntegralConfigByWhere" resultMap="companyIntegralConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyIntegralConfig" >
+		select <include refid="table_columns" />
+		from company_integral_config
+		where company_id = #{companyId}
+		limit 1
+	</select>
+	
+	<select id="findByCompanyId" resultMap="companyIntegralConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_integral_config
+		where company_id = #{id}
+		limit 1
+	</select>
+</mapper>

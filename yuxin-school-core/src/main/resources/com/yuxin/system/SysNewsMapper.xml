@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysNewsMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysNews" id="sysNewsResultMap">
+		<result property="id" column="id" />
+		<result property="newsTitle" column="news_title" />
+		<result property="newsStatus" column="news_status" />
+		<result property="newsType" column="news_type"/>
+		<result property="newsContent" column="news_content" />
+		<result property="newsPic" column="news_pic" />
+		<result property="publishTime" column="publish_time" />
+		<result property="publishUser" column="publish_user" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="createName" column="createName"/>
+		<result property="summary" column="summary"/>
+		<result property="recommendFlag" column="recommend_flag"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.SysNewsVo" id="sysNewsResultMapVo">
+		<result property="id" column="id" />
+		<result property="newsTitle" column="news_title" />
+		<result property="newsStatus" column="news_status" />
+		<result property="newsType" column="news_type"/>
+		<result property="newsContent" column="news_content" />
+		<result property="newsPic" column="news_pic" />
+		<result property="publishTime" column="publish_time" />
+		<result property="publishUser" column="publish_user" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="createName" column="createName"/>
+		<result property="userName" column="username"/>
+		<result property="summary" column="summary"/>
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="newsTypeName" column="newsTypeName"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.CompanyFunctionSetVo" id="companyFunctionSetMap">
+		<result property="id" column="id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="functionCode" column="function_code"/>
+		<result property="functionName" column="function_name"/>
+		<result property="content" column="content"/>
+		<result property="status" column="status"/>
+		<result property="column1" column="column_1"/>
+		<result property="column2" column="column_2"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		news_title,
+		summary,
+		news_status,
+		news_content,
+		news_type,
+		news_pic,
+		publish_time,
+		publish_user,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		company_id,
+		school_id,
+		recommend_flag
+    </sql>
+	
+	<sql id="entity_properties">
+		#{id},
+		#{newsTitle},
+		#{summary},
+		#{newsStatus},
+		#{newsContent},
+		#{newsType},
+		#{newsPic},
+		#{publishTime},
+		#{publishUser},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{companyId},
+		#{schoolId},
+		#{recommendFlag}
+	</sql>
+	
+	<sql id="entity_propertiesMark">
+		#{id},
+		#{newsTitle},
+		#{summary},
+		#{newsStatus},
+		#{newsContent},
+		#{newsType},
+		#{newsPic},
+		#{publishTime},
+		#{publishUser},
+		#{creator},
+		#{createTime},
+		#{updateTime},
+		#{updator},
+		#{companyId},
+		#{schoolId},
+		#{recommendFlag},
+		#{delFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysNews" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_news(id,news_title,summary,news_status,news_content,news_type,news_pic,publish_time,publish_user,creator,create_time,update_time,updator,company_id,school_id,recommend_flag,del_flag ) 
+		values ( <include refid="entity_propertiesMark" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_news( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_news
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_news
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysNews">
+		update sys_news 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="newsTitle != null and newsTitle != ''">news_title = #{newsTitle},</if>
+			<if test="newsStatus != null and newsStatus != ''">news_status = #{newsStatus},</if>
+			<if test="summary != null and summary != ''">summary = #{summary},</if>
+			<if test="newsContent != null and newsContent != ''">news_content = #{newsContent},</if>
+			<if test="newsType != null and newsType != ''">news_type = #{newsType},</if>
+			<if test="newsPic != null and newsPic != ''">news_pic = #{newsPic},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="publishUser != null and publishUser != ''">publish_user = #{publishUser},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="recommendFlag != null">recommend_flag = #{recommendFlag},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysNewsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_news
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysNewsResultMap">
+		select <include refid="table_columns" /> 
+		from sys_news
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
+			<if test="newsStatus != null and newsStatus != ''">and news_status = #{newsStatus}</if>
+			<if test="newsContent != null and newsContent != ''">and news_content = #{newsContent}</if>
+			<if test="newsPic != null and newsPic != ''">and news_pic = #{newsPic}</if>
+			<if test="startTime != null and startTime != '' and endTime == null">and a.publish_time = #{startTime}</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">and a.publish_time BETWEEN #{startTime} AND #{endTime}</if>
+			<if test="publishUser != null and publishUser != ''">and a.publish_user = #{publishUser}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="companyId != null and companyId != ''">and a.company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysNewsResultMap" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select a.*,b.real_name as createName from sys_news a left join users b on a.creator=b.id 
+		where a.company_id = #{companyId}
+		   <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
+			<if test="newsStatus != null and newsStatus != ''">and news_status = #{newsStatus}</if>
+			<if test="newsPic != null and newsPic != ''">and news_pic = #{newsPic}</if>
+			<if test="newsType != null and newsType != ''">and news_type = #{newsType}</if>
+			<if test="startTime != null and startTime != '' and endTime == null">and a.publish_time = #{startTime}</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">and a.publish_time BETWEEN #{startTime} AND #{endTime}</if>
+			<if test="publishUser != null and publishUser != ''">and publish_user = #{publishUser}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="page2" resultMap="sysNewsResultMapVo" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select a.*,b.real_name as createName ,b.username, c.name as newsTypeName from sys_news a left join users b on a.creator=b.id 
+		 LEFT JOIN (select * from sys_news_type where del_flag='0') c ON a.news_type=c.id
+		where a.company_id = #{companyId} 
+		   <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
+			<if test="newsStatus != null and newsStatus != ''">and news_status = #{newsStatus}</if>
+			<if test="newsPic != null and newsPic != ''">and news_pic = #{newsPic}</if>
+			<if test="newsType != null and newsType != ''">and news_type = #{newsType}</if>
+			<if test="startTime != null and startTime != '' and endTime == null">and a.publish_time = #{startTime}</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">and a.publish_time BETWEEN #{startTime} AND #{endTime}</if>
+			<if test="publishUser != null and publishUser != ''">and publish_user = #{publishUser}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select count(*) from sys_news a left join users b on a.creator=b.id
+		   where a.company_id = #{companyId}
+		    <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
+			<if test="newsStatus != null and newsStatus != ''">and news_status = #{newsStatus}</if>
+			<if test="newsPic != null and newsPic != ''">and news_pic = #{newsPic}</if>
+			<if test="startTime != null and startTime != '' and endTime == null">and a.publish_time = #{startTime}</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">and a.publish_time BETWEEN #{startTime} AND #{endTime}</if>
+			<if test="publishUser != null and publishUser != ''">and publish_user = #{publishUser}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+			<if test="delFlag != null ">and a.del_flag = #{delFlag}</if>
+	</select>
+	
+	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select count(*) from sys_news a left join users b on a.creator=b.id
+		LEFT JOIN (select * from sys_news_type where del_flag='0') c ON a.news_type=c.id
+		   where a.company_id = #{companyId}
+		    <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
+			<if test="newsStatus != null and newsStatus != ''">and news_status = #{newsStatus}</if>
+			<if test="newsPic != null and newsPic != ''">and news_pic = #{newsPic}</if>
+			<if test="startTime != null and startTime != '' and endTime == null">and a.publish_time = #{startTime}</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">and a.publish_time BETWEEN #{startTime} AND #{endTime}</if>
+			<if test="publishUser != null and publishUser != ''">and publish_user = #{publishUser}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+			<if test="newsType != null and newsType != ''">and news_type = #{newsType}</if>
+			limit 1
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="changNewsStatus" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+	  update sys_news set 
+	  	news_status = #{newsStatus}
+	  	where id=${id} 
+	</select>
+	<select id="findList" resultMap="sysNewsResultMapVo" parameterType="com.yuxin.wx.vo.system.SysNewsVo" >
+	 	select sn.*,snt.name as newsTypeName
+	  	from sys_news sn inner join sys_news_type snt
+	  	on sn.news_type = snt.id
+	  	where sn.company_id=#{companyId} and sn.school_id=#{schoolId} and sn.news_status='1' and sn.del_flag = 0
+	  	<if test="cusorder !=null and cusorder !=''"> order by ${cusorder} </if>
+		<if test="cuslimit !=null and cuslimit !=''"> limit ${cuslimit} </if>
+	</select>
+	
+	<!-- 根据公司id查询新闻数据 -->
+	<select id="findNewsByCompanyId" parameterType="Integer" resultMap="sysNewsResultMap">
+		select <include refid="table_columns" />
+	  	from sys_news
+	  	where company_id=#{companyId}
+	</select>
+	
+	<!-- 查询公司功能配置 -->
+	<select id="queryCompanyFunctionById" parameterType="Integer" resultMap="companyFunctionSetMap">
+		select id,company_id,function_code,function_name,content,`status`,column_1,column_2 from company_function_set where company_id=#{companyId}
+	</select>
+	
+	<insert id="insertCompanyFunction" parameterType="com.yuxin.wx.vo.company.CompanyFunctionSetVo" useGeneratedKeys="true" keyProperty="id">
+		INSERT into company_function_set(id,company_id,function_code,function_name,content,status,column_1,column_2) 
+values(#{id},#{companyId},#{functionCode},#{functionName},#{content},#{status},#{column1},#{column2})
+	</insert>
+	
+	<update id="updateCompanyFunction" parameterType="com.yuxin.wx.vo.company.CompanyFunctionSetVo">
+		UPDATE company_function_set 
+		<trim prefix="set" suffixOverrides=",">
+		<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		<if test="functionCode != null and functionCode != ''">function_code = #{functionCode},</if>
+		<if test="functionName != null and functionName != ''">function_name = #{functionName},</if>
+		<if test="content != null and content != ''">content = #{content},</if>
+		<if test="status != null and status != ''">status = #{status},</if>
+		<if test="column1 != null and column1 != ''">column_1 = #{column1},</if>
+		<if test="column2 != null and column2 != ''">column_2 = #{column2},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="updateDelFlag" parameterType="com.yuxin.wx.model.system.SysNews">
+		update sys_news 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+		</trim>
+		<where>news_type = #{newsType}</where>
+	</update>
+	
+	<select id="guanwangNewsList" resultMap="sysNewsResultMap" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select <include refid="table_columns" />  
+		from sys_news 
+		where news_status=1  
+		<if test="companyId !=null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="recommendFlag != null">and recommend_flag = #{recommendFlag}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="newsType != null and newsType != ''">and news_type = #{newsType}</if>
+		<if test="orderType !=null and orderType !=''">
+			<choose>
+		      		<when test="orderType=='hot'">
+		      			order by click_count desc,publish_time desc
+		     		</when>
+		     		<when test="orderType=='current'">
+		      			order by  publish_time desc
+		     		</when>
+		     		<otherwise>
+		     			order by  publish_time desc
+		     		</otherwise>
+		    </choose>
+	    </if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="guanwangNewsList2" resultMap="sysNewsResultMap" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select <include refid="table_columns" />  
+		from sys_news 
+		where news_status=1  
+		<if test="companyId !=null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="recommendFlag != null">and recommend_flag = #{recommendFlag}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="newsType != null and newsType != ''">and news_type = #{newsType}</if>
+		<if test="orderType !=null and orderType !=''">
+			<choose>
+		      		<when test="orderType=='hot'">
+		      			order by click_count desc,publish_time desc
+		     		</when>
+		     		<when test="orderType=='current'">
+		      			order by  publish_time desc
+		     		</when>
+		     		<otherwise>
+		     			order by  publish_time desc
+		     		</otherwise>
+		    </choose>
+	    </if>
+	</select>
+	
+	
+	<select id="guanwangNewsListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select count(id)  
+		from sys_news 
+		where news_status=1 
+		<if test="companyId !=null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="recommendFlag != null">and recommend_flag = #{recommendFlag}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="newsType != null and newsType != ''">and news_type = #{newsType}</if>
+		
+	</select>
+	
+	
+	<select id="queryShowNews"  resultMap="sysNewsResultMapVo" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
+		select sn.*,snt.name as newsTypeName
+	  	from sys_news sn left join sys_news_type snt
+	  	on sn.news_type = snt.id
+	  	where sn.company_id=#{companyId} and sn.school_id=#{schoolId} and sn.news_status='1' and (sn.del_flag = 0 or sn.del_flag is null)
+	  	<if test="publishTime != null and publishTime != ''">and sn.publish_time = #{publishTime}</if>
+	  	<if test="cusorder !=null and cusorder !=''"> order by ${cusorder} </if>
+		<if test="cuslimit !=null and cuslimit !=''"> limit ${cuslimit} </if>
+	</select>
+</mapper>

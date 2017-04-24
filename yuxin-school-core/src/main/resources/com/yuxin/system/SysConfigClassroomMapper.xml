@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigClassroomMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigClassroom" id="sysConfigClassroomResultMap">
+		<result property="id" column="id" />
+		<result property="roomName" column="room_name" />
+		<result property="roomAttrCode" column="room_attr_code" />
+		<result property="roomTypeCode" column="room_type_code" />
+		<result property="roomLevelCode" column="room_level_code" />
+		<result property="seatNumCode" column="seat_num_code" />
+		<result property="rentScope" column="rent_scope" />
+		<result property="address" column="address" />
+		<result property="busLine" column="bus_line" />
+		<result property="remark" column="remark" />
+		<result property="schoolId" column="school_id" />
+		<result property="campusId" column="campus_id" />
+		<result property="status" column="status" />
+		<result property="delType" column="del_type" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="companyId" column="company_id"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		room_name,
+		room_attr_code,
+		room_type_code,
+		room_level_code,
+		seat_num_code,
+		rent_scope,
+		address,
+		bus_line,
+		remark,
+		school_id,
+		campus_id,
+		status,
+		del_type,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{roomName},
+		#{roomAttrCode},
+		#{roomTypeCode},
+		#{roomLevelCode},
+		#{seatNumCode},
+		#{rentScope},
+		#{address},
+		#{busLine},
+		#{remark},
+		#{schoolId},
+		#{campusId},
+		#{status},
+		#{delType},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigClassroom" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_classroom( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_classroom( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_classroom
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_classroom
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigClassroom">
+		update sys_config_classroom 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="roomName != null and roomName != ''">room_name = #{roomName},</if>
+			<if test="roomAttrCode != null">room_attr_code = #{roomAttrCode},</if>
+			<if test="roomTypeCode != null">room_type_code = #{roomTypeCode},</if>
+			<if test="roomLevelCode != null">room_level_code = #{roomLevelCode},</if>
+			<if test="seatNumCode != null">seat_num_code = #{seatNumCode},</if>
+			<if test="rentScope != null">rent_scope = #{rentScope},</if>
+			<if test="address != null">address = #{address},</if>
+			<if test="busLine != null">bus_line = #{busLine},</if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="campusId != null and campusId != ''">campus_id = #{campusId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="delType != null and delType != ''">del_type = #{delType},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigClassroomResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_classroom
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigClassroomResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_classroom
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="id != null and id != ''">and id = #{id}</if>
+			<if test="roomName != null and roomName != ''">and room_name like '%${roomName}%'</if>
+			<if test="roomAttrCode != null and roomAttrCode != ''">and room_attr_code = #{roomAttrCode}</if>
+			<if test="roomTypeCode != null and roomTypeCode != ''">and room_type_code = #{roomTypeCode}</if>
+			<if test="roomLevelCode != null and roomLevelCode != ''">and room_level_code = #{roomLevelCode}</if>
+			<if test="seatNumCode != null and seatNumCode != ''">and seat_num_code = #{seatNumCode}</if>
+			<if test="rentScope != null and rentScope != ''">and rent_scope = #{rentScope}</if>
+			<if test="address != null and address != ''">and address = #{address}</if>
+			<if test="busLine != null and busLine != ''">and bus_line = #{busLine}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="campusId != null and campusId != ''">and campus_id = #{campusId}</if>
+			<if test="status != null">and status = #{status}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			and del_type = 0
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigClassroomResultMap" parameterType="com.yuxin.wx.model.system.SysConfigClassroom">
+		select <include refid="table_columns" />
+		from sys_config_classroom
+		<include refid="page_where" />
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigClassroom">
+		select count(id) from sys_config_classroom
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryClassroom" resultMap="sysConfigClassroomResultMap" parameterType="com.yuxin.wx.model.system.SysConfigClassroom">
+		select <include refid="table_columns" /> 
+		from sys_config_classroom
+		<include refid="page_where" />
+	</select>
+	
+	<select id="findClassroomBySchoolId" resultType="Integer" parameterType="Integer">
+		select count(id)
+			from sys_config_classroom
+		where school_id = #{schoolId} and 
+		del_type = 0
+		limit 1
+	</select>
+	
+	<select id="findClassroomByCampusId" resultMap="sysConfigClassroomResultMap" parameterType="Integer">
+		select <include refid="table_columns"></include>
+			from sys_config_classroom
+		where campus_id = #{campusId} and 
+		del_type = 0 
+		order by id desc
+	</select>
+	
+	<select id="findClassroomByconditions" parameterType="map" resultMap="sysConfigClassroomResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_classroom where del_type=0 and company_id=#{companyId} and school_id=#{schoolId}
+		<if test="status != null">and status = #{status}</if>
+	</select>
+</mapper>

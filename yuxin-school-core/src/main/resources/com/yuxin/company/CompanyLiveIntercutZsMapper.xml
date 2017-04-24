@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveIntercutZsMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveIntercutZs" id="companyLiveIntercutZsResultMap">
+		<result property="id" column="id" />
+		<result property="recordId" column="record_id" />
+		<result property="recordName" column="record_name" />
+		<result property="classModuleLessionId" column="class_module_lession_id" />
+		<result property="recordType" column="record_type" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		record_id,
+		record_name,
+		class_module_lession_id,
+		record_type,
+		company_id,
+		school_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{recordId},
+		#{recordName},
+		#{classModuleLessionId},
+		#{recordType},
+		#{companyId},
+		#{schoolId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.recordId},
+		#{item.recordName},
+		#{item.classModuleLessionId},
+		#{item.recordType},
+		#{item.companyId},
+		#{item.schoolId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_intercut_zs( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_live_intercut_zs( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_live_intercut_zs
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_intercut_zs
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs">
+		update company_live_intercut_zs 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="recordId != null and recordId != ''">record_id = #{recordId},</if>
+			<if test="recordName != null and recordName != ''">record_name = #{recordName},</if>
+			<if test="classModuleLessionId != null and classModuleLessionId != ''">class_module_lession_id = #{classModuleLessionId},</if>
+			<if test="recordType != null and recordType != ''">record_type = #{recordType},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLiveIntercutZsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_live_intercut_zs
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLiveIntercutZsResultMap">
+		select <include refid="table_columns" /> 
+		from company_live_intercut_zs
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="recordId != null ">and record_id = #{recordId}</if>
+			<if test="recordName != null and recordName != ''">and record_name = #{recordName}</if>
+			<if test="classModuleLessionId != null">and class_module_lession_id = #{classModuleLessionId}</if>
+			<if test="recordType != null and recordType != ''">and record_type = #{recordType}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="schoolId != null">and school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyLiveIntercutZsResultMap" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs">
+		select <include refid="table_columns" />
+		from company_live_intercut_zs
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs">
+		select count(id) from company_live_intercut_zs
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findAllByCont" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs" resultMap="companyLiveIntercutZsResultMap">
+		select <include refid="table_columns"/>
+		from company_live_intercut_zs
+		where class_module_lession_id = #{classModuleLessionId} and 
+			record_type = #{recordType} and 
+			company_id = #{companyId} and 
+			school_id = #{schoolId}
+			<if test="recordName != null and recordName != ''">
+				and record_name like concat('%',#{recordName},'%')
+			</if>
+			order by id
+			limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findCountAllByCont" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs" resultType="Integer">
+		select count(id)
+		from company_live_intercut_zs
+		where class_module_lession_id = #{classModuleLessionId} and 
+			record_type = #{recordType} and 
+			company_id = #{companyId} and 
+			school_id = #{schoolId}
+			<if test="recordName != null and recordName != ''">
+				and record_name like concat('%',#{recordName},'%')
+			</if>
+	</select>
+	
+	<delete id="delByCont" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs">
+		delete from company_live_intercut_zs
+		where record_id = #{recordId} and 
+			class_module_lession_id = #{classModuleLessionId} and
+			company_id = #{companyId} and
+			school_id = #{schoolId}
+	</delete>
+	
+	<select id="findExist" parameterType="com.yuxin.wx.model.company.CompanyLiveIntercutZs" resultMap="companyLiveIntercutZsResultMap">
+		select <include refid="table_columns"/>
+		from company_live_intercut_zs
+		<include refid="page_where"/>
+	</select>
+</mapper>

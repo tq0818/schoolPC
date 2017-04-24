@@ -1,0 +1,312 @@
+.AcinfBox {
+  padding: 15px 22px 10px;
+  width: 95%;
+  margin: 0 2% 0 2%;
+}
+.AcinfBoxList li {
+  padding: 9px 0;
+}
+.AcinfBoxList .clear span,
+
+.AcinfBoxList .clear b,
+.AcinfBoxList .clear button {
+  float: left;
+}
+.AcinfBoxList .clear {
+  font-size: 14px;
+  line-height: 26px;
+}
+.AcinfBoxList .clear span {
+  width: 108px;
+  color: #999;
+}
+.AcinfBoxList .clear b {
+  color: #000;
+  font-weight: normal;
+  width: 188px;
+}
+.AcinfBoxList .clear button {
+  width: 60px;
+  border: 1px solid #e0e0e0;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  text-align: center;
+  line-height: 24px;
+  font-size: 12px;
+  color: #666;
+  padding: 0;
+}
+.AcinfBoxList .clear button:hover {
+  background-color: #f3f3f3;
+}
+.AcinfBox .erqcode {
+  padding: 8px;
+  width: 174px;
+  margin-top: 15px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+}
+.AcinfBox .erqcode img {
+  width: 100%;
+}
+.saveLocal {
+  padding: 8px 10px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #666;
+  line-height: 14px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  margin-left: 41px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #E0E0E0;
+}
+.saveLocal:hover {
+  background-color: #f3f3f3;
+}
+.clear .t {
+  float: left;
+}
+.company .proxyBtn {
+  float: right;
+  margin-top: -10px;
+  padding: 7px 8px;
+  background-color: #07bbee;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #ffffff;
+}
+.company .proxyBtn:hover {
+  background-color: #01aadd;
+}
+.proxyManage .title-box {
+  height: 48px;
+}
+.proxyManage .tit-font {
+  margin-top: 20px;
+}
+.proxyBox {
+  padding: 20px 10px;
+  width: 95%;
+  margin: 0 2% 0 2%;
+}
+.proxySearch {
+  font-size: 0;
+  margin-bottom: 20px;
+}
+.proxySearch select {
+  width: 95px;
+  height: 26px;
+  border: 1px solid #ccc;
+  margin-right: 20px;
+  font-size: 12px;
+  color: #333;
+  padding: 0;
+  vertical-align: top;
+}
+.proxySearch span {
+  font-size: 14px;
+  color: #999;
+  padding: 0 10px;
+  line-height: 26px;
+}
+.proxySearch input[type='text'] {
+  border: 1px solid #cccccc;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  outline: none;
+  font-size: 12px;
+  vertical-align: top;
+  height: 26px;
+  padding: 0 6px;
+}
+.proxySearch input.setTime {
+  color: #616161;
+  width: 94px;
+  line-height: 24px;
+}
+.proxySearch input.proxyAgen {
+  width: 160px;
+  font-size: 12px;
+  color: #999;
+  line-height: 24px;
+  margin-left: 20px;
+}
+.proxySearch b {
+  color: #616161;
+  font-size: 12px;
+  margin: 0 10px;
+  line-height: 22px;
+  font-weight: normal;
+}
+.proxySearch input[type='submit'] {
+  margin-left: 10px;
+  padding: 7px 10px;
+  background-color: #07bbee;
+  font-size: 12px;
+  color: #fff;
+  line-height: 12px;
+  border: none;
+  outline: none;
+  vertical-align: top;
+  border-radius: 2px;
+}
+.proxySearch input[type='submit']:hover {
+  background-color: #01aadd;
+}
+.proxyBox .table th {
+  font-weight: normal;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  background-color: #f0f0f0;
+  height: 38px;
+}
+.proxyBox .table td {
+  font-size: 12px;
+  text-align: center;
+  color: #666;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  height: 37px;
+   height: 40px;
+    box-sizing: border-box;
+}
+.proxyBox .table .option {
+  font-style: normal;
+  color: #07bbee;
+}
+.table .option i {
+  font-style: normal;
+  cursor: pointer;
+}
+.table .option i {
+  margin: 0 4px;
+}
+.proxyBox .table .prevent {
+  color: #fe5151;
+}
+.addproxy li h4 {
+  font-size: 14px;
+  color: #999;
+  text-align: right;
+  line-height: 26px;
+  width: 152px;
+  font-weight: normal;
+  margin-right: 20px;
+}
+.addproxy li h4 i {
+  font-style: normal;
+  color: red;
+  position: relative;
+  top: 3px;
+  margin-right: 4px;
+}
+.addproxy li {
+  padding: 10px 0 20px;
+}
+.addproxy li input[type='text'] {
+  border: 1px solid #ccc;
+  height: 26px;
+  padding: 0 10px;
+  line-height: 24px;
+  font-size: 12px;
+  color: #333;
+  vertical-align: top;
+}
+.addproxy li input.agentName {
+  width: 240px;
+}
+.addproxy li .detailAddress {
+  width: 340px;
+}
+.addproxy li textarea.detailAddress {
+  height: 118px;
+  resize: none;
+}
+.addproxy li .contact {
+  width: 200px;
+}
+.addproxy li select {
+  width: 92px;
+  height: 26px;
+  font-size: 12px;
+  color: #333;
+  padding: 0 10px;
+  margin-right: 10px;
+}
+.optionBut {
+  padding: 20px 0 50px;
+  width: 100%;
+  text-align: center;
+  font-size: 0;
+}
+.optionBut input {
+  margin: 0 10px;
+  height: 30px;
+  padding: 8px 15px;
+  font-size: 14px;
+  line-height: 12px;
+  border-radius: 2px;
+}
+.optionBut .cancel {
+  border: 1px solid #e0e0e0;
+  color: #999;
+}
+.optionBut .cancel:hover {
+  background-color: #F3F3F3;
+}
+.optionBut .save {
+  border: 1px solid transparent;
+  color: #fff;
+  background-color: #00b7ee;
+}
+.optionBut .save:hover {
+  background-color: #01aadd;
+}
+.addproxy li .percent input {
+  width: 95px;
+}
+.addproxy li .percent span {
+  font-size: 14px;
+  color: #999;
+  line-height: 24px;
+  margin-left: 8px;
+}
+.addproxy li .percent p {
+  font-size: 12px;
+  color: #999;
+  line-height: 12px;
+  padding-top: 10px;
+}
+.alertErqod {
+  width: 420px;
+  text-align: center;
+}
+.alertErqod p {
+  display: inline-block;
+  width: 142px;
+  border-radius: 4px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+}
+.alertErqod p img {
+  width: 100%;
+}
+.erqodBut {
+  padding: 9px 15px;
+  background-color: #07bbee;
+  color: #fff;
+  font-size: 14px;
+  line-height: 14px;
+  border-radius: 2px;
+  border: none;
+  display: block;
+  margin: 0 auto;
+}

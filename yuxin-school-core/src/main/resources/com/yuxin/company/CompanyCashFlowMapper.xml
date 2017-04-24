@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyCashFlowMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyCashFlow" id="companyCashFlowResultMap">
+		<result property="id" column="id" />
+		<result property="tradeReason" column="trade_reason" />
+		<result property="tradeSource" column="trade_source" />
+		<result property="tradeWay" column="trade_way" />
+		<result property="tradeAmount" column="trade_amount" />
+		<result property="tradeDate" column="trade_date" />
+		<result property="userId" column="user_id" />
+		<result property="tradeResult" column="trade_result" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="tradeType" column="trade_type" />
+		<result property="lastAmount" column="last_amount" />
+		<result property="stuId" column="stu_id" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="payMasterId" column="pay_master_id" />
+		
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		trade_reason,
+		trade_source,
+		trade_way,
+		trade_amount,
+		trade_date,
+		user_id,
+		trade_result,
+		company_id,
+		school_id,
+		trade_type,
+		last_amount,
+		stu_id,
+		updator,
+		update_time,
+		pay_master_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{tradeReason},
+		#{tradeSource},
+		#{tradeWay},
+		#{tradeAmount},
+		#{tradeDate},
+		#{userId},
+		#{tradeResult},
+		#{companyId},
+		#{schoolId},
+		#{tradeType},
+		#{lastAmount},
+		#{stuId},
+		#{updator},
+		#{updateTime},
+		#{payMasterId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.tradeReason},
+		#{item.tradeSource},
+		#{item.tradeWay},
+		#{item.tradeAmount},
+		#{item.tradeDate},
+		#{item.userId},
+		#{item.tradeResult},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.tradeType},
+		#{item.lastAmount},
+		#{item.stuId},
+		#{item.updator},
+		#{item.updateTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyCashFlow" useGeneratedKeys="true" keyProperty="id">
+		insert into company_cash_flow( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_cash_flow( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_cash_flow
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyCashFlow">
+		update company_cash_flow 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="tradeReason != null and tradeReason != ''">trade_reason = #{tradeReason},</if>
+			<if test="tradeSource != null and tradeSource != ''">trade_source = #{tradeSource},</if>
+			<if test="tradeWay != null and tradeWay != ''">trade_way = #{tradeWay},</if>
+			<if test="tradeAmount != null and tradeAmount != ''">trade_amount = #{tradeAmount},</if>
+			<if test="tradeDate != null and tradeDate != ''">trade_date = #{tradeDate},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="tradeResult != null and tradeResult != ''">trade_result = #{tradeResult},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="tradeType != null and tradeType != ''">trade_type = #{tradeType},</if>
+			<if test="lastAmount != null and lastAmount != ''">last_amount = #{lastAmount},</if>
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyCashFlowResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_cash_flow
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyCashFlowResultMap">
+		select <include refid="table_columns" /> 
+		from company_cash_flow
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="tradeReason != null and tradeReason != ''">and trade_reason = #{tradeReason}</if>
+			<if test="tradeSource != null and tradeSource != ''">and trade_source = #{tradeSource}</if>
+			<if test="tradeWay != null and tradeWay != ''">and trade_way = #{tradeWay}</if>
+			<if test="tradeAmount != null and tradeAmount != ''">and trade_amount = #{tradeAmount}</if>
+			<if test="tradeDate != null and tradeDate != ''">and trade_date = #{tradeDate}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="tradeResult != null and tradeResult != ''">and trade_result = #{tradeResult}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="tradeType != null and tradeType != ''">and trade_type = #{tradeType}</if>
+			<if test="lastAmount != null and lastAmount != ''">and last_amount = #{lastAmount}</if>
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyCashFlowResultMap" parameterType="com.yuxin.wx.model.company.CompanyCashFlow">
+		select <include refid="table_columns" />
+		from company_cash_flow
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyCashFlow">
+		select count(id) from company_cash_flow
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

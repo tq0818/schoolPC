@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.commodity.mapper.CommodityMapper">
+	<resultMap type="com.yuxin.wx.model.commodity.Commodity" id="commodityResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="overview" column="overview" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="type" column="type" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="cerateTime" column="cerate_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="status" column="status" />
+		<result property="lableType" column="lable_type" />
+		<result property="baseNum" column="base_num" />
+		<result property="faceFlag" column="face_flag" />
+		<result property="liveFlag" column="live_flag" />
+		<result property="videoFlag" column="video_flag" />
+		<result property="remoteFlag" column="remote_flag" />
+		<result property="recommendFlag" column="recommend_flag" />
+		<result property="buyNum" column="buy_num" />
+		<result property="itemTag" column="item_tag"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.commodity.CommodityVo" id="commodityVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="overview" column="overview" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="type" column="type" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="cerateTime" column="cerate_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="status" column="status" />
+		<result property="lableType" column="lable_type" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="baseNum" column="base_num"/>
+		<result property="classTypeId" column="classTypeId"/>
+		<result property="actualNum" column="actualNum"/>
+		<result property="lableType" column="lable_type" />
+		<result property="itemTag" column="item_tag"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		name,
+		cover_url,
+		overview,
+		original_price,
+		real_price,
+		type,
+		item_one_id,
+		item_second_id,
+		school_id,
+		company_id,
+		creator,
+		cerate_time,
+		updator,
+		update_time,
+		status,
+		lable_type,
+		base_num,
+		face_flag,
+		live_flag,
+		video_flag,
+		remote_flag,
+		recommend_flag,
+		buy_num,
+		item_tag,
+		integral_flag,
+		member_flag
+  </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{coverUrl},
+		#{overview},
+		#{originalPrice},
+		#{realPrice},
+		#{type},
+		#{itemOneId},
+		#{itemSecondId},
+		#{schoolId},
+		#{companyId},
+		#{creator},
+		#{cerateTime},
+		#{updator},
+		#{updateTime},
+		#{status},
+		#{lableType},
+		#{baseNum},
+		#{faceFlag},
+		#{liveFlag},
+		#{videoFlag},
+		#{remoteFlag},
+		#{recommendFlag},
+		#{buyNum},
+		#{itemTag},
+		#{integralFlag},
+		#{memberFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.commodity.Commodity" useGeneratedKeys="true" keyProperty="id">
+		insert into commodity( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into commodity( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from commodity
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.commodity.Commodity">
+		update commodity 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="coverUrl != null and coverUrl != ''">cover_url = #{coverUrl},</if>
+			<if test="overview != null and overview != ''">overview = #{overview},</if>
+			<if test="originalPrice != null">original_price = #{originalPrice},</if>
+			<if test="realPrice != null">real_price = #{realPrice},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="cerateTime != null and cerateTime != ''">cerate_time = #{cerateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="lableType != null and lableType != ''">lable_type = #{lableType},</if>
+			<if test="baseNum != null">base_num = #{baseNum},</if>
+			<if test="faceFlag != null">face_flag = #{faceFlag},</if>
+			<if test="liveFlag != null">live_flag = #{liveFlag},</if>
+			<if test="videoFlag != null">video_flag = #{videoFlag},</if>
+			<if test="remoteFlag != null">remote_flag = #{remoteFlag},</if>
+			<if test="recommendFlag != null">recommend_flag = #{recommendFlag},</if>
+			<if test="buyNum != null">buy_num = #{buyNum},</if>
+			<if test="itemTag != null and itemTag != ''">item_tag = #{itemTag},</if>
+			<if test="integralFlag != null">integral_flag = #{integralFlag},</if>
+			<if test="memberFlag != null">member_flag = #{memberFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="commodityResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from commodity
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="commodityResultMap">
+		select <include refid="table_columns" /> 
+		from commodity
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="coverUrl != null and coverUrl != ''">and cover_url = #{coverUrl}</if>
+			<if test="overview != null and overview != ''">and overview = #{overview}</if>
+			<if test="originalPrice != null and originalPrice != ''">and original_price = #{originalPrice}</if>
+			<if test="realPrice != null and realPrice != ''">and real_price = #{realPrice}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="cerateTime != null and cerateTime != ''">and cerate_time = #{cerateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="lableType != null and lableType != ''">and lable_type = #{lableType}</if>
+			<if test="baseNum != null and baseNum != ''">and base_num = #{baseNum}</if>
+			<if test="faceFlag != null and faceFlag != ''">and face_flag = #{faceFlag}</if>
+			<if test="liveFlag != null and liveFlag != ''">and live_flag = #{liveFlag}</if>
+			<if test="videoFlag != null and videoFlag != ''">and video_flag = #{videoFlag}</if>
+			<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = #{remoteFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="commodityResultMap" parameterType="com.yuxin.wx.model.commodity.Commodity">
+		select <include refid="table_columns" />
+		from commodity
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.commodity.Commodity">
+		select count(id) from commodity
+		<include refid="page_where" />
+	</select>
+	
+	<select id="queryProduct"  resultMap="commodityVoResultMap" parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
+		select c.*,pr.product_id as classTypeId,(c.base_num + c.buy_num) as actualNum from commodity c left join commodity_product_realtion pr on c.id=pr.com_id
+		<where>
+		<if test="schoolId != null and schoolId != ''"> and c.school_id=#{schoolId}</if> 
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="lableType != null and lableType != ''">and lable_type = #{lableType}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		</where>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryProductCount"  resultType="int" parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
+		select count(c.id) from commodity c left join commodity_product_realtion pr on c.id=pr.com_id
+		<where>
+		<if test="schoolId != null and schoolId != ''"> and c.school_id=#{schoolId}</if> 
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		</where>
+	</select>
+	<!-- 其他自定义SQL -->
+	<select id="findProduct" resultMap="commodityVoResultMap"
+		parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
+		select c.*,pr.product_id as classTypeId,(c.base_num + c.buy_num) as
+		actualNum from commodity c left join commodity_product_realtion pr on
+		c.id=pr.com_id
+		INNER JOIN class_type ct ON pr.product_id = ct.id
+		where c.status=1 and c.company_id = #{companyId} and c.type='COMMODITY_CLASS' and ct.del_flag = 0
+		<if test="schoolId != null and schoolId != ''"> and c.school_id=#{schoolId}</if>
+		<if test="itemOneIds != null and itemOneIds != ''">
+			and c.item_one_id in
+			<foreach item="item" collection="itemOneIds" open="(" separator=","
+				close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and c.item_second_id = #{itemSecondId}</if>
+		<if test="lableType != null and lableType != ''">and c.lable_type = #{lableType}</if>
+		<if test="faceFlag != null and faceFlag != ''">and c.face_flag = #{faceFlag}</if>
+		<if test="liveFlag != null and liveFlag != ''">and c.live_flag = #{liveFlag}</if>
+		<if test="videoFlag != null and videoFlag != ''">and c.video_flag = #{videoFlag}</if>
+		<if test="cusorder !=null and cusorder !=''"> order by ${cusorder} </if>
+		<if test="cuslimit !=null and cuslimit !=''"> limit ${cuslimit} </if>
+	</select>
+	
+	<select id="findCommodityIdByClassTypeId" parameterType="Integer" resultType="Integer">
+		select b.com_id
+		from class_type a,commodity_product_realtion b
+		where 
+			b.product_id = a.id
+		and
+			a.id = #{classTypeId}
+		limit 1
+	</select>
+		<select id="findCommodityByClassTypeId" parameterType="map" resultMap="commodityVoResultMap">
+		select c.*,pr.product_id as classTypeId,(c.base_num + c.buy_num) as actualNum 
+		from commodity c , commodity_product_realtion pr
+		where  c.status=1
+		and c.id=pr.com_id
+		and c.company_id = #{companyId}
+		<if test="classTypeOne !=null and classTypeOne!=''">and (pr.product_id = #{classTypeOne}</if>
+		<if test="classTypeTwo !=null and classTypeTwo!='' ">  or pr.product_id= #{classTypeTwo}</if>
+		<if test="classTypeOne !=null and classTypeOne!=''">)</if>
+	</select>
+	
+	<update id="updateBuyNumById" parameterType="Integer">
+		update commodity set buy_num=buy_num+1
+		where id = #{id}
+	</update>
+	
+	<select id="querycommByCompanyId" parameterType="Integer" resultMap="commodityResultMap">
+		select <include refid="table_columns" /> 
+		from commodity where company_id=#{companyId}
+	</select>
+	
+	<select id="findComId" parameterType="com.yuxin.wx.model.commodity.Commodity" resultType="Integer">
+		select id from commodity
+		where company_id = #{companyId} and 
+			school_id = #{schoolId} and 
+			item_one_id = #{itemOneId} and 
+			item_second_id = #{itemSecondId} and 
+			status = #{status}
+	</select>
+	<update id="updateStatus" parameterType="map">
+		update commodity set
+			status = #{status}
+		where id in 
+		<foreach collection="comId" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<select id="findCommodityName" parameterType="Integer" resultType="String">
+		select name from commodity where id = #{id}
+	</select>
+</mapper>

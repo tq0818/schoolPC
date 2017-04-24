@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassModuleNoOnsaleMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassModuleNoOnsale" id="classModuleNoOnsaleResultMap">
+		<result property="id" column="id" />
+		<result property="classtypeId" column="classtype_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleNoId" column="module_no_id" />
+		<result property="defaultFlag" column="default_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		classtype_id,
+		module_id,
+		module_no_id,
+		default_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{classtypeId},
+		#{moduleId},
+		#{moduleNoId},
+		#{defaultFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.classtypeId},
+		#{item.moduleId},
+		#{item.moduleNoId},
+		#{item.defaultFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassModuleNoOnsale" useGeneratedKeys="true" keyProperty="id">
+		insert into class_module_no_onsale( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_module_no_onsale( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_module_no_onsale
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_module_no_onsale
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassModuleNoOnsale">
+		update class_module_no_onsale 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="classtypeId != null and classtypeId != ''">classtype_id = #{classtypeId},</if>
+			<if test="moduleId != null and moduleId != ''">module_id = #{moduleId},</if>
+			<if test="moduleNoId != null and moduleNoId != ''">module_no_id = #{moduleNoId},</if>
+			<if test="defaultFlag != null and defaultFlag != ''">default_flag = #{defaultFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classModuleNoOnsaleResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_module_no_onsale
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classModuleNoOnsaleResultMap">
+		select <include refid="table_columns" /> 
+		from class_module_no_onsale
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classtypeId != null and classtypeId != ''">and classtype_id = #{classtypeId}</if>
+			<if test="moduleId != null and moduleId != ''">and module_id = #{moduleId}</if>
+			<if test="moduleNoId != null and moduleNoId != ''">and module_no_id = #{moduleNoId}</if>
+			<if test="defaultFlag != null and defaultFlag != ''">and default_flag = #{defaultFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classModuleNoOnsaleResultMap" parameterType="com.yuxin.wx.model.classes.ClassModuleNoOnsale">
+		select <include refid="table_columns" />
+		from class_module_no_onsale
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassModuleNoOnsale">
+		select count(id) from class_module_no_onsale
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryClassModuleOnSale" parameterType="com.yuxin.wx.model.classes.ClassModuleNoOnsale" resultType="com.yuxin.wx.model.classes.ClassModuleNoOnsale">
+		select <include refid="table_columns" />
+		from class_module_no_onsale where module_id = #{moduleId} and module_no_id = #{moduleNoId} and default_flag = 1 limit 1
+	</select>
+	
+	<select id="queryClassNoOnSale" parameterType="com.yuxin.wx.model.classes.ClassModuleNoOnsale" resultType="com.yuxin.wx.model.classes.ClassModuleNoOnsale">
+		select <include refid="table_columns" />
+		from class_module_no_onsale where module_id = #{moduleId} and classtype_id = #{classtypeId} and default_flag = 1 limit 1
+	</select>
+	
+	<select id="queryModuleOnSaleModuleNo" parameterType="int" resultMap="classModuleNoOnsaleResultMap">
+		select <include refid="table_columns" />
+		from class_module_no_onsale where module_id = #{moduleId} and default_flag = 1 limit 1
+	</select>
+	
+</mapper>

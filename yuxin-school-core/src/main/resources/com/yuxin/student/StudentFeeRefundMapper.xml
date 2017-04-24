@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentFeeRefundMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentFeeRefund" id="studentFeeRefundResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="refundDate" column="refund_date" />
+		<result property="refundFee" column="refund_fee" />
+		<result property="posRefund" column="pos_refund" />
+		<result property="cashRefund" column="cash_refund" />
+		<result property="checkRefund" column="check_refund" />
+		<result property="remitRefund" column="remit_refund" />
+		<result property="remark" column="remark" />
+		<result property="createType" column="create_type" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.fee.RefundVo" id="stuRefundMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="stuName" column="stuName"/>
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="refundDate" column="refundDate" />
+		<result property="refundFee" column="refundFee" />
+		<result property="posRefund" column="posRefund" />
+		<result property="cashRefund" column="cashRefund" />
+		<result property="checkRefund" column="checkRefund" />
+		<result property="remitRefund" column="remitRefund" />
+		<result property="itemOneId" column="itemOneId" />
+		<result property="itemOneName" column="itemOneName"/>
+		<result property="createType" column="create_type" />
+		<result property="itemSecondId" column="itemSecondId"/>
+		<result property="itemSecondName" column="itemSecondName"/>
+		<result property="schoolId" column="schoolId"/>
+		<result property="schoolName" column="schoolName"/>
+		<result property="createType" column="createType"/>
+		<result property="classTypeId" column="classTypeId"/>
+		<result property="classTypeName" column="classTypeName"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		pay_master_id,
+		refund_date,
+		refund_fee,
+		pos_refund,
+		cash_refund,
+		check_refund,
+		remit_refund,
+		remark,
+		create_type,
+		create_time,
+		creator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{payMasterId},
+		#{refundDate},
+		#{refundFee},
+		#{posRefund},
+		#{cashRefund},
+		#{checkRefund},
+		#{remitRefund},
+		#{remark},
+		#{createType},
+		#{createTime},
+		#{creator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.stuId},
+		#{item.payMasterId},
+		#{item.refundDate},
+		#{item.refundFee},
+		#{item.posRefund},
+		#{item.cashRefund},
+		#{item.checkRefund},
+		#{item.remitRefund},
+		#{item.remark},
+		#{item.createType},
+		#{item.createTime},
+		#{item.creator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->				
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentFeeRefund" useGeneratedKeys="true" keyProperty="id">
+		insert into student_fee_refund( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_fee_refund( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_fee_refund
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentFeeRefund">
+		update student_fee_refund 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="payMasterId != null and payMasterId != ''">pay_master_id = #{payMasterId},</if>
+			<if test="refundDate != null and refundDate != ''">refund_date = #{refundDate},</if>
+			<if test="refundFee != null and refundFee != ''">refund_fee = #{refundFee},</if>
+			<if test="posRefund != null and posRefund != ''">pos_refund = #{posRefund},</if>
+			<if test="cashRefund != null and cashRefund != ''">cash_refund = #{cashRefund},</if>
+			<if test="checkRefund != null and checkRefund != ''">check_refund = #{checkRefund},</if>
+			<if test="remitRefund != null and remitRefund != ''">remit_refund = #{remitRefund},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="createType != null and createType != ''">create_type = #{createType},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentFeeRefundResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_fee_refund
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentFeeRefundResultMap">
+		select <include refid="table_columns" /> 
+		from student_fee_refund
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+			<if test="refundDate != null and refundDate != ''">and refund_date = #{refundDate}</if>
+			<if test="refundFee != null and refundFee != ''">and refund_fee = #{refundFee}</if>
+			<if test="posRefund != null and posRefund != ''">and pos_refund = #{posRefund}</if>
+			<if test="cashRefund != null and cashRefund != ''">and cash_refund = #{cashRefund}</if>
+			<if test="checkRefund != null and checkRefund != ''">and check_refund = #{checkRefund}</if>
+			<if test="remitRefund != null and remitRefund != ''">and remit_refund = #{remitRefund}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="createType != null and createType != ''">and create_type = #{createType}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentFeeRefundResultMap" parameterType="com.yuxin.wx.model.student.StudentFeeRefund">
+		select <include refid="table_columns" />
+		from student_fee_refund
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentFeeRefund">
+		select count(id) from student_fee_refund
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryRefundList" resultMap="stuRefundMap" parameterType="com.yuxin.wx.vo.fee.RefundVo">
+		select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.apply_channel_code as applyChannelCode, p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id,f.stu_id as stuId,f.pay_master_id as payMasterId,f.refund_date as refundDate,f.refund_fee as refundFee,f.pos_refund as posRefund,f.cash_refund as cashRefund,f.check_refund as checkRefund,f.remit_refund as remitRefund,f.remark,f.create_type createType,f.create_time as createTime,f.creator,
+		(select school_name from sys_config_school where id=p.school_id) as schoolName from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		where p.pay_status_code is not null and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_second_Id = #{itemSecondId} </if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(f.refund_date)<![CDATA[<=]]>#{timeLen}</if>
+		order by f.id desc limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.fee.RefundVo">
+		select count(id) from 
+		(select distinct p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id,f.pay_master_id as payMasterId,f.refund_date as refundDate,f.refund_fee as refundFee,f.pos_refund as posRefund,f.cash_refund cashRefund,f.check_refund as checkRefund,f.remit_refund as remitRefund,f.remark,f.create_type createType,f.create_time as createTime,f.creator
+		from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		where p.pay_status_code is not null and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_second_Id = #{itemSecondId} </if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(f.refund_date)<![CDATA[<=]]>#{timeLen}</if>
+		) u
+	</select>
+	
+	<select id="queryByPayMasterId" parameterType="int" resultMap="studentFeeRefundResultMap">
+		select <include refid="table_columns" />
+		from student_fee_refund
+		where pay_master_id=#{payMasterId}
+	</select>
+	
+	<select id="querythTotalMoney" parameterType="com.yuxin.wx.vo.fee.RefundVo" resultType="com.yuxin.wx.vo.fee.StagingTotalVo">
+		select IFNULL(SUM(u.refundFee),0) as thFee,IFNULL(SUM(u.posRefund),0) as posFee,IFNULL(SUM(u.checkRefund),0) as checkFee,IFNULL(SUM(u.remitRefund),0) as remitFee,
+		IFNULL(SUM(u.cashRefund),0) as cashFee,IFNULL(SUM(u.refundFee),0) as totalMoney from 
+		(select distinct p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id,f.pay_master_id as payMasterId,f.refund_date as refundDate,f.refund_fee as refundFee,f.pos_refund as posRefund,f.cash_refund cashRefund,f.check_refund as checkRefund,f.remit_refund as remitRefund,f.remark,f.create_type createType,f.create_time as createTime,f.creator
+		from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		where p.pay_status_code is not null and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_second_Id = #{itemSecondId} </if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(f.refund_date)<![CDATA[<=]]>#{timeLen}</if>
+		) u limit 1
+	</select>
+</mapper>

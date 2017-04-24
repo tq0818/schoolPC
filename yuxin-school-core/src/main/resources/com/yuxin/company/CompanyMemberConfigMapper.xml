@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyMemberConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyMemberConfig"
+		id="companyMemberConfigResultMap">
+		<result property="id" column="id" />
+		<result property="memberPage" column="member_page" />
+		<result property="becomeMember" column="become_member" />
+		<result property="remind" column="remind" />
+		<result property="remindBeforeDay" column="remind_before_day" />
+		<result property="remindContent" column="remind_content" />
+		<result property="classDiscount" column="class_discount" />
+		<result property="classPackageDiscount" column="class_package_discount" />
+		<result property="memberPageBanner" column="member_page_banner" />
+		<result property="upgradeType" column="upgrade_type" />
+		<result property="buyWithIntegral" column="buy_with_integral" />
+		<result property="companyId" column="company_id" />
+		<result property="buyFlag" column="buy_flag" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.company.MemberLevelVo" id="memberLevelVoResultMap">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="openWay" column="open_way"/>
+		<result property="discount" column="discount"/>
+		<result property="ico" column="ico"/>
+		<result property="description" column="description"/>
+		<result property="consumption" column="consumption"/>
+		<association property="ctmd" column="id" javaType="list"
+			select="findClassTypeByMemberId"></association>
+	</resultMap>
+		<resultMap type="com.yuxin.wx.model.classes.ClassTypeMemberDiscount"
+	 id="ctmdResultMap">
+		<result property="id" column="id" />
+		<result property="memberLevel" column="member_level" />
+		<result property="memberDiscount" column="member_discount" />
+		<result property="memberId" column="member_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.VipDateVo" id="vipDateVoResultMap">
+		<result property="id" column="id"/>
+		<result property="vipName" column="name"/>
+		<result property="openWay" column="open_way"/>
+		<result property="discount" column="discount"/>
+		<result property="ico" column="ico"/>
+		<result property="description" column="description"/>
+		<result property="consumption" column="consumption"/>
+		<association property="cmld" column="id" javaType="list"
+			select="findDetailByVipId"></association>
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.company.CompanyMemberLevelDetailVo"
+	 	id="cmldVoResultMap">
+		<result property="id" column="id" />
+		<result property="memberId" column="member_id" />
+		<result property="length" column="length" />
+		<result property="price" column="price" />
+		<result property="name" column="name" />
+		<result property="status" column="status" />
+	</resultMap>
+	<sql id="table_columns_vip">
+		id,
+		name,
+		open_way,
+		discount,
+		ico,
+		description,
+		consumption
+	</sql>
+	<sql id="table_columns">
+		id,
+		member_page,
+		become_member,
+		remind,
+		remind_before_day,
+		remind_content,
+		class_discount,
+		class_package_discount,
+		upgrade_type,
+		buy_with_integral,
+		member_page_banner,
+		company_id,
+		buy_flag
+	</sql>
+	<sql id="table_columns_classType">
+		id,
+		member_level,
+		member_discount,
+		member_id,
+		class_type_id,
+		company_id
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{memberPage},
+		#{becomeMember},
+		#{remind},
+		#{remindBeforeDay},
+		#{remindContent},
+		#{classDiscount},
+		#{classPackageDiscount},
+		#{upgradeType},
+		#{buyWithIntegral},
+		#{memberPageBanner},
+		#{companyId},
+		#{buyFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.memberPage},
+		#{item.becomeMember},
+		#{item.remind},
+		#{item.remindBeforeDay},
+		#{item.remindContent},
+		#{item.classDiscount},
+		#{item.classPackageDiscount},
+		#{item.upgradeType},
+		#{item.buyWithIntegral},
+		#{item.memberPageBanner},
+		#{item.companyId},
+		#{item.buyFlag}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyMemberConfig"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into company_member_config(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into company_member_config(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_member_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyMemberConfig">
+		update company_member_config
+		<trim prefix="set" suffixOverrides=",">
+			<if test="memberPage != null">member_page = #{memberPage},</if>
+			<if test="becomeMember != null">become_member = #{becomeMember},</if>
+			<if test="remind != null">remind = #{remind},</if>
+			<if test="remindBeforeDay != null and remindBeforeDay != ''">remind_before_day = #{remindBeforeDay},</if>
+			<if test="remindContent != null and remindContent != ''">remind_content = #{remindContent},</if>
+			<if test="classDiscount != null ">class_discount = #{classDiscount},</if>
+			<if test="classPackageDiscount != null and classPackageDiscount != ''">class_package_discount = #{classPackageDiscount},</if>
+			<if test="memberPageBanner != null and memberPageBanner != ''">member_page_banner = #{memberPageBanner},</if>
+			<if test="upgradeType != null">upgrade_type = #{upgradeType},</if>
+			<if test="buyWithIntegral != null">buy_with_integral = #{buyWithIntegral},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="buyFlag != null">buy_flag = #{buyFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="companyMemberConfigResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from company_member_config
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="companyMemberConfigResultMap">
+		select
+		<include refid="table_columns" />
+		from company_member_config
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="memberPage != null and memberPage != ''">and member_page = #{memberPage}</if>
+			<if test="becomeMember != null and becomeMember != ''">and become_member = #{becomeMember}</if>
+			<if test="remind != null and remind != ''">and remind = #{remind}</if>
+			<if test="remindBeforeDay != null and remindBeforeDay != ''">and remind_before_day = #{remindBeforeDay}</if>
+			<if test="remindContent != null and remindContent != ''">and remind_content = #{remindContent}</if>
+			<if test="classDiscount != null and classDiscount != ''">and class_discount = #{classDiscount}</if>
+			<if test="classPackageDiscount != null and classPackageDiscount != ''">and class_package_discount = #{classPackageDiscount}</if>
+			<if test="upgradeType != null and upgradeType != ''">and upgrade_type = #{upgradeType}</if>
+			<if test="buyWithIntegral != null and buyWithIntegral != ''">and buy_with_integral = #{buyWithIntegral}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="companyMemberConfigResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberConfig">
+		select
+		<include refid="table_columns" />
+		from company_member_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberConfig">
+		select count(id) from company_member_config
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="queryMemberSets" resultMap="companyMemberConfigResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberConfig">
+		select
+		<include refid="table_columns" />
+		from company_member_config
+		where company_id=#{companyId}
+		<if test="memberPage != null and memberPage != ''">and member_page = #{memberPage}</if>
+		<if test="becomeMember != null and becomeMember != ''">and become_member = #{becomeMember}</if>
+		<if test="remind != null and remind != ''">and remind = #{remind}</if>
+		<if test="remindBeforeDay != null and remindBeforeDay != ''">and remind_before_day = #{remindBeforeDay}</if>
+		<if test="remindContent != null and remindContent != ''">and remind_content = #{remindContent}</if>
+		<if test="classDiscount != null and classDiscount != ''">and class_discount = #{classDiscount}</if>
+		<if test="classPackageDiscount != null and classPackageDiscount != ''">and class_package_discount = #{classPackageDiscount}</if>
+		<if test="upgradeType != null and upgradeType != ''">and upgrade_type = #{upgradeType}</if>
+		<if test="buyWithIntegral != null and buyWithIntegral != ''">and buy_with_integral = #{buyWithIntegral}</if>
+		limit 1
+	</select>
+	<!-- 根据公司编号查询数据库是否有该公司的会员设置 -->
+	<select id="findCompanyMemberConfigByCompanyId" resultMap="companyMemberConfigResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="table_columns" />
+		from company_member_config
+		where company_id = #{companyId}
+		limit 1
+	</select>
+	
+	<select id="findClassTypeByMemberId" parameterType="Integer" resultMap="ctmdResultMap">
+		select <include refid="table_columns_classType"/>
+		from class_type_member_discount
+		where member_id = #{id}
+	</select>
+	<select id="findMemberLevelByCompanyId" parameterType="map" resultMap="memberLevelVoResultMap">
+		select <include refid="table_columns_vip"/>
+		from company_member_level_config
+		where company_id = #{companyId} and 
+			del_flag = 0
+		order by sequence
+	</select>
+	
+	<select id="findCompanyMemberConfigta" resultMap="companyMemberConfigResultMap">
+		select cmc.remind_before_day,
+			cmc.remind_content,
+			cmc.company_id
+		from company_member_config cmc
+		inner join sys_config_service scs
+			on scs.company_id = cmc.company_id
+			and scs.group_code = 'SERVICE_MEMBER'
+			and scs.del_flag = 1
+		where cmc.remind = 1
+	</select>
+	
+	
+	<select id="findVipDateByCompanyId" parameterType="map" resultMap="vipDateVoResultMap">
+		select <include refid="table_columns_vip"/>
+		from company_member_level_config
+		where company_id = #{companyId} and 
+			del_flag = 0 
+			<!-- and open_way = 0 -->
+			<if test="sequence != null">
+				and sequence >= #{sequence}
+			</if>
+		order by sequence
+		<if test="cusorder != null">
+			${cusorder}
+		</if>
+	</select>
+	
+	<select id="findDetailByVipId" parameterType="Integer" resultMap="cmldVoResultMap">
+		select *
+		from company_member_level_detail
+		where member_id = #{id} and 
+			status = 1
+	</select>
+	
+	<select id="findByCompanyId" parameterType="Integer" resultMap="companyMemberConfigResultMap">
+		select <include refid="table_columns"/>
+		from company_member_config
+		where company_id = #{companyId}
+		limit 1
+	</select>
+</mapper>

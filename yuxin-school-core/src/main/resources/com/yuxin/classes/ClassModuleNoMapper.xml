@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassModuleNoMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassModuleNo" id="classModuleNoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="examTerm" column="exam_term" />
+		<result property="startDate" column="start_date" />
+		<result property="lessonType" column="lesson_type" />
+		<result property="lessonDay" column="lesson_day" />
+		<result property="lessonScope" column="lesson_scope" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="lessonHour" column="lesson_hour" />
+		<result property="teachers" column="teachers" />
+		<result property="masters" column="masters" />
+		<result property="assistants" column="assistants" />
+		<result property="campusId" column="campus_id" />
+		<result property="classroom" column="classroom" />
+		<result property="liveRoom" column="live_room" />
+		<result property="device" column="device" />
+		<result property="planEnrollStudents" column="plan_enroll_students" />
+		<result property="enrollYetStudents" column="enroll_yet_students" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="totalHours" column="total_hours" />
+		<result property="classTeachType" column="class_teach_type" />
+		<result property="description" column="description" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="companyId" column="company_id" />
+		<result property="delFlag" column="del_flag" />
+		<result property="lessonTotal" column="lesson_total" />
+		<result property="lessonPlan" column="lesson_plan" />
+	</resultMap>
+	
+	<!-- 班号列表VO -->
+	<resultMap type="com.yuxin.wx.vo.classes.ClassModuleNoListVo" id="classModuleNoListVoResultMap">
+		<result property="id" column="id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemName" column="item_one_name" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleName" column="module_name" />
+		<result property="moduleType" column="module_type" />
+		<result property="moduleDesc" column="module_desc" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="termId" column="exam_id" />
+		<result property="termName" column="exam_name" />
+		<result property="name" column="name" />
+		<result property="startDate" column="start_date" />
+		<result property="classTeachType" column="class_teach_type" />
+		<result property="enrollYetStudents" column="enroll_yet_students" />
+		<result property="planEnrollStudents" column="plan_enroll_students" />
+		<result property="campusId" column="campus_id" />
+		<result property="campusNo" column="campus_no" />
+		<result property="campusName" column="campus_name" />
+		<result property="schoolName" column="school_name" />
+		<result property="lessonCount" column="lesson_count" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="totalHours" column="total_hours" />
+		<result property="description" column="description" />
+		<result property="lessonTotal" column="lessonTotal"/>
+		<result property="lessonPlan" column="lessonPlan"/>
+		<result property="mouId" column="mouId"/>
+		<result property="classtypeId" column="classtypeId"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClassVo" id="classVoResultMap">
+		<result property="id" column="id"/>
+		<result property="itemPic" column="item_pic"/>
+		<result property="oneItemName" column="one_name"/>
+		<result property="twoItemName" column="two_name"/>
+		<result property="name" column="name"/>
+		<result property="classTeachType" column="class_teach_type"/>
+		<result property="campusName" column="campus_name"/>
+		<result property="planEnrollStudents" column="plan_enroll_students"/>
+		<result property="publishStatus" column="publish_status"/>
+		<result property="moduleName" column="module_name"/>
+		<result property="totalHourse" column="total_hours"/>
+		<result property="lessonTotal" column="lesson_total"/>
+		<result property="lessonPlan" column="lesson_plan"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		item_one_id,
+		item_second_id,
+		module_id,
+		exam_term,
+		start_date,
+		lesson_type,
+		lesson_day,
+		lesson_scope,
+		start_time,
+		end_time,
+		lesson_hour,
+		teachers,
+		masters,
+		assistants,
+		campus_id,
+		classroom,
+		live_room,
+		device,
+		plan_enroll_students,
+		enroll_yet_students,
+		publish_status,
+		total_hours,
+		class_teach_type,
+		description,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		company_id,
+		del_flag,
+		lesson_total,
+		lesson_plan
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{itemOneId},
+		#{itemSecondId},
+		#{moduleId},
+		#{examTerm},
+		#{startDate},
+		#{lessonType},
+		#{lessonDay},
+		#{lessonScope},
+		#{startTime},
+		#{endTime},
+		#{lessonHour},
+		#{teachers},
+		#{masters},
+		#{assistants},
+		#{campusId},
+		#{classroom},
+		#{liveRoom},
+		#{device},
+		#{planEnrollStudents},
+		#{enrollYetStudents},
+		#{publishStatus},
+		#{totalHours},
+		#{classTeachType},
+		#{description},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{companyId},
+		#{delFlag},
+		#{lessonTotal},
+		#{lessonPlan}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassModuleNo" useGeneratedKeys="true" keyProperty="id">
+		insert into class_module_no( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_module_no( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		update class_module_no set del_flag = 1 where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_module_no
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassModuleNo">
+		update class_module_no 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="moduleId != null and moduleId != ''">module_id = #{moduleId},</if>
+			<if test="examTerm != null and examTerm != ''">exam_term = #{examTerm},</if>
+			<if test="startDate != null and startDate != ''">start_date = #{startDate},</if>
+			<if test="lessonType != null and lessonType != ''">lesson_type = #{lessonType},</if>
+			<if test="lessonDay != null and lessonDay != ''">lesson_day = #{lessonDay},</if>
+			<if test="lessonScope != null and lessonScope != ''">lesson_scope = #{lessonScope},</if>
+			<if test="startTime != null and startTime != ''">start_time = #{startTime},</if>
+			<if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+			<if test="lessonHour != null and lessonHour != ''">lesson_hour = #{lessonHour},</if>
+			<if test="teachers != null and teachers != ''">teachers = #{teachers},</if>
+			<if test="masters != null and masters != ''">masters = #{masters},</if>
+			<if test="assistants != null and assistants != ''">assistants = #{assistants},</if>
+			<if test="campusId != null and campusId != ''">campus_id = #{campusId},</if>
+			<if test="classroom != null and classroom != ''">classroom = #{classroom},</if>
+			<if test="liveRoom != null and liveRoom != ''">live_room = #{liveRoom},</if>
+			<if test="device != null and device != ''">device = #{device},</if>
+			<if test="planEnrollStudents != null and planEnrollStudents != ''">plan_enroll_students = #{planEnrollStudents},</if>
+			<if test="enrollYetStudents != null and enrollYetStudents != ''">enroll_yet_students = #{enrollYetStudents},</if>
+			<if test="publishStatus != null and publishStatus != ''">publish_status = #{publishStatus},</if>
+			<if test="totalHours != null and totalHours != ''">total_hours = #{totalHours},</if>
+			<if test="classTeachType != null and classTeachType != ''">class_teach_type = #{classTeachType},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="lessonTotal != null and lessonTotal != ''">lesson_total = #{lessonTotal},</if>
+			<if test="lessonPlan != null and lessonPlan != ''">lesson_plan = #{lessonPlan},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classModuleNoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_module_no
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classModuleNoResultMap">
+		select <include refid="table_columns" /> 
+		from class_module_no where del_flag = 0
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="moduleId != null and moduleId != ''">and module_id = #{moduleId}</if>
+			<if test="examTerm != null and examTerm != ''">and exam_term = #{examTerm}</if>
+			<if test="startDate != null and startDate != ''">and start_date = #{startDate}</if>
+			<if test="lessonType != null and classType != ''">and lesson_type = #{lessonType}</if>
+			<if test="lessonDay != null and classDay != ''">and lesson_day = #{lessonDay}</if>
+			<if test="lessonScope != null and classScope != ''">and lesson_scope = #{lessonScope}</if>
+			<if test="startTime != null and startTime != ''">and start_time = #{startTime}</if>
+			<if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+			<if test="lessonHour != null and classHour != ''">and lesson_hour = #{lessonHour}</if>
+			<if test="teachers != null and teachers != ''">and teachers = #{teachers}</if>
+			<if test="masters != null and masters != ''">and masters = #{masters}</if>
+			<if test="assistants != null and assistants != ''">and assistants = #{assistants}</if>
+			<if test="campusId != null and campusId != ''">and campus_id = #{campusId}</if>
+			<if test="classroom != null and classroom != ''">and classroom = #{classroom}</if>
+			<if test="liveRoom != null and liveRoom != ''">and live_room = #{liveRoom}</if>
+			<if test="device != null and device != ''">and device = #{device}</if>
+			<if test="planEnrollStudents != null and planEnrollStudents != ''">and plan_enroll_students = #{planEnrollStudents}</if>
+			<if test="enrollYetStudents != null and enrollYetStudents != ''">and enroll_yet_students = #{enrollYetStudents}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="totalHours != null and totalHours != ''">and total_hours = #{totalHours}</if>
+			<if test="classTeachType != null and classTeachType != ''">and class_teach_type = #{classTeachType}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="lessonTotal != null and lessonTotal != ''">and lesson_total = #{lessonTotal}</if>
+			<if test="lessonPlan != null and lessonPlan != ''">and lesson_plan = #{lessonPlan}</if>
+		</trim>
+	</sql>
+	
+	<sql id="page_list_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name like '%${name}%'</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="moduleId != null and moduleId != ''">and module_id = #{moduleId}</if>
+			<if test="examTerm != null and examTerm != ''">and exam_term = #{examTerm}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="classTeachType != null and classTeachType != ''">and class_teach_type = #{classTeachType}</if>
+			and del_flag = 0
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classModuleNoResultMap" parameterType="com.yuxin.wx.model.classes.ClassModuleNo">
+		select <include refid="table_columns" />
+		from class_module_no 
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageList" resultMap="classModuleNoListVoResultMap" parameterType="com.yuxin.wx.vo.classes.ClassModuleNoListVo">
+		SELECT
+			cmn.id,
+			cmn.item_one_id,
+			(select sci.item_name from sys_config_item sci where sci.id=cmn.item_one_id) AS item_one_name,
+			cmn.item_second_id,
+			(select sci.item_name from sys_config_item sci where sci.id=cmn.item_second_id) AS item_second_name,
+			cmn.module_id,
+			(select cm.name from class_module cm where cm.id=cmn.module_id) AS module_name,
+			cmn.exam_term AS exam_id,
+			(select sct.term_name from sys_config_term sct where sct.id=cmn.exam_term) AS exam_name,
+			(select count(id) as lesson_count from class_module_lesson cml where cml.module_no_id = cmn.id) AS lesson_count,
+			cmn.name,
+			cmn.start_date,
+			cmn.class_teach_type,
+			cmn.enroll_yet_students,
+			cmn.campus_id,
+			scs.school_name,
+			cmn.publish_status,
+			cmn.plan_enroll_students,
+			cmn.total_hours
+		FROM
+			class_module_no AS cmn
+		LEFT JOIN sys_config_school scs ON cmn.campus_id = scs.id
+		<include refid="page_list_where" /> order by cmn.update_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	
+	<select id="findModuleNoListVoById" resultMap="classModuleNoListVoResultMap" parameterType="com.yuxin.wx.vo.classes.ClassModuleNoListVo">
+		SELECT
+			cmn.id,
+			cmn.item_one_id,
+			(select sci.item_name from sys_config_item sci where sci.id=cmn.item_one_id) AS item_one_name,
+			cmn.item_second_id,
+			(select sci.item_name from sys_config_item sci where sci.id=cmn.item_second_id) AS item_second_name,
+			cmn.module_id,
+			(select cm.name from class_module cm where cm.id=cmn.module_id) AS module_name,
+			(select cm.module_type from class_module cm where cm.id=cmn.module_id) AS module_type,
+			(select cm.module_desc from class_module cm where cm.id=cmn.module_id) AS module_desc,
+			cmn.exam_term AS exam_id,
+			(select sct.term_name from sys_config_term sct where sct.id=cmn.exam_term) AS exam_name,
+			(select count(id) as lesson_count from class_module_lesson cml where cml.module_no_id = cmn.id) AS lesson_count,
+			cmn.name,
+			cmn.start_date,
+			cmn.class_teach_type,
+			cmn.enroll_yet_students,
+			cmn.campus_id,
+			(select scc.campus_name from sys_config_campus scc where scc.id=cmn.campus_id) AS campus_name,
+			(select scc.campus_no from sys_config_campus scc where scc.id=cmn.campus_id) AS campus_no,
+			scs.school_name,
+			cmn.publish_status,
+			cmn.plan_enroll_students,
+			cmn.total_hours,
+			cmn.description
+		FROM
+			class_module_no AS cmn
+		LEFT JOIN sys_config_school scs ON cmn.campus_id = scs.id
+		where cmn.id = #{id} and cmn.del_flag = 0 order by cmn.update_time desc
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassModuleNo">
+		select count(id) from class_module_no
+		<include refid="page_where" />
+	</select>
+	
+	<select id="modulePageCount" resultType="int" parameterType="com.yuxin.wx.vo.classes.ClassModuleNoListVo">
+		select count(id) from class_module_no
+		<include refid="page_list_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findListByItem" resultMap="classModuleNoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_module_no
+		where item_one_id = #{itemOneId} and item_second_id=#{itemSecondId} and del_flag = 0
+	</select>
+	
+	<select id="findListModuleId" resultType="com.yuxin.wx.vo.classes.ClassModuleNoVo" parameterType="String">
+		select n.id,n.name,n.item_one_id as itemOneId,n.item_second_id as itemSecondId,n.module_id as moduleId,n.exam_term as examTerm,t.term_name as examTermName 
+		from class_module_no as n, sys_config_term as t
+		where n.exam_term=t.id and  n.module_id=#{moduleId} and n.publish_status='MODULE_NO_ON_SALE'
+	</select>
+	<select id="findModuleNoOnSaleByModuleId" resultType="com.yuxin.wx.model.classes.ClassModuleNo" parameterType="int">
+		select *
+		from class_module_no cmn
+		where module_id=#{id} and publish_status='MODULE_NO_ON_SALE' and del_flag = 0
+	</select>
+	
+	<select id="findListByModule" resultType="com.yuxin.wx.vo.classes.ClassModuleNoVo" parameterType="com.yuxin.wx.model.classes.ClassModuleNo">
+
+		select distinct n.id,n.name,n.item_one_id as itemOneId,n.item_second_id as itemSecondId,n.module_id as moduleId,n.exam_term as examTerm,n.campus_id as campusId,t.term_name as examTermName ,c.campus_name as campusName 
+		from class_module_no n left join sys_config_campus c on n.campus_id =c.id left join sys_config_term t on n.exam_term=t.id left join class_module_no_onsale mno on mno.module_no_id=n.id 
+		where n.module_id=#{moduleId} and n.publish_status='MODULE_NO_ON_SALE' 
+		<if test="campusId!=null and  campusId!=''">and n.campus_id=#{campusId}</if>
+		<if test="examTerm!=null and examTerm!=''">and n.exam_term=#{examTerm}</if>
+		<if test="classTypeId!=null and classTypeId!=''">and mno.classtype_id=#{classTypeId}</if>
+		<if test="moduleId!=null and moduleId!=''">and mno.module_id=#{moduleId}</if>
+	</select>
+	<select id="findClassModuleNoListByCampusId" resultType="com.yuxin.wx.vo.classes.ClassModuleNoVo" parameterType="String">
+		SELECT * FROM class_module_no WHERE campus_id = #{campusId}  and publish_status = 'MODULE_NO_ON_SALE'  and del_flag = 0
+	</select>
+	
+	<select id="getCampus_nameById" resultType="String" parameterType="Integer">
+		select campus_no from sys_config_campus where id = #{id}
+	</select>
+	
+	<select id="findClassNoByModelId" resultType="String" parameterType="map">
+		select name 
+		from class_module_no 
+		where campus_id in
+		<foreach collection="campusIds" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="oneItemIds != null and oneItemIds != ''">
+			and item_one_id in
+			<foreach collection="oneItemIds" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="twoItemIds != null and twoItemIds != ''">
+			and item_second_id in
+			<foreach collection="twoItemIds" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="findByCmId" parameterType="map" resultMap="classModuleNoResultMap">
+		select 
+		n.id,
+		n.name,
+		n.item_one_id,
+		n.item_second_id,
+		n.module_id,
+		n.exam_term,
+		n.start_date,
+		n.lesson_type,
+		n.lesson_day,
+		n.lesson_scope,
+		n.start_time,
+		n.end_time,
+		n.lesson_hour,
+		n.teachers,
+		n.masters,
+		n.assistants,
+		n.campus_id,
+		n.classroom,
+		n.live_room,
+		n.device,
+		n.plan_enroll_students,
+		n.enroll_yet_students,
+		n.publish_status,
+		n.total_hours,
+		n.class_teach_type,
+		n.description,
+		n.create_time,
+		n.creator,
+		n.update_time,
+		n.updator,
+		n.company_id,
+		n.del_flag,
+		n.lesson_total,
+		n.lesson_plan
+		from class_module_no n,class_module_no_onsale cmn
+		where n.module_id=#{classModuleId} and n.id=cmn.module_no_id
+		and cmn.classtype_id=#{classTypeId}
+		and del_flag = 0
+	</select>
+	
+	<select id="findBySearch" parameterType="com.yuxin.wx.model.student.StudentPaySlave" resultMap="classModuleNoResultMap">
+		select c.* from 
+			student_pay_slave a,
+			class_module b,
+			class_module_no c
+		where
+			a.pay_master_id=#{payMasterId}
+		<if test="campusId != null and campusId != ''">and a.campus_id=#{campusId}</if>
+		and
+			a.module_id=b.id
+		and
+			b.id=c.module_id and c.del_flag = 0
+	</select>
+	<select id="findVoByCmId" parameterType="String" resultMap="classModuleNoListVoResultMap">
+		select a.*,b.item_name as itemName,c.item_name as itemSecondName,d.campus_name as schoolName from 
+			class_module_no a
+		left join
+			sys_config_item b
+		on
+			a.item_one_id=b.id
+		left join
+			sys_config_item c
+		on
+			a.item_second_id=c.id
+		left join
+			sys_config_campus d
+		on
+			d.id=a.campus_id
+					
+		where
+			a.module_id=#{id}
+	</select>
+	
+	<!-- 查询班型对应的班号信息 -->
+	<select id="queryModuleNoListByClassType" resultMap="classModuleNoListVoResultMap" parameterType="int">
+	    SELECT
+			cmn.id,
+			cmn.item_one_id,
+			(select sci.item_name from sys_config_item sci where sci.id=cmn.item_one_id) AS item_one_name,
+			cmn.item_second_id,
+			(select sci.item_name from sys_config_item sci where sci.id=cmn.item_second_id) AS item_second_name,
+			cmn.module_id,
+			(select cm.name from class_module cm where cm.id=cmn.module_id) AS module_name,
+			cmn.exam_term AS exam_id,
+			(select sct.term_name from sys_config_term sct where sct.id=cmn.exam_term) AS exam_name,
+			(select count(id) as lesson_count from class_module_lesson cml where cml.module_no_id = cmn.id) AS lesson_count,
+			cmn.name,
+			cmn.start_date,
+			cmn.class_teach_type,
+			cmn.enroll_yet_students,
+			cmn.campus_id,
+			scs.campus_name,
+			cmn.publish_status,
+			cmn.plan_enroll_students,
+			cmn.total_hours,
+			cmn.lesson_total as lessonTotal,
+			cmn.lesson_plan as lessonPlan
+		FROM
+			class_module_no AS cmn
+		LEFT JOIN sys_config_campus scs ON cmn.campus_id = scs.id
+		where cmn.module_id = #{classModuleId}  and cmn.del_flag = 0 order by cmn.update_time desc
+	</select>
+	
+	<select id="findClassNoByCompanyId" resultType="String" parameterType="map">
+		select n.name 
+		from class_module_no n
+		inner join class_module m 
+			on m.id = n.module_id
+		where m.school_id = #{companyIds}
+		<if test="oneItemIds != null and oneItemIds != ''">
+			and n.item_one_id in
+			<foreach collection="oneItemIds" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="twoItemIds != null and twoItemIds != ''">
+			and n.item_second_id in
+			<foreach collection="twoItemIds" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="findClassInfoByMap" parameterType="com.yuxin.wx.vo.classes.ClassVo" resultMap="classVoResultMap">
+		select no.id,
+			no.name,
+			no.class_teach_type,
+			one.item_name one_name,
+			one.item_pic,
+			two.item_name two_name,
+			c.campus_name,
+			no.plan_enroll_students,
+			no.publish_status,
+			m.name module_name,
+			no.total_hours,
+			no.lesson_total,
+			no.lesson_plan
+		from class_module_no no
+			inner join sys_config_item one on one.id = no.item_one_id
+			inner join sys_config_item two on two.parent_id = no.item_one_id 
+										   and two.id = no.item_second_id
+			left join sys_config_campus c on c.id = no.campus_id
+			left join class_module m on m.id = no.module_id 
+		where m.company_id = #{companyId} and 
+			m.school_id = #{schoolId}
+			<choose>
+				<when test="selNo != null and selNo != ''">
+					and no.name like concat('%',#{selNo},'%') and 
+					no.publish_status in ('MODULE_NO_CREATED','MODULE_NO_ON_SALE','MODULE_NO_OFFLINE','MODULE_NO_FINISH')
+					order by no.publish_status,
+				</when>
+				<otherwise>
+					<if test="oneItemId != null and oneItemId != ''">and no.item_one_id = #{oneItemId}</if> 
+					<if test="twoItemId != null and twoItemId != ''">and no.item_second_id = #{twoItemId}</if> 
+					<if test="termId != null and termId != ''">and no.exam_term = #{termId}</if> 
+					<if test="type != null and type != ''">and no.class_teach_type = #{type}</if> 
+					<if test="campusId != null and campusId != ''">and no.campus_id = #{campusId}</if> 
+					<if test="status != null and status != ''">and no.publish_status = #{status}</if>
+					order by 
+				</otherwise>
+			</choose> 
+			no.id desc
+			limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findCountByMap" parameterType="com.yuxin.wx.vo.classes.ClassVo" resultType="Integer">
+		select count(no.id)
+		from class_module_no no
+			inner join sys_config_item one on one.id = no.item_one_id
+			inner join sys_config_item two on two.parent_id = no.item_one_id
+											 and two.id = no.item_second_id
+			left join sys_config_campus c on c.id = no.campus_id
+			left join class_module m on m.id = no.module_id 
+		where m.company_id = #{companyId} and 
+			m.school_id = #{schoolId}
+			<choose>
+				<when test="selNo != null and selNo != ''">
+					and no.name like concat('%',#{selNo},'%') and 
+					no.publish_status in ('MODULE_NO_CREATED','MODULE_NO_ON_SALE','MODULE_NO_OFFLINE','MODULE_NO_FINISH')
+				</when>
+				<otherwise>
+					<if test="oneItemId != null and oneItemId != ''">and no.item_one_id = #{oneItemId}</if> 
+					<if test="twoItemId != null and twoItemId != ''">and no.item_second_id = #{twoItemId}</if> 
+					<if test="termId != null and termId != ''">and no.exam_term = #{termId}</if> 
+					<if test="type != null and type != ''">and no.class_teach_type = #{type}</if> 
+					<if test="campusId != null and campusId != ''">and no.campus_id = #{campusId}</if> 
+					<if test="status != null and status != ''">and no.publish_status = #{status}</if>
+				</otherwise>
+			</choose>  
+	</select>
+	
+	<!-- 根据itemid 查询 -->
+	<select id="findByItem" resultMap="classModuleNoResultMap" parameterType="com.yuxin.wx.model.classes.ClassModuleNo">
+		select n.id,
+			n.name
+		from class_module_no n
+		inner join class_module m on m.id = n.module_id
+		where n.item_one_id = #{itemOneId} and 
+			n.item_second_id=#{itemSecondId} and 
+			m.school_id = #{schoolId} and 
+			n.del_flag = 0
+			order by id desc
+	</select>
+	
+	<select id="querymoduleNosByCompanyId" parameterType="Integer" resultMap="classModuleNoResultMap">
+		select <include refid="table_columns" /> 
+		from class_module_no where company_id=#{companyId}
+	</select>
+	
+	<select id="queryClassModuleNoById" resultMap="classModuleNoResultMap" parameterType="Integer">
+		select <include refid="table_columns" /> 
+		from class_module_no where module_id=#{id} and del_flag = 0 and publish_status='MODULE_NO_ON_SALE'
+	</select>
+	
+	<select id="findClassModuleNoIdsByModuleId" resultType="int" parameterType="Integer">
+		select id
+		from class_module_no where module_id=#{id}
+	</select>
+</mapper> 

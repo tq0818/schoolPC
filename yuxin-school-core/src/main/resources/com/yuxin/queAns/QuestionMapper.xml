@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.queAns.mapper.QuestionMapper">
+	<resultMap type="com.yuxin.wx.model.queAns.QueQuestion" id="QuestionResultMap">
+		<result property="id" column="id" />
+		<result property="questionTitle" column="question_title" />
+		<result property="questionDesc" column="question_desc" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="classifyId" column="classify_id" />
+		<result property="userId" column="user_id" />
+		<result property="courseFlag" column="course_flag" />
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="courseLectureId" column="course_lecture_id" />
+		<result property="courseLectureName" column="course_lecture_name" />
+		<result property="answerCount" column="answer_count" />
+		<result property="scanCount" column="scan_count" />
+		<result property="adoptFlag" column="adopt_flag" />
+		<result property="adoptAnswerId" column="adopt_answer_id" />
+		<result property="topFlag" column="top_flag" />
+		<result property="essenceFlag" column="essence_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="questionType" column="question_type" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.queAns.QuestionVo" id="QuestionVoResultMap">
+		<result property="id" column="id" />
+		<result property="questionTitle" column="question_title" />
+		<result property="questionDesc" column="question_desc" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="classifyId" column="classify_id" />
+		<result property="userId" column="user_id" />
+		<result property="courseFlag" column="course_flag" />
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="courseLectureId" column="course_lecture_id" />
+		<result property="courseLectureName" column="course_lecture_name" />
+		<result property="answerCount" column="answer_count" />
+		<result property="scanCount" column="scan_count" />
+		<result property="adoptFlag" column="adopt_flag" />
+		<result property="adoptAnswerId" column="adopt_answer_id" />
+		<result property="topFlag" column="top_flag" />
+		<result property="essenceFlag" column="essence_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="questionType" column="question_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		question_title,
+		question_desc,
+		item_one_id,
+		item_second_id,
+		classify_id,
+		user_id,
+		course_flag,
+		course_id,
+		course_name,
+		course_lecture_id,
+		course_lecture_name,
+		answer_count,
+		scan_count,
+		adopt_flag,
+		adopt_answer_id,
+		top_flag,
+		essence_flag,
+		create_time,
+		update_time,
+		del_flag,
+		question_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{questionTitle},
+		#{questionDesc},
+		#{itemOneId},
+		#{itemSecondId},
+		#{classifyId},
+		#{userId},
+		#{courseFlag},
+		#{courseId},
+		#{courseName},
+		#{courseLectureId},
+		#{courseLectureName},
+		#{answerCount},
+		#{scanCount},
+		#{adoptFlag},
+		#{adoptAnswerId},
+		#{topFlag},
+		#{essenceFlag},
+		#{createTime},
+		#{updateTime},
+		#{delFlag},
+		#{questionType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.questionTitle},
+		#{item.questionDesc},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.classifyId},
+		#{item.userId},
+		#{item.courseFlag},
+		#{item.courseId},
+		#{item.courseName},
+		#{item.courseLectureId},
+		#{item.courseLectureName},
+		#{item.answerCount},
+		#{item.scanCount},
+		#{item.adoptFlag},
+		#{item.adoptAnswerId},
+		#{item.topFlag},
+		#{item.essenceFlag},
+		#{item.createTime},
+		#{item.updateTime},
+		#{item.delFlag},
+		#{item.questionType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.queAns.QueQuestion" useGeneratedKeys="true" keyProperty="id">
+		insert into question( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into question( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from question
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from question
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.queAns.QueQuestion">
+		update question 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="questionTitle != null and questionTitle != ''">question_title = #{questionTitle},</if>
+			<if test="questionDesc != null and questionDesc != ''">question_desc = #{questionDesc},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="classifyId != null and classifyId != ''">classify_id = #{classifyId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="courseFlag != null and courseFlag != ''">course_flag = #{courseFlag},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="courseName != null and courseName != ''">course_name = #{courseName},</if>
+			<if test="courseLectureId != null and courseLectureId != ''">course_lecture_id = #{courseLectureId},</if>
+			<if test="courseLectureName != null and courseLectureName != ''">course_lecture_name = #{courseLectureName},</if>
+			<if test="answerCount != null">answer_count = #{answerCount},</if>
+			<if test="scanCount != null">scan_count = #{scanCount},</if>
+			<if test="adoptFlag != null">adopt_flag = #{adoptFlag},</if>
+			<if test="adoptAnswerId != null and adoptAnswerId != ''">adopt_answer_id = #{adoptAnswerId},</if>
+			<if test="topFlag != null">top_flag = #{topFlag},</if>
+			<if test="essenceFlag != null">essence_flag = #{essenceFlag},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="questionType != null">question_type = #{questionType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="QuestionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from question
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="QuestionResultMap">
+		select <include refid="table_columns" /> 
+		from question
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="id != null and id != ''">and id = #{id}</if>
+			<if test="questionTitle != null and questionTitle != ''">and question_title like '%${questionTitle}%'</if>
+			<if test="questionDesc != null and questionDesc != ''">and question_desc = #{questionDesc}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="classifyId != null and classifyId != ''">and classify_id = #{classifyId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="courseFlag != null">and course_flag = #{courseFlag}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="courseName != null and courseName != ''">and course_name = #{courseName}</if>
+			<if test="courseLectureId != null and courseLectureId != ''">and course_lecture_id = #{courseLectureId}</if>
+			<if test="courseLectureName != null and courseLectureName != ''">and course_lecture_name = #{courseLectureName}</if>
+			<if test="answerCount != null">and answer_count = #{answerCount}</if>
+			<if test="scanCount != null and scanCount != ''">and scan_count = #{scanCount}</if>
+			<if test="adoptFlag != null and adoptFlag != ''">and adopt_flag = #{adoptFlag}</if>
+			<if test="adoptAnswerId != null and adoptAnswerId != ''">and adopt_answer_id = #{adoptAnswerId}</if>
+			<if test="topFlag != null and topFlag != ''">and top_flag = #{topFlag}</if>
+			<if test="essenceFlag != null and essenceFlag != ''">and essence_flag = #{essenceFlag}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="questionType != null">and question_type = #{questionType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="QuestionResultMap" parameterType="com.yuxin.wx.model.queAns.QueQuestion">
+		select <include refid="table_columns" />
+		from question
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findQuestionVoByPage" resultMap="QuestionVoResultMap" parameterType="com.yuxin.wx.model.queAns.QueQuestion">
+		select <include refid="table_columns" />
+		from question
+		<include refid="page_where" />
+		order by create_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.queAns.QueQuestion">
+		select count(id) from question
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<!-- 查询老师的课程未作答问题 -->
+	<select id="findTeacherQuestion" resultMap="QuestionVoResultMap" parameterType="map">
+		select q.* from class_type ct 
+		INNER JOIN commodity_product_realtion cpr ON ct.id = cpr.product_id
+		INNER JOIN commodity c ON cpr.com_id = c.id
+		INNER JOIN question q ON c.id = q.course_id
+		where ct.company_id = #{companyId}
+		<if test="teacherId != null">and ct.teacher_id = #{teacherId}</if>
+		<if test="courseFlag != null">and q.course_flag = #{courseFlag}</if>
+		<if test="answerCount != null">and q.answer_count = #{answerCount}</if>
+		<if test="schoolId != null">and ct.school_id = #{schoolId}</if>
+		<if test="delFlag != null">and q.del_flag = #{delFlag}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+</mapper>

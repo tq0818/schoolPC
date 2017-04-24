@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.VideoCourseNoteMapper">
+	<resultMap type="com.yuxin.wx.model.course.VideoCourseNote" id="videoCourseNoteResultMap">
+		<result property="id" column="id" />
+		<result property="notesContent" column="notes_content" />
+		<result property="notesTime" column="notes_time" />
+		<result property="videoLectureId" column="video_lecture_id" />
+		<result property="userId" column="user_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		notes_content,
+		notes_time,
+		video_lecture_id,
+		user_id,
+		school_id,
+		company_id,
+		create_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{notesContent},
+		#{notesTime},
+		#{videoLectureId},
+		#{userId},
+		#{schoolId},
+		#{companyId},
+		#{createTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.notesContent},
+		#{item.notesTime},
+		#{item.videoLectureId},
+		#{item.userId},
+		#{item.schoolId},
+		#{item.companyId},
+		#{item.createTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.VideoCourseNote" useGeneratedKeys="true" keyProperty="id">
+		insert into video_course_note( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into video_course_note( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from video_course_note
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.VideoCourseNote">
+		update video_course_note 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="notesContent != null and notesContent != ''">notes_content = #{notesContent},</if>
+			<if test="notesTime != null and notesTime != ''">notes_time = #{notesTime},</if>
+			<if test="videoLectureId != null and videoLectureId != ''">video_lecture_id = #{videoLectureId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="videoCourseNoteResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from video_course_note
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="videoCourseNoteResultMap">
+		select <include refid="table_columns" /> 
+		from video_course_note
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="notesContent != null and notesContent != ''">and notes_content = #{notesContent}</if>
+			<if test="notesTime != null and notesTime != ''">and notes_time = #{notesTime}</if>
+			<if test="videoLectureId != null and videoLectureId != ''">and video_lecture_id = #{videoLectureId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="videoCourseNoteResultMap" parameterType="com.yuxin.wx.model.course.VideoCourseNote">
+		select <include refid="table_columns" />
+		from video_course_note
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.VideoCourseNote">
+		select count(id) from video_course_note
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

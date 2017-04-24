@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysTeacherPersonalStatusReplayMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysTeacherPersonalStatusReplay" id="sysTeacherPersonalStatusReplayResultMap">
+		<result property="id" column="id" />
+		<result property="statusId" column="status_id" />
+		<result property="parentId" column="parent_id" />
+		<result property="content" column="content" />
+		<result property="publishTime" column="publish_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="userId" column="user_id" />
+		<result property="userType" column="user_type" />
+		<result property="replayType" column="replay_type" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.TeacherDynamicsReplayVo" id="sysTeacherPersonalStatusReplayResultVoMap">
+		<result property="id" column="id" />
+		<result property="statusId" column="status_id" />
+		<result property="parentId" column="parent_id" />
+		<result property="content" column="content" />
+		<result property="publishTime" column="publish_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="userId" column="user_id" />
+		<result property="userType" column="user_type" />
+		<result property="replayType" column="replay_type" />
+	</resultMap>
+	
+	
+	<resultMap type="com.yuxin.wx.vo.system.TeacherDynamicsReplayAndStatusVo" id="TeacherDynamicsReplayAndStatusVoMap">
+		<result property="id" column="id" />
+		<result property="statusId" column="status_id" />
+		<result property="parentId" column="parent_id" />
+		<result property="content" column="content" />
+		<result property="publishTime" column="publish_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="userId" column="user_id" />
+		<result property="userType" column="user_type" />
+		<result property="replayType" column="replay_type" />
+		
+		<result property="tContent" column="t_cotent" />
+		<result property="testDate" column="test_date" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		status_id,
+		parent_id,
+		content,
+		publish_time,
+		del_flag,
+		user_id,
+		user_type,
+		replay_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{statusId},
+		#{parentId},
+		#{content},
+		#{publishTime},
+		#{delFlag},
+		#{userId},
+		#{userType},
+		#{replayType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.statusId},
+		#{item.parentId},
+		#{item.content},
+		#{item.publishTime},
+		#{item.delFlag},
+		#{item.userId},
+		#{item.userType},
+		#{item.replayType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatusReplay" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_teacher_personal_status_replay( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_teacher_personal_status_replay( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_teacher_personal_status_replay
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatusReplay">
+		update sys_teacher_personal_status_replay 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="statusId != null and statusId != ''">status_id = #{statusId},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="userType != null and userType != ''">user_type = #{userType},</if>
+			<if test="replayType != null and replayType != ''">replay_type = #{replayType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateByStatusId" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatusReplay">
+		update sys_teacher_personal_status_replay 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="userType != null and userType != ''">user_type = #{userType},</if>
+			<if test="replayType != null and replayType != ''">replay_type = #{replayType},</if>
+		</trim>
+		<where>status_id = #{statusId}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysTeacherPersonalStatusReplayResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_teacher_personal_status_replay
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysTeacherPersonalStatusReplayResultMap">
+		select <include refid="table_columns" /> 
+		from sys_teacher_personal_status_replay
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="statusId != null and statusId != ''">and status_id = #{statusId}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="userType != null and userType != ''">and user_type = #{userType}</if>
+			<if test="replayType != null ">and replay_type = #{replayType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysTeacherPersonalStatusReplayResultMap" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatusReplay">
+		select <include refid="table_columns" />
+		from sys_teacher_personal_status_replay
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatusReplay">
+		select count(id) from sys_teacher_personal_status_replay
+		<include refid="page_where" />
+	</select>
+	<select id="findSysTeacherPersonalStatusReplayByStatusId" resultMap="sysTeacherPersonalStatusReplayResultVoMap"  parameterType="com.yuxin.wx.vo.system.TeacherDynamicsReplayVo">
+		select <include refid="table_columns" />
+		from sys_teacher_personal_status_replay 
+		<include refid="page_where" />
+		<if test="id != null and id != ''">and id = #{id}</if>
+		order by id
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findSysTeacherPersonalStatusReplayByStatusId2" resultMap="sysTeacherPersonalStatusReplayResultVoMap"  parameterType="com.yuxin.wx.vo.system.TeacherDynamicsReplayVo">
+		select <include refid="table_columns" />
+		from sys_teacher_personal_status_replay 
+		<include refid="page_where" />
+		<if test="id != null and id != ''">and id = #{id}</if>
+		order by id
+	</select>		
+	<select id="findReplayCountBystatusId" resultType="int" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsReplayVo">
+		select count(id) from sys_teacher_personal_status_replay
+		where status_id = #{statusId}
+		<if test="delFlag != null">and del_flag = #{delFlag}</if>
+		<if test="replayType != null ">and replay_type = #{replayType}</if>
+		limit 1
+	</select>
+	<!-- 其他自定义SQL 	-->
+	
+	
+	<select id="findTeacherStatusReplay" resultMap="TeacherDynamicsReplayAndStatusVoMap" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatus">
+		select stpsr.id,stpsr.status_id,stpsr.parent_id,stpsr.content,stpsr.publish_time as test_date,stpsr.del_flag,stpsr.user_id,stpsr.user_type,
+		stpsr.replay_type,stps.content as t_cotent from sys_teacher_personal_status_replay stpsr
+		INNER JOIN sys_teacher_personal_status stps ON stpsr.status_id = stps.id
+		where stps.company_id = #{companyId} and stps.del_flag = 0 and stpsr.del_flag = 0 and stpsr.replay_type = 1
+		<if test="teacherId != null and teacherId != ''">and stps.teacher_id = #{teacherId}</if>
+		<if test="schoolId != null and schoolId != ''">and stps.school_id = #{schoolId}</if>
+		ORDER BY stpsr.publish_time DESC
+		limit #{firstIndex},#{pageSize}
+	</select>
+</mapper>

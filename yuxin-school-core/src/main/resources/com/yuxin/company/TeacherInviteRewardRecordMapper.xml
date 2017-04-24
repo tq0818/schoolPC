@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.TeacherInviteRewardRecordMapper">
+	<resultMap type="com.yuxin.wx.model.teacher.TeacherInviteRewardRecord" id="teacherInviteRewardRecordResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="inviteCode" column="invite_code" />
+		<result property="recordTime" column="record_time" />
+		<result property="stuRewardsMoney" column="stu_rewards_money" />
+		<result property="stuRewardsCode" column="stu_rewards_code" />
+		<result property="reason" column="reason" />
+		<result property="companyId" column="company_id" />
+		<result property="rewardsMoney" column="rewards_money" />
+        <result property="payOrderId" column="pay_order_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.TeacherInviteRecordListVo" id="teacherInviteRewardRecordListMap">
+		<result property="id" column="id" />
+		<result property="teacherId" column="tid" />
+		<result property="inviteCode" column="invite_code" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+		<result property="inviteNumber" column="invite_number" />
+		<result property="consumeTimes" column="consume_times" />
+		<result property="consumeBalance" column="consume_balance" />
+		<result property="rewardBalance" column="reward_balance" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" id="teacherInviteRewardRecordDetailListMap">
+		<result property="id" column="id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+		<result property="reason" column="reason" />
+		<result property="inviteDate" column="invite_date" />
+		<result property="consumeDate" column="consume_date" />
+		<result property="commodityName" column="commodity_name" />
+		<result property="rewardBalance" column="reward_balance" />
+		<result property="consumeBalance" column="consume_balance" />
+		<result property="payOrderId" column="pay_order_id1" />
+		<result property="stuId" column="stu_id1" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		teacher_id,
+		invite_code,
+		record_time,
+		stu_rewards_money,
+		stu_rewards_code,
+		reason,
+		company_id,
+		rewards_money,
+        pay_order_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{teacherId},
+		#{inviteCode},
+		#{recordTime},
+		#{stuRewardsMoney},
+		#{stuRewardsCode},
+		#{reason},
+		#{companyId},
+		#{rewardsMoney},
+        #{payOrderId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.stuId},
+		#{item.teacherId},
+		#{item.inviteCode},
+		#{item.recordTime},
+		#{item.stuRewardsMoney},
+		#{item.stuRewardsCode},
+		#{item.reason},
+		#{item.companyId},
+		#{item.rewardsMoney},
+        #{item.payOrderId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.teacher.TeacherInviteRewardRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into teacher_invite_reward_record( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into teacher_invite_reward_record( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from teacher_invite_reward_record
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from teacher_invite_reward_record
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.teacher.TeacherInviteRewardRecord">
+		update teacher_invite_reward_record 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="inviteCode != null and inviteCode != ''">invite_code = #{inviteCode},</if>
+			<if test="recordTime != null and recordTime != ''">record_time = #{recordTime},</if>
+			<if test="stuRewardsMoney != null and stuRewardsMoney != ''">stu_rewards_money = #{stuRewardsMoney},</if>
+			<if test="stuRewardsCode != null and stuRewardsCode != ''">stu_rewards_code = #{stuRewardsCode},</if>
+			<if test="reason != null">reason = #{reason},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="rewardsMoney != null and rewardsMoney != ''">rewards_money = #{rewardsMoney},</if>
+            <if test="payOrderId != null and payOrderId != ''">pay_order_id = #{payOrderId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="teacherInviteRewardRecordResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from teacher_invite_reward_record
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="teacherInviteRewardRecordResultMap">
+		select <include refid="table_columns" /> 
+		from teacher_invite_reward_record
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+			<if test="inviteCode != null and inviteCode != ''">and invite_code = #{inviteCode}</if>
+			<if test="recordTime != null and recordTime != ''">and record_time = #{recordTime}</if>
+			<if test="stuRewardsMoney != null and stuRewardsMoney != ''">and stu_rewards_money = #{stuRewardsMoney}</if>
+			<if test="stuRewardsCode != null and stuRewardsCode != ''">and stu_rewards_code = #{stuRewardsCode}</if>
+			<if test="reason != null and reason != ''">and reason = #{reason}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="rewardsMoney != null and rewardsMoney != ''">and rewards_money = #{rewardsMoney}</if>
+            <if test="payOrderId != null and payOrderId != ''">and pay_order_id = #{payOrderId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="teacherInviteRewardRecordResultMap" parameterType="com.yuxin.wx.model.teacher.TeacherInviteRewardRecord">
+		select <include refid="table_columns" />
+		from teacher_invite_reward_record
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.teacher.TeacherInviteRewardRecord">
+		select count(id) from teacher_invite_reward_record
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="getTotalInviteNumber" parameterType="int" resultType="int" >
+		select count(distinct(stu_id)) from teacher_invite_reward_record where company_id = #{companyId}
+	</select>
+	
+	<select id="getTotalConsumerTimes" parameterType="int" resultType="int" >
+		select count(id) from teacher_invite_reward_record where company_id = #{companyId}  and (reason = 2 or reason = 3);
+	</select>
+	
+	<select id="getTotalConsumeBalance" parameterType="int" resultType="double" >
+		select COALESCE(sum(p.pay_price),0) from pay_order p INNER JOIN teacher_invite_reward_record tirr on p.id = tirr.pay_order_id 
+		where tirr.company_id = #{companyId} and (tirr.reason = 2 or tirr.reason = 3)
+	</select>
+	
+	<select id="getTotalRewardBalance" parameterType="int" resultType="double" >
+		select COALESCE(sum(rewards_money),0) from teacher_invite_reward_record where company_id = #{companyId}
+	</select>
+	
+	<select id="queryRewardsRecordList" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordListVo" resultMap="teacherInviteRewardRecordListMap">
+		select distinct(tirr.teacher_id) as tid,(select invite_code from teacher_invite_reward_record where teacher_id = tid limit 1) as invite_code,
+		(select name from sys_config_teacher where id = tid) as name,(select mobile from sys_config_teacher where id = tid) as mobile,
+		(select count(distinct(stu_id)) from teacher_invite_reward_record where teacher_id = tid) as invite_number,
+		(select count(id) from teacher_invite_reward_record where teacher_id = tid and (reason = 2 or reason = 3)) as consume_times,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tir on p.id = tir.pay_order_id where tir.teacher_id = tid and (tir.reason=2 or tir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(rewards_money),0) from teacher_invite_reward_record where teacher_id = tid) as reward_balance
+		from teacher_invite_reward_record tirr inner join sys_config_teacher s on tirr.teacher_id = s.id 
+		where tirr.company_id = #{companyId}
+		<if test="searchDateType != null">
+			<choose>
+				<when test="searchDateType == 1">
+					and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(tirr.record_time,'%Y%m')) =1
+				</when>
+				<when test="searchDateType == 2">
+					and DATE_FORMAT(tirr.record_time,'%Y%m') =
+					DATE_FORMAT(CURDATE(),'%Y%m')
+				</when>
+			</choose>
+		</if>
+	<if test="startTime != null and startTime != ''">and date_format(tirr.record_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	<if test="endTime != null and endTime != ''">and date_format(tirr.record_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	<if test="name !=null and name !=''">and s.name like '%${name}%' or s.mobile like '%${name}%'</if>
+	<choose>
+	 	<when test="sortType !=null and sortType !=''">
+	 		<choose>
+	 		<when test="sortType == 'inviteNumber' and sort =='asc'" >
+	 			order by invite_number asc
+	 		</when>
+	 		<when test="sortType == 'inviteNumber' and sort =='desc'" >
+	 			order by invite_number desc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='asc'" >
+	 			order by consume_times asc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='desc'" >
+	 			order by consume_times desc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='asc'" >
+	 			order by consume_balance asc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='desc'" >
+	 			order by consume_balance desc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='asc'" >
+	 			order by reward_balance asc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='desc'" >
+	 			order by reward_balance desc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by tid desc
+	 	</otherwise>
+	 </choose>
+	 limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryRewardsRecordListCount" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordListVo" resultType="int">
+		select count(distinct(tirr.teacher_id)) 
+		from teacher_invite_reward_record tirr inner join sys_config_teacher s on tirr.teacher_id = s.id 
+		where tirr.company_id = #{companyId}
+		<if test="searchDateType != null">
+			<choose>
+				<when test="searchDateType == 1">
+					and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(tirr.record_time,'%Y%m')) =1
+				</when>
+				<when test="searchDateType == 2">
+					and DATE_FORMAT(tirr.record_time,'%Y%m') =
+					DATE_FORMAT(CURDATE(),'%Y%m')
+				</when>
+			</choose>
+		</if>
+	<if test="startTime != null and startTime != ''">and date_format(tirr.record_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	<if test="endTime != null and endTime != ''">and date_format(tirr.record_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	<if test="name !=null and name !=''">and s.name like '%${name}%' or s.mobile like '%${name}%'</if>
+	</select>
+	
+	<select id="exportRewardsRecordList" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordListVo" resultMap="teacherInviteRewardRecordListMap">
+		select distinct(tirr.teacher_id) as tid,(select invite_code from teacher_invite_reward_record where teacher_id = tid limit 1) as invite_code,
+		(select name from sys_config_teacher where id = tid) as name,(select mobile from sys_config_teacher where id = tid) as mobile,
+		(select count(distinct(stu_id)) from teacher_invite_reward_record where teacher_id = tid) as invite_number,
+		(select count(id) from teacher_invite_reward_record where teacher_id = tid and (reason = 2 or reason = 3)) as consume_times,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tir on p.id = tir.pay_order_id where tir.teacher_id = tid and (tir.reason=2 or tir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(rewards_money),0) from teacher_invite_reward_record where teacher_id = tid) as reward_balance
+		from teacher_invite_reward_record tirr inner join sys_config_teacher s on tirr.teacher_id = s.id 
+		where tirr.company_id = #{companyId}
+		<if test="searchDateType != null">
+			<choose>
+				<when test="searchDateType == 1">
+					and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(tirr.record_time,'%Y%m')) =1
+				</when>
+				<when test="searchDateType == 2">
+					and DATE_FORMAT(tirr.record_time,'%Y%m') =
+					DATE_FORMAT(CURDATE(),'%Y%m')
+				</when>
+			</choose>
+		</if>
+	<if test="startTime != null and startTime != ''">and date_format(tirr.record_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	<if test="endTime != null and endTime != ''">and date_format(tirr.record_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	<if test="name !=null and name !=''">and s.name like '%${name}%' or s.mobile like '%${name}%'</if>
+	<choose>
+	 	<when test="sortType !=null and sortType !=''">
+	 		<choose>
+	 		<when test="sortType == 'inviteNumber' and sort =='asc'" >
+	 			order by invite_number asc
+	 		</when>
+	 		<when test="sortType == 'inviteNumber' and sort =='desc'" >
+	 			order by invite_number desc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='asc'" >
+	 			order by consume_times asc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='desc'" >
+	 			order by consume_times desc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='asc'" >
+	 			order by consume_balance asc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='desc'" >
+	 			order by consume_balance desc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='asc'" >
+	 			order by reward_balance asc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='desc'" >
+	 			order by reward_balance desc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by tid desc
+	 	</otherwise>
+	 </choose>
+	</select>
+	
+
+	<select id="queryRewardsRecordDetailList" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultMap="teacherInviteRewardRecordDetailListMap">
+		select tirr.id as id ,
+		IFNULL(s.mobile,uf.mobile) as mobile,
+		IFNULL(s.name,uf.username) as name,
+		tirr.reason as reason,tirr.stu_id as stu_id1,tirr.pay_order_id as pay_order_id1,
+		if(reason=1,'',(select commodity_name from pay_order po inner join teacher_invite_reward_record tir on po.id = tir.pay_order_id where tir.pay_order_id = pay_order_id1)) as commodity_name,
+		if(reason=1,tirr.record_time,(SELECT tir.record_time from teacher_invite_reward_record tir where tir.stu_id = stu_id1 and tir.reason = 0)) as invite_date,
+		if(reason=1,'',tirr.record_time) as consume_date,
+		if(reason=1,0,(select pay_price from pay_order po inner join teacher_invite_reward_record tir on po.id = tir.pay_order_id where tir.pay_order_id = pay_order_id1)) as consume_balance,
+		if(reason=1,'',tirr.rewards_money) as reward_balance
+		from teacher_invite_reward_record tirr inner join student s on tirr.stu_id = s.id inner join users_front uf on s.user_id = uf.id 
+		where tirr.company_id = #{companyId} and tirr.teacher_id = #{teacherId} and tirr.reason != 0
+		<if test="consumeFlag!= null and consumeFlag == 0">
+		and (tirr.reason = 1)
+		</if>
+		<if test="consumeFlag!= null and consumeFlag == 1">
+		and (tirr.reason = 2 or tirr.reason = 3)
+		</if>
+		<if test="name!= null and name !=''">and  (s.name like '%${name}%' or s.mobile like '%${name}%' or uf.username like '%${name}%' or uf.mobile like '%${name}%')</if>
+		<choose>
+	 	<when test="sortName !=null and sortName !=''">
+	 		<choose>
+	 		<when test="sortName == 'name' and sortType =='asc'" >
+	 			order by mobile,name asc
+	 		</when>
+	 		<when test="sortName == 'name' and sortType =='desc'" >
+	 			order by mobile,name desc
+	 		</when>
+	 		<when test="sortName == 'consumeBalance' and sortType =='asc'" >
+	 			order by consume_balance asc
+	 		</when>
+	 		<when test="sortName == 'consumeBalance' and sortType =='desc'" >
+	 			order by consume_balance desc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by id desc
+	 	</otherwise>
+	 </choose>
+	 limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryRewardsRecordDetailListCount" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="int">
+		select count(tirr.id)
+		from teacher_invite_reward_record tirr inner join student s on tirr.stu_id = s.id inner join users_front uf on s.user_id = uf.id 
+		where tirr.company_id = #{companyId} and tirr.teacher_id = #{teacherId} and reason !=0
+		<if test="name!= null and name !=''">and (s.name like '%${name}%' or s.mobile like '%${name}%' or uf.username like '%${name}%' or uf.mobile like '%${name}%')</if>
+		<if test="consumeFlag!= null and consumeFlag == 0">
+		and (tirr.reason = 1)
+		</if>
+		<if test="consumeFlag!= null and consumeFlag == 1">
+		and (tirr.reason = 2 or tirr.reason = 3)
+		</if>
+	</select>
+	
+	<select id="getTeacherInviteNumber" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="int" >
+		select count(id) from teacher_invite_reward_record where company_id = #{companyId} and teacher_id = #{teacherId} and (reason = 1 or reason = 0)
+	</select>
+	
+	<select id="getTeacherConsumerTimes" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="int" >
+		select count(id) from teacher_invite_reward_record where company_id = #{companyId}  and teacher_id = #{teacherId} and (reason = 2 or reason = 3)
+	</select>
+	
+	<select id="getTeacherConsumeBalance" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="double" >
+		select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tirr on tirr.pay_order_id = p.id 
+		where tirr.company_id = #{companyId} and tirr.teacher_id = #{teacherId} and (tirr.reason =2 or tirr.reason = 3)
+	</select>
+	
+	<select id="getTeacherRewardBalance" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="double" >
+		select COALESCE(sum(rewards_money),0) from teacher_invite_reward_record where company_id = #{companyId} and teacher_id = #{teacherId}
+	</select>
+</mapper>

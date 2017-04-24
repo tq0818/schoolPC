@@ -1,0 +1,248 @@
+.L-r-list .btn.btn-mini{
+    padding: 6px 13px;
+    margin-right: 4px;
+}
+.L-r-list .sc-select{
+    margin-bottom: 16px;
+}
+.resource .mainbackground .r-list.L-r-list ul li.teacher .r-list-content-title .btn{
+    top:0;
+}
+
+.L-list-infos .readonly{
+    border: 1px solid #ddd;
+    background: #fff;
+}
+.distan label{
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.L-r-list .L-table th,.L-r-list .L-table td{
+    border:1px solid #e0e0e0;
+}
+.L-r-list .L-table th{
+    background:#f0f0f0;
+    color:#333;
+    font-size: 14px;
+    padding:10px 5px;
+}
+#teacherContent .L-table{
+	background-color:#fff;
+}
+.L-r-list .L-table td{
+    /*background:#fff;*/
+    height:100px;
+    font-size: 12px;
+    color:#666;
+}
+.L-r-list .L-table td p{
+    width:124px;
+    height:100px;
+    display: inline-block;
+    vertical-align: top;
+    background-size: cover;
+    background-position:center center;
+    background-repeat: no-repeat;
+}
+.bgImg{
+    background:url("../../images/book/bookcenter4.png");
+}
+.L-r-list td .aLink{
+    word-break: break-all;
+    color:#00b7ee;
+    line-height: 21px;
+    text-decoration: underline;
+}
+.resource .mainbackground .heading .search.searchIput{
+    right: 236px;
+    top:-10px;
+}
+.searchIput input{
+    width:192px;
+    height:16px;
+    border:1px solid #e0e0e0;
+}
+.iSearchBtn{
+    font-size: 18px;
+    line-height: 28px;
+    color:#fff;
+    background:#ccc;
+    position: absolute;
+    right:0;
+    top:0;
+    width:30px;
+    height:27px;
+    text-align: center;
+    border-radius: 0 3px 3px 0;
+}
+.iSearchBtn:hover{
+    background:#bbb;
+}
+.resource .mainbackground .heading .search.searchBook{
+    right:126px;
+    top:-10px;
+}
+.resource .mainbackground .heading .search.searchAdmin{
+    top:-10px;
+}
+.searchBook a.btn-primary,.searchAdmin a.btn-primary{
+    background:#00b7ee;
+    padding:7px 13px;
+    border:none;
+}
+.searchBook a.btn-primary:hover,.searchAdmin a.btn-primary:hover{
+    background:#01aadd;
+}
+.bg-layer-tips{width:100%; height:100%;  background:rgba(0,0,0,.2); position:fixed; left:0; top:0; z-index: 888;display: none;}
+.L-AdmissionsTc{
+    width:420px;
+    background:#fff;
+    position: fixed;
+    left:50%;
+    top:50%;
+    margin-left:-210px;
+    margin-top:-100px;
+    z-index: 999;
+    display: none;
+}
+.L-AdmissionsTc .layer-tips-title{
+    font-size: 16px;
+    line-height: 40px;
+    color:#333;
+    position: relative;
+    padding:0px 10px;
+    border-bottom:1px solid #e0e0e0;
+}
+.L-AdmissionsTc i.close{
+    font-size: 15px;
+    line-height:15px;
+    color:#949494;
+    position: absolute;
+    right:15px;
+    top:15px;
+}
+.L-AdmissionsTc .layer-tips-btns{
+    margin:30px 0;
+    text-align: center;
+}
+.L-AdmissionsTc .btn.btn-info{
+    margin:30px auto;
+    border: none;
+    padding: 9px 18px;
+    background:#00b7ee;
+    color:#fff;
+}
+.L-AdmissionsTc .btn-info:hover{
+    background:#01aadd;
+}
+.L-AdmissionsTc .btn-mini {
+    padding: 8px 17px;
+}
+.L-AdmissionsTc .layer-tips-btns .btn {
+    display: inline-block;
+    margin: 0 10px;
+}
+.L-AdmissionsTc .title-prompt{
+    padding-top:30px;
+    font-size: 14px;
+    line-height: 50px;
+    width: 100%;
+    text-align:center;
+    color: #fe5151;
+}
+.L-r-list-table .L-table td{
+    height:auto;
+    padding: 7px 5px;
+}
+.L-AdmissionsTc .title-prompt input{
+    width:300px;
+    border:1px solid #e0e0e0;
+}
+.main-content-left{
+    float: left;
+    width:50%;
+    min-width:540px;
+}
+.main-content-left ul{
+    width:140px;
+    float: left;
+}
+.main-content-left li{
+    width:140px;
+    margin-bottom: 30px;
+    font-size:14px;
+    line-height: 30px;
+    color:#333;
+    text-align: right;
+}
+.main-content-right{
+    float: right;
+    width:50%;
+}
+.main-content-btn{
+    float: left;
+    width:100%;
+    min-width: 960px;
+}
+.main-content-left div{
+    min-width:360px;
+    float: left;
+    margin-left:20px;
+    width:70%;
+}
+.main-content-left span{
+    display: inline-block;
+    margin-bottom:30px;
+    height:30px;
+    width:100%;
+    min-width:350px;
+}
+.main-content-left span input{
+    display: inline-block;
+    height:28px;
+    border:1px solid #e0e0e0;
+    padding:0 10px;
+}
+.bookName{
+    width:238px;
+}
+.bookPrice{
+    width:98px;
+}
+.main-content-left span select{
+    height:30px;
+    border:1px solid #e0e0e0;
+}
+.particularYear{
+    width:120px;
+}
+.reTeacher{
+    width:170px;
+}
+.bookLin{
+    width:328px;
+}
+.tabForm{
+    padding:25px 0 54px;
+}
+.main-content-btn .btn-sm{
+    padding:8px 17px;
+    margin-right: 15px;
+}
+.main-content-btn .btn-primary{
+    background:#00b7ee;
+    border:1px solid #00b7ee;
+}
+.main-content-btn .btn-primary:hover{
+    background:#01aadd;
+}
+.L-pages{
+    margin:-15px 0 10px;
+}
+.bookTitle{float: left; font-size: 0;}
+.bookTitle dt,.bookTitle dd{display: inline-block; font-size:14px; line-height: 26px; color:#333;}
+.bookTitle dt{margin-right: 80px;}
+.bookTitle dd{margin-right: 40px;}
+.bookBut{float:right;}

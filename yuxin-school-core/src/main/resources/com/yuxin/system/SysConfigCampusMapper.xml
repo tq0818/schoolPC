@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigCampusMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigCampus"
+		id="sysConfigCampusResultMap">
+		<result property="id" column="id" />
+		<result property="campusNo" column="campus_no" />
+		<result property="campusName" column="campus_name" />
+		<result property="schoolId" column="school_id" />
+		<result property="status" column="status" />
+		<result property="remark" column="remark" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.system.ConfigCampusVo" id="ConfigCampusVoResultMap">
+		<result property="id" column="id" />
+		<result property="campusNo" column="campus_no" />
+		<result property="campusName" column="campus_name" />
+		<result property="schoolId" column="school_id" />
+		<result property="status" column="status" />
+		<result property="remark" column="remark" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="classRoomNum" column="room_count" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		campus_no,
+		campus_name,
+		school_id,
+		status,
+		remark,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		del_flag,
+		company_id
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{campusNo},
+		#{campusName},
+		#{schoolId},
+		#{status},
+		#{remark},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{companyId}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigCampus"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_campus(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into sys_config_campus(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_campus
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_campus
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigCampus">
+		update sys_config_campus
+		<trim prefix="set" suffixOverrides=",">
+			<if test="campusNo != null">campus_no = #{campusNo},</if>
+			<if test="campusName != null and campusName != ''">campus_name = #{campusName},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="sysConfigCampusResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="sysConfigCampusResultMap">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus
+	</select>
+
+	<select id="queryList" resultMap="sysConfigCampusResultMap">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus where school_id=#{schoolId} and status='ENABLE'
+	</select>
+
+	<select id="queryByNo" resultMap="sysConfigCampusResultMap">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus where campus_no=#{campusNo} and
+		school_id=#{schoolId} and status='ENABLE'
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="id != null and id != ''">and id = #{id}</if>
+			<if test="campusNo != null and campusNo != ''">and campus_no = #{campusNo}</if>
+			<if test="campusName != null and campusName != ''">and campus_name = #{campusName}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="status != null">and status = #{status}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			and del_flag = 0
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="sysConfigCampusResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigCampus">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus
+		<include refid="page_where" />
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.system.SysConfigCampus">
+		select count(id) from sys_config_campus
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="queryCampus" resultMap="sysConfigCampusResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigCampus">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus
+		<include refid="page_where" />
+	</select>
+	
+	<select id="checkedCampus" resultMap="sysConfigCampusResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigCampus">
+		select
+		<include refid="table_columns" />
+		from sys_config_campus where 1=1
+		<if test="id != null and id != ''">and id != #{id}</if>
+		<if test="campusNo != null and campusNo != ''">and campus_no = #{campusNo}</if>
+		<if test="campusName != null and campusName != ''">and campus_name = #{campusName}</if>
+	</select>
+
+	<select id="findCampusBySchoolId" resultType="Integer"
+		parameterType="Integer">
+		select count(id)
+		from sys_config_campus
+		where school_id = #{schoolId}
+		and del_flag = 0
+			and status = 1
+			limit 1
+	</select>
+	
+	<select id="findCampusBySchoolCompanyId" resultMap="sysConfigCampusResultMap" parameterType="map">
+		select <include refid="table_columns"/>
+		from sys_config_campus 
+		where 
+			company_id = #{companyId} and 
+			school_id = #{schoolId} and 
+			del_flag = 0 and 
+			status = 1 
+		order by id
+	</select>
+
+	<select id="findCampusVo" parameterType="com.yuxin.wx.model.system.SysConfigCampus" resultMap="ConfigCampusVoResultMap">
+		SELECT
+		cam.*,COUNT(room.id) as room_count
+		FROM
+		sys_config_campus as cam
+		LEFT JOIN sys_config_classroom as room
+		ON cam.id = room.campus_id
+		where cam.company_id = #{companyId}
+		<if test="status != null">and cam.status = #{status}</if>
+		and cam.school_id = #{schoolId}
+		GROUP BY cam.id
+	</select>
+
+	<!-- 根据分校id查询校区 -->
+	<select id="queryCampusBySchoolId" parameterType="int" resultMap="sysConfigCampusResultMap">
+	    select <include refid="table_columns"/>
+		from sys_config_campus 
+		where 
+			school_id = #{schoolId} and 
+			del_flag = 0 and 
+			status = 1 
+		order by id
+	</select>
+</mapper>

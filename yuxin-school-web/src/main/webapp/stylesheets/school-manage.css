@@ -1,0 +1,131 @@
+.school-block {
+    margin-top: 30px;
+}
+input.school-branch{
+    min-width: 210px;
+}
+.school-block span {
+    font-size: 14px;
+}
+
+.school-block .t-label {
+    width: 80px;
+    line-height: 30px;
+    position: relative;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.school-block input[type="text"] {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #616161;
+    border-color: #bbb;
+}
+.manage-screen .manage-btn {
+    width: 100px;
+    height: 34px;
+    line-height: 26px;
+    text-align: center;
+    padding: 0;
+    border-width: 1px;
+    border-color: transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.manage-screen .manage-btn.mr20 {
+    margin-right: 20px;
+}
+
+.manage-screen .manage-btn-cancel {
+    border-color: #999999;
+    color: #474747;
+    background: #fff;
+}
+
+.manage-btn-success {
+    border-color: #00b7ee;
+    color: #fff;
+    background:  #00b7ee;
+}
+
+.screen-right-cont .bnts-wrap {
+    padding-left: 100px;
+    margin-top: 30px;
+}
+.school-msg{
+    width: 550px;
+    height: 230px;
+    resize: none;
+}
+.school-img{
+    display: inline-block;
+    width: 360px;
+    height: 190px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+.choose-address select{
+    min-width: 100px;
+    margin-right: 10px;
+    border-radius: 2px;
+
+}
+.change-img{
+    display: inline-block;
+    position: relative;
+    vertical-align: bottom;
+    margin-left:10px;
+}
+.change-img input[type="button"]{
+    width: 80px;
+    height: 30px;
+    border-radius: 4px;
+    vertical-align: baseline;
+    border-color: #e0e0e0;
+    color: #474747;
+    background: #fff;
+}
+.change-img .comment-pic{
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 80px;
+    height: 30px;
+    border-radius: 4px;
+    font-size: 16px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+.manage-screen .manage-btn {
+    width: 100px;
+    height: 34px;
+    line-height: 26px;
+    text-align: center;
+    padding: 0;
+    border-width: 1px;
+    border-color: transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+span.manage-button-mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    left: 0;
+    top: 0;
+    background: #333;
+    opacity: 0.1;
+    display: none;
+}
+.change-img:hover .manage-button-mask{
+    display: block;
+}

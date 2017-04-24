@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyMemberServiceMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyMemberService"
+		id="companyMemberServiceResultMap">
+		<result property="id" column="id" />
+		<result property="liveConcurrentMax" column="live_concurrent_max" />
+		<result property="liveStartDate" column="live_start_date" />
+		<result property="liveEndDate" column="live_end_date" />
+		<result property="videoStorage" column="video_storage" />
+		<result property="videoFlow" column="video_flow" />
+		<result property="videoStartDate" column="video_start_date" />
+		<result property="videoEndDate" column="video_end_date" />
+		<result property="faceStudentAll" column="face_student_all" />
+		<result property="messageTotal" column="message_total" />
+		<result property="emailTotal" column="email_total" />
+		<result property="schoolTotal" column="school_total" />
+		<result property="companyId" column="company_id" />
+
+		<result property="giveLive" column="give_live" />
+		<result property="giveLiveDate" column="give_live_date" />
+		<result property="giveVideoStorage" column="give_video_storage" />
+		<result property="giveVideoStorageDate" column="give_video_storage_date" />
+		<result property="giveVideoFlow" column="give_video_flow" />
+		<result property="giveMessage" column="give_message" />
+		<result property="giveEmail" column="give_email" />
+		<result property="videoServiceProvider" column="video_service_provider" />
+		<result property="liveServiceProvider" column="live_service_provider" />
+		<result property="liveServiceTemplate" column="live_service_template" />
+
+		<result property="videoFlowPrice" column="video_flow_price" />
+		<result property="videoStoragePrice" column="video_storage_price" />
+		<result property="messagePrice" column="message_price" />
+		<result property="emailPrice" column="email_price" />
+		<result property="liveConcurrentPrice" column="live_concurrent_price" />
+	</resultMap>
+
+	<resultMap type="com.yuxin.wx.vo.company.CompanyMemberServiceVo"
+		id="companyMemberServiceVoResultMap">
+		<result property="id" column="id" />
+		<result property="liveConcurrentMax" column="live_concurrent_max" />
+		<result property="liveStartDate" column="live_start_date" />
+		<result property="liveEndDate" column="live_end_date" />
+		<result property="videoStorage" column="video_storage" />
+		<result property="videoFlow" column="video_flow" />
+		<result property="videoStartDate" column="video_start_date" />
+		<result property="videoEndDate" column="video_end_date" />
+		<result property="faceStudentAll" column="face_student_all" />
+		<result property="messageTotal" column="message_total" />
+		<result property="emailTotal" column="email_total" />
+		<result property="schoolTotal" column="school_total" />
+		<result property="companyId" column="company_id" />
+
+		<result property="giveEmail" column="give_email" />
+		<result property="giveMessage" column="give_message" />
+		<result property="giveVideoFlow" column="give_video_flow" />
+		<result property="giveVideoStorage" column="give_video_storage" />
+		<result property="giveLive" column="give_live" />
+
+		<result property="companyName" column="company_name" />
+		<result property="serviceName" column="service_name" />
+		<result property="realName" column="real_name" />
+		<result property="mobile" column="mobile" />
+		<result property="registTime" column="regist_time" />
+		<result property="memberEndDate" column="member_end_date" />
+		<result property="faceStudent" column="face_student" />
+		<result property="messageSend" column="message_send" />
+		<result property="emailSend" column="email_send" />
+		<result property="companyLogo" column="company_logo" />
+		<result property="memberLevel" column="member_level" />
+		<result property="auditTime" column="audit_time" />
+
+		<result property="videoFlowPrice" column="video_flow_price" />
+		<result property="videoStoragePrice" column="video_storage_price" />
+		<result property="messagePrice" column="message_price" />
+		<result property="emailPrice" column="email_price" />
+		<result property="liveConcurrentPrice" column="live_concurrent_price" />
+		<result property="buyFlag" column="buy_flag" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.company.CompanyMemberServicesTotalVo"
+		id="CompanyMemberServicesTotalVoMap">
+		<result property="id" column="id" />
+		<result property="liveConcurrentMax" column="live_concurrent_max" />
+		<result property="liveStartDate" column="live_start_date" />
+		<result property="liveEndDate" column="live_end_date" />
+		<result property="videoStorage" column="video_storage" />
+		<result property="videoFlow" column="video_flow" />
+		<result property="videoStartDate" column="video_start_date" />
+		<result property="videoEndDate" column="video_end_date" />
+		<result property="faceStudentAll" column="face_student_all" />
+		<result property="messageTotal" column="message_total" />
+		<result property="emailTotal" column="email_total" />
+		<result property="schoolTotal" column="school_total" />
+		<result property="companyId" column="company_id" />
+
+		<result property="giveLive" column="give_live" />
+		<result property="giveLiveDate" column="give_live_date" />
+		<result property="giveVideoStorage" column="give_video_storage" />
+		<result property="giveVideoStorageDate" column="give_video_storage_date" />
+		<result property="giveVideoFlow" column="give_video_flow" />
+		<result property="giveMessage" column="give_message" />
+		<result property="giveEmail" column="give_email" />
+		<result property="liveDateLen" column="liveDateLen" />
+		<result property="videoDateLen" column="videoDateLen" />
+		<result property="companyName" column="companyName" />
+		<result property="memberDateLen" column="memberDateLen" />
+		<result property="giveLiveLen" column="giveLiveLen" />
+		<result property="giveVideoLen" column="giveVideoLen" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		live_concurrent_max,
+		live_start_date,
+		live_end_date,
+		video_storage,
+		video_flow,
+		video_start_date,
+		video_end_date,
+		face_student_all,
+		message_total,
+		email_total,
+		school_total,
+		company_id,
+		give_live,
+		give_live_date,
+		give_video_storage,
+		give_video_storage_date,
+		give_video_flow,
+		give_message,
+		give_email,
+		video_service_provider,
+		live_service_provider,
+		live_service_template,
+		video_flow_price,
+		video_storage_price,
+		message_price,
+		email_price,
+		live_concurrent_price
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{liveConcurrentMax},
+		#{liveStartDate},
+		#{liveEndDate},
+		#{videoStorage},
+		#{videoFlow},
+		#{videoStartDate},
+		#{videoEndDate},
+		#{faceStudentAll},
+		#{messageTotal},
+		#{emailTotal},
+		#{schoolTotal},
+		#{companyId},
+		#{giveLive},
+		#{giveLiveDate},
+		#{giveVideoStorage},
+		#{giveVideoStorageDate},
+		#{giveVideoFlow},
+		#{giveMessage},
+		#{giveEmail},
+		#{videoServiceProvider},
+		#{liveServiceProvider},
+		#{liveServiceTemplate},
+		#{videoFlowPrice},
+		#{videoStoragePrice},
+		#{messagePrice},
+		#{emailPrice},
+		#{liveConcurrentPrice}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.liveConcurrentMax},
+		#{item.liveStartDate},
+		#{item.liveEndDate},
+		#{item.videoStorage},
+		#{item.videoFlow},
+		#{item.videoStartDate},
+		#{item.videoEndDate},
+		#{item.faceStudentAll},
+		#{item.messageTotal},
+		#{item.emailTotal},
+		#{item.schoolTotal},
+		#{item.companyId},
+		#{item.giveLive},
+		#{item.giveLiveDate},
+		#{item.giveVideoStorage},
+		#{item.giveVideoStorageDate},
+		#{item.giveVideoFlow},
+		#{item.giveMessage},
+		#{item.giveEmail},
+		#{item.liveServiceTemplate},
+		#{item.videoFlowPrice},
+		#{item.videoStoragePrice},
+		#{item.messagePrice},
+		#{item.emailPrice},
+		#{item.liveConcurrentPrice}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyMemberService"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into company_member_service(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into company_member_service(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="batch_entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_member_service
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_member_service
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyMemberService">
+		update company_member_service
+		<trim prefix="set" suffixOverrides=",">
+			<if test="liveConcurrentMax != null and liveConcurrentMax != ''">live_concurrent_max = #{liveConcurrentMax},</if>
+			<if test="liveStartDate != null and liveStartDate != ''">live_start_date = #{liveStartDate},</if>
+			<if test="liveEndDate != null and liveEndDate != ''">live_end_date = #{liveEndDate},</if>
+			<if test="videoStorage != null and videoStorage != ''">video_storage = #{videoStorage},</if>
+			<if test="videoFlow != null and videoFlow != ''">video_flow = #{videoFlow},</if>
+			<if test="videoStartDate != null and videoStartDate != ''">video_start_date = #{videoStartDate},</if>
+			<if test="videoEndDate != null and videoEndDate != ''">video_end_date = #{videoEndDate},</if>
+			<if test="faceStudentAll != null and faceStudentAll != ''">face_student_all = #{faceStudentAll},</if>
+			<if test="messageTotal != null and messageTotal != ''">message_total = #{messageTotal},</if>
+			<if test="emailTotal != null and emailTotal != ''">email_total = #{emailTotal},</if>
+			<if test="schoolTotal != null and schoolTotal != ''">school_total = #{schoolTotal},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+
+			<if test="giveLive != null and giveLive != ''">give_live = #{giveLive},</if>
+			<if test="giveLiveDate != null and giveLiveDate != ''">give_live_date = #{giveLiveDate},</if>
+			<if test="giveVideoStorage != null and giveVideoStorage != ''">give_video_storage = #{giveVideoStorage},</if>
+			<if test="giveVideoStorageDate != null and giveVideoStorageDate != ''">give_video_storage_date = #{giveVideoStorageDate},</if>
+			<if test="giveVideoFlow != null and giveVideoFlow != ''">give_video_flow = #{giveVideoFlow},</if>
+			<if test="giveMessage != null and giveMessage != ''">give_message = #{giveMessage},</if>
+			<if test="giveEmail != null and giveEmail != ''">give_email = #{giveEmail},</if>
+			<if test="videoServiceProvider != null and videoServiceProvider != ''">video_service_provider = #{videoServiceProvider},</if>
+			<if test="liveServiceProvider != null and liveServiceProvider != ''">live_service_provider = #{liveServiceProvider},</if>
+			<if test="liveServiceTemplate != null and liveServiceTemplate != ''">live_service_template = #{liveServiceTemplate},</if>
+			<if test="videoFlowPrice != null and videoFlowPrice != ''">video_flow_price = #{videoFlowPrice},</if>
+			<if test="videoStoragePrice != null and videoStoragePrice != ''">video_storage_price = #{videoStoragePrice},</if>
+			<if test="messagePrice != null and messagePrice != ''">message_price = #{messagePrice},</if>
+			<if test="emailPrice != null and emailPrice != ''">email_price = #{emailPrice},</if>
+			<if test="liveConcurrentPrice != null and liveConcurrentPrice != ''">live_concurrent_price = #{liveConcurrentPrice},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="updateByCompanyId" parameterType="com.yuxin.wx.model.company.CompanyMemberService">
+		update company_member_service
+		<trim prefix="set" suffixOverrides=",">
+			<if test="liveConcurrentMax != null and liveConcurrentMax != ''">live_concurrent_max = #{liveConcurrentMax},</if>
+			<if test="liveStartDate != null and liveStartDate != ''">live_start_date = #{liveStartDate},</if>
+			<if test="liveEndDate != null and liveEndDate != ''">live_end_date = #{liveEndDate},</if>
+			<if test="videoStorage != null and videoStorage != ''">video_storage = #{videoStorage},</if>
+			<if test="videoFlow != null and videoFlow != ''">video_flow = #{videoFlow},</if>
+			<if test="videoStartDate != null and videoStartDate != ''">video_start_date = #{videoStartDate},</if>
+			<if test="videoEndDate != null and videoEndDate != ''">video_end_date = #{videoEndDate},</if>
+			<if test="faceStudentAll != null and faceStudentAll != ''">face_student_all = #{faceStudentAll},</if>
+			<if test="messageTotal != null and messageTotal != ''">message_total = #{messageTotal},</if>
+			<if test="emailTotal != null and emailTotal != ''">email_total = #{emailTotal},</if>
+			<if test="schoolTotal != null and schoolTotal != ''">school_total = #{schoolTotal},</if>
+
+			<if test="giveLive != null and giveLive != ''">give_live = #{giveLive},</if>
+			<if test="giveLiveDate != null and giveLiveDate != ''">give_live_date = #{giveLiveDate},</if>
+			<if test="giveVideoStorage != null">give_video_storage = #{giveVideoStorage},</if>
+			<if test="giveVideoStorageDate != null and giveVideoStorageDate != ''">give_video_storage_date = #{giveVideoStorageDate},</if>
+			<if test="giveVideoFlow != null">give_video_flow = #{giveVideoFlow},</if>
+			<if test="giveMessage != null">give_message = #{giveMessage},</if>
+			<if test="giveEmail != null">give_email = #{giveEmail},</if>
+			<if test="videoFlowPrice != null and videoFlowPrice != ''">video_flow_price = #{videoFlowPrice},</if>
+			<if test="videoStoragePrice != null and videoStoragePrice != ''">video_storage_price = #{videoStoragePrice},</if>
+			<if test="messagePrice != null and messagePrice != ''">message_price = #{messagePrice},</if>
+			<if test="emailPrice != null and emailPrice != ''">email_price = #{emailPrice},</if>
+			<if test="memberPrice != null and memberPrice != ''">member_price = #{memberPrice},</if>
+			<if test="liveConcurrentPrice != null and liveConcurrentPrice != ''">live_concurrent_price = #{liveConcurrentPrice},</if>
+			<if test="liveServiceProvider != null and liveServiceProvider != ''">live_service_provider = #{liveServiceProvider},</if>
+		</trim>
+		<where>company_id = #{companyId}</where>
+	</update>
+
+	<select id="findById" resultMap="companyMemberServiceResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from company_member_service
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="companyMemberServiceResultMap">
+		select
+		<include refid="table_columns" />
+		from company_member_service
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="liveConcurrentMax != null and liveConcurrentMax != ''">and live_concurrent_max = #{liveConcurrentMax}</if>
+			<if test="liveStartDate != null and liveStartDate != ''">and live_start_date = #{liveStartDate}</if>
+			<if test="liveEndDate != null and liveEndDate != ''">and live_end_date = #{liveEndDate}</if>
+			<if test="videoStorage != null and videoStorage != ''">and video_storage = #{videoStorage}</if>
+			<if test="videoFlow != null and videoFlow != ''">and video_flow = #{videoFlow}</if>
+			<if test="videoStartDate != null and videoStartDate != ''">and video_start_date = #{videoStartDate}</if>
+			<if test="videoEndDate != null and videoEndDate != ''">and video_end_date = #{videoEndDate}</if>
+			<if test="faceStudentAll != null and faceStudentAll != ''">and face_student_all = #{faceStudentAll}</if>
+			<if test="messageTotal != null and messageTotal != ''">and message_total = #{messageTotal}</if>
+			<if test="emailTotal != null and emailTotal != ''">and email_total = #{emailTotal}</if>
+			<if test="schoolTotal != null and schoolTotal != ''">and school_total = #{schoolTotal}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+
+			<if test="giveLive != null and giveLive != ''">and give_live = #{giveLive}</if>
+			<if test="giveLiveDate != null and giveLiveDate != ''">and give_live_date = #{giveLiveDate}</if>
+			<if test="giveVideoStorage != null and giveVideoStorage != ''">and give_video_storage = #{giveVideoStorage}</if>
+			<if test="giveVideoStorageDate != null and giveVideoStorageDate != ''">and give_video_storage_date = #{giveVideoStorageDate}
+			</if>
+			<if test="giveVideoFlow != null and giveVideoFlow != ''">and give_video_flow = #{giveVideoFlow}</if>
+			<if test="giveMessage != null and giveMessage != ''">and give_message = #{giveMessage}</if>
+			<if test="giveEmail != null and giveEmail != ''">and give_email = #{giveEmail}</if>
+			<if test="videoFlowPrice != null and videoFlowPrice != ''">and video_flow_price = #{videoFlowPrice}</if>
+			<if test="videoStoragePrice != null and videoStoragePrice != ''">and video_storage_price = #{videoStoragePrice}</if>
+			<if test="messagePrice != null and messagePrice != ''">and message_price = #{messagePrice}</if>
+			<if test="emailPrice != null and emailPrice != ''">and email_price = #{emailPrice}</if>
+			<if test="liveConcurrentPrice != null and liveConcurrentPrice != ''">and live_concurrent_price = #{liveConcurrentPrice}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="companyMemberServiceResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberService">
+		select
+		<include refid="table_columns" />
+		from company_member_service
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberService">
+		select count(id) from company_member_service
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="findByCompanyId" resultMap="companyMemberServiceResultMap"
+		parameterType="Integer">
+		select
+		<include refid="table_columns" />
+		from company_member_service
+		where company_id = #{companyId}
+	</select>
+
+	<select id="findCompanyMemberServiceVoByPage" resultMap="companyMemberServiceVoResultMap"
+		parameterType="com.yuxin.wx.model.company.Company">
+		select * from (
+		SELECT
+		c.member_start_date as live_start_date,
+		u.real_name,
+		u.mobile,
+		c.company_name,
+		c.domain,
+		c.regist_time,
+		c.id,
+		c.member_level,
+		c.buy_flag,
+		c.member_end_date,
+		cms.email_total,
+		cms.face_student_all,
+		cms.live_concurrent_max,
+		cms.message_total,
+		cms.video_storage,
+		cms.video_flow,
+		cms.give_email,
+		cms.give_message,
+		cms.give_video_flow,
+		cms.give_video_storage,
+		cms.give_live,
+		css.email_send,
+		css.message_send,
+		css.face_student,
+		ss.service_name
+		FROM
+		users AS u,
+		company AS c,
+		company_member_service AS cms,
+		company_service_static AS css,
+		company_standerd_servie AS ss
+		WHERE
+		c.id = u.company_id
+		AND c.id = cms.company_id
+		AND c.id = css.company_id
+		AND c.member_level = ss.service_level
+		AND u.user_type = 'USER_TYPE_ORG'
+		<if test="companyName != null and companyName != ''">and (company_name LIKE '%${companyName}%' or u.mobile =
+			#{companyName})</if>
+		<if test="schoolApplyFlag != null">and school_apply_flag = #{schoolApplyFlag}</if>
+		<if test="status != null">and c.status = #{status}</if>
+		<if test="buyFlag != null">and c.buy_flag = #{buyFlag}</if>
+		<if test="unNormal != null and unNormal != ''">
+		<![CDATA[
+			and member_end_date < #{unNormal}
+		]]>
+		</if>
+		<if test="normal != null and normal != ''">
+		<![CDATA[
+			and (member_end_date >= #{normal} or c.member_end_date is null)
+		]]>
+		</if>
+		) com
+		LEFT JOIN company_authority as ca ON ca.company_id = com.id
+		order by
+		com.id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="findTotalCount" parameterType="com.yuxin.wx.model.company.Company"
+		resultType="Integer">
+		select count(com.id) from (
+		SELECT
+		c.member_start_date,
+		u.real_name,
+		u.mobile,
+		c.company_name,
+		c.domain,
+		c.regist_time,
+		c.id,
+		c.member_level,
+		c.member_end_date,
+		cms.email_total,
+		cms.face_student_all,
+		cms.live_concurrent_max,
+		cms.message_total,
+		cms.video_storage,
+		cms.video_flow,
+		cms.give_email,
+		cms.give_message,
+		cms.give_video_flow,
+		cms.give_video_storage,
+		cms.give_live,
+		css.email_send,
+		css.message_send,
+		css.face_student,
+		ss.service_name
+		FROM
+		users AS u,
+		company AS c,
+		company_member_service AS cms,
+		company_service_static AS css,
+		company_standerd_servie AS ss
+		WHERE
+		c.id = u.company_id
+		AND c.id = cms.company_id
+		AND c.id = css.company_id
+		AND c.member_level = ss.service_level
+		AND u.user_type = 'USER_TYPE_ORG'
+		<if test="companyName != null and companyName != ''">and (company_name LIKE '%${companyName}%' or u.mobile =
+			#{companyName})</if>
+		<if test="schoolApplyFlag != null">and school_apply_flag = #{schoolApplyFlag}</if>
+		<if test="status != null">and c.status = #{status}</if>
+		<if test="buyFlag != null">and c.buy_flag = #{buyFlag}</if>
+		<if test="unNormal != null and unNormal != ''">
+		<![CDATA[
+			and member_end_date < #{unNormal}
+		]]>
+		</if>
+		<if test="normal != null and normal != ''">
+		<![CDATA[
+			and (member_end_date >= #{normal} or c.member_end_date is null)
+		]]>
+		</if>
+		) com
+		LEFT JOIN company_authority as ca ON ca.company_id = com.id
+	</select>
+
+	<select id="findCompanyMemberInfoByCompanyId" resultMap="companyMemberServiceVoResultMap"
+		parameterType="Integer">
+		SELECT
+		cms.company_id,
+		c.company_logo,
+		c.company_name,
+		c.regist_time,
+		c.member_level,
+		c.member_end_date,
+		css.service_name,
+		cms.live_concurrent_max,
+		cms.video_flow
+		FROM
+		company AS c,
+		company_standerd_servie AS css,
+		company_member_service AS
+		cms
+		WHERE
+		c.member_level = css.service_level and
+		c.id = cms.company_id
+		and c.id =
+		#{companyId}
+	</select>
+
+	<!-- 查询所有公司服务信息 -->
+	<select id="queryCopanyServices" resultMap="CompanyMemberServicesTotalVoMap">
+		select a.company_name as companyName,
+		b.id,b.live_concurrent_max,b.live_start_date,b.live_end_date,b.video_storage,b.video_flow,
+		b.video_start_date,b.video_end_date,b.face_student_all,b.message_total,b.email_total,b.school_total,
+		b.company_id,b.give_live,b.give_live_date,b.give_video_storage,b.give_video_storage_date,
+		b.give_video_flow,b.give_message,b.give_email,IFNULL(TO_DAYS(b.live_end_date)-TO_DAYS(NOW()),0)
+		as liveDateLen,
+		IFNULL(TO_DAYS(b.video_end_date)-TO_DAYS(NOW()),0) as
+		videoDateLen,IFNULL(TO_DAYS(a.member_end_date)-TO_DAYS(NOW()),0) as
+		memberDateLen,
+		IFNULL(TO_DAYS(b.give_live_date)-TO_DAYS(NOW()),0) as
+		giveLiveLen,IFNULL(TO_DAYS(b.give_video_storage_date)-TO_DAYS(NOW()),0)
+		as giveVideoLen,a.service_version serviceVersion
+		from company a LEFT JOIN company_member_service b on
+		a.id=b.company_id where a.buy_flag=1
+	</select>
+</mapper>

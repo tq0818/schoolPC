@@ -1,0 +1,486 @@
+body{
+    background:#fff;
+    font-family:"Microsoft Yahei";
+    color: #333;
+    font-size: 14px;
+}
+.replaycontent{
+	margin-bottom: 10px;
+}
+.replayButton{
+	margin-top: 10px;
+	margin-left: 716px;
+}
+.replayArea{
+	width: 780px;
+	height: 100px;
+}
+.checkText{
+	float: right;
+}
+@font-face {font-family: 'iconfont';
+    src: url('fonts/iconfont.eot'); /* IE9*/
+    src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/iconfont.woff') format('woff'), /* chrome锟斤拷firefox */
+    url('fonts/iconfont.ttf') format('truetype'), /* chrome锟斤拷firefox锟斤拷opera锟斤拷Safari, Android, iOS 4.2+*/
+    url('fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:24px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;}
+.Y_wrap a:hover{
+    text-decoration: none;
+}
+.Y_clear:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.Y_cb{
+    clear: both;
+    height: 0;
+}
+.Y_mr20{
+    margin-right: 20px;
+}
+.Y_mt10{
+    margin-top:10px;
+}
+.Y_wrap{
+    width: 96%;
+    margin: 0 2%;
+    margin-top: 15px;
+    margin-bottom: 15px
+}
+.Y_background{
+    padding: 15px 25px;
+    background: #f6f6f6;
+}
+.Y_head {
+    position: relative;
+    margin: 15px 0;
+    padding: 3px 8px;
+    border-left: 3px solid #fa6900;
+}
+.Y_head .line {
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+    left: 0;
+    height: 0;
+    border-bottom: 2px solid #ddd;
+}
+.Y_btn{
+    float: right;
+    margin-top: -26px;
+    margin-right: 20px;
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 3px;
+    /*为了和其他模块样式一致 进行了修改*/
+    /*background: #fff;*/
+    /*border:1px solid #333 ;*/
+}
+/*.Y_btn:hover{*/
+    /*color:#333;*/
+/*}*/
+/*.Y_btn .iconfont{*/
+    /*color:#a8b6b6;*/
+    /*font-size: 18px;*/
+    /*margin-right: 10px;*/
+    /*font-weight: bold;*/
+/*}*/
+/*���甯���ㄦ��*/
+.Y_trend{
+    margin-top:20px;
+}
+.Y_trend div.headicon,.Y_trend div.Y_content{
+    float: left;
+}
+.Y_trend div.headicon{
+    text-align: center;
+}
+.Y_trend div.btns{
+    float: right;
+}
+.Y_trend>.headicon{
+    margin: 20px 40px 39px 80px;
+}
+.Y_trend>.headicon a em{
+    line-height: 26px;
+}
+.Y_trend .Y_content{
+    width: 68%;
+}
+.Y_trend .btns>a{
+    padding: 4px 10px;
+    color: #999;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #fff;
+    margin-left: 10px;
+}
+.Y_content em.top{
+    font-size: 12px;
+    font-weight: bold;
+    background: red;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 1px solid red;
+    margin-right: 20px;
+}
+.Y_content .content_title{
+    font-size: 14px;
+    color:#333;
+}
+.Y_content p{
+    line-height: 28px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+/*��ㄦ����剧��*/
+.trend_pic a.Y_pic {
+    display: block;
+    width: 80px;
+    height: 80px;
+    background: #000000;
+    overflow: hidden;
+    float: left;
+    margin-right: 20px;
+    position: relative;
+}
+.trend_pic a.Y_pic img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+p.Y_time{
+    font-size: 12px;
+    color: #999;
+}
+p.Y_icon{
+    font-size: 12px;
+}
+p.Y_icon .iconfont{
+    font-size: 14px;
+}
+.Y_content .trend_pic{
+    margin: 10px 0px;
+}
+.Y_content .trend_pic>a{
+    margin-right: 20px;
+}
+.Y_content p.Y_time,.Y_content p.Y_icon{
+    color: #999;
+    margin-top: 0px;
+}
+.Y_content p.Y_icon>span{
+    cursor:pointer;
+}
+.Y_trend .slide{
+    width: 100px;
+    height: 24px;
+    line-height: 24px;
+
+    margin: 0px auto;
+    text-align: center;
+}
+.Y_trend .slide a{
+    color: #3399ff;
+}
+.comment_content{
+    margin-top: 20px;
+}
+.comment_content .word{
+    width: 90%;
+    float: right;
+}
+.Y_trend .Y_comment{
+    display:block;
+}
+.word_content{
+    background: #f0f6f3;
+    height: 24px;
+    line-height: 24px;
+}
+.comment_content .word_content > a{
+    color:#3399ff;
+    margin-right: 30px;
+}
+.comment_content .word_content span{
+    margin-right: 20px;
+}
+.word p{
+    padding-right:110px;
+}
+.word_content span.btns{
+    float: right;
+    margin: 0px;
+}
+.word_content .btns a{
+    margin-right: 0px;
+}
+.comment_answer{
+    margin-top: 20px;
+    margin-left: 30px;
+}
+.comment_answer .word{
+    width: 90%;
+    float: right;
+}
+.comment_answer .word_content > a {
+    color: #3399ff;
+    margin-right: 30px;
+}
+.Y_pages{
+    width:100%;
+    text-align: center;
+    margin-top: 20px;
+}
+.Y_pages a.num{
+    padding: 4px 6px;
+    background: #fff;
+    color: #0033ff;
+    margin: 0px 6px;
+    border-radius: 4px;
+}
+.Y_pages a.up_page,.Y_pages a.next_page{
+    color: #999;
+    text-decoration: none;
+    margin: 0px 6px;
+}
+.Y_pages .iconfont{
+    margin: 0px 4px;
+    font-size: 16px;
+}
+
+/*�����拌��甯�璇�璁�*/
+ul.comment_all li{
+    padding-left:100px;
+    padding-bottom: 20px;
+    margin: 40px 0px;
+    border-bottom: 1px solid #ddd;
+}
+ul.comment_all li>div{
+    float: left;
+}
+ul.comment_all li .delete{
+    float: right;
+}
+ul.comment_all .Y_backcomment_content{
+    width: 80%;
+    padding-left: 30px;
+}
+ul.comment_all .Y_backcomment_content .word>span{
+    display: inline-block;
+    float: left;
+    font-size: 14px;
+    color: #333;
+}
+ul.comment_all .Y_backcomment_content .word>span a:hover{
+    color: #333;
+}
+ul.comment_all .Y_backcomment_content .word span.wordcontent{
+    width: 80%;
+}
+ul.comment_all .Y_backcomment_content>p span{
+    color: #999;
+    font-size: 12px;
+    margin-right: 16px;
+}
+ul.comment_all .Y_backcomment_content>p span a{
+    /*color: #999;*/
+    margin-left:10px;
+}
+
+/*�����ゆ�у��*/
+button{
+    padding: 4px 14px;
+    background: #fff;
+    color: #333;
+    border-radius: 4px;
+}
+.active{
+    color: #0099ff;
+    border-color: #0099ff;
+}
+.mark{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 10;
+    display: none;
+}
+.alertbox{
+    width: 240px;
+    height: 90px;
+    padding: 20px 20px;
+    text-align: center;
+    border-radius: 4px;
+    color: #333;
+    position: fixed;
+    z-index: 20;
+    background: #fff;
+    top:35%;
+    left: 40%;
+	box-shadow: 0 0 5px #ccc;
+}
+
+.alertbox .iconfont{
+   color: #55abe4;
+    margin-right: 10px;
+}
+
+.alertbox button{
+    padding: 4px 20px;
+    margin-top: 20px;
+    background: #32b0eb;
+    color: #fff;
+    border-radius: 4px;
+}
+.alertbox button.yes{
+     float: left;
+    margin-left: 35px;
+ }
+.alertbox  button.no{
+    float: right;
+    margin-right: 35px;
+}
+.mark{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 10;
+    display: none;
+}
+/*��烘�����甯���ㄦ��������*/
+.org_back .Y_head h2{
+    float: left;
+    line-height: 24px;
+}
+.org_back .Y_head .input-ground{
+    float: right;
+    /*统一后台搜索框*/
+    /*width: 200px;*/
+    /*height:30px;*/
+    /*border: 1px solid #ccc;*/
+}
+.input-ground>span{
+   display: inline-block;
+
+}
+.input-ground span.text{
+    /*width: 160px;*/
+}
+
+.input-ground input{
+    /*统一后台搜索框*/
+    /*background:#f6f6f6;*/
+    /*border: 0px;*/
+    /*border-radius: 0px;*/
+    /*line-height: 12px;*/
+    /*color: #333;*/
+}
+.input-ground span.search-icon{
+    width: 36px;
+    padding-top: 3px;
+    background: #fff;
+    text-align: center;
+    vertical-align: middle;
+    color: #999;
+    cursor: pointer;
+}
+.org_back .list{
+    width: 96%;
+    /*background: #edf1f2;*/
+    margin: 0px auto;
+    line-height: 32px;
+    padding: 10px 0px;
+}
+.org_back .list .subject_list{
+    border-bottom: 1px dashed #999;
+}
+.org_back .list .left{
+    width: 8%;
+    float: left;
+    text-align: center;
+    font-size: 14px;
+}
+.org_back .list .middle{
+    width: 85%;
+    float: left;
+}
+.org_back .list .right{
+    width: 4%;
+    float: left;
+    text-align: center;
+}
+.org_back .list .right .iconfont{
+    font-size: 14px;
+}
+.org_back .list .right span{
+    cursor: pointer;
+}
+.org_back .list .middle ul li{
+    float: left;
+    margin: 0px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+/*杨延博修改了老师列表 
+	overflow-y: scroll;
+    height: 70px;
+为收起 */
+.org_back .teacher_list .middle{
+    overflow-y:hidden;
+    height:29px;
+    line-h	eight: 24px;
+}
+.org_back .border{
+    width: 96%;
+    border-top:1px solid #ccc;
+    margin: 3px auto;
+}
+.org_back .title{
+    width: 96%;
+    /*background: #edf1f2;*/
+    margin: 0px auto;
+    line-height: 32px;
+    color: #999;
+}
+.org_back .title span{
+    margin: 0px 30px 0px 20px;
+}
+.click{
+    color: #0066ff;
+}
+.iconfont.teachericon{
+    color:red;
+    font-size: 16px;
+
+}
+/*���甯���舵��娌℃����舵��*/
+.empty{
+    height: 100px;
+    padding-top: 20px;
+    text-align: center;
+    color: #999;
+    font-size: 20px;
+}
+.teahcerName{
+    line-height:30px;
+}
+

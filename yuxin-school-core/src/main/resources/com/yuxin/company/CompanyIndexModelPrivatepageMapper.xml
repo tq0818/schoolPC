@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyIndexModelPrivatepageMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage" id="companyIndexModelPrivatepageResultMap">
+		<result property="id" column="id" />
+		<result property="schoolId" column="school_id" />
+		<result property="modelId" column="model_id" />
+		<result property="sort" column="sort" />
+		<result property="type" column="type" />
+		<result property="divcode" column="divcode" />
+		<result property="configId" column="config_id" />
+		<result property="companyId" column="company_id" />
+		<result property="templateId" column="template_id" />
+	</resultMap>
+	
+		<resultMap type="com.yuxin.wx.vo.company.CompanyIndexModelPrivatepageVo" id="companyIndexModelPrivatepageResultMapVo">
+		<result property="id" column="id" />
+		<result property="schoolId" column="school_id" />
+		<result property="modelId" column="model_id" />
+		<result property="sort" column="sort" />
+		<result property="type" column="type" />
+		<result property="divcode" column="divcode" />
+		<result property="configId" column="config_id" />
+		<result property="companyId" column="company_id" />
+		<result property="templateId" column="template_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		school_id,
+		model_id,
+		sort,
+		type,
+		divcode,
+		config_id,
+		company_id,
+		template_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{schoolId},
+		#{modelId},
+		#{sort},
+		#{type},
+		#{divcode},
+		#{configId},
+		#{companyId},
+		#{templateId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.schoolId},
+		#{item.modelId},
+		#{item.sort},
+		#{item.type},
+		#{item.divcode},
+		#{item.configId},
+		#{item.companyId},
+		#{item.templateId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage" useGeneratedKeys="true" keyProperty="id">
+		insert into company_index_model_privatepage( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_index_model_privatepage( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_index_model_privatepage
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_index_model_privatepage
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		update company_index_model_privatepage 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="modelId != null and modelId != ''">model_id = #{modelId},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="divcode != null and divcode != ''">divcode = #{divcode},</if>
+			<if test="configId != null and configId != ''">config_id = #{configId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="templateId != null and templateId != ''">template_id = #{templateId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyIndexModelPrivatepageResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_index_model_privatepage
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyIndexModelPrivatepageResultMap">
+		select <include refid="table_columns" /> 
+		from company_index_model_privatepage
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="modelId != null and modelId != ''">and model_id = #{modelId}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="divcode != null and divcode != ''">and divcode = #{divcode}</if>
+			<if test="configId != null and configId != ''">and config_id = #{configId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="templateId != null and templateId != ''">and template_id = #{templateId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyIndexModelPrivatepageResultMap" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		select <include refid="table_columns" />
+		from company_index_model_privatepage
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		select count(id) from company_index_model_privatepage
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<insert id="copyToCompany" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		insert into company_index_model_privatepage (school_id,model_id,sort,type,divcode,config_id,company_id,template_id)
+		select id,${schoolId},model_id,sort,type,divcode,'' config_id,${companyId},template_id from company_index_model_privatepage 
+		where company_id=0 and template_id=#{templateId}
+	</insert>
+	
+	<select id="findList" resultMap="companyIndexModelPrivatepageResultMapVo" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		select <include refid="table_columns" />
+		 from company_index_model_privatepage 
+		where company_id=#{companyId} and school_id=#{schoolId} and template_id=#{templateId} order by sort
+	</select>
+	
+	<select id="findByTemplate" resultMap="companyIndexModelPrivatepageResultMap" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		select <include refid="table_columns" />
+		 from company_index_model_privatepage 
+		where company_id=#{companyId} and school_id=#{schoolId} and (template_id=#{templateId} or template_id=501) order by sort
+	</select>
+</mapper>

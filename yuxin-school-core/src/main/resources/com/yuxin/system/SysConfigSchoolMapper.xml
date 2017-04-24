@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigSchoolMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigSchool" id="sysConfigSchoolResultMap">
+		<result property="id" column="id" />
+		<result property="schoolName" column="school_name" />
+		<result property="schoolDesc" column="school_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="overview" column="overview"/>
+		<result property="indexDomain" column="index_domain"/>
+		<result property="xzqhCode" column="xzqh_code"/>
+		<result property="suffix" column="suffix"/>
+		<!-- <result property="category" column="category"/> -->
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		school_name,
+		school_desc,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		del_flag,
+		company_id,
+		default_flag,
+		overview,
+		index_domain,
+		xzqh_code,
+		suffix
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{schoolName},
+		#{schoolDesc},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{companyId},
+		#{defaultFlag},
+		#{overview},
+		#{indexDomain},
+		#{xzqhCode},
+		#{suffix}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigSchool" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_school( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_school( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_school
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_school
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigSchool">
+		update sys_config_school 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="schoolName != null and schoolName != ''">school_name = #{schoolName},</if>
+			<if test="schoolDesc != null and schoolDesc != ''">school_desc = #{schoolDesc},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="overview != null and overview != ''">overview = #{overview},</if>
+			<if test="indexDomain != null">index_domain = #{indexDomain},</if>
+			<if test="xzqhCode != null and xzqhCode != ''">xzqh_code = #{xzqhCode},</if>
+			<if test="suffix != null">suffix = #{suffix},</if>
+			<!-- <if test="category != null">category = #{category},</if> -->
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigSchoolResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_school
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigSchoolResultMap" parameterType="Integer">
+		select <include refid="table_columns" /> 
+		from sys_config_school
+		where del_flag=0 and company_id=#{companyId}
+			order by id asc
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="schoolName != null and schoolName != ''">and school_name like '%${schoolName}%'</if>
+			<if test="schoolDesc != null and schoolDesc != ''">and school_desc = #{schoolDesc}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="overview != null and overview != ''">and overview = #{overview}</if>
+			<if test="indexDomain != null">and index_domain = #{indexDomain}</if>
+			<if test="xzqhCode != null and xzqhCode != ''">and xzqh_code = #{xzqhCode}</if>
+			<if test="suffix != null">and suffix = #{suffix}</if>
+			<!-- <if test="category != null">and category = #{category}</if> -->
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigSchoolResultMap" parameterType="com.yuxin.wx.model.system.SysConfigSchool">
+		select <include refid="table_columns" />
+		from sys_config_school
+		<include refid="page_where" />
+		ORDER BY id DESC
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigSchool">
+		select count(id) from sys_config_school
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 根据公司id查询分校 -->
+	<select id="findSchoolByCompanyId" parameterType="int" resultMap="sysConfigSchoolResultMap">
+	    	select <include refid="table_columns"/>
+			from sys_config_school
+			where del_flag=0 and company_id = #{companyId}
+			order by id asc
+	</select>
+	
+	<!-- 根据公司id查询默认分校 -->
+	<select id="queryDefaultSchool" parameterType="int" resultType="int">
+	    select id
+			from sys_config_school
+			where del_flag=0 and default_flag=1 and company_id=#{companyId}
+			limit 1
+	</select>
+	<!-- 其他自定义SQL -->
+	
+	<select id="findSchoolByMap" parameterType="map" resultMap="sysConfigSchoolResultMap">
+		select <include refid="table_columns"/>
+		from sys_config_school
+		where del_flag=0 and company_id=#{companyId} and id =#{schoolId} limit 1
+	</select>
+	<select id="findUnquieSchool" parameterType="map" resultType="Integer">
+		select count(id) 
+		from sys_config_school
+		where school_name = #{schoolName} and 
+			company_id = #{companyId}
+			limit 1
+	</select>
+	
+	<!-- 统计已开分校 -->
+	<select id="findSchoolCountByCompanyId" parameterType="Integer" resultType="Integer">
+		select count(id)
+		from sys_config_school
+		where company_id = #{companyId}
+		limit 1
+	</select>
+	
+	<select id="queryAllByCompanyId" resultMap="sysConfigSchoolResultMap" parameterType="Integer">
+		select <include refid="table_columns" /> 
+		from sys_config_school
+		where company_id=#{companyId}
+			order by id asc
+	</select>
+	
+	<select id="findExistBySuffix" parameterType="com.yuxin.wx.model.system.SysConfigSchool" resultType="integer">
+		select id from sys_config_school
+		where company_id = #{companyId}
+			and suffix = #{suffix}
+	</select>
+</mapper>

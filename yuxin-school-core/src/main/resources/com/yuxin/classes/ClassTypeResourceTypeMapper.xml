@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeResourceTypeMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassTypeResourceType" id="classTypeResourceTypeResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="resourceName" column="resource_name" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		resource_type,
+		resource_name
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{resourceType},
+		#{resourceName}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.resourceType},
+		#{item.resourceName}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassTypeResourceType" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type_resource_type( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_type_resource_type( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_type_resource_type
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassTypeResourceType">
+		update class_type_resource_type 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="resourceType != null and resourceType != ''">resource_type = #{resourceType},</if>
+			<if test="resourceName != null and resourceName != ''">resource_name = #{resourceName},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classTypeResourceTypeResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_type_resource_type
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classTypeResourceTypeResultMap">
+		select <include refid="table_columns" /> 
+		from class_type_resource_type
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="resourceType != null and resourceType != ''">and resource_type = #{resourceType}</if>
+			<if test="resourceName != null and resourceName != ''">and resource_name = #{resourceName}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classTypeResourceTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeResourceType">
+		select <include refid="table_columns" />
+		from class_type_resource_type
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeResourceType">
+		select count(id) from class_type_resource_type
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findResourceTypeByCompanpyId" parameterType="Integer" resultMap="classTypeResourceTypeResultMap">
+		select <include refid="table_columns"/>
+		from class_type_resource_type
+		where company_id = #{companyId}
+	</select>
+	<select id="findResourceTypeBy" parameterType="com.yuxin.wx.model.classes.ClassTypeResourceType" resultMap="classTypeResourceTypeResultMap">
+		select <include refid="table_columns"/>
+		from class_type_resource_type
+		where company_id = #{companyId} and 
+			resource_type = #{resourceType}
+			limit 1
+	</select>
+</mapper>

@@ -1,0 +1,309 @@
+/* .navbar.smbar .navbar-brand {
+  margin-left: 35px;
+} */
+/* .navbar.smbar .nav.navspace {
+  padding-left: 16px;
+} */
+.navbar.minibar .nav > li a {
+  color: #ffffff;
+}
+.go-rz em.iconfont {
+  color: #1cbdef;
+}
+.company .mainbackground.u-content {
+  margin: 15px 0 20px;
+}
+/*中间内容*/
+.u-wrap {
+  position: relative;
+}
+.coupon-page .showIn {
+  width: 100%;
+  padding-bottom: 42px;
+  margin-bottom: 34px;
+}
+.screen-right-cont {
+  width: 97%;
+}
+.page {
+  width: 370px;
+  height: 28px;
+  margin: 10px auto 10px;
+}
+.coupon-page .showIn .view {
+  margin: 0 auto;
+  padding-top: 30px;
+  width: 104%;
+}
+.view .study {
+  margin-right: 43px;
+  height: 479px;
+  border: none;
+  margin-bottom: 40px;
+  background-color: #fff;
+  width: 269px;
+}
+.study .study-up {
+  background-color: #fff;
+  border: none;
+}
+.study .study-img {
+  width: 111px;
+  height: 111px;
+  background-color: #fff;
+  background: url(../../images/head_big2.png) no-repeat;
+  overflow: hidden;
+}
+.study .study-down {
+  margin-top: 0;
+  padding-top: 16px;
+  height: 212px;
+  width: 234px;
+  overflow: hidden;
+  line-height: 18px;
+}
+.study-edit {
+  width: 235px;
+  height: 50px;
+  border-top: 1px solid #E0E0E0;
+  margin: 0 auto;
+}
+.study-edit .center {
+  width: 140px;
+  height: 30px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+.study-edit .center .left,
+.study-edit .center .right {
+  font-size: 12px;
+  border-radius: 3px;
+  line-height: 28px;
+  text-align: center;
+  color: #999999;
+  cursor: pointer;
+}
+.study-edit .center .left {
+  width: 58px;
+  height: 28px;
+  float: left;
+  border: 1px solid #e0e0e0;
+}
+.study-edit .center .right {
+  width: 60px;
+  height: 30px;
+  float: right;
+}
+.study-edit .center .right {
+  background-color: #00B7EE;
+  color: #fff;
+  border-color: #00B7EE;
+}
+.view .spe {
+  margin-right: 0;
+}
+.page .spot {
+  background-color: #f6f6f6;
+}
+.L-allowAdmissionsTc-b {
+  width: 640px;
+  margin-left: -320px;
+}
+.screen-right-cont {
+  position: relative;
+}
+/*按钮*/
+/*.pagination li a:hover {
+    text-decoration: none;
+    background-color: #00B7EE;
+    color: #fff;
+    border-color: #00B7EE
+}*/
+/*按钮 结束*/
+.footer {
+  background-color: #eeeeee;
+}
+.L-allowAdmissionsTc-b {
+  width: 960px;
+  margin-left: -465px;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -480px;
+  margin-top: -263px;
+  min-height: 100px;
+}
+.layer-tips .layer-tips-title {
+  height: 40px;
+  line-height: 40px;
+  font-size: 15px;
+  padding-left: 20px;
+}
+.Layer-tips-content {
+  padding: 30px 0 0 150px;
+}
+.Layer-tips-content .name {
+  height: 28px;
+  margin-bottom: 20px;
+}
+.Layer-tips-content .name .left {
+  height: 28px;
+  padding-right: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #000;
+  font-size: 13px;
+  position: relative;
+}
+.Layer-tips-content .name .right {
+  height: 26px;
+  border: 1px solid #E0E0E0;
+  line-height: 26px;
+  padding: 0 0 0 9px;
+  width: 140px;
+  font-size: 12px;
+}
+.Layer-tips-content .sort {
+  height: 28px;
+  margin-bottom: 20px;
+}
+.Layer-tips-content .sort .left {
+  height: 28px;
+  padding-right: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #000;
+  font-size: 13px;
+}
+.Layer-tips-content .sort .right {
+  height: 26px;
+  border: 1px solid #E0E0E0;
+  line-height: 26px;
+  padding: 0 0 0 9px;
+  /*color: silver;*/
+  width: 120px;
+  font-size: 12px;
+  width: 140px;
+}
+.Layer-tips-content .portrait {
+  height: 120px;
+  margin-bottom: 12px;
+}
+.Layer-tips-content .portrait .left {
+  padding-right: 20px;
+  color: #000;
+  font-size: 13px;
+}
+.Layer-tips-content .portrait .left-m {
+  height: 118px;
+  width: 118px;
+  border: 1px solid #E0E0E0;
+  background: url(../../images/kong_img.png) no-repeat center;
+}
+.Layer-tips-content .portrait .right {
+  border: 1px solid #E0E0E0;
+  height: 28px;
+  width: 78px;
+  line-height: 28px;
+  text-align: center;
+  color: silver;
+  margin-top: 91px;
+  margin-left: 60px;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.portrait .right .right-d {
+  padding-left: 16px;
+  font-size: 12px;
+}
+.portrait .right .inputstyle {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+}
+.portrait .right .inputstyle:hover {
+  cursor: pointer;
+}
+.Layer-tips-content .idea {
+  height: 120px;
+  position: relative;
+}
+.Layer-tips-content .idea .left {
+  font-size: 13px;
+  padding-right: 20px;
+  color: #000000;
+}
+.Layer-tips-content .idea .right {
+  display: block;
+  width: 540px;
+  height: 118px;
+  padding: 0;
+  border: 1px solid #E0E0E0;
+  resize: none;
+}
+.Layer-tips-content .idea .number {
+  position: absolute;
+  right: 199px;
+  bottom: 2px;
+  color: #a0a0a0;
+}
+.layer-tips .layer-tips-btns {
+  padding-top: 30px;
+}
+.layer-tips-b {
+  width: 420px;
+  height: 210px;
+  left: 50%;
+  top: 50%;
+  margin-left: -210px;
+  margin-top: -110px;
+}
+.layer-tips .layer-tips-title {
+  padding-left: 10px;
+}
+.title-prompt {
+  font-size: 12px;
+  margin-top: 50px;
+  margin-bottom: 16px;
+}
+.manage-button:hover {
+  background: #01aadd;
+}
+#L-edior .btn-info {
+  color: #fff;
+  background-color: #00b7ee;
+  border: 1px solid #00b7ee;
+}
+#L-edior .btn-info:hover {
+  background-color: #01aadd;
+  border: 1px solid #01aadd;
+}
+.Layer-tips-content .name {
+  position: relative;
+}
+.name .label {
+  position: absolute;
+  font-size: 12px;
+  line-height: 12px;
+  color: #fe5151;
+  bottom: 10px;
+  left: 78px;
+}
+.study-edit .center .left:hover {
+  background-color: #F3F3F3;
+}
+.study-edit .center .right:hover {
+  background-color: #01aadd;
+  border-color: #01aadd;
+}
+#L-allowAdmissionsTc .btn-mini {
+  padding: 8px 15px;
+}
+#L-allowAdmissionsTc .btn-info {
+  padding: 9px 15px;
+  border: none;
+}

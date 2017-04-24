@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.resource.mapper.ResourceListMapper">
+	<resultMap type="com.yuxin.wx.model.resource.ResourceList" id="resourceListResultMap">
+		<result property="id" column="id" />
+		<result property="fileName" column="file_name" />
+		<result property="fileType" column="file_type" />
+		<result property="filePath" column="file_path" />
+		<result property="fileSize" column="file_size" />
+		<result property="uploadTime" column="upload_time" />
+		<result property="uploadUserId" column="upload_user_id" />
+		<result property="delFlag" column="del_flag" />
+		<result property="uuid" column="uuid" />
+		<result property="companyId" column="company_id" />
+		<result property="fileCategory" column="file_category" />
+		<result property="delTime" column="del_time" />
+		<result property="sysItemOne" column="sys_item_one" />
+		<result property="sysItemSecond" column="sysItemSecond" />
+		<result property="schoolId" column="school_id" />
+		<result property="tag" column="tag" />
+		<result property="sourcePath" column="source_path"/>
+		<result property="sourceSize" column="source_size"/>
+		<result property="uploadUserName" column="upload_user_name"/>
+		<result property="uploadType" column="upload_type"/>
+		<result property="updator" column="updator"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="oldData" column="old_data"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		file_name,
+		file_type,
+		file_path,
+		file_size,
+		upload_time,
+		upload_user_id,
+		del_flag,
+		uuid,
+		company_id,
+		file_category,
+		del_time,
+		sys_item_one,
+		sys_item_second,
+		school_id,
+		tag,
+		source_path,
+		source_size,
+		upload_user_name,
+		upload_type,
+		updator,
+		update_time,
+		old_data
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{fileName},
+		#{fileType},
+		#{filePath},
+		#{fileSize},
+		#{uploadTime},
+		#{uploadUserId},
+		#{delFlag},
+		#{uuid},
+		#{companyId},
+		#{fileCategory},
+		#{delTime},
+		#{sysItemOne},
+		#{sysItemSecond},
+		#{schoolId},
+		#{tag},
+		#{sourcePath},
+		#{sourceSize},
+		#{uploadUserName},
+		#{uploadType},
+		#{updator},
+		#{updateTime},
+		#{oldData}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.fileName},
+		#{item.fileType},
+		#{item.filePath},
+		#{item.fileSize},
+		#{item.uploadTime},
+		#{item.uploadUserId},
+		#{item.delFlag},
+		#{item.uuid},
+		#{item.companyId},
+		#{item.fileCategory},
+		#{item.delTime},
+		#{item.sysItemOne},
+		#{item.sysItemSecond},
+		#{item.schoolId},
+		#{item.tag},
+		#{item.sourcePath},
+		#{item.sourceSize},
+		#{item.uploadUserName},
+		#{item.uploadType},
+		#{item.updator},
+		#{item.updateTime},
+		#{item.oldData}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.resource.ResourceList" useGeneratedKeys="true" keyProperty="id">
+		insert into resource_list( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into resource_list( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from resource_list
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from resource_list
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.resource.ResourceList">
+		update resource_list 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+			<if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+			<if test="filePath != null and filePath != ''">file_path = #{filePath},</if>
+			<if test="fileSize != null">file_size = #{fileSize},</if>
+			<if test="uploadTime != null and uploadTime != ''">upload_time = #{uploadTime},</if>
+			<if test="uploadUserId != null">upload_user_id = #{uploadUserId},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="uuid != null and uuid != ''">uuid = #{uuid},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+			<if test="fileCategory != null and fileCategory != ''">file_category = #{fileCategory},</if>
+			<if test="delTime != null and delTime != ''">del_time = #{delTime},</if>
+			<if test="sysItemOne != null">sys_item_one = #{sysItemOne},</if>
+			<if test="sysItemSecond != null">sys_item_second = #{sysItemSecond},</if>
+			<if test="schoolId != null">school_id = #{schoolId},</if>
+			<if test="tag != null and tag != ''">tag = #{tag},</if>
+			<if test="sourcePath != null and sourcePath != ''">source_path = #{sourcePath},</if>
+			<if test="uploadUserName != null and uploadUserName != ''">upload_user_name = #{uploadUserName},</if>
+			<if test="uploadType != null">upload_type = #{uploadType},</if>
+			<if test="updator != null">updator = #{updator},</if>
+			<if test="updateTime != null">update_time = #{updateTime},</if>
+			<if test="oldData != null">old_data = #{oldData},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="resourceListResultMap" parameterType="int" >
+		select <include refid="table_columns" />
+		from resource_list
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="resourceListResultMap">
+		select <include refid="table_columns" /> 
+		from resource_list
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="fileName != null and fileName != ''">and file_name like '%${fileName}%'</if>
+			<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
+			<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>
+			<if test="fileSize != null">and file_size = #{fileSize}</if>
+			<if test="uploadTime != null and uploadTime != ''">and upload_time = #{uploadTime}</if>
+			<if test="uploadUserId != null">and upload_user_id = #{uploadUserId}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="uuid != null and uuid != ''">and uuid = #{uuid}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="fileCategory != null and fileCategory != ''">and file_category = #{fileCategory}</if>
+			<if test="delTime != null and delTime != ''">and del_time = #{delTime}</if>
+			<if test="sysItemOne != null">and sys_item_one = #{sysItemOne}</if>
+			<if test="sysItemSecond != null">and sys_item_second = #{sysItemSecond}</if>
+			<if test="schoolId != null">and school_id = #{schoolId}</if>
+			<if test="tag != null and tag != ''">and tag = #{tag}</if>
+			<if test="sourcePath != null and sourcePath != ''">and source_path = #{sourcePath}</if>
+			<if test="sourceSize != null and sourceSize != ''">and source_size = #{sourceSize}</if>
+			<if test="uploadUserName != null and uploadUserName != ''">and upload_user_name = #{uploadUserName}</if>
+			<if test="uploadType != null">and upload_type = #{uploadType}</if>
+			<if test="updator != null">and updator = #{updator}</if>
+			<if test="updateTime != null">and update_time = #{updateTime}</if>
+			<if test="oldData != null">and old_data = #{oldData}</if>
+		</trim>
+	</sql>
+	
+	<sql id="page_wheres">
+		<if test="fileName != null and fileName != ''">and file_name like '%${fileName}%'</if>
+		<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
+		<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>
+		<if test="fileSize != null">and file_size = #{fileSize}</if>
+		<if test="uploadTime != null and uploadTime != ''">and upload_time = #{uploadTime}</if>
+		<if test="uploadUserId != null">and upload_user_id = #{uploadUserId}</if>
+		<if test="delFlag != null">and del_flag = #{delFlag}</if>
+		<if test="uuid != null and uuid != ''">and uuid = #{uuid}</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="fileCategory != null and fileCategory != ''">and file_category = #{fileCategory}</if>
+		<if test="delTime != null and delTime != ''">and del_time = #{delTime}</if>
+		<if test="sysItemOne != null">and sys_item_one = #{sysItemOne}</if>
+		<if test="sysItemSecond != null">and sys_item_second = #{sysItemSecond}</if>
+		<if test="schoolId != null">and school_id = #{schoolId}</if>
+		<if test="tag != null and tag != ''">and tag = #{tag}</if>
+		<if test="sourcePath != null and sourcePath != ''">and source_path = #{sourcePath}</if>
+		<if test="sourceSize != null and sourceSize != ''">and source_size = #{sourceSize}</if>
+		<if test="uploadUserName != null and uploadUserName != ''">and upload_user_name = #{uploadUserName}</if>
+		<if test="uploadType != null">and upload_type = #{uploadType}</if>
+		<if test="updator != null">and updator = #{updator}</if>
+		<if test="updateTime != null">and update_time = #{updateTime}</if>
+		<if test="oldData != null">and old_data = #{oldData}</if>
+	</sql>
+	
+	<select id="page" resultMap="resourceListResultMap" parameterType="com.yuxin.wx.model.resource.ResourceList">
+		select <include refid="table_columns" />
+		from resource_list
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageByFilePath" resultMap="resourceListResultMap" parameterType="com.yuxin.wx.model.resource.ResourceList">
+		select <include refid="table_columns" />
+		from resource_list
+		where file_path is not null
+		<include refid="page_wheres"/>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageByFilePathCount" resultType="int" parameterType="com.yuxin.wx.model.resource.ResourceList">
+		select count(id) from resource_list
+		where file_path is not null
+		<include refid="page_wheres"/>
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.resource.ResourceList">
+		select count(id) from resource_list
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findUseSumStroage" parameterType="map" resultType="String">
+		select coalesce(sum(convert(file_size,signed)),0) 
+		from resource_list
+		where company_id = #{id} and
+			upload_time = #{times} and
+			del_flag = 0
+	</select>
+	
+	
+	<select id="findByIdd" resultMap="resourceListResultMap" parameterType="com.yuxin.wx.model.resource.ResourceList" >
+		select <include refid="table_columns" />
+		from resource_list
+		where id = #{id} and company_id = #{companyId} 
+	</select>
+</mapper>

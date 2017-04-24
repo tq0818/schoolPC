@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UsersMapper">
+	<resultMap type="com.yuxin.wx.model.user.Users" id="usersResultMap">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="realName" column="real_name" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="qqNo" column="qq_no" />
+		<result property="phone" column="phone" />
+		<result property="userType" column="user_type" />
+		<result property="sex" column="sex" />
+		<result property="schoolId" column="school_id" />
+		<result property="identityTypeCode" column="identity_type_code" />
+		<result property="identityId" column="identity_id" />
+		<result property="age" column="age" />
+		<result property="birthday" column="birthday" />
+		<result property="educationCode" column="education_code" />
+		<result property="homePhone" column="home_phone" />
+		<result property="officePhone" column="office_phone" />
+		<result property="weixinId" column="weixin_id" />
+		<result property="status" column="status" />
+		<result property="companyId" column="company_id" />
+		<result property="emergencyContactName" column="emergency_contact_name" />
+		<result property="emergencyContactMobile" column="emergency_contact_mobile" />
+		<result property="hkAddress" column="hk_address" />
+		<result property="emailAuthSign" column="email_auth_sign" />
+		<result property="emailAuthSendtime" column="email_auth_sendtime" />
+		<result property="emailAuthCode" column="email_auth_code" />
+		<result property="userCity" column="user_city" />
+		<result property="uuid" column="uuid" />
+		<result property="headPicUrl" column="head_pic_url" />
+		<result property="userRole" column="user_role" />
+		<result property="schoolName" column="school_name" />
+		<result property="proxyOrgId" column="proxy_org_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.user.UserLoginSession" id="userLoginSessionMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="userId"/>
+		<result property="sessionId" column="sessionId"/>
+		<result property="loginTime" column="loginTime"/>
+		<result property="logoutTime" column="logoutTime"/>
+		<result property="status" column="status"/>
+		<result property="macAddress" column="macAddress"/>
+		<result property="address" column="address"/>
+		<result property="isp" column="isp"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		username,
+		password,
+		real_name,
+		mobile,
+		email,
+		qq_no,
+		phone,
+		user_type,
+		sex,
+		school_id,
+		identity_type_code,
+		identity_id,
+		age,
+		birthday,
+		education_code,
+		home_phone,
+		office_phone,
+		weixin_id,
+		status,
+		company_id,
+		emergency_contact_name,
+		emergency_contact_mobile,
+		hk_address,
+		email_auth_sign,
+		email_auth_sendtime,
+		email_auth_code,
+		user_city,
+		uuid,
+		head_pic_url,
+		proxy_org_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{username},
+		#{password},
+		#{realName},
+		#{mobile},
+		#{email},
+		#{qqNo},
+		#{phone},
+		#{userType},
+		#{sex},
+		#{schoolId},
+		#{identityTypeCode},
+		#{identityId},
+		#{age},
+		#{birthday},
+		#{educationCode},
+		#{homePhone},
+		#{officePhone},
+		#{weixinId},
+		#{status},
+		#{companyId},
+		#{emergencyContactName},
+		#{emergencyContactMobile},
+		#{hkAddress},
+		#{emailAuthSign},
+		#{emailAuthSendtime},
+		#{emailAuthCode},
+		#{userCity},
+		#{uuid},
+		#{headPicUrl},
+		#{proxyOrgId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into users( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into users( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from users
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.user.Users">
+		update users 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username != null and username != ''">username = #{username},</if>
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="realName != null and realName != ''">real_name = #{realName},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="qqNo != null and qqNo != ''">qq_no = #{qqNo},</if>
+			<if test="phone != null and phone != ''">phone = #{phone},</if>
+			<if test="userType != null and userType != ''">user_type = #{userType},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="identityTypeCode != null and identityTypeCode != ''">identity_type_code = #{identityTypeCode},</if>
+			<if test="identityId != null and identityId != ''">identity_id = #{identityId},</if>
+			<if test="age != null and age != ''">age = #{age},</if>
+			<if test="birthday != null and birthday != ''">birthday = #{birthday},</if>
+			<if test="educationCode != null and educationCode != ''">education_code = #{educationCode},</if>
+			<if test="homePhone != null and homePhone != ''">home_phone = #{homePhone},</if>
+			<if test="officePhone != null and officePhone != ''">office_phone = #{officePhone},</if>
+			<if test="weixinId != null and weixinId != ''">weixin_id = #{weixinId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="emergencyContactName != null and emergencyContactName != ''">emergency_contact_name = #{emergencyContactName},</if>
+			<if test="emergencyContactMobile != null and emergencyContactMobile != ''">emergency_contact_mobile = #{emergencyContactMobile},</if>
+			<if test="hkAddress != null and hkAddress != ''">hk_address = #{hkAddress},</if>
+			<if test="emailAuthSign != null and emailAuthSign != ''">email_auth_sign = #{emailAuthSign},</if>
+			<if test="emailAuthSendtime != null and emailAuthSendtime != ''">email_auth_sendtime = #{emailAuthSendtime},</if>
+			<if test="emailAuthCode != null and emailAuthCode != ''">email_auth_code = #{emailAuthCode},</if>
+			<if test="userCity != null and userCity != ''">user_city = #{userCity},</if>
+			<if test="uuid != null and uuid != ''">uuid = #{uuid},</if>
+			<if test="headPicUrl != null and headPicUrl != ''">head_pic_url = #{headPicUrl},</if>
+			<if test="proxyOrgId != null and proxyOrgId != ''">proxy_org_id = #{proxyOrgId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateStatus" parameterType="com.yuxin.wx.model.user.Users">
+		update users set status=#{status}
+			where id=#{id}
+	</update>
+	
+	<select id="findById" resultMap="usersResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from users
+		where id = #{id}
+	</select>
+	
+	<select id="findUserByCompanyIdAndUserType" resultMap="usersResultMap" parameterType="Integer">
+		select <include refid="table_columns" />
+		from users
+		where user_type = 'USER_TYPE_ORG' and company_id = #{companyId} limit 1
+	</select>
+	
+	<update id="updateUserByCompanyIdAndUserType" parameterType="com.yuxin.wx.model.user.Users">
+		update users 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username != null and username != ''">username = #{username},</if>
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="qqNo != null">qq_no = #{qqNo},</if>
+			<if test="phone != null and phone != ''">phone = #{phone},</if>
+			<if test="userType != null and userType != ''">user_type = #{userType},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="realName !=null" >real_name = #{realName},</if>
+			<if test="identityTypeCode!=null and identityTypeCode!=''" >identity_type_code = #{identityTypeCode},</if>
+			<if test="identityId !=null and identityId!=''" >identity_id =#{identityId},</if>
+			<if test="age!=null and age!=''" >age=#{age},</if>
+			<if test="birthday !=null and birthday!=''" >birthday=#{birthday},</if>
+			<if test="educationCode !=null and educationCode!=''" >education_code=#{educationCode},</if>
+			<if test="homePhone !=null and homePhone!=''" >home_phone = #{homePhone},</if>
+			<if test="officePhone!=null and officePhone!=''" >office_phone=#{officePhone},</if>
+			<if test="weixinId!=null and weixinId!=''" >weixin_id=#{weixinId},</if>
+			<if test="status!=null and status!=''" >status=#{status},</if>
+			<if test="emergencyContactName!=null" >emergency_contact_name=#{emergencyContactName},</if>
+			<if test="emergencyContactMobile!=null" >emergency_contact_mobile=#{emergencyContactMobile},</if>
+		</trim>
+		<where>user_type = 'USER_TYPE_ORG' and company_id = #{companyId}</where>
+	</update>
+	
+	<select id="queryByName" resultMap="usersResultMap" parameterType="String" >
+		select u.id,
+		u.username,
+		u.password,
+		u.real_name realName,
+		u.mobile,
+		u.email,
+		u.qq_no qqNo,
+		u.phone,
+		u.user_type userType,
+		u.sex,
+		u.school_id schoolId,
+		u.identity_type_code identityTypeCode,
+		u.identity_id identityId,
+		u.age,
+		u.birthday,
+		u.education_code educationCode,
+		u.home_phone homePhone,
+		u.office_phone officePhone,
+		u.weixin_id weixinId,
+		u.status,
+		u.company_id companyId,
+		u.emergency_contact_name emergencyContactName,
+		u.emergency_contact_mobile emergencyContactMobile,
+		u.hk_address,
+		u.email_auth_sign emailAuthSign,
+		u.email_auth_sendtime emailAuthSendtime,
+		u.email_auth_code emailAuthCode,
+		u.user_city userCity,
+		u.uuid,
+		u.head_pic_url headPicUrl,s.school_name,
+		u.proxy_org_id  
+		from users u left join sys_config_school s on u.school_id = s.id
+		where username = #{userName} limit 1
+	</select>
+	
+	<select id="queryAll" resultMap="usersResultMap">
+		select <include refid="table_columns" /> 
+		from users
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="username != null and username != ''">and username = #{username}</if>
+			<if test="password != null and password != ''">and password = #{password}</if>
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="email != null and email != ''">and email = #{email}</if>
+			<if test="qqNo != null and qqNo != ''">and qq_no = #{qqNo}</if>
+			<if test="phone != null and phone != ''">and phone = #{phone}</if>
+			<if test="userType != null and userType != ''">and user_type = #{userType}</if>
+			<if test="sex != null and sex != ''">and sex = #{sex}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="usersResultMap" parameterType="com.yuxin.wx.model.user.Users">
+		select <include refid="table_columns" />
+		from users
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.Users">
+		select count(id) from users
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="checkUser" resultType="int" parameterType="com.yuxin.wx.model.user.Users">
+		select count(id) from users
+		where username=#{username} and password=#{password}
+	</select>
+	
+	<select id="findUserList" resultMap="usersResultMap" parameterType="com.yuxin.wx.vo.privilege.UserRoleVo">
+		select distinct u.*
+		from users u left join auth_user_role ur on u.id=ur.user_id  where  u.user_type='USER_TYPE_ORG' and company_id=#{companyId} and u.status = #{status}
+		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="schoolId != null and schoolId != ''">and u.school_id = #{schoolId}</if>
+		<if test="roleId != null and roleId != ''">and ur.role_id = #{roleId}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount2" resultType="Integer" parameterType="com.yuxin.wx.vo.privilege.UserRoleVo">
+		select count(distinct u.id) from users u left join auth_user_role ur on u.id=ur.user_id where u.user_type='USER_TYPE_ORG' and company_id=#{companyId}
+		<if test="realName != null and realName != ''">and u.real_name like  '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="schoolId != null and schoolId != ''">and u.school_id = #{schoolId}</if>
+		<if test="status != null and status != ''">and u.status = #{status}</if>
+		<if test="roleId != null and roleId != ''">and ur.role_id = #{roleId}</if>
+	</select>
+	
+	<select id="checkValid" resultType="Integer" parameterType="String">
+		select count(*) from users where 1=1
+		<if test="username != null and username != ''"> and username = #{username}</if>
+		<if test="mobile != null and mobile != ''"> and mobile = #{mobile}</if>
+		<if test="identityId != null and identityId != ''"> and identity_id = #{identityId}</if>
+		<if test="email != null and email != ''"> and email = #{email}</if>
+	</select>
+	
+	<select id="findUsersByRoleId" resultMap="usersResultMap"  parameterType="com.yuxin.wx.vo.privilege.RoleVo">
+		select u.* from users u,auth_user_role ur where u.id=ur.user_id and u.user_type='USER_TYPE_ORG' and ur.role_id=#{roleId} and u.status=1 and u.company_id=#{companyId}
+	</select>
+	
+	<select id="findIdByName" resultType="int"  parameterType="String">
+		select id from users where username=#{userName} limit 1
+	</select>
+	
+	<select id="findUserByName" resultMap="usersResultMap"  parameterType="String">
+		select <include refid="table_columns" /> from users where username=#{userName} limit 1
+	</select>
+	
+	<select id="findUserByCondition" resultMap="usersResultMap"  parameterType="com.yuxin.wx.model.user.Users">
+		select id,username,mobile,email from users
+		<where>
+		  status=1
+		    <if test="username != null and username != ''">and username = #{username}</if>
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="email != null and email != ''">and email = #{email}</if>
+		</where>
+	</select>
+	
+	<select id="selectCount" parameterType="String" resultType="int">
+		select count(id) from users where company_id=#{companyId}
+	</select>
+	
+	<select id="findByUserTypeAndCompanyId" parameterType="com.yuxin.wx.model.user.Users" resultMap="usersResultMap">
+		select school_id,id,mobile,phone from users where user_type=#{userType} and company_id = #{companyId} limit 1
+	</select>
+	
+	<select id="isExixits" parameterType="com.yuxin.wx.model.user.Users" resultType="Integer">
+		select count(*) from company as c,users as u where c.id = u.company_id
+		and c.domain = #{domain} and u.username = #{username} and u.mobile = #{mobile} limit 1
+	</select>
+	
+	<!-- 根据用户数登录时间统计人数 -->
+	<select id="queryUserTotalList" parameterType="com.yuxin.wx.model.user.UserLoginSession" resultMap="userLoginSessionMap">
+		select date_format(login_time, "%Y-%m-%d") as loginTime,COUNT(DISTINCT user_id) as loginNum from users_login_session
+		<where>
+			1=1
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(login_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(login_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(login_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and login_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null">and login_time <![CDATA[<=]]> '${endTime}'</if>
+		</where>
+		 group by date_format(login_time, "%Y-%m-%d") limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryUserTotalCount" parameterType="com.yuxin.wx.model.user.UserLoginSession" resultType="int">
+		select count(*) from (select date_format(login_time, "%Y-%m-%d") as loginTime,COUNT(DISTINCT user_id) as loginNum from users_login_session
+		<where>
+			1=1
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(login_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(login_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(login_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and login_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null">and login_time <![CDATA[<=]]> '${endTime}'</if>
+		</where>
+		group by date_format(login_time, "%Y-%m-%d")
+		) a
+	</select>
+	
+	<!-- 查询用户登录图表数据 -->
+	<select id="queryUserChar" parameterType="com.yuxin.wx.model.user.UserLoginSession" resultMap="userLoginSessionMap">
+		select date_format(login_time, "%Y-%m-%d") as loginTime,COUNT(DISTINCT user_id) as loginNum from users_login_session
+		<where>
+			1=1
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(login_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(login_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(login_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and login_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null">and login_time <![CDATA[<=]]> '${endTime}'</if>
+		</where>
+		group by date_format(login_time, "%Y-%m-%d")
+	</select>
+	
+	<select id="findCompanyByMobile" parameterType="map" resultType="Integer">
+		select company_id
+		from users 
+		where mobile = #{mobile} and 
+			user_type = 'USER_TYPE_ORG'
+			limit 1
+	</select>
+	
+	<select id="findRealNameByid" resultType="String" parameterType="Integer">
+		select real_name 
+		from users
+		where id = #{id}
+	</select>
+	
+	<select id="findUsersByConfition" resultMap="usersResultMap" parameterType="com.yuxin.wx.model.user.Users" >
+		select <include refid="table_columns" />
+		from users
+		where mobile=#{mobile} and user_type=#{userType} limit 1
+	</select>
+	
+	<select id="queryuserIsExist" resultMap="usersResultMap" parameterType="com.yuxin.wx.model.user.Users">
+		select <include refid="table_columns" /> 
+		from users where username = #{username}
+	</select>
+</mapper>

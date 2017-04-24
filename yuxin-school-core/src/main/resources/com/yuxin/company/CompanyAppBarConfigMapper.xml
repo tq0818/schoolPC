@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyAppBarConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyAppBarConfig" id="companyAppBarConfigResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="pageType" column="pageType" />
+		<result property="pageCode" column="pageCode" />
+		<result property="sequence" column="sequence" />
+		<result property="status" column="status" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		pageType,
+		pageCode,
+		sequence,
+		status,
+		company_id,
+		school_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{pageType},
+		#{pageCode},
+		#{sequence},
+		#{status},
+		#{companyId},
+		#{schoolId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.pageType},
+		#{item.pageCode},
+		#{item.sequence},
+		#{item.status},
+		#{item.companyId},
+		#{item.schoolId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyAppBarConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_app_bar_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_app_bar_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_app_bar_config
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_app_bar_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyAppBarConfig">
+		update company_app_bar_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="pageType != null and pageType != ''">pageType = #{pageType},</if>
+			<if test="pageCode != null and pageCode != ''">pageCode = #{pageCode},</if>
+			<if test="sequence != null">sequence = #{sequence},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<select id="findById" resultMap="companyAppBarConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_app_bar_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyAppBarConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_app_bar_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="pageType != null and pageType != ''">and pageType = #{pageType}</if>
+			<if test="pageCode != null and pageCode != ''">and pageCode = #{pageCode}</if>
+			<if test="sequence != null and sequence != ''">and sequence = #{sequence}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyAppBarConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyAppBarConfig">
+		select <include refid="table_columns" />
+		from company_app_bar_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyAppBarConfig">
+		select count(id) from company_app_bar_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findByCompanyAppBarConfig" resultMap="companyAppBarConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyAppBarConfig">
+		select <include refid="table_columns" /> from company_app_bar_config
+		<include refid="page_where" />
+		order by sequence asc;
+	</select>
+	
+</mapper>

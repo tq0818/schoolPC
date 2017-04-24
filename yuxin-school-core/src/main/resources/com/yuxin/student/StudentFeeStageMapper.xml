@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentFeeStageMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentFeeStage" id="studentFeeStageResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="stageDate" column="stage_date" />
+		<result property="stageFee" column="stage_fee" />
+		<result property="stageStatus" column="stage_status" />
+		<result property="payMethod" column="pay_method" />
+		<result property="remark" column="remark" />
+		<result property="createType" column="create_type" />
+		<result property="companyId" column="company_id"/>
+		<result property="posReal" column="pos_real"/>
+		<result property="cashReal" column="cash_real"/>
+		<result property="checkReal" column="check_real"/>
+		<result property="remitReal" column="remit_real"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.fee.RemoteFeeVo" id="remoteFeeListMap">
+		<result property="id" column="id"/>
+		<result property="classTypeId" column="classTypeId"/>
+		<result property="classTypeName" column="classTypeName"/>
+		<result property="examTermId" column="examTermId"/>
+		<result property="examTermName" column="examTermName"/>
+		<result property="itemOneId" column="itemOneId"/>
+		<result property="itemOneName" column="itemOneName"/>
+		<result property="itemSecondId" column="itemSecondId"/>
+		<result property="itemSecondName" column="itemSecondName"/>
+		<result property="totalFee" column="totalFee"/>
+		<result property="hasPayFee" column="hasPayFee"/>
+		<result property="payoffPercent" column="payoffPercent"/>
+		<result property="payoffStatus" column="payoffStatus"/>
+		<result property="companyId" column="companyId"/>
+		<result property="schoolId" column="schoolId"/>
+		<result property="detailId" column="detailId"/>
+		<result property="payId" column="payId"/>
+		<result property="userName" column="userName"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.fee.StagingVo" id="stageingListMap">
+		<result property="schoolId" column="schoolId"/>
+		<result property="stuName" column="stuName"/>
+		<result property="mobile" column="mobile"/>
+		<result property="username" column="username"/>
+		<result property="applyTime" column="applyTime"/>
+		<result property="itemOneId" column="itemOneId"/>
+		<result property="itemOneName" column="itemOneName"/>
+		<result property="itemSecondId" column="itemSecondId"/>
+		<result property="itemSecondName" column="itemSecondName"/>
+		<result property="classTypeId" column="classTypeId"/>
+		<result property="classTypeName" column="classTypeName"/>
+		<result property="payDate" column="payDate"/>
+		<result property="applyChannelCode" column="applyChannelCode"/>
+		<result property="posReal" column="posReal"/>
+		<result property="cashReal" column="cashReal"/>
+		<result property="checkReal" column="checkReal"/>
+		<result property="remitReal" column="remitReal"/>
+		<result property="totalAmount" column="totalAmount"/>
+		<result property="timeLen" column="timeLen"/>
+		<result property="payMethod" column="payMethod"/>
+		<result property="stageFee" column="stageFee"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		pay_master_id,
+		stage_date,
+		stage_fee,
+		stage_status,
+		pos_real,
+		cash_real,
+		check_real,
+		remit_real,
+		pay_date,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		remark,
+		create_type,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{payMasterId},
+		#{stageDate},
+		#{stageFee},
+		#{stageStatus},
+		#{posReal},
+		#{cashReal},
+		#{checkReal},
+		#{remitReal},
+		#{payDate},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{remark},
+		#{createType},
+		#{companyId}
+	</sql>
+	
+<sql id="entity_properties2">
+		#{item.id},
+		#{item.stuId},
+		#{item.payMasterId},
+		#{item.stageDate},
+		#{item.stageFee},
+		#{item.stageStatus},
+		#{item.posReal},
+		#{item.cashReal},
+		#{item.checkReal},
+		#{item.remitReal},
+		#{item.payDate},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.remark},
+		#{item.createType},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentFeeStage" useGeneratedKeys="true" keyProperty="id">
+		insert into student_fee_stage( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_fee_stage( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties2" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_fee_stage
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_fee_stage
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentFeeStage">
+		update student_fee_stage 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="payMasterId != null and payMasterId != ''">pay_master_id = #{payMasterId},</if>
+			<if test="stageDate != null and stageDate != ''">stage_date = #{stageDate},</if>
+			<if test="stageFee != null and stageFee != ''">stage_fee = #{stageFee},</if>
+			<if test="stageStatus != null and stageStatus != ''">stage_status = #{stageStatus},</if>
+			<if test="payMethod != null and payMethod != ''">pay_method = #{payMethod},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="createType != null and createType != ''">create_type = #{createType},</if>
+			<if test="posReal != null and posReal != ''">pos_real = #{posReal},</if>
+			<if test="cashReal != null and cashReal != ''">cash_real = #{cashReal},</if>
+			<if test="checkReal != null and checkReal != ''">check_real = #{checkReal},</if>
+			<if test="remitReal != null and remitReal != ''">remit_real = #{remitReal},</if>
+			<if test="payDate != null and payDate != ''">pay_date = #{payDate},</if>
+			<if test="updateTime != null and createType != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentFeeStageResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_fee_stage
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentFeeStageResultMap">
+		select <include refid="table_columns" /> 
+		from student_fee_stage
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+			<if test="stageDate != null and stageDate != ''">and stage_date = #{stageDate}</if>
+			<if test="stageFee != null and stageFee != ''">and stage_fee = #{stageFee}</if>
+			<if test="stageStatus != null and stageStatus != ''">and stage_status = #{stageStatus}</if>
+			<if test="payMethod != null and payMethod != ''">and pay_method = #{payMethod}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="createType != null and createType != ''">and create_type = #{createType}</if>
+			<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentFeeStageResultMap" parameterType="com.yuxin.wx.model.student.StudentFeeStage">
+		select <include refid="table_columns" />
+		from student_fee_stage
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentFeeStage">
+		select count(id) from student_fee_stage
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryStageList" resultMap="stageingListMap" parameterType="com.yuxin.wx.vo.fee.StagingVo" >
+		<choose>
+			<when test="applyChannelCode != null and applyChannelCode != '' and applyChannelCode=='CHANNEL_OFFLINE'">
+				select a.* from (select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal,-1 as payMethod,uf.username
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		where f.stage_status='1'
+		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_OFFLINE'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>	
+		 limit #{firstIndex},#{pageSize}) a group by payMasterId
+			</when>
+			<when test="applyChannelCode != null and applyChannelCode != '' and applyChannelCode=='CHANNEL_ONLINE'">
+				select a.* from (
+select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal,po.pay_type as payMethod,uf.username
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_ONLINE'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 limit #{firstIndex},#{pageSize}) a group by payMasterId
+			</when>
+			<when test="applyChannelCode != null and applyChannelCode != '' and applyChannelCode=='CHANNEL_STUDYCARD'">
+				select a.* from (
+select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal,po.pay_type as payMethod,uf.username
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_STUDYCARD'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 limit #{firstIndex},#{pageSize}) a group by payMasterId
+			</when>
+			<otherwise>
+				select a.* from (select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal,-1 as payMethod,uf.username
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		where f.stage_status='1'
+		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_OFFLINE')
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>	
+		union all
+select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal,po.pay_type as payMethod,uf.username
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_ONLINE'  or p.apply_channel_code='CHANNEL_STUDYCARD')
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) a ORDER BY payDate desc limit #{firstIndex},#{pageSize}
+			</otherwise>
+		</choose>
+	</select>
+	<select id="queryStageList2" resultType="com.yuxin.wx.vo.fee.StagingVo" parameterType="com.yuxin.wx.vo.fee.StagingVo" >
+		select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,uf.username as username
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		left join users_front uf on s.user_id=uf.id
+		where f.stage_status='0'
+		and f.del_flag=0
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_Second_Id = #{itemSecondId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_Term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and p.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		order by s.id ,f.stage_date limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="pageCount2" resultType="Integer" parameterType="com.yuxin.wx.vo.fee.StagingVo" >
+		<choose>
+			<when test="applyChannelCode != null and applyChannelCode != '' and applyChannelCode=='CHANNEL_OFFLINE'">
+				select count(*) from (select a.* from (select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		where f.stage_status='1'
+		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_OFFLINE'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>	
+		 ) as a group by payMasterId) as cnt limit 1
+			</when>
+			<when test="applyChannelCode != null and applyChannelCode != '' and applyChannelCode=='CHANNEL_ONLINE'">
+				select count(*) from (select a.* from (
+select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_ONLINE'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) as a group by payMasterId) as cnt limit 1
+			</when>
+			<when test="applyChannelCode != null and applyChannelCode != '' and applyChannelCode=='CHANNEL_STUDYCARD'">
+				select count(*) from (select a.* from (
+select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_STUDYCARD'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) as a group by payMasterId) as cnt limit 1
+			</when>
+			<otherwise>
+				select count(*) from (select a.* from (select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		where f.stage_status='1'
+		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_OFFLINE')
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>	
+		union all
+select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+		or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_ONLINE'  or p.apply_channel_code='CHANNEL_STUDYCARD')
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) as a group by payMasterId) as cnt limit 1
+			</otherwise>
+		</choose>
+	</select>
+	<select id="pageCount4" resultType="Integer" parameterType="com.yuxin.wx.vo.fee.StagingVo" >
+		select count(*) from (
+		select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,DATE_FORMAT(p.apply_time,'%Y-%m-%d') as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		left join users_front uf on s.user_id=uf.id
+		where f.stage_status='0'
+		and f.del_flag=0
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_Second_Id = #{itemSecondId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_Term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and p.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		 ) as cnt limit 4
+	</select>
+	
+	<select id="queryStageGroup" resultType="com.yuxin.wx.vo.fee.StagingVo" parameterType="Integer">
+		SELECT
+			s.stu_id stuId,s.pay_master_id payMasterId,sum(s.stage_fee) cntFee,(select count(id) from student_fee_stage where stu_id=s.stu_id and pay_master_id=s.pay_master_id) cntNum,company_id as companyId
+		FROM student_fee_stage s
+		WHERE s.stage_status = 0 and s.company_id=#{companyId}
+		GROUP BY s.stu_id, s.pay_master_id
+	</select>
+	<select id="findStageByGroup" parameterType="com.yuxin.wx.vo.fee.StagingVo" resultType="com.yuxin.wx.vo.fee.StagingVo" >
+		SELECT p.id as payMasterId,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,(select count(id)+1 from student_fee_stage where stu_id=#{stuId} and pay_master_id=#{payMasterId} and stage_status=1 ) currtNum
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on  f.stu_id=s.id
+		where f.stu_id=#{stuId} and f.pay_master_id=#{payMasterId} and stage_status=0 and f.company_id=#{companyId}
+		ORDER BY f.id LIMIT 1
+	</select>
+	<select id="pageCount3" resultType="int" parameterType="com.yuxin.wx.vo.fee.StagingVo">
+		select count(*) from (SELECT
+			stu_id stuId,pay_master_id payMasterId,sum(stage_fee) cntFee,count(id) cntNum
+		FROM student_fee_stage
+		WHERE stage_status = 0 and company_id=#{companyId}
+		GROUP BY stu_id, pay_master_id) c  limit 1
+	</select>
+	
+	<select id="findNextById" parameterType="int" resultMap="studentFeeStageResultMap">
+	SELECT <include refid="table_columns" />
+    FROM student_fee_stage
+    WHERE stu_id = ( SELECT stu_id FROM student_fee_stage WHERE id = #{id})
+	AND pay_master_id = ( SELECT pay_master_id FROM student_fee_stage WHERE id = #{id})
+    AND stage_status=0
+    AND id>#{id}
+    limit 1
+	</select>
+	
+	<select id="findBypayMasterId" parameterType="String" resultMap="studentFeeStageResultMap">
+		select <include refid="table_columns" />
+		from
+			student_fee_stage
+		where 
+			pay_master_id=#{payMasterId}
+			and stage_status='0'
+			and del_flag='0'
+	</select>
+	
+	<select id="findAll" parameterType="String" resultMap="studentFeeStageResultMap">
+		select <include refid="table_columns" />
+		from
+			student_fee_stage
+		where 
+			pay_master_id=#{payMasterId}
+	</select>
+	
+	<select id="findHasPayed" parameterType="String" resultMap="studentFeeStageResultMap">
+		select <include refid="table_columns" />
+		from
+			student_fee_stage
+		where 
+			pay_master_id=#{payMasterId} and stage_status=1 and del_flag='0'
+	</select>
+	
+	<select id="findSumPayed" parameterType="String" resultType="double">
+		select sum(stage_fee) from student_fee_stage where pay_master_id=#{payMasterId} and stage_status=1
+	</select>
+	<update id="update2" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		update student_fee_stage set stu_id=#{stuId} where pay_master_id=#{id}
+	</update>
+	<update id="deleteByMasterId" parameterType="String">
+		update student_fee_stage set del_flag=1 where pay_master_id=#{payMasterId}
+	</update>
+	
+	<!-- 查询流水费用统计 -->
+	<select id="querylsFeeTotal" parameterType="com.yuxin.wx.vo.fee.StagingVo" resultType="com.yuxin.wx.vo.fee.StagingTotalVo">
+		select IFNULL(SUM(cnt.stageFee),0) as thFee,IFNULL(SUM(cnt.posReal),0) as posFee,IFNULL(SUM(cnt.checkReal),0) as checkFee,IFNULL(SUM(cnt.remitReal),0) as remitFee,
+		IFNULL(SUM(cnt.cashReal),0) as cashFee,IFNULL(SUM(cnt.cashReal+cnt.posReal+cnt.checkReal+cnt.remitReal),0) as totalMoney from (
+		select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,DATE_FORMAT(p.apply_time,'%Y-%m-%d') as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,IFNULL(f.stage_fee,0) as stageFee,f.stage_status as stageStatus,IFNULL(f.pos_real,0) as posReal,IFNULL(f.check_real,0) as checkReal,IFNULL(f.remit_real,0) as remitReal,IFNULL(f.cash_real,0) as cashReal
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		where f.stage_status='1'
+		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS' and p.apply_channel_code ='CHANNEL_OFFLINE'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_Second_Id = #{itemSecondId} </if>
+	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_Term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name like  '%${stuName}%' </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) as cnt limit 1
+	</select>
+	
+	<!-- 线上线下统计 -->
+	<select id="queryOnoffFeeTotal" parameterType="com.yuxin.wx.vo.fee.StagingVo" resultType="double">
+		select IFNULL(SUM(cnt.cashReal+cnt.posReal+cnt.checkReal+cnt.remitReal),0) as TotalMoney from (
+		select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,DATE_FORMAT(p.apply_time,'%Y-%m-%d') as applyTime,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,IFNULL(f.stage_fee,0) as stageFee,f.stage_status as stageStatus,IFNULL(f.pos_real,0) as posReal,IFNULL(f.check_real,0) as checkReal,IFNULL(f.remit_real,0) as remitReal,IFNULL(f.cash_real,0) as cashReal
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		where f.stage_status='1'
+		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_Second_Id = #{itemSecondId} </if>
+	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and p.exam_Term_Id = #{examTermId} </if>
+		<if test="mobile != null and mobile != ''"> and s.mobile = #{mobile} </if>
+		<if test="stuName != null and stuName != ''"> and s.name like  '%${stuName}%' </if>
+		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
+		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) as cnt limit 1
+	</select>
+	
+	<!-- 线下总费用 -->
+	<select id="queryOnLineFeeTotal" parameterType="com.yuxin.wx.vo.fee.StagingVo" resultType="double">
+		select IFNULL(SUM(cnt.stageFee),0) as TotalMoney from (
+		select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as schoolId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name itemSecondName,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.apply_time as applyTime,
+		TO_DAYS(NOW())-TO_DAYS(p.apply_time) as timeLen,
+		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
+		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
+		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.pay_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id LEFT JOIN student s on  p.stu_id=s.id
+		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0
+		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
+	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
+		<if test="startDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+		 ) as cnt limit 1
+	</select>
+	
+	<!-- 查询远程节费 -->
+	<select id="queryRemoteStageList" resultMap="remoteFeeListMap" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo" >
+		select s.id as payId,s.exam_term_id as examTermId,s.exam_term_name as examTermName,s.item_one_id as itemOneId,s.item_one_name as itemOneName,
+			s.item_second_id as itemSecondId,s.item_second_name as itemSecondName,
+			s.commodity_id as classTypeId,s.class_type_name as classTypeName,s.school_id as schoolId,s.company_id as companyId,
+			s.total_amount as totalFee,p.id as id,p.payoff_fee as hasPayFee,p.payoff_percent as payoffPercent,p.payoff_status AS
+			payoffStatus  from student_pay_master s LEFT JOIN class_type c on s.commodity_id=c.id
+			LEFT JOIN course_remote_payoff p on s.commodity_id=p.class_type_id 
+			where c.remote_flag=1 and s.delete_flag=0 and c.del_flag=0  and (s.pay_status_code='ORDER_PAID' or s.pay_status_code='ORDER_PART_PAY' or s.pay_status_code='ORDER_FINISHED' or s.pay_status_code='ORDER_PAID_NO_COURSE') and s.commodity_type='COMMODITY_CLASS'
+		<if test="classTypeName != null and classTypeName != ''">and s.class_type_name like '%${classTypeName}%'</if>
+		<if test="itemOneId != null and itemOneId != ''"> and s.item_one_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and s.item_second_Id = #{itemSecondId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and s.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and s.exam_term_Id = #{examTermId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and s.school_id = #{schoolId} </if>
+		<if test="payoffStatus != null">
+			<choose>
+				<when test="payoffStatus == ''">and p.payoff_status is null</when>
+				<otherwise>
+					and p.payoff_status = #{payoffStatus}
+				</otherwise>
+			</choose>	
+		</if>
+		order by s.id limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="remoteCount" resultType="Integer" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo" >
+		select count(s.id) from student_pay_master s LEFT JOIN class_type c on s.commodity_id=c.id
+			LEFT JOIN course_remote_payoff p on s.commodity_id=p.class_type_id
+			where c.remote_flag=1 and s.delete_flag=0 and c.del_flag=0 and (s.pay_status_code='ORDER_PAID' or s.pay_status_code='ORDER_PART_PAY' or s.pay_status_code='ORDER_FINISHED' or s.pay_status_code='ORDER_PAID_NO_COURSE') and s.commodity_type='COMMODITY_CLASS'
+		<if test="classTypeName != null and classTypeName != ''">and s.class_type_name like '%${classTypeName}%'</if>
+		<if test="itemOneId != null and itemOneId != ''"> and s.item_one_Id = #{itemOneId} </if>
+		<if test="itemSecondId != null and itemSecondId != ''"> and s.item_second_Id = #{itemSecondId} </if>
+		<if test="classTypeId != null and classTypeId != ''"> and s.commodity_id = #{classTypeId} </if>
+		<if test="examTermId != null and examTermId != ''"> and s.exam_term_Id = #{examTermId} </if>
+		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="schoolId != null and schoolId != ''"> and s.school_id = #{schoolId} </if>
+		<if test="payoffStatus != null">
+			<choose>
+				<when test="payoffStatus == ''">and p.payoff_status is null</when>
+				<otherwise>
+					and p.payoff_status = #{payoffStatus}
+				</otherwise>
+			</choose>	
+		</if>
+		limit 1
+	</select>
+	
+	<select id="queryRemoteById" resultType="com.yuxin.wx.vo.fee.RemoteFeeVo" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo" >
+		select s.id as payId,s.exam_term_id as examTermId,s.exam_term_name as examTermName,s.item_one_id as itemOneId,s.item_one_name as itemOneName,
+			s.item_second_id as itemSecondId,s.item_second_name as itemSecondName,
+			s.commodity_id as classTypeId,s.class_type_name as classTypeName,s.school_id as schoolId,s.company_id as companyId,
+			s.total_amount as totalFee,p.id as id,p.payoff_fee as hasPayFee,p.payoff_percent as payoffPercent,p.payoff_status AS
+			payoffStatus  from student_pay_master s LEFT JOIN class_type c on s.commodity_id=c.id
+			LEFT JOIN course_remote_payoff p on s.commodity_id=p.class_type_id 
+			where c.remote_flag=1 and s.delete_flag=0 and c.del_flag=0 and (s.pay_status_code='ORDER_PAID' or s.pay_status_code='ORDER_PART_PAY' or s.pay_status_code='ORDER_FINISHED' or s.pay_status_code='ORDER_PAID_NO_COURSE') and s.commodity_type='COMMODITY_CLASS'  and s.id=#{payId} limit 1
+	</select>
+	
+	<insert id="insertFee" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo" useGeneratedKeys="true" keyProperty="id">
+		insert into course_remote_payoff(id,class_type_id,class_type_name,exam_term_id,exam_term_name,payoff_fee,payoff_percent,payoff_status,company_id,school_id) 
+		VALUES(#{id},#{classTypeId},#{classTypeName},#{examTermId},#{examTermName},#{payoffFee},#{payoffPercent},#{payoffStatus},#{companyId},#{schoolId})
+	</insert>
+	
+	<insert id="insertRemoteFee" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo" useGeneratedKeys="true" keyProperty="id">
+		insert into course_remote_payoff_detail(id,payoff_id,payoff_date,payoff_fee,creator,create_time) 
+			values(#{detailId},#{id},#{payoffDate},#{payoffFee},#{creator},#{createTime})
+	</insert>
+	
+	<update id="updateRemoteFee" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo">
+		update course_remote_payoff 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="payoffStatus != null">payoff_status = #{payoffStatus},</if>
+			<if test="payoffFee != null and payoffFee != ''">payoff_fee = #{payoffFee},</if>
+			<if test="payoffPercent != null and payoffPercent != ''">payoff_percent = #{payoffPercent}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="queryFee" parameterType="com.yuxin.wx.vo.fee.RemoteFeeVo" resultMap="remoteFeeListMap">
+	  select c.class_type_name as classTypeName,c.exam_term_name as examTermName,d.id as detailId,d.payoff_id as id,d.payoff_date as payoffDate,d.payoff_fee as payoffFee,(select real_name from users where id=d.creator) as userName,d.create_time as createTime from 
+		course_remote_payoff c RIGHT JOIN course_remote_payoff_detail d on c.id=d.payoff_id
+		where d.payoff_id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UserInviteRewardsRecordMapper">
+    <resultMap type="com.yuxin.wx.model.user.UserInviteRewardsRecord" id="userInviteRewardsRecordResultMap">
+        <result property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="parentId" column="parent_id" />
+        <result property="inviteCode" column="invite_code" />
+        <result property="createTime" column="create_time" />
+        <result property="rewardsType" column="rewards_type" />
+        <result property="rewardsMoney" column="rewards_money" />
+        <result property="rewardsCode" column="rewards_code" />
+        <result property="rewardsIntegral" column="rewards_integral" />
+        <result property="reason" column="reason" />
+        <result property="companyId" column="company_id" />
+        <result property="cid" column="cid" />
+        <result property="ccid" column="ccid" />
+    </resultMap>
+    <resultMap type="com.yuxin.wx.model.user.UserInviteRewardsRecord" id="userInviteRewardsRecordResultMap2">
+        <result property="id" column="id" />
+        <result property="userId" column="dsuser_id" />
+        <result property="username" column="username" />
+        <result property="inviteCode" column="invite_code" />
+        <result property="inviteRegNumber" column="inviteRegNumber" />
+        <result property="inviteConNumber" column="inviteConNumber" />
+        <result property="totalIntegral" column="totalIntegral" />
+        <result property="totalMoney" column="totalMoney" />
+        <result property="mobile" column="mobile" />
+    </resultMap>
+    <sql id="table_columns"> id, user_id, parent_id, invite_code, create_time, rewards_type, rewards_money, rewards_code, rewards_integral, reason,
+        company_id, cid, ccid 
+    </sql>
+    <sql id="entity_properties"> #{id}, #{userId}, #{parentId}, #{inviteCode}, #{createTime}, #{rewardsType}, #{rewardsMoney}, #{rewardsCode},
+        #{rewardsIntegral}, #{reason}, #{companyId}, #{cid}, #{ccid} 
+    </sql>
+    <sql id="batch_entity_properties"> #{item.id}, #{item.userId}, #{item.parentId}, #{item.inviteCode}, #{item.createTime}, #{item.rewardsType},
+        #{item.rewardsMoney}, #{item.rewardsCode}, #{item.rewardsIntegral}, #{item.reason}, #{item.companyId}, #{item.cid}, #{item.ccid} 
+    </sql>
+    <!-- 适用于主键自增类型 -->
+    <insert id="insert" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into user_invite_rewards_record(
+        <include refid="table_columns" />
+        ) values (
+        <include refid="entity_properties" />
+        )
+    </insert>
+    <!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+    <!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into user_invite_rewards_record(
+        <include refid="table_columns" />
+        ) values
+        <foreach item="item" collection="list" separator=",">
+            (
+            <include refid="batch_entity_properties" />
+            )
+        </foreach>
+    </insert>
+    <!--根据主键删除 -->
+    <delete id="deleteById"> delete from tbl_users where id = #{id} 
+    </delete>
+    <!-- 根据ID批量删除 -->
+    <delete id="deleteByIds">
+        delete from user_invite_rewards_record where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")"> #{item} 
+        </foreach>
+    </delete>
+    <update id="update" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        update user_invite_rewards_record
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+            <if test="inviteCode != null and inviteCode != ''">invite_code = #{inviteCode},</if>
+            <if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+            <if test="rewardsType != null and rewardsType != ''">rewards_type = #{rewardsType},</if>
+            <if test="rewardsMoney != null and rewardsMoney != ''">rewards_money = #{rewardsMoney},</if>
+            <if test="rewardsCode != null and rewardsCode != ''">rewards_code = #{rewardsCode},</if>
+            <if test="rewardsIntegral != null and rewardsIntegral != ''">rewards_integral = #{rewardsIntegral},</if>
+            <if test="reason != null and reason != ''">reason = #{reason},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+    <select id="findById" resultMap="userInviteRewardsRecordResultMap" parameterType="String">
+        select
+        <include refid="table_columns" />
+        from user_invite_rewards_record where id = #{id}
+    </select>
+    <select id="queryAll" resultMap="userInviteRewardsRecordResultMap">
+        select
+        <include refid="table_columns" />
+        from user_invite_rewards_record
+    </select>
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+            <if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+            <if test="inviteCode != null and inviteCode != ''">and invite_code = #{inviteCode}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="rewardsType != null and rewardsType != ''">and rewards_type = #{rewardsType}</if>
+            <if test="rewardsMoney != null and rewardsMoney != ''">and rewards_money = #{rewardsMoney}</if>
+            <if test="rewardsCode != null and rewardsCode != ''">and rewards_code = #{rewardsCode}</if>
+            <if test="rewardsIntegral != null and rewardsIntegral != ''">and rewards_integral = #{rewardsIntegral}</if>
+            <if test="reason != null and reason != ''">and reason = #{reason}</if>
+            <if test="companyId != null and companyId != ''">and uirr.company_id = #{companyId}</if>
+        </trim>
+    </sql>
+    <select id="page" resultMap="userInviteRewardsRecordResultMap2" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        SELECT DISTINCT (user_id) AS dsuser_id,(SELECT invite_code FROM users_front uf WHERE uf.id = dsuser_id) AS invite_code, (SELECT username
+        FROM users_front uf WHERE uf.id = dsuser_id) AS username, (SELECT mobile FROM users_front uf WHERE uf.id = dsuser_id) AS mobile,
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and cid is not null
+                    )AS inviteRegNumber, 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and ccid is null )AS
+                    inviteRegNumber, 
+                </when>
+            </choose>
+        </if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1) as inviteConNumber, 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1 and ccid is null) as
+                    inviteConNumber, 
+                </when>
+            </choose>
+        </if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_money IS NOT NULL )AS totalMoney, 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_money IS NOT NULL and ccid is null )AS totalMoney, 
+                </when>
+            </choose>
+        </if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_integral IS NOT NULL )AS totalIntegral 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_integral IS NOT NULL and ccid is null )AS totalIntegral 
+                </when>
+            </choose>
+        </if>
+        FROM user_invite_rewards_record as uirr left join users_front as uf on uirr.user_id = uf.id where uirr.company_id = #{companyId} and cid
+        is not null
+        <if test="userId != null">and user_id = #{userId}</if>
+        <if test="searchDateType != null">
+            <choose>
+                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now()) 
+                </when>
+                <when test="searchDateType == 2">
+                    and date_sub(curdate(),interval 7 day) <![CDATA[<=]]>
+                    date(uirr.create_time) 
+                </when>
+                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') 
+                </when>
+            </choose>
+        </if>
+        <if test="searchName != null">and uf.username like '%${searchName}%' or uf.mobile like '%${searchName}%' or uf.invite_code like '%${searchName}%'</if>
+        order by uirr.id desc limit #{firstIndex},#{pageSize}
+    </select>
+    <select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        select count(distinct(user_id)) from user_invite_rewards_record as uirr left join users_front as uf on uirr.user_id = uf.id where
+        uirr.company_id = #{companyId} and cid is not null
+        <if test="searchName != null"> and uf.username like '%${searchName}%' or uf.mobile like '%${searchName}%' or uf.invite_code like '%${searchName}%'</if>
+        <if test="searchDateType != null">
+            <choose>
+                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now()) 
+                </when>
+                <when test="searchDateType == 2">
+                    and date_sub(curdate(),interval 7 day) <![CDATA[<=]]>
+                    date(uirr.create_time) 
+                </when>
+                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') 
+                </when>
+            </choose>
+        </if>
+    </select>
+    <select id="getTotalRewardsMoney" resultType="double" parameterType="int"> select COALESCE(SUM(rewards_money),0) from
+        user_invite_rewards_record where company_id = #{companyId} and rewards_money is not null 
+    </select>
+    <select id="getTotalRewardsIntegral" resultType="int" parameterType="int"> select COALESCE(SUM(rewards_integral),0) from
+        user_invite_rewards_record where company_id = #{companyId} and rewards_integral is not null 
+    </select>
+    <select id="getTotalRegNumber" resultType="int" parameterType="int"> select count(id) from user_invite_rewards_record where company_id =
+        #{companyId} and reason = '0' and cid is not null and ccid is null 
+    </select>
+    <select id="getTotalConNumber" resultType="int" parameterType="int"> select count(id) from user_invite_rewards_record where company_id =
+        #{companyId} and reason = '1' and cid is not null and ccid is null 
+    </select>
+    <!-- 其他自定义SQL -->
+    <select id="findDetailRewardsRecordByParentId" resultMap="userInviteRewardsRecordResultMap" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        <choose>
+            <when test="mark != null and mark != '' and mark == 'two_invite'">
+                select
+                <include refid="table_columns" />
+                from user_invite_rewards_record where company_id=#{companyId} and user_id = #{userId} and cid is not null and ccid is not null
+                <if test="type != null and type != ''">
+                    <choose>
+                        <when test="type == 'regist'">and reason = 0</when>
+                        <when test="type == 'consume'">and reason = 1</when>
+                    </choose>
+                </if>
+            </when>
+            <when test="mark != null and mark != '' and mark == 'my_invite'">
+                select
+                <include refid="table_columns" />
+                from user_invite_rewards_record where company_id=#{companyId} and user_id=#{userId} and ccid is null and cid is not null
+                <if test="type != null and type != ''">
+                    <choose>
+                        <when test="type == 'regist'">and reason = 0</when>
+                        <when test="type == 'consume'">and reason = 1</when>
+                    </choose>
+                </if>
+            </when>
+            <otherwise>
+                select
+                <include refid="table_columns" />
+                from user_invite_rewards_record where company_id=#{companyId} and user_id=#{userId}
+                <if test="type != null and type != ''">
+                    <choose>
+                        <when test="type == 'regist'">and reason = 0</when>
+                        <when test="type == 'consume'">and reason = 1</when>
+                    </choose>
+                </if>
+            </otherwise>
+        </choose>
+        limit #{firstIndex},#{pageSize}
+    </select>
+    <select id="findDetailRewardsRecordCountByParentId" resultType="int" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        <choose>
+            <when test="mark != null and mark != '' and mark == 'two_invite'">
+                select count(id) from user_invite_rewards_record where company_id=#{companyId} and user_id = #{userId} and cid is not null and
+                ccid is not null
+                <if test="type != null and type != ''">
+                    <choose>
+                        <when test="type == 'regist'">and reason = 0</when>
+                        <when test="type == 'consume'">and reason = 1</when>
+                    </choose>
+                </if>
+            </when>
+            <when test="mark != null and mark != '' and mark == 'my_invite'">
+                select count(id) from user_invite_rewards_record where company_id=#{companyId} and user_id=#{userId} and ccid is null and cid is
+                not null
+                <if test="type != null and type != ''">
+                    <choose>
+                        <when test="type == 'regist'">and reason = 0</when>
+                        <when test="type == 'consume'">and reason = 1</when>
+                    </choose>
+                </if>
+            </when>
+            <otherwise>
+                select count(id) from user_invite_rewards_record where company_id=#{companyId} and user_id=#{userId}
+                <if test="type != null and type != ''">
+                    <choose>
+                        <when test="type == 'regist'">and reason = 0</when>
+                        <when test="type == 'consume'">and reason = 1</when>
+                    </choose>
+                </if>
+            </otherwise>
+        </choose>
+    </select>
+    <select id="findByPage" resultMap="userInviteRewardsRecordResultMap" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        select
+        <include refid="table_columns" />
+        from user_invite_rewards_record
+        <include refid="page_where" />
+        limit #{firstIndex},#{pageSize}
+    </select>
+    <!-- 根据被邀请人的id查询出上一级邀请人的信息 -->
+    <select id="findRewardRecordBySearch" resultMap="userInviteRewardsRecordResultMap" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord"> select * from
+        user_invite_rewards_record uirr where uirr.company_id = #{companyId} and uirr.user_id = #{userId} and uirr.cid is null and uirr.ccid is
+        null and uirr.reason = #{reason} 
+    </select>
+    <select id="exprotWithoutPage" resultMap="userInviteRewardsRecordResultMap2" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
+        SELECT DISTINCT (user_id) AS dsuser_id,(SELECT invite_code FROM users_front uf WHERE uf.id = dsuser_id) AS invite_code, (SELECT username
+        FROM users_front uf WHERE uf.id = dsuser_id) AS username, (SELECT mobile FROM users_front uf WHERE uf.id = dsuser_id) AS mobile,
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and cid is not null
+                    )AS inviteRegNumber, 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and ccid is null )AS
+                    inviteRegNumber, 
+                </when>
+            </choose>
+        </if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1) as inviteConNumber, 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1 and ccid is null) as
+                    inviteConNumber, 
+                </when>
+            </choose>
+        </if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_money IS NOT NULL )AS totalMoney, 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_money IS NOT NULL and ccid is null )AS totalMoney, 
+                </when>
+            </choose>
+        </if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_integral IS NOT NULL )AS totalIntegral 
+                </when>
+                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
+                    rewards_integral IS NOT NULL and ccid is null )AS totalIntegral 
+                </when>
+            </choose>
+        </if>
+        FROM user_invite_rewards_record as uirr left join users_front as uf on uirr.user_id = uf.id where uirr.company_id = #{companyId} and cid
+        is not null
+        <if test="userId != null">and user_id = #{userId}</if>
+        <if test="searchDateType != null">
+            <choose>
+                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now()) 
+                </when>
+                <when test="searchDateType == 2">
+                    and date_sub(curdate(),interval 7 day) <![CDATA[<=]]>
+                    date(uirr.create_time) 
+                </when>
+                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') 
+                </when>
+            </choose>
+        </if>
+        <if test="searchName != null">and uf.username like '%${searchName}%' or uf.mobile like '%${searchName}%' or uf.invite_code like '%${searchName}%'</if>
+        order by uirr.id desc
+    </select>
+    <select id="findInvitedTypeAndId" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT 0 inviteType,parent_id inviteId FROM user_invite_rewards_record WHERE cid = #{userId} and (reason = 0 or reason  = 1) 
+        UNION SELECT 1 inviteType,teacher_id inviteId FROM teacher_invite_reward_record WHERE stu_id=#{stuId} and (reason = 0 or reason  = 1) 
+        UNION SELECT 2 inviteType,proxy_organ_id inviteId FROM organ_invite_reward_record WHERE stu_id = #{stuId} and (reason = 0 or reason  = 1)  ; 
+    </select>
+</mapper>

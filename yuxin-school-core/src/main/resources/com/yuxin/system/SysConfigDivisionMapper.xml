@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigDivisionMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigDivision" id="sysConfigDivisionResultMap">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="parentId" column="parent_id" />
+		<result property="pinyin" column="pinyin" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.ProvinceVo" id="PvoResultMap">
+		<result property="p" column="name" />
+		<association property="c" column="id" javaType="list"
+			select="findCity"></association>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.CityVo" id="CvoResultMap">
+		<result property="n" column="name" />
+		<association property="a" column="id" javaType="list"
+			select="findAddress"></association>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.AddressVo" id="AvoResultMap">
+		<result property="s" column="name" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		code,
+		name,
+		parent_id,
+		pinyin
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{code},
+		#{name},
+		#{parentId},
+		#{pinyin}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.code},
+		#{item.name},
+		#{item.parentId},
+		#{item.pinyin}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigDivision" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_division( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_division( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_division
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_division
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigDivision">
+		update sys_config_division 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="code != null and code != ''">code = #{code},</if>
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="pinyin != null and pinyin != ''">pinyin = #{pinyin},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigDivisionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_division
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigDivisionResultMap">
+		select <include refid="table_columns"/>
+		from sys_config_division
+	</select>
+	
+	<select id="queryAlls" resultMap="PvoResultMap">
+		select id,name 
+		from sys_config_division
+		where parent_id = 0
+	</select>
+	
+	<select id="findCity" parameterType="Integer" resultMap="CvoResultMap">
+		select id,name 
+		from sys_config_division
+		where parent_id = #{id}
+	</select>
+	
+	<select id="findAddress" parameterType="Integer" resultMap="AvoResultMap">
+		select name 
+		from sys_config_division
+		where parent_id = #{id}
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="code != null and code != ''">and code = #{code}</if>
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="pinyin != null and pinyin != ''">and pinyin = #{pinyin}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigDivisionResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDivision">
+		select <include refid="table_columns" />
+		from sys_config_division
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigDivision">
+		select count(id) from sys_config_division
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findXcode" parameterType="map" resultType="String">
+		select d.code 
+		from sys_config_division d
+		inner join sys_config_division c
+			on c.id = d.parent_id
+			and c.name = #{cname}
+		inner join sys_config_division s
+			on s.id = c.parent_id
+			and s.name = #{sname}
+		where d.name = #{dname}
+		limit 1
+	</select>
+	
+	<select id="findEntity" parameterType="String" resultMap="sysConfigDivisionResultMap">
+		select <include refid="table_columns"/> 
+		from sys_config_division
+		where code = #{code}
+		limit 1
+	</select>
+	
+	<select id="findParentEntity" parameterType="Integer" resultMap="sysConfigDivisionResultMap">
+		select <include refid="table_columns"/> 
+		from sys_config_division
+		where id = #{parentId}
+		limit 1
+	</select>
+	
+	<select id="firstLiandong"  resultMap="sysConfigDivisionResultMap">
+		select <include refid="table_columns"/> 
+		from sys_config_division
+		where parent_id = 0
+	</select>
+	
+	<select id="secLiandong" parameterType="Integer" resultMap="sysConfigDivisionResultMap">
+		select <include refid="table_columns"/> 
+		from sys_config_division
+		where parent_id = #{parentId}
+	</select>
+</mapper>

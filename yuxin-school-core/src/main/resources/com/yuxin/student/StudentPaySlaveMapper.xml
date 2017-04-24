@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentPaySlaveMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentPaySlave" id="studentPaySlaveResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="resourceId" column="resource_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="campusId" column="campus_id" />
+		<result property="slaveStatusCode" column="slave_status_code" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		pay_master_id,
+		resource_type,
+		resource_id,
+		module_id,
+		campus_id,
+		slave_status_code,
+		company_id
+    </sql>
+    <sql id="table_columns2">
+		stu_id,
+		pay_master_id,
+		resource_type,
+		resource_id,
+		module_id,
+		campus_id,
+		slave_status_code,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{payMasterId},
+		#{resourceType},
+		#{resourceId},
+		#{moduleId},
+		#{campusId},
+		#{slaveStatusCode},
+		#{companyId}
+	</sql>
+	<sql id="entity_properties2">
+		#{item.stuId},
+		#{item.payMasterId},
+		#{item.resourceType},
+		#{item.resourceId},
+		#{item.moduleId},
+		#{item.campusId},
+		#{item.slaveStatusCode},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentPaySlave" useGeneratedKeys="true" keyProperty="id">
+		insert into student_pay_slave( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_pay_slave( <include refid="table_columns2" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties2" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_pay_slave
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_pay_slave
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentPaySlave">
+		update student_pay_slave 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="payMasterId != null and payMasterId != ''">pay_master_id = #{payMasterId},</if>
+			<if test="resourceType != null and resourceType != ''">resource_type = #{resourceType},</if>
+			<if test="resourceId != null and resourceId != ''">resource_id = #{resourceId},</if>
+			<if test="campusId != null and campusId != ''">campus_id = #{campusId},</if>
+			<if test="slaveStatusCode != null and slaveStatusCode != ''">slave_status_code = #{slaveStatusCode},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="updateStatus" parameterType="com.yuxin.wx.model.student.StudentPaySlave">
+		update student_pay_slave set
+		slave_status_code = #{erbi}
+		where id = #{nimei}
+	</update>
+	
+	<select id="findById" resultMap="studentPaySlaveResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_pay_slave
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentPaySlaveResultMap">
+		select <include refid="table_columns" /> 
+		from student_pay_slave
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+			<if test="resourceType != null and resourceType != ''">and resource_type = #{resourceType}</if>
+			<if test="resourceId != null and resourceId != ''">and resource_id = #{resourceId}</if>
+			<if test="campusId != null and campusId != ''">and campus_id = #{campusId}</if>
+			<if test="slaveStatusCode != null and slaveStatusCode != ''">and slave_status_code = #{slaveStatusCode}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentPaySlaveResultMap" parameterType="com.yuxin.wx.model.student.StudentPaySlave">
+		select <include refid="table_columns" />
+		from student_pay_slave
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentPaySlave">
+		select count(id) from student_pay_slave
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByPayMasterId" resultType="com.yuxin.wx.vo.student.StudentPaySlaveVo" parameterType="Integer">
+		select  s.id, s.stu_id as stuId, s.pay_master_id as payMasterId, s.resource_type as resourceType, s.resource_id as resourceId, s.campus_id as campusId,m.total_class_hour as totalClassHour,
+		s.slave_status_code as slaveStatusCode ,s.module_id as moduleId, case when s.resource_type ='TEACH_METHOD_VIDEO' then ''   else  n. NAME end as moduleNo,m.name,
+		(select count(*) from class_module_lesson where module_no_id=s.resource_id and curdate() >lesson_date ) as pastLession,
+		(select count(*) from class_module_lesson where module_no_id=s.resource_id ) as totalLession
+		from student_pay_slave as s left join class_module as m on m.id=s.module_id left join class_module_no as n on s.resource_id=n.id
+		where s.pay_master_id=#{mid} and s.slave_status_code !='ORDER_DELTEd'
+	</select>
+	<!-- 其他自定义SQL -->
+	<select id="findByPayMasterId2" resultType="com.yuxin.wx.vo.student.StudentPaySlaveVo" parameterType="Integer">
+		select  s.id, s.stu_id as stuId, s.pay_master_id as payMasterId, s.resource_type as resourceType, s.resource_id as resourceId, s.campus_id as campusId,m.total_class_hour as totalClassHour,
+		s.slave_status_code as slaveStatusCode ,s.module_id as moduleId, case when s.resource_type ='TEACH_METHOD_VIDEO' then ''   else  n. NAME end as moduleNo,m.name
+		from student_pay_slave as s left join class_module as m on m.id=s.module_id left join class_module_no as n on s.resource_id=n.id
+		where s.pay_master_id=#{mid} and s.slave_status_code !='ORDER_DELTEd'
+	</select>
+	
+	<update id="update2" parameterType="map">
+		update student_pay_slave set resource_id=#{moduleNoId} 
+			where
+				pay_master_id=#{payMasterId}
+			and
+				module_id=#{moduleId} 
+	</update>
+	<select id="findByPayMasterId3" parameterType="String" resultMap="studentPaySlaveResultMap">
+		select <include refid="table_columns" />
+		from student_pay_slave
+		where
+		pay_master_id=#{mid}
+	</select>
+	
+	<select id="findCountByResourceId" parameterType="Integer" resultType="Integer">
+		select count(s.id) 
+		from student_pay_slave p 
+		inner join student s
+			on p.stu_id = s.id
+		where p.resource_id = #{id}
+		limit 1
+	</select>
+	<update id="deleteByMasterId" parameterType="String">
+		update student_pay_slave set slave_status_code='SUB_ORDER_DELTED' where pay_master_id=#{payMasterId}
+	</update>
+	
+	<!-- 条件查询子订单 -->
+	<select id="queryStuSlaveBywhere" resultMap="studentPaySlaveResultMap" parameterType="com.yuxin.wx.model.student.StudentPaySlave">
+		select <include refid="table_columns" />
+		from student_pay_slave
+		where company_id=#{companyId} and slave_status_code!='SUB_ORDER_DELTED'
+		<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+		<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+		<if test="resourceType != null and resourceType != ''">and resource_type = #{resourceType}</if>
+		<if test="resourceId != null and resourceId != ''">and resource_id = #{resourceId}</if>
+	</select>
+	
+	<update id="deleteStuPaySlave" parameterType="int">
+		update student_pay_slave set slave_status_code='SUB_ORDER_DELTED' where id=#{id}
+	</update>
+</mapper>

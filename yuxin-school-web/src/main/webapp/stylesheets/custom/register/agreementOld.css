@@ -1,0 +1,25 @@
+.section{
+  min-width: 600px;
+  width: 1200px;
+  margin: 15px auto;
+}
+.wrap .h2 {
+  font-size: 18px;
+  line-height: 48px;
+  font-weight: normal;
+}
+.wrap hr {
+  margin: 0;
+  margin-bottom: 4px;
+}
+.wrap .dt {
+  font-size: 12px;
+  line-height: 44px;
+  color: #333;
+  font-weight: normal;
+}
+.wrap p{
+  font-size: 12px;
+  line-height: 20px;
+  color: #666;
+}

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigSeoMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigSeo" id="sysConfigSeoResultMap">
+		<result property="id" column="id" />
+		<result property="type" column="type" />
+		<result property="createTime" column="create_time" />
+		<result property="companyId" column="company_id" />
+		<result property="title" column="title" />
+		<result property="keywords" column="keywords" />
+		<result property="description" column="description" />
+		<result property="status" column="status" />
+		<result property="statType" column="stat_type" />
+		<result property="statKey" column="stat_key" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		type,
+		create_time,
+		company_id,
+		title,
+		keywords,
+		description,
+		status,
+		stat_type,
+		stat_key,
+		updator,
+		update_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{type},
+		#{createTime},
+		#{companyId},
+		#{title},
+		#{keywords},
+		#{description},
+		#{status},
+		#{statType},
+		#{statKey},
+		#{updator},
+		#{updateTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.type},
+		#{item.createTime},
+		#{item.companyId},
+		#{item.title},
+		#{item.keywords},
+		#{item.description},
+		#{item.status},
+		#{item.statType},
+		#{item.statKey},
+		#{item.updator},
+		#{item.updateTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigSeo" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_seo( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_seo( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_seo
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_seo
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigSeo">
+		update sys_config_seo 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="keywords != null and keywords != ''">keywords = #{keywords},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="statType != null and statType != ''">stat_type = #{statType},</if>
+			<if test="statKey != null and statKey != ''">stat_key = #{statKey},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigSeoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_seo
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigSeoResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_seo
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="keywords != null and keywords != ''">and keywords = #{keywords}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="statType != null and statType != ''">and stat_type = #{statType}</if>
+			<if test="statKey != null and statKey != ''">and stat_key = #{statKey}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigSeoResultMap" parameterType="com.yuxin.wx.model.system.SysConfigSeo">
+		select <include refid="table_columns" />
+		from sys_config_seo
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigSeo">
+		select count(id) from sys_config_seo
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!-- 查询当前公司下所有seo内容 -->
+	<select id="queryAllSeoContents" resultMap="sysConfigSeoResultMap" parameterType="com.yuxin.wx.model.system.SysConfigSeo">
+		select <include refid="table_columns" /> 
+		from sys_config_seo
+		where company_id = #{companyId}
+		<if test="type != null and type != ''">and type = #{type}</if>
+	</select>
+	
+</mapper>

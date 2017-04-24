@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UserIntegralFlowMapper">
+	<resultMap type="com.yuxin.wx.model.user.UserIntegralFlow" id="userIntegralFlowResultMap">
+		<result property="id" column="id" />
+		<result property="updateTime" column="update_time" />
+		<result property="reason" column="reason" />
+		<result property="record" column="record" />
+		<result property="lastRecord" column="last_record" />
+		<result property="userId" column="user_id" />
+		<result property="stuId" column="stu_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		update_time,
+		reason,
+		record,
+		last_record,
+		user_id,
+		stu_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{updateTime},
+		#{reason},
+		#{record},
+		#{lastRecord},
+		#{userId},
+		#{stuId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.updateTime},
+		#{item.reason},
+		#{item.record},
+		#{item.lastRecord},
+		#{item.userId},
+		#{item.stuId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.user.UserIntegralFlow" useGeneratedKeys="true" keyProperty="id">
+		insert into user_integral_flow( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into user_integral_flow( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from user_integral_flow
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.user.UserIntegralFlow">
+		update user_integral_flow 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="reason != null and reason != ''">reason = #{reason},</if>
+			<if test="record != null and record != ''">record = #{record},</if>
+			<if test="lastRecord != null and lastRecord != ''">last_record = #{lastRecord},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userIntegralFlowResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_integral_flow
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="userIntegralFlowResultMap">
+		select <include refid="table_columns" /> 
+		from user_integral_flow
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="reason != null and reason != ''">and reason = #{reason}</if>
+			<if test="record != null and record != ''">and record = #{record}</if>
+			<if test="lastRecord != null and lastRecord != ''">and last_record = #{lastRecord}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="userIntegralFlowResultMap" parameterType="com.yuxin.wx.model.user.UserIntegralFlow">
+		select <include refid="table_columns" />
+		from user_integral_flow
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.UserIntegralFlow">
+		select count(id) from user_integral_flow
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryIntegralFlowByWhere" resultMap="userIntegralFlowResultMap" parameterType="com.yuxin.wx.vo.user.UserIntegralFlowVO">
+		select <include refid="table_columns" />
+		from user_integral_flow
+		where user_id = #{userId}
+		<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+		<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(update_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(update_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(update_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and date_format(update_time, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and date_format(update_time, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+			order by update_time DESC
+	</select>
+	
+</mapper>

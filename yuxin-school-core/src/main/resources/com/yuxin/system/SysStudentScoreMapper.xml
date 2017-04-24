@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysStudentScoreMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysStudentScore" id="sysStudentScoreResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="code" column="code" />
+		<result property="idCode" column="id_code" />
+		<result property="grade" column="grade" />
+		<result property="score" column="score" />
+		<result property="awards" column="awards" />
+		<result property="link" column="link" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		code,
+		id_code,
+		grade,
+		score,
+		awards,
+		link,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{code},
+		#{idCode},
+		#{grade},
+		#{score},
+		#{awards},
+		#{link},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.code},
+		#{item.idCode},
+		#{item.grade},
+		#{item.score},
+		#{item.awards},
+		#{item.link},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysStudentScore" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_student_score( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_student_score( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_student_score
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_student_score
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysStudentScore">
+		update sys_student_score 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="code != null and code != ''">code = #{code},</if>
+			<if test="idCode != null and idCode != ''">id_code = #{idCode},</if>
+			<if test="grade != null and grade != ''">grade = #{grade},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			<if test="awards != null">awards = #{awards},</if>
+			<if test="link != null">link = #{link},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysStudentScoreResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_student_score
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysStudentScoreResultMap">
+		select <include refid="table_columns" /> 
+		from sys_student_score
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="code != null and code != ''">and code = #{code}</if>
+			<if test="idCode != null and idCode != ''">and id_code = #{idCode}</if>
+			<if test="grade != null and grade != ''">and grade = #{grade}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="awards != null and awards != ''">and awards = #{awards}</if>
+			<if test="link != null and link != ''">and link = #{link}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysStudentScoreResultMap" parameterType="com.yuxin.wx.model.system.SysStudentScore">
+		select <include refid="table_columns" />
+		from sys_student_score
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysStudentScore">
+		select count(id) from sys_student_score
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="querySysStudentScoreList" parameterType="com.yuxin.wx.model.system.SysStudentScore" resultMap="sysStudentScoreResultMap">
+		select <include refid="table_columns" />
+		from sys_student_score sss
+		<include refid="page_where" />
+		order by sss.id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="querySysStudentScoreListCount" parameterType="com.yuxin.wx.model.system.SysStudentScore" resultType="int">
+		select count(sss.id)
+		from sys_student_score sss
+		<include refid="page_where" />
+	</select>
+</mapper>

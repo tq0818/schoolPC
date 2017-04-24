@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassPackageRelationMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassPackageRelation" id="classPackageRelationResultMap">
+		<result property="id" column="id" />
+		<result property="classPackageId" column="class_package_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="classPackageStageId" column="class_package_stage_id" />
+		<result property="sort" column="sort" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		class_package_id,
+		class_type_id,
+		class_package_stage_id,
+		sort
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{classPackageId},
+		#{classTypeId},
+		#{classPackageStageId},
+		#{sort}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.classPackageId},
+		#{item.classTypeId},
+		#{item.classPackageStageId},
+		#{item.sort}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassPackageRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into class_package_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_package_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_package_relation
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_package_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassPackageRelation">
+		update class_package_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="classPackageId != null and classPackageId != ''">class_package_id = #{classPackageId},</if>
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="classPackageStageId != null and classPackageStageId != ''">class_package_stage_id = #{classPackageStageId},</if>
+			<if test="sort != null">sort = #{sort},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classPackageRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_package_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classPackageRelationResultMap">
+		select <include refid="table_columns" /> 
+		from class_package_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classPackageId != null and classPackageId != ''">and class_package_id = #{classPackageId}</if>
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="classPackageStageId != null and classPackageStageId != ''">and class_package_stage_id = #{classPackageStageId}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classPackageRelationResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageRelation">
+		select <include refid="table_columns" />
+		from class_package_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassPackageRelation">
+		select count(id) from class_package_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryClassPackageStageRelation" resultMap="classPackageRelationResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageRelation">
+		select <include refid="table_columns" />
+		from class_package_relation
+		<where>
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId}</if>
+			<choose>
+				<when test="classPackageStageId != null and classPackageStageId != ''">and class_package_stage_id = #{classPackageStageId}</when>
+				<otherwise>
+					and class_package_id = #{classPackageId}
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	<select id="findClassPackageRelations" resultMap="classPackageRelationResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageRelation">
+		select <include refid="table_columns" />
+		from class_package_relation
+		<include refid="page_where" />
+	</select>
+</mapper>

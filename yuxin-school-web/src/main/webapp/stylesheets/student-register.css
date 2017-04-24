@@ -1,0 +1,46 @@
+.q_cont {
+	padding: 14px 0 0 45px;
+    font-size: 12px;
+}
+.q_cont p{
+    color: #666666;
+}
+.q_cont .p1{
+    margin-bottom: 25px;
+}
+.q_cont .p2{
+    color: #333333;
+}
+.q_cont .p3{
+    height: 32px;
+    line-height: 32px;
+}
+.q_cont .q_list {
+	padding-top: 20px;
+    padding-left: 86px;
+}
+.q_cont .q_list li{
+    line-height: 30px;
+}
+.q_cont .q_list li input,.q_cont .q_list li input span{
+   vertical-align: middle;
+    display: inline-block;
+    margin: 0;
+    margin-right: 4px;
+}
+.q_cont .q_list li.q_li {
+	cursor: pointer;
+}
+
+.q_cont .q_list .li_last {
+	color: #666666;
+    font-size: 14px;
+}
+.screen-right-cont .p-p1{
+     margin-left: 20px;
+    position: relative;
+    top: 5px;
+}
+body .screen-right-cont h2.l-title{
+    border-bottom: none;
+}

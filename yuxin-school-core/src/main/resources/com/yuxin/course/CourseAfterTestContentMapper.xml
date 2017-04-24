@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseAfterTestContentMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseAfterTestContent" id="courseAfterTestContentResultMap">
+		<result property="id" column="id" />
+		<result property="chapterId" column="chapter_id" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="testType" column="test_type" />
+		<result property="paperId" column="paper_id" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="topicNum" column="topic_num" />
+		<result property="testId" column="test_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		chapter_id,
+		lecture_id,
+		test_type,
+		paper_id,
+		category_id,
+		subject_id,
+		topic_num,
+		test_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{chapterId},
+		#{lectureId},
+		#{testType},
+		#{paperId},
+		#{categoryId},
+		#{subjectId},
+		#{topicNum},
+		#{testId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.chapterId},
+		#{item.lectureId},
+		#{item.testType},
+		#{item.paperId},
+		#{item.categoryId},
+		#{item.subjectId},
+		#{item.topicNum},
+		#{item.testId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseAfterTestContent" useGeneratedKeys="true" keyProperty="id">
+		insert into course_after_test_content( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_after_test_content( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_after_test_content
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_after_test_content
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseAfterTestContent">
+		update course_after_test_content 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="chapterId != null and chapterId != ''">chapter_id = #{chapterId},</if>
+			<if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId},</if>
+			<if test="testType != null ">test_type = #{testType},</if>
+			<if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+			<if test="topicNum != null and topicNum != ''">topic_num = #{topicNum},</if>
+			<if test="testId != null and testId != ''">test_id = #{testId}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseAfterTestContentResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_after_test_content
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseAfterTestContentResultMap">
+		select <include refid="table_columns" /> 
+		from course_after_test_content
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="chapterId != null and chapterId != ''">and chapter_id = #{chapterId}</if>
+			<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+			<if test="testType != null and testType != ''">and test_type = #{testType}</if>
+			<if test="paperId != null and paperId != ''">and paper_id = #{paperId}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="subjectId != null and subjectId != ''">and subject_id = #{subjectId}</if>
+			<if test="topicNum != null and topicNum != ''">and topic_num = #{topicNum}</if>
+			<if test="testId != null and testId != ''">and test_id = #{testId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseAfterTestContentResultMap" parameterType="com.yuxin.wx.model.course.CourseAfterTestContent">
+		select <include refid="table_columns" />
+		from course_after_test_content
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseAfterTestContent">
+		select count(id) from course_after_test_content
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findContentListByTestId" resultMap="courseAfterTestContentResultMap" parameterType="com.yuxin.wx.model.course.CourseAfterTestContent">
+		select <include refid="table_columns" />
+		from course_after_test_content
+		where test_id = #{testId} and paper_id is null 
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findContentListByTestId2" resultMap="courseAfterTestContentResultMap" parameterType="com.yuxin.wx.model.course.CourseAfterTestContent">
+		select <include refid="table_columns" />
+		from course_after_test_content
+		where test_id = #{testId} and paper_id is not null 
+	</select>
+	
+	<delete id="deleteByTestId">
+		delete from course_after_test_content
+		where test_id = #{testId} and paper_id is not null;
+	</delete>
+	
+	<delete id="deleteByTestId2">
+		delete from course_after_test_content
+		where test_id = #{testId} and paper_id is null;
+	</delete>
+	
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeModuleRelationMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassTypeModuleRelation" id="classTypeModuleRelationResultMap">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="moduleId" column="module_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeModuleRelationVo" id="classTypeModuleRelationVoResultMap">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="teachMethod" column="teach_method" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		class_type_id,
+		module_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{classTypeId},
+		#{moduleId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassTypeModuleRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type_module_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_type_module_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( #{item.id},#{item.classTypeId},#{item.moduleId} )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_type_module_relation
+		where class_type_id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_type_module_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassTypeModuleRelation">
+		update class_type_module_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="moduleId != null and moduleId != ''">module_id = #{moduleId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<!-- 根据班型id更新模块信息 -->
+	<update id="updateModuleByClassTypeId" parameterType="com.yuxin.wx.model.classes.ClassTypeModuleRelation">
+		update class_type_module_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="moduleId != null and moduleId != ''">module_id = #{moduleId},</if>
+		</trim>
+		<where>class_type_id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classTypeModuleRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_type_module_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classTypeModuleRelationResultMap">
+		select <include refid="table_columns" /> 
+		from class_type_module_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="moduleId != null and moduleId != ''">and module_id = #{moduleId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classTypeModuleRelationResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeModuleRelation">
+		select <include refid="table_columns" />
+		from class_type_module_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeModuleRelation">
+		select count(id) from class_type_module_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<delete id="deleteByClassTypeId" parameterType="String">
+		delete from class_type_module_relation
+		where class_type_id =#{id}
+	</delete>
+	
+	<select id="findModelIdByClassTypeId" resultType="Integer">
+		select module_id 
+		from class_type_module_relation
+		where class_type_id in 
+		<foreach collection="list" item="item" open="(" separator="," close=")">  
+	        #{item.id}  
+	    </foreach>
+	    order by module_id
+	</select>
+	
+	<select id="querymoduleIdBycId" resultMap="classTypeModuleRelationResultMap" parameterType="Integer" >
+		select <include refid="table_columns" />
+		from class_type_module_relation
+		where class_type_id = #{id}
+	</select>
+	
+	<select id="queryclassTypeIdByModuleId" resultMap="classTypeModuleRelationResultMap" parameterType="Integer" >
+		select <include refid="table_columns" />
+		from class_type_module_relation
+		where module_id = #{id}
+	</select>
+	
+	<select id="findClassModuleRelationByClassTypeId" resultMap="classTypeModuleRelationVoResultMap" parameterType="hashmap">
+		select ctmr.module_id,ctmr.class_type_id,m.teach_method
+		from class_type_module_relation ctmr
+		inner join class_type ct 
+			on ct.id = ctmr.class_type_id
+		inner join class_module m 
+			on m.id = ctmr.module_id
+		where ct.id = #{classTypeId}
+	</select>
+	
+	<select id="findClassModuleRelationByPackageId" resultMap="classTypeModuleRelationVoResultMap" parameterType="hashmap">
+		select * 
+		from class_package cp 
+		inner join class_package_relation cpr on cpr.class_package_id=cp.id
+		inner join class_type ct on ct.id=cpr.class_type_id 
+		inner join class_type_module_relation ctmr on ct.id=ctmr.class_type_id
+		inner join class_module cm on cm.id=ctmr.module_id
+		where  cp.id=#{classPackageId}
+		
+		
+	</select>
+	
+	<select id="findClassModuleIdsByClassTypeId" resultType="int" parameterType="int">
+	select  distinct(ctmr.module_id)
+	  from  class_type_module_relation ctmr
+	 where  ctmr.class_type_id = #{id}
+	</select>
+</mapper>

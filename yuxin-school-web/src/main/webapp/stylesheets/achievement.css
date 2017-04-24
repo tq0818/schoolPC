@@ -1,0 +1,144 @@
+
+.searchAdmin a.btn-ach {
+	padding-bottom: 5px;
+}
+
+.heading{
+	margin-left: 3px;
+}
+.heading .line{
+	margin-left: -8px;
+}
+.h5{
+	color: #000;
+}
+
+#courseParentUrl{
+	color: #fff;
+}
+
+.L-r-list .table .achie{
+	border: none;
+	padding: 0;
+	margin: 0;
+	padding: 2px 8px;
+	border-radius: 0;
+	/*padding-left: 8px;*/
+	/*padding-right: 8px;*/
+}
+
+.L-r-list .table .achie:hover{
+	background-color: transparent;
+	color: #00b7ee;
+}
+
+.L-r-list .table .btn-achieb{
+	padding-left: 5px;
+}
+
+.L-r-list .table .btn-achieu{
+  border-right: 1px solid #d7d7d7;
+}
+.L-r-list .table .btn-achieu:hover{
+ color: #fe5151;
+}
+
+/*弹层样式*/
+
+.Popup {
+	padding-right: 30px;
+	padding-left: 30px;
+}
+
+.Popup .box{
+	margin-top: 26px;
+	text-align: right;
+}
+
+.Popup .boxp{
+display: inline-block;
+color: #000;
+position: relative;
+}
+
+.Popup .inp{
+	width: 198px;
+	height: 22px;
+	padding: 0;
+	margin-left: 10px;
+}
+
+.Popup .inpl{
+	margin-right: 65px;
+}
+
+.Popup .inps{
+	margin-right: 23px;
+}
+
+.Popup .inpm{
+	margin-right: 64px;
+}
+
+.Popup .inpn{
+	margin-right: 22px;
+}
+
+.Popup .inpb{
+	width: 503px;
+	height: 22px;
+	padding: 0;
+	margin-left: 10px;
+}
+
+.Popup .span{
+	position: absolute;
+	top: 2px;
+	left: -10px;
+	color: red;
+}
+
+/*导入成绩弹层*/
+.import-up{
+	text-align: left;
+	padding-left: 88px;
+	line-height: 30px;
+	position: relative;
+}
+
+.import-bot{
+	margin-top: 25px;
+	text-align: left;
+	padding-left: 64px;
+	font-size: 12px;
+}
+
+/*.import-bot .show{
+	color: #00b7ee;
+}*/
+.import .sdata{
+	color: #000;
+}
+
+.import-up .filea{
+	display: inline-block;
+	text-decoration: none;
+	position: relative;
+	padding: 6px 10px;
+	background-color: #f8f8f8;
+	border: 1px solid #e0e0e0;
+	color: #666;
+	border-radius: 1px;
+	overflow: hidden;
+	font-size: 12px;
+	height: 16px;
+	line-height: 16px;
+}
+
+.import-up .filea .upload{
+	position: absolute;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	font-size: 20px;
+}

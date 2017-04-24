@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyMarketSetMapper">
+    <resultMap type="com.yuxin.wx.model.company.CompanyMarketSet" id="companyMarketSetResultMap">
+        <result property="id" column="id" />
+        <result property="companyId" column="company_id" />
+        <result property="qqFlag" column="qq_flag" />
+        <result property="qqType" column="qq_type" />
+        <result property="qqNum" column="qq_num" />
+        <result property="qqKey" column="qq_key" />
+        <result property="weixinFlag" column="weixin_flag" />
+        <result property="weixinNo" column="weixin_no" />
+        <result property="weixinPic" column="weixin_pic" />
+        <result property="weiboFlag" column="weibo_flag" />
+        <result property="weiboNo" column="weibo_no" />
+        <result property="weiboUrl" column="weibo_url" />
+        <result property="weiboPic" column="weibo_pic" />
+        <result property="leyuFlag" column="leyu_flag" />
+        <result property="leyuJsUrl" column="leyu_js_url" />
+        <result property="leyuNo" column="leyu_no" />
+        <result property="serviceFlag" column="service_flag" />
+        <result property="servicePhone" column="service_phone" />
+        <result property="serviceTime" column="service_time" />
+        <result property="bdsqFlag" column="bdsq_flag" />
+        <result property="bdsqJsUrl" column="bdsq_js_url" />
+        <result property="bdsqType" column="bdsq_type" />
+    </resultMap>
+    <sql id="table_columns"> id, company_id, qq_flag, qq_type, qq_num, qq_key, weixin_flag, weixin_no, weixin_pic, weibo_flag, weibo_no, weibo_url, weibo_pic, leyu_flag,
+        leyu_js_url, leyu_no, service_flag, service_phone, service_time, bdsq_flag, bdsq_js_url, bdsq_type
+    </sql>
+    <sql id="entity_properties"> #{id}, #{companyId}, #{qqFlag}, #{qqType}, #{qqNum}, #{qqKey}, #{weixinFlag}, #{weixinNo}, #{weixinPic}, #{weiboFlag}, #{weiboNo}, #{weiboUrl},
+        #{weiboPic}, #{leyuFlag}, #{leyuJsUrl}, #{leyuNo}, #{serviceFlag}, #{servicePhone}, #{serviceTime}, #{bdsqFlag}, #{bdsqJsUrl}, #{bdsqType}
+    </sql>
+    <sql id="batch_entity_properties"> #{item.id}, #{item.companyId}, #{item.qqFlag}, #{item.qqType}, #{item.qqNum}, #{item.qqKey}, #{item.weixinFlag}, #{item.weixinNo},
+        #{item.weixinPic}, #{item.weiboFlag}, #{item.weiboNo}, #{item.weiboUrl}, #{item.weiboPic}, #{item.leyuFlag}, #{item.leyuJsUrl}, #{item.leyuNo},
+        #{item.serviceFlag}, #{item.servicePhone}, #{item.serviceTime}, #{item.bdsqFlag}, #{item.bdsqJsUrl}, #{item.bdsqType}
+    </sql>
+    <!-- 适用于主键自增类型 -->
+    <insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyMarketSet" useGeneratedKeys="true" keyProperty="id">
+        insert into company_market_set(
+        <include refid="table_columns" />
+        ) values (
+        <include refid="entity_properties" />
+        )
+    </insert>
+    <!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into company_market_set(
+        <include refid="table_columns" />
+        ) values
+        <foreach item="item" collection="list" separator=",">
+            (
+            <include refid="entity_properties" />
+            )
+        </foreach>
+    </insert>
+    <!--根据主键删除 -->
+    <delete id="deleteById"> delete from company_market_set where id = #{id}
+    </delete>
+    <!-- 根据ID批量删除 -->
+    <delete id="deleteByIds">
+        delete from company_market_set where id in
+        <foreach item="item" collection="array" open="(" separator="," close=")"> #{item}
+        </foreach>
+    </delete>
+    <update id="update" parameterType="com.yuxin.wx.model.company.CompanyMarketSet">
+        update company_market_set
+        <trim prefix="set" suffixOverrides=",">
+            <if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+            <if test="qqFlag != null and qqFlag != ''">qq_flag = #{qqFlag},</if>
+            <if test="qqType != null and qqType != ''">qq_type = #{qqType},</if>
+            <if test="qqNum != null and qqNum != ''">qq_num = #{qqNum},</if>
+            <if test="qqKey != null and qqKey != ''">qq_key = #{qqKey},</if>
+            <if test="weixinFlag != null ">weixin_flag = #{weixinFlag},</if>
+            <if test="weixinNo != null and weixinNo != ''">weixin_no = #{weixinNo},</if>
+            <if test="weixinPic != null and weixinPic != ''">weixin_pic = #{weixinPic},</if>
+            <if test="weiboFlag != null ">weibo_flag = #{weiboFlag},</if>
+            <if test="weiboNo != null and weiboNo != ''">weibo_no = #{weiboNo},</if>
+            <if test="weiboUrl != null and weiboUrl != ''">weibo_url = #{weiboUrl},</if>
+            <if test="weiboPic != null and weiboPic != ''">weibo_pic = #{weiboPic},</if>
+            <if test="leyuFlag != null and leyuFlag != ''">leyu_flag = #{leyuFlag},</if>
+            <if test="leyuJsUrl != null and leyuJsUrl != ''">leyu_js_url = #{leyuJsUrl},</if>
+            <if test="leyuNo != null and leyuNo != ''">leyu_no = #{leyuNo},</if>
+            <if test="serviceFlag != null ">service_flag = #{serviceFlag},</if>
+            <if test="servicePhone != null and servicePhone != ''">service_phone = #{servicePhone},</if>
+            <if test="serviceTime != null and serviceTime != ''">service_time = #{serviceTime},</if>
+            <if test="bdsqFlag != null">bdsq_flag = #{bdsqFlag},</if>
+            <if test="bdsqJsUrl != null and bdsqJsUrl != ''">bdsq_js_url = #{bdsqJsUrl},</if>
+            <if test="bdsqType != null">bdsq_type = #{bdsqType},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+    <select id="findById" resultMap="companyMarketSetResultMap" parameterType="String">
+        select
+        <include refid="table_columns" />
+        from company_market_set where id = #{id}
+    </select>
+    <select id="queryAll" resultMap="companyMarketSetResultMap">
+        select
+        <include refid="table_columns" />
+        from company_market_set
+    </select>
+    <!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+    <sql id="page_where">
+        <trim prefix="where" prefixOverrides="and | or ">
+            <if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+            <if test="qqFlag != null and qqFlag != ''">and qq_flag = #{qqFlag}</if>
+            <if test="qqType != null and qqType != ''">and qq_type = #{qqType}</if>
+            <if test="qqNum != null and qqNum != ''">and qq_num = #{qqNum}</if>
+            <if test="qqKey != null and qqKey != ''">and qq_key = #{qqKey}</if>
+            <if test="weixinFlag != null and weixinFlag != ''">and weixin_flag = #{weixinFlag}</if>
+            <if test="weixinNo != null and weixinNo != ''">and weixin_no = #{weixinNo}</if>
+            <if test="weixinPic != null and weixinPic != ''">and weixin_pic = #{weixinPic}</if>
+            <if test="weiboFlag != null and weiboFlag != ''">and weibo_flag = #{weiboFlag}</if>
+            <if test="weiboNo != null and weiboNo != ''">and weibo_no = #{weiboNo}</if>
+            <if test="weiboUrl != null and weiboUrl != ''">and weibo_url = #{weiboUrl}</if>
+            <if test="weiboPic != null and weiboPic != ''">and weibo_pic = #{weiboPic}</if>
+            <if test="leyuFlag != null and leyuFlag != ''">and leyu_flag = #{leyuFlag}</if>
+            <if test="leyuJsUrl != null and leyuJsUrl != ''">and leyu_js_url = #{leyuJsUrl}</if>
+            <if test="leyuNo != null and leyuNo != ''">and leyu_no = #{leyuNo}</if>
+            <if test="serviceFlag != null and serviceFlag != ''">and service_flag = #{serviceFlag}</if>
+            <if test="servicePhone != null and servicePhone != ''">and service_phone = #{servicePhone}</if>
+            <if test="serviceTime != null and serviceTime != ''">and service_time = #{serviceTime}</if>
+            <if test="bdsqFlag != null and bdsqFlag != ''">and bdsq_flag = #{bdsqFlag}</if>
+            <if test="bdsqJsUrl != null and bdsqJsUrl != ''">and bdsq_js_url = #{bdsqJsUrl}</if>
+            <if test="bdsqType != null and bdsqType != ''">and bdsq_type = #{bdsqType}</if>
+        </trim>
+    </sql>
+    <select id="page" resultMap="companyMarketSetResultMap" parameterType="com.yuxin.wx.model.company.CompanyMarketSet">
+        select
+        <include refid="table_columns" />
+        from company_market_set
+        <include refid="page_where" />
+        limit #{firstIndex},#{pageSize}
+    </select>
+    <select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyMarketSet">
+        select count(id) from company_market_set
+        <include refid="page_where" />
+    </select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByCompanyId" resultMap="companyMarketSetResultMap" parameterType="int" >
+		select <include refid="table_columns" />
+		from company_market_set
+		where company_id=#{companyId}
+	</select>
+	<select id="findMarketingPageByDate" resultType="com.yuxin.wx.vo.query.MarketingVo" parameterType="map">
+		select a.utm_url utmUrl,a.pv,case (b.uv is null) when true then 0 else b.uv end uv
+		from (select count(id) as pv ,utm_url from sys_register_request_log where utm_url !='' 
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(request_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(request_time))=#{timeLen}</when>
+					<otherwise>
+						and TO_DAYS(NOW())-TO_DAYS(request_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and request_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and request_time <![CDATA[<=]]> '${endTime}'</if>
+		 group by utm_url) as a 
+		left join 
+		(SELECT count(id) as uv,utm_url from company where utm_url !='' 
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(regist_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(regist_time))=#{timeLen}</when>
+					<otherwise>
+						and TO_DAYS(NOW())-TO_DAYS(regist_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and regist_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and regist_time <![CDATA[<=]]> '${endTime}'</if>
+		 group by utm_url) as b 
+		on a.utm_url = b.utm_url
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findMarketingByDate" resultType="com.yuxin.wx.vo.query.MarketingVo" parameterType="map">
+		select a.utm_url utmUrl,a.pv,case (b.uv is null) when true then 0 else b.uv end uv
+		from (select count(id) as pv ,utm_url from sys_register_request_log where utm_url !='' 
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(request_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(request_time))=#{timeLen}</when>
+					<otherwise>
+						and TO_DAYS(NOW())-TO_DAYS(request_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and request_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and request_time <![CDATA[<=]]> '${endTime}'</if>
+		 group by utm_url) as a 
+		left join 
+		(SELECT count(id) as uv,utm_url from company where utm_url !='' 
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(regist_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(regist_time))=#{timeLen}</when>
+					<otherwise>
+						and TO_DAYS(NOW())-TO_DAYS(regist_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and regist_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and regist_time <![CDATA[<=]]> '${endTime}'</if>
+		 group by utm_url) as b 
+		on a.utm_url = b.utm_url
+	</select>
+		
+	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyMarketSet">
+		select count(*)
+		from (select count(id) as pv ,utm_url from sys_register_request_log where utm_url !='' 
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(request_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(request_time))=#{timeLen}</when>
+					<otherwise>
+						and TO_DAYS(NOW())-TO_DAYS(request_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and request_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and request_time <![CDATA[<=]]> '${endTime}'</if>
+		 group by utm_url) as a 
+		left join 
+		(SELECT count(id) as uv,utm_url from company where utm_url !='' 
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(regist_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(regist_time))=#{timeLen}</when>
+					<otherwise>
+						and TO_DAYS(NOW())-TO_DAYS(regist_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and regist_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null"> and regist_time <![CDATA[<=]]> '${endTime}'</if>
+		 group by utm_url) as b 
+		on a.utm_url = b.utm_url
+	</select>
+</mapper>

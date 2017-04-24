@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UsersLoginSessionMapper">
+	<resultMap type="com.yuxin.wx.model.user.UsersLoginSession" id="usersLoginSessionResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="sessionId" column="session_id" />
+		<result property="loginTime" column="login_time" />
+		<result property="logoutTime" column="logout_time" />
+		<result property="status" column="status" />
+		<result property="ip" column="ip" />
+		<result property="macAddress" column="mac_address" />
+		<result property="address" column="address" />
+		<result property="isp" column="isp" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		session_id,
+		login_time,
+		logout_time,
+		status,
+		ip,
+		mac_address,
+		address,
+		isp,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{sessionId},
+		#{loginTime},
+		#{logoutTime},
+		#{status},
+		#{ip},
+		#{macAddress},
+		#{address},
+		#{isp},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.sessionId},
+		#{item.loginTime},
+		#{item.logoutTime},
+		#{item.status},
+		#{item.ip},
+		#{item.macAddress},
+		#{item.address},
+		#{item.isp}
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.user.UsersLoginSession" useGeneratedKeys="true" keyProperty="id">
+		insert into users_login_session( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into users_login_session( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from users_login_session
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.user.UsersLoginSession">
+		update users_login_session 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="sessionId != null and sessionId != ''">session_id = #{sessionId},</if>
+			<if test="loginTime != null and loginTime != ''">login_time = #{loginTime},</if>
+			<if test="logoutTime != null and logoutTime != ''">logout_time = #{logoutTime},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="ip != null and ip != ''">ip = #{ip},</if>
+			<if test="macAddress != null and macAddress != ''">mac_address = #{macAddress},</if>
+			<if test="address != null and address != ''">address = #{address},</if>
+			<if test="isp != null and isp != ''">isp = #{isp},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="usersLoginSessionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from users_login_session
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="usersLoginSessionResultMap">
+		select <include refid="table_columns" /> 
+		from users_login_session
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="sessionId != null and sessionId != ''">and session_id = #{sessionId}</if>
+			<if test="loginTime != null and loginTime != ''">and login_time = #{loginTime}</if>
+			<if test="logoutTime != null and logoutTime != ''">and logout_time = #{logoutTime}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="ip != null and ip != ''">and ip = #{ip}</if>
+			<if test="macAddress != null and macAddress != ''">and mac_address = #{macAddress}</if>
+			<if test="address != null and address != ''">and address = #{address}</if>
+			<if test="isp != null and isp != ''">and isp = #{isp}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="usersLoginSessionResultMap" parameterType="com.yuxin.wx.model.user.UsersLoginSession">
+		select <include refid="table_columns" />
+		from users_login_session
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.UsersLoginSession">
+		select count(id) from users_login_session
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findHistoryByUserId"  resultMap="usersLoginSessionResultMap" parameterType="string">
+		select <include refid="table_columns" />
+		from users_login_session
+		where user_id=#{userId}
+		order by id desc limit 1
+	</select>
+	
+	<!-- 添加用户登录管理日志 -->
+	<insert id="insertManageLoginHistory" parameterType="com.yuxin.wx.vo.company.CompanyManageLoginHistoryVo" useGeneratedKeys="true" keyProperty="id">
+		insert into company_manage_login_history(id,operator,operate_time,target_company_id,target_user_id,target_school_id)
+     VALUES(#{id},#{operator},#{operateTime},#{targetCompanyId},#{targetUserId},#{targetSchoolId})
+	</insert>
+	
+	<select id="queryLastLogintime" resultType="string" parameterType="int">
+		select login_time from users_front_login_session where id=(select max(id) from users_front_login_session where user_id=#{userId}) limit 1
+	</select>
+</mapper>

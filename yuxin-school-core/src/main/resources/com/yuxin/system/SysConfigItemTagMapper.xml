@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigItemTagMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigItemTag" id="sysConfigItemTagResultMap">
+		<result property="id" column="id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="tagName" column="tag_name" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		item_one_id,
+		item_second_id,
+		company_id,
+		school_id,
+		tag_name,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		level
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{itemOneId},
+		#{itemSecondId},
+		#{companyId},
+		#{schoolId},
+		#{tagName},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{level}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.tagName},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.level}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigItemTag" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item_tag( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_item_tag( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_item_tag
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_item_tag
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigItemTag">
+		update sys_config_item_tag 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="tagName != null and tagName != ''">tag_name = #{tagName},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="level != null and level != ''">level = #{level},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigItemTagResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_item_tag
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigItemTagResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_item_tag
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="tagName != null and tagName != ''">and tag_name = #{tagName}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigItemTagResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemTag">
+		select <include refid="table_columns" />
+		from sys_config_item_tag
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigItemTag">
+		select count(id) from sys_config_item_tag
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryTagsBycondition" resultMap="sysConfigItemTagResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemTag">
+		select <include refid="table_columns" /> 
+		from sys_config_item_tag
+		where company_id = #{companyId} and school_id = #{schoolId}
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="level != null and level != ''">
+			<choose>
+				<when test="level == 1">
+					and (level = #{level} or level is null)
+				</when>
+				<otherwise>
+					and level = #{level}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="tagName != null and tagName != ''">and tag_name = #{tagName}</if>
+	</select>
+	
+	<select id="queryTags" resultMap="sysConfigItemTagResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemTag">
+		select <include refid="table_columns" /> 
+		from sys_config_item_tag
+		where company_id = #{companyId} and school_id =#{schoolId}
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="level != null and level != ''">and level = #{level}</if>
+	</select>
+	
+	<select id="checkTag" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigItemTag">
+		select count(*)
+		from sys_config_item_tag
+		where company_id = #{companyId} and school_id =#{schoolId}
+		and item_second_id = #{itemSecondId}
+		and level = #{level}
+		and tag_name = #{tagName}
+		limit 1
+	</select>
+	
+	<select id="queryItemSecondIdList" resultType="com.yuxin.wx.model.system.SysConfigItem" parameterType="map">
+		select id,item_name as itemName
+		from sys_config_item
+		where company_id = #{companyId} and status = 1 and item_type = 2 and del_flag = 0
+		and parent_id = #{itemOneId}
+		order by sort
+	</select>
+</mapper>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeMemberDiscountMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" id="classTypeMemberDiscountResultMap">
+		<result property="id" column="id" />
+		<result property="memberLevel" column="member_level" />
+		<result property="memberDiscount" column="member_discount" />
+		<result property="memberId" column="member_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="companyId" column="company_id" />
+		<result property="discountType" column="discount_type"/>
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo" id="memberLevelAndClassTypeResultMap">
+		<result property="id" column="id" />
+		<result property="memberLevel" column="member_level" />
+		<result property="memberDiscount" column="member_discount" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="companyId" column="company_id" />
+		<result property="name" column="name" />
+		<result property="typeCode" column="type_code" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="schoolsId" column="schools_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="description" column="description" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="isSale" column="is_sale" />
+		<result property="cover" column="cover" />
+		<result property="subTitle" column="sub_title" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo" id="memberLevelAndClassTypeVoResultMap">
+		<result property="id" column="id" />
+		<result property="memberLevel" column="member_level" />
+		<result property="memberDiscount" column="member_discount" />
+		<result property="memberId" column="member_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="companyId" column="company_id" />
+		<result property="discountType" column="discount_type"/>
+		<result property="name" column="name" />
+		<result property="typeCode" column="type_code" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="schoolsId" column="schools_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="description" column="description" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="isSale" column="is_sale" />
+		<result property="cover" column="cover" />
+		<result property="subTitle" column="sub_title" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		member_level,
+		member_discount,
+		member_id,
+		class_type_id,
+		company_id,
+		discount_type
+    </sql>
+    <sql id="table_columns_memberLevelAndClassType">
+		ctmd.id,
+		ctmd.member_level,
+		ctmd.member_discount,
+		ctmd.member_id,
+		ctmd.class_type_id,
+		ctmd.company_id,
+		ctmd.discount_type,
+		ct.name,
+		ct.type_code,
+		ct.original_price,
+		ct.real_price,
+		ct.schools_id,
+		ct.item_one_id,
+		ct.item_second_id,
+		ct.description,
+		ct.publish_status,
+		ct.publish_time,
+		ct.is_sale,
+		ct.cover,
+		ct.sub_title,
+		ct.detail_desc,
+		ct.create_time,
+		ct.creator,
+		ct.update_time,
+		ct.updator,
+		ct.del_flag,
+		ct.face_flag,
+		ct.live_flag,
+		ct.video_flag,
+		ct.remote_flag,
+		ct.member_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{memberLevel},
+		#{memberDiscount},
+		#{memberId},
+		#{classTypeId},
+		#{companyId},
+		#{discountType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.memberLevel},
+		#{item.memberDiscount},
+		#{item.memberId},
+		#{item.classTypeId},
+		#{item.companyId},
+		#{item.discountType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type_member_discount( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_type_member_discount( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_type_member_discount
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_type_member_discount
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount">
+		update class_type_member_discount 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="memberLevel != null and memberLevel != ''">member_level = #{memberLevel},</if>
+			<if test="memberDiscount != null">member_discount = #{memberDiscount},</if>
+			<if test="memberId != null and memberId != ''">member_id = #{memberId},</if>
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="discountType != null">discount_type = #{discountType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classTypeMemberDiscountResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_type_member_discount
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classTypeMemberDiscountResultMap">
+		select <include refid="table_columns" /> 
+		from class_type_member_discount
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="memberLevel != null and memberLevel != ''">and member_level = #{memberLevel}</if>
+			<if test="memberDiscount != null">and member_discount = #{memberDiscount}</if>
+			<if test="memberId != null and memberId != ''">and member_id = #{memberId}</if>
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classTypeMemberDiscountResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount">
+		select <include refid="table_columns" />
+		from class_type_member_discount
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount">
+		select count(id) from class_type_member_discount
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findClassLevelList" resultMap="classTypeMemberDiscountResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
+		select <include refid="table_columns" />
+		from class_type_member_discount
+		where company_id = #{companyId} and class_type_id = #{classTypeId}
+	</select>
+	<select id="queryMemberLevelAndClassTypeVoListByMemberId" resultMap="memberLevelAndClassTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
+		select <include refid="table_columns_memberLevelAndClassType" />
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		where ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
+	</select>
+	<select id="queryMemberLevelAndClassTypeVoListByMemberIdPage" resultMap="memberLevelAndClassTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
+		select <include refid="table_columns_memberLevelAndClassType" />
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		where ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
+		order by ctmd.id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryMemberLevelAndClassTypeVoListByMemberIdPageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
+		select count(*)
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		where ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
+	</select>
+	<select id="queryMemberLevelAndClassTypeVoByClassId" resultMap="memberLevelAndClassTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
+		select <include refid="table_columns_memberLevelAndClassType" />
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		where ctmd.class_type_id = #{classTypeId} and ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
+		limit 1
+	</select>
+	<select id="findDiscountByMemberIdAndClassTypeId" resultMap="classTypeMemberDiscountResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount">
+		select <include refid="table_columns" />
+		from class_type_member_discount 
+		where member_id = #{memberId} and class_type_id= #{classTypeId} and company_id= #{companyId}
+		limit 1
+	</select>
+	<delete id="deleteClassTypeMemberDiscountByMemberId" parameterType="int">
+		delete  from class_type_member_discount
+		where  member_id=#{id}
+	</delete>
+	<select id="selectClassTypeCount" resultType="int" parameterType="int">
+		select count(*)
+		from class_type_member_discount
+		where class_type_id=#{id}
+	</select>
+</mapper>

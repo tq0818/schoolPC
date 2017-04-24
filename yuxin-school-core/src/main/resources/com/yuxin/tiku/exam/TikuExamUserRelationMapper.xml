@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.exam.mapper.TikuExamUserRelationMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.exam.TikuExamUserRelation" id="tikuExamUserRelationResultMap">
+		<result property="id" column="id" />
+		<result property="tikuExamId" column="tiku_exam_id" />
+		<result property="tikuPaperId" column="tiku_paper_id" />
+		<result property="tikuUserExerciseId" column="tiku_user_exercise_id" />
+		<result property="userId" column="user_id" />
+		<result property="status" column="status" />
+		<result property="score" column="score" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.tiku.exam.TikuExamUserRelationVo" id="tikuExamUserRelationVoResultMap" extends="tikuExamUserRelationResultMap">
+		<result property="userMobile" column="mobile" />
+		<result property="allowUserExam" column="allow_user_exam" />
+		<result property="province" column="province" />
+		<result property="city" column="city" />
+		<result property="county" column="county" />
+		<association property="userName" column="user_id" select="findUserName"></association>
+		<association property="tikuPaperName" column="tiku_paper_id" select="findPaperName"></association>
+		<association property="sex" column="user_id" select="findStuSex"></association>
+		<association property="identityId" column="user_id" select="findIdentityId"></association>
+		<association property="addressDetail" column="user_id" select="findAddress"></association>
+		<association property="stuId" column="user_id" select="findStuId"></association>
+	</resultMap>
+	
+	
+	<sql id="table_columns">
+		id,
+		tiku_exam_id,
+		tiku_paper_id,
+		tiku_user_exercise_id,
+		user_id,
+		status,
+		score,
+		create_time,
+		creator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{tikuExamId},
+		#{tikuPaperId},
+		#{tikuUserExerciseId},
+		#{userId},
+		#{status},
+		#{score},
+		#{createTime},
+		#{creator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.tikuExamId},
+		#{item.tikuPaperId},
+		#{item.tikuUserExerciseId},
+		#{item.userId},
+		#{item.status},
+		#{item.score},
+		#{item.createTime},
+		#{item.creator}
+		
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.exam.TikuExamUserRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_exam_user_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_exam_user_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_exam_user_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.exam.TikuExamUserRelation">
+		update tiku_exam_user_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="tikuExamId != null and tikuExamId != ''">tiku_exam_id = #{tikuExamId},</if>
+			<if test="tikuPaperId != null and tikuPaperId != ''">tiku_paper_id = #{tikuPaperId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuExamUserRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_exam_user_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuExamUserRelationResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_exam_user_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="tikuExamId != null and tikuExamId != ''">and tiku_exam_id = #{tikuExamId}</if>
+			<if test="tikuPaperId != null and tikuPaperId != ''">and tiku_paper_id = #{tikuPaperId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuExamUserRelationResultMap" parameterType="com.yuxin.wx.model.tiku.exam.TikuExamUserRelation">
+		select <include refid="table_columns" />
+		from tiku_exam_user_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="byPage" resultMap="tikuExamUserRelationVoResultMap" parameterType="com.yuxin.wx.vo.tiku.exam.TikuExamUserRelationVo">
+		select * from(
+		select
+		ur.*,
+		u.mobile,u.username as allow_user_exam,s.province as province,s.city as city,s.county  as county from tiku_exam_user_relation as ur inner join users_front as u on ur.user_id = u.id
+		left join student s on s.user_id = ur.user_id
+		where 1=1
+		<if test="tikuPaperId != null and tikuPaperId != ''">and tiku_paper_id = #{tikuPaperId}</if>
+		<if test="status != null">
+			<if test="status == 1">
+			and ur.status = #{status}
+			</if>
+			<if test="status == -1">
+			and ur.status != 1
+			</if>
+		</if>
+		<if test="tikuExamId != null and tikuExamId != ''">and tiku_exam_id = #{tikuExamId}</if>
+		<if test="userMobile != null and userMobile != ''">and (u.mobile like concat('%',#{userMobile},'%') or u.username like concat('%', #{userMobile},'%'))</if>
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[and ur.create_time >= #{startTime}]]>
+		</if>
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[and ur.create_time < #{endTime}]]>
+		</if>
+		ORDER BY ur.id desc
+		) aa
+		<!-- GROUP BY user_id -->
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.vo.tiku.exam.TikuExamUserRelationVo">
+		SELECT count(aa.id) from(
+		select
+		ur.*,
+		u.mobile,u.username from tiku_exam_user_relation as ur inner join users_front as u on ur.user_id = u.id
+		where 1=1
+		<if test="tikuPaperId != null and tikuPaperId != ''">and tiku_paper_id = #{tikuPaperId}</if>
+		<if test="status != null">
+			<if test="status == 1">
+			and ur.status = #{status}
+			</if>
+			<if test="status == -1">
+			and ur.status != 1
+			</if>
+			<!-- <if test="status == -1">
+			and ur.user_id not in(
+				select user_id from tiku_exam_user_relation where status = 1
+				<if test="tikuPaperId != null and tikuPaperId != ''">and tiku_paper_id = #{tikuPaperId}</if>
+				<if test="tikuExamId != null and tikuExamId != ''">and tiku_exam_id = #{tikuExamId}</if>
+			)
+			</if> -->
+		</if>
+		<if test="tikuExamId != null and tikuExamId != ''">and tiku_exam_id = #{tikuExamId}</if>
+		<if test="userMobile != null and userMobile != ''">and (mobile = #{userMobile} or username = #{userMobile})</if>
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[and create_time >= #{startTime}]]>
+		</if>
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[and create_time < #{endTime}]]>
+		</if>
+		ORDER BY ur.id desc
+		) aa
+	</select>
+	
+	<select id="findExamUserCount" resultType="int" parameterType="com.yuxin.wx.vo.tiku.exam.TikuExamUserRelationVo">
+		select count(id) from tiku_exam_user_relation where 1=1
+		<if test="tikuExamId != null and tikuExamId != ''">and tiku_exam_id = #{tikuExamId}</if>
+		limit 1
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findPaperName" resultType="String" parameterType="String">
+		select
+		paper_name
+		from tiku_paper
+		where id = #{id}
+	</select>
+	<select id="findStuSex" resultType="String" parameterType="String">
+		select sex from student
+		where user_id = #{id}
+	</select>
+	<select id="findIdentityId" resultType="String" parameterType="String">
+		select identity_id from student
+		where user_id = #{id}
+	</select>
+	<select id="findAddress" resultType="String" parameterType="String">
+		select address_detail from student
+		where user_id = #{id}
+	</select>
+	<select id="findStuId" resultType="Integer" parameterType="String">
+		select id from student
+		where user_id = #{id}
+	</select>
+	<select id="findUserName" resultType="String" parameterType="String">
+		select name from student
+		where user_id = #{id}
+	</select>
+	<select id="statisticRspdByPaper" resultType="map" parameterType="String">
+		SELECT
+			COUNT(distinct(userId)) total,max(score) max,MIN(score) min,AVG(score) avg,(select paper_name from tiku_paper where id = #{id}) paperName
+		FROM
+			(
+				SELECT
+					ur.*,u.id as userId, u.mobile,
+					u.username AS allow_user_exam
+				FROM
+					tiku_exam_user_relation AS ur inner join users_front AS u on ur.user_id = u.id
+				WHERE tiku_paper_id = #{id}
+			) aa
+	</select>
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UserHistoryMapper">
+	<resultMap type="com.yuxin.wx.model.user.UserHistory" id="userHistoryResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="studyDate" column="study_date" />
+		<result property="studyStatus" column="study_status" />
+		<result property="studyLength" column="study_length" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		commodity_id,
+		class_type_id,
+		lecture_id,
+		study_date,
+		study_status,
+		study_length
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{commodityId},
+		#{classTypeId},
+		#{lectureId},
+		#{studyDate},
+		#{studyStatus},
+		#{studyLength}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.commodityId},
+		#{item.classTypeId},
+		#{item.lectureId},
+		#{item.studyDate},
+		#{item.studyStatus},
+		#{item.studyLength}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.user.UserHistory" useGeneratedKeys="true" keyProperty="id">
+		insert into user_history( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into user_history( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from user_history
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.user.UserHistory">
+		update user_history 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="commodityId != null and commodityId != ''">commodity_id = #{commodityId},</if>
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId},</if>
+			<if test="studyDate != null and studyDate != ''">study_date = #{studyDate},</if>
+			<if test="studyStatus != null and studyStatus != ''">study_status = #{studyStatus},</if>
+			<if test="studyLength != null and studyLength != ''">study_length = #{studyLength},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userHistoryResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_history
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="userHistoryResultMap">
+		select <include refid="table_columns" /> 
+		from user_history
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="commodityId != null and commodityId != ''">and commodity_id = #{commodityId}</if>
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+			<if test="studyDate != null and studyDate != ''">and study_date = #{studyDate}</if>
+			<if test="studyStatus != null and studyStatus != ''">and study_status = #{studyStatus}</if>
+			<if test="studyLength != null and studyLength != ''">and study_length = #{studyLength}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="userHistoryResultMap" parameterType="com.yuxin.wx.model.user.UserHistory">
+		select <include refid="table_columns" />
+		from user_history
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.UserHistory">
+		select count(id) from user_history
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryCountByClassTypeIdAndUserId" resultType="int" parameterType="com.yuxin.wx.model.user.UserHistory">
+		select count(id) from user_history where class_type_id = #{classTypeId} and user_id = #{userId} and study_status = 3
+	</select>
+</mapper>

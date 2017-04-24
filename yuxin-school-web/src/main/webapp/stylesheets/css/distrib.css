@@ -1,0 +1,550 @@
+/*
+* @Author: baocheng
+* @Date:   2017-03-09 20:24:17
+* @Last Modified by:   baocheng
+* @Last Modified time: 2017-03-22 14:20:01
+*/
+
+
+/*start public*/
+
+.tab-htr th {
+    font-size: 14px;
+    color: #333;
+    background-color: #f0f0f0;
+    font-weight: normal;
+}
+
+.tab-dtr td {
+    font-size: 12px;
+    color: #666;
+}
+
+.cashrecord-tab {
+    line-height: 22px;
+    margin-top: 5px;
+    background-color: #fff;
+}
+
+.tab-dtr .Withdraw {
+    cursor: pointer;
+    color: #07bbee;
+}
+
+
+/*=======================*/
+
+
+/*.pages-find {
+    margin: 50px auto 35px;
+}
+
+.pages-find li:nth-child(1) {
+    display: none;
+}
+
+.pages-find li {
+    color: #707070;
+    border-color: #aaa;
+}
+
+.pages-find li a {
+    padding: 5px 10px;
+    color: #707070;
+}
+
+.pages-find li span {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.pages-find li:hover,
+.pages-find li.active {
+    color: #fff;
+    border-color: #07bbee;
+    background-color: #07bbee;
+}
+
+.pages-find li.disabled:hover {
+    border-color: #d8d8d8;
+}*/
+
+
+/* end public*/
+
+
+/*鏁欏笀閭�璇�*/
+
+.syslist-fen .subentry {
+    height: 39px;
+    line-height: 40px;
+}
+
+.ts {
+    color: #000;
+}
+
+.kg-fen span {
+    position: relative;
+    top: -1px;
+}
+
+.contentList {
+    margin-top: 17px;
+}
+
+.contentList .explain {
+    padding-top: 20px;
+}
+
+.titfen-font {
+    border-left: none;
+}
+
+.titfen-font em {
+    margin-left: 16px;
+    color: #999;
+}
+
+.titlefen-box {
+    border-bottom-width: 1px;
+}
+
+.titleC-box {
+    width: 100%;
+    border-bottom-color: #dcdcdc;
+    margin: 0;
+}
+
+.titleC-box .titfen-font {
+    margin-left: 0;
+}
+
+.footerSetBox-fen .tit-font .t {
+    font-size: 14px;
+    margin-left: 0;
+}
+
+.inviteList-box {
+    padding-left: 125px;
+}
+
+.inviteList {
+    margin-top: 20px;
+}
+
+.inviteList span {
+    font-size: 14px;
+}
+
+.inviteList .ts {
+    color: #000;
+}
+
+.inviteList .fs12 {
+    color: #333;
+}
+
+.inviteList .numberday {
+	box-sizing: border-box;
+    width: 80px;
+    height: 25px;
+    padding-left: 10px;
+    border-color: #ccc;
+    border-radius: 0;
+    font-size: 14px;
+    color: #616161;
+    vertical-align: baseline;
+}
+
+.inviteList .yuan {
+    margin-left: 8px;
+}
+
+
+.inviteList i{
+  font-size: 12px;
+    color: #fe5151;
+    font-style: normal;
+    margin-left: 20px;
+}
+
+.inviteList .coupon {
+    margin-right: 8px;
+}
+
+.inviteList .thatName {
+    font-style: normal;
+    font-size: 12px;
+    color: #fe5151;
+    margin-left: 20px;
+}
+
+.inviteList .close {
+    font-size: 20px;
+}
+
+.inviteList .cashday {
+    margin-left: 28px;
+}
+
+.inviteList-uncheck span {
+    color: #999;
+}
+
+.inpche {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+
+.classficat {
+    padding-top: 30px;
+    padding-left: 130px;
+}
+
+.classficat .ficat {
+    display: inline-block;
+    margin-right: 40px;
+    font-size: 14px;
+    color: #666;
+}
+
+.ficat .inpche {
+    margin-right: 10px;
+}
+
+.butfen .btn {
+    padding: 7px 15px;
+    font-size: 14px;
+}
+
+.butfen {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.butfen .btn-success {
+    background-color: #07bbee;
+    border-color: #07bbee;
+    margin-left: 20px;
+}
+
+.butfen .btn-success:hover {
+    background-color: #01aadd;
+    border-color: #01aadd;
+}
+
+
+/**********************/
+
+
+/* 鏁欏笀閭�璇疯褰�*/
+
+.recordContent {
+    padding: 20px 10px;
+    margin: 0 2% 0 2%;
+    box-sizing: border-box;
+    width: 95%;
+}
+
+.screenList {
+    font-size: 0px;
+    color: #999;
+}
+
+.screenList .datel {
+    font-size: 14px;
+    line-height: 26px;
+    margin-right: 15px;
+    margin-left: 10px;
+}
+
+.screenList .btn {
+    margin-right: 15px;
+    border-radius: 3px;
+    padding: 6px 12px;
+}
+
+.screenList .btn-td {
+    margin-right: 10px;
+    padding: 6px 10px;
+}
+
+.screenList input[type='text'] {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 12px;
+    height: 26px;
+    padding: 0 6px;
+    vertical-align: top;
+}
+
+.datetit-z {
+    font-size: 14px;
+    line-height: 26px;
+    color: #616161;
+    margin-right: 10px;
+}
+
+.screenList .date-picker {
+    width: 95px;
+    color: #616161;
+    line-height: 24px;
+    margin-right: 10px;
+}
+
+.screenList .nameTel {
+    width: 130px;
+    color: #999;
+    line-height: 24px;
+    margin-right: 10px;
+}
+
+.screenList .check {
+    padding: 6px 10px;
+    border: 1px solid #07bbee;
+    background-color: #07bbee;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+}
+
+.screenList .check:hover {
+    border: 1px solid #01aadd;
+    background-color: #01aadd;
+}
+
+.recordContent .showList {
+    padding-top: 30px;
+    padding-bottom: 5px;
+}
+
+.showList .classific{
+    display: inline-block;
+    /*line-height: 1;*/
+    padding-top: 15px;
+    font-size: 14px;
+    color: #333;
+    margin-right:34px;
+}
+
+.showList .fl {
+    margin-right: 36px;
+    font-size: 14px;
+    color: #333;
+}
+
+.showList .export {
+    padding: 8px 12px;
+    border: 1px solid #07bbee;
+    background-color: #07bbee;
+    cursor: pointer;
+    color: #fff;
+    font-size: 12px;
+}
+
+.showList .export:hover {
+    border: 1px solid #01aadd;
+    background-color: #01aadd;
+}
+
+
+/**/
+
+.headClick {
+    position: relative;
+    font-size: 14px;
+}
+
+.headClick .sanCon {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 12px;
+    vertical-align: middle;
+    margin-left: 6px;
+}
+
+.headClick .triangle {
+    border: 4px solid #666;
+    height: 0;
+    width: 0;
+    display: inline-block;
+    position: absolute;
+    cursor: pointer;
+}
+
+.headClick .san-top {
+    border-color: transparent transparent #646464 transparent;
+    top: -4px;
+    left: 0px;
+}
+
+.headClick .san-bottom {
+    border-color: #646464 transparent transparent transparent;
+    top: 6px;
+    left: 0px;
+}
+
+
+/**/
+
+.pages-find {
+    margin: 50px auto 35px;
+}
+
+
+/*鏁欏笀閭�璇峰脊鍑�*/
+
+.detail-Par{
+	 position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 111;
+    background-color: #fff;
+}
+.detailsPop {
+    width: 920px;
+    padding: 0 20px;
+}
+
+.detailsPop select {
+    width: 150px;
+    height: 26px;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+    font-size: 12px;
+    color: #333;
+    padding: 0;
+    vertical-align: top;
+}
+
+.detailsPop span {
+    color: #333;
+    margin: 0;
+}
+.detailsPop .teacz{
+    font-size: 14px;
+}
+.formpost {
+    line-height: 1;
+}
+
+.formpost em {
+    font-size: 14px;
+    color: #333;
+    margin-right: 40px;
+}
+
+.screenList .nameTel-t {
+    width: 190px;
+}
+
+.detailsPop .screenList {
+    text-align: left;
+}
+
+.showList-det .fr {
+    margin-left: 36px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1;
+}
+
+.showList-det {
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.cashrecord-tabs {
+    line-height: 12px;
+}
+
+/* .layerTips .layerTipsBtns {
+    display: none;
+}
+ */ 
+.pages-invit {
+    margin: 0 auto;
+    padding: 20px 0 30px;
+}
+
+.pages-invit li span,
+.pages-invit li a {
+    line-height: 16px;
+}
+
+
+
+/* .detail-Par{
+	
+} */
+
+ .tips-spetitle {
+    background: #fff;
+
+    font-size: 16px;
+    padding-left:10px;
+    color:#333;
+
+    border-color: #e0e0e0;
+    height: 50px;
+
+    line-height: 50px;
+    
+    
+    position: relative;
+    
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 22px;
+    
+}
+
+ .tips-spetitle i.spe-close {
+  
+     position: absolute;
+       top: 18px;
+    right: 12px;
+    line-height: 1;
+    color: #999;
+    cursor: pointer;
+   
+    font-size: 14px;
+}
+
+.borSpe{
+    border-bottom: none;
+}
+
+.inviteList .iconfont {
+    font-size: 20px;
+}
+
+.inviteLmb{
+	margin-top: 0;
+}
+
+.detail-Parent{
+  position: fixed;
+ top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+background: rgba(0,0,0,.2);
+filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=#15000000,endcolorstr=#15000000);
+z-index: 9999999;
+overflow: auto;
+overflow-y: scroll;
+display: none;
+
+}
+
+.overflow-y-h{}
+
+
+.overflow-y-h{     overflow-y: hidden;}

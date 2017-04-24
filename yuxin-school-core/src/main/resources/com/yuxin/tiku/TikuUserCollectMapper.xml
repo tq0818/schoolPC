@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuUserCollectMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuUserCollect" id="tikuUserCollectResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="topicId" column="topic_id" />
+		<result property="topicType" column="topic_type" />
+		<result property="addTime" column="add_time" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="companyId" column="company_id" />
+		<association property="parentId" column="topic_id" javaType="Integer" 
+			select="findTopicParentId"></association>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		topic_id,
+		topic_type,
+		add_time,
+		category_id,
+		subject_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{topicId},
+		#{topicType},
+		#{addTime},
+		#{categoryId},
+		#{subjectId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.topicId},
+		#{item.topicType},
+		#{item.addTime},
+		#{item.categoryId},
+		#{item.subjectId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuUserCollect" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_user_collect( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_user_collect( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_user_collect
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_user_collect
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuUserCollect">
+		update tiku_user_collect 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="topicId != null and topicId != ''">topic_id = #{topicId},</if>
+			<if test="topicType != null and topicType != ''">topic_type = #{topicType},</if>
+			<if test="addTime != null and addTime != ''">add_time = #{addTime},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuUserCollectResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_user_collect
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuUserCollectResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_user_collect
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="topicId != null and topicId != ''">and topic_id = #{topicId}</if>
+			<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+			<if test="addTime != null and addTime != ''">and add_time = #{addTime}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="subjectId != null and subjectId != ''">and subject_id = #{subjectId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuUserCollectResultMap" parameterType="com.yuxin.wx.model.tiku.TikuUserCollect">
+		select <include refid="table_columns" />
+		from tiku_user_collect
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuUserCollect">
+		select count(id) from tiku_user_collect
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findCollectCountByUserIdAndSubjectId" resultType="int" >
+		select count(id) from tiku_user_collect where user_id = #{userId} and subject_id = #{subjectId} limit 1
+	</select>
+	
+	<select id="findCollectByMore" parameterType="com.yuxin.wx.model.tiku.TikuUserCollect" resultType="Integer">
+		select c.id
+		from tiku_user_collect c
+		inner join tiku_topic t
+			on t.id = c.topic_id
+			and c.topic_id = #{topicId}
+		where c.user_id = #{userId}
+		order by id desc
+		limit 0,1
+	</select>
+	
+	<select id="findTopicByCollect" parameterType="com.yuxin.wx.model.tiku.TikuUserCollect" resultMap="tikuUserCollectResultMap">
+		select c.id,
+			c.user_id,
+			c.topic_id,
+			c.topic_type,
+			c.category_id,
+			c.subject_id,
+			c.add_time,
+			c.company_id
+		from tiku_user_collect c
+		inner join tiku_topic t
+			on t.id = c.topic_id
+		where user_id = #{userId} and 
+			c.company_id = #{companyId} and 
+			c.subject_id = #{subjectId}
+	</select>
+	
+	<select id="findTopicParentId" parameterType="Integer" resultType="Integer">
+		select parent_id 
+		from tiku_topic
+		where id = #{topicId}
+	</select>
+</mapper>

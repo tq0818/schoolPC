@@ -1,0 +1,238 @@
+@font-face {font-family: 'iconfont';
+    src: url('fonts/iconfont.eot'); /* IE9*/
+    src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;}
+
+a:link {
+    text-decoration: none;
+    /*color: #666;*/
+}
+a:visited {
+    text-decoration: none;
+    /*color: #666;*/
+}
+a:hover {
+    text-decoration: none;
+    /*color: #666;*/
+}
+a:active {
+    text-decoration: none;
+    /*color: #666;*/
+}
+.c-footer{
+    width: 100%;
+    background-color: #353535;
+    border: 1px solid #353535;
+}
+.footer-content{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #a1a4b3;
+}
+.c-footer-1{
+    height: 240px;
+}
+.content-1{
+    height: 240px;
+}
+.c-footer-2{
+    height: 92px;
+    background-color: #595656;
+    border: 1px solid #595656;
+}
+.content-2{
+    height: 92px;
+}
+.c-footer-3{
+    height: 168px;
+}
+.content-3{
+    height: 168px;
+}
+.c-footer-4{
+    height: 50px;
+}
+.content-4{
+    height: 50px;
+}
+.footer-content>div{
+    margin: 10px 0;
+    float: left;
+}
+.f-3-left{
+    width: 48%;
+    height: 148px;
+    border-right: 1px solid #8b8b8b;
+}
+.f-3-left>div{
+    width: 410px;
+    margin: 0 auto;
+}
+.f-3-left>div>p{
+    color: #fafafa;
+    font-size: 20px;
+    margin: 5px 0;
+}
+.f-3-left>div>p:last-child{
+    font-size: 10px;
+    color: #a1a4b3;
+}
+.f-3-middle{
+    width: 22%;
+    height: 148px;
+}
+.f-3-middle>div{
+    width: 222px;
+    margin: 0 auto;
+}
+.f-3-middle>div a{
+    display: inline-block;
+    width: 60px;
+    margin: 3px 24px;
+    color: #a1a4b3;
+    text-align: center;
+    line-height: 30px;
+}
+.f-3-right{
+    width: 29%;
+    height: 148px;
+    border-left: 1px solid #8b8b8b;
+}
+.f-3-right>div{
+    width: 246px;
+    margin-left: 15%;
+}
+.f-3-right>div div p span{
+    font-size: 36px;
+}
+.f-3-right>div div{
+    float: left;
+}
+.f-3-right>div div p span:last-child{
+    position: relative;
+    top: -4px;
+}
+.erwm{
+    width: 65px;
+    height: 65px;
+    margin: 30px 0 0 20px;
+}
+.f-1-left{
+    float: left;
+    width: 60%;
+}
+.f-1-right{
+    float: left;
+    width: 40%;
+}
+.footer-top-box{
+    padding: 1%;
+    width: 98%;
+}
+.f-1-left>div{
+    float: left;
+    width: 19%;
+    border-right: 1px solid #696a6c;
+    height: 164px;
+}
+.f-1-left>div p{
+    color: #a1a4b3;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.f-1-left>div a{
+    display: block;
+    width: 100%;
+    color: #a1a4b3;
+    text-align: center;
+    line-height: 25px;
+    font-size: 12px;
+}
+.f-1-right>p{
+    text-align: center;
+    font-size: 12px;
+    color: #a1a4b3;
+}
+.f-1-right>p:first-child{
+    margin-bottom: 10px;
+}
+.f-1-right>p span{
+    font-size: 32px;
+    margin: 0 5px;
+}
+.footer-content>.f-1-bottom{
+    width: 100%;
+    margin: 0;
+    line-height: 30px;
+    text-align: center;
+    color: #a1a4b3;
+    font-size: 12px;
+}
+
+.c-footer-2 .content-2>div{
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    color: #eee;
+    font-size: 12px;
+}
+.c-footer-2 .content-2>div a{
+    color: #eee;
+    font-size: 14px;
+    margin: 0 8px;
+}
+.c-footer-2 .content-2 span{
+    display: block;
+    width: 100%;
+    line-height: 30px;
+    font-size: 12px;
+    color: #eee;
+    text-align: center;
+}
+.f-1-bottom span{
+    color: #d77d10;
+}
+
+
+.footer-content>.f-4-left{
+    float: left;
+    width: 52%;
+    line-height: 50px;
+    margin: 0;
+    text-align: center;
+}
+.footer-content>.f-4-right{
+    float: left;
+    width: 48%;
+    line-height: 50px;
+    margin: 0;
+    text-align: center;
+}
+.footer-content>.f-4-right a{
+    color: #a1a4b3;
+    margin: 0 12px;
+}
+
+.f-3-right>div div p span a{
+    display: inline-block;
+    font-size: 36px;
+}
+
+.pop-ewm{
+    position: absolute;
+    bottom: 48px;
+    right: 36%;
+    display: none;
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysPageHeadFooterTemplateMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysPageHeadFooterTemplate" id="sysPageHeadFooterTemplateResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="showPage" column="show_page" />
+		<result property="configPage" column="config_page" />
+		<result property="priviewPic" column="priview_pic" />
+		<result property="sort" column="sort" />
+		<result property="templateType" column="template_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		show_page,
+		config_page,
+		priview_pic,
+		sort,
+		template_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{showPage},
+		#{configPage},
+		#{priviewPic},
+		#{sort},
+		#{templateType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.showPage},
+		#{item.configPage},
+		#{item.priviewPic},
+		#{item.sort},
+		#{item.templateType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysPageHeadFooterTemplate" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_page_head_footer_template( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_page_head_footer_template( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_page_head_footer_template
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysPageHeadFooterTemplate">
+		update sys_page_head_footer_template 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="showPage != null and showPage != ''">show_page = #{showPage},</if>
+			<if test="configPage != null and configPage != ''">config_page = #{configPage},</if>
+			<if test="priviewPic != null and priviewPic != ''">priview_pic = #{priviewPic},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+			<if test="templateType != null and templateType != ''">template_type = #{templateType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysPageHeadFooterTemplateResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_page_head_footer_template
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysPageHeadFooterTemplateResultMap">
+		select <include refid="table_columns" /> 
+		from sys_page_head_footer_template
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="showPage != null and showPage != ''">and show_page = #{showPage}</if>
+			<if test="configPage != null and configPage != ''">and config_page = #{configPage}</if>
+			<if test="priviewPic != null and priviewPic != ''">and priview_pic = #{priviewPic}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+			<if test="templateType != null and templateType != ''">and template_type = #{templateType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysPageHeadFooterTemplateResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFooterTemplate">
+		select <include refid="table_columns" />
+		from sys_page_head_footer_template
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysPageHeadFooterTemplate">
+		select count(id) from sys_page_head_footer_template
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findFootTempletes" resultMap="sysPageHeadFooterTemplateResultMap">
+		select <include refid="table_columns" /> 
+		from sys_page_head_footer_template
+	</select>
+	
+	<!-- 查询模板下的有效导航链接数 -->
+	<select id="queryIsUseingLink" resultType="int" parameterType="map">
+		select count(a.id) from sys_page_head_foot a INNER JOIN sys_page_head_footer_template b 
+where a.config_id=b.id and page_type='foot' and valid_flag=1 and parent_id=0 and company_id=#{companyId}
+and a.config_id=#{configId} limit 1
+	</select>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyRegisterConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyRegisterConfig" id="companyRegisterConfigResultMap">
+		<result property="id" column="id" />
+		<result property="mobileFlag" column="mobile_flag" />
+		<result property="usernameFlag" column="username_flag" />
+		<result property="emailFlag" column="email_flag" />
+		<result property="qqFlag" column="qq_flag" />
+		<result property="wechatFlag" column="wechat_flag" />
+		<result property="weiboFlag" column="weibo_flag" />
+		<result property="closeFlag" column="close_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="registerAgreement" column="register_agreement" />
+		<result property="registerAgreementFlag" column="register_agreement_flag" />
+		<result property="validateEmailFlag" column="validate_email_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		mobile_flag,
+		username_flag,
+		email_flag,
+		qq_flag,
+		wechat_flag,
+		weibo_flag,
+		close_flag,
+		company_id,
+		register_agreement,
+		register_agreement_flag,
+		validate_email_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{mobileFlag},
+		#{usernameFlag},
+		#{emailFlag},
+		#{qqFlag},
+		#{wechatFlag},
+		#{weiboFlag},
+		#{closeFlag},
+		#{companyId},
+		#{registerAgreement},
+		#{registerAgreementFlag},
+		#{validateEmailFlag}
+		
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.mobileFlag},
+		#{item.usernameFlag},
+		#{item.emailFlag},
+		#{item.qqFlag},
+		#{item.wechatFlag},
+		#{item.weiboFlag},
+		#{item.closeFlag},
+		#{item.companyId},
+		#{item.registerAgreement},
+		#{item.registerAgreementFlag},
+		#{item.validateEmailFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyRegisterConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_register_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_register_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_register_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyRegisterConfig">
+		update company_register_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="mobileFlag != null ">mobile_flag = #{mobileFlag},</if>
+			<if test="usernameFlag != null ">username_flag = #{usernameFlag},</if>
+			<if test="emailFlag != null ">email_flag = #{emailFlag},</if>
+			<if test="qqFlag != null">qq_flag = #{qqFlag},</if>
+			<if test="wechatFlag != null ">wechat_flag = #{wechatFlag},</if>
+			<if test="weiboFlag != null ">weibo_flag = #{weiboFlag},</if>
+			<if test="closeFlag != null ">close_flag = #{closeFlag},</if>
+			<if test="companyId != null ">company_id = #{companyId},</if>
+			<if test="registerAgreement != null ">register_agreement = #{registerAgreement},</if>
+			<if test="registerAgreementFlag != null ">register_agreement_flag = #{registerAgreementFlag},</if>
+			<if test="validateEmailFlag != null ">validate_email_flag = #{validateEmailFlag},</if>
+		</trim>
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="id != null ">and id = #{id}</if>
+		</trim>
+	</update>
+	
+	<select id="findById" resultMap="companyRegisterConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_register_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyRegisterConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_register_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="mobileFlag != null and mobileFlag != ''">and mobile_flag = #{mobileFlag}</if>
+			<if test="usernameFlag != null and usernameFlag != ''">and username_flag = #{usernameFlag}</if>
+			<if test="emailFlag != null and emailFlag != ''">and email_flag = #{emailFlag}</if>
+			<if test="qqFlag != null and qqFlag != ''">and qq_flag = #{qqFlag}</if>
+			<if test="wechatFlag != null and wechatFlag != ''">and wechat_flag = #{wechatFlag}</if>
+			<if test="weiboFlag != null and weiboFlag != ''">and weibo_flag = #{weiboFlag}</if>
+			<if test="closeFlag != null and closeFlag != ''">and close_flag = #{closeFlag}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="validateEmailFlag != null ">and validate_email_flag = #{validateEmailFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyRegisterConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyRegisterConfig">
+		select <include refid="table_columns" />
+		from company_register_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyRegisterConfig">
+		select count(id) from company_register_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryByCompanyId" resultMap="companyRegisterConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyRegisterConfig">
+		select <include refid="table_columns" />
+		from company_register_config
+		where company_id=#{companyId}
+	</select>
+</mapper>

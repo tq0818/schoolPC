@@ -1,0 +1,208 @@
+#courseParentUrl {
+    color: #fff
+}
+
+.u-wrap .h5 {
+    color: #000;
+    font-size: 15px;
+    font-weight: 600
+}
+
+.heading {
+    margin-bottom: 30px
+}
+
+.heading span {
+    width: auto;
+    margin-left: -9px;
+    padding-left: 26px
+}
+
+.resource .mainbackground .r-list {
+    padding-top: 6px
+}
+
+tbody tr .special {
+    display: inline-block;
+    height: 18px;
+    padding-right: 6px;
+    line-height: 18px;
+    border-right: 1px solid #07bbee;
+    margin-right: 2px;
+    color: #07bbee;
+}
+
+.spe span:hover {
+    color: #00b7ee;
+    cursor: pointer
+}
+
+.spe {
+    position: relative
+}
+
+.spe span:hover {
+    color: #00b7ee;
+    cursor: pointer
+}
+
+.L-r-list .L-table td span {
+    font-size: 12px
+}
+
+.r-list .table-bot {
+    position: absolute;
+    right: 42px;
+    width: 94px;
+    background-color: #fff;
+    height: 78px;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px;
+    text-align: center;
+    z-index: 10
+}
+
+.r-list .table-bot-up {
+    margin: 15px 0 12px 0
+}
+
+.r-list .table-bot-cen {
+    width: 70px;
+    margin: 0 auto;
+    border-bottom: 1px solid #E0E0E0
+}
+
+.r-list .table-bot-down {
+    margin: 11px 0 16px 0
+}
+
+.r-list .table-bot-1 {
+    display: none
+}
+
+.r-list .table-bot-2 {
+    display: none
+}
+
+.r-list .table-bot-3 {
+    display: none
+}
+
+.r-list .table-bot-4 {
+    display: none
+}
+
+.r-list .table-bot-5 {
+    display: none
+}
+
+.r-list .table-bot-6 {
+    display: none
+}
+
+.r-list .table-bot-7 {
+    display: none
+}
+
+.r-list .table-bot-8 {
+    display: none
+}
+
+.r-list .table-bot-9 {
+    display: none
+}
+
+.r-list .table-bot-10 {
+    display: none
+}
+
+.layer-tips {
+    position: absolute;
+    background-color: #fff;
+    width: 960px;
+    height: 504px;
+    top: 50%;
+    left: 50%;
+    margin-left: -480px;
+    margin-top: -252px;
+    display: none;
+    z-index: 10000
+}
+
+.sc-select {
+    line-height: 50px
+}
+
+.layer-tips-title .sc-select a {
+    height: 19px;
+    width: 106px;
+    line-height: 19px;
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 9px 0 5px
+}
+
+.layer-tips .table-list-t {
+    width: 920px;
+    margin: 30px 20px 0 20px
+}
+
+.table-list-t>tbody>tr>th {
+    color: #000;
+    background-color: #f2f2f2
+}
+
+.table-list-t>tbody>tr>td {
+    color: #949494
+}
+
+.L-table>tbody>tr>th {
+    border: 1px solid #e0e0e0;
+    font-weight: normal;
+}
+
+.layer-tips .layer-tips-title {
+    border-bottom: 1px solid #e0e0e0
+}
+
+.layer-tips .layer-tips-title i.guanbi {
+    color: #949494;
+    position: absolute;
+    top: 17px;
+    right: 16px
+}
+
+.layer-tips .L-pages {
+    margin: 18px 0 10px
+}
+
+#courseDetail {
+    padding: 0
+}
+
+#courseDetail .layer-tips-title {
+    padding-left: 20px;
+    line-height: 1;
+    padding-top: 11px
+}
+
+#courseDetail .layer-tips-title a.btn {
+    margin-right: 10px
+}
+
+#courseDetail .coupon-use-detail {
+    padding: 30px 20px 0
+}
+
+.loading-bg {
+    background-color: #000;
+    opacity: .2
+}
+
+.inp-6 {
+    padding-left: 57px
+}
+
+#cke_q-content {
+    margin-left: 57px
+}

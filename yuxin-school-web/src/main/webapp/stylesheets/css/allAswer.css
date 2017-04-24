@@ -1,0 +1,165 @@
+.allAnswer .mainbackground .classes-type span.t-title {
+  width: 8%;
+  text-align: right;
+  margin-top: 20px;
+}
+.allAnswer .mainbackground .classes-type span {
+  display: block;
+  width: 91%;
+}
+.allAnswer .mainbackground .classes-type a.btn {
+  margin-top: 20px;
+}
+.allAnswer .mainbackground.nopadding {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.allAnswer .mainbackground .classes-type span.t-title {
+  margin-right: 0;
+}
+.wendaLi {
+  background-color: #fff;
+}
+.unAnswer.classes {
+  margin-top: 0;
+}
+.allAnswer.classes {
+  margin-bottom: 0;
+}
+.unAnswer .headPic {
+  margin-top: 14px;
+  height: auto;
+  margin-left: 12px;
+}
+.unAnswer .mana {
+  margin-top: 14px;
+  height: 82px;
+}
+.unAnswer .content {
+  margin-top: 12px;
+}
+.unAnswer .title1 {
+  padding-bottom: 8px;
+  height: auto;
+}
+.unAnswer .plName {
+  line-height: 12px;
+}
+.unAnswer .ans {
+  padding-top: 16px;
+}
+.title1 .iconfont {
+  position: relative;
+  top: -2px;
+  font-size: 20px;
+}
+.title1 .zdt {
+  font-size: 18px;
+}
+.unAnswer .ques {
+  min-height: 20px;
+}
+.unAnswer .showAllCon767 p {
+  font-size: 12px;
+  line-height: 20px;
+}
+.unAnswer .wendaLi {
+  padding: 0 30px;
+  border: none;
+}
+.unAnswer .plContent {
+  width: 744px;
+  position: relative;
+}
+.unAnswer .widthAuto {
+  width: 82%;
+  position: relative;
+}
+.plContent .answerExpr {
+  position: absolute;
+  left: 13%;
+  top: 0px;
+  font-size: 16px;
+  color: #333;
+  font-weight: normal;
+}
+.fbQue.btn-success {
+  background-color: #00b7ee;
+  border: none;
+  outline: none;
+  padding: 9px 20px;
+  margin-left: 20px;
+}
+.fbQue.btn-success:hover {
+  background-color: #01aadd;
+}
+.anExpressBut {
+  padding: 20px 0;
+}
+.onean {
+  width: 98%;
+}
+.onean.t-t {
+  margin-top: 5px;
+  border-bottom: solid 1px #eee;
+}
+.onean .title-t {
+  width: 100px;
+  text-align: center;
+}
+.onean .title-t .title-hip {
+  width: 100%;
+  height: 60px;
+}
+.onean .title-t .title-name {
+  width: 100px;
+  position: relative;
+  font-size: 12px;
+}
+.onean .content {
+  padding-left: 10px;
+  word-wrap: break-word;
+  word-break: break all;
+}
+.onean .content-c .c-top {
+  font-size: 12px;
+  min-height: 47px;
+}
+.onean .content-c .c-bottom {
+  color: #999999;
+  padding-top: 10px;
+  font-size: 12px;
+}
+.xzi {
+  margin-left: 5px;
+}
+.twoans .c {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+.h-text td {
+  padding-top: 20px;
+}
+.h-text .t {
+  width: 80%;
+}
+.h-text .t p {
+  padding-top: 10px;
+}
+.twoans {
+  margin-top: 10px;
+}
+.icons {
+  cursor: pointer;
+}
+.anLine {
+  float: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.ans .pr50:hover .iconfont,
+.ans .pr50:hover span,
+.ans .active span,
+.ans .active i {
+  color: #00B7EE;
+}

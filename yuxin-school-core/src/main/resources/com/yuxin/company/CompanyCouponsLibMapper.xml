@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyCouponsLibMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyCouponsLib" id="companyCouponsLibResultMap">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="timeLimitFrom" column="time_limit_from" />
+		<result property="timeLimitTo" column="time_limit_to" />
+		<result property="status" column="status" />
+		<result property="patchId" column="patch_id" />
+		<result property="userId" column="user_id" />
+		<result property="useTime" column="use_time" />
+		<result property="insCashNum" column="ins_cash_num" />
+		<result property="overNum" column="over_num" />
+		<result property="overCutNum" column="over_cut_num" />
+		<result property="discountNum" column="discount_num" />
+		<result property="description" column="description" />
+		<result property="useRange" column="use_range" />
+		<result property="useWay" column="use_way" />
+		<result property="rangeItemOne" column="range_item_one" />
+		<result property="rangeItemSecond" column="range_item_second" />
+		<result property="rangeItemCourse" column="range_item_course" />
+		<result property="delFlag" column="del_flag" />
+		<result property="creater" column="creater" />
+		<result property="orderId" column="order_id" />
+		<result property="commodityType" column="commodity_type"/>
+		<result property="rangeItemPackageCategory" column="range_item_package_category"/>
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.company.CompanyCouponsLibOrderVo" id="companyCouponsLibOrderResultMap">
+		<result property="code" column="code" />
+		<result property="status" column="status" />
+		<result property="userName" column="userName" />
+		<result property="userMobile" column="userMobile" />
+		<result property="commodityName" column="commodityName" />
+		<result property="originalPrice" column="originalPrice" />
+		<result property="payPrice" column="payPrice" />
+		<result property="sendDate" column="sendDate" />
+		<result property="useTime" column="useTime" />
+		<result property="commodityType" column="commodity_type"/>
+		<result property="rangeItemPackageCategory" column="range_item_package_category"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		code,
+		time_limit_from,
+		time_limit_to,
+		status,
+		patch_id,
+		user_id,
+		use_time,
+		ins_cash_num,
+		over_num,
+		over_cut_num,
+		discount_num,
+		description,
+		use_range,
+		use_way,
+		range_item_one,
+		range_item_second,
+		range_item_course,
+		del_flag,
+		creater,
+		order_id,
+		commodity_type,
+		range_item_package_category
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{code},
+		#{timeLimitFrom},
+		#{timeLimitTo},
+		#{status},
+		#{patchId},
+		#{userId},
+		#{useTime},
+		#{insCashNum},
+		#{overNum},
+		#{overCutNum},
+		#{discountNum},
+		#{description},
+		#{useRange},
+		#{useWay},
+		#{rangeItemOne},
+		#{rangeItemSecond},
+		#{rangeItemCourse},
+		#{delFlag},
+		#{creater},
+		#{orderId},
+		#{commodityType},
+		#{rangeItemPackageCategory}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.code},
+		#{item.timeLimitFrom},
+		#{item.timeLimitTo},
+		#{item.status},
+		#{item.patchId},
+		#{item.userId},
+		#{item.useTime},
+		#{item.insCashNum},
+		#{item.overNum},
+		#{item.overCutNum},
+		#{item.discountNum},
+		#{item.description},
+		#{item.useRange},
+		#{item.useWay},
+		#{item.rangeItemOne},
+		#{item.rangeItemSecond},
+		#{item.rangeItemCourse},
+		#{item.delFlag},
+		#{item.creater},
+		#{item.orderId},
+		#{item.commodityType},
+		#{item.rangeItemPackageCategory}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib" useGeneratedKeys="true" keyProperty="id">
+		insert into company_coupons_lib( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_coupons_lib( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_coupons_lib
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib">
+		update company_coupons_lib 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="code != null and code != ''">code = #{code},</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">time_limit_from = #{timeLimitFrom},</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">time_limit_to = #{timeLimitTo},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="patchId != null and patchId != ''">patch_id = #{patchId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="useTime != null and useTime != ''">use_time = #{useTime},</if>
+			<if test="insCashNum != null and insCashNum != ''">ins_cash_num = #{insCashNum},</if>
+			<if test="overNum != null and overNum != ''">over_num = #{overNum},</if>
+			<if test="overCutNum != null and overCutNum != ''">over_cut_num = #{overCutNum},</if>
+			<if test="discountNum != null and discountNum != ''">discount_num = #{discountNum},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="useRange != null and useRange != ''">use_range = #{useRange},</if>
+			<if test="useWay != null and useWay != ''">use_way = #{useWay},</if>
+			<if test="rangeItemOne != null and rangeItemOne != ''">range_item_one = #{rangeItemOne},</if>
+			<if test="rangeItemSecond != null and rangeItemSecond != ''">range_item_second = #{rangeItemSecond},</if>
+			<if test="rangeItemCourse != null and rangeItemCourse != ''">range_item_course = #{rangeItemCourse},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="creater != null and creater != ''">creater = #{creater},</if>
+			<if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyCouponsLibResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_coupons_lib
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyCouponsLibResultMap">
+		select <include refid="table_columns" /> 
+		from company_coupons_lib
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="code != null and code != ''">and code = #{code}</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">and time_limit_from = #{timeLimitFrom}</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">and time_limit_to = #{timeLimitTo}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="patchId != null and patchId != ''">and patch_id = #{patchId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+			<if test="insCashNum != null and insCashNum != ''">and ins_cash_num = #{insCashNum}</if>
+			<if test="overNum != null and overNum != ''">and over_num = #{overNum}</if>
+			<if test="overCutNum != null and overCutNum != ''">and over_cut_num = #{overCutNum}</if>
+			<if test="discountNum != null and discountNum != ''">and discount_num = #{discountNum}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="range != null and range != ''">and range = #{range}</if>
+			<if test="useWay != null and useWay != ''">and use_way = #{useWay}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyCouponsLibResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib">
+		select <include refid="table_columns" />
+		from company_coupons_lib
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib">
+		select count(id) from company_coupons_lib
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryLibsListByPatchId" resultMap="companyCouponsLibResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib">
+		select <include refid="table_columns" />
+		from company_coupons_lib ccl
+		where ccl.patch_id=#{patchId} and del_flag = '0'
+		order by ccl.id 
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryLibsListCountByPatchId" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib">
+		select count(*)
+		from company_coupons_lib ccl 
+		where ccl.patch_id=#{patchId} and del_flag = '0'
+		order by ccl.id 
+	</select>
+	<select id="queryLibsListByPatchIdExport" resultMap="companyCouponsLibResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsLib">
+		select <include refid="table_columns" />
+		from company_coupons_lib ccl
+		where ccl.patch_id=#{patchId} and del_flag = '0'
+		order by ccl.id 
+	</select>
+	
+	<select id="queryLibsForUseOrder" resultMap="companyCouponsLibOrderResultMap" parameterType="com.yuxin.wx.vo.company.CompanyCouponsLibVo">
+		select ccl.code,
+		ccl.status,
+		uf.mobile as userMobile,
+		uf.username as userName,
+		po.commodity_name as commodityName,
+		po.pay_price as payPrice,
+		ccp.send_date as sendDate,
+		(select c.real_price from commodity c where c.id=po.commodity_id) as originalPrice,
+		ccl.use_time as useTime
+		from company_coupons_lib ccl left join company_coupons_patch ccp on ccl.patch_id=ccp.id
+		left join pay_order po on ccl.order_id=po.id
+		left join users_front uf on ccl.user_id=uf.id
+		where ccl.patch_id=#{patchId} and ccl.del_flag = '0'
+		order by 
+		<if test="(statusOrder == null || statusOrder == '') and (usetimeOrder == null || usetimeOrder == '')">
+			ccl.id
+		</if>
+		<if test="statusOrder != null and statusOrder != ''">
+			<choose>
+				<when test="statusOrder=='up'"> ccl.status</when>
+				<when test="statusOrder=='down'">ccl.status desc</when>
+			</choose>
+		</if>
+		<if test="(statusOrder == null || statusOrder == '') and (usetimeOrder != null and usetimeOrder != '')">
+			<choose>
+				<when test="usetimeOrder=='up'"> ccl.use_time</when>
+				<when test="usetimeOrder=='down'"> ccl.use_time desc</when>
+			</choose>
+		</if>
+		<if test="usetimeOrder != null and usetimeOrder != ''">
+			<choose>
+				<when test="usetimeOrder=='up'"> ,ccl.use_time</when>
+				<when test="usetimeOrder=='down'"> ,ccl.use_time desc</when>
+			</choose>
+		</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryLibsForUseOrderCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyCouponsLibVo">
+		select count(*)
+		from company_coupons_lib ccl left join company_coupons_patch ccp on ccl.patch_id=ccp.id
+		left join pay_order po on ccl.order_id=po.id
+		left join users_front uf on ccl.user_id=uf.id
+		where ccl.patch_id=#{patchId} and ccl.del_flag = '0'
+		order by 
+		<if test="(statusOrder == null || statusOrder == '') and (usetimeOrder == null || usetimeOrder == '')">
+			ccl.id
+		</if>
+		<if test="statusOrder != null and statusOrder != ''">
+			<choose>
+				<when test="statusOrder=='up'"> ccl.status</when>
+				<when test="statusOrder=='down'">ccl.status desc</when>
+			</choose>
+		</if>
+		<if test="(statusOrder == null || statusOrder == '') and (usetimeOrder != null and usetimeOrder != '')">
+			<choose>
+				<when test="usetimeOrder=='up'"> ccl.use_time</when>
+				<when test="usetimeOrder=='down'"> ccl.use_time desc</when>
+			</choose>
+		</if>
+		<if test="usetimeOrder != null and usetimeOrder != ''">
+			<choose>
+				<when test="usetimeOrder=='up'"> ,ccl.use_time</when>
+				<when test="usetimeOrder=='down'"> ,ccl.use_time desc</when>
+			</choose>
+		</if>
+	</select>
+	<select id="findOneByCode" resultMap="companyCouponsLibResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_coupons_lib
+		where code = #{code} and del_flag = 0
+		limit 1
+	</select>
+</mapper>

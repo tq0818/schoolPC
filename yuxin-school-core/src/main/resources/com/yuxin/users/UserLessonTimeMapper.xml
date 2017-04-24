@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UserLessonTimeMapper">
+	<resultMap type="com.yuxin.wx.model.user.UserLessonTime" id="userLessonTimeResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="lessonType" column="lesson_type" />
+		<result property="lessonId" column="lesson_id" />
+		<result property="studyNum" column="study_num" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		lesson_type,
+		lesson_id,
+		study_num
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{lessonType},
+		#{lessonId},
+		#{studyNum}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.lessonType},
+		#{item.lessonId},
+		#{item.studyNum}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.user.UserLessonTime" useGeneratedKeys="true" keyProperty="id">
+		insert into user_lesson_time( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into user_lesson_time( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from user_lesson_time
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.user.UserLessonTime">
+		update user_lesson_time 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="lessonType != null and lessonType != ''">lesson_type = #{lessonType},</if>
+			<if test="lessonId != null and lessonId != ''">lesson_id = #{lessonId},</if>
+			<if test="studyNum != null and studyNum != ''">study_num = #{studyNum},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="userLessonTimeResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from user_lesson_time
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="userLessonTimeResultMap">
+		select <include refid="table_columns" /> 
+		from user_lesson_time
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="lessonType != null and lessonType != ''">and lesson_type = #{lessonType}</if>
+			<if test="lessonId != null and lessonId != ''">and lesson_id = #{lessonId}</if>
+			<if test="studyNum != null and studyNum != ''">and study_num = #{studyNum}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="userLessonTimeResultMap" parameterType="com.yuxin.wx.model.user.UserLessonTime">
+		select <include refid="table_columns" />
+		from user_lesson_time
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.UserLessonTime">
+		select count(id) from user_lesson_time
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<delete id="deleteByUserIdAndLessonId" parameterType="map">
+		delete from user_lesson_time
+		where user_id = #{userId} and lesson_id = #{lessonId}
+	</delete>
+	
+	<select id="findByUserIdAndLessonId" parameterType="map" resultType="com.yuxin.wx.model.user.UserLessonTime">
+		select <include refid="table_columns" />
+		from user_lesson_time
+		where user_id = #{userId} and lesson_id = #{lessonId}
+	</select>
+</mapper>

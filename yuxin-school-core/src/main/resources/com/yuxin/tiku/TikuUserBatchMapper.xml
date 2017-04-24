@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuUserBatchMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuUserBatch" id="tikuUserBatchResultMap">
+		<result property="id" column="id" />
+		<result property="batchName" column="batch_name" />
+		<result property="batchType" column="batch_type" />
+		<result property="userId" column="user_id" />
+		<result property="companyId" column="company_id" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="totalTopic" column="total_topic" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		batch_name,
+		batch_type,
+		user_id,
+		company_id,
+		category_id,
+		subject_id,
+		total_topic
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{batchName},
+		#{batchType},
+		#{userId},
+		#{companyId},
+		#{categoryId},
+		#{subjectId},
+		#{totalTopic}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.batchName},
+		#{item.batchType},
+		#{item.userId},
+		#{item.companyId},
+		#{item.categoryId},
+		#{item.subjectId},
+		#{item.totalTopic}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuUserBatch" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_user_batch( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_user_batch( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_user_batch
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuUserBatch">
+		update tiku_user_batch 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="batchName != null and batchName != ''">batch_name = #{batchName},</if>
+			<if test="batchType != null and batchType != ''">batch_type = #{batchType},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+			<if test="totalTopic != null and totalTopic != ''">total_topic = #{totalTopic},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuUserBatchResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_user_batch
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuUserBatchResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_user_batch
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="batchName != null and batchName != ''">and batch_name = #{batchName}</if>
+			<if test="batchType != null and batchType != ''">and batch_type = #{batchType}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="subjectId != null and subjectId != ''">and subject_id = #{subjectId}</if>
+			<if test="totalTopic != null and totalTopic != ''">and total_topic = #{totalTopic}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuUserBatchResultMap" parameterType="com.yuxin.wx.model.tiku.TikuUserBatch">
+		select <include refid="table_columns" />
+		from tiku_user_batch
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuUserBatch">
+		select count(id) from tiku_user_batch
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!-- 查询名字 -->
+	<select id="findNameById" parameterType="Integer" resultType="String">
+		select batch_name
+		from tiku_user_batch
+		where id = #{id}
+	</select>
+</mapper>

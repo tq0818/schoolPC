@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuTopicOptionMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuTopicOption" id="tikuTopicOptionResultMap">
+		<result property="id" column="id" />
+		<result property="topicId" column="topic_id" />
+		<result property="optionNo" column="option_no" />
+		<result property="optionName" column="option_name" />
+		<result property="correctFlag" column="correct_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		topic_id,
+		option_no,
+		option_name,
+		correct_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{topicId},
+		#{optionNo},
+		#{optionName},
+		#{correctFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.topicId},
+		#{item.optionNo},
+		#{item.optionName},
+		#{item.correctFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuTopicOption" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_topic_option( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_topic_option( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_topic_option
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_topic_option
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuTopicOption">
+		update tiku_topic_option 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="topicId != null and topicId != ''">topic_id = #{topicId},</if>
+			<if test="optionNo != null and optionNo != ''">option_no = #{optionNo},</if>
+			<if test="optionName != null and optionName != ''">option_name = #{optionName},</if>
+			<if test="correctFlag != null">correct_flag = #{correctFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuTopicOptionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_topic_option
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuTopicOptionResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_topic_option
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="topicId != null and topicId != ''">and topic_id = #{topicId}</if>
+			<if test="optionNo != null and optionNo != ''">and option_no = #{optionNo}</if>
+			<if test="optionName != null and optionName != ''">and option_name = #{optionName}</if>
+			<if test="correctFlag != null and correctFlag != ''">and correct_flag = #{correctFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuTopicOptionResultMap" parameterType="com.yuxin.wx.model.tiku.TikuTopicOption">
+		select <include refid="table_columns" />
+		from tiku_topic_option
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuTopicOption">
+		select count(id) from tiku_topic_option
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<!-- 查询试题选项 -->
+	<select id="findOptionByTopicId" parameterType="Integer" resultMap="tikuTopicOptionResultMap">
+		select <include refid="table_columns"/>
+		from tiku_topic_option
+		where topic_id = #{topicId} 
+		order by option_no
+	</select>
+	
+	<delete id="deleteByTopicId" parameterType="list">
+		delete from tiku_topic_option
+		where topic_id in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
+</mapper>

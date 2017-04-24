@@ -1,0 +1,128 @@
+.focus-content{height:180px;line-height:180px;}
+.focus-left{display:block;padding-left:20px;width:49%;height:180px;float:left;line-height:135px;}
+.focus-left p{line-height:45px;}
+.focus-left p .t{width:120px;display: inline-block;text-align: right;}
+.focus-left p .c{width:120px;display: inline-block;margin-left:20px;}
+.focus-left p .help-hold{font-size:9px;color:#999;padding:10px;}
+.set-focus ul li span{font-size:1.6rem;}
+.set-focus ul li .iconfont{padding: 0 10px 0 25px;font-size:2.5rem;}
+.set-focus ul li .iconfont.open{color:#1b6fbd;}
+.set-focus ul li .iconfont.close{color:#ccc;}
+.focus-right{width:49%;float:left;height:135px;line-height:180px;text-align:left;position: relative;display: block;}
+.focus-right:hover img{background:rgba(255,255,255,0.4)}
+.focus-right img{width:180px;height:180px;text-align:center;}
+.focus-right input{position: absolute;top:0;left:0;opacity:0;width:180px;height:180px;filter:alpha(opacity=0);cursor:pointer;}
+.focus-left .btns{margin-left:50px;}
+
+.u-wrap {
+	width: 96%;
+	 margin: 15px auto
+}
+
+
+.u-wrap .mainbackground {
+	position: relative;
+	padding: 25px 100px 20px;
+	background-color: #f6f6f6
+}
+
+.u-wrap .mainbackground.nopadding {
+	padding: 15px 25px
+}
+
+.u-wrap .mainbackground.bodys {
+	padding: 50px 50px 10px
+}
+
+.u-wrap .mainbackground.bodys .sys-i {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 50px
+}
+
+.u-wrap .mainbackground.bodys .sys-i.fixed {
+	position: fixed;
+	background-color: #fff;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 99999
+}
+
+.u-wrap .mainbackground.bodys .sys-i.fixed .title {
+	top: 7px;
+	background-color: transparent;
+	border-color: transparent
+}
+
+.u-wrap .mainbackground.bodys .sys-i .submit-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px
+}
+
+.u-wrap .mainbackground .title {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 8px 15px;
+	border: 1px solid #f6f6f6;
+	background-color: #fff;
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.2)
+}
+
+.u-wrap .mainbackground .title .h6 {
+	color: #88b7e0;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none
+}
+
+.marketing p.c {
+    margin-top: 10px
+}
+
+.marketing p:first-child {
+    margin-top: 0
+}
+
+.marketing span {
+    display: inline-block
+}
+
+.marketing span.t-title {
+    width: 80px;
+    margin-right: 15px;
+    text-align: right;
+    color: #999
+}
+
+.marketing a.btn {
+    margin-right: 10px;
+    text-decoration: none
+}
+
+.marketing a.btn:hover {
+    text-decoration: none
+}
+
+
+.mainbackground .main-content .tables {
+    padding-top: 10px
+}
+
+.mainbackground .main-content .tables table.table th {
+    background-color: #acdfdf
+}
+
+.mainbackground .main-content .tables table.table td {
+    background-color: #fff
+}
+
+.mainbackground .main-content .chars {
+    min-height: 500px;
+    margin-top: 20px;
+    background-color: #fff
+}

@@ -1,0 +1,201 @@
+.right-side .sec-title{
+    line-height: 40px;
+    margin: 0 50px;
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 14px;
+    color: #666;
+    width: 89.5%;
+}
+.padd85{
+    padding-left: 85px;
+}
+.set-content{
+    line-height: 50px;
+}
+.set-title{
+    display: inline-block;
+    width: 80px;
+}
+.set-content input{
+    margin-right: 20px;
+}
+.set-content span{
+    display: inline-block;
+    width: 72px;
+    height: 29px;
+    line-height: 29px;
+    text-align: center;
+    background-color: #237fd5;
+    color: #fff;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.set-care{
+    font-size: 12px;
+    color: #999;
+    margin-left: 20px;
+}
+.tit-font em{
+    float: right;
+    width: 104px;
+    height: 27px;
+    background-color: #237fd5;
+    line-height: 27px;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #fff;
+}
+.tit-font em i{
+    margin-right: 5px;
+}
+.add-classify-content{
+    padding: 30px 6% 30px 22px;
+}
+.grade-box .fir-grade{
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 0 10px;
+}
+.grade-box .open-box>.sec-grade{
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 0 10px;
+}
+.grade-box .open-box .third-box>div{
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 0 10px;
+}
+.sec-grade{
+    margin-left: 30px;
+}
+.thr-grade{
+    margin-left: 60px;
+}
+.grade-box>div em{
+    float: right;
+    margin: 0 5px;
+}
+.grade-box>div span:first-child{
+    margin-right: 10px;
+}
+.lower-btn{
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-left: 2px solid #999999;
+    border-bottom: 2px solid #999999;
+}
+.grade-name{
+    font-size: 14px;
+    color: #333;
+}
+.grade-pop-btn{
+    color: #6db6e8;
+}
+
+/*弹出层*/
+.add-grade-pop-box{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    display: none;
+}
+.add-grade-pop{
+    width: 430px;
+    height: 200px;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+.add-grade-title{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 14px;
+    color: #666;
+}
+.add-grade-content{
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+.add-grade-content p{
+    line-height: 30px;
+    margin-top: 10px;
+}
+.add-grade-content p.care{
+    line-height: 22px;
+    color: #FE5151;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.addpop-btn-box{
+    line-height: 30px;
+    margin-top: 40px;
+}
+.addpop-btn-box>span{
+    display: inline-block;
+    width: 70px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.addpop-btn-box>span.add-yes{
+    background-color: #237fd5;
+    border: 1px solid #237fd5;
+    color: #fff;
+}
+.addpop-btn-box>span.add-cancel{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #999;
+}
+/*add*/
+.grade-box .open-box>.sec-grade.q-grade {
+	padding-right: 35px;
+}
+.q-font{
+    font-size: 14px;
+    color: #616161;
+    height: 25px;
+    padding-left: 30px;
+}
+}

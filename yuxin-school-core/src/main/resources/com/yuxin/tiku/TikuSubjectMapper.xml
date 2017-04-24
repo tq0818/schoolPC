@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuSubjectMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuSubject" id="tikuSubjectResultMap">
+		<result property="id" column="id" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectName" column="subject_name" />
+		<result property="subjectDesc" column="subject_desc" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		category_id,
+		subject_name,
+		subject_desc,
+		del_flag
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{categoryId},
+		#{subjectName},
+		#{subjectDesc},
+		#{delFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.categoryId},
+		#{item.subjectName},
+		#{item.subjectDesc},
+		#{item.delFlag}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuSubject"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_subject(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into tiku_subject(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="batch_entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_subject
+		where id = #{id}
+	</delete>
+	
+	<delete id="delByTikuId">
+		delete from tiku_subject
+		where category_id = #{tikuId}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_subject
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuSubject">
+		update tiku_subject
+		<trim prefix="set" suffixOverrides=",">
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectName != null and subjectName != ''">subject_name = #{subjectName},</if>
+			<if test="subjectDesc != null and subjectDesc != ''">subject_desc = #{subjectDesc},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="tikuSubjectResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from tiku_subject
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="tikuSubjectResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_subject
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="subjectName != null and subjectName != ''">and subject_name = #{subjectName}</if>
+			<if test="subjectDesc != null and subjectDesc != ''">and subject_desc = #{subjectDesc}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="tikuSubjectResultMap"
+		parameterType="com.yuxin.wx.model.tiku.TikuSubject">
+		select
+		<include refid="table_columns" />
+		from tiku_subject
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.tiku.TikuSubject">
+		select count(id) from tiku_subject
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="findTikuSubject" parameterType="com.yuxin.wx.model.tiku.TikuSubject"
+		resultMap="tikuSubjectResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_subject
+		<include refid="page_where" />
+
+	</select>
+
+	<!-- 查询科目 -->
+	<select id="findSubByCategoryId" parameterType="Integer" resultMap="tikuSubjectResultMap">
+		select <include refid="table_columns"/>
+		from tiku_subject 
+		where category_id = #{categoryId} and 
+			del_flag = 0 
+			order by id
+	</select>
+	
+	<select id="findCountBySubName" parameterType="com.yuxin.wx.model.tiku.TikuSubject" resultType="Integer">
+		select count(id)
+		from tiku_subject 
+		where category_id = #{categoryId} and subject_name = #{subjectName}
+		limit 1
+	</select>
+</mapper>

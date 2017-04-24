@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyPayConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyPayConfig" id="companyPayConfigResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="zfbAccount" column="zfb_account"/>
+		<result property="zfbPartnerId" column="zfb_partner_id" />
+		<result property="zfbKey" column="zfb_key" />
+		<result property="ccUserId" column="cc_user_id"/>
+		<result property="ccApiKey" column="cc_api_key"/>
+		<result property="payType" column="pay_type"/>
+		<result property="bankAccountName" column="bank_account_name"/>
+		<result property="bankAccountNumber" column="bank_account_number"/>
+		<result property="bankCompanyName" column="bank_company_name"/>
+		<result property="personName" column="person_name"/>
+		<result property="personZfbAccount" column="person_zfb_account"/>
+		<result property="personZfbUrl" column="person_zfb_url"/>
+		<result property="personWxUrl" column="person_wx_url"/>
+		<result property="personWxAccount" column="person_wx_account"/>
+		<result property="gzhWxAppID" column="gzh_wx_appID"/>
+		<result property="gzhWxAppSecret" column="gzh_wx_appSecret"/>
+		<result property="gzhWxMchID" column="gzh_wx_mchID"/>
+		<result property="gzhWxKey" column="gzh_wx_key"/>
+		<result property="letvUserId" column="letv_user_id"/>
+		<result property="letvApiKey" column="letv_api_key"/>
+		<result property="letvUUID" column="letv_uuid"/>
+		<result property="sxyCode" column="sxy_code"/>
+		<result property="sxyKey" column="sxy_key"/>
+		<result property="letvPu" column="letv_pu"/>
+		<!-- 
+		<result property="qiniuUsername" column="qiniu_username"/>
+		<result property="qiniuPassword" column="qiniu_password"/>
+		<result property="qiniuUid" column="qiniu_uid"/> -->
+		
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		zfb_account,
+		zfb_partner_id,
+		zfb_key,
+		company_id,
+		cc_user_id,
+		cc_api_key,
+		pay_type,
+		bank_account_name,
+		bank_account_number,
+		bank_company_name,
+		person_name,
+		person_zfb_account,
+		person_zfb_url,
+		person_wx_url,
+		person_wx_account,
+		gzh_wx_appID,
+		gzh_wx_appSecret,
+		gzh_wx_mchID,
+		gzh_wx_key,
+		letv_user_id,
+		letv_api_key,
+		letv_uuid,
+		sxy_code,
+		sxy_key,
+		letv_pu
+        <!-- ,
+		qiniuUsername,
+		qiniuPassword,
+		qiniuUid -->
+    </sql>
+    
+    <sql id="entity_properties">
+		#{id},
+		#{zfbAccount},
+		#{zfbPartnerId},
+		#{zfbKey},
+		#{companyId},
+		#{ccUserId},
+		#{ccApiKey},
+		#{payType},
+		#{bankAccountName},
+		#{bankAccountNumber},
+		#{bankCompanyName},
+		#{personName},
+		#{personZfbAccount},
+		#{personZfbUrl},
+		#{personWxUrl},
+		#{personWxAccount},
+		#{gzhWxAppID},
+		#{gzhWxAppSecret},
+		#{gzhWxMchID},
+		#{gzhWxKey},
+		#{letvUserId},
+		#{letvApiKey},
+		#{letvUUID},
+		#{sxyCode},
+		#{sxyKey},
+		#{letvPu}
+       <!-- ,
+		#{qiniuUsername},
+		#{qiniuPassword},
+		#{qiniuUid} -->
+
+	</sql>
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyPayConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_pay_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 定时任务 -->
+	<select id="findAllCC" resultMap="companyPayConfigResultMap">
+		select <include refid="table_columns"/>
+		from company_pay_config
+		where cc_user_id not in('9D962C153919B4DA') and
+			cc_user_id is not null and
+			cc_api_key is not null and
+			company_id is not null
+	</select>
+
+	<!-- 查询所有公共账号的公司id hanrb -->
+	<select id="findPublicCC" resultMap="companyPayConfigResultMap">
+		select <include refid="table_columns"/>
+		from company_pay_config
+		where cc_user_id ='9D962C153919B4DA'
+	</select>
+
+	<!-- 查询乐视 hanrb -->
+	<select id="findAllLetv" resultMap="companyPayConfigResultMap">
+		select <include refid="table_columns"/>
+		from company_pay_config
+		where letv_api_key is not null and letv_user_id is not null and company_id is not null
+	</select>
+
+	<update id="updateByCompanyId" parameterType="com.yuxin.wx.model.company.CompanyPayConfig">
+		update company_pay_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="zfbAccount != null and zfbAccount != ''">zfb_account = #{zfbAccount},</if>
+			<if test="zfbPartnerId != null and zfbPartnerId != ''">zfb_partner_id = #{zfbPartnerId},</if>
+			<if test="zfbKey != null and zfbKey != ''">zfb_key = #{zfbKey},</if>
+			<if test="ccUserId != null and ccUserId != ''">cc_user_id = #{ccUserId},</if>
+			<if test="ccApiKey != null and ccApiKey != ''">cc_api_key = #{ccApiKey},</if>
+			<if test="payType != null">
+				<if test="payType == ''">
+					pay_type = null,
+				</if>
+				<if test="payType != ''">
+					pay_type = #{payType},
+				</if>
+			</if>
+			<if test="bankAccountName != null and bankAccountName != ''">bank_account_name = #{bankAccountName},</if>
+			<if test="bankAccountNumber != null and bankAccountNumber != ''">bank_account_number = #{bankAccountNumber},</if>
+			<if test="bankCompanyName != null and bankCompanyName != ''">bank_company_name = #{bankCompanyName},</if>
+			<if test="personName != null and personName != ''">person_name = #{personName},</if>
+			<if test="personZfbAccount != null and personZfbAccount != ''">person_zfb_account = #{personZfbAccount},</if>
+			<if test="personZfbUrl != null and personZfbUrl != ''">person_zfb_url = #{personZfbUrl},</if>
+			<if test="personWxUrl != null and personWxUrl != ''">person_wx_url = #{personWxUrl},</if>
+			<if test="personWxAccount != null and personWxAccount != ''">person_wx_account = #{personWxAccount},</if>
+			
+			<if test="gzhWxAppID != null and gzhWxAppID != ''">gzh_wx_appID = #{gzhWxAppID},</if>
+			<if test="gzhWxAppSecret != null and gzhWxAppSecret != ''">gzh_wx_appSecret = #{gzhWxAppSecret},</if>
+			<if test="gzhWxMchID != null and gzhWxMchID != ''">gzh_wx_mchID = #{gzhWxMchID},</if>
+			<if test="gzhWxKey != null and gzhWxKey != ''">gzh_wx_key = #{gzhWxKey},</if>
+			<if test="letvUserId != null and letvUserId != ''">letv_user_id = #{letvUserId},</if>
+			<if test="letvApiKey != null and letvApiKey != ''">letv_api_key = #{letvApiKey},</if>
+			<if test="letvUUID != null and letvUUID != ''">letv_uuid = #{letvUUID},</if>
+			<if test="sxyCode != null and sxyCode != ''">sxy_code = #{sxyCode},</if>
+			<if test="sxyKey != null and sxyKey != ''">sxy_key = #{sxyKey},</if>
+			<if test="letvPu != null and letvPu != ''">letv_pu = #{letvPu},</if>
+			<if test="qiniuUsername != null and qiniuUsername != ''">qiniu_username = #{qiniuUsername},</if>
+			<if test="qiniuPassword != null and qiniuPassword != ''">qiniu_password = #{qiniuPassword},</if>
+			<if test="qiniuUid != null and qiniuUid != ''">qiniu_uid = #{qiniuUid},</if>
+		</trim>
+		<where>company_id = #{companyId}</where>
+	</update>
+	<select id="findByCompanyId" resultMap="companyPayConfigResultMap"  parameterType="Integer">
+		select <include refid="table_columns"/>
+		from company_pay_config
+		where company_id = #{companyId}
+	</select>
+	
+	<select id="findByComIdAndPayType" resultMap="companyPayConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyPayConfig">
+		select <include refid="table_columns"/>
+		from company_pay_config
+		where company_id = #{companyId} and pay_type = #{payType}
+		limit 1
+	</select>
+	
+	<select id="findCountByCompanyId" parameterType="Integer" resultType="Integer">
+		select count(id)
+		from company_pay_config
+		where company_id = #{companyId}
+	</select>
+</mapper>

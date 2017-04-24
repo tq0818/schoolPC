@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuTopicExampointMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuTopicExampoint" id="tikuTopicExampointResultMap">
+		<result property="id" column="id" />
+		<result property="topicId" column="topic_id" />
+		<result property="chapterId" column="chapter_id" />
+		<result property="sectionId" column="section_id" />
+		<result property="pointId" column="point_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		topic_id,
+		chapter_id,
+		section_id,
+		point_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{topicId},
+		#{chapterId},
+		#{sectionId},
+		#{pointId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.topicId},
+		#{item.chapterId},
+		#{item.sectionId},
+		#{item.pointId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuTopicExampoint" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_topic_exampoint( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_topic_exampoint( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_topic_exampoint
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_topic_exampoint
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuTopicExampoint">
+		update tiku_topic_exampoint 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="topicId != null and topicId != ''">topic_id = #{topicId},</if>
+			<if test="chapterId != null and chapterId != ''">chapter_id = #{chapterId},</if>
+			<if test="sectionId != null and sectionId != ''">section_id = #{sectionId},</if>
+			<if test="pointId != null and pointId != ''">point_id = #{pointId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuTopicExampointResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_topic_exampoint
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuTopicExampointResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_topic_exampoint
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="topicId != null">and topic_id = #{topicId}</if>
+			<if test="chapterId != null">and chapter_id = #{chapterId}</if>
+			<if test="sectionId != null">and section_id = #{sectionId}</if>
+			<if test="pointId != null">and point_id = #{pointId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuTopicExampointResultMap" parameterType="com.yuxin.wx.model.tiku.TikuTopicExampoint">
+		select <include refid="table_columns" />
+		from tiku_topic_exampoint
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuTopicExampoint">
+		select count(id) from tiku_topic_exampoint
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findPointByTopicId" parameterType="Integer" resultMap="tikuTopicExampointResultMap">
+		select <include refid="table_columns"/>
+		from tiku_topic_exampoint
+		where topic_id = #{topicId}
+		order by id desc
+		limit 0,1
+	</select>
+	
+	<select id="findIdByTopicId" parameterType="Integer" resultType="Integer">
+		select id 
+		from tiku_topic_exampoint
+		where topic_id = #{topicId}
+		order by id desc
+		limit 0,1
+	</select>
+	
+	<delete id="deleteByTopicId" parameterType="list">
+		delete from tiku_topic_exampoint
+		where topic_id in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,74 @@
+.block{
+    color: #666;
+    font-size: 14px;
+    margin: 16px 0 30px;
+}
+.label{
+    width: 180px;
+    font-size: 14px;
+    text-align: right;
+    margin-right: 10px;
+}
+.block .itm{
+    float: left;
+}
+.itm input[type="text"]{
+    width: 80px;
+    margin-top: -2px;
+    text-align: center;
+}
+.itm span{
+    font-size: 12px;
+    margin: 6px;
+}
+.itm textarea{
+    width: 560px;
+    height: 60px;
+    line-height: 22px;
+    font-size: 12px;
+    resize: none;
+    color: #999;
+    margin-top: -6px;
+}
+.itm .prompt-font{
+    padding: 0;
+}
+.itm  input[type="radio"]{
+    vertical-align: middle;
+}
+.itm i{
+    font-style:normal;
+    font-size: 12px;
+    padding-top:2px;
+    margin-right: 30px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.block-btn{
+    text-align: center;
+}
+.block-btn button{
+    width: 70px;
+    height: 30px;
+    border-radius: 3px;
+    color: #999;
+    margin: 50px 20px;
+    border: 1px solid #ccc;
+}
+.block-btn button:hover{
+    background: #ddd;
+}
+.block-btn button.ok{
+    background: #1b6fbd;
+    color: #fff;
+    border: 1px solid #1b6fbd;
+}
+.block-btn button.ok:hover{
+    background: #237fd5;
+}
+
+/*随机点名*/
+.check-name .label{
+    width: 118px;
+    line-height: 24px;
+}

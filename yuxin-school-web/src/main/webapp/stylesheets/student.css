@@ -1,0 +1,1126 @@
+@font-face {
+    font-family: 'iconfont';
+    src: url('fonts/iconfont.eot');
+    src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('fonts/iconfont.woff') format('woff'), url('fonts/iconfont.ttf') format('truetype'), url('fonts/iconfont.svg#iconfont') format('svg')
+}
+
+.main-fixed {
+    position: fixed;
+    top: 105px;
+    right: 0;
+    bottom: 40px;
+    left: 0
+}
+
+.main-fixed .mainbackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0
+}
+
+.student {
+    margin: 40px auto
+}
+
+.student .curr {
+    position: relative
+}
+
+.student .curr .mainbackground {
+    padding-left: 0;
+    padding-right: 0
+}
+
+.student .curr .mainbackground .heading {
+    margin-left: 20px;
+    margin-right: 20px
+}
+
+.student .notice-list span.c-title {
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .notice-list span.t-title {
+    display: inline-block;
+    width: 70px;
+    padding-right: 8px;
+    text-align: right;
+    color: #999
+}
+
+.student .notice-list span.t-content {
+    color: #333
+}
+
+.student .notice-result-list .n-result {
+    padding-bottom: 15px
+}
+
+.student .notice-result-list .n-result .m-title {
+    border-bottom: 1px dotted #ddd !important
+}
+
+.student .notice-result-list .n-result .m-title span {
+    display: inline-block;
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .notice-result-list .n-result .m-title span.t-name {
+    padding-left: 50px
+}
+
+.student .notice-result-list .n-result .result-main {
+    padding: 20px 20px
+}
+
+.student .notice-result-list .n-result .result-main .c {
+    margin-bottom: 15px
+}
+
+.student .notice-result-list .n-result .result-main .c span {
+    display: inline-block
+}
+
+.student .notice-result-list .n-result .result-main .c span.c-title {
+    width: 90px;
+    vertical-align: top
+}
+
+.student .notice-result-list .n-result .result-main .c span.c-content {
+    width: 35%
+}
+
+.student .notice-result-list .n-result .result-main .c span.c-content a {
+    color: #03f
+}
+
+.student .notice-result-list .n-result .result-main .c span.c-content .alert {
+    display: inline;
+    padding: 0 15px 0 0;
+    font-style: normal;
+    color: #f00;
+    text-decoration: underline
+}
+
+.student .notice-result-list .n-result .result-main .c span.l-content {
+    width: 800px
+}
+div.c span.l-content{
+	display:inline-block;s
+	max-width:890px;
+    vertical-align: top;
+}
+div.c span.l-content .msg-content{
+	
+    vertical-align: top;
+
+}
+
+.student .notice-result-list .n-result .result-main .c span.l-content .msg-content {
+    padding: 5px 10px 15px;
+    border: 1px solid #ddd;
+    background-color: #eee
+}
+
+.student .notice-main {
+    width: 700px;
+    margin: 0 auto
+}
+
+.student .notice-main p.c {
+    margin-bottom: 15px
+}
+
+.student .notice-main p.c span {
+    display: inline-block
+}
+
+.student .notice-main span.long {
+    width: 470px
+}
+
+.student .notice-main span.long input {
+    width: 450px
+}
+
+.student .notice-main span.c-title {
+    width: 90px;
+    padding-right: 5px;
+    text-align: left;
+    color: #999;
+    vertical-align: top
+}
+
+.student .notice-main span.c-content {
+    color: #333
+}
+
+.student .notice-main span.c-content.l-content {
+    width: 500px;
+    height: 200px
+}
+
+.student .notice-main span.c-content.l-content .msg-content {
+    width: 550px;
+    height: 190px;
+    resize: none;
+}
+
+.student .notice-main span.c-content em {
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .notice-main span.c-content em a {
+    color: #03f
+}
+
+.student .notice-main span.tips {
+    color: #f00;
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .mainbackground {
+    padding: 15px 20px 10px
+}
+
+.student .mainbackground .heading {
+    margin-bottom: 25px
+}
+
+.student .mainbackground .heading .search {
+    position: absolute;
+    top: -3px;
+    right: 0
+}
+
+.student .mainbackground .heading .search .tips {
+    display: none;
+    position: absolute;
+    top: -35px;
+    padding: 5px 10px;
+    color: #f00;
+    background-color: #000;
+    font-style: normal;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .mainbackground .heading .search .tips:after {
+    content: '\20';
+    position: absolute;
+    left: 10px;
+    bottom: -10px;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-top-color: #000
+}
+
+.student .mainbackground .heading .user-infos {
+    position: absolute;
+    top: 0;
+    right: 0
+}
+
+.student .mainbackground .heading .user-infos span {
+    display: inline-block;
+    margin-left: 1em;
+    line-height: 2.5;
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .classes-type p.c {
+    margin-top: 10px
+}
+
+.student .mainbackground .classes-type p:first-child {
+    margin-top: 0
+}
+
+.student .mainbackground .classes-type span {
+    display: inline-block
+}
+
+.student .mainbackground .classes-type span.t-title {
+    width: 80px;
+    margin-right: 15px;
+    text-align: right
+}
+
+.student .mainbackground .classes-type a.btn {
+    margin-right: 10px;
+    text-decoration: none
+}
+
+.student .mainbackground .classes-type a.btn:hover {
+    text-decoration: none
+}
+
+.student .mainbackground .table-money {
+    margin-top: 15px
+}
+
+.student .mainbackground .table-money td {
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .table-money td span.t-title {
+    color: #999
+}
+
+.student .mainbackground .table-money td span.t-content {
+    color: #666
+}
+
+.student .mainbackground .userinfos td {
+    border: none
+}
+
+.student .mainbackground .order-list-infos td {
+    background-color: #fff;
+    border: none
+}
+
+.student .mainbackground .order-list-infos td span {
+    display: inline-block
+}
+
+.student .mainbackground .order-list-infos td span.t-title {
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .order-list-infos td span.c-title {
+    width: 60px;
+    color: #999
+}
+
+.student .mainbackground .select-option {
+    margin: 0 80px 15px;
+    border-bottom: 1px solid #ddd
+}
+
+.student .mainbackground .select-option.select-inline li {
+    display: inline-block;
+    float: left;
+    clear: none
+}
+
+.student .mainbackground .select-option li {
+    margin-bottom: 15px;
+    clear: both
+}
+
+.student .mainbackground .select-option li span {
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .select-option li span.s-title {
+    display: inline-block;
+    width: 80px;
+    margin-right: 15px;
+    text-align: right
+}
+
+.student .mainbackground .select-option li span.s-list a {
+    text-decoration: none;
+    margin-right: 10px
+}
+
+.student .mainbackground .select-option li span.s-list a:hover {
+    text-decoration: none
+}
+
+.student .mainbackground .select-option li span.s-list a.active {
+    color: #03f
+}
+
+.student .mainbackground .main-content {
+    margin: 0 80px
+}
+
+.student .mainbackground .main-content.nospace {
+    margin: 0
+}
+
+.student .mainbackground .main-content.nospace .m-b-m {
+    margin-bottom: 0;
+    padding: 0
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p {
+    position: relative;
+    margin-bottom: 0
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p .m-b-p-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 260px;
+    width: 75%;
+    background-color: transparent
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p .m-b-p-left p.h {
+    width: 33%
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p .m-b-p-right {
+    width: 215px;
+    padding-right: 35px
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p .m-b-p-right .btns .m-btn {
+    padding: 12px 0
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p .m-b-p-right .btns .m-btn.active {
+    color: #fff;
+    background-color: #1b6fbd
+}
+
+.student .mainbackground .main-content.nospace .m-b-m .m-b-p .m-b-p-right .btns .m-btn.change {
+    line-height: 61px;
+    right: -35px
+}
+
+.student .mainbackground .main-content .m-title {
+    position: relative;
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd
+}
+
+.student .mainbackground .main-content .m-title .more {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: #666
+}
+
+.student .mainbackground .main-content .m-title .more a {
+    color: #03f;
+    text-decoration: none
+}
+
+.student .mainbackground .main-content .m-title .more a:hover {
+    color: #333;
+    text-decoration: none
+}
+
+.student .mainbackground .main-content .m-title .more.blue {
+    color: #03f;
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .main-content .m-p-list {
+    padding: 15px 80px
+}
+
+.student .mainbackground .main-content .m-p-list li {
+    margin-bottom: 15px
+}
+
+.student .mainbackground .main-content .m-p-list li span {
+    display: inline-block;
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .main-content .m-p-list li span.m-p-date {
+    width: 80px;
+    color: #999
+}
+
+.student .mainbackground .main-content .m-p-list li span.m-p-time {
+    width: 80px;
+    color: #999
+}
+
+.student .mainbackground .main-content .m-p-list li span.m-p-time-n {
+    width: 220px
+}
+
+.student .mainbackground .main-content .m-p-list li span.m-p-pay {
+    color: #999
+}
+
+.student .mainbackground .main-content .m-p-list li span.m-p-pay-m {
+    width: 110px
+}
+
+.student .mainbackground .main-content .m-i {
+    padding: 30px 0 0
+}
+
+.student .mainbackground .main-content .m-i p {
+    margin-bottom: 15px
+}
+
+.student .mainbackground .main-content .m-i p span {
+    display: inline-block;
+    margin-right: 15px
+}
+
+.student .mainbackground .main-content .m-i p span.i-title {
+    width: 110px;
+    text-align: right;
+    color: #999
+}
+
+.student .mainbackground .main-content .m-i p span.tips {
+    color: #03f
+}
+
+.student .mainbackground .main-content .m-i p span em {
+    color: #03f;
+    font-weight: 700
+}
+
+.student .mainbackground .main-content .pay-list {
+    padding: 20px 100px 0
+}
+
+.student .mainbackground .main-content .pay-list .pay-order {
+    padding: 0 80px 20px
+}
+
+.student .mainbackground .main-content .pay-list .pay-order input.sm {
+    width: 20px;
+    margin: 0 10px;
+    text-align: center
+}
+
+.student .mainbackground .main-content .pay-list .pay-order input[type="radio"] {
+    position: relative;
+    top: 3px
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-left {
+    float: left;
+    width: 200px;
+    text-align: center
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-left p {
+    font-size: 14px;
+    font-size: 1.4rem;
+    color: #666
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-right {
+    float: left
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-right p.c {
+    margin-bottom: 15px
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-right p span {
+    display: inline-block
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-right p span.p-title {
+    width: 50px;
+    text-align: right;
+    margin-right: 15px
+}
+
+.student .mainbackground .main-content .pay-list .pay-list-right p .btn {
+    margin-right: 15px
+}
+
+.student .mainbackground .main-content .list-infos {
+    padding: 20px 0
+}
+
+.student .mainbackground .main-content .list-infos a.btn {
+    margin: 0 20px;
+    font-size: 14px;
+    font-size: 1.4rem
+}
+
+.student .mainbackground .main-content .list-infos li {
+    float: left;
+    width: 50%;
+    height: 40px;
+    padding: 10px 0 0
+}
+
+.student .mainbackground .main-content .list-infos li.full-long {
+    width: 80%;
+    padding: 0 10%
+}
+
+.student .mainbackground .main-content .list-infos li.full-long span {
+    display: inline-block;
+    margin-right: 35px
+}
+
+.student .mainbackground .main-content .list-infos li.long {
+    width: 100%;
+    height: initial;
+    float: none;
+    clear: both
+}
+
+.student .mainbackground .main-content .list-infos li.long .c-content {
+    width: 900px
+}
+
+.student .mainbackground .main-content .list-infos li.long .c-content .btn {
+    display: inline-block;
+    margin-bottom: 5px
+}
+
+.student .mainbackground .main-content .list-infos li.full {
+    width: 100%;
+    height: 140px
+}
+
+.student .mainbackground .main-content .list-infos li.full .c-l-title {
+    width: 164px
+}
+
+.student .mainbackground .main-content .list-infos li.full .text {
+    width: 700px;
+    height: 120px;
+    resize: none
+}
+
+.student .mainbackground .main-content .list-infos li.full .c-content {
+    width: 700px
+}
+
+.student .mainbackground .main-content .list-infos li p.cc em {
+    color: #03f
+}
+
+.student .mainbackground .main-content .list-infos li span {
+    display: inline-block
+}
+
+.student .mainbackground .main-content .list-infos li span.c-title {
+    width: 30%;
+    margin-right: 15px;
+    color: #999;
+    text-align: left;
+    vertical-align: middle
+}
+
+.student .mainbackground .main-content .list-infos li span.c-l-title {
+    width: 90px
+}
+
+.student .mainbackground .main-content .list-infos li span.small {
+    width: 120px
+}
+
+.student .mainbackground .main-content .list-infos li span.c-content {
+    position: relative;
+    width: 60%;
+    color: #666;
+    vertical-align: top
+}
+
+.student .mainbackground .main-content .list-infos li span.c-content em {
+    color: #03f
+}
+
+.student .mainbackground .main-content .list-infos li span.c-content .note {
+    display: block;
+    color: #f00;
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .mainbackground .main-content .list-infos li span.c-content .tips {
+    margin-left: 15px;
+    color: #f00;
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .mainbackground .main-content .m-diy {
+    position: relative
+}
+
+.student .mainbackground .main-content .m-diy.space {
+    padding: 0 80px
+}
+
+.student .mainbackground .main-content .m-diy .m-tools {
+    padding: 10px 25px
+}
+
+.student .mainbackground .main-content .m-diy .m-tools span {
+    display: inline-block;
+    margin-right: 30px
+}
+
+.student .mainbackground .main-content .m-diy .m-tools i.iconfont {
+    color: #999;
+    cursor: pointer
+}
+
+.student .mainbackground .main-content .m-diy .m-c-title {
+    float: left;
+    position: relative;
+    top: 20px;
+    width: 80px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    text-align: right
+}
+
+.student .mainbackground .main-content .m-diy .m-content {
+    margin-bottom: 5px
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-top {
+    margin-bottom: 15px
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-c {
+    float: left;
+    margin-top: 18px;
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-c .m-c-c-t {
+    margin-bottom: 5px
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-c .m-c-c-tt {
+    padding: 10px 3px
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-c .m-c-c-c em {
+    position: relative;
+    padding: 5px 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    margin-right: 10px;
+    font-style: normal;
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-c .m-c-c-c em i {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    color: #fff;
+    background-color: #5abde7;
+    border-radius: 8px;
+    z-index: 9;
+    text-align: center;
+    font-style: normal;
+    font-size: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.student .mainbackground .main-content .m-diy .m-content .m-c-c textarea {
+    width: 500px;
+    height: 100px;
+    resize: none
+}
+
+.student .mainbackground .main-content .c-list p {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #ddd
+}
+
+.student .mainbackground .main-content .c-list p.public span.left {
+    float: left;
+    width: 260px
+}
+
+.student .mainbackground .main-content .c-list p.public span.left .c-title {
+    width: 85px;
+    text-align: right
+}
+
+.student .mainbackground .main-content .c-list p.public span.left .c-content {
+    width: 150px;
+    margin-right: 0
+}
+
+.student .mainbackground .main-content .c-list p.public span.right {
+    position: relative;
+    float: left;
+    width: 650px;
+    min-height: 50px;
+    padding-left: 50px;
+    border-left: 1px solid #efefef
+}
+
+.student .mainbackground .main-content .c-list p.public span.right .class-number {
+    position: absolute;
+    top: 6px;
+    left: 53px;
+    color: #999
+}
+
+.student .mainbackground .main-content .c-list p.public span.right em {
+    color: #f00
+}
+
+.student .mainbackground .main-content .c-list p.public span.right .block {
+    width: 100%;
+    margin-bottom: 5px;
+    padding-left: 80px;
+    clear: both
+}
+
+.student .mainbackground .main-content .c-list p.public span.right .block.active .c-content {
+    color: #fff;
+    background-color: #949494
+}
+
+.student .mainbackground .main-content .c-list p.public span.right .block .c-title {
+    width: 80px
+}
+
+.student .mainbackground .main-content .c-list p.public span.right .block .c-content {
+    padding: 5px 8px;
+    cursor: pointer
+}
+
+.student .mainbackground .main-content .c-list p.long span.c-title {
+    width: 85px;
+    text-align: right
+}
+
+.student .mainbackground .main-content .c-list p.long span.c-content {
+    width: 200px
+}
+
+.student .mainbackground .main-content .c-list p span {
+    display: inline-block;
+    margin-right: 15px
+}
+
+.student .mainbackground .main-content .c-list p span.c-title {
+    color: #999
+}
+
+.student .mainbackground .main-content .c-list p span.c-content {
+    color: #333
+}
+
+.student .mainbackground .main-content .m-b-m {
+    margin-bottom: 15px;
+    padding: 15px 40px
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p {
+    position: relative;
+    margin-bottom: 15px
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left {
+    position: absolute;
+    top: 0;
+    right: 210px;
+    left: 0;
+    float: left;
+/*     padding: 10px 10px 5px; */
+    background-color: #fff
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left p.h {
+    width: 60%;
+    float: left
+}
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left p.h:nth-child(2n){
+    width: 40%;
+}
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left p.c span {
+    display: inline-block
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left p.c span.p-title {
+    color: #999;
+    width: 80px;
+    text-align: right;
+    margin-right: 15px
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left p.important {
+    color: #f00
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-left p.important span.p-title {
+    color: #f00
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right {
+    float: right;
+    width: 180px;
+    padding-right: 0px;
+    background-color: transparent
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right.hidden {
+    visibility: hidden
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right .btns {
+    position: relative;
+    width: 100%
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right .btns .m-btn {
+    display: inline-block;
+    width: 80px;
+    margin-bottom: 5px;
+    padding: 23px 0;
+    text-align: center;
+    background-color: #ededed;
+    text-decoration: none;
+    color: #666
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right .btns .m-btn.change {
+    position: absolute;
+    top: 0;
+    right: -66px;
+    line-height: 82px
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right .btns .m-btn:hover {
+    color: #333;
+    text-decoration: none
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right .btns .m-mb {
+    margin-bottom: 0
+}
+
+.student .mainbackground .main-content .m-b-m .m-b-p .m-b-p-right .btns .m-active {
+    background-color: #1b6fbd;
+    color: #fff
+}
+
+.student .mainbackground .student-list {
+    margin: 0 80px 15px;
+    padding-bottom: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff
+}
+
+.student .mainbackground .student-list .list-title {
+    position: relative;
+    padding: 10px 15px;
+    background-color: #ccc
+}
+
+.student .mainbackground .student-list .list-title .h6 {
+    color: #333
+}
+
+.student .mainbackground .student-list .list-title .h6 i.iconfont {
+    margin-right: 8px
+}
+
+.student .mainbackground .student-list .list-title .list-btns {
+    position: absolute;
+    top: 5px;
+    right: 15px
+}
+
+.student .mainbackground .student-list .list-content {
+    margin: 15px 15px 0
+}
+
+.student .mainbackground .center-search {
+    width: 230px;
+    margin: 80px auto 0
+}
+
+.student .mainbackground .center-search p.c {
+    margin-bottom: 15px;
+    width: 300px;
+}
+
+.student .mainbackground .center-search p.c span.ps {
+    color: #f00;
+    font-size: 12px;
+    font-size: 1.2rem
+}
+
+.student .mainbackground .search-list {
+    position: absolute;
+    top: 170px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    padding: 0 60px;
+    overflow: hidden;
+    overflow-y: auto
+}
+
+.student .mainbackground .long-edit {
+    margin: 15px 100px
+}
+
+.student .mainbackground .long-edit p.c {
+    margin-bottom: 15px
+}
+
+.student .mainbackground .long-edit p span {
+    vertical-align: middle
+}
+
+.student .mainbackground .long-edit p span.c-title {
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right: 20px
+}
+
+.student .mainbackground .long-edit p span.input {
+    display: inline-block
+}
+
+.student .mainbackground .long-edit p span.input .btn {
+    margin-right: 15px
+}
+
+.student .mainbackground .long-edit p span.input label {
+    display: inline-block
+}
+
+.student .mainbackground .long-edit p input.readonly {
+    background-color: transparent;
+    border: 1px solid transparent
+}
+
+.add-classes {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 760px;
+    height: 460px;
+    margin-left: -400px;
+    margin-top: -200px;
+    padding: 10px 20px;
+    background-color: #fafafa;
+    z-index: 99
+}
+
+.add-classes .close {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    font-size: 16px;
+    font-size: 1.6rem;
+    cursor: pointer
+}
+
+.add-classes .add-btn {
+    position: absolute;
+    top: 5px;
+    right: 32px
+}
+
+.add-classes .add-btn a {
+    color: #03f
+}
+
+.add-classes .teacher {
+    position: relative
+}
+
+.add-classes .teacher .half {
+    width: 48%
+}
+
+.add-classes .t-infos {
+    padding-bottom: 10px
+}
+
+.add-classes .t-infos input[type="text"] {
+    width: 120px
+}
+
+.add-classes .place-list {
+    padding: 20px 0 10px;
+    overflow: hidden
+}
+
+.add-classes .place-list ul {
+    height: 220px;
+    overflow-y: auto
+}
+
+.add-classes .place-list ul li {
+    float: left;
+    width: 49%;
+    margin-bottom: 10px
+}
+
+.add-classes .place-list ul li a.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none
+}
+
+.add-classes .place-list ul li a.btn:hover, .add-classes .place-list ul li a.btn.active {
+    text-decoration: none;
+    background-color: #eee
+}
+
+.add-classes .place-list.teach ul {
+    height: 190px
+}
+
+.add-classes .place-list.teach li {
+    width: 33%
+}
+
+.add-classes-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 98
+}
+
+.text-center {
+    margin-left: -130px
+}
+
+.tip {
+    font-size: 10px;
+    color: #999;
+    margin: 0 auto;
+    width: 320px
+}

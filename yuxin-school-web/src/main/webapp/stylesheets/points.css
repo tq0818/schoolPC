@@ -1,0 +1,315 @@
+/*设置积分*/
+.point-set,.point-get{
+    width: 93%;
+    margin: 0 0 0 10px;
+    position: relative;
+}
+i,em{
+    font-style: normal;
+    line-height: 30px;
+}
+.point-set-itm{
+    margin: 15px 0;
+}
+.l-label {
+    width: 18%;
+    padding-right:10px;
+    min-width: 150px;
+    text-align: right;
+    font-size: 14px;
+    line-height: 30px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.info-set{
+    width: 82%;
+}
+.point-set input{
+    padding: 0;
+    height: 28px;
+}
+.point-set textarea{
+    width: 70%;
+    height: 110px;
+    resize: none;
+    min-width: 400px;
+    border-radius: 0;
+    box-sizing: border-box;
+}
+.point-name{
+    width: 280px;
+    margin-right: 30px;
+}
+.info-set img{
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+}
+.info-set .l-pic-box{
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+.info-set .l-pic-box .trans{
+    line-height: 32px;
+}
+.info-set .l-pic-box:hover .trans{
+    display: block;
+}
+.info-set em{
+    font-size: 12px;
+    color: #999;
+    line-height: 30px;
+}
+.l-upload{
+    width: 72px;
+    vertical-align: middle;
+    background: #f0f8fa;
+    border-radius: 4px;
+    color: #999;
+    margin: 0 30px;
+}
+
+.btn-wrap button{
+    width: 70px;
+    margin: 0 20px;
+    border-radius: 4px;
+}
+.btn-wrap button.edit-btn{
+    position: absolute;
+    left: 20px;
+
+}
+.hide-btn{
+   text-align: center;
+}
+.hide-btn button{
+    margin-bottom: 20px;
+}
+.point-set .btn-wrap{
+    margin-top: 60px;
+    text-align: center;
+}
+.change-rate input{
+    border-radius: 0;
+    text-align: center;
+    margin: 0 6px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.point-set input.change-rate1{
+    width: 40px;
+}
+.point-set input.change-rate1{
+    width: 70px;
+}
+/*获取积分*/
+.point-get-content{
+    width: 96%;
+    position: absolute;
+    right: 0;
+}
+.point-get-itm>div{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    position: relative;
+}
+.point-get-itm>div:first-child{
+    margin-top: 0;
+}
+.point-get-itm>div i{
+    font-size: 14px;
+    margin-right: 10px;
+}
+.l-btn-status em{
+    font-size: 12px;
+}
+.l-btn-status .iconfont{
+    font-size: 20px;
+}
+.l-btn-status.open i{
+    color: #009DD9;
+}
+.l-btn-status.open em{
+    color: #0099FF;
+}
+.point-get-itm p{
+    font-size: 12px;
+    color: #999999;
+    margin: 4px 0;
+}
+button.renew{
+    width: 110px;
+    border: 0;
+    position: absolute;
+    top:0;
+    right: 0;
+}
+.check-wrap table tr{
+    line-height: 48px;
+    /*cursor: default;*/
+    color: #ccc;
+}
+.check-wrap table tr:hover{
+    background: #ebebeb;
+    transition: all 0.3s;
+    -moz-transition:  all 0.3s;
+    -webkit-transition:  all 0.3s;
+    -o-transition:  all 0.3s;
+}
+.check-wrap table tr button{
+    width: 72px;
+    font-size: 14px;
+    border:0;
+}
+.check-wrap tr span{
+    margin-left: 50px;
+}
+.give-points-alert{
+    width: 450px;
+    height: 160px;
+    border-radius: 4px;
+    position: fixed;
+    background: #fff;
+    left: 50%;
+    top:50%;
+    margin-left: -225px;
+    margin-top: -80px;
+    z-index: 100;
+}
+.give-points-alert.give-points-alert1{
+    height: 220px;
+    margin-top: -110px;
+}
+.give-points-alert.give-points-alert2{
+    height: 190px;
+    margin-top: -95px;
+}
+.give-points-alert .title-box{
+    border-bottom-width: 1px;
+    width: 100%;
+    margin: 0;
+}
+.give-points-alert .cont-box{
+    color: #999;
+    font-size: 14px;
+    margin-top: 20px;
+    padding-left: 30px;
+}
+.give-points-alert .cont-box span.set-with{
+    display: inline-block;
+    width: 120px;
+    text-align: left;
+}
+.give-points-alert input{
+    border-radius: 0;
+    width: 110px;
+    margin: 0 4px;
+}
+
+.give-points-alert.give-points-alert2 input{
+    width: 80px;
+}
+.give-points-alert2 p{
+    font-size: 12px;
+    margin: 20px 0;
+    color: #FF0000;
+}
+.give-points-alert .btns{
+    margin-top: 24px;
+    text-align: center;
+}
+.give-points-alert button{
+    width: 72px;
+    margin: 0 10px;
+    border-radius: 4px;
+}
+/*弹层*/
+.mask-bg{
+    /*display: none;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    background: rgba(0, 0, 0, .3);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#4Cffffff, endColorstr=#4Cffffff);
+}
+/*积分消费*/
+.point-get-itm div.g-money{
+    border-bottom: 0;
+}
+.g-money input{
+    border-radius: 0;
+    width: 70px;
+    text-align: center;
+}
+/*学员积分统计*/
+.points-check{
+    width: 90%;
+    margin: 0 0 0 30px;
+}
+.search-cnt{
+    margin: 10px 0 30px;
+}
+.search-cnt button{
+    width: 72px;
+    line-height: 26px;
+    font-size: 12px;
+    text-align: center;
+    padding: 0;
+    border-radius: 4px;
+    border: 0;
+    position: relative;
+    top: 1px;
+}
+.points-check tr{
+    line-height: 30px;
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+}
+.points-check tr a{
+    color: #0066FF;
+}
+
+.points-check .table > tbody > tr > td,.points-check .table > tbody > tr > th {
+     padding: 0;
+}
+.check-student.upload-layer{
+    width: 1040px;
+    height: 500px;
+    margin-left: -500px;
+    margin-top: -250px;
+    overflow: hidden;
+}
+.check-student.upload-layer .table-wrap{
+    height: 342px;
+    overflow: auto;
+}
+.check-student .points-check{
+    margin: 0 auto;
+}
+/*财务查询统计*/
+.points-check-finance .mainbackground.nopadding{
+    padding: 0px;
+}
+.points-check-finance p.c{
+    padding: 0 20px;
+    margin: 10px 0;
+}
+.points-check-finance .tables{
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin-left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.t-content input.date-picker {
+    width: 100px;
+}

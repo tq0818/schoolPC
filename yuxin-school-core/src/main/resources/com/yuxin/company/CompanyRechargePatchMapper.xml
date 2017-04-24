@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyRechargePatchMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyRechargePatch" id="companyRechargePatchResultMap">
+		<result property="id" column="id" />
+		<result property="totalNum" column="total_num" />
+		<result property="usedNum" column="used_num" />
+		<result property="remainNum" column="remain_num" />
+		<result property="status" column="status" />
+		<result property="issueWay" column="issue_way" />
+		<result property="cashAmount" column="cash_amount" />
+		<result property="timeLimitFrom" column="time_limit_from" />
+		<result property="timeLimitTo" column="time_limit_to" />
+		<result property="promoCodePrefix" column="promo_code_prefix" />
+		<result property="orgId" column="org_id" />
+		<result property="companyId" column="company_id" />
+		<result property="createDate" column="create_date" />
+		<result property="creator" column="creator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		total_num,
+		used_num,
+		remain_num,
+		status,
+		issue_way,
+		cash_amount,
+		time_limit_from,
+		time_limit_to,
+		promo_code_prefix,
+		org_id,
+		company_id,
+		create_date,
+		creator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{totalNum},
+		#{usedNum},
+		#{remainNum},
+		#{status},
+		#{issueWay},
+		#{cashAmount},
+		#{timeLimitFrom},
+		#{timeLimitTo},
+		#{promoCodePrefix},
+		#{orgId},
+		#{companyId},
+		#{createDate},
+		#{creator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.totalNum},
+		#{item.usedNum},
+		#{item.remainNum},
+		#{item.status},
+		#{item.issueWay},
+		#{item.cashAmount},
+		#{item.timeLimitFrom},
+		#{item.timeLimitTo},
+		#{item.promoCodePrefix},
+		#{item.orgId},
+		#{item.companyId},
+		#{item.createDate},
+		#{item.creator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyRechargePatch" useGeneratedKeys="true" keyProperty="id">
+		insert into company_recharge_patch( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_recharge_patch( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_recharge_patch
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_recharge_patch
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyRechargePatch">
+		update company_recharge_patch 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="totalNum != null and totalNum != ''">total_num = #{totalNum},</if>
+			<if test="usedNum != null and usedNum != ''">used_num = #{usedNum},</if>
+			<if test="remainNum != null and remainNum != ''">remain_num = #{remainNum},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="issueWay != null and issueWay != ''">issue_way = #{issueWay},</if>
+			<if test="cashAmount != null and cashAmount != ''">cash_amount = #{cashAmount},</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">time_limit_from = #{timeLimitFrom},</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">time_limit_to = #{timeLimitTo},</if>
+			<if test="promoCodePrefix != null and promoCodePrefix != ''">promo_code_prefix = #{promoCodePrefix},</if>
+			<if test="orgId != null and orgId != ''">org_id = #{orgId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyRechargePatchResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_recharge_patch
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyRechargePatchResultMap">
+		select <include refid="table_columns" /> 
+		from company_recharge_patch
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="totalNum != null and totalNum != ''">and total_num = #{totalNum}</if>
+			<if test="usedNum != null and usedNum != ''">and used_num = #{usedNum}</if>
+			<if test="remainNum != null and remainNum != ''">and remain_num = #{remainNum}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="issueWay != null and issueWay != ''">and issue_way = #{issueWay}</if>
+			<if test="cashAmount != null and cashAmount != ''">and cash_amount = #{cashAmount}</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">and time_limit_from = #{timeLimitFrom}</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">and time_limit_to = #{timeLimitTo}</if>
+			<if test="promoCodePrefix != null and promoCodePrefix != ''">and promo_code_prefix = #{promoCodePrefix}</if>
+			<if test="orgId != null and orgId != ''">and org_id = #{orgId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="createDate != null and createDate != ''">and create_date = #{createDate}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyRechargePatchResultMap" parameterType="com.yuxin.wx.model.company.CompanyRechargePatch">
+		select <include refid="table_columns" />
+		from company_recharge_patch
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyRechargePatch">
+		select count(id) from company_recharge_patch
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryPrefixCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyRechargePatch">
+		select count(id)
+		from company_recharge_patch
+		where company_id = #{companyId}
+		and promo_code_prefix = #{promoCodePrefix}
+	</select>
+	
+	<select id="queryPatchList" resultType="com.yuxin.wx.vo.company.CompanyRechargePatchVo" parameterType="com.yuxin.wx.vo.company.CompanyRechargePatchVo">
+		select crp.id as id,
+			   crp.total_num as totalNum,
+			   crp.used_num as usedNum,
+			   crp.cash_amount as cashAmount,
+			   crp.time_limit_from as timeLimitFrom,
+			   crp.time_limit_to as timeLimitTo,
+			   crp.org_id as orgId,
+			   crp.create_date as createDate,
+			   crp.status as status,
+			   ccpo.name as orgName
+		from company_recharge_patch crp left join company_config_proxy_org ccpo on crp.org_id = ccpo.id
+		where crp.company_id = #{companyId} 
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(crp.create_date))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(crp.create_date))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(crp.create_date)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null and startTime != ''">and date_format(crp.create_date, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''"> and date_format(crp.create_date, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		<if test="startDate != null and startDate != ''">and date_format(crp.time_limit_from, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(crp.time_limit_to, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="minPrice != null and minPrice != ''">and crp.cash_amount <![CDATA[>=]]> #{minPrice}</if>
+		<if test="maxPrice != null and maxPrice != ''"> and crp.cash_amount <![CDATA[<=]]> #{maxPrice}</if>
+		<if test="orgName != null and orgName != ''"> and ccpo.name like '%${orgName}%' </if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryPatchListCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyRechargePatchVo">
+		select count(crp.id)
+		from company_recharge_patch crp left join company_config_proxy_org ccpo on crp.org_id = ccpo.id
+		where crp.company_id = #{companyId} 
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(crp.create_date))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(crp.create_date))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(crp.create_date)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null and startTime != ''">and date_format(crp.create_date, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''"> and date_format(crp.create_date, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		<if test="startDate != null and startDate != ''">and date_format(crp.time_limit_from, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(crp.time_limit_to, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="minPrice != null and minPrice != ''">and crp.cash_amount <![CDATA[>=]]> #{minPrice}</if>
+		<if test="maxPrice != null and maxPrice != ''"> and crp.cash_amount <![CDATA[<=]]> #{maxPrice}</if>
+		<if test="orgName != null and orgName != ''"> and ccpo.name like '%${orgName}%' </if>
+	</select>
+	<select id="queryPatchsList" resultType="com.yuxin.wx.vo.company.CompanyRechargePatchVo" parameterType="com.yuxin.wx.vo.company.CompanyRechargePatchVo">
+		select crp.id as id,
+			   crp.total_num as totalNum,
+			   crp.used_num as usedNum,
+			   crp.cash_amount as cashAmount,
+			   crp.time_limit_from as timeLimitFrom,
+			   crp.time_limit_to as timeLimitTo,
+			   crp.org_id as orgId,
+			   crp.create_date as createDate,
+			   crp.status as status,
+			   ccpo.name as orgName
+		from company_recharge_patch crp left join company_config_proxy_org ccpo on crp.org_id = ccpo.id
+		where crp.company_id = #{companyId} 
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(crp.create_date))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(crp.create_date))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(crp.create_date)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null and startTime != ''">and date_format(crp.create_date, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''"> and date_format(crp.create_date, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		<if test="startDate != null and startDate != ''">and date_format(crp.time_limit_from, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(crp.time_limit_to, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="minPrice != null and minPrice != ''">and crp.cash_amount <![CDATA[>=]]> #{minPrice}</if>
+		<if test="maxPrice != null and maxPrice != ''"> and crp.cash_amount <![CDATA[<=]]> #{maxPrice}</if>
+		<if test="orgName != null and orgName != ''"> and ccpo.name like '%${orgName}%' </if>
+	</select>
+</mapper>

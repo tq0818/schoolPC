@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.homework.mapper.HomeworkStudentCompleteMapper">
+	<resultMap type="com.yuxin.wx.model.homework.HomeworkStudentComplete" id="homeworkStudentCompleteResultMap">
+		<result property="id" column="id" />
+		<result property="homeworkId" column="homework_id" />
+		<result property="stuId" column="stu_id" />
+		<result property="content" column="content" />
+		<result property="status" column="status" />
+		<result property="resourceId" column="resource_id" />
+		<result property="paperId" column="paper_id" />
+		<result property="completeFlag" column="complete_flag" />
+		<result property="completeTime" column="complete_time" />
+		<result property="companyId" column="company_id" />
+		<result property="exerciseId" column="exercise_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		homework_id,
+		stu_id,
+		content,
+		status,
+		resource_id,
+		paper_id,
+		complete_flag,
+		complete_time,
+		company_id,
+		exercise_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{homeworkId},
+		#{stuId},
+		#{content},
+		#{status},
+		#{resourceId},
+		#{paperId},
+		#{completeFlag},
+		#{completeTime},
+		#{companyId},
+		#{exerciseId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.homeworkId},
+		#{item.stuId},
+		#{item.content},
+		#{item.status},
+		#{item.resourceId},
+		#{item.paperId},
+		#{item.completeFlag},
+		#{item.completeTime},
+		#{item.companyId},
+		#{item.exerciseId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.homework.HomeworkStudentComplete" useGeneratedKeys="true" keyProperty="id">
+		insert into homework_student_complete( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into homework_student_complete( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from homework_student_complete
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from homework_student_complete
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.homework.HomeworkStudentComplete">
+		update homework_student_complete 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="homeworkId != null and homeworkId != ''">homework_id = #{homeworkId},</if>
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="resourceId != null">resource_id = #{resourceId},</if>
+			<if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
+			<if test="completeFlag != null and completeFlag != ''">complete_flag = #{completeFlag},</if>
+			<if test="completeTime != null and completeTime != ''">complete_time = #{completeTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="exerciseId != null and exerciseId != ''">exercise_id = #{exerciseId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="homeworkStudentCompleteResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from homework_student_complete
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="homeworkStudentCompleteResultMap">
+		select <include refid="table_columns" /> 
+		from homework_student_complete
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="homeworkId != null and homeworkId != ''">and homework_id = #{homeworkId}</if>
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="resourceId != null">and resource_id = #{resourceId}</if>
+			<if test="paperId != null and paperId != ''">and paper_id = #{paperId}</if>
+			<if test="completeFlag != null and completeFlag != ''">and complete_flag = #{completeFlag}</if>
+			<if test="completeTime != null and completeTime != ''">and complete_time = #{completeTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="exerciseId != null and exerciseId != ''">and exercise_id = #{exerciseId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="homeworkStudentCompleteResultMap" parameterType="com.yuxin.wx.model.homework.HomeworkStudentComplete">
+		select <include refid="table_columns" />
+		from homework_student_complete
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.homework.HomeworkStudentComplete">
+		select count(id) from homework_student_complete
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryStudentHomeworkList" parameterType="com.yuxin.wx.vo.homework.StudentHomeWorkVo" resultType="com.yuxin.wx.vo.homework.StudentHomeWorkVo">
+		SELECT * FROM (
+		SELECT
+			STU.id AS id,
+			STU.mobile AS mobile,
+			STU.name AS name,
+			STU.username AS username,
+			STU.user_id AS userId,
+			STU.group_one_id AS groupOneId,
+			STU.group_two_id AS groupTwoId,
+			HSC_H.hsc_id AS hscId,
+			HSC_H.homework_id AS homeworkId,
+			HSC_H.content AS content,
+			HSC_H.status AS status,
+			HSC_H.stu_resource_id AS stuResourceId,
+			HSC_H.complete_flag AS completeFlag,
+			HSC_H.complete_time AS completeTime,
+			HSC_H.teacher_id AS teacherId,
+			HSC_H.type AS type,
+			HSC_H.desciption AS desciption,
+			HSC_H.hw_resource_id AS hwResourceId,
+			HSC_H.paper_id AS paperId,
+			HSC_H.course_id AS courseId,
+			HSC_H.lesson_id AS lessonId,
+			HSC_H.course_name AS courseName,
+			HSC_H.lesson_name AS lessonName,
+			HTR.read_time AS readTime,
+			HTR.score AS score
+		FROM
+			(
+				SELECT
+					DISTINCT(stu.id) AS id,
+					stu.name AS name,
+					stu.mobile AS mobile,
+					stu.user_id AS user_id,
+					stu.group_one_id AS group_one_id,
+					stu.group_two_id AS group_two_id,
+					uf.username AS username
+				FROM
+					(
+						select 
+							s.id AS id,
+							s.name AS name,
+							s.mobile AS mobile,
+							s.user_id AS user_id,
+							s.group_one_id AS group_one_id,
+							s.group_two_id AS group_two_id
+						FROM
+									student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+																								spm.pay_status_code = 'ORDER_PAID'
+																								OR spm.pay_status_code = 'ORDER_PART_PAY'
+																								OR spm.pay_status_code = 'ORDER_FINISHED'
+																								OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+																								)
+																								AND spm.commodity_type = 'COMMODITY_CLASS'
+																								AND spm.commodity_id = #{courseId}
+						where sps.resource_id = #{resourceId} 
+							and sps.module_id = #{moduleId}
+						UNION ALL
+						select 
+							s.id AS id,
+							s.name AS name,
+							s.mobile AS mobile,
+							s.user_id AS user_id,
+							s.group_one_id AS group_one_id,
+							s.group_two_id AS group_two_id
+						FROM
+									student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+																								spm.pay_status_code = 'ORDER_PAID'
+																								OR spm.pay_status_code = 'ORDER_PART_PAY'
+																								OR spm.pay_status_code = 'ORDER_FINISHED'
+																								OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+																								)
+																								AND spm.commodity_type = 'COMMODITY_PACKAGE'
+						INNER JOIN class_package_relation cpr on cpr.class_package_id = spm.commodity_id and cpr.class_type_id = #{courseId}
+						where sps.resource_id = #{resourceId} 
+							and sps.module_id = #{moduleId}
+					) AS stu
+				LEFT JOIN users_front uf ON stu.user_id = uf.id
+			) AS STU
+		LEFT JOIN (
+			SELECT
+				HSC.id AS hsc_id,
+				HSC.homework_id AS homework_id,
+				HSC.stu_id AS stu_id,
+				HSC.content AS content,
+				HSC.status AS status,
+				HSC.resource_id AS stu_resource_id,
+				HSC.complete_flag AS complete_flag,
+				HSC.complete_time AS complete_time,
+				h.teacher_id AS teacher_id,
+				h.type AS type,
+				h.desciption AS desciption,
+				h.resource_id AS hw_resource_id,
+				h.paper_id AS paper_id,
+				h.course_id AS course_id,
+				h.lesson_id AS lesson_id,
+				h.course_name AS course_name,
+				h.lesson_name AS lesson_name
+			FROM
+				(
+					SELECT
+						hsc.id,
+						hsc.homework_id,
+						hsc.stu_id,
+						hsc.content,
+						hsc.status,
+						hsc.resource_id,
+						hsc.paper_id,
+						hsc.complete_flag,
+						hsc.complete_time
+					FROM
+						(
+							SELECT
+								id,
+								homework_id,
+								stu_id,
+								content,
+								status,
+								resource_id,
+								paper_id,
+								complete_flag,
+								complete_time
+							FROM
+								homework_student_complete
+							WHERE
+								company_id = #{companyId}
+								and homework_id = #{homeworkId}
+							ORDER BY
+								complete_time DESC
+						) hsc
+					GROUP BY
+						hsc.stu_id
+				) HSC
+			INNER JOIN homework h ON HSC.homework_id = h.id
+		) AS HSC_H ON STU.id = HSC_H.stu_id
+		LEFT JOIN homework_teacher_read as HTR on HSC_H.hsc_id = HTR.homework_s_id and HTR.read_time is not null
+		where 1=1 
+		<if test="status != null and status != -1">
+			<choose>
+				<when test="status == 0">and (HSC_H.status = #{status} or HSC_H.status is null)</when>
+				<otherwise>and HSC_H.status = #{status}</otherwise>
+			</choose>
+		</if>
+		<if test="mobile != null and mobile != ''">and STU.mobile like '%${mobile}%'</if>
+		<if test="username != null and username != ''">and STU.username like '%${username}%'</if>
+		<if test="name != null and name != ''">and STU.name like '%${name}%'</if>
+		<if test="groupOneId != null and groupOneId != ''">and STU.group_one_id = #{groupOneId}</if>
+		<if test="groupTwoId != null and groupTwoId != ''">and STU.group_two_id = #{groupTwoId}</if>
+		ORDER by HSC_H.complete_time desc
+		) NEW_HSC_H
+		group by NEW_HSC_H.id
+		order by field(NEW_HSC_H. STATUS,null,0, 3, 2, 1 ) desc,NEW_HSC_H.readTime desc,NEW_HSC_H.completeTime asc,NEW_HSC_H.id
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryStudentHomeworkListCount" parameterType="com.yuxin.wx.vo.homework.StudentHomeWorkVo" resultType="int">
+		SELECT
+			count(STU.id)
+		FROM
+			(
+				SELECT
+					DISTINCT(stu.id) AS id,
+					stu.name AS name,
+					stu.mobile AS mobile,
+					stu.user_id AS user_id,
+					stu.group_one_id AS group_one_id,
+					stu.group_two_id AS group_two_id,
+					uf.username AS username
+				FROM
+					(
+						select 
+							s.id AS id,
+							s.name AS name,
+							s.mobile AS mobile,
+							s.user_id AS user_id,
+							s.group_one_id AS group_one_id,
+							s.group_two_id AS group_two_id
+						FROM
+									student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+																								spm.pay_status_code = 'ORDER_PAID'
+																								OR spm.pay_status_code = 'ORDER_PART_PAY'
+																								OR spm.pay_status_code = 'ORDER_FINISHED'
+																								OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+																								)
+																								AND spm.commodity_type = 'COMMODITY_CLASS'
+																								AND spm.commodity_id = #{courseId}
+						where sps.resource_id = #{resourceId} 
+							and sps.module_id = #{moduleId}
+						UNION ALL
+						select 
+							s.id AS id,
+							s.name AS name,
+							s.mobile AS mobile,
+							s.user_id AS user_id,
+							s.group_one_id AS group_one_id,
+							s.group_two_id AS group_two_id
+						FROM
+									student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+																								spm.pay_status_code = 'ORDER_PAID'
+																								OR spm.pay_status_code = 'ORDER_PART_PAY'
+																								OR spm.pay_status_code = 'ORDER_FINISHED'
+																								OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+																								)
+																								AND spm.commodity_type = 'COMMODITY_PACKAGE'
+						INNER JOIN class_package_relation cpr on cpr.class_package_id = spm.commodity_id and cpr.class_type_id = #{courseId}
+						where sps.resource_id = #{resourceId} 
+							and sps.module_id = #{moduleId}
+					) AS stu
+				LEFT JOIN users_front uf ON stu.user_id = uf.id
+			) AS STU
+		LEFT JOIN (
+			SELECT
+				HSC.id AS hsc_id,
+				HSC.homework_id AS homework_id,
+				HSC.stu_id AS stu_id,
+				HSC.content AS content,
+				HSC.status AS status,
+				HSC.resource_id AS stu_resource_id,
+				HSC.complete_flag AS complete_flag,
+				HSC.complete_time AS complete_time,
+				h.teacher_id AS teacher_id,
+				h.type AS type,
+				h.desciption AS desciption,
+				h.resource_id AS hw_resource_id,
+				h.paper_id AS paper_id,
+				h.course_id AS course_id,
+				h.lesson_id AS lesson_id,
+				h.course_name AS course_name,
+				h.lesson_name AS lesson_name
+			FROM
+				(
+					SELECT
+						hsc.id,
+						hsc.homework_id,
+						hsc.stu_id,
+						hsc.content,
+						hsc.status,
+						hsc.resource_id,
+						hsc.paper_id,
+						hsc.complete_flag,
+						hsc.complete_time
+					FROM
+						(
+							SELECT
+								id,
+								homework_id,
+								stu_id,
+								content,
+								status,
+								resource_id,
+								paper_id,
+								complete_flag,
+								complete_time
+							FROM
+								homework_student_complete
+							WHERE
+								company_id = #{companyId}
+								and homework_id = #{homeworkId}
+							ORDER BY
+								complete_time DESC
+						) hsc
+					GROUP BY
+						hsc.stu_id
+				) HSC
+			INNER JOIN homework h ON HSC.homework_id = h.id
+		) AS HSC_H ON STU.id = HSC_H.stu_id
+		LEFT JOIN homework_teacher_read as HTR on HSC_H.hsc_id = HTR.homework_s_id and HTR.read_time is not null
+		where 1=1 
+		<if test="status != null and status != -1">
+			<choose>
+				<when test="status == 0">and (HSC_H.status = #{status} or HSC_H.status is null)</when>
+				<otherwise>and HSC_H.status = #{status}</otherwise>
+			</choose>
+		</if>
+		<if test="mobile != null and mobile != ''">and STU.mobile like '%${mobile}%'</if>
+		<if test="username != null and username != ''">and STU.username like '%${username}%'</if>
+		<if test="name != null and name != ''">and STU.name like '%${name}%'</if>
+		<if test="groupOneId != null and groupOneId != ''">and STU.group_one_id = #{groupOneId}</if>
+		<if test="groupTwoId != null and groupTwoId != ''">and STU.group_two_id = #{groupTwoId}</if>
+	</select>
+	
+	<select id="queryAllStudentHomework" parameterType="com.yuxin.wx.vo.homework.StudentHomeWorkVo" resultType="com.yuxin.wx.vo.homework.StudentHomeWorkVo">
+		SELECT
+			STU.id AS id,
+			STU.mobile AS mobile,
+			STU.name AS name,
+			STU.username AS username,
+			STU.user_id AS userId,
+			HSC_H.homework_id AS homeworkId,
+			HSC_H.content AS content,
+			HSC_H.status AS status,
+			HSC_H.stu_resource_id AS stuResourceId,
+			HSC_H.complete_flag AS completeFlag,
+			HSC_H.complete_time AS completeTime,
+			HSC_H.teacher_id AS teacherId,
+			HSC_H.type AS type,
+			HSC_H.desciption AS desciption,
+			HSC_H.hw_resource_id AS hwResourceId,
+			HSC_H.paper_id AS paperId,
+			HSC_H.course_id AS courseId,
+			HSC_H.lesson_id AS lessonId,
+			HSC_H.course_name AS courseName,
+			HSC_H.lesson_name AS lessonName
+		FROM
+			(
+				SELECT
+					DISTINCT(stu.id) AS id,
+					stu.name AS name,
+					stu.mobile AS mobile,
+					stu.user_id AS user_id,
+					uf.username AS username
+				FROM
+					(
+						select 
+							s.id AS id,
+							s.name AS name,
+							s.mobile AS mobile,
+							s.user_id AS user_id
+						FROM
+									student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+																								spm.pay_status_code = 'ORDER_PAID'
+																								OR spm.pay_status_code = 'ORDER_PART_PAY'
+																								OR spm.pay_status_code = 'ORDER_FINISHED'
+																								OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+																								)
+																								AND spm.commodity_type = 'COMMODITY_CLASS'
+																								AND spm.commodity_id = #{courseId}
+						where sps.resource_id = #{resourceId} 
+							and sps.module_id = #{moduleId}
+						UNION ALL
+						select 
+							s.id AS id,
+							s.name AS name,
+							s.mobile AS mobile,
+							s.user_id AS user_id
+						FROM
+									student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+																								spm.pay_status_code = 'ORDER_PAID'
+																								OR spm.pay_status_code = 'ORDER_PART_PAY'
+																								OR spm.pay_status_code = 'ORDER_FINISHED'
+																								OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+																								)
+																								AND spm.commodity_type = 'COMMODITY_PACKAGE'
+						INNER JOIN class_package_relation cpr on cpr.class_package_id = spm.commodity_id and cpr.class_type_id = #{courseId}
+						where sps.resource_id = #{resourceId} 
+							and sps.module_id = #{moduleId}
+					) AS stu
+				LEFT JOIN users_front uf ON stu.user_id = uf.id
+			) AS STU
+		LEFT JOIN (
+			SELECT
+				HSC.homework_id AS homework_id,
+				HSC.stu_id AS stu_id,
+				HSC.content AS content,
+				HSC.status AS status,
+				HSC.resource_id AS stu_resource_id,
+				HSC.complete_flag AS complete_flag,
+				HSC.complete_time AS complete_time,
+				h.teacher_id AS teacher_id,
+				h.type AS type,
+				h.desciption AS desciption,
+				h.resource_id AS hw_resource_id,
+				h.paper_id AS paper_id,
+				h.course_id AS course_id,
+				h.lesson_id AS lesson_id,
+				h.course_name AS course_name,
+				h.lesson_name AS lesson_name
+			FROM
+				(
+					SELECT
+						hsc.id,
+						hsc.homework_id,
+						hsc.stu_id,
+						hsc.content,
+						hsc.status,
+						hsc.resource_id,
+						hsc.paper_id,
+						hsc.complete_flag,
+						hsc.complete_time
+					FROM
+						(
+							SELECT
+								id,
+								homework_id,
+								stu_id,
+								content,
+								status,
+								resource_id,
+								paper_id,
+								complete_flag,
+								complete_time
+							FROM
+								homework_student_complete
+							WHERE
+								company_id = #{companyId}
+								and homework_id = #{homeworkId}
+							ORDER BY
+								complete_time DESC
+						) hsc
+					GROUP BY
+						hsc.stu_id
+				) HSC
+			INNER JOIN homework h ON HSC.homework_id = h.id
+		) AS HSC_H ON STU.id = HSC_H.stu_id
+	</select>
+	
+	<select id="findByHomeworkId" resultMap="homeworkStudentCompleteResultMap" parameterType="com.yuxin.wx.vo.homework.StudentHomeWorkVo">
+		select * from (
+			select hsc.id,hsc.stu_id,hsc.complete_time,hsc.status from homework_student_complete hsc
+			inner join homework hw on hw.id =  hsc.homework_id
+			where hsc.homework_id=#{homeworkId} and hw.course_id = #{courseId} and hsc.status !=0 and hsc.status is not null
+			ORDER BY hsc.complete_time desc 
+		) a  group by stu_id
+	</select>
+	
+	<select id="queryStudentHomeworkAndReadList" parameterType="com.yuxin.wx.vo.homework.StudentHomeworkAttachmentVo" resultType="com.yuxin.wx.vo.homework.StudentHomeworkAttachmentVo" >
+		SELECT
+			hsc.id AS id,
+			hsc.homework_id AS homeworkId,
+			hsc.stu_id AS stuId,
+			hsc.content AS stuContent,
+			hsc.status AS status,
+			hsc.resource_id AS stuResourceId,
+			hsc.paper_id AS paperId,
+			hsc.complete_flag AS completeFlag,
+			hsc.complete_time AS completeTime,
+			hsc.company_id AS companyId,
+			htr.reader AS reader,
+			htr.content AS tContent,
+			htr.score AS score,
+			htr.resource_id AS tResourceId,
+			htr.read_time AS readTime
+		FROM
+			homework_student_complete hsc
+		LEFT JOIN (select * from homework_teacher_read ORDER BY id ) htr ON htr.homework_s_id = hsc.id and htr.read_time is not null
+		WHERE
+			hsc.homework_id = #{homeworkId} 
+			and hsc.stu_id = #{stuId}
+			and hsc.company_id = #{companyId}
+			and hsc.status is not null
+			and hsc.complete_time is not null
+		order by hsc.complete_time asc
+	</select>
+</mapper>

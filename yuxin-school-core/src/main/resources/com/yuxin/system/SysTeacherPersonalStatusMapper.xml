@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysTeacherPersonalStatusMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysTeacherPersonalStatus" id="sysTeacherPersonalStatusResultMap">
+		<result property="id" column="id" />
+		<result property="content" column="content" />
+		<result property="publishTime" column="publish_time" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="topFlag" column="top_flag" />
+		<result property="delFlag" column="del_flag" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.TeacherDynamicsVo" id="sysTeacherPersonalStatusResultVoMap">
+		<result property="id" column="id" />
+		<result property="content" column="content" />
+		<result property="publishTime" column="publish_time" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="topFlag" column="top_flag" />
+		<result property="delFlag" column="del_flag" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		content,
+		publish_time,
+		teacher_id,
+		top_flag,
+		del_flag,
+		school_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{content},
+		#{publishTime},
+		#{teacherId},
+		#{topFlag},
+		#{delFlag},
+		#{schoolId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.content},
+		#{item.publishTime},
+		#{item.teacherId},
+		#{item.topFlag},
+		#{item.delFlag},
+		#{item.schoolId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatus" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_teacher_personal_status( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_teacher_personal_status( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_teacher_personal_status
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatus">
+		update sys_teacher_personal_status 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="topFlag != null ">top_flag = #{topFlag},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysTeacherPersonalStatusResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_teacher_personal_status
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysTeacherPersonalStatusResultMap">
+		select <include refid="table_columns" /> 
+		from sys_teacher_personal_status
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+			<if test="topFlag != null and topFlag != ''">and top_flag = #{topFlag}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysTeacherPersonalStatusResultMap" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatus">
+		select *
+		from sys_teacher_personal_status
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysTeacherPersonalStatus">
+		select count(id) from sys_teacher_personal_status
+		<include refid="page_where" />
+	</select>
+	<select id="findStatusByTeacherId" resultMap="sysTeacherPersonalStatusResultVoMap" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsVo">
+		select <include refid="table_columns" />
+		from sys_teacher_personal_status
+		where del_flag=0 
+		<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		order by top_flag desc ,id desc limit #{firstIndex},#{pageSize} 
+	</select>
+	<select id="findManageStatusByTeacherId" resultMap="sysTeacherPersonalStatusResultVoMap" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsVo">
+		select s.*
+		from sys_teacher_personal_status s inner join sys_config_teacher t on s.teacher_id=t.id
+		where s.del_flag=0 and t.del_flag=0
+		<if test="teacherIdList != null">
+			 and s.teacher_id in
+			<foreach collection="teacherIdList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="companyId != null and companyId != ''">and s.company_id = #{companyId}</if>
+		order by s.id desc limit #{firstIndex},#{pageSize} 
+	</select>
+	<select id="findManageHotStatusByTeacherId" resultMap="sysTeacherPersonalStatusResultVoMap" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsVo">
+		select a.id,a.content,a.publish_time,a.teacher_id,a.top_flag,a.del_flag,a.school_id,a.company_id ,
+		(select COUNT(*) from sys_teacher_personal_status_replay WHERE status_id=a.id) replayCount
+		from sys_teacher_personal_status a 
+		where del_flag=0 
+		<if test="teacherIdList != null">
+			 and teacher_id in
+			<foreach collection="teacherIdList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		order by replayCount desc , id desc  limit #{firstIndex},#{pageSize} 
+	</select>	
+	
+	<select id="statusCount" resultType="int" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsVo">
+		select count(id) from sys_teacher_personal_status
+		where del_flag=0 
+		<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		limit 1
+	</select>
+	<select id="manageStatusCount" resultType="int" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsVo">
+		select count(s.id) from sys_teacher_personal_status s inner join sys_config_teacher t on s.teacher_id=t.id
+		where s.del_flag=0 and t.del_flag=0 
+		<if test="teacherIdList != null">
+			 and s.teacher_id in
+			<foreach collection="teacherIdList" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="companyId != null and companyId != ''">and s.company_id = #{companyId}</if>
+	</select>
+	<!-- 其他自定义SQL -->
+	
+</mapper>

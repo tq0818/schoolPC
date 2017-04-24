@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.queAns.mapper.QuestionAnswerMapper">
+	<resultMap type="com.yuxin.wx.model.queAns.QuestionAnswer" id="questionAnswerResultMap">
+		<result property="id" column="id" />
+		<result property="answerDesc" column="answer_desc" />
+		<result property="answerId" column="answer_id" />
+		<result property="questionId" column="question_id" />
+		<result property="userId" column="user_id" />
+		<result property="answerType" column="answer_type" />
+		<result property="answerLevel" column="answer_level" />
+		<result property="commentCount" column="comment_count" />
+		<result property="createTime" column="create_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="parentId" column="parent_id" />
+		<result property="replyUserId" column="reply_user_id" />
+		<result property="replyUserName" column="reply_user_name" />
+		<result property="readFlag" column="read_flag" />
+		<result property="replyUserType" column="reply_user_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		answer_desc,
+		answer_id,
+		question_id,
+		user_id,
+		answer_type,
+		answer_level,
+		comment_count,
+		create_time,
+		del_flag,
+		parent_id,
+		reply_user_id,
+		reply_user_name,
+		read_flag,
+		reply_user_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{answerDesc},
+		#{answerId},
+		#{questionId},
+		#{userId},
+		#{answerType},
+		#{answerLevel},
+		#{commentCount},
+		#{createTime},
+		#{delFlag},
+		#{parentId},
+		#{replyUserId},
+		#{replyUserName},
+		#{readFlag},
+		#{replyUserType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.answerDesc},
+		#{item.answerId},
+		#{item.questionId},
+		#{item.userId},
+		#{item.answerType},
+		#{item.answerLevel},
+		#{item.commentCount},
+		#{item.createTime},
+		#{item.delFlag},
+		#{item.parentId},
+		#{item.replyUserId},
+		#{item.replyUserName},
+		#{item.readFlag},
+		#{item.replyUserType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.queAns.QuestionAnswer" useGeneratedKeys="true" keyProperty="id">
+		insert into question_answer( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into question_answer( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from question_answer
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from question_answer
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.queAns.QuestionAnswer">
+		update question_answer 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="answerDesc != null and answerDesc != ''">answer_desc = #{answerDesc},</if>
+			<if test="answerId != null and answerId != ''">answer_id = #{answerId},</if>
+			<if test="questionId != null and questionId != ''">question_id = #{questionId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="answerType != null and answerType != ''">answer_type = #{answerType},</if>
+			<if test="answerLevel != null and answerLevel != ''">answer_level = #{answerLevel},</if>
+			<if test="commentCount != null ">comment_count = #{commentCount},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="parentId != null">parent_id = #{parentId},</if>
+			<if test="replyUserId != null">reply_user_id = #{replyUserId},</if>
+			<if test="replyUserName != null and replyUserName != ''">reply_user_name = #{replyUserName},</if>
+			<if test="readFlag != null">read_flag = #{readFlag},</if>
+			<if test="replyUserType != null and replyUserType != ''">reply_user_type = #{replyUserType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="questionAnswerResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from question_answer
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="questionAnswerResultMap">
+		select <include refid="table_columns" /> 
+		from question_answer
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="answerDesc != null and answerDesc != ''">and answer_desc = #{answerDesc}</if>
+			<if test="answerId != null and answerId != ''">and answer_id = #{answerId}</if>
+			<if test="questionId != null and questionId != ''">and question_id = #{questionId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="answerType != null and answerType != ''">and answer_type = #{answerType}</if>
+			<if test="answerLevel != null and answerLevel != ''">and answer_level = #{answerLevel}</if>
+			<if test="commentCount != null and commentCount != ''">and comment_count = #{commentCount}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="parentId != null">and parent_id = #{parentId}</if>
+			<if test="replyUserId != null">and reply_user_id = #{replyUserId}</if>
+			<if test="replyUserName != null and replyUserName != ''">and reply_user_name = #{replyUserName}</if>
+			<if test="readFlag != null">and read_flag = #{readFlag}</if>
+			<if test="replyUserType != null and replyUserType != ''">and reply_user_type = #{replyUserType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="questionAnswerResultMap" parameterType="com.yuxin.wx.model.queAns.QuestionAnswer">
+		select <include refid="table_columns" />
+		from question_answer
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.queAns.QuestionAnswer">
+		select count(id) from question_answer
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!-- 根据问题id和分级下旬回复 -->
+	<select id="findAnsByQueId" parameterType="Integer" resultMap="questionAnswerResultMap">
+		select <include refid="table_columns"/>
+		from question_answer
+		where question_id = #{questionId}
+            and  answer_level = 1
+            and del_flag = 1
+		order by create_time asc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findAnsCountByQueId" parameterType="Integer" resultType="Integer" >
+		select count(id)
+		from question_answer
+		where question_id = #{questionId} and 
+			answer_level = 1 and 
+			del_flag = 1
+	</select>
+	
+	<select id="findTwoAns" parameterType="Integer" resultType="Integer">
+		select id from question_answer
+		where answer_id = #{answerId} and del_flag = 1
+	</select>
+	
+	<select id="findEntityTwoAns" parameterType="Integer" resultMap="questionAnswerResultMap">
+		select <include refid="table_columns"/> 
+		from question_answer
+		where answer_id = #{answerId} and 
+			del_flag = 1
+		order by create_time asc
+	</select>
+	
+	<!-- 批量修改 -->
+	<update id="updateList" parameterType="List">
+		update question_answer
+		set del_flag = 0
+		where id in <foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</update>
+</mapper>

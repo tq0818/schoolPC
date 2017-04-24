@@ -1,0 +1,342 @@
+.border-radius {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.schWorkT .rb {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  font-size: 0;
+}
+a:hover,
+a:focus {
+  text-decoration: none;
+  color: #fff;
+}
+.schWorkT .rb .btn {
+  margin-left: 10px;
+  line-height: 15px;
+}
+tr {
+  margin-bottom: 20px;
+  border: 1px solid #E0E0E0;
+  height: 30px;
+  width: 100px;
+  background-color: #fff;
+}
+th,
+td {
+  width: 100px;
+  height: 30px;
+}
+.schList dt,
+.schList dd,
+.schList span {
+  float: left;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.schList {
+  width: 70%;
+}
+.eaditArea {
+  width: 28%;
+}
+.w32 {
+  width: 32%;
+}
+.w33 {
+  width: 33%;
+}
+.w9 {
+  width: 9%;
+}
+.w17 {
+  width: 17%;
+}
+.w9 {
+  width: 9%;
+}
+dt .w32,
+dt .w33,
+dd .w32,
+dd .w33 {
+  text-align: left;
+}
+dt .w32,
+dd .w32 {
+  padding-left: 22px;
+}
+.schList dt,
+.schList dd {
+  width: 100%;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+.schList dt,
+.schList .active,
+.schList dd:hover {
+  background-color: #fff;
+}
+.schList dt {
+  height: 52px;
+  font-size: 16px;
+  color: #333;
+  line-height: 52px;
+  margin-bottom: 16px;
+}
+.schList dd {
+  height: 48px;
+}
+.schList span a {
+  font-size: 14px;
+  line-height: 46px;
+  color: #666;
+  cursor: default;
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+i.switch {
+  font-size: 24px;
+  color: #999;
+  line-height: 46px;
+}
+i.open {
+  color: #0099ff;
+}
+i.edit {
+  font-size: 18px;
+  color: #1b6fbd;
+  line-height: 46px;
+}
+i.edit:hover {
+  color: #237fd5;
+}
+.advert {
+  margin-right: -22px;
+}
+i.delet {
+  font-size: 20px;
+  color: #999;
+  line-height: 46px;
+  position: relative;
+  left: 10px;
+  top: 1px;
+}
+i.draw {
+  font-size: 20px;
+  color: #999;
+  line-height: 46px;
+  cursor: move;
+}
+.addAdverBut {
+  width: 100%;
+  padding: 4px 0 16px;
+  text-align: right;
+}
+.addAdverBut button {
+  font-size: 12px;
+  color: #f6f6f6;
+  line-height: 12px;
+  border: none;
+  outline: none;
+  background-color: #1b6fbd;
+  padding: 10px 20px 8px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.eaditArea h2 {
+  font-size: 16px;
+  color: #333;
+  line-height: 50px;
+  width: 100%;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 16px;
+}
+.eaditCon {
+  width: 100%;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 5px 18px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.swConText h3 {
+  font-size: 14px;
+  color: #333;
+  padding: 11px 0;
+  border-bottom: 1px solid #eee;
+}
+.swFormList h4 {
+  font-size: 12px;
+  color: #666;
+  line-height: 30px;
+  width: 23%;
+  text-align: right;
+}
+.swFormList p {
+  width: 75%;
+}
+.swFormList p label {
+  float: left;
+  margin-right: 24px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #616161;
+  line-height: 14px;
+}
+.swFormList .swText {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #eee;
+  outline: none;
+  font-size: 12px;
+  color: #333;
+  box-sizing: border-box;
+}
+.swFormList {
+  margin-top: 20px;
+}
+.swFormList li {
+  margin-bottom: 16px;
+}
+.swFileBut {
+  position: relative;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #f6f6f6;
+  padding: 1px 14px 2px;
+  background-color: #1ebb90;
+  cursor: pointer;
+}
+.swFileBut input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font-size: 0;
+  cursor: pointer;
+}
+.swFormList p .swFileBut {
+  margin-top: 0px;
+  margin-right: 12px;
+  line-height: 24px;
+  color: #f6f6f6;
+}
+.prompt {
+  font-size: 12px;
+  line-height: 26px;
+}
+span.red {
+  color: #e20101;
+}
+input.swSaveBut {
+  border: none;
+  outline: none;
+  background-color: #1b6fbd;
+  padding: 9px 20px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  line-height: 12px;
+  font-size: 12px;
+  color: #f6f6f6;
+}
+input.swChioceBut {
+  float: left;
+  font-size: 12px;
+  color: #878787;
+  line-height: 21px;
+  padding: 2px 12px 0;
+  margin-top: 4px;
+  margin-right: 6px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  outline: none;
+  min-width: 52px;
+}
+input.active,
+input.swChioceBut:hover {
+  background-color: #1ebb90;
+  border: none;
+  padding: 3px 13px 1px;
+  color: #f6f6f6;
+}
+label .swCheck {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  margin-top: -1px;
+}
+.swFormList .showCheck label {
+  margin: 12px 16px 0 0;
+}
+.swFormList .showCheck {
+  margin-top: -3px;
+}
+.reMark {
+  margin-top: 7px;
+}
+.reMark span {
+  font-size: 12px;
+  line-height: 18px;
+  color: #e20101;
+}
+span.complete {
+  color: #1ebb90;
+}
+span.uploading {
+  color: #bbb;
+}
+.btn-primary:hover,
+a.btn-primary:hover {
+  color: #fff;
+}
+.swFileBut:hover {
+  background-color: #19a67f;
+}
+input.swSaveBut:hover,
+.addAdverBut button:hover {
+  background-color: #237fd5;
+}
+.btn.save {
+  background-color: #1ebb90;
+  border-color: #1ebb90;
+}
+.btn.save:hover {
+  background-color: #1ec597;
+  border-color: #1ec597;
+}

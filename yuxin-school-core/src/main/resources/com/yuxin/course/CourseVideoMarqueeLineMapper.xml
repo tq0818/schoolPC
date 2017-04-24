@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseVideoMarqueeLineMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseVideoMarqueeLine" id="courseVideoMarqueeLineResultMap">
+		<result property="id" column="id" />
+		<result property="startXpos" column="startXpos" />
+		<result property="startYpos" column="startYpos" />
+		<result property="endXpos" column="endXpos" />
+		<result property="endYPos" column="endYPos" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		startXpos,
+		startYpos,
+		endXpos,
+		endYPos
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{startXpos},
+		#{startYpos},
+		#{endXpos},
+		#{endYPos}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.startXpos},
+		#{item.startYpos},
+		#{item.endXpos},
+		#{item.endYPos}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseVideoMarqueeLine" useGeneratedKeys="true" keyProperty="id">
+		insert into course_video_marquee_line( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_video_marquee_line( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_video_marquee_line
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseVideoMarqueeLine">
+		update course_video_marquee_line 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="startXpos != null and startXpos != ''">startXpos = #{startXpos},</if>
+			<if test="startYpos != null and startYpos != ''">startYpos = #{startYpos},</if>
+			<if test="endXpos != null and endXpos != ''">endXpos = #{endXpos},</if>
+			<if test="endYPos != null and endYPos != ''">endYPos = #{endYPos},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseVideoMarqueeLineResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_video_marquee_line
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseVideoMarqueeLineResultMap">
+		select <include refid="table_columns" /> 
+		from course_video_marquee_line
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="startXpos != null and startXpos != ''">and startXpos = #{startXpos}</if>
+			<if test="startYpos != null and startYpos != ''">and startYpos = #{startYpos}</if>
+			<if test="endXpos != null and endXpos != ''">and endXpos = #{endXpos}</if>
+			<if test="endYPos != null and endYPos != ''">and endYPos = #{endYPos}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseVideoMarqueeLineResultMap" parameterType="com.yuxin.wx.model.course.CourseVideoMarqueeLine">
+		select <include refid="table_columns" />
+		from course_video_marquee_line
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseVideoMarqueeLine">
+		select count(id) from course_video_marquee_line
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

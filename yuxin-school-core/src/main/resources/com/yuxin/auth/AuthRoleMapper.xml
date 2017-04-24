@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.auth.mapper.AuthRoleMapper">
+	<resultMap type="com.yuxin.wx.model.auth.AuthRole" id="authRoleResultMap">
+		<result property="id" column="id" />
+		<result property="roleUid" column="role_uid"/>
+		<result property="roleName" column="role_name" />
+		<result property="description" column="description" />
+		<result property="parentId" column="parent_id" />
+		<result property="companyId" column="company_id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.privilege.UserRolesListVo" id="userRoleListVoResultMap">
+		<result property="userId" column="id"/>
+		<result property="username" column="username"/>
+		<result property="realName" column="real_name"/>
+		<result property="sex" column="sex"/>
+		<result property="mobile" column="mobile"/>
+		<result property="schoolId" column="school_id"/>
+		<result property="status" column="status"/>
+		<result property="companyId" column="company_id"/>
+		<result property="roleUid" column="role_uid"/>
+		<result property="roleIds" column="roleIds"/>
+		<result property="createTime" column="create_time"/>
+		<result property="roleName" column="role_name"/>
+		<result property="roleNames" column="roleNames"/>
+		<result property="userRole" column="userRole"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.auth.AuthRole" id="authRoleList">
+		<result property="id" column="id"/>
+		<result property="roleUid" column="role_uid"/>
+		<result property="createTime" column="create_time"/>
+		<result property="roleName" column="role_name"/>
+		<result property="roleFlag" column="roleFlag"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		role_uid,
+		role_name,
+		description,
+		parent_id,
+		company_id,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		role_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{roleUid},
+		#{roleName},
+		#{description},
+		#{parentId},
+		#{companyId},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{roleFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.roleUid},
+		#{item.roleName},
+		#{item.description},
+		#{item.parentId},
+		#{item.companyId},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator}
+	</sql>
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		insert into auth_role( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into auth_role( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from auth_role
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from auth_role
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+		<!-- 根据ID批量删除 -->
+	<delete id="deleteAll">
+		delete from auth_role
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.auth.AuthRole">
+		update auth_role 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="roleUid != null">role_uid = #{roleUid},</if>
+			<if test="roleName != null and roleName != ''">role_name = #{roleName},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authRoleResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from auth_role
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authRoleResultMap">
+		select <include refid="table_columns" /> 
+		from auth_role order by id asc
+	</select>
+	
+	<!-- 根据公告id查询角色信息 
+	<select id="queryAllRoleById" resultMap="authRoleResultMap" parameterType="String">
+		select <include refid="table_columns" /> 
+		from auth_role
+		<where>
+			1=1
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</where>
+		order by id asc
+	</select>-->
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="roleName != null and roleName != ''">and role_name = #{roleName}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="authRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthRole">
+		select <include refid="table_columns" />
+		from auth_role
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.auth.AuthRole">
+		select count(id) from auth_role
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findListByUser" resultType="com.yuxin.wx.model.auth.AuthRole" parameterType="int">
+		select r.id roleId,r.role_name roleName,ul.create_time from auth_role r,auth_user_role ul where ul.role_id=r.id and ul.user_id=#{userId}
+	</select>
+	
+	<select id="findAuthRoleListByUser" resultMap="authRoleList" parameterType="int">
+		select distinct r.id,r.role_uid,r.role_name roleName,r.role_flag roleFlag,ul.create_time from auth_role r,auth_user_role ul where ul.role_uid=r.role_uid and ul.user_id=#{userId}
+	</select>
+	
+	<select id="queryAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
+		select u.id,u.username,u.real_name,u.sex,u.status,u.mobile,u.company_id,u.school_id from users u
+		where u.company_id=#{companyId} and u.school_id = #{schoolId}
+		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryAllUserCount" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultType="int">
+		select count(u.id) from users u
+		where u.company_id=#{companyId} and u.school_id = #{schoolId}
+		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+	</select>
+	
+	<select id="findByCompanyId" resultMap="authRoleResultMap" parameterType="Integer">
+		select <include refid="table_columns" />
+		from auth_role
+		where company_id = #{companyId} and company_id!=-1
+	</select>
+	
+	<select id="queryRolesByCondition" resultMap="authRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthRole">
+		select <include refid="table_columns" /> 
+		from auth_role
+		where 1=1
+		<if test="roleUid != null">and role_uid != #{roleUid}</if>
+		<if test="companyId != null">and company_id = #{companyId}</if>
+		<if test="roleName != null and roleName != ''">and role_name = #{roleName}</if>
+		order by id asc
+	</select>
+	
+	<select id="queryRolesByUid" resultMap="authRoleResultMap" parameterType="String">
+		select <include refid="table_columns" /> 
+		from auth_role where 1=1
+		<if test="roleUid != null">and role_uid not in(${roleUid})</if>
+		order by id asc
+	</select>
+	
+</mapper>

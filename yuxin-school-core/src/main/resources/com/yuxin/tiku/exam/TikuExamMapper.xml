@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.exam.mapper.TikuExamMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.exam.TikuExam" id="tikuExamResultMap">
+		<result property="id" column="id" />
+		<result property="examName" column="exam_name" />
+		<result property="introduction" column="introduction" />
+		<result property="examRange" column="exam_range" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="cover" column="cover" />
+		<result property="examType" column="exam_type" />
+		<result property="examMode" column="exam_mode" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="examCount" column="exam_count" />
+		<result property="passScore" column="pass_score" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="creator" column="creator" />
+		<result property="updator" column="updator" />
+		<result property="successWord" column="success_word" />
+		<result property="failWord" column="fail_word" />
+		<result property="scanAnalysis" column="scan_analysis" />
+		<result property="allowUserExam" column="allow_user_exam" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.model.tiku.exam.TikuExam" id="tikuExamResultVoMap" extends="tikuExamResultMap">
+		<association property="creatorName" column="creator" select="findUserName"></association>
+		<association property="creatorName" column="creator" select="findUserName"></association>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		exam_name,
+		introduction,
+		exam_range,
+		item_one_id,
+		item_second_id,
+		class_type_id,
+		cover,
+		exam_type,
+		exam_mode,
+		begin_time,
+		end_time,
+		exam_count,
+		pass_score,
+		status,
+		create_time,
+		creator,
+		company_id,
+		school_id,
+		update_time,
+		updator,
+		success_word,
+		fail_word,
+		scan_analysis,
+		allow_user_exam
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{examName},
+		#{introduction},
+		#{examRange},
+		#{itemOneId},
+		#{itemSecondId},
+		#{classTypeId},
+		#{cover},
+		#{examType},
+		#{examMode},
+		#{beginTime},
+		#{endTime},
+		#{examCount},
+		#{passScore},
+		#{status},
+		#{createTime},
+		#{creator},
+		#{companyId},
+		#{schoolId},
+		#{updateTime},
+		#{updator},
+		#{successWord},
+		#{failWord},
+		#{scanAnalysis},
+		#{allowUserExam}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.examName},
+		#{item.introduction},
+		#{item.examRange},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.classTypeId},
+		#{item.cover},
+		#{item.examType},
+		#{item.examMode},
+		#{item.beginTime},
+		#{item.endTime},
+		#{item.examCount},
+		#{item.passScore},
+		#{item.status},
+		#{item.createTime},
+		#{item.creator},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.successWord},
+		#{item.failWord},
+		#{item.scanAnalysis},
+		#{item.allowUserExam}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.exam.TikuExam" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_exam( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_exam( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_exam
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.exam.TikuExam">
+		update tiku_exam 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="examName != null and examName != ''">exam_name = #{examName},</if>
+			<if test="introduction != null and introduction != ''">introduction = #{introduction},</if>
+			<if test="examRange != null and examRange != ''">exam_range = #{examRange},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="classTypeId != null and classTypeId != 'class_type_id = #{classTypeId},'"></if>
+			<if test="cover != null and cover != ''">cover = #{cover},</if>
+			<if test="examType != null and examType != ''">exam_type = #{examType},</if>
+			<if test="examMode != null and examMode != ''">exam_mode = #{examMode},</if>
+			<if test="beginTime != null and beginTime != ''">begin_time = #{beginTime},</if>
+			<if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+			<if test="examCount != null and examCount != ''">exam_count = #{examCount},</if>
+			<if test="passScore != null and passScore != ''">pass_score = #{passScore},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateById" parameterType="com.yuxin.wx.model.tiku.exam.TikuExam">
+		update tiku_exam 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="examName != null and examName != ''">exam_name = #{examName},</if>
+			<if test="introduction != null and introduction != ''">introduction = #{introduction},</if>
+			<if test="examRange != null and examRange != ''">exam_range = #{examRange},</if>
+			item_one_id = #{itemOneId},
+			item_second_id = #{itemSecondId},
+			class_type_id = #{classTypeId},
+			<if test="cover != null and cover != ''">cover = #{cover},</if>
+			<if test="examType != null and examType != ''">exam_type = #{examType},</if>
+			<if test="examMode != null and examMode != ''">exam_mode = #{examMode},</if>
+			<if test="beginTime != null and beginTime != ''">begin_time = #{beginTime},</if>
+			<if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+			exam_count = #{examCount},
+			<if test="passScore != null and passScore != ''">pass_score = #{passScore},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="successWord != null and successWord != ''">success_word = #{successWord},</if>
+			<if test="failWord != null and failWord != ''">fail_word = #{failWord},</if>
+			<if test="scanAnalysis != null and scanAnalysis != ''">scan_analysis = #{scanAnalysis},</if>
+			<if test="allowUserExam != null and allowUserExam != ''">allow_user_exam = #{allowUserExam},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuExamResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_exam
+		where id = #{id}
+	</select>
+	
+	<select id="findUserName" resultType="String" parameterType="String" >
+		select username
+		from users
+		where id = #{id}
+	</select>
+	<select id="queryAll" resultMap="tikuExamResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_exam
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="examName != null and examName != ''">and exam_name = #{examName}</if>
+			<if test="introduction != null and introduction != ''">and introduction = #{introduction}</if>
+			<if test="examRange != null and examRange != ''">and exam_range = #{examRange}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="cover != null and cover != ''">and cover = #{cover}</if>
+			<if test="examType != null and examType != ''">and exam_type = #{examType}</if>
+			<if test="examMode != null and examMode != ''">and exam_mode = #{examMode}</if>
+			<if test="beginTime != null and beginTime != ''">and begin_time = #{beginTime}</if>
+			<if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+			<if test="examCount != null and examCount != ''">and exam_count = #{examCount}</if>
+			<if test="passScore != null and passScore != ''">and pass_score = #{passScore}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuExamResultMap" parameterType="com.yuxin.wx.model.tiku.exam.TikuExam">
+		select <include refid="table_columns" />
+		from tiku_exam
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findTikuExamsByPage" resultMap="tikuExamResultVoMap" parameterType="com.yuxin.wx.model.tiku.exam.TikuExam">
+		select <include refid="table_columns" />
+		from tiku_exam where 1=1 and status !=3
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.exam.TikuExam">
+		select count(id) from tiku_exam where 1=1 and status !=3
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

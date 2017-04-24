@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.OrganInviteRewardRecordMapper">
+	<resultMap type="com.yuxin.wx.model.company.OrganInviteRewardRecord" id="organInviteRewardRecordResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="proxyOrganId" column="proxy_organ_id" />
+		<result property="inviteCode" column="invite_code" />
+		<result property="recordTime" column="record_time" />
+		<result property="stuRewardsMoney" column="stu_rewards_money" />
+		<result property="stuRewardsCode" column="stu_rewards_code" />
+		<result property="reason" column="reason" />
+		<result property="companyId" column="company_id" />
+		<result property="rewardsMoney" column="rewards_money" />
+        <result property="payOrderId" column="pay_order_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.OrgInviteRecordListVo" id="orgInviteRewardRecordListMap">
+		<result property="proxyOrganId" column="oid" />
+		<result property="name" column="name" />
+		<result property="createDate" column="create_date" />
+		<result property="inviteNumber" column="invite_number" />
+		<result property="consumeTimes" column="consume_times" />
+		<result property="consumeBalance" column="consume_balance" />
+		<result property="rewardBalance" column="reward_balance" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" id="orgInviteRewardRecordDetailListMap">
+		<result property="id" column="id" />
+		<result property="proxyOrganId" column="proxy_id" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+		<result property="reason" column="reason" />
+		<result property="inviteDate" column="invite_date" />
+		<result property="consumeDate" column="consume_date" />
+		<result property="commodityName" column="commodity_name" />
+		<result property="rewardBalance" column="reward_balance" />
+		<result property="consumeBalance" column="consume_balance" />
+		<result property="payOrderId" column="pay_order_id1" />
+		<result property="stuId" column="stu_id1" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		proxy_organ_id,
+		invite_code,
+		record_time,
+		stu_rewards_money,
+		stu_rewards_code,
+		reason,
+		company_id,
+		rewards_money,
+        pay_order_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{proxyOrganId},
+		#{inviteCode},
+		#{recordTime},
+		#{stuRewardsMoney},
+		#{stuRewardsCode},
+		#{reason},
+		#{companyId},
+		#{rewardsMoney},
+        #{payOrderId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.stuId},
+		#{item.proxyOrganId},
+		#{item.inviteCode},
+		#{item.recordTime},
+		#{item.stuRewardsMoney},
+		#{item.stuRewardsCode},
+		#{item.reason},
+		#{item.companyId},
+		#{item.rewardsMoney},
+        #{item.payOrderId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.OrganInviteRewardRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into organ_invite_reward_record( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into organ_invite_reward_record( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from organ_invite_reward_record
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from organ_invite_reward_record
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.OrganInviteRewardRecord">
+		update organ_invite_reward_record 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="proxyOrganId != null and proxyOrganId != ''">proxy_organ_id = #{proxyOrganId},</if>
+			<if test="inviteCode != null and inviteCode != ''">invite_code = #{inviteCode},</if>
+			<if test="recordTime != null and recordTime != ''">record_time = #{recordTime},</if>
+			<if test="stuRewardsMoney != null and stuRewardsMoney != ''">stu_rewards_money = #{stuRewardsMoney},</if>
+			<if test="stuRewardsCode != null and stuRewardsCode != ''">stu_rewards_code = #{stuRewardsCode},</if>
+			<if test="reason != null">reason = #{reason},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="rewardsMoney != null and rewardsMoney != ''">rewards_money = #{rewardsMoney},</if>
+            <if test="payOrderId != null and payOrderId != ''">pay_order_id = #{payOrderId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="organInviteRewardRecordResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from organ_invite_reward_record
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="organInviteRewardRecordResultMap">
+		select <include refid="table_columns" /> 
+		from organ_invite_reward_record
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="proxyOrganId != null and proxyOrganId != ''">and proxy_organ_id = #{proxyOrganId}</if>
+			<if test="inviteCode != null and inviteCode != ''">and invite_code = #{inviteCode}</if>
+			<if test="recordTime != null and recordTime != ''">and record_time = #{recordTime}</if>
+			<if test="stuRewardsMoney != null and stuRewardsMoney != ''">and stu_rewards_money = #{stuRewardsMoney}</if>
+			<if test="stuRewardsCode != null and stuRewardsCode != ''">and stu_rewards_code = #{stuRewardsCode}</if>
+			<if test="reason != null and reason != ''">and reason = #{reason}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="rewardsMoney != null and rewardsMoney != ''">and rewards_money = #{rewardsMoney}</if>
+            <if test="payOrderId != null and payOrderId != ''">and pay_order_id = #{payOrderId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="organInviteRewardRecordResultMap" parameterType="com.yuxin.wx.model.company.OrganInviteRewardRecord">
+		select <include refid="table_columns" />
+		from organ_invite_reward_record
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.OrganInviteRewardRecord">
+		select count(id) from organ_invite_reward_record
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="getTotalInviteNumber" parameterType="int" resultType="int" >
+		select count(distinct(stu_id)) from organ_invite_reward_record where company_id = #{companyId}
+	</select>
+	
+	<select id="getTotalConsumerTimes" parameterType="int" resultType="int" >
+		select count(id) from organ_invite_reward_record where company_id = #{companyId}  and (reason = 2 or reason = 3);
+	</select>
+	
+	<select id="getTotalConsumeBalance" parameterType="int" resultType="double" >
+		select COALESCE(sum(p.pay_price),0) from pay_order p INNER JOIN organ_invite_reward_record oirr on p.id = oirr.pay_order_id 
+		where oirr.company_id = #{companyId} and (oirr.reason = 2 or oirr.reason = 3)
+	</select>
+	
+	<select id="getTotalRewardBalance" parameterType="int" resultType="double" >
+		select COALESCE(sum(rewards_money),0) from organ_invite_reward_record where company_id = #{companyId}
+	</select>
+	
+	<select id="queryRewardsRecordList" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordListVo" resultMap="orgInviteRewardRecordListMap">
+		select distinct(oirr.proxy_organ_id) as oid,
+		(select name from company_config_proxy_org where id = oid) as name,
+		(select create_date from company_config_proxy_org where id = oid) as create_date,
+		(select count(distinct(stu_id)) from organ_invite_reward_record where proxy_organ_id = oid) as invite_number,
+		(select count(id) from organ_invite_reward_record where proxy_organ_id = oid and (reason = 2 or reason = 3)) as consume_times,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oir on p.id = oir.pay_order_id  where oir.proxy_organ_id = oid and (oir.reason=2 or oir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(rewards_money),0) from organ_invite_reward_record where proxy_organ_id = oid) as reward_balance
+		from organ_invite_reward_record oirr inner join company_config_proxy_org c on oirr.proxy_organ_id = c.id 
+		where oirr.company_id = #{companyId}
+		<if test="searchDateType != null">
+			<choose>
+				<when test="searchDateType == 1">
+					and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(oirr.record_time,'%Y%m')) =1
+				</when>
+				<when test="searchDateType == 2">
+					and DATE_FORMAT(oirr.record_time,'%Y%m') =
+					DATE_FORMAT(CURDATE(),'%Y%m')
+				</when>
+			</choose>
+		</if>
+	<if test="startTime != null and startTime != ''">and date_format(oirr.record_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	<if test="endTime != null and endTime != ''">and date_format(oirr.record_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	<if test="name !=null and name !=''">and c.name like '%${name}%' </if>
+	<choose>
+	 	<when test="sortType !=null and sortType !=''">
+	 		<choose>
+	 		<when test="sortType == 'inviteNumber' and sort =='asc'" >
+	 			order by invite_number asc
+	 		</when>
+	 		<when test="sortType == 'inviteNumber' and sort =='desc'" >
+	 			order by invite_number desc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='asc'" >
+	 			order by consume_times asc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='desc'" >
+	 			order by consume_times desc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='asc'" >
+	 			order by consume_balance asc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='desc'" >
+	 			order by consume_balance desc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='asc'" >
+	 			order by reward_balance asc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='desc'" >
+	 			order by reward_balance desc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by oid desc
+	 	</otherwise>
+	 </choose>
+	 limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryRewardsRecordListCount" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordListVo" resultType="int">
+		select count(distinct(oirr.proxy_organ_id)) 
+		from organ_invite_reward_record oirr inner join company_config_proxy_org c on oirr.proxy_organ_id = c.id 
+		where oirr.company_id = #{companyId}
+		<if test="searchDateType != null">
+			<choose>
+				<when test="searchDateType == 1">
+					and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(oirr.record_time,'%Y%m')) =1
+				</when>
+				<when test="searchDateType == 2">
+					and DATE_FORMAT(oirr.record_time,'%Y%m') =
+					DATE_FORMAT(CURDATE(),'%Y%m')
+				</when>
+			</choose>
+		</if>
+	<if test="startTime != null and startTime != ''">and date_format(oirr.record_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	<if test="endTime != null and endTime != ''">and date_format(oirr.record_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	<if test="name !=null and name !=''">and c.name like '%${name}%'</if>
+	</select>
+	
+	<select id="exportRewardsRecordList" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordListVo" resultMap="orgInviteRewardRecordListMap">
+		select distinct(oirr.proxy_organ_id) as oid,
+		(select name from company_config_proxy_org where id = oid) as name,
+		(select create_date from company_config_proxy_org where id = oid) as create_date,
+		(select count(distinct(stu_id)) from organ_invite_reward_record where proxy_organ_id = oid) as invite_number,
+		(select count(id) from organ_invite_reward_record where proxy_organ_id = oid and (reason = 2 or reason = 3)) as consume_times,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oir on p.id = oir.pay_order_id  where oir.proxy_organ_id = oid and (oir.reason=2 or oir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(rewards_money),0) from organ_invite_reward_record where proxy_organ_id = oid) as reward_balance
+		from organ_invite_reward_record oirr inner join company_config_proxy_org c on oirr.proxy_organ_id = c.id 
+		where oirr.company_id = #{companyId}
+		<if test="searchDateType != null">
+			<choose>
+				<when test="searchDateType == 1">
+					and PERIOD_DIFF(date_format(now(),'%Y%m'),date_format(oirr.record_time,'%Y%m')) =1
+				</when>
+				<when test="searchDateType == 2">
+					and DATE_FORMAT(oirr.record_time,'%Y%m') =
+					DATE_FORMAT(CURDATE(),'%Y%m')
+				</when>
+			</choose>
+		</if>
+	<if test="startTime != null and startTime != ''">and date_format(oirr.record_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	<if test="endTime != null and endTime != ''">and date_format(oirr.record_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	<if test="name !=null and name !=''">and c.name like '%${name}%'</if>
+	<choose>
+	 	<when test="sortType !=null and sortType !=''">
+	 		<choose>
+	 		<when test="sortType == 'inviteNumber' and sort =='asc'" >
+	 			order by invite_number asc
+	 		</when>
+	 		<when test="sortType == 'inviteNumber' and sort =='desc'" >
+	 			order by invite_number desc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='asc'" >
+	 			order by consume_times asc
+	 		</when>
+	 		<when test="sortType == 'consumeTimes' and sort =='desc'" >
+	 			order by consume_times desc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='asc'" >
+	 			order by consume_balance asc
+	 		</when>
+	 		<when test="sortType == 'consumeBalance' and sort =='desc'" >
+	 			order by consume_balance desc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='asc'" >
+	 			order by reward_balance asc
+	 		</when>
+	 		<when test="sortType == 'rewardBalance' and sort =='desc'" >
+	 			order by reward_balance desc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by oid desc
+	 	</otherwise>
+	 </choose>
+	</select>
+	
+	<select id="queryRewardsRecordDetailList" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultMap="orgInviteRewardRecordDetailListMap">
+		select oirr.id as id ,
+		IFNULL(s.mobile,uf.mobile) as mobile,
+		IFNULL(s.name,uf.username) as name,
+		oirr.reason as reason1,oirr.stu_id as stu_id1,oirr.pay_order_id as pay_order_id1,
+		if(reason=1,'',(select commodity_name from pay_order po inner join organ_invite_reward_record oir on po.id = oir.pay_order_id where oir.pay_order_id = pay_order_id1)) as commodity_name,
+		if(reason=1,oirr.record_time,(SELECT oir.record_time from organ_invite_reward_record oir where oir.stu_id = stu_id1 and oir.reason = 0)) as invite_date,
+		if(reason=1,'',oirr.record_time) as consume_date,
+		if(reason=1,0,(select pay_price from pay_order po inner join organ_invite_reward_record oir on po.id = oir.pay_order_id where oir.pay_order_id = pay_order_id1)) as consume_balance,
+		if(reason=1,'',oirr.rewards_money) as reward_balance
+		from organ_invite_reward_record oirr inner join student s on oirr.stu_id = s.id inner join users_front uf on s.user_id = uf.id 
+		where oirr.company_id = #{companyId} and oirr.proxy_organ_id = #{proxyOrganId} and oirr.reason != 0
+		<if test="consumeFlag!= null and consumeFlag == 0">
+		and (oirr.reason = 1)
+		</if>
+		<if test="consumeFlag!= null and consumeFlag == 1">
+		and (oirr.reason = 2 or oirr.reason = 3)
+		</if>
+		<if test="name!= null and name !=''">and (s.name like '%${name}%' or s.mobile like '%${name}%' or uf.username like '%${name}%' or uf.mobile like '%${name}%')</if>
+		<choose>
+	 	<when test="sortName !=null and sortName !=''">
+	 		<choose>
+	 		<when test="sortName == 'name' and sortType =='asc'" >
+	 			order by mobile,name asc
+	 		</when>
+	 		<when test="sortName == 'name' and sortType =='desc'" >
+	 			order by mobile,name desc
+	 		</when>
+	 		<when test="sortName == 'consumeBalance' and sortType =='asc'" >
+	 			order by consume_balance asc
+	 		</when>
+	 		<when test="sortName == 'consumeBalance' and sortType =='desc'" >
+	 			order by consume_balance desc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by id desc
+	 	</otherwise>
+	 </choose>
+	 limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryRewardsRecordDetailListCount" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="int">
+		select count(oirr.id)
+		from organ_invite_reward_record oirr inner join student s on oirr.stu_id = s.id inner join users_front uf on s.user_id = uf.id 
+		where oirr.company_id = #{companyId} and oirr.proxy_organ_id = #{proxyOrganId} and oirr.reason != 0
+		<if test="consumeFlag!= null and consumeFlag == 0">
+		and (oirr.reason = 1)
+		</if>
+		<if test="consumeFlag!= null and consumeFlag == 1">
+		and (oirr.reason = 2 or oirr.reason = 3)
+		</if>
+		<if test="name!= null and name !=''">and (s.name like '%${name}%' or s.mobile like '%${name}%' or uf.username like '%${name}%' or uf.mobile like '%${name}%')</if>
+	</select>
+	
+	<select id="getProxyDetailInviteNumber" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="int" >
+		select count(id) from organ_invite_reward_record where company_id = #{companyId} and proxy_organ_id = #{proxyOrganId} and (reason = 1 or reason = 0)
+	</select>
+	
+	<select id="getProxyDetailConsumerTimes" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="int" >
+		select count(id) from organ_invite_reward_record where company_id = #{companyId}  and proxy_organ_id = #{proxyOrganId} and (reason = 2 or reason = 3);
+	</select>
+	
+	<select id="getProxyDetailConsumeBalance" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="double" >
+		select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oirr on oirr.pay_order_id = p.id 
+		where oirr.company_id = #{companyId} and oirr.proxy_organ_id = #{proxyOrganId} and (oirr.reason = 2 or oirr.reason = 3)
+	</select>
+	
+	<select id="getProxyDetailRewardBalance" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="double" >
+		select COALESCE(sum(rewards_money),0) from organ_invite_reward_record where company_id = #{companyId} and proxy_organ_id = #{proxyOrganId}
+	</select>
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysSmsLogMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysSmsLog" id="sysSmsLogResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="ip" column="ip" />
+		<result property="mobile" column="mobile" />
+		<result property="businessType" column="business_type" />
+		<result property="sendTime" column="send_time" />
+		<result property="content" column="content" />
+		<result property="sendStatus" column="send_status" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		ip,
+		mobile,
+		business_type,
+		send_time,
+		content,
+		send_status,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{ip},
+		#{mobile},
+		#{businessType},
+		#{sendTime},
+		#{content},
+		#{sendStatus},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.ip},
+		#{item.mobile},
+		#{item.businessType},
+		#{item.sendTime},
+		#{item.content},
+		#{item.sendStatus},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysSmsLog" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_sms_log( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_sms_log( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_sms_log
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysSmsLog">
+		update sys_sms_log 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="ip != null and ip != ''">ip = #{ip},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="businessType != null and businessType != ''">business_type = #{businessType},</if>
+			<if test="sendTime != null and sendTime != ''">send_time = #{sendTime},</if>
+			<if test="sendStatus != null and sendStatus != ''">send_status=#{sendStatus}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysSmsLogResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_sms_log
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysSmsLogResultMap">
+		select <include refid="table_columns" /> 
+		from sys_sms_log
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="ip != null and ip != ''">and ip = #{ip}</if>
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="businessType != null and businessType != ''">and business_type = #{businessType}</if>
+			<if test="sendTime != null and sendTime != ''">and send_time = #{sendTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysSmsLogResultMap" parameterType="com.yuxin.wx.model.system.SysSmsLog">
+		select <include refid="table_columns" />
+		from sys_sms_log
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysSmsLog">
+		select count(id) from sys_sms_log
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByCompanyId" parameterType="map" resultType="Integer">
+		select id from sys_sms_log
+		where company_id = #{companyId} and 
+			send_status = '发送成功' and
+			date_format(send_time,'%Y-%m-%d') = #{sendTime} and 
+			mobile = '18600863155,18612106036'
+			limit 1
+	</select>
+</mapper>

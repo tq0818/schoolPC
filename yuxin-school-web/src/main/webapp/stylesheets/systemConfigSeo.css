@@ -1,0 +1,42 @@
+a{
+	text-decoration: none;
+}
+.btn-addkeyword,.btn-addtitle,.btn-addescription{
+	float: right;
+	margin-top: -28px;
+}
+.user-list{
+	width:95%;
+	margin-left: 30px;
+	min-height: 200px;
+}
+.keywords_list span{
+	margin: 0px 15px 15px 2px;
+}	
+
+
+.box{
+    width: 100%;
+    height: auto;
+}
+.box .tab-box{
+    width: 100%;
+    height: auto;
+}
+.box .tab-box li{
+    display: inline-block;
+    min-width: 60px;
+    height: 28px;
+    line-height: 28px;
+    margin: 5px 5px;
+    border-radius: 3px;
+    background-color: #D8DCD7;
+    text-align: center;
+    font-size: 14px;
+    padding: 0 3px;
+}
+.box .tab-box li em{
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 3px;
+}

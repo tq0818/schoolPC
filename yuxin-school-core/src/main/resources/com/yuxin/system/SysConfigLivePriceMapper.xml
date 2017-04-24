@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigLivePriceMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigLivePrice" id="sysConfigLivePriceResultMap">
+		<result property="id" column="id" />
+		<result property="companyServiveLevel" column="company_servive_level" />
+		<result property="liveNumMin" column="live_num_min" />
+		<result property="liveNumMax" column="live_num_max" />
+		<result property="unitPrice" column="unit_price" />
+		<result property="unitMonth" column="unit_month" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_servive_level,
+		live_num_min,
+		live_num_max,
+		unit_price,
+		unit_month
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyServiveLevel},
+		#{liveNumMin},
+		#{liveNumMax},
+		#{unitPrice},
+		#{unitMonth}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyServiveLevel},
+		#{item.liveNumMin},
+		#{item.liveNumMax},
+		#{item.unitPrice},
+		#{item.unitMonth}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigLivePrice" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_live_price( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_live_price( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_live_price
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigLivePrice">
+		update sys_config_live_price 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyServiveLevel != null and companyServiveLevel != ''">company_servive_level = #{companyServiveLevel},</if>
+			<if test="liveNumMin != null and liveNumMin != ''">live_num_min = #{liveNumMin},</if>
+			<if test="liveNumMax != null and liveNumMax != ''">live_num_max = #{liveNumMax},</if>
+			<if test="unitPrice != null and unitPrice != ''">unit_price = #{unitPrice},</if>
+			<if test="unitMonth != null and unitMonth != ''">unit_month = #{unitMonth},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigLivePriceResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_live_price
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigLivePriceResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_live_price
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyServiveLevel != null and companyServiveLevel != ''">and company_servive_level = #{companyServiveLevel}</if>
+			<if test="liveNumMin != null and liveNumMin != ''">and live_num_min = #{liveNumMin}</if>
+			<if test="liveNumMax != null and liveNumMax != ''">and live_num_max = #{liveNumMax}</if>
+			<if test="unitPrice != null and unitPrice != ''">and unit_price = #{unitPrice}</if>
+			<if test="unitMonth != null and unitMonth != ''">and unit_month = #{unitMonth}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigLivePriceResultMap" parameterType="com.yuxin.wx.model.system.SysConfigLivePrice">
+		select <include refid="table_columns" />
+		from sys_config_live_price
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigLivePrice">
+		select count(id) from sys_config_live_price
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findList" resultMap="sysConfigLivePriceResultMap">
+		select <include refid="table_columns"/>
+		from sys_config_live_price
+		order by unit_price desc
+	</select>
+	
+	<select id="findLivesLowerEast" resultMap="sysConfigLivePriceResultMap">
+		SELECT
+			company_servive_level,
+			unit_price
+		FROM
+			(
+				SELECT
+					sclp.company_servive_level,
+					sclp.unit_price
+				FROM
+					sys_config_live_price sclp
+				WHERE
+					unit_price > 0
+				ORDER BY
+					sclp.unit_price ASC
+			)AS live_price GROUP BY company_servive_level;
+	</select>
+	
+</mapper>

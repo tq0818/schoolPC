@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigVideoPriceMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigVideoPrice" id="sysConfigVideoPriceResultMap">
+		<result property="id" column="id" />
+		<result property="companyServiveLevel" column="company_servive_level" />
+		<result property="buyType" column="buy_type" />
+		<result property="scopeMin" column="scope_min" />
+		<result property="scopeMax" column="scope_max" />
+		<result property="unitPrice" column="unit_price" />
+		<result property="exceedPrice" column="exceed_price" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_servive_level,
+		buy_type,
+		scope_min,
+		scope_max,
+		unit_price,
+		exceed_price
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyServiveLevel},
+		#{buyType},
+		#{scopeMin},
+		#{scopeMax},
+		#{unitPrice},
+		#{exceedPrice}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyServiveLevel},
+		#{item.buyType},
+		#{item.scopeMin},
+		#{item.scopeMax},
+		#{item.unitPrice},
+		#{item.exceedPrice}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigVideoPrice" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_video_price( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_video_price( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_video_price
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigVideoPrice">
+		update sys_config_video_price 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyServiveLevel != null and companyServiveLevel != ''">company_servive_level = #{companyServiveLevel},</if>
+			<if test="buyType != null and buyType != ''">buy_type = #{buyType},</if>
+			<if test="scopeMin != null and scopeMin != ''">scope_min = #{scopeMin},</if>
+			<if test="scopeMax != null and scopeMax != ''">scope_max = #{scopeMax},</if>
+			<if test="unitPrice != null and unitPrice != ''">unit_price = #{unitPrice},</if>
+			<if test="exceedPrice != null and exceedPrice != ''">exceed_price = #{exceedPrice},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigVideoPriceResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_video_price
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigVideoPriceResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_video_price
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyServiveLevel != null and companyServiveLevel != ''">and company_servive_level = #{companyServiveLevel}</if>
+			<if test="buyType != null and buyType != ''">and buy_type = #{buyType}</if>
+			<if test="scopeMin != null and scopeMin != ''">and scope_min = #{scopeMin}</if>
+			<if test="scopeMax != null and scopeMax != ''">and scope_max = #{scopeMax}</if>
+			<if test="unitPrice != null and unitPrice != ''">and unit_price = #{unitPrice}</if>
+			<if test="exceedPrice != null and exceedPrice != ''">and exceed_price = #{exceedPrice}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigVideoPriceResultMap" parameterType="com.yuxin.wx.model.system.SysConfigVideoPrice">
+		select <include refid="table_columns" />
+		from sys_config_video_price
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigVideoPrice">
+		select count(id) from sys_config_video_price
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findSysConfigVideoPriceList" resultMap="sysConfigVideoPriceResultMap">
+		select <include refid="table_columns" /> from sys_config_video_price
+	</select>
+	
+	<select id="findSysConfigVideoPriceLowerEastWithSameService" resultMap="sysConfigVideoPriceResultMap" >
+		SELECT
+			company_servive_level,
+			unit_price,
+		  	buy_type
+		FROM
+			(
+				SELECT
+					scvp.company_servive_level,
+					scvp.unit_price,
+					scvp.buy_type
+				FROM
+					sys_config_video_price scvp
+				WHERE
+					unit_price > 0
+				ORDER BY
+					scvp.unit_price ASC
+			)AS video_price GROUP BY company_servive_level, buy_type;
+	</select>
+</mapper>

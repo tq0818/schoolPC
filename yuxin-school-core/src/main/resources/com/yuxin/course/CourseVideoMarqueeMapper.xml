@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseVideoMarqueeMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseVideoMarquee" id="courseVideoMarqueeResultMap">
+		<result property="id" column="id" />
+		<result property="cycleTime" column="cycle_time" />
+		<result property="singleCostTime" column="single_cost_time" />
+		<result property="content" column="content" />
+		<result property="fontSize" column="font_size" />
+		<result property="fontColor" column="font_color" />
+		<result property="marqueeLineId" column="marquee_line_id" />
+		<result property="companyId" column="company_id" />
+		<result property="stauts" column="stauts" />
+	</resultMap>
+	
+	
+	
+	<resultMap type="com.yuxin.wx.vo.course.CourseVideoMarqueeVo" id="courseVideoMarqueeVoResultMap">
+		<result property="id" column="id" />
+		<result property="cycleTime" column="cycle_time" />
+		<result property="singleCostTime" column="single_cost_time" />
+		<result property="content" column="content" />
+		<result property="fontSize" column="font_size" />
+		<result property="fontColor" column="font_color" />
+		<result property="marqueeLineId" column="marquee_line_id" />
+		<result property="companyId" column="company_id" />
+		<result property="stauts" column="stauts" />
+		<result property="startXpos" column="startXpos" />
+		<result property="startYpos" column="startYpos" />
+		<result property="endXpos" column="endXpos" />
+		<result property="endYPos" column="endYPos" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		cycle_time,
+		single_cost_time,
+		content,
+		font_size,
+		font_color,
+		marquee_line_id,
+		company_id,
+		stauts
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{cycleTime},
+		#{singleCostTime},
+		#{content},
+		#{fontSize},
+		#{fontColor},
+		#{marqueeLineId},
+		#{companyId},
+		#{stauts}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.cycleTime},
+		#{item.singleCostTime},
+		#{item.content},
+		#{item.fontSize},
+		#{item.fontColor},
+		#{item.marqueeLineId},
+		#{item.companyId},
+		#{item.stauts}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseVideoMarquee" useGeneratedKeys="true" keyProperty="id">
+		insert into course_video_marquee( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_video_marquee( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_video_marquee
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseVideoMarquee">
+		update course_video_marquee 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="cycleTime != null and cycleTime != ''">cycle_time = #{cycleTime},</if>
+			<if test="singleCostTime != null and singleCostTime != ''">single_cost_time = #{singleCostTime},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="fontSize != null and fontSize != ''">font_size = #{fontSize},</if>
+			<if test="fontColor != null and fontColor != ''">font_color = #{fontColor},</if>
+			<if test="marqueeLineId != null">marquee_line_id = #{marqueeLineId},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+			<if test="stauts != null">stauts = #{stauts},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseVideoMarqueeResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_video_marquee
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseVideoMarqueeResultMap">
+		select <include refid="table_columns" /> 
+		from course_video_marquee
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="cycleTime != null and cycleTime != ''">and cycle_time = #{cycleTime}</if>
+			<if test="singleCostTime != null and singleCostTime != ''">and single_cost_time = #{singleCostTime}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="fontSize != null and fontSize != ''">and font_size = #{fontSize}</if>
+			<if test="fontColor != null and fontColor != ''">and font_color = #{fontColor}</if>
+			<if test="marqueeLineId != null">and marquee_line_id = #{marqueeLineId}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="stauts != null">and stauts = #{stauts}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseVideoMarqueeResultMap" parameterType="com.yuxin.wx.model.course.CourseVideoMarquee">
+		select <include refid="table_columns" />
+		from course_video_marquee
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseVideoMarquee">
+		select count(id) from course_video_marquee
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findMarqueeByCompanyId" parameterType="com.yuxin.wx.model.course.CourseVideoMarquee" resultMap="courseVideoMarqueeResultMap">
+		select <include refid="table_columns"/>
+		from course_video_marquee
+		where company_id = #{companyId}
+		limit 1
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findCourseVideoMarqueeVoByCompanyId" resultMap="courseVideoMarqueeVoResultMap" parameterType="int">
+		SELECT
+			cvm.content,
+			cvm.cycle_time,
+			cvm.font_color,
+			cvm.font_size,
+			cvm.single_cost_time,
+			cvml.endXpos,
+			cvml.endYPos,
+			cvml.startXpos,
+			cvml.startYpos
+		FROM
+			`course_video_marquee` cvm
+		LEFT JOIN course_video_marquee_line cvml ON cvm.marquee_line_id = cvml.id
+		WHERE
+			cvm.company_id = #{companyId}
+		AND cvm.stauts = 1
+		limit 1
+	</select>
+</mapper>

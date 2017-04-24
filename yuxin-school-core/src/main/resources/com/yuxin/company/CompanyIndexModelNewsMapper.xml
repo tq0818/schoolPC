@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyIndexModelNewsMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyIndexModelNews" id="companyIndexModelNewsResultMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="newsId" column="news_id" />
+		<result property="picture" column="picture" />
+		<result property="description" column="description" />
+		<result property="sortBy" column="sort_by" />
+		<result property="recommentFlag" column="recomment_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		title,
+		news_id,
+		picture,
+		description,
+		sort_by,
+		recomment_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{title},
+		#{newsId},
+		#{picture},
+		#{description},
+		#{sortBy},
+		#{recommentFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.title},
+		#{item.newsId},
+		#{item.picture},
+		#{item.description},
+		#{item.sortBy},
+		#{item.recommentFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyIndexModelNews" useGeneratedKeys="true" keyProperty="id">
+		insert into company_index_model_news( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_index_model_news( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_index_model_news
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_index_model_news
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyIndexModelNews">
+		update company_index_model_news 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="newsId != null and newsId != ''">news_id = #{newsId},</if>
+			<if test="picture != null and picture != ''">picture = #{picture},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="sortBy != null and sortBy != ''">sort_by = #{sortBy},</if>
+			<if test="recommentFlag != null">recomment_flag = #{recommentFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyIndexModelNewsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_index_model_news
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyIndexModelNewsResultMap">
+		select <include refid="table_columns" /> 
+		from company_index_model_news
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="newsId != null and newsId != ''">and news_id = #{newsId}</if>
+			<if test="picture != null and picture != ''">and picture = #{picture}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="sortBy != null and sortBy != ''">and sort_by = #{sortBy}</if>
+			<if test="recommentFlag != null and recommentFlag != ''">and recomment_flag = #{recommentFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyIndexModelNewsResultMap" parameterType="com.yuxin.wx.model.company.CompanyIndexModelNews">
+		select <include refid="table_columns" />
+		from company_index_model_news
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyIndexModelNews">
+		select count(id) from company_index_model_news
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

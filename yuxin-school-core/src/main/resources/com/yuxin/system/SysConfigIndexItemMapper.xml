@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigIndexItemMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigIndexItem" id="sysConfigIndexItemResultMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="sortBy" column="sort_by" />
+		<result property="sort" column="sort" />
+		<result property="showItemSecond" column="show_item_second" />
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="teachType" column="teach_type"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		title,
+		item_one_id,
+		sort_by,
+		sort,
+		show_item_second,
+		recommend_flag,
+		teach_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{title},
+		#{itemOneId},
+		#{sortBy},
+		#{sort},
+		#{showItemSecond},
+		#{recommendFlag},
+		#{teachType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.title},
+		#{item.itemOneId},
+		#{item.sortBy},
+		#{item.sort},
+		#{item.showItemSecond},
+		#{item.recommendFlag},
+		#{item.teachType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigIndexItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_index_item( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_index_item( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_index_item
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_index_item
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigIndexItem">
+		update sys_config_index_item 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="sortBy != null and sortBy != ''">sort_by = #{sortBy},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+			<if test="showItemSecond != null and showItemSecond != ''">show_item_second = #{showItemSecond},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigIndexItemResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_index_item
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigIndexItemResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_index_item
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="sortBy != null and sortBy != ''">and sort_by = #{sortBy}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+			<if test="showItemSecond != null and showItemSecond != ''">and show_item_second = #{showItemSecond}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigIndexItemResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexItem">
+		select <include refid="table_columns" />
+		from sys_config_index_item
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigIndexItem">
+		select count(id) from sys_config_index_item
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveConcurrentMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveConcurrent" id="companyLiveConcurrentResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="concurrentMonth" column="concurrent_month" />
+		<result property="concurrentMax" column="concurrent_max" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		concurrent_month,
+		concurrent_max
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{concurrentMonth},
+		#{concurrentMax}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.concurrentMonth},
+		#{item.concurrentMax}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveConcurrent" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_concurrent( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_live_concurrent( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_live_concurrent
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_concurrent
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveConcurrent">
+		update company_live_concurrent 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="concurrentMonth != null and concurrentMonth != ''">concurrent_month = #{concurrentMonth},</if>
+			<if test="concurrentMax != null and concurrentMax != ''">concurrent_max = #{concurrentMax},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLiveConcurrentResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_live_concurrent
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLiveConcurrentResultMap">
+		select <include refid="table_columns" /> 
+		from company_live_concurrent
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="concurrentMonth != null and concurrentMonth != ''">and concurrent_month = #{concurrentMonth}</if>
+			<if test="concurrentMax != null and concurrentMax != ''">and concurrent_max = #{concurrentMax}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyLiveConcurrentResultMap" parameterType="com.yuxin.wx.model.company.CompanyLiveConcurrent">
+		select <include refid="table_columns" />
+		from company_live_concurrent
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLiveConcurrent">
+		select count(id) from company_live_concurrent
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findLiveByComidAndDate" parameterType="map" resultMap="companyLiveConcurrentResultMap">
+		select <include refid="table_columns"/>
+		from company_live_concurrent
+		where company_id = #{companyId}
+			and concurrent_month = #{concurrentMonth}
+		order by id desc
+		limit 0,1
+	</select>
+	
+	<select id="findMoreByComidAndDate" parameterType="map" resultMap="companyLiveConcurrentResultMap">
+		select <include refid="table_columns"/>
+		from company_live_concurrent
+		where company_id = #{companyId}
+			and concurrent_month >= #{concurrentMonth}
+	</select>
+	
+	<update id="updatelive" parameterType="map">
+		update company_live_concurrent 
+		set concurrent_max = #{concurrentMax}
+		where company_id = #{companyId}
+	</update>
+</mapper>

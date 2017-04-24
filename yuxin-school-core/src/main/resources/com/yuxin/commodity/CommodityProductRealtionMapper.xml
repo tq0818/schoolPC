@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.commodity.mapper.CommodityProductRealtionMapper">
+	<resultMap type="com.yuxin.wx.model.commodity.CommodityProductRealtion" id="commodityProductRealtionResultMap">
+		<result property="id" column="id" />
+		<result property="comId" column="com_id" />
+		<result property="productId" column="product_id" />
+		<result property="productType" column="product_type" />
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		com_id,
+		product_id,
+		product_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{comId},
+		#{productId},
+		#{productType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.commodity.CommodityProductRealtion" useGeneratedKeys="true" keyProperty="id">
+		insert into commodity_product_realtion( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into commodity_product_realtion( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from commodity_product_realtion
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.commodity.CommodityProductRealtion">
+		update commodity_product_realtion 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="comId != null and comId != ''">com_id = #{comId},</if>
+			<if test="productId != null and productId != ''">product_id = #{productId},</if>
+			<if test="productType != null and productType != ''">product_type = #{productType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="commodityProductRealtionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from commodity_product_realtion
+		where id = #{id}
+	</select>
+	
+	<select id="findByProduyctId" resultMap="commodityProductRealtionResultMap" parameterType="com.yuxin.wx.model.commodity.CommodityProductRealtion" >
+		select <include refid="table_columns" />
+		from commodity_product_realtion
+		<include refid="page_where" />
+		limit 1
+	</select>
+	
+	<select id="queryAll" resultMap="commodityProductRealtionResultMap">
+		select <include refid="table_columns" /> 
+		from commodity_product_realtion
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="comId != null and comId != ''">and com_id = #{comId}</if>
+			<if test="productId != null and productId != ''">and product_id = #{productId}</if>
+			<if test="productType != null and productType != ''">and product_type = #{productType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="commodityProductRealtionResultMap" parameterType="com.yuxin.wx.model.commodity.CommodityProductRealtion">
+		select <include refid="table_columns" />
+		from commodity_product_realtion
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.commodity.CommodityProductRealtion">
+		select count(id) from commodity_product_realtion
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByClassTypeId" resultMap="commodityProductRealtionResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from commodity_product_realtion
+		where product_id = #{id} and product_type='1'
+		limit 1
+	</select>
+	
+	<select id="findByClassPackageId" resultMap="commodityProductRealtionResultMap" parameterType="String">
+		select <include refid="table_columns" />
+		from commodity_product_realtion
+		where product_id = #{id} and product_type='2'
+		limit 1
+	</select>
+</mapper>

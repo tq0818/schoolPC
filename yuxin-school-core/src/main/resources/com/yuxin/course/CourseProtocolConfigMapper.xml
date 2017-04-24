@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseProtocolConfigMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseProtocolConfig" id="courseProtocolConfigResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="companyId" column="company_id" />
+		<result property="title" column="title" />
+		<result property="type" column="type" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="useTime" column="use_time" />
+		<result property="content" column="content" />
+		<result property="status" column="status" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		title,
+		type,
+		create_time,
+		creator,
+		use_time,
+		content,
+		status,
+		del_flag,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{title},
+		#{type},
+		#{createTime},
+		#{creator},
+		#{useTime},
+		#{content},
+		#{status},
+		#{delFlag},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.title},
+		#{item.type},
+		#{item.createTime},
+		#{item.creator},
+		#{item.useTime},
+		#{item.content},
+		#{item.status},
+		#{item.delFlag},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into course_protocol_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_protocol_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_protocol_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		update course_protocol_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="useTime != null ">use_time = #{useTime},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseProtocolConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_protocol_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseProtocolConfigResultMap">
+		select <include refid="table_columns" /> 
+		from course_protocol_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name like '%${name}%'</if>
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="type != null">and type = #{type}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="useTime != null ">and use_time = #{useTime}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="status != null ">and status = #{status}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseProtocolConfigResultMap" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		select <include refid="table_columns" />
+		from course_protocol_config
+		<include refid="page_where" />
+		order by id desc 
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		select count(id) from course_protocol_config
+		<include refid="page_where" />
+		
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findBySearch" resultMap="courseProtocolConfigResultMap" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		select * from course_protocol_config
+		where del_flag = 0
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="title != null and title != ''">and title = #{title}</if>
+		<if test="type != null">and type = #{type}</if>
+		<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+		<if test="creator != null and creator != ''">and creator = #{creator}</if>
+		<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+		<if test="content != null and content != ''">and content = #{content}</if>
+		<if test="status != null ">and status = #{status}</if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+	</select>
+	
+	<select id="checkNameExist" resultType="int" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		select count(id) from course_protocol_config where name = #{name} and company_id = #{companyId}
+	</select>
+	
+	
+</mapper>

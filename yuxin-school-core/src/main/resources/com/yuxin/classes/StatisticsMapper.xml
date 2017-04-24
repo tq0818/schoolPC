@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.statistics.mapper.StatisticsMapper">
+	<resultMap type="com.yuxin.wx.model.classes.Statistics" id="statisticsResultMap">
+		<result property="userName" column="username" />
+		<result property="nickName" column="nick_name" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="login_time" column="login_time" />
+	</resultMap>
+
+
+
+
+	<resultMap type="com.yuxin.wx.model.classes.Statistics2" id="statistics2ResultMap">
+		<result property="lesson_name" column="lesson_name" />
+		<result property="userName" column="username" />
+		<result property="nickName" column="nick_name" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="login_time" column="login_time" />
+	</resultMap>
+	<!-- <select id="page" resultMap="classTypeResultMap" -->
+	<!-- parameterType="com.yuxin.wx.model.classes.ClassType"> -->
+	<!-- select -->
+	<!-- <include refid="table_columns" /> -->
+	<!-- from class_type -->
+	<!-- <include refid="page_where" /> -->
+	<!-- limit #{firstIndex},#{pageSize} -->
+	<!-- </select> -->
+
+
+	<select id="queryAll" resultMap="statisticsResultMap"
+		parameterType="com.yuxin.wx.model.classes.Statistics">
+		select
+		uf.username,
+		uf.nick_name,
+		s.name,
+		uf.email,
+		(select
+		login_time from users_front_login_session where user_id=uf.id ORDER
+		BY
+		id desc limit 1)
+		login_time
+		from
+		company_live_static_detail c,
+		student s,
+		users_front uf
+		where c.user_id=uf.id
+		and c.user_id=s.user_id
+		<if test="classLessionId != null and classLessionId != ''">and c.class_lesson_id = #{classLessionId}</if>
+		<if test="mobile != null and mobile != ''">and uf.mobile = #{mobile}</if>
+	</select>
+
+
+	<select id="queryLessonByClassTypeId" resultType="com.yuxin.wx.vo.classes.QueryLessonByClassTypeVo" parameterType="java.lang.Integer">
+		SELECT e.id,e.lesson_name
+		FROM class_type a
+		INNER JOIN
+		class_type_module_relation b ON a.id =
+		b.class_type_id
+		INNER JOIN
+		class_module c ON b.module_id = c.id
+		INNER
+		JOIN class_module_no_onsale
+		cmno ON cmno.module_id = c.id
+		INNER JOIN class_module_no cmn ON cmn.id
+		= cmno.module_no_id
+		INNER JOIN
+		class_module_lesson e ON cmn.id =
+		e.module_no_id
+		WHERE a.id
+		=#{classTypeId} AND cmno.classtype_id = a.id
+		and cmno.default_flag = 1
+		and c.del_flag = 0 and e.del_flag = 0
+	</select>
+
+
+
+
+
+<select id="queryAll2" resultMap="statistics2ResultMap"
+		parameterType="com.yuxin.wx.model.classes.Statistics">
+		select
+		uf.username,
+		uf.nick_name,
+		s.name,
+		uf.email,
+		(select
+		login_time from users_front_login_session where user_id=uf.id ORDER
+		BY
+		id desc limit 1)
+		login_time,
+		cml.lesson_name
+		from
+		company_live_static_detail c,
+		student s,
+		users_front uf,
+		class_module_lesson  cml
+		where c.user_id=uf.id
+		and c.user_id=s.user_id
+		and  c.class_lesson_id=cml.id
+		<if test="classLessionId != null and classLessionId != ''">and c.class_lesson_id = #{classLessionId}</if>
+		<if test="mobile != null and mobile != ''">and uf.mobile = #{mobile}</if>
+	</select>
+
+
+</mapper>

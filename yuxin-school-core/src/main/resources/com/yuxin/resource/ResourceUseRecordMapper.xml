@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.resource.mapper.ResourceUseRecordMapper">
+	<resultMap type="com.yuxin.wx.model.resource.ResourceUseRecord" id="resourceUseRecordResultMap">
+		<result property="id" column="id" />
+		<result property="fileId" column="file_id" />
+		<result property="useType" column="use_type" />
+		<result property="useFlow" column="use_flow" />
+		<result property="useTime" column="use_time" />
+		<result property="userId" column="user_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		file_id,
+		use_type,
+		use_flow,
+		use_time,
+		user_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{fileId},
+		#{useType},
+		#{useFlow},
+		#{useTime},
+		#{userId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.fileId},
+		#{item.useType},
+		#{item.useFlow},
+		#{item.useTime},
+		#{item.userId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.resource.ResourceUseRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into resource_use_record( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into resource_use_record( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from resource_use_record
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from resource_use_record
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.resource.ResourceUseRecord">
+		update resource_use_record 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="fileId != null and fileId != ''">file_id = #{fileId},</if>
+			<if test="useType != null and useType != ''">use_type = #{useType},</if>
+			<if test="useFlow != null and useFlow != ''">use_flow = #{useFlow},</if>
+			<if test="useTime != null and useTime != ''">use_time = #{useTime},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="resourceUseRecordResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from resource_use_record
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="resourceUseRecordResultMap">
+		select <include refid="table_columns" /> 
+		from resource_use_record
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="fileId != null and fileId != ''">and file_id = #{fileId}</if>
+			<if test="useType != null and useType != ''">and use_type = #{useType}</if>
+			<if test="useFlow != null and useFlow != ''">and use_flow = #{useFlow}</if>
+			<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="resourceUseRecordResultMap" parameterType="com.yuxin.wx.model.resource.ResourceUseRecord">
+		select <include refid="table_columns" />
+		from resource_use_record
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.resource.ResourceUseRecord">
+		select count(id) from resource_use_record
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findUseSumFlow" parameterType="map" resultType="String">
+		select coalesce(sum(convert(use_flow,signed)),0)
+		from resource_use_record
+		where company_id = #{id} and
+			use_time = #{times}
+	</select>
+</mapper>

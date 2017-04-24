@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyConfigProxyOrgMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyConfigProxyOrg" id="companyConfigProxyOrgResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="createDate" column="create_date" />
+		<result property="inviteCode" column="invite_code" />
+		<result property="companyName" column="company_name" />
+		<result property="address" column="address" />
+		<result property="contractNumber" column="contract_number" />
+		<result property="contracter" column="contracter" />
+		<result property="contractEmail" column="contract_email" />
+		<result property="remark" column="remark" />
+		<result property="commissionRate" column="commission_rate" />
+		<result property="companyId" column="company_id" />
+		<result property="prefix" column="pefix" />
+		<result property="result" column="result" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		create_date,
+		invite_code,
+		company_name,
+		address,
+		contract_number,
+		contracter,
+		contract_email,
+		remark,
+		commission_rate,
+		pefix,
+		status,
+		del_flag,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{createDate},
+		#{inviteCode},
+		#{companyName},
+		#{address},
+		#{contractNumber},
+		#{contracter},
+		#{contractEmail},
+		#{remark},
+		#{commissionRate},
+		#{prefix},
+		#{status},
+		#{delFlag},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.createDate},
+		#{item.inviteCode},
+		#{item.companyName},
+		#{item.address},
+		#{item.contractNumber},
+		#{item.contracter},
+		#{item.contractEmail},
+		#{item.remark},
+		#{item.commissionRate},
+		#{item.prefix},
+		#{item.status},
+		#{item.delFlag},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg" useGeneratedKeys="true" keyProperty="id">
+		insert into company_config_proxy_org( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_config_proxy_org( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_config_proxy_org
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg">
+		update company_config_proxy_org 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
+			<if test="inviteCode != null and inviteCode != ''">invite_code = #{inviteCode},</if>
+			<if test="companyName != null and companyName != ''">company_name = #{companyName},</if>
+			<if test="address != null and address != ''">address = #{address},</if>
+			<if test="contractNumber != null and contractNumber != ''">contract_number = #{contractNumber},</if>
+			<if test="contracter != null and contracter != ''">contracter = #{contracter},</if>
+			<if test="contractEmail != null and contractEmail != ''">contract_email = #{contractEmail},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="commissionRate != null and commissionRate != ''">commission_rate = #{commissionRate},</if>
+			<if test="prefix != null and prefix != ''">pefix = #{prefix},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyConfigProxyOrgResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_config_proxy_org
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyConfigProxyOrgResultMap">
+		select <include refid="table_columns" /> 
+		from company_config_proxy_org
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="createDate != null and createDate != ''">and create_date = #{createDate}</if>
+			<if test="inviteCode != null and inviteCode != ''">and invite_code = #{inviteCode}</if>
+			<if test="companyName != null and companyName != ''">and company_name = #{companyName}</if>
+			<if test="address != null and address != ''">and address = #{address}</if>
+			<if test="contractNumber != null and contractNumber != ''">and contract_number = #{contractNumber}</if>
+			<if test="contracter != null and contracter != ''">and contracter = #{contracter}</if>
+			<if test="contractEmail != null and contractEmail != ''">and contract_email = #{contractEmail}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="commissionRate != null and commissionRate != ''">and commission_rate = #{commissionRate}</if>
+			<if test="prefix != null and prefix != ''">and pefix = #{prefix}</if>
+			<if test="status != null">and status = #{status}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyConfigProxyOrgResultMap" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg">
+		select <include refid="table_columns" />
+		from company_config_proxy_org
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg">
+		select count(id) from company_config_proxy_org
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findProxysList" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg" resultMap="companyConfigProxyOrgResultMap">
+		select <include refid="table_columns" />
+		from company_config_proxy_org s
+	 where s.company_id=#{companyId} and s.del_flag = 0
+	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
+	 <if test="status != null">
+	 	<choose>
+	 		<when test="status == 1">
+	 			and s.status = #{status}
+	 		</when>
+	 		<otherwise>
+	 			and (s.status != 1 or s.status is null)
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="startTime != null and startTime != ''">and date_format(s.create_date,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 <if test="endTime != null and endTime != ''">and date_format(s.create_date,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 
+	 <choose>
+	 	<when test="rateSort !=null">
+	 		<choose>
+	 		<when test="rateSort == 1">
+	 			order by s.commission_rate desc
+	 		</when>
+	 		<when test="rateSort == 0">
+	 			order by s.commission_rate asc
+	 		</when>
+	 	</choose>
+	 	</when>
+	 	<otherwise>
+	 			order by s.id desc
+	 	</otherwise>
+	 </choose>
+	limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findProxysListCount" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg" resultType="int">
+		select count(s.id)
+		from company_config_proxy_org s
+	 where s.company_id=#{companyId} and s.del_flag = 0
+	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
+	 <if test="status != null">
+	 	<choose>
+	 		<when test="status == 1">
+	 			and s.status = #{status}
+	 		</when>
+	 		<otherwise>
+	 			and (s.status != 1 or s.status is null)
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="startTime != null and startTime != ''">and date_format(s.create_date,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 <if test="endTime != null and endTime != ''">and date_format(s.create_date,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	</select>
+	
+	<select id="queryProxyByCompanyId" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg" resultMap="companyConfigProxyOrgResultMap">
+		select <include refid="table_columns" />
+		from company_config_proxy_org s
+		where s.company_id=#{companyId} and s.del_flag = 0 and s.status = 1
+	</select>
+	
+	<select id="queryCountByNameOrPrefix" resultType="int" parameterType="map">
+		select count(id)
+		from company_config_proxy_org
+		where company_id = #{companyId} and del_flag = 0
+	    <if test="name != null and name != ''">and name = #{name}</if>
+	    <if test="prefix != null and prefix != ''">and pefix = #{prefix}</if>
+	</select>
+    <select id="findByInviteCode"  resultMap="companyConfigProxyOrgResultMap" parameterType="com.yuxin.wx.model.company.CompanyConfigProxyOrg">
+        select * from company_config_proxy_org
+        where company_id = #{companyId} 
+        <if test="inviteCode != null and inviteCode != ''">and invite_code = #{inviteCode}</if>
+    </select>
+    
+    <select id="queryCompanyUnsetRateOrg" resultMap="companyConfigProxyOrgResultMap" parameterType="int">
+    	select <include refid="table_columns" /> 
+    	from company_config_proxy_org where company_id = #{companyId} and del_flag = 0 and commission_rate is null
+    </select>
+</mapper>

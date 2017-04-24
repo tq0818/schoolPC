@@ -1,0 +1,347 @@
+b,s,i,em{
+    font-style: normal;
+    text-decoration: none;
+}
+.add-page-pop11{
+    padding: 10px 0 0 40px;
+    width: 90%
+}
+
+.coll-4 i.iconfont[title="����"]{
+    font-size: 22px;
+    position: relative;
+    top: 2px;
+    right: 2px;
+}
+.tr .coll-11{
+    width: 20%;
+}
+.mould-content{
+    /*overflow: hidden;*/
+}
+.add-page-board {
+    width: 840px;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: 1px solid #CCCCCC;
+    border-radius: 7px;
+    background-color: #fff;
+    box-shadow: rgb(153, 153, 153) 0px 0px 6px;
+}
+.add-page-board .page-pop-title{
+    line-height: 40px;
+    border-bottom: 1px solid #ccc;
+    margin: 0 20px;
+    padding: 0 10px;
+    font-size: 18px;
+}
+.page-pop-title em{
+    float: right;
+    font-size: 20px;
+}
+.custom-way{
+    width: 630px;
+    text-align: center;
+    margin: 60px auto 80px;
+}
+.custom-way-btn{
+    display: inline-block;
+    width: 252px;
+    margin: 0 20px;
+}
+.custom-way-btn div{
+    width: 100%;
+    height: 157px;
+    line-height: 157px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    font-size: 18px;
+}
+.custom-way-btn p{
+    line-height: 40px;
+    color: #666;
+    font-size: 14px;
+}
+.grey-bg{
+    background-color: #999;
+}
+.green-bg{
+    background-color: #009966;
+}
+.text-title em{
+    float: right;
+    width: 72px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #1b6fbd;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #fff;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.textarea-left{
+    float: left;
+    width: 20%;
+    min-height: 340px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+.textarea-right{
+    float: right;
+    width: 78.5%;
+}
+.textarea-left{
+    display: none;
+}
+.textarea-left.block{
+    display: block;
+}
+.textarea-left .tl-title{
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    background-color: #f6f6f6;
+}
+.tl-title span{
+    font-size: 14px;
+}
+.tl-title em{
+    margin: 0 3px;
+    font-size: 16px;
+}
+.tl-cont{
+    /*padding: 40px 0px 30px;*/
+}
+.tl-cont li{
+    position: relative;
+    /*cursor: pointer;*/
+}
+.tl-cont li.active{
+    background: #EBEBEB
+}
+.tl-cont li>div{
+    padding: 0 15px;
+    border-bottom: 1px solid #ccc;
+}
+.tl-cont li>div p{
+    height: 23px;
+    padding: 10px 26px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #0066FF;
+    overflow: hidden;
+}
+.mark-wrap em,.mark-wrap i{
+    position: absolute;
+}
+.mark-wrap em{
+    bottom:6px;
+    left: 4px;
+    font-size: 12px;
+    color: #FE5151;;
+}
+.mark-wrap i{
+    bottom:6px;
+    right: 10px;
+}
+
+/*ģ�嵯��*/
+.add-temp-box{
+    position: relative;
+    float: right;
+    height: 40px;
+}
+.temp-pop{
+    position: absolute;
+    min-width: 120px;
+    border: 1px solid #d2d1d1;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 1px #e9e8e8;
+    background-color: #f6f6f6;
+    z-index: 20;
+    top: 40px;
+    right: -10px;
+    display: none;
+}
+.temp-pop .temp-pop-title{
+    line-height: 25px;
+    background-color: #eee;
+    padding: 0 8px;
+}
+.temp-pop li{
+    line-height: 35px;
+    padding: 0 8px;
+    border-bottom: 1px solid #d4d4d4;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+}
+.temp-pop li s{
+    float: left;
+    width: 54px;
+    height: 35px;
+    overflow: hidden;
+}
+.temp-pop li.active{
+    background-color: #eee;
+    color: #009dee;
+}
+.temp-pop li:hover{
+    background-color: #eee;
+    color: #666;
+}
+.add-btn-box{
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    padding: 10px 0;
+}
+.add-temp{
+    width: 90px;
+    height: 25px;
+    background-color: #009dee;
+    border-radius: 3px;
+    line-height: 25px;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 16px;
+}
+
+/*������*/
+.add-temp-board {
+    width: 433px;
+    height: 254px;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: 1px solid #CCCCCC;
+    border-radius: 7px;
+    background-color: #fff;
+    box-shadow: rgb(153, 153, 153) 0px 0px 6px;
+}
+.add-temp-board .page-pop-title {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ccc;
+    padding: 0 20px;
+    font-size: 18px;
+}
+.small-pop-cont{
+    height: 137px;
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+}
+.one-line{
+    padding-top: 60px;
+    text-align: center;
+    line-height: 30px;
+}
+.two-line{
+    padding-top: 45px;
+}
+.two-line p{
+    text-align: center;
+    line-height: 30px;
+}
+.btn-box{
+    text-align: center;
+}
+.btn-box>div{
+    display: inline-block;
+    margin: 0 10px;
+    width: 100px;
+    height: 35px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    line-height: 35px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background-color: #00b7ee;
+    cursor: pointer;
+}
+.po1{
+    display: none;
+}
+.po2{
+    display: none;
+}
+.po3{
+    display: none;
+}
+.po4{
+    display: none;
+}
+.po5{
+    display: none;
+}
+.po6{
+    display: none;
+}
+
+.temp-pop li span{
+    float: right;
+    margin: 0 5px;
+    display: none;
+}
+.title .coll-3{
+    top: 0;
+}
+/*����Ϣ*/
+.no-info{
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+    padding-top: 100px;
+}
+.group_title_span{
+    display: inline-block;
+    width: 130px;
+    overflow: hidden;
+    height: 40px;
+}
+
+
+/*�Զ�������*/
+.pop-input-box>div div.custom-domain{
+    height: 25px;
+    margin: 7px 0;
+    line-height: 25px;
+    width: 210px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    padding-left: 10px;
+}
+.pop-input-box>div div.custom-domain input{
+    float: right;
+    width: 112px;
+    border: 0;
+    padding-left: 0;
+}

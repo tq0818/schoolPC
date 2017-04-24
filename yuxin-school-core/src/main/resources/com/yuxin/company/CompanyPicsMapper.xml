@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyPicsMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyPics" id="companyPicsResultMap">
+		<result property="id" column="id" />
+		<result property="picName" column="pic_name" />
+		<result property="picOriginalUrl" column="pic_original_url" />
+		<result property="picBigUrl" column="pic_big_url" />
+		<result property="picMiddleUrl" column="pic_middle_url" />
+		<result property="picSmallUrl" column="pic_small_url" />
+		<result property="picTag" column="pic_tag" />
+		<result property="picType" column="pic_type" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		pic_name,
+		pic_original_url,
+		pic_big_url,
+		pic_middle_url,
+		pic_small_url,
+		pic_tag,
+		pic_type,
+		item_one_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{picName},
+		#{picOriginalUrl},
+		#{picBigUrl},
+		#{picMiddleUrl},
+		#{picSmallUrl},
+		#{picTag},
+		#{picType},
+		#{itemOneId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.picName},
+		#{item.picOriginalUrl},
+		#{item.picBigUrl},
+		#{item.picMiddleUrl},
+		#{item.picSmallUrl},
+		#{item.picTag},
+		#{item.picType},
+		#{item.itemOneId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyPics" useGeneratedKeys="true" keyProperty="id">
+		insert into company_pics( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_pics( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_pics
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyPics">
+		update company_pics 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="picName != null and picName != ''">pic_name = #{picName},</if>
+			<if test="picOriginalUrl != null and picOriginalUrl != ''">pic_original_url = #{picOriginalUrl},</if>
+			<if test="picBigUrl != null and picBigUrl != ''">pic_big_url = #{picBigUrl},</if>
+			<if test="picMiddleUrl != null and picMiddleUrl != ''">pic_middle_url = #{picMiddleUrl},</if>
+			<if test="picSmallUrl != null and picSmallUrl != ''">pic_small_url = #{picSmallUrl},</if>
+			<if test="picTag != null and picTag != ''">pic_tag = #{picTag},</if>
+			<if test="picType != null and picType != ''">pic_type = #{picType},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyPicsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_pics
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyPicsResultMap">
+		select <include refid="table_columns" /> 
+		from company_pics
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="picName != null and picName != ''">and pic_name = #{picName}</if>
+			<if test="picOriginalUrl != null and picOriginalUrl != ''">and pic_original_url = #{picOriginalUrl}</if>
+			<if test="picBigUrl != null and picBigUrl != ''">and pic_big_url = #{picBigUrl}</if>
+			<if test="picMiddleUrl != null and picMiddleUrl != ''">and pic_middle_url = #{picMiddleUrl}</if>
+			<if test="picSmallUrl != null and picSmallUrl != ''">and pic_small_url = #{picSmallUrl}</if>
+			<if test="picTag != null and picTag != ''">and pic_tag = #{picTag}</if>
+			<if test="picType != null and picType != ''">and pic_type = #{picType}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyPicsResultMap" parameterType="com.yuxin.wx.model.company.CompanyPics">
+		select <include refid="table_columns" />
+		from company_pics
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyPics">
+		select count(id) from company_pics
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

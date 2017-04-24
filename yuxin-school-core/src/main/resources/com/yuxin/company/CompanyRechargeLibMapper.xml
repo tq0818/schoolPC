@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyRechargeLibMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyRechargeLib" id="companyRechargeLibResultMap">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="timeLimitFrom" column="time_limit_from" />
+		<result property="timeLimitTo" column="time_limit_to" />
+		<result property="status" column="status" />
+		<result property="patchId" column="patch_id" />
+		<result property="userId" column="user_id" />
+		<result property="useTime" column="use_time" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		code,
+		time_limit_from,
+		time_limit_to,
+		status,
+		patch_id,
+		user_id,
+		use_time,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{code},
+		#{timeLimitFrom},
+		#{timeLimitTo},
+		#{status},
+		#{patchId},
+		#{userId},
+		#{useTime},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.code},
+		#{item.timeLimitFrom},
+		#{item.timeLimitTo},
+		#{item.status},
+		#{item.patchId},
+		#{item.userId},
+		#{item.useTime},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyRechargeLib" useGeneratedKeys="true" keyProperty="id">
+		insert into company_recharge_lib( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_recharge_lib( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_recharge_lib
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_recharge_lib
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyRechargeLib">
+		update company_recharge_lib 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="code != null and code != ''">code = #{code},</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">time_limit_from = #{timeLimitFrom},</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">time_limit_to = #{timeLimitTo},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="patchId != null and patchId != ''">patch_id = #{patchId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="useTime != null and useTime != ''">use_time = #{useTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyRechargeLibResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_recharge_lib
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyRechargeLibResultMap">
+		select <include refid="table_columns" /> 
+		from company_recharge_lib
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="code != null and code != ''">and code = #{code}</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">and time_limit_from = #{timeLimitFrom}</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">and time_limit_to = #{timeLimitTo}</if>
+			<if test="status != null">and status = #{status}</if>
+			<if test="patchId != null and patchId != ''">and patch_id = #{patchId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyRechargeLibResultMap" parameterType="com.yuxin.wx.model.company.CompanyRechargeLib">
+		select <include refid="table_columns" />
+		from company_recharge_lib
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyRechargeLib">
+		select count(id) from company_recharge_lib
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryByPatchId" resultType="com.yuxin.wx.vo.company.CompanyRechargeLibVo" parameterType="com.yuxin.wx.vo.company.CompanyRechargeLibVo">
+		select crl.code,crl.use_time as useTime,crl.status,uf.username,uf.mobile,crl.patch_id as patchId
+		from company_recharge_lib crl left join users_front uf on uf.id= crl.user_id
+		where crl.company_id = #{companyId} and crl.patch_id = #{patchId}
+		<if test="status != null">and crl.status = #{status}</if>
+		<if test="usernameAndMobile != null and usernameAndMobile != ''">and (uf.username like '%${usernameAndMobile}%' or uf.mobile like '%${usernameAndMobile}%')</if>
+		ORDER BY status desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCountByPatchId" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyRechargeLibVo">
+		select count(crl.id)
+		from company_recharge_lib crl left join users_front uf on uf.id= crl.user_id
+		where crl.company_id = #{companyId} and crl.patch_id = #{patchId}
+		<if test="status != null">and crl.status = #{status}</if>
+		<if test="usernameAndMobile != null and usernameAndMobile != ''">and (uf.username like '%${usernameAndMobile}%' or uf.mobile like '%${usernameAndMobile}%')</if>
+	</select>
+	<select id="queryListByPatchId" resultType="com.yuxin.wx.vo.company.CompanyRechargeLibVo" parameterType="com.yuxin.wx.vo.company.CompanyRechargeLibVo">
+		select crl.code,crl.use_time as useTime,crl.status,uf.username,uf.mobile,crl.time_limit_from as timeLimitFrom,crl.time_limit_to timeLimitTo,crl.patch_id as patchId
+		from company_recharge_lib crl left join users_front uf on uf.id= crl.user_id
+		where crl.company_id = #{companyId} and crl.patch_id = #{patchId}
+		<if test="status != null">and crl.status = #{status}</if>
+		<if test="usernameAndMobile != null and usernameAndMobile != ''">and (uf.username like '%${usernameAndMobile}%' or uf.mobile like '%${usernameAndMobile}%')</if>
+	</select>
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CoursePotocolBindHistoryMapper">
+	<resultMap type="com.yuxin.wx.model.course.CoursePotocolBindHistory" id="coursePotocolBindHistoryResultMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="course_id" />
+		<result property="potocolId" column="potocol_id" />
+		<result property="bindDate" column="bind_date" />
+		<result property="binder" column="binder" />
+		<result property="companyId" column="company_id" />
+		<result property="classPackageId" column="class_package_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		course_id,
+		potocol_id,
+		bind_date,
+		binder,
+		company_id,
+		class_package_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{courseId},
+		#{potocolId},
+		#{bindDate},
+		#{binder},
+		#{companyId},
+		#{classPackageId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.courseId},
+		#{item.potocolId},
+		#{item.bindDate},
+		#{item.binder},
+		#{item.companyId},
+		#{item.classPackageId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CoursePotocolBindHistory" useGeneratedKeys="true" keyProperty="id">
+		insert into course_potocol_bind_history( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_potocol_bind_history( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_potocol_bind_history
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CoursePotocolBindHistory">
+		update course_potocol_bind_history 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="potocolId != null and potocolId != ''">potocol_id = #{potocolId},</if>
+			<if test="bindDate != null and bindDate != ''">bind_date = #{bindDate},</if>
+			<if test="binder != null and binder != ''">binder = #{binder},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="classPackageId != null and classPackageId != ''">class_package_id = #{classPackageId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="coursePotocolBindHistoryResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_potocol_bind_history
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="coursePotocolBindHistoryResultMap">
+		select <include refid="table_columns" /> 
+		from course_potocol_bind_history
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="potocolId != null and potocolId != ''">and potocol_id = #{potocolId}</if>
+			<if test="bindDate != null and bindDate != ''">and bind_date = #{bindDate}</if>
+			<if test="binder != null and binder != ''">and binder = #{binder}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="classPackageId != null and classPackageId != ''">and class_package_id = #{classPackageId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="coursePotocolBindHistoryResultMap" parameterType="com.yuxin.wx.model.course.CoursePotocolBindHistory">
+		select <include refid="table_columns" />
+		from course_potocol_bind_history
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CoursePotocolBindHistory">
+		select count(id) from course_potocol_bind_history
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

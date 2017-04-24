@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.LiveOpenCourseMapper">
+	<resultMap type="com.yuxin.wx.model.course.LiveOpenCourse" id="liveOpenCourseResultMap">
+		<result property="id" column="id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="openCourseName" column="open_course_name" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="assistantId" column="assistant_id" />
+		<result property="startOpenData" column="start_open_data" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="cover" column="cover" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="liveRoom" column="live_room" />
+		<result property="liveroomIdGh" column="liveroom_id_gh" />
+		<result property="studentUrlGh" column="student_url_gh" />
+		<result property="assistantUrlGh" column="assistant_url_gh" />
+		<result property="teacherUrlGh" column="teacher_url_gh" />
+		<result property="replayUrlGh" column="replay_url_gh" />
+		<result property="scanCount" column="scan_count" />
+		<result property="supportMobile" column="support_mobile" />
+		<result property="liveServiceProvider" column="live_service_provider" />
+		<result property="endOpenData" column="end_open_data" />
+		<result property="barrage" column="barrage" />
+		<result property="modetype" column="modetype" />
+		
+		<result property="teacherName" column="teacher_name" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
+		<result property="id" column="id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="liveroomIdGh" column="liveroom_id_gh"/>
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		item_one_id,
+		item_second_id,
+		open_course_name,
+		school_id,
+		company_id,
+		teacher_id,
+		start_open_data,
+		start_time,
+		end_time,
+		publish_status,
+		publish_time,
+		cover,
+		detail_desc,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		del_flag,
+		live_room,
+		liveroom_id_gh,
+		student_url_gh,
+		teacher_url_gh,
+		assistant_url_gh,
+		replay_url_gh,
+		scan_count,
+		support_mobile,
+		assistant_id,
+		live_service_provider,
+		end_open_data,
+		barrage,
+		modetype
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{itemOneId},
+		#{itemSecondId},
+		#{openCourseName},
+		#{schoolId},
+		#{companyId},
+		#{teacherId},
+		#{startOpenData},
+		#{startTime},
+		#{endTime},
+		#{publishStatus},
+		#{publishTime},
+		#{cover},
+		#{detailDesc},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{liveRoom},
+		#{liveroomIdGh},
+		#{studentUrlGh},
+		#{teacherUrlGh},
+		#{assistantUrlGh},
+		#{replayUrlGh},
+		#{scanCount},
+		#{supportMobile},
+		#{assistantId},
+		#{liveServiceProvider},
+		#{endOpenData},
+		#{barrage},
+		#{modetype}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.openCourseName},
+		#{item.schoolId},
+		#{item.companyId},
+		#{item.teacherId},
+		#{item.startOpenData},
+		#{item.startTime},
+		#{item.endTime},
+		#{item.publishStatus},
+		#{item.publishTime},
+		#{item.cover},
+		#{item.detailDesc},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.delFlag},
+		#{item.liveServiceProvider},
+		#{item.barrage},
+		#{item.modetype}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.LiveOpenCourse" useGeneratedKeys="true" keyProperty="id">
+		insert into live_open_course( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into live_open_course( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from live_open_course
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from live_open_course
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.LiveOpenCourse">
+		update live_open_course 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="openCourseName != null and openCourseName != ''">open_course_name = #{openCourseName},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="assistantId != null and assistantId != ''">assistant_id = #{assistantId},</if>
+			<if test="startOpenData != null and startOpenData != ''">start_open_data = #{startOpenData},</if>
+			<if test="startTime != null and startTime != ''">start_time = #{startTime},</if>
+			<if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+			<if test="publishStatus != null">publish_status = #{publishStatus},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="cover != null and cover != ''">cover = #{cover},</if>
+			<if test="detailDesc != null and detailDesc != ''">detail_desc = #{detailDesc},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="liveroomIdGh != null and liveroomIdGh != ''">liveroom_id_gh = #{liveroomIdGh},</if>
+			<if test="studentUrlGh != null and studentUrlGh != ''">student_url_gh = #{studentUrlGh},</if>
+			<if test="teacherUrlGh != null and teacherUrlGh != ''">teacher_url_gh = #{teacherUrlGh},</if>
+			<if test="assistantUrlGh != null and assistantUrlGh != ''">assistant_url_gh = #{assistantUrlGh},</if>
+			<if test="replayUrlGh != null and replayUrlGh != ''">replay_url_gh = #{replayUrlGh},</if>
+			<if test="scanCount != null and scanCount != ''">scan_count = #{scanCount},</if>
+			<if test="supportMobile != null">support_mobile = #{supportMobile},</if>
+			<if test="liveServiceProvider != null">live_service_provider = #{liveServiceProvider},</if>
+			<if test="endOpenData != null">end_open_data = #{endOpenData},</if>
+			<if test="barrage != null">barrage = #{barrage},</if>
+			<if test="modetype != null">modetype = #{modetype},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="liveOpenCourseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from live_open_course
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="liveOpenCourseResultMap">
+		select <include refid="table_columns" /> 
+		from live_open_course
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="openCourseName != null and openCourseName != ''">and open_course_name = #{openCourseName}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+			<if test="startOpenData != null and startOpenData != ''">and start_open_data = #{startOpenData}</if>
+			<if test="startTime != null and startTime != ''">and start_time = #{startTime}</if>
+			<if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+			<if test="publishStatus != null">and publish_status = #{publishStatus}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="cover != null and cover != ''">and cover = #{cover}</if>
+			<if test="detailDesc != null and detailDesc != ''">and detail_desc = #{detailDesc}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="supportMobile != null">and support_mobile = #{supportMobile}</if>
+			<if test="liveServiceProvider != null">and live_service_provider = #{liveServiceProvider}</if>
+			<if test="barrage != null">and barrage = #{barrage}</if>
+			<if test="modetype != null">and modetype = #{modetype}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="liveOpenCourseResultMap" parameterType="com.yuxin.wx.model.course.LiveOpenCourse">
+		select loc.*,sct.name as teacher_name
+		from live_open_course as loc join sys_config_teacher as sct on loc.teacher_id = sct.id
+		where 1 = 1
+		<if test="delFlag != null">and loc.del_flag = #{delFlag}</if>
+		<if test="schoolId != null and schoolId != ''">and loc.school_id = #{schoolId}</if>
+		<if test="companyId != null and companyId != ''">and loc.company_id = #{companyId}</if>
+		<if test="publishStatus != null">and publish_status = #{publishStatus}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="startOpenData != null and startOpenData != ''">and start_open_data = #{startOpenData}</if>
+		order by loc.start_open_data desc,loc.start_time asc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.LiveOpenCourse">
+		select count(id) from live_open_course
+		<include refid="page_where" />
+	</select>
+	
+	<select id="findByLiveOpenCourse" parameterType="com.yuxin.wx.model.course.LiveOpenCourse" resultMap="liveOpenCourseResultMap">
+		select <include refid="table_columns" /> from live_open_course where 1 = 1
+		<if test="startOpenData != null and startOpenData != ''">and start_open_data = #{startOpenData}</if>
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="endOpenData != null">and end_open_data = #{endOpenData}</if>
+		<if test="startTime != null and startTime != ''">and start_time = #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+		limit 1
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findLiveRoomIds" parameterType="map"  resultType="com.yuxin.wx.vo.classes.CmlVo">
+		select id,
+			liveroom_id_gh roomId,
+			company_id companyId,
+			school_id schoolId
+		from live_open_course
+		where start_open_data = #{lessonDate}
+			and del_flag = 0
+			and live_service_provider = #{liveCompanyType}
+			and (replay_url_gh is null or replay_url_gh = '')
+	</select>
+	
+	<select id="findByLiveRoomId" parameterType="String" resultMap="liveOpenCourseResultMap">
+		select <include refid="table_columns" />
+		from live_open_course
+		where liveroom_id_gh = #{roomId}
+			and live_service_provider = 'cc'
+			and (replay_url_gh is null or replay_url_gh = '')
+	</select>
+	
+	<update id="updateOpenclassByItem" parameterType="map">
+		update live_open_course 
+		set del_flag = 1
+		where item_one_id = #{oneItemId} and 
+			item_second_id = #{twoItemId}
+	</update>
+	<!-- 查询私有版本展示互动的直播 haneb -->
+	<select id="findLiveIdByPrivateZS" parameterType="com.yuxin.wx.model.course.LiveOpenCourse"  resultType="string">
+		select
+			liveroom_id_gh
+		from live_open_course
+		where company_id = #{companyId}
+		and live_service_provider = "zs"
+	</select>
+	
+	
+	
+	<select id="findAfterTodayByPage" resultMap="liveOpenCourseResultMap"
+		parameterType="com.yuxin.wx.model.course.LiveOpenCourse">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		loc1.open_course_name,
+		loc1.teacher_name,
+		loc1.start_open_data,
+		loc1.end_open_data,
+		loc1.start_time,
+		loc1.end_time,
+		loc1.detail_desc,
+		loc1.cover,
+		loc1.id,
+		loc1.student_url_gh,
+		loc1.replay_url_gh,
+		loc1.live_service_provider
+		FROM
+		(
+		SELECT
+		CONCAT(
+		end_open_data,
+		' ',
+		end_time,
+		':00'
+		)AS end_t,
+		CONCAT(
+		start_open_data,
+		'
+		',
+		start_time,
+		':00'
+		)AS start_t,
+		open_course_name,
+		sys_config_teacher.name as teacher_name,
+		start_open_data,
+		end_open_data,
+		start_time,
+		end_time,
+		detail_desc,
+		cover,
+		live_open_course.id,
+		student_url_gh,
+		replay_url_gh,
+		live_service_provider
+		FROM
+		live_open_course
+		join sys_config_teacher on live_open_course.teacher_id
+		=
+		sys_config_teacher.id
+		where 1 = 1 and publish_status != '-1' and live_open_course.del_flag = 0
+		<if test="schoolId != null and schoolId != ''">and live_open_course.school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="companyId != null and companyId != ''">and live_open_course.company_id = #{companyId}</if>
+		)AS loc1
+		WHERE
+		loc1.end_t > NOW() and NOW() > loc1.start_t
+		ORDER BY
+		loc1.end_t ASC
+		)AS loc_1
+		UNION ALL
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		loc3.open_course_name,
+		loc3.teacher_name,
+		loc3.start_open_data,
+		loc3.end_open_data,
+		loc3.start_time,
+		loc3.end_time,
+		loc3.detail_desc,
+		loc3.cover,
+		loc3.id,
+		loc3.student_url_gh,
+		loc3.replay_url_gh,
+		loc3.live_service_provider
+		FROM
+		(
+		SELECT
+		CONCAT(
+		end_open_data,
+		' ',
+		end_time,
+		':00'
+		)AS end_t,
+		CONCAT(
+		start_open_data,
+		' ',
+		start_time,
+		':00'
+		)AS start_t,
+		open_course_name,
+		sys_config_teacher.name as teacher_name,
+		start_open_data,
+		end_open_data,
+		start_time,
+		end_time,
+		detail_desc,
+		cover,
+		live_open_course.id,
+		student_url_gh,
+		replay_url_gh,
+		live_service_provider
+		FROM
+		live_open_course
+		join
+		sys_config_teacher on live_open_course.teacher_id =
+		sys_config_teacher.id
+		where 1 = 1 and publish_status != '-1' and live_open_course.del_flag = 0
+		<if test="schoolId != null and schoolId != ''">and live_open_course.school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="companyId != null and companyId != ''">and live_open_course.company_id = #{companyId}</if>
+		<if test="startOpenData != null and startOpenData != ''">and start_open_data >= #{startOpenData}</if>
+		)AS loc3
+		WHERE
+		loc3.start_t > NOW()
+		ORDER BY
+		loc3.end_t ASC
+		)AS loc_3
+		<!-- UNION ALL
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		loc2.open_course_name,
+		loc2.teacher_name,
+		loc2.start_open_data,
+		loc2.end_open_data,
+		loc2.start_time,
+		loc2.end_time,
+		loc2.detail_desc,
+		loc2.cover,
+		loc2.id,
+		loc2.student_url_gh,
+		loc2.replay_url_gh,
+		loc2.live_service_provider
+		FROM
+		(
+		SELECT
+		CONCAT(
+		end_open_data,
+		' ',
+		end_time,
+		':00'
+		)AS end_t,
+		CONCAT(
+		start_open_data,
+		' ',
+		start_time,
+		':00'
+		)AS start_t,
+		open_course_name,
+		sys_config_teacher.name as teacher_name,
+		start_open_data,
+		end_open_data,
+		start_time,
+		end_time,
+		detail_desc,
+		cover,
+		live_open_course.id,
+		student_url_gh,
+		replay_url_gh,
+		live_service_provider
+		FROM
+		live_open_course
+		join
+		sys_config_teacher on live_open_course.teacher_id =
+		sys_config_teacher.id
+		where 1 = 1 and publish_status != '-1' and live_open_course.del_flag = 0
+		<if test="schoolId != null and schoolId != ''">and live_open_course.school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="companyId != null and companyId != ''">and live_open_course.company_id = #{companyId}</if>
+		<if test="startOpenData != null and startOpenData != ''">and start_open_data >= #{startOpenData}</if>
+		)AS loc2
+		WHERE
+		NOW() > loc2.end_t
+		ORDER BY
+		loc2.end_t DESC
+		)AS loc_2 -->
+		limit
+		#{firstIndex},#{pageSize}
+	</select>
+</mapper>

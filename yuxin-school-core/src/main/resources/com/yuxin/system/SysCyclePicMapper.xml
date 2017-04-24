@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysCyclePicMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysCyclePic" id="sysCyclePicResultMap">
+		<result property="id" column="id" />
+		<result property="picTitle" column="pic_title" />
+		<result property="picDesc" column="pic_desc" />
+		<result property="picUrl" column="pic_url" />
+		<result property="clickUrl" column="click_url" />
+		<result property="validFlag" column="valid_flag" />
+		<result property="picType" column="pic_type" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="picSequence" column="pic_sequence"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		pic_title,
+		pic_desc,
+		pic_url,
+		click_url,
+		valid_flag,
+		pic_type,
+		company_id,
+		school_id,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		pic_sequence
+    </sql>
+    
+	<sql id="table_columnsOne">
+		pic_url,
+		click_url,
+		valid_flag,
+		pic_type,
+		company_id,
+		school_id,
+		creator,
+		create_time,
+		pic_sequence
+    </sql>
+	
+	<sql id="entity_propertiesOne">
+		#{picUrl},
+		#{clickUrl},
+		#{validFlag},
+		#{picType},
+		#{companyId},
+		#{schoolId},
+		#{creator},
+		#{createTime},
+		#{picSequence}
+	</sql>
+	
+	<sql id="entity_properties">
+		#{id},
+		#{picTitle},
+		#{picDesc},
+		#{picUrl},
+		#{clickUrl},
+		#{validFlag},
+		#{picType},
+		#{companyId},
+		#{schoolId},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{picSequence}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.picTitle},
+		#{item.picDesc},
+		#{item.picUrl},
+		#{item.clickUrl},
+		#{item.validFlag},
+		#{item.picType},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updator},
+		#{item.updateTime},
+		#{item.picSequence}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysCyclePic" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_cycle_pic( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	  
+	<insert id="addCyclePics" parameterType="com.yuxin.wx.model.system.SysCyclePic" useGeneratedKeys="true" keyProperty="id">
+	    insert into sys_cycle_pic( <include refid="table_columnsOne" /> ) 
+		values ( <include refid="entity_propertiesOne" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_cycle_pic( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_cycle_pic
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_cycle_pic
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysCyclePic">
+		update sys_cycle_pic 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="picTitle != null and picTitle != ''">pic_title = #{picTitle},</if>
+			<if test="picDesc != null and picDesc != ''">pic_desc = #{picDesc},</if>
+			<if test="picUrl != null and picUrl != ''">pic_url = #{picUrl},</if>
+			<if test="clickUrl != null">click_url = #{clickUrl},</if>
+			<if test="validFlag != null">valid_flag = #{validFlag},</if>
+			<if test="picType != null and picType != ''">pic_type = #{picType},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="picSequence != null and picSequence != ''">pic_sequence = #{picSequence},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateSort" parameterType="com.yuxin.wx.model.system.SysCyclePic">
+		update sys_cycle_pic 
+		set pic_sequence = #{picSequence}
+		where id = #{id}
+	</update>
+	
+	<select id="findById" resultMap="sysCyclePicResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_cycle_pic
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysCyclePicResultMap">
+		select <include refid="table_columns" /> 
+		from sys_cycle_pic
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="picTitle != null and picTitle != ''">and pic_title = #{picTitle}</if>
+			<if test="picDesc != null and picDesc != ''">and pic_desc = #{picDesc}</if>
+			<if test="picUrl != null and picUrl != ''">and pic_url = #{picUrl}</if>
+			<if test="clickUrl != null and clickUrl != ''">and click_url = #{clickUrl}</if>
+			<if test="validFlag != null and validFlag != ''">and valid_flag = #{validFlag}</if>
+			<if test="picType != null and picType != ''">and pic_type = #{picType}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysCyclePicResultMap" parameterType="com.yuxin.wx.model.system.SysCyclePic">
+		select <include refid="table_columns" />
+		from sys_cycle_pic
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysCyclePic">
+		select count(id) from sys_cycle_pic
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 条件查询 -->
+	<select id="querySysCycles" parameterType="com.yuxin.wx.model.system.SysCyclePic" resultMap="sysCyclePicResultMap">
+	    select <include refid="table_columns" />
+		from sys_cycle_pic
+		where
+		<if test="companyId != null and companyId != ''">company_id = #{companyId}</if>
+		<if test="picType != null and picType != ''">and pic_type = #{picType}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		order by pic_sequence asc
+	</select>
+	<!-- 其他自定义SQL -->
+	<select id="selectCount" parameterType="String" resultType="int">
+		select count(id)
+		from sys_cycle_pic
+		where
+		company_id=#{companyId}
+		and
+		valid_flag=1
+		and
+		pic_type='homepage'
+		limit 1
+	</select>
+	
+	<select id="findByCompanyId" resultMap="sysCyclePicResultMap" parameterType="Integer">
+		select <include refid="table_columns" />
+		from sys_cycle_pic
+		where company_id = #{companyId}
+	</select>
+</mapper>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLoginConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLoginConfig" id="companyLoginConfigResultMap">
+		<result property="id" column="id" />
+		<result property="multiOnline" column="multi_online" />
+		<result property="qqLogin" column="qq_login" />
+		<result property="wechatLogin" column="wechat_login" />
+		<result property="weiboLogin" column="weibo_login" />
+		<result property="bingMobile" column="bing_mobile" />
+		<result property="qqAppid" column="qq_appid" />
+		<result property="qqKey" column="qq_key" />
+		<result property="wechatAppid" column="wechat_appid" />
+		<result property="wechatKey" column="wechat_key" />
+		<result property="weiboKey" column="weibo_key" />
+		<result property="weiboSercet" column="weibo_sercet" />
+		<result property="companyId" column="company_id" />
+		<result property="thirdLoginFlag" column="third_login_flag" />
+		<result property="qqValidateCode" column="qq_validate_code" />
+		<result property="weiboValidateCode" column="weibo_validate_code" />
+		<result property="wechatOpenAppid" column="wechat_open_appid" />
+		<result property="wechatOpenSecret" column="wechat_open_secret" />
+		<result property="useLoginPage" column="use_login_page" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		multi_online,
+		qq_login,
+		wechat_login,
+		weibo_login,
+		bing_mobile,
+		qq_appid,
+		qq_key,
+		wechat_appid,
+		wechat_key,
+		weibo_key,
+		weibo_sercet,
+		company_id,
+		third_login_flag,
+		qq_validate_code,
+		weibo_validate_code,
+		wechat_open_appid,
+		wechat_open_secret,
+		use_login_page
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{multiOnline},
+		#{qqLogin},
+		#{wechatLogin},
+		#{weiboLogin},
+		#{bingMobile},
+		#{qqAppid},
+		#{qqKey},
+		#{wechatAppid},
+		#{wechatKey},
+		#{weiboKey},
+		#{weiboSercet},
+		#{companyId},
+		#{thirdLoginFlag},
+		#{qqValidateCode},
+		#{weiboValidateCode},
+		#{wechatOpenAppid},
+		#{wechatOpenSecret},
+		#{useLoginPage}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.multiOnline},
+		#{item.qqLogin},
+		#{item.wechatLogin},
+		#{item.weiboLogin},
+		#{item.bingMobile},
+		#{item.qqAppid},
+		#{item.qqKey},
+		#{item.wechatAppid},
+		#{item.wechatKey},
+		#{item.weiboKey},
+		#{item.weiboSercet},
+		#{item.companyId},
+		#{item.thirdLoginFlag},
+		#{item.qqValidateCode},
+		#{item.weiboValidateCode},
+		#{item.wechatOpenAppid},
+		#{item.wechatOpenSecret},
+		#{item.useLoginPage}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLoginConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_login_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_login_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_login_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLoginConfig">
+		update company_login_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="multiOnline != null ">multi_online = #{multiOnline},</if>
+			<if test="qqLogin != null ">qq_login = #{qqLogin},</if>
+			<if test="wechatLogin != null ">wechat_login = #{wechatLogin},</if>
+			<if test="weiboLogin != null ">weibo_login = #{weiboLogin},</if>
+			<if test="bingMobile != null ">bing_mobile = #{bingMobile},</if>
+			<if test="qqAppid != null and qqAppid != ''">qq_appid = #{qqAppid},</if>
+			<if test="qqKey != null and qqKey != ''">qq_key = #{qqKey},</if>
+			<if test="wechatAppid != null and wechatAppid != ''">wechat_appid = #{wechatAppid},</if>
+			<if test="wechatKey != null and wechatKey != ''">wechat_key = #{wechatKey},</if>
+			<if test="weiboKey != null and weiboKey != ''">weibo_key = #{weiboKey},</if>
+			<if test="weiboSercet != null and weiboSercet != ''">weibo_sercet = #{weiboSercet},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="thirdLoginFlag != null">third_login_flag = #{thirdLoginFlag},</if>
+			<if test="qqValidateCode != null">qq_validate_code = #{qqValidateCode},</if>
+			<if test="weiboValidateCode != null">weibo_validate_code = #{weiboValidateCode},</if>
+			<if test="wechatOpenAppid != null and wechatOpenAppid != ''">wechat_open_appid = #{wechatOpenAppid},</if>
+			<if test="wechatOpenSecret != null and wechatOpenSecret != ''">wechat_open_secret = #{wechatOpenSecret},</if>
+			<if test="useLoginPage != null ">use_login_page = #{useLoginPage},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLoginConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_login_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLoginConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_login_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="multiOnline != null and multiOnline != ''">and multi_online = #{multiOnline}</if>
+			<if test="qqLogin != null and qqLogin != ''">and qq_login = #{qqLogin}</if>
+			<if test="wechatLogin != null and wechatLogin != ''">and wechat_login = #{wechatLogin}</if>
+			<if test="weiboLogin != null and weiboLogin != ''">and weibo_login = #{weiboLogin}</if>
+			<if test="bingMobile != null and bingMobile != ''">and bing_mobile = #{bingMobile}</if>
+			<if test="qqAppid != null and qqAppid != ''">and qq_appid = #{qqAppid}</if>
+			<if test="qqKey != null and qqKey != ''">and qq_key = #{qqKey}</if>
+			<if test="wechatAppid != null and wechatAppid != ''">and wechat_appid = #{wechatAppid}</if>
+			<if test="wechatKey != null and wechatKey != ''">and wechat_key = #{wechatKey}</if>
+			<if test="weiboKey != null and weiboKey != ''">and weibo_key = #{weiboKey}</if>
+			<if test="weiboSercet != null and weiboSercet != ''">and weibo_sercet = #{weiboSercet}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="wechatOpenAppid != null and wechatOpenAppid != ''">and wechat_open_appid = #{wechatOpenAppid}</if>
+			<if test="wechatOpenSecret != null and wechatOpenSecret != ''">and wechat_open_secret = #{wechatOpenSecret}</if>
+			<if test="useLoginPage != null and useLoginPage != ''"> and use_login_page = #{useLoginPage}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyLoginConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyLoginConfig">
+		select <include refid="table_columns" />
+		from company_login_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLoginConfig">
+		select count(id) from company_login_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryByCompanyId" resultMap="companyLoginConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyLoginConfig">
+		select <include refid="table_columns" />
+		from company_login_config 
+		where company_id=#{companyId}
+	</select>
+</mapper>

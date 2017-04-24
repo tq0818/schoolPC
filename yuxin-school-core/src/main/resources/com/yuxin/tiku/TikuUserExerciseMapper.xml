@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuUserExerciseMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuUserExercise" id="tikuUserExerciseResultMap">
+		<result property="id" column="id" />
+		<result property="exerciseId" column="exercise_id" />
+		<result property="userId" column="user_id" />
+		<result property="exerciseType" column="exercise_type" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="useTime" column="use_time" />
+		<result property="exerciseScore" column="exercise_score" />
+		<result property="status" column="status" />
+		<result property="totalTopic" column="total_topic" />
+		<result property="correctTopic" column="correct_topic" />
+		<result property="errorTopic" column="error_topic" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="chapterId" column="chapter_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.tiku.TikuUserExerciseVo" id="tikuUserExerciseResultVoMap">
+		<result property="id" column="id" />
+		<result property="exerciseId" column="exercise_id" />
+		<result property="userPaperName" column="user_paper_name" />
+		<result property="totalTopic" column="total_topic" />
+		<result property="doneTopic" column="done_topic" />
+		<result property="startTime" column="start_time" />
+		<result property="exerciseType" column="exercise_type" />
+		
+		<result property="name" column="name" />
+		<result property="userName" column="user_name" />
+		<result property="mobile" column="mobile" />
+		<result property="exerciseScore" column="exercise_score" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.tiku.TikuUserExerVo" id="tikuUserExerVoResultMap">
+		<result property="id" column="id" />
+		<result property="exerciseId" column="exercise_id" />
+		<result property="userId" column="user_id" />
+		<result property="exerciseType" column="exercise_type" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="useTime" column="use_time" />
+		<result property="exerciseScore" column="exercise_score" />
+		<result property="status" column="status" />
+		<result property="totalTopic" column="total_topic" />
+		<result property="correctTopic" column="correct_topic" />
+		<result property="errorTopic" column="error_topic" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="companyId" column="company_id" />
+		<association property="overNum" column="id" javaType="Integer"
+			select="findOverexerById"></association>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		exercise_id,
+		user_id,
+		exercise_type,
+		start_time,
+		end_time,
+		use_time,
+		exercise_score,
+		status,
+		total_topic,
+		correct_topic,
+		error_topic,
+		category_id,
+		subject_id,
+		chapter_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{exerciseId},
+		#{userId},
+		#{exerciseType},
+		#{startTime},
+		#{endTime},
+		#{useTime},
+		#{exerciseScore},
+		#{status},
+		#{totalTopic},
+		#{correctTopic},
+		#{errorTopic},
+		#{categoryId},
+		#{subjectId},
+		#{chapterId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.exerciseId},
+		#{item.userId},
+		#{item.exerciseType},
+		#{item.startTime},
+		#{item.endTime},
+		#{item.useTime},
+		#{item.exerciseScore},
+		#{item.status},
+		#{item.totalTopic},
+		#{item.correctTopic},
+		#{item.errorTopic},
+		#{item.categoryId},
+		#{item.subjectId},
+		#{item.chapterId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_user_exercise( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_user_exercise( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_user_exercise
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise">
+		update tiku_user_exercise 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="exerciseId != null and exerciseId != ''">exercise_id = #{exerciseId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="exerciseType != null and exerciseType != ''">exercise_type = #{exerciseType},</if>
+			<if test="startTime != null and startTime != ''">start_time = #{startTime},</if>
+			<if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+			<if test="useTime != null and useTime != ''">use_time = #{useTime},</if>
+			<if test="exerciseScore != null and exerciseScore != ''">exercise_score = #{exerciseScore},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="totalTopic != null and totalTopic != ''">total_topic = #{totalTopic},</if>
+			<if test="correctTopic != null and correctTopic != ''">correct_topic = #{correctTopic},</if>
+			<if test="errorTopic != null and errorTopic != ''">error_topic = #{errorTopic},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+			<if test="chapterId != null and chapterId != ''">chapter_id = #{chapterId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuUserExerciseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_user_exercise
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuUserExerciseResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_user_exercise
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="exerciseId != null and exerciseId != ''">and exercise_id = #{exerciseId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="exerciseType != null and exerciseType != ''">and exercise_type = #{exerciseType}</if>
+			<if test="startTime != null and startTime != ''">and start_time = #{startTime}</if>
+			<if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+			<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+			<if test="exerciseScore != null and exerciseScore != ''">and exercise_score = #{exerciseScore}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="totalTopic != null and totalTopic != ''">and total_topic = #{totalTopic}</if>
+			<if test="correctTopic != null and correctTopic != ''">and correct_topic = #{correctTopic}</if>
+			<if test="errorTopic != null and errorTopic != ''">and error_topic = #{errorTopic}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="subjectId != null and subjectId != ''">and subject_id = #{subjectId}</if>
+			<if test="chapterId != null and chapterId != ''">and chapter_id = #{chapterId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuUserExerciseResultMap" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise">
+		select <include refid="table_columns" />
+		from tiku_user_exercise
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize} order by id desc
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise">
+		select count(id) from tiku_user_exercise
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findTIkuUserExerciseByUserAndStatus" resultMap="tikuUserExerciseResultVoMap" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise">
+		select aa.*,count(aa.id) AS done_topic from (
+			SELECT tue.id, tue.total_topic, tue.exercise_id, tue.start_time, tue.exercise_type, tub.batch_name AS userPaperName
+			FROM
+				tiku_user_exercise tue
+				LEFT JOIN tiku_user_batch tub ON tue.exercise_id = tub.id
+				LEFT JOIN tiku_user_exercise_answer tuea ON tue.id = tuea.user_exercise_id
+			WHERE
+				tue.STATUS = 'EXERCISE_STATUS_ING'
+				AND tue.subject_id = #{subjectId}
+				AND tue.user_id = #{userId}
+				AND (
+				tue.exercise_type = 'EXERCISE_TYPE_PAPER'
+				OR tue.exercise_type = 'EXERCISE_TYPE_15'
+				OR tue.exercise_type = 'EXERCISE_TYPE_CHAPTER'
+				)
+				ORDER BY
+				tue.id DESC
+		) aa limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findTIkuUserExerciseByUserId" resultMap="tikuUserExerciseResultMap" parameterType="int">
+		SELECT
+			tue.exercise_id,
+			tue.use_time,
+			tue.exercise_score,
+			tue.`status`,
+			tue.total_topic,
+			count(tuea.id) as correct_topic
+		FROM
+			tiku_user_exercise tue LEFT JOIN tiku_user_exercise_answer tuea ON tue.id = tuea.user_exercise_id
+		WHERE
+			tue.user_id = #{userId} and tue.exercise_type = 'EXERCISE_TYPE_PAPER'
+	</select>
+	
+	<!-- 查询所有记录分页 -->
+	<select id="findRecords" resultMap="tikuUserExerVoResultMap" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise">
+		select <include refid="table_columns"/>
+		from tiku_user_exercise 
+		where subject_id = #{subjectId}
+			and user_id = #{userId} 
+			and company_id = #{companyId}
+		order by start_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<!-- 查询所有总数 -->
+	<select id="findRecordsCount" resultType="Integer" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise">
+		select count(id)
+		from tiku_user_exercise 
+		where subject_id = #{subjectId}
+			and user_id = #{userId} 
+			and company_id = #{companyId}
+			limit 1
+	</select>
+	<!-- 查询已做题数 -->
+	<select id="findOverexerById" parameterType="Integer" resultType="Integer">
+		select count(id)
+		from tiku_user_exercise_answer
+		where user_exercise_id = #{id}
+	</select>
+
+	<select id="findTopicCountByChapterId" resultMap="tikuUserExerciseResultVoMap" parameterType="Integer">
+		SELECT
+			tue.id,
+			tue.`status`,
+			count(tue.id)AS count
+		FROM
+			`tiku_user_exercise` tue
+		LEFT JOIN tiku_user_exercise_answer tuea ON tue.id = tuea.user_exercise_id
+		WHERE
+			tue.chapter_id = #{chapterId}
+		GROUP BY
+			tue.id
+		limit 1
+	</select>
+	
+	<select id="findSpeedIng" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultMap="tikuUserExerciseResultMap">
+		select <include refid="table_columns"/>
+		from tiku_user_exercise 
+		where category_id = #{categoryId} and
+			subject_id	= #{subjectId} and 
+			company_id = #{companyId} and 
+			user_id = #{userId} and 
+			exercise_type = 'EXERCISE_TYPE_15' and 
+			status = 'EXERCISE_STATUS_ING'
+			order by start_time desc
+			limit 0,1
+	</select>
+	
+	<select id="findAfterClassIng" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultMap="tikuUserExerciseResultMap">
+		select <include refid="table_columns"/>
+		from tiku_user_exercise 
+		where category_id = #{categoryId} and
+			subject_id	= #{subjectId} and 
+			company_id = #{companyId} and 
+			user_id = #{userId} and 
+			exercise_type = 'PRACTICE_AFTER_CLASS' and 
+			status = 'EXERCISE_STATUS_ING'
+			order by start_time desc
+			limit 0,1
+	</select>
+	
+	<!-- 按条件分页查询做题记录 -->
+	<select id="findRecordByUserId" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise"
+		resultMap="tikuUserExerciseResultMap">
+		select <include refid="table_columns"/>
+		from tiku_user_exercise
+		where user_id = #{userId} and 
+			subject_id = #{subjectId} and 
+			exercise_type = #{exerciseType}
+		order by status,end_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<!-- 根据试卷id统计 -->
+	<select id="statisticRspdByPaper" parameterType="com.yuxin.wx.model.tiku.TikuPaper" resultType="java.util.Map">
+	SELECT
+		COUNT(distinct(userId)) total,max(exercise_score) max,MIN(exercise_score) min,cast(avg(exercise_score) as dec(3,1)) avg,(select paper_name from tiku_paper where id = #{id}) paperName
+		FROM(
+			select IFNULL(exercise_score,0) exercise_score,u.id as userId ,u.username,u.mobile
+			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id
+			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
+			and exercise_id = #{id}
+			) aa
+	</select>
+	
+	<select id="findPaperRspdInfo" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultType="java.util.Map">
+			select IFNULL(ue.exercise_score,0) exercise_score,ue.start_time,u.id as userId ,s.name,u.username,u.mobile
+			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
+			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
+			and exercise_id = #{exerciseId} order by start_time desc
+			limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findPaperRspdInfoCount" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultType="java.lang.Integer">
+			select count(*)
+			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
+			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
+			and exercise_id = #{exerciseId} order by start_time desc
+	</select>
+	<select id="findAllPaperRspdInfo" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultMap="tikuUserExerciseResultVoMap">
+			select IFNULL(exercise_score,0) exercise_score,ue.start_time,u.id ,s.name,u.username,u.mobile
+			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
+			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
+			and exercise_id = #{exerciseId} order by start_time asc
+	</select>
+</mapper>

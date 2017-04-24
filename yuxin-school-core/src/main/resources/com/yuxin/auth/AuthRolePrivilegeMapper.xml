@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.auth.mapper.AuthRolePrivilegeMapper">
+	<resultMap type="com.yuxin.wx.model.auth.AuthRolePrivilege" id="authRolePrivilegeResultMap">
+		<result property="id" column="id" />
+		<result property="roleUid" column="role_uid" />
+		<result property="privilegeId" column="privilege_id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		role_uid,
+		privilege_id,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{roleUid},
+		#{privilegeId},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	
+	<sql id="entity_properties2">
+		#{item.id},
+		#{item.roleUid},
+		#{item.privilegeId},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.auth.AuthRolePrivilege" useGeneratedKeys="true" keyProperty="id">
+		insert into auth_role_privilege( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" >
+		insert into auth_role_privilege( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties2" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from auth_role_privilege
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from auth_role_privilege
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByroleUid">
+		delete from auth_role_privilege where role_uid=#{roleUid}
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.auth.AuthRolePrivilege">
+		update auth_role_privilege 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="roleUid != null and roleUid != ''">role_uid = #{roleUid},</if>
+			<if test="privilegeId != null and privilegeId != ''">privilege_id = #{privilegeId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authRolePrivilegeResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from auth_role_privilege
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authRolePrivilegeResultMap">
+		select <include refid="table_columns" /> 
+		from auth_role_privilege
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="roleUid != null and roleUid != ''">and role_uid = #{roleUid}</if>
+			<if test="privilegeId != null and privilegeId != ''">and privilege_id = #{privilegeId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="authRolePrivilegeResultMap" parameterType="com.yuxin.wx.model.auth.AuthRolePrivilege">
+		select <include refid="table_columns" />
+		from auth_role_privilege
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.auth.AuthRolePrivilege">
+		select count(id) from auth_role_privilege
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByroleUid" resultMap="authRolePrivilegeResultMap" parameterType="int">
+		select <include refid="table_columns" /> 
+		from auth_role_privilege
+		where role_uid=#{roleUid} 
+	</select>
+	<select id="findUserPrivileges" resultType="com.yuxin.wx.vo.privilege.PrivilegeVo" parameterType="int">
+		select p.id, rp.role_uid roleUid,p.create_time createTime,p.creator,p.update_time updateTime,p.updator,p.privilege_name privilegeName,p.description ,p.privilege_category_id privilegeCategoryId,p.company_id companyId
+		from auth_role_privilege rp left join auth_privilege p on rp.privilege_id=p.id 
+		where rp.role_uid=#{roleUid} 
+	</select>
+	
+	<!-- 根据角色编号查询菜单 -->
+	<select id="findUserCatgters" resultType="com.yuxin.wx.vo.privilege.PrivilegeVo" parameterType="int">
+		select p.id, rp.role_uid roleUid,p.privilege_name privilegeName,p.description ,p.privilege_category_id privilegeCategoryId,p.company_id companyId,c.id,c.parent_id,c.category_name 
+from auth_role_privilege rp left join auth_privilege p on rp.privilege_id=p.id LEFT JOIN auth_privilege_category c on p.privilege_category_id=c.id
+		where role_uid=#{roleUid} and p.company_id=#{companyId} 
+	</select>
+	
+	<!-- 根据用户角色查询菜单 -->
+	<select id="findByRoleId" parameterType="String" resultMap="authRolePrivilegeResultMap">
+		select <include refid="table_columns" /> from auth_role_privilege 
+		where role_uid=#{roleUid}
+	</select>
+</mapper>

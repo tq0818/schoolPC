@@ -1,0 +1,265 @@
+
+/*公用*/
+.s_box{
+    width: 930px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    box-shadow: rgb(153, 153, 153) 0px 0px 6px;
+    margin-bottom: 20px;
+    background: #fff;
+
+}
+    .s_box h3{
+    font-size: 18px;
+   height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #E0E0E0;
+}
+.s_box .top{
+    position: relative;
+}
+.s_box .tr1 td{
+	background-color: #F2F2F2;
+}
+.s_box .tabCont{
+    background-color: #F2F2F2;
+}
+ table{
+    border-collapse: collapse;
+}
+.tabCont table{
+    position: relative;
+    top:-5px;
+}
+/*指定用户*/
+.top .s_right{
+    position: absolute;
+    right: 10px;
+    top:12px;
+}
+
+.s_box .s_cont{
+    font-size: 12px;
+}
+.s_box .inputCont{
+    padding-top: 25px;
+    padding-bottom: 25px;
+    height: 25px;
+    line-height: 25px;
+}
+.s_box .inputCont select,.s_box .inputCont input{
+    margin-right: 5px;
+}
+.s_box .inputCont a{
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+    line-height:25px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #00B7EE;
+    font-weight: bold;
+    border-radius: 2px;
+    vertical-align: middle;
+}
+.s_box .inputCont b{
+   float: right;
+    height: 25px;
+    line-height: 25px;
+
+
+}
+.s_box .inputCont b label{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+
+
+}
+.s_box input[type=checkbox]{
+    width: 15px;
+    height: 15px;
+
+}
+.s_box .inputCont b input,.inputCont b label{
+    vertical-align: middle;
+}
+
+.s_box table input{
+    vertical-align: middle;
+}
+
+.s_box tbody .stop{
+    color: red;
+}
+.s_box .tabCont{
+    position: relative;
+}
+
+.s_box  .toggle{
+    position: absolute;
+    left:50%;
+    margin-left: -16px;
+    bottom:-23px;
+}
+.s_box .toggle span{
+    display: inline-block;
+    width: 33px;
+    height: 20px;
+    border-radius:0 0  20px 20px;
+    background-color: #E4EAF0;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+}
+.s_box .toggle i{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.s_box .choice p{
+    height: 53px;
+    line-height: 53px;
+
+}
+.s_box .choice p span{
+    color: red;
+}
+.s_box .group{
+    max-height: 160px;
+    _height:160px;
+    overflow-y: auto;
+}
+.s_box .group span{
+    display: inline-block;
+    width: 140px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #F6F6F6;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    color: #A8A8A8;
+}
+.s_box .tanslatX{
+	transition:transform 0.5s;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);	/* Safari 和 Chrome */
+    -moz-transform: rotate(180deg);	/* Firefox */
+}
+.s_box .tanslateY{
+	transition:transform 0.5s;
+	transform:rotate(0deg);
+	-webkit-transform: rotate(0deg);	/* Safari 和 Chrome */
+    -moz-transform: rotate(0deg);	/* Firefox */
+}
+.s_box .group i{
+    width: 15px;
+    height: 15px;
+    float: right;
+    text-align: center;
+    line-height: 1;
+    margin-top: 8px;
+    cursor: pointer;
+
+}
+.s_box .conserve{
+    padding: 35px 0 25px;
+    text-align: center;
+}
+.s_box .conserve button{
+    display: inline-block;
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 20px;
+    border-radius: 2px;
+    padding: 0;
+}
+.s_box .conserve .con{
+    background-color: #009DEE;
+    color: #ffffff;
+    border: 0;
+}
+.s_box .conserve .delet{
+    border: 1px solid #949494;
+}
+
+/*导出优惠码*/
+.s_box .top .right{
+    position:absolute;
+    right: 0;
+    top:0;
+}
+.s_box .right span{
+    color: #9B9B9B;
+    line-height: 35px;
+
+}
+.s_box .right a{
+    display: inline-block;
+    width: 105px;
+    height: 30px;
+    background-color: #009DED;
+    border-radius: 2px;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-bottom: 5px;
+    margin-left: 17px;
+}
+.s_box .cont{
+    font-size: 12px;
+    padding-top: 30px;
+}
+
+ table{
+    border-collapse: collapse;
+}
+
+
+.s_box tbody tr td,.s_box tbody  tr{
+    border: 1px solid #D7D7D7;
+    background-color: #ffffff;
+    color: #939393;
+    padding: 5px 4px;
+}
+.s_box .tr1 td{
+	background-color: #F2F2F2;
+}
+.s_box .tabCont{
+    padding-bottom:10px;
+    background: #f2f2f2;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

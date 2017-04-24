@@ -1,0 +1,368 @@
+.clear:after {
+	display: block;
+	content: '';
+	clear: both
+}
+
+.clear {
+	zoom: 1
+}
+
+.testTable {
+	width: 100%;
+	border-collapse: collapse
+}
+
+table.testTable td, table.testTable th {
+	padding: 10px 0;
+	font-weight: normal;
+	text-align: center;
+	font-size: 14px
+}
+
+table.testTable td {
+	color: #999
+}
+
+table.testTable .colorBlue {
+	color: #07bbee
+}
+
+table.testTable .colorRed {
+	color: #fe5151
+}
+
+table.testTable th {
+	border-bottom: 1px solid #e0e0e0;
+	font-size: 16px
+}
+
+table.testTable .testTitle {
+	color: #000;
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+	font-size: 16px
+}
+
+.leftTitle {
+	float: left;
+	width: 50px;
+	text-align: right;
+	font-size: 16px;
+	color: #333;
+	line-height: 43px;
+	margin-right: 16px
+}
+
+.rightCon {
+	float: left
+}
+
+.rightCon li {
+	padding: 10px;
+	padding-top: 0;
+	float: left;
+	cursor: pointer
+}
+
+.rightCon span {
+	width: 43px;
+	height: 43px;
+	display: block;
+	background-color: #fff;
+	border: 1px solid #00b7ee;
+	color: #00b7ee;
+	text-align: center;
+	line-height: 43px
+}
+
+.rightCon .active span {
+	background-color: #00b7ee;
+	color: #fff
+}
+
+.listTitleB {
+	padding-bottom: 10px
+}
+
+.paperStantus, .paperContent {
+	padding: 20px 30px 0;
+	width: 100%;
+	margin-top: 20px;
+	background-color: #fff;
+	box-sizing: border-box
+}
+
+.paperContent {
+	padding-top: 15px;
+	padding-bottom: 27px
+}
+
+.paperConTitle h4 {
+	font-size: 16px;
+	color: #333;
+	line-height: 16px;
+	width: 100%;
+	text-align: left
+}
+
+.hr {
+	display: block;
+	width: 100%;
+	border-top: 1px solid #e0e0e0;
+	margin: 10px 0 15px
+}
+
+.paperCon {
+	font-size: 14px;
+	line-height: 20px;
+	color: #666
+}
+
+.answerDescript dt {
+	font-size: 14px;
+	line-height: 20px;
+	padding-bottom: 5px;
+	color: #333
+}
+
+.answerDescript dd {
+	margin-top: 20px
+}
+
+.answerDescript h4 {
+	float: left;
+	font-size: 16px;
+	color: #fff;
+	width: 80px;
+	height: 30px;
+	position: relative;
+	line-height: 30px;
+	text-align: center
+}
+
+.answerDescript .colorGre {
+	background-color: #39cd9c
+}
+
+.answerDescript .colorGre:after {
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	border-bottom: 6px solid transparent;
+	border-left: 8px solid #39cd9c;
+	border-top: 6px solid transparent;
+	position: absolute;
+	right: -8px;
+	top: 8px
+}
+
+.answerDescript .colorGray {
+	background-color: #bbb
+}
+
+.answerDescript .colorGray:after {
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	border-bottom: 6px solid transparent;
+	border-left: 8px solid #bbb;
+	border-top: 6px solid transparent;
+	position: absolute;
+	right: -8px;
+	top: 8px
+}
+
+.answerDescript .colorBlu {
+	background-color: #00b7ee
+}
+
+.answerDescript .colorBlu:after {
+	content: '';
+	display: block;
+	width: 0;
+	height: 0;
+	border-bottom: 6px solid transparent;
+	border-left: 8px solid #00b7ee;
+	border-top: 6px solid transparent;
+	position: absolute;
+	right: -8px;
+	top: 8px
+}
+
+.answerDescript .paperCon {
+	float: left;
+	margin-left: 20px;
+	max-width: 91%;
+	position: relative;
+	top: 3px
+}
+
+.ConPaper {
+	padding: 15px 0
+}
+
+.ConPaper h5 {
+	font-size: 14px;
+	line-height: 14px;
+	color: #666;
+	float: left
+}
+
+.ConPaper .leftPaperTi {
+	line-height: 30px
+}
+
+.ConPaper p {
+	float: left;
+	position: relative;
+	margin-left: 10px
+}
+
+.ConPaper p input {
+	width: 200px;
+	height: 30px;
+	border: 1px solid #bbb;
+	box-sizing: border-box
+}
+
+.inPrompt {
+	position: absolute;
+	font-size: 12px;
+	line-height: 20px;
+	color: #fe5151;
+	left: 0;
+	width: 100%;
+	bottom: -20px
+}
+
+.ConPaper p textarea {
+	width: 600px;
+	height: 150px;
+	border: 1px solid #bbb;
+	box-sizing: border-box;
+	resize: none
+}
+
+.pagerButton {
+	width: 100%;
+	text-align: center;
+	padding: 40px 0
+}
+
+.pagerButton button {
+	width: 100px;
+	height: 35px;
+	outline: none;
+	font-size: 14px;
+	line-height: 35px;
+	text-align: center;
+	padding: 0;
+	margin: 0 10px;
+	border-radius: 4px
+}
+
+.pagerButton .btDef {
+	color: #474747;
+	border: 1px solid #949494
+}
+
+.pagerButton .btSuc {
+	color: #fff;
+	border: none;
+	background-color: #00b7ee
+}
+
+.pagerButton .btSuc:hover {
+	background-color: #01aadd
+}
+
+.pagerButton .btDef:hover {
+	background-color: #f3f3f3
+}
+
+.ConfirmDig {
+	padding: 8px 30px 0
+}
+
+.ConfirmDig h4 {
+	font-size: 14px;
+	color: #333;
+	line-height: 14px;
+	font-weight: normal;
+	float: left;
+	width: 64px
+}
+
+.ConfirmDig p {
+	float: left;
+	margin-left: 10px;
+	position: relative
+}
+
+.ConfirmDig p span {
+	font-size: 12px;
+	color: #999;
+	line-height: 12px;
+	margin-top: 10px;
+	display: block;
+	text-align: left
+}
+
+.ConfirmDig textarea {
+	width: 560px;
+	height: 146px;
+	border: 1px solid #e0e0e0;
+	resize: none
+}
+
+.returnBut.ritPos {
+	right: 80px
+}
+
+.hide {
+	display: none
+}
+
+.paperConTitle h5 {
+	font-size: 14px;
+	color: #333
+}
+
+.homeExamCon .paperContent {
+	background-color: #f6f6f6;
+	padding: 10px 20px 0;
+	margin-top: 0
+}
+
+.homeExamCon .answerDescript {
+	margin-top: 18px
+}
+
+.workListSearch {
+	position: relative
+}
+
+.homeExamCon dt {
+	color: #666;
+	margin-bottom: 0
+}
+
+.homeExamCon dd {
+	margin-top: 30px
+}
+
+.homeExamCon .paperCon {
+	width: 88%
+}
+
+.homeExamCon .que_option_ft {
+	margin-top: 30px
+}
+
+.workStatus .homeRetu {
+	top: 5px
+}

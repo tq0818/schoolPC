@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyMemberLevelConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyMemberLevelConfig"
+		id="companyMemberLevelConfigResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="openWay" column="open_way" />
+		<result property="discount" column="discount" />
+		<result property="ico" column="ico" />
+		<result property="description" column="description" />
+		<result property="companyId" column="company_id" />
+		<result property="consumption" column="consumption" />
+		<result property="delFlag" column="del_flag" />
+		<result property="sequence" column="sequence" />
+		<result property="discountType" column="discount_type" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.model.company.CompanyMemberLevelConfigVo"
+		id="companyMemberLevelConfigVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="openWay" column="open_way" />
+		<result property="discount" column="discount" />
+		<result property="ico" column="ico" />
+		<result property="description" column="description" />
+		<result property="companyId" column="company_id" />
+		<result property="consumption" column="consumption" />
+		<result property="delFlag" column="del_flag" />
+		<result property="sequence" column="sequence" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.model.company.CompanyMemberLevelDetail"
+		id="companyMemberLevelDetailResultMap">
+		<result property="id" column="id" />
+		<result property="memberId" column="member_id" />
+		<result property="length" column="length" />
+		<result property="price" column="price" />
+		<result property="name" column="name" />
+		<result property="status" column="status" />
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		name,
+		open_way,
+		discount,
+		ico,
+		description,
+		company_id,
+		consumption,
+		del_flag,
+		sequence,
+		discount_type
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{openWay},
+		#{discount},
+		#{ico},
+		#{description},
+		#{companyId},
+		#{consumption},
+		#{delFlag},
+		#{sequence},
+		#{discountType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.openWay},
+		#{item.discount},
+		#{item.ico},
+		#{item.description},
+		#{item.companyId},
+		#{item.consumption},
+		#{item.delFlag},
+		#{item.sequence},
+		#{item.discount_type}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfig"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into company_member_level_config(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into company_member_level_config(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_member_level_config
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_member_level_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfig">
+		update company_member_level_config
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="openWay != null">open_way = #{openWay},</if>
+			<if test="discount != null">discount = #{discount},</if>
+			<if test="ico != null and ico != ''">ico = #{ico},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="consumption != null">consumption = #{consumption},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="discountType != null">discount_type = #{discountType},</if>
+			<if test="sequence != null and sequence != ''">sequence = #{sequence},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="companyMemberLevelConfigResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from company_member_level_config
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="companyMemberLevelConfigResultMap">
+		select
+		<include refid="table_columns" />
+		from company_member_level_config
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="openWay != null">and open_way = #{openWay}</if>
+			<if test="discount != null and discount != ''">and discount = #{discount}</if>
+			<if test="ico != null and ico != ''">and ico = #{ico}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="consumption != null and consumption != ''">and consumption = #{consumption}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="sequence != null and sequence != ''">and sequence = #{sequence}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="companyMemberLevelConfigResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfig">
+		select
+		<include refid="table_columns" />
+		from company_member_level_config
+		<include refid="page_where" />
+		order by consumption
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfig">
+		select count(id) from company_member_level_config
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="queryMemberLevelList" parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfig"
+		resultMap="companyMemberLevelConfigResultMap">
+		select
+		<include refid="table_columns" />
+		from company_member_level_config
+		where company_id=#{companyId} and
+		del_flag=0
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="openWay != null and openWay != ''">and open_way = #{openWay}</if>
+		<if test="discount != null and discount != ''">and discount = #{discount}</if>
+		<if test="consumption != null and consumption != ''">and consumption = #{consumption}</if>
+	</select>
+	<select id="findCompanyMemberLevelConfigByCompanyId" resultMap="companyMemberLevelConfigVoResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfig">
+		select * from company_member_level_config
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+		order by   sequence   asc
+	</select>
+	<select id="findCompanyMemberLevelConfigDetailById" resultMap="companyMemberLevelDetailResultMap"
+		parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfigVo">
+		select * from company_member_level_detail  where  member_id = #{id} 
+	</select>
+	<!-- 查询大于当前会员等级的所有等级名称 -->
+	<select id="queryAllCompanyMemberLevelName" parameterType="java.util.Map"
+		resultMap="companyMemberLevelConfigResultMap">
+			SELECT
+				cm.id,
+				cm. NAME
+			FROM
+				company_member_level_config cm
+			WHERE
+				cm.sequence >(
+					SELECT
+						c.sequence
+					FROM
+						company_member_level_config c
+					WHERE
+						c.id =#{memberLevelId}
+					AND c.company_id =#{companyId}
+					AND c.del_flag = 0
+				)
+			AND
+			cm.company_id=#{companyId}
+			AND cm.del_flag = 0
+			order  by cm.sequence  asc
+	</select>
+	<!-- 查询大于当前会员等级的所有等级名称 -->
+	<select id="queryAllCompanyMemberLevelNameNoSelf" parameterType="java.util.Map"
+		resultMap="companyMemberLevelConfigResultMap">
+			SELECT
+				cm.id,
+				cm. NAME
+			FROM
+				company_member_level_config cm
+			WHERE
+				cm.sequence > (
+					SELECT
+						c.sequence
+					FROM
+						company_member_level_config c
+					WHERE
+						c.id =#{memberLevelId}
+					AND c.company_id =#{companyId}
+					AND c.del_flag = 0
+				)
+			AND
+			cm.company_id=#{companyId}
+			AND cm.del_flag = 0
+			order  by cm.sequence  asc
+	</select>
+	<!-- 查询当前会员等级下的大于当前有效期的所有有效期 -->
+	<select id="queryMemberLevelDetails" parameterType="java.util.Map"
+		resultMap="companyMemberLevelDetailResultMap">
+		select * from company_member_level_detail cmld
+		where
+		cmld.length>(
+		SELECT
+		uf.member_buy_length
+		from
+		users_front uf where
+		uf.id=#{usersFrontId})
+		and cmld.member_id=#{memberLevelId}
+		and
+		cmld.status=1
+	</select>
+	<!-- 查询当前会员等级下的所有有效期 -->
+	<select id="queryMemberLevelAllDetails" parameterType="java.util.Map"
+		resultMap="companyMemberLevelDetailResultMap">
+		select * from company_member_level_detail cmld
+		where
+		cmld.member_id=#{memberLevelId}
+		and cmld.status=1
+	</select>
+
+	<!-- 查询会员有效期的价格 -->
+	<select id="queryMemberLevelValidPrice" parameterType="java.util.Map"
+		resultType="Double">
+		select cmld.price from company_member_level_detail cmld
+		where cmld.length=#{memberBuyLength}
+		and cmld.member_id=#{memberId}
+		and cmld.status=1
+		limit 1
+	</select>
+	<!-- 会员等级名称是否重复 -->
+	<select id="checkMemberLevelName" parameterType="com.yuxin.wx.model.company.CompanyMemberLevelConfigVo" resultType="com.yuxin.wx.model.company.CompanyMemberLevelConfigVo">
+			select * from  company_member_level_config  cmlc
+			where  cmlc.name=#{name}
+			and   cmlc.company_id=#{companyId}
+			and  cmlc.del_flag=0;
+	</select>
+	<!-- 查找最大的sequence -->
+	<select id="findMaxSequence"  parameterType="map"  resultType="int">
+			select max(sequence) from  company_member_level_config
+			where    company_id=#{companyId}
+			and  del_flag=0
+			limit 1
+	</select>
+	<!-- 查询最高等级 -->
+	<select id="findHighLevel" parameterType="int" resultType="int">
+			select max(sequence) from company_member_level_config
+			where  company_id=#{company_id}
+			limit 1
+	</select>
+	
+	<select id="checkMemberLevelExist" resultType="Integer" parameterType="Integer">
+			select count(*) from company_member_level_config
+			where  company_id=#{company_id}
+	</select>
+</mapper>

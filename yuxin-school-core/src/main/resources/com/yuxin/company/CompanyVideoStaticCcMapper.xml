@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyVideoStaticCcMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyVideoStaticCc" id="companyVideoStaticCcResultMap">
+		<result property="id" column="id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="staticDate" column="static_date"/>
+		<result property="totalFlow" column="total_flow"/>
+		<result property="usedFlow" column="used_flow"/>
+		<result property="remainFlow" column="remain_flow"/>
+		<result property="totalStorage" column="total_storage"/>
+		<result property="usedStorage" column="used_storage"/>
+		<result property="remainStorage" column="remain_storage"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		static_date,
+		total_flow,
+		used_flow,
+		remain_flow,
+		total_storage,
+		used_storage,
+		remain_storage
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{staticDate},
+		#{totalFlow},
+		#{usedFlow},
+		#{remainFlow},
+		#{totalStorage},
+		#{usedStorage},
+		#{remainStorage}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyVideoStaticCc" useGeneratedKeys="true" keyProperty="id">
+		insert into company_video_static_cc( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyVideoStaticCc">
+		update company_video_static_cc
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="staticDate != null and staticDate != ''">static_date = #{staticDate},</if>
+			<if test="totalFlow != null">total_flow = #{totalFlow},</if>
+			<if test="usedFlow != null">used_flow = #{usedFlow},</if>
+			<if test="remainFlow != null">remain_flow = #{remainFlow},</if>
+			<if test="totalStorage != null">total_storage = #{totalStorage},</if>
+			<if test="usedStorage != null">used_storage = #{usedStorage},</if>
+			<if test="remainStorage != null">remain_storage = #{remainStorage},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<!-- 定时任务 -->
+	<select id="findByDate" parameterType="map" resultMap="companyVideoStaticCcResultMap">
+		select <include refid="table_columns" />
+		from company_video_static_cc
+		where company_id = #{companyId} and 
+			static_date = #{staticDate}
+			limit 1
+	</select>
+	<select id="findByUpDate" parameterType="map" resultMap="companyVideoStaticCcResultMap">
+		select <include refid="table_columns" />
+		from company_video_static_cc
+		where company_id = #{companyId} 
+		<choose>
+			<when test="types == 'flow'">
+				and #{staticDate} > static_date and 
+				static_date >= #{firstDate}
+			</when>
+			<otherwise>
+				and #{staticDate} > static_date
+			</otherwise>
+		</choose>
+		order by static_date desc
+		limit 0,1
+	</select>
+	
+	<select id="findByCompanyId" parameterType="Integer" resultMap="companyVideoStaticCcResultMap">
+		select <include refid="table_columns" />
+		from company_video_static_cc
+		where company_id = #{companyId} order by static_date asc
+	</select>
+</mapper>

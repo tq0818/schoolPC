@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveStaticDayDetailMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail" id="companyLiveStaticDayDetailResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="addTime" column="add_time" />
+		<result property="addDate" column="add_date" />
+		<result property="liveMaxNum" column="live_max_num" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		add_time,
+		add_date,
+		live_max_num,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{addTime},
+		#{addDate},
+		#{liveMaxNum},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.addTime},
+		#{item.addDate},
+		#{item.liveMaxNum},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_static_day_detail( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_live_static_day_detail( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_static_day_detail
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail">
+		update company_live_static_day_detail 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="addTime != null and addTime != ''">add_time = #{addTime},</if>
+			<if test="addDate != null and addDate != ''">add_date = #{addDate},</if>
+			<if test="liveMaxNum != null and liveMaxNum != ''">live_max_num = #{liveMaxNum},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLiveStaticDayDetailResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_live_static_day_detail
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLiveStaticDayDetailResultMap">
+		select <include refid="table_columns" /> 
+		from company_live_static_day_detail
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="addTime != null and addTime != ''">and add_time = #{addTime}</if>
+			<if test="addDate != null and addDate != ''">and add_date = #{addDate}</if>
+			<if test="liveMaxNum != null and liveMaxNum != ''">and live_max_num = #{liveMaxNum}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="companyLiveStaticDayDetailResultMap" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail">
+		select <include refid="table_columns" />
+		from company_live_static_day_detail
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail">
+		select count(id) from company_live_static_day_detail
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findByCompanyId" resultType="Integer" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail">
+		select max(live_max_num)
+		from company_live_static_day_detail
+		where company_id = #{companyId} and 
+			add_date = #{addDate}
+	</select>
+	
+	<select id="findByDateAndCompanyId" resultType="Integer" parameterType="com.yuxin.wx.model.company.CompanyLiveStaticDayDetail">
+		select max(live_num)
+		from company_service_static_day
+		where company_id = #{companyId} and 
+			year(use_date) = #{year} and 
+			month(use_date) = #{month}
+	</select>
+	
+</mapper>

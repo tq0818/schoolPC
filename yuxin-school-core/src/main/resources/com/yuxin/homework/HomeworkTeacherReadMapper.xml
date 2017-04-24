@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.homework.mapper.HomeworkTeacherReadMapper">
+	<resultMap type="com.yuxin.wx.model.homework.HomeworkTeacherRead" id="homeworkTeacherReadResultMap">
+		<result property="id" column="id" />
+		<result property="reader" column="reader" />
+		<result property="content" column="content" />
+		<result property="score" column="score" />
+		<result property="homeworkId" column="homework_id" />
+		<result property="homeworkSId" column="homework_s_id" />
+		<result property="resourceId" column="resource_id" />
+		<result property="readTime" column="read_time" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		reader,
+		content,
+		score,
+		homework_id,
+		homework_s_id,
+		resource_id,
+		read_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{reader},
+		#{content},
+		#{score},
+		#{homeworkId},
+		#{homeworkSId},
+		#{resourceId},
+		#{readTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.reader},
+		#{item.content},
+		#{item.score},
+		#{item.homeworkId},
+		#{item.homeworkSId},
+		#{item.resourceId},
+		#{item.readTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.homework.HomeworkTeacherRead" useGeneratedKeys="true" keyProperty="id">
+		insert into homework_teacher_read( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into homework_teacher_read( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from homework_teacher_read
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from homework_teacher_read
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.homework.HomeworkTeacherRead">
+		update homework_teacher_read 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="reader != null">reader = #{reader},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="score != null">score = #{score},</if>
+			<if test="homeworkId != null">homework_id = #{homeworkId},</if>
+			<if test="homeworkSId != null">homework_s_id = #{homeworkSId},</if>
+			<if test="resourceId != ''">resource_id = #{resourceId},</if>
+			<if test="readTime != null and readTime != ''">read_time = #{readTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="homeworkTeacherReadResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from homework_teacher_read
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="homeworkTeacherReadResultMap">
+		select <include refid="table_columns" /> 
+		from homework_teacher_read
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="reader != null and reader != ''">and reader = #{reader}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="homeworkId != null and homeworkId != ''">and homework_id = #{homeworkId}</if>
+			<if test="homeworkSId != null and homeworkSId != ''">and homework_s_id = #{homeworkSId}</if>
+			<if test="resourceId != null">and resource_id = #{resourceId}</if>
+			<if test="readTime != null and readTime != ''">read_time = #{readTime},</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="homeworkTeacherReadResultMap" parameterType="com.yuxin.wx.model.homework.HomeworkTeacherRead">
+		select <include refid="table_columns" />
+		from homework_teacher_read
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.homework.HomeworkTeacherRead">
+		select count(id) from homework_teacher_read
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<delete id="deleteByHSCId" parameterType="int">
+		delete from homework_teacher_read
+		where homework_s_id = #{id} 
+	</delete>
+	
+	<select id="queryTeacherHomeworkRead" parameterType="com.yuxin.wx.model.homework.HomeworkTeacherRead" resultMap="homeworkTeacherReadResultMap">
+		select <include refid="table_columns" />
+		from homework_teacher_read htr
+		where htr.reader = #{reader}
+		and htr.homework_id = #{homeworkId}
+		and htr.homework_s_id = #{homeworkSId}
+	</select>
+	
+	<select id="findByResourceId" resultMap="homeworkTeacherReadResultMap" parameterType="int">
+		select <include refid="table_columns" />
+		from homework_teacher_read htr
+		where htr.resource_id = #{id}
+	</select>
+</mapper>

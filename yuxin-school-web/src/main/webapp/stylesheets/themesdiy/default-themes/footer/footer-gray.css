@@ -1,0 +1,576 @@
+a:link {
+    text-decoration: none;
+    /*color: #666;*/
+}
+
+a:visited {
+    text-decoration: none;
+    /*color: #666;*/
+}
+
+a:hover {
+    text-decoration: none;
+    /*color: #666;*/
+}
+
+a:active {
+    text-decoration: none;
+    /*color: #666;*/
+}
+
+.c-footer {
+    width: 100%;
+    /*background-color: #32333a;*/
+    /*border: 1px solid #353535;*/
+}
+
+.footer-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #a1a4b3;
+}
+
+.c-footer-1 {
+    height: 210px;
+    background: #32333a;
+}
+
+.content-1 {
+    height: 205px;
+}
+
+.c-footer-2 {
+    height: 92px;
+    background: #2e2e2e;
+}
+
+.content-2 {
+    height: 92px;
+}
+
+.c-footer-3 {
+    height: 168px;
+    background: #24252a;
+}
+
+.content-3 {
+    height: 168px;
+}
+
+.c-footer-4 {
+    height: 50px;
+    background: #24252a;
+    ;
+}
+
+.content-4 {
+    height: 50px;
+}
+
+.footer-content>div {
+    margin: 10px 0 0;
+    float: left;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.f-3-left {
+    width: 48%;
+    height: 148px;
+}
+
+.f-3-left>div {
+    width: 410px;
+    margin: 0 auto;
+}
+
+.f-3-left>div>p {
+    color: #666666;
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.f-3-left>div>p:last-child {
+    font-size: 12px;
+    color: #999999;
+}
+
+.record .stan3 {
+    color: #666666;
+}
+
+.f-3-middle {
+    width: 22%;
+    height: 148px;
+}
+
+.f-3-middle>div {
+    width: 180px;
+    margin: 0 auto;
+    border-right: 1px solid #DCDCDC;
+    border-left: 1px solid #DCDCDC;
+    padding-left: 20px;
+    padding-right: 0px;
+}
+
+.f-3-middle>div a {
+    display: inline-block;
+    width: 80px;
+    margin: 3px;
+    color: #999999;
+    text-align: left;
+    line-height: 30px;
+}
+
+.f-3-middle>div a:hover {
+    color: #666666;
+    text-decoration: underline;
+}
+
+.f-3-right {
+    width: 29%;
+    height: 148px;
+}
+
+.f-3-right>div {
+    margin-left: 15%;
+}
+
+.f-3-right>div div p span {
+    font-size: 36px;
+    cursor: pointer;
+}
+
+.f-3-right>div div {
+    float: left;
+}
+
+.f-3-right>div div p span:last-child {
+    /*position: relative;*/
+    /*top: -4px;*/
+}
+
+.erwm {
+    width: 65px;
+    height: 65px;
+    margin: 30px 0 0 20px;
+}
+
+.f-1-left {
+    float: left;
+    width: 60%;
+}
+
+.f-1-right {
+    float: left;
+    width: 40%;
+}
+
+.footer-top-box {
+    padding: 1%;
+    width: 98%;
+}
+
+.f-1-left>div {
+    float: left;
+    width: 19%;
+    border-right: 1px solid #DCDCDC;
+    height: 164px;
+}
+
+.f-1-left>div p {
+    color: #666666;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.f-1-left>div a {
+    display: block;
+    width: 100%;
+    color: #999999;
+    text-align: center;
+    line-height: 25px;
+    font-size: 12px;
+}
+
+.f-1-left>div a:hover {
+    color: #666666;
+    text-decoration: underline;
+}
+
+.f-1-right>p {
+    text-align: left;
+    font-size: 12px;
+    padding: 0 40px;
+    color: #7e7f81;
+}
+
+.record .stan {
+    color: #a1a4b3;
+}
+
+.f-1-right>p.l-word {
+    font-size: 34px;
+    color: #999999;
+}
+
+.f-1-right>p:first-child {
+    margin-bottom: 10px;
+}
+
+.f-1-right>p:first-child span {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+}
+
+.f-1-right>p span {
+    /*font-size: 32px;*/
+    /*margin: 0 5px;*/
+}
+
+.f-1-right>p img {
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.footer-content>.f-1-bottom {
+    width: 100%;
+    margin: 0;
+    line-height: 30px;
+    text-align: center;
+    color: #a1a4b3;
+    font-size: 12px;
+}
+
+.c-footer-2 .content-2>div {
+    width: 100%;
+    text-align: center;
+    padding-top: 15px;
+    color: #DCDCDC;
+    font-size: 12px;
+}
+
+.c-footer-2 .content-2>div a {
+    color: #999999;
+    font-size: 14px;
+    margin: 0 10px;
+}
+
+.c-footer-2 .content-2>div a:hover {
+    color: #666666;
+    text-decoration: underline;
+}
+
+.c-footer-2 .content-2 span {
+    display: block;
+    width: 100%;
+    line-height: 30px;
+    font-size: 12px;
+    color: #949494;
+    text-align: center;
+}
+
+.f-1-bottom span {
+    color: #d77d10;
+}
+
+.footer-content>.f-4-left {
+    float: left;
+    width: 52%;
+    line-height: 50px;
+    margin: 0;
+    text-align: center;
+    color: #999999;
+    font-size: 12px;
+}
+
+.record4-copy .stan4 {
+    color: #999999;
+}
+
+.footer-content>.f-4-right {
+    float: left;
+    width: 48%;
+    line-height: 50px;
+    margin: 0;
+    text-align: center;
+    color: #747474;
+}
+
+.footer-content>.f-4-right a {
+    color: #999999;
+    margin: 0 12px;
+    font-size: 14px;
+}
+
+.footer-content>.f-4-right a:hover {
+    color: #666666;
+    text-decoration: underline;
+}
+
+.f-3-right>div div p span a {
+    display: inline-block;
+    font-size: 36px;
+}
+
+.pop-ewm {
+    position: absolute;
+    bottom: 48px;
+    right: 45%;
+    display: none;
+}
+
+.pop-ewm.pop-ewm1 {
+    right: 30%;
+}
+
+.qimg_hover span {
+    margin-right: 17px;
+}
+
+.c-footer p.qimg_hover span i {
+    color: #AAAAAA;
+    font-size: 36px;
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    font-size: 30px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.c-footer p.qimg_hover span i:hover {
+    color: #666666;
+}
+
+body .c-footer {
+    background-color: #E9E9E9;
+}
+
+.f-3-right .q-focus {
+    font-size: 14px;
+    margin-top: 40px;
+    color: #999999;
+}
+
+.f-3-right .img-hover {
+    margin-top: -5px;
+}
+
+
+/*备案增加*/
+
+.record {
+    margin-top: 10px;
+}
+
+#footerContents .picture {
+    width: 14px;
+    height: 16px;
+    background: url('../images/por_1.png') no-repeat center;
+    margin-left: 2px;
+}
+
+.record .stan {
+    line-height: 16px;
+    /*color: #7e7f81;*/
+    padding-left: 8px;
+    font-size: 12px;
+}
+
+.record2 .picture2 {
+    display: inline-block;
+    width: 14px;
+    height: 16px;
+    background: url('../images/por_1.png') no-repeat center;
+    position: relative;
+    top: 2px;
+    margin-left: 20px;
+}
+
+.record2 .stan2 {
+    color: #949494;
+}
+
+.record2 .rech {
+    display: inline-block;
+    font-size: 12px;
+}
+
+.f-3-left>div>.record3-top {
+    font-size: 12px;
+    color: #a1a4b3;
+    margin: 0px;
+}
+
+.content-3 .record3>div>p {
+    margin: 0px;
+}
+
+.content-3 .record3>div>.record3-bot {
+    margin-top: 4px;
+}
+
+.record .stan3 {
+    color: #a1a4b3;
+}
+
+.pageafter-box .c-footer.c-record4-4 {
+    height: auto;
+}
+
+.footer-content>div.record-4-left {
+    padding: 15px 0 15px 40px;
+    text-align: left;
+    line-height: 18px;
+}
+
+.record4-word {
+    display: block;
+}
+
+.c-footer .record4 {
+    height: auto;
+    position: relative;
+}
+
+.record4-copy {
+    font-size: 12px;
+    padding-bottom: 3px;
+    /* position: relative;
+    bottom: 19px;
+    padding-left: 45px;*/
+}
+
+.record4-copy .stan4 {
+    color: #949494;
+}
+
+.record4>div.record4-right {
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+}
+
+
+/*备案增加*/
+
+.record {
+    margin-top: 10px;
+}
+
+#footerContents .picture {
+    width: 14px;
+    height: 16px;
+    background: url('../images/por_1.png') no-repeat center;
+    margin-left: 2px;
+}
+
+.record .stan {
+    line-height: 16px;
+    /*color: #7e7f81;*/
+    padding-left: 8px;
+}
+
+.record2 .picture2 {
+    display: inline-block;
+    width: 14px;
+    height: 16px;
+    background: url('../images/por_1.png') no-repeat center;
+    position: relative;
+    top: 2px;
+    margin-left: 20px;
+}
+
+.record2 .stan2 {
+    color: #949494;
+}
+
+.record2 .rech {
+    display: inline-block;
+    font-size: 12px;
+}
+
+.f-3-left>div>.record3-top {
+    font-size: 12px;
+    color: #a1a4b3;
+    margin: 0px;
+}
+
+.content-3 .record3>div>p {
+    margin: 0px;
+}
+
+.content-3 .record3>div>.record3-bot {
+    margin-top: 4px;
+}
+
+.record .stan3 {
+    color: #a1a4b3;
+}
+
+.pageafter-box .c-footer.c-record4-4 {
+    height: auto;
+}
+
+.footer-content>div.record-4-left {
+    padding: 15px 0 15px 40px;
+    text-align: left;
+    line-height: 18px;
+}
+
+.record4-word {
+    display: block;
+}
+
+.c-footer .record4 {
+    height: auto;
+    position: relative;
+}
+
+.record4-copy {
+    font-size: 12px;
+    padding-bottom: 3px;
+    /* position: relative;
+    bottom: 19px;
+    padding-left: 45px;*/
+}
+
+.record4-copy .stan4 {
+    color: #949494;
+}
+
+.record4>div.record4-right {
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+}
+.footer-content .record2 .stan2{
+	font-size:12px;
+}
+#footerContents .c-record4-4{
+	height:auto;
+}
+.record .stan:hover {
+    text-decoration: underline;
+}
+
+.record .stan3:hover {
+    text-decoration: underline;
+}
+
+.record4-copy .stan4:hover {
+    text-decoration: underline;
+}
+
+.record2 .stan2:hover {
+    text-decoration: underline;
+}

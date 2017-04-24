@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysUseRecordNoticTaskMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysUseRecordNoticTask" id="sysUseRecordNoticTaskResultMap">
+		<result property="id" column="id" />
+		<result property="bussinessType" column="bussiness_type" />
+		<result property="recordDateTime" column="record_date_time" />
+		<result property="recordStatus" column="record_status" />
+		<result property="excepDetail" column="excep_detail" />
+		<result property="recordData" column="record_data" />
+		<result property="lastExecTime" column="last_exec_time" />
+		<result property="companyId" column="company_id" />
+		<result property="recordDateMonth" column="record_date_month" />
+		<result property="totalNum" column="total_num" />
+		<result property="currtNum" column="currt_num" />
+		<result property="lastNum" column="last_num" />
+		<result property="deadDate" column="dead_date" />
+		<result property="noticType" column="notic_type"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		bussiness_type,
+		record_date_time,
+		record_status,
+		excep_detail,
+		record_data,
+		last_exec_time,
+		company_id,
+		record_date_month,
+		total_num,
+		currt_num,
+		last_num,
+		dead_date,
+		notic_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{bussinessType},
+		#{recordDateTime},
+		#{recordStatus},
+		#{excepDetail},
+		#{recordData},
+		#{lastExecTime},
+		#{companyId},
+		#{recordDateMonth},
+		#{totalNum},
+		#{currtNum},
+		#{lastNum},
+		#{deadDate},
+		#{noticType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.bussinessType},
+		#{item.recordDateTime},
+		#{item.recordStatus},
+		#{item.excepDetail},
+		#{item.recordData},
+		#{item.lastExecTime},
+		#{item.companyId},
+		#{item.recordDateMonth},
+		#{item.totalNum},
+		#{item.currtNum},
+		#{item.lastNum},
+		#{item.deadDate},
+		#{item.noticType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysUseRecordNoticTask" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_use_record_notic_task( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_use_record_notic_task( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_use_record_notic_task
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_use_record_notic_task
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysUseRecordNoticTask">
+		update sys_use_record_notic_task 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bussinessType != null">bussiness_type = #{bussinessType},</if>
+			<if test="recordDateTime != null and recordDateTime != ''">record_date_time = #{recordDateTime},</if>
+			<if test="recordStatus != null">record_status = #{recordStatus},</if>
+			<if test="excepDetail != null and excepDetail != ''">excep_detail = #{excepDetail},</if>
+			<if test="recordData != null and recordData != ''">record_data = #{recordData},</if>
+			<if test="lastExecTime != null and lastExecTime != ''">last_exec_time = #{lastExecTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="recordDateMonth != null and recordDateMonth != ''">record_date_month = #{recordDateMonth},</if>
+			<if test="totalNum != null">total_num = #{totalNum},</if>
+			<if test="currtNum != null">currt_num = #{currtNum},</if>
+			<if test="lastNum != null">last_num = #{lastNum},</if>
+			<if test="deadDate != null and deadDate != ''">dead_date = #{deadDate},</if>
+			<if test="noticType != null">notic_type = #{noticType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysUseRecordNoticTaskResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_use_record_notic_task
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysUseRecordNoticTaskResultMap">
+		select <include refid="table_columns" /> 
+		from sys_use_record_notic_task
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="bussinessType != null">and bussiness_type = #{bussinessType}</if>
+			<if test="recordDateTime != null and recordDateTime != ''">and record_date_time = #{recordDateTime}</if>
+			<if test="recordStatus != null">and record_status = #{recordStatus}</if>
+			<if test="excepDetail != null and excepDetail != ''">and excep_detail = #{excepDetail}</if>
+			<if test="recordData != null and recordData != ''">and record_data = #{recordData}</if>
+			<if test="lastExecTime != null and lastExecTime != ''">and last_exec_time = #{lastExecTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="recordDateMonth != null and recordDateMonth != ''">and record_date_month = #{recordDateMonth}</if>
+			<if test="totalNum != null">and total_num = #{totalNum}</if>
+			<if test="currtNum != null">and currt_num = #{currtNum}</if>
+			<if test="lastNum != null">and last_num = #{lastNum}</if>
+			<if test="deadDate != null and deadDate != ''">and dead_date = #{deadDate}</if>
+			<if test="noticType != null">and notic_type = #{noticType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysUseRecordNoticTaskResultMap" parameterType="com.yuxin.wx.model.system.SysUseRecordNoticTask">
+		select <include refid="table_columns" />
+		from sys_use_record_notic_task
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysUseRecordNoticTask">
+		select count(id) from sys_use_record_notic_task
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByCompanyId" parameterType="com.yuxin.wx.model.system.SysUseRecordNoticTask" 
+		resultMap="sysUseRecordNoticTaskResultMap">
+		select <include refid="table_columns"/>	from sys_use_record_notic_task
+		where company_id = #{companyId}
+			and record_data = #{recordData}
+			and notic_type = #{noticType}
+			and record_date_month = #{recordDateMonth}
+			and bussiness_type = #{bussinessType}
+		order by id desc
+		limit 1
+	</select>
+	
+	<!-- 查询公司机构管理员和运营 -->
+	<select id="queryCompanyManageUsers" resultType="com.yuxin.wx.model.user.Users" parameterType="int">
+		SELECT
+			DISTINCT(s_aur_susers.userId) id,s_aur_susers.mobile mobile
+		FROM
+			(
+				SELECT
+					aur.*, susers.userId userId,
+					susers.mobile mobile
+				FROM
+					auth_user_role aur
+				INNER JOIN (
+					SELECT
+						u.id userId,
+						u.mobile mobile
+					FROM
+						users u
+					WHERE
+						u.company_id = #{companyId}
+					AND u. STATUS = 1
+				) AS susers ON aur.user_id = susers.userId
+			) s_aur_susers
+		WHERE
+			s_aur_susers.role_uid IN (
+				SELECT
+					ar.role_uid
+				FROM
+					auth_role ar
+				WHERE
+					(
+						ar.role_name = '机构管理员'
+						OR ar.role_name = '运营'
+					)
+				AND ar.company_id = 0
+			)
+	</select>
+	
+	<select id="queryNeedSendList" resultMap="sysUseRecordNoticTaskResultMap">
+		select <include refid="table_columns" />
+		from sys_use_record_notic_task surnt
+		where (surnt.record_status = 0 or surnt.record_status = 2)
+	</select>
+</mapper>

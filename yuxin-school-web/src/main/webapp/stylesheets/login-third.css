@@ -1,0 +1,92 @@
+.login-type{
+    margin-top: 20px;
+}
+.login-type .iconfont{
+    font-size: 30px;
+}
+.login-type .iconfont.qq{
+    color: #00b7ee;
+}
+.login-type .iconfont.wx{
+    color: #11cd6e;
+}
+.login-type .iconfont.wb{
+    color: #eb4f38;
+}
+.login-type p{
+    margin-top: 10px;
+    font-size: 14px;
+}
+.screen-right-cont .pay-btn{
+    overflow: hidden;
+}
+.screen-right-cont .pay-btn .choose-img{
+    display: none;
+}
+.login-mobile{
+    padding-left: 50px;
+}
+.login-mobile h2.l-title,.login-mobile .prompt-font{
+    float: left;
+    margin: 0;
+    padding: 0;
+    line-height: 40px;
+    border-bottom: 0;
+    margin-right: 40px;
+}
+.login-mobile .pay-btn{
+    cursor: pointer;
+}
+.login-mobile .pay-btn p{
+    line-height: 160px;
+    font-size: 12px;
+}
+.login-mobile .pay-btn:hover{
+    background: #fff;
+    border-color: #00b7ee;
+}
+.login-mobile .pay-btn:hover p{
+    color: #00b7ee;
+}
+.btn-box{
+    text-align: center;
+}
+.btn-box button{
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 4px;
+    margin-right:20px;
+}
+.login-set{
+    margin-top: 20px;
+}
+.login-set .set-title{
+    width: 200px;
+    text-align: right;
+    font-size: 14px;
+    color: #333;
+    padding-right: 10px;
+    line-height: 30px;
+}
+.login-set .set-cont input{
+    width: 200px;
+    height: 30px;
+    padding: 0 10px;
+}
+.login-set .set-cont textarea{
+    resize: none;
+    width: 500px;
+    height: 60px;
+}
+.login-set .prompt-font{
+    padding-left: 0;
+}
+.login-set a.login-port{
+    color: #00b7ee;
+    text-decoration: underline;
+    display: block;
+    margin: 50px 0;
+}

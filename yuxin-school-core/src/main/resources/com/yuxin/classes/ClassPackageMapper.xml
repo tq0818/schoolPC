@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassPackageMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassPackage" id="classPackageResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="baseNum" column="base_num" />
+		<result property="description" column="description" />
+		<result property="categoryCode" column="category_code" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="cover" column="cover" />
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="introduce" column="introduce"/>
+		<result property="protocolId" column="protocol_id"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClasspackageVo" id="classPackageVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="baseNum" column="base_num" />
+		<result property="description" column="description" />
+		<result property="categoryCode" column="category_code" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="cover" column="cover" />
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="categoryName" column="category_name"/>
+		<result property="introduce" column="introduce"/>
+		<result property="protocolId" column="protocol_id"/>
+		<result property="stageCount" column="stage_count"/>
+		<result property="classTypeCount" column="class_type_count"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		original_price,
+		real_price,
+		base_num,
+		description,
+		category_code,
+		publish_status,
+		publish_time,
+		company_id,
+		school_id,
+		creator,
+		create_time,
+		update_time,
+		updator,
+		del_flag,
+		cover,
+		recommend_flag,
+		introduce,
+		protocol_id
+    </sql>
+    
+    <sql id="table_columns_vo">
+		cp.id,
+		cp.name,
+		cp.original_price,
+		cp.real_price,
+		cp.base_num,
+		cp.description,
+		cp.category_code,
+		cp.publish_status,
+		cp.publish_time,
+		cp.company_id,
+		cp.school_id,
+		cp.creator,
+		cp.create_time,
+		cp.update_time,
+		cp.updator,
+		cp.del_flag,
+		cp.cover,
+		cp.recommend_flag,
+		cpc.name as categoryName
+    </sql>
+    
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{originalPrice},
+		#{realPrice},
+		#{baseNum},
+		#{description},
+		#{categoryCode},
+		#{publishStatus},
+		#{publishTime},
+		#{companyId},
+		#{schoolId},
+		#{creator},
+		#{createTime},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{cover},
+		#{recommendFlag},
+		#{introduce},
+		#{protocolId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.originalPrice},
+		#{item.realPrice},
+		#{item.baseNum},
+		#{item.description},
+		#{item.categoryCode},
+		#{item.publishStatus},
+		#{item.publishTime},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.delFlag},
+		#{item.cover},
+		#{item.recommendFlag},
+		#{item.introduce},
+		#{item.protocolId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassPackage" useGeneratedKeys="true" keyProperty="id">
+		insert into class_package( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_package( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_package
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		update class_package 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="originalPrice != null ">original_price = #{originalPrice},</if>
+			<if test="realPrice != null">real_price = #{realPrice},</if>
+			<if test="baseNum != null">base_num = #{baseNum},</if>
+			<if test="description != null">description = #{description},</if>
+			<if test="categoryCode != null and categoryCode != ''">category_code = #{categoryCode},</if>
+			<if test="publishStatus != null and publishStatus != ''">publish_status = #{publishStatus},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="cover != null and cover != ''">cover = #{cover},</if>
+			<if test="recommendFlag != null">recommend_flag = #{recommendFlag},</if>
+			<if test="introduce != null">introduce = #{introduce},</if>
+			<if test="protocolId != null">protocol_id = #{protocolId},</if>
+			
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classPackageResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_package
+		where id = #{id}
+	</select>
+	<select id="findVoById" resultMap="classPackageVoResultMap" parameterType="int">
+		select <include refid="table_columns_vo" />
+		from class_package cp left join class_package_category cpc  on cp.category_code=cpc.code and cp.company_id=cpc.company_id and cp.school_id=cpc.school_id
+		where cp.id = #{id} and cpc.del_flag=0
+		limit 1
+	</select>
+	
+	<select id="queryAll" resultMap="classPackageResultMap">
+		select <include refid="table_columns" /> 
+		from class_package
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="originalPrice != null and originalPrice != ''">and original_price = #{originalPrice}</if>
+			<if test="realPrice != null and realPrice != ''">and real_price = #{realPrice}</if>
+			<if test="baseNum != null and baseNum != ''">and base_num = #{baseNum}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="categoryCode != null and categoryCode != ''">and category_code = #{categoryCode}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="cover != null and cover != ''">and cover = #{cover}</if>
+			<if test="protocolId != null and protocolId != ''">and protocol_id = #{protocolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classPackageResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select <include refid="table_columns" />
+		from class_package
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select count(id) from class_package
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!-- 查询课程包列表 -->
+	<select id="queryClassPackageByCondition" resultMap="classPackageResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select cp.id,cp.name,
+		cp.original_price,
+		cp.real_price,
+		cp.base_num,
+		cp.description,
+		cp.category_code,
+		cp.publish_status,
+		cp.publish_time,
+		cp.company_id,
+		cp.school_id,
+		cp.creator,
+		cp.create_time,
+		cp.update_time,
+		cp.updator,
+		cp.del_flag,
+		cp.cover,
+		cp.recommend_flag,
+		c.buy_num as buyNum 
+		from class_package cp left join commodity_product_realtion pr on
+		pr.product_id = cp.id
+		INNER JOIN commodity c ON c.id = pr.com_id
+		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
+		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
+		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
+		<if test="categoryCode != null and categoryCode != ''">and cp.category_code like '${categoryCode}%'</if>
+		<if test="publishStatus != null and publishStatus != ''">and cp.publish_status = #{publishStatus}</if>
+		order by cp.create_time DESC
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryClassPackageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select count(id)
+		from class_package
+		where company_id=#{companyId} and del_flag=0
+		<if test="name != null and name != ''">and name like '%${name}%'</if>
+		<if test="schoolId != null and schoolId !=''">and school_id=#{schoolId}</if>
+		<if test="categoryCode != null and categoryCode != ''">and category_code like '${categoryCode}%'</if>
+		<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+	</select>
+	
+	<!-- 条件查询课程包 -->
+	<select id="queryClassPackageByWhere" resultMap="classPackageResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+	  select <include refid="table_columns" />
+		from class_package
+		where company_id=#{companyId} and del_flag=0
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="schoolId != null and schoolId !=''">and school_id=#{schoolId}</if>
+		<if test="categoryCode != null and categoryCode != ''">and category_code like '${categoryCode}%'</if>
+		<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+	</select>
+	
+	<select id="queryByCustomWhere" resultType="com.yuxin.wx.vo.classes.ClasspackageVo" parameterType="hashmap">
+		select <include refid="table_columns" />
+		from class_package
+		<include refid="page_where" />
+		limit 1
+	</select>
+	<!-- 查询课程包下面所有的课程 -->
+	<select id="findClassPackageAllClasses" resultType="int" parameterType="int">
+		SELECT a.class_type_id FROM class_package_relation a where a.class_package_id = #{classPackageId};
+	</select>
+			
+	
+	<select id="queryClassPackageHasCountsByCondition" resultType="com.yuxin.wx.model.classes.ClassPackage" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select cp.id,
+		cp.name,
+		cp.original_price as originalPrice,
+		cp.real_price as realPrice,
+		cp.base_num as baseNum,
+		cp.description,
+		cp.category_code as categoryCode,
+		cp.publish_status as publishStatus,
+		cp.publish_time as publishTime,
+		cp.company_id as companyId,
+		cp.school_id as schoolId,
+		cp.creator,
+		cp.create_time as createTime,
+		cp.update_time as updateTime,
+		cp.updator,
+		cp.del_flag as delFlag,
+		cp.cover,
+		cp.recommend_flag as recommendFlag,
+		c.buy_num as buyNum,
+		IFNULL((SELECT COUNT(*) from class_package_stage cps where cps.class_package_id = cp.id and cps.del_flag = 0),0) as stageCount,
+		IFNULL((SELECT count(cpr.id) FROM class_package_relation cpr,class_type d where cpr.class_package_id = cp.id and cpr.class_type_id = d.id and d.del_flag = 0  ),0) as classTypeCount
+		from class_package cp left join commodity_product_realtion pr on
+		pr.product_id = cp.id
+		INNER JOIN commodity c ON c.id = pr.com_id
+		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
+		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
+		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
+		<if test="categoryCode != null and categoryCode != ''">and cp.category_code like '${categoryCode}%'</if>
+		<if test="publishStatus != null and publishStatus != ''">and cp.publish_status = #{publishStatus}</if>
+		order by cp.create_time DESC
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryClassPackageHasCountsCountByCondition" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select count(cp.id)
+		from class_package cp left join commodity_product_realtion pr on
+		pr.product_id = cp.id
+		INNER JOIN commodity c ON c.id = pr.com_id
+		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
+		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
+		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
+		<if test="categoryCode != null and categoryCode != ''">and cp.category_code like '${categoryCode}%'</if>
+		<if test="publishStatus != null and publishStatus != ''">and cp.publish_status = #{publishStatus}</if>
+	</select>
+	
+	
+	<select id="findByCondition" resultMap="classPackageVoResultMap" parameterType="com.yuxin.wx.vo.classes.ClasspackageVo">
+		select b.*,(b.pay_count+b.base_num) as total_count from (
+			SELECT DISTINCT b.com_id,IFNULL(c.buy_num ,0) as pay_count,a.*,
+			IFNULL((SELECT COUNT(*) from class_package_stage b where b.class_package_id = a.id and b.del_flag = 0),0) as stage_count,
+			IFNULL((SELECT count(c.id) FROM class_package_relation c,class_type d where c.class_package_id = a.id and c.class_type_id = d.id and d.del_flag = 0  ),0) as class_type_count
+			FROM class_package a,commodity_product_realtion b,commodity c
+			where a.id = b.product_id AND c.id = b.com_id  and a.del_flag = 0 and a.publish_status = 'CLASS_ON_SALE' and b.product_type = '2'
+			<if test="companyId != null and companyId != ''">and a.company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+			<if test="name != null and name != ''">and a.name like '%${name}%'</if>
+			<if test="categoryCode != null">and a.category_code like '${categoryCode}%'</if>
+		) b
+		order by ${orderBy} DESC,b.recommend_flag DESC 
+		limit #{firstIndex},#{pageSize};
+	</select>
+	<select id="findByConditionCount" resultType="int" parameterType="com.yuxin.wx.vo.classes.ClasspackageVo">
+		SELECT count(a.id)
+		FROM class_package a 
+		where a.del_flag = 0 and a.publish_status = 'CLASS_ON_SALE' 
+		<if test="companyId != null and companyId != ''">and a.company_id = #{companyId}</if>
+		<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		<if test="name != null and name != ''">and a.name like '%${name}%'</if>
+		<if test="categoryCode != null">and a.category_code like '${categoryCode}%'</if>
+	</select>
+	
+	
+	<select id="queryCommodityByClassPackage" resultType="com.yuxin.wx.model.classes.ClassPackage" parameterType="com.yuxin.wx.model.classes.ClassPackage">
+		select cp.id,
+		cp.name,
+		cp.original_price as originalPrice,
+		cp.real_price as realPrice,
+		cp.base_num as baseNum,
+		cp.description,
+		cp.category_code as categoryCode,
+		cp.publish_status as publishStatus,
+		cp.publish_time as publishTime,
+		cp.company_id as companyId,
+		cp.school_id as schoolId,
+		cp.creator,
+		cp.create_time as createTime,
+		cp.update_time as updateTime,
+		cp.updator,
+		cp.del_flag as delFlag,
+		cp.cover,
+		cp.recommend_flag as recommendFlag,
+		c.buy_num as buyNum,
+		c.id as commodityId,
+		c.name as commodityName,
+		IFNULL((SELECT COUNT(*) from class_package_stage cps where cps.class_package_id = cp.id and cps.del_flag = 0),0) as stageCount,
+		IFNULL((SELECT count(cpr.id) FROM class_package_relation cpr,class_type d where cpr.class_package_id = cp.id and cpr.class_type_id = d.id and d.del_flag = 0  ),0) as classTypeCount
+		from class_package cp left join commodity_product_realtion pr on
+		pr.product_id = cp.id
+		INNER JOIN commodity c ON c.id = pr.com_id
+		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
+		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
+		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
+		<if test="categoryCode != null and categoryCode != ''">and cp.category_code like '${categoryCode}%'</if>
+		<if test="publishStatus != null and publishStatus != ''">and cp.publish_status = #{publishStatus}</if>
+		order by cp.create_time DESC
+	</select>
+	
+	
+	<select id="queryClassPackageByComId" resultType="com.yuxin.wx.model.classes.ClassPackage" parameterType="int">
+		select  cp.id,
+		cp.name,
+		cp.original_price as originalPrice,
+		cp.real_price as realPrice,
+		cp.base_num as baseNum,
+		cp.description,
+		cp.category_code as categoryCode,
+		cp.publish_status as publishStatus,
+		cp.publish_time as publishTime,
+		cp.company_id as companyId,
+		cp.school_id as schoolId,
+		cp.creator,
+		cp.create_time as createTime,
+		cp.update_time as updateTime,
+		cp.updator,
+		cp.del_flag as delFlag,
+		cp.cover,
+		cp.recommend_flag as recommendFlag,
+		c.buy_num as buyNum,
+		c.id as commodityId
+		from commodity c left join commodity_product_realtion cpr on c.id = cpr.com_id and cpr.product_type=2
+		left join class_package cp on cp.id = cpr.product_id
+		where c.id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.auth.mapper.AuthPrivilegeMapper">
+	<resultMap type="com.yuxin.wx.model.auth.AuthPrivilege" id="authPrivilegeResultMap">
+		<result property="id" column="id" />
+		<result property="privilegeName" column="privilege_name" />
+		<result property="description" column="description" />
+		<result property="privilegeCategoryId" column="privilege_category_id" />
+		<result property="companyId" column="company_id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		privilege_name,
+		description,
+		privilege_category_id,
+		company_id,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{privilegeName},
+		#{description},
+		#{privilegeCategoryId},
+		#{companyId},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.privilegeName},
+		#{item.description},
+		#{item.privilegeCategoryId},
+		#{item.companyId},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator}
+	</sql>
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.auth.AuthPrivilege" useGeneratedKeys="true" keyProperty="id">
+		insert into auth_privilege( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into auth_privilege( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from auth_privilege
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from auth_privilege
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.auth.AuthPrivilege">
+		update auth_privilege 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="privilegeName != null and privilegeName != ''">privilege_name = #{privilegeName},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="privilegeCategoryId != null and privilegeCategoryId != ''">privilege_category_id = #{privilegeCategoryId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="authPrivilegeResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from auth_privilege
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="authPrivilegeResultMap">
+		select <include refid="table_columns" /> 
+		from auth_privilege
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="privilegeName != null and privilegeName != ''">and privilege_name = #{privilegeName}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="privilegeCategoryId != null and privilegeCategoryId != ''">and privilege_category_id = #{privilegeCategoryId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="authPrivilegeResultMap" parameterType="com.yuxin.wx.model.auth.AuthPrivilege">
+		select <include refid="table_columns" />
+		from auth_privilege
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.auth.AuthPrivilege">
+		select count(id) from auth_privilege
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findListByCategory" resultMap="authPrivilegeResultMap"  parameterType="int">
+		select <include refid="table_columns" /> from auth_privilege where privilege_category_id = #{categoryId}
+	</select>
+	
+	<select id="findByCompanyId" parameterType="Integer" resultMap="authPrivilegeResultMap">
+		select <include refid="table_columns" />
+		from auth_privilege
+		where company_id = #{companyId}
+	</select>
+	<select id="findNameById" parameterType="List" resultType="String">
+		select description
+		from auth_privilege
+		where id in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</select>
+</mapper>

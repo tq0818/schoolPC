@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyMessageHistoryMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyMessageHistory" id="companyMessageHistoryResultMap">
+		<result property="id" column="id"/>
+		<result property="receiverUserId" column="receiver_user_id"/>
+		<result property="receiverMobile" column="receiver_mobile"/>
+		<result property="sendTime" column="send_time"/>
+		<result property="content" column="content"/>
+		<result property="sendStatus" column="send_status"/>
+		<result property="sendResult" column="send_result"/>
+		<result property="businessType" column="business_type"/>
+		<result property="costNum" column="cost_num"/>
+		<result property="companyId" column="company_id"/>
+		<result property="schoolId" column="school_id"/>
+		<result property="messageId" column="message_id"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		receiver_user_id,
+		receiver_mobile,
+		send_time,
+		content,
+		send_status,
+		send_result,
+		business_type,
+		cost_num,
+		company_id,
+		school_id,
+		message_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{receiverUserId},
+		#{receiverMobile},
+		#{sendTime},
+		#{content},
+		#{sendStatus},
+		#{sendResult},
+		#{businessType},
+		#{costNum},
+		#{companyId},
+		#{schoolId},
+		#{messageId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.receiverUserId},
+		#{item.receiverMobile},
+		#{item.sendTime},
+		#{item.content},
+		#{item.sendStatus},
+		#{item.sendResult},
+		#{item.businessType},
+		#{item.costNum},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.messageId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory" useGeneratedKeys="true" keyProperty="id">
+		insert into company_message_history( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_message_history( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_message_history
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_message_history
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory">
+		update company_message_history 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="receiverUserId != null and receiverUserId != ''">receiver_user_id = #{receiverUserId},</if>
+			<if test="receiverMobile != null and receiverMobile != ''">receiver_mobile = #{receiverMobile},</if>
+			<if test="sendTime != null and sendTime != ''">send_time = #{sendTime},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="sendStatus != null and sendStatus != ''">send_status = #{sendStatus},</if>
+			<if test="sendResult != null and sendResult != ''">send_result = #{sendResult},</if>
+			<if test="businessType != null and businessType != ''">business_type = #{businessType},</if>
+			<if test="costNum != null and costNum != ''">cost_num = #{costNum},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+			<if test="schoolId != null">school_id = #{schoolId},</if>
+			<if test="messageId != null">message_id = #{messageId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyMessageHistoryResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_message_history
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyMessageHistoryResultMap">
+		select <include refid="table_columns" /> 
+		from company_message_history
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="receiverUserId != null and receiverUserId != ''">and receiver_user_id = #{receiverUserId}</if>
+			<if test="receiverMobile != null and receiverMobile != ''">and receiver_mobile = #{receiverMobile}</if>
+			<if test="sendTime != null and sendTime != ''">and send_time = #{sendTime}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="sendStatus != null and sendStatus != ''">and send_status = #{sendStatus}</if>
+			<if test="sendResult != null and sendResult != ''">and send_result = #{sendResult}</if>
+			<if test="businessType != null and businessType != ''">and business_type = #{businessType}</if>
+			<if test="costNum != null and costNum != ''">and cost_num = #{costNum}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="schoolId != null">and school_id = #{schoolId}</if>
+			<if test="messageId != null">and message_id = #{messageId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyMessageHistoryResultMap" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory">
+		select <include refid="table_columns" />
+		from company_message_history
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory">
+		select count(id) from company_message_history
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+		
+	<!-- 定时任务 -->
+	<select id="findMessageByDateAndCompanyId" resultType="Integer" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory">
+		select COALESCE(sum(cost_num),0)
+		from company_message_history 
+		where company_id = #{companyId} and 
+			send_time >= #{startTime} and 
+			#{endTime} >= send_time 
+			and send_status = 1
+		limit 1
+	</select>
+	
+	<!-- 查询 通知结果 -->
+	<select id="findResult" resultType="String" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory">
+		select send_result
+		from company_message_history
+		where id = #{id}
+		limit 1
+	</select>
+	
+	<select id="findByUserCount" resultType="Integer" parameterType="com.yuxin.wx.model.company.CompanyMessageHistory">
+		select count(id)
+		from company_message_history
+		where company_id = #{companyId} and 
+			school_id = #{schoolId} and 
+			message_id = #{messageId} and 
+			business_type = #{businessType} 
+			<if test="sendStatus != null">
+			 and send_status = #{sendStatus} 
+			</if>
+	</select>
+</mapper>

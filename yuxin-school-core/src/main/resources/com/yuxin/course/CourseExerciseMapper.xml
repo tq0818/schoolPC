@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseExerciseMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseExercise" id="courseExerciseResultMap">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="resourceId" column="resource_id" />
+		<result property="exerciseType" column="exercise_type" />
+		<result property="tikuResourceType" column="tiku_resource_type" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		<result property="tikuChapterId" column="tiku_chapter_id" />
+		<result property="tikuSectionId" column="tiku_section_id" />
+		<result property="topicNum" column="topic_num" />
+		<result property="paperId" column="paper_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.course.CourseExerciseVo" id="courseExerciseResultMapVo">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="resourceId" column="resource_id" />
+		<result property="exerciseType" column="exercise_type" />
+		<result property="tikuResourceType" column="tiku_resource_type" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tikuChapterId" column="tiku_chapter_id" />
+		<result property="tikuSectionId" column="tiku_section_id" />
+		<result property="topicNum" column="topic_num" />
+		<result property="paperId" column="paper_id" />
+		<result property="categoryName" column="category_name" />
+		<result property="chapterName" column="chapter_name" />
+		<result property="sectionName" column="section_name" />
+		<result property="subjectName" column="subject_name" />
+		<result property="paperName" column="paper_name" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		class_type_id,
+		resource_type,
+		resource_id,
+		exercise_type,
+		tiku_resource_type,
+		tiku_category_id,
+		tiku_subject_id,
+		tiku_chapter_id,
+		tiku_section_id,
+		topic_num,
+		paper_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{classTypeId},
+		#{resourceType},
+		#{resourceId},
+		#{exerciseType},
+		#{tikuResourceType},
+		#{tikuCategoryId},
+		#{tikuSubjectId},
+		#{tikuChapterId},
+		#{tikuSectionId},
+		#{topicNum},
+		#{paperId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.classTypeId},
+		#{item.resourceType},
+		#{item.resourceId},
+		#{item.exerciseType},
+		#{item.tikuResourceType},
+		#{item.tikuCategoryId},
+		#{item.tikuSubjectId},
+		#{item.tikuChapterId},
+		#{item.tikuSectionId},
+		#{item.topicNum},
+		#{item.paperId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseExercise" useGeneratedKeys="true" keyProperty="id">
+		insert into course_exercise( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_exercise( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_exercise
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_exercise
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseExercise">
+		update course_exercise 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="resourceType != null and resourceType != ''">resource_type = #{resourceType},</if>
+			<if test="resourceId != null and resourceId != ''">resource_id = #{resourceId},</if>
+			<if test="exerciseType != null and exerciseType != ''">exercise_type = #{exerciseType},</if>
+			<if test="tikuResourceType != null and tikuResourceType != ''">tiku_resource_type = #{tikuResourceType},</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">tiku_category_id = #{tikuCategoryId},</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">tiku_subject_id = #{tikuSubjectId},</if>
+			tiku_chapter_id = #{tikuChapterId},
+			tiku_section_id = #{tikuSectionId},
+			topic_num = #{topicNum},
+			paper_id = #{paperId},
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseExerciseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_exercise
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseExerciseResultMap">
+		select <include refid="table_columns" /> 
+		from course_exercise
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classTypeId != null ">and class_type_id = #{classTypeId}</if>
+			<if test="resourceType != null and resourceType != ''">and resource_type = #{resourceType}</if>
+			<if test="resourceId != null">and resource_id = #{resourceId}</if>
+			<if test="exerciseType != null and exerciseType != ''">and exercise_type = #{exerciseType}</if>
+			<if test="tikuResourceType != null and tikuResourceType != ''">and tiku_resource_type = #{tikuResourceType}</if>
+			<if test="tikuCategoryId != null">and tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tikuSubjectId != null">and tiku_subject_id = #{tikuSubjectId}</if>
+			<if test="tikuChapterId != null">and tiku_chapter_id = #{tikuChapterId}</if>
+			<if test="tikuSectionId != null">and tiku_section_id = #{tikuSectionId}</if>
+			<if test="topicNum != null">and topic_num = #{topicNum}</if>
+			<if test="paperId != null">and paper_id = #{paperId}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseExerciseResultMap" parameterType="com.yuxin.wx.model.course.CourseExercise">
+		select <include refid="table_columns" />
+		from course_exercise
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="page2" resultMap="courseExerciseResultMapVo" parameterType="com.yuxin.wx.model.course.CourseExercise">
+		select 
+		e.id,
+		e.class_type_id,
+		e.resource_type,
+		e.resource_id,
+		e.exercise_type,
+		e.tiku_resource_type,
+		e.tiku_category_id,
+		e.tiku_subject_id,
+		e.tiku_chapter_id,
+		e.tiku_section_id,
+		e.topic_num,
+		e.paper_id,
+		e.company_id,
+		c.tiku_name category_name,
+		s.subject_name subject_name,
+		cc.chapter_name chapter_name,
+		ss.section_name section_name,
+		p.paper_name
+		from course_exercise e left join tiku_category c on e.tiku_category_id=c.id 
+		left join tiku_subject s on e.tiku_subject_id=s.id 
+		left join tiku_chapter cc on  e.tiku_chapter_id=cc.id
+		left join  tiku_section ss on e.tiku_section_id=ss.id
+		left join tiku_paper p on e.paper_id=p.id
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classTypeId != null and classTypeId != ''">and e.class_type_id = #{classTypeId}</if>
+			<if test="resourceType != null and resourceType != ''">and e.resource_type = #{resourceType}</if>
+			<if test="resourceId != null and resourceId != ''">and e.resource_id = #{resourceId}</if>
+			<if test="exerciseType != null and exerciseType != ''">and e.exercise_type = #{exerciseType}</if>
+			<if test="tikuResourceType != null and tikuResourceType != ''">and e.tiku_resource_type = #{tikuResourceType}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and e.tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">and e.tiku_subject_id = #{tikuSubjectId}</if>
+			<if test="tikuChapterId != null and tikuChapterId != ''">and e.tiku_chapter_id = #{tikuChapterId}</if>
+			<if test="tikuSectionId != null and tikuSectionId != ''">and e.tiku_section_id = #{tikuSectionId}</if>
+			<if test="topicNum != null and topicNum != ''">and e.topic_num = #{topicNum}</if>
+			<if test="paperId != null and paperId != ''">and e.paper_id = #{paperId}</if>
+			<if test="companyId != null and companyId != ''">and e.company_id = #{companyId}</if>
+		</trim>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseExercise">
+		select count(id) from course_exercise
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

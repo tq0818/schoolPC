@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseVideoLectureMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseVideoLecture" id="courseVideoLectureResultMap">
+		<result property="id" column="id" />
+		<result property="chapterId" column="chapter_id" />
+		<result property="lectureName" column="lecture_name" />
+		<result property="lectureOrder" column="lecture_order" />
+		<result property="videoId" column="video_id" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishDate" column="publish_date" />
+		<result property="delFlag" column="del_flag" />
+		<result property="freeFlag" column="free_flag" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="videoName" column="video_name" />
+		<result property="fileId" column="file_id" />
+		<result property="fileType" column="file_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		chapter_id,
+		lecture_name,
+		lecture_order,
+		video_id,
+		publish_status,
+		publish_date,
+		del_flag,
+		free_flag,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		file_id,
+		file_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{chapterId},
+		#{lectureName},
+		#{lectureOrder},
+		#{videoId},
+		#{publishStatus},
+		#{publishDate},
+		#{delFlag},
+		#{freeFlag},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{fileId},
+		#{fileType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseVideoLecture" useGeneratedKeys="true" keyProperty="id">
+		insert into course_video_lecture( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_video_lecture( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_video_lecture
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_video_lecture
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseVideoLecture">
+		update course_video_lecture 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="chapterId != null and chapterId != ''">chapter_id = #{chapterId},</if>
+			<if test="lectureName != null and lectureName != ''">lecture_name = #{lectureName},</if>
+			<if test="lectureOrder != null ">lecture_order = #{lectureOrder},</if>
+			video_id = #{videoId},
+			<if test="publishStatus != null">publish_status = #{publishStatus},</if>
+			<if test="publishDate != null and publishDate != ''">publish_date = #{publishDate},</if>
+			<if test="delFlag != null ">del_flag = #{delFlag},</if>
+			<if test="freeFlag != null">free_flag = #{freeFlag},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			file_id = #{fileId},
+			<if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseVideoLectureResultMap" parameterType="String" >
+		select l.*,v.video_name
+		from course_video_lecture l left join video v on l.video_id=v.id
+		where l.id = #{id}
+	</select>
+	
+	<select id="findCourseVideoLectureByChapterId" resultMap="courseVideoLectureResultMap" parameterType="String" >
+		select l.*,v.video_name
+		from course_video_lecture l left join video v on l.video_id=v.id
+		where chapter_id = #{chapterId} order by lecture_order asc
+	</select>
+	
+	<select id="findVideoLectureByChapterId" resultMap="courseVideoLectureResultMap" parameterType="String" >
+		select *
+		from course_video_lecture 
+		where chapter_id = #{chapterId} order by lecture_order asc,id asc
+	</select>
+	<select id="queryAll" resultMap="courseVideoLectureResultMap">
+		select <include refid="table_columns" /> 
+		from course_video_lecture
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="chapterId != null and chapterId != ''">and chapter_id = #{chapterId}</if>
+			<if test="lectureName != null and lectureName != ''">and lecture_name = #{lectureName}</if>
+			<if test="lectureOrder != null and lectureOrder != ''">and lecture_order = #{lectureOrder}</if>
+			<if test="videoId != null and videoId != ''">and video_id = #{videoId}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="publishDate != null and publishDate != ''">and publish_date = #{publishDate}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="fileId != null and fileId != ''">and file_id = #{fileId}</if>
+			<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseVideoLectureResultMap" parameterType="com.yuxin.wx.model.course.CourseVideoLecture">
+		select <include refid="table_columns" />
+		from course_video_lecture
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseVideoLecture">
+		select count(id) from course_video_lecture
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="mvLecture" parameterType="map">
+		update course_video_lecture set chapter_id=#{target} where id=#{lecture} 
+	</select>
+	
+	<select id="findIdByChapterId" parameterType="int" resultType="int">
+		select cvl.id
+		from   course_video_lecture cvl
+		where  cvl.chapter_id = #{id}
+	</select>
+	<select id="findByChapterIdAndLecName" parameterType="com.yuxin.wx.model.course.CourseVideoLecture" resultMap="courseVideoLectureResultMap">
+		select *
+		from   course_video_lecture cvl
+		where  cvl.chapter_id = #{chapterId} and del_flag=0 and lecture_name=#{lectureName}
+		limit 1;
+	</select>
+</mapper>

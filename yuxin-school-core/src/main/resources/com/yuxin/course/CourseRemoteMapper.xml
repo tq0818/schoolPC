@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseRemoteMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseRemote" id="courseRemoteResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="major" column="major" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.course.CourseRemoteVo" id="courseRemoteVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="schoolId" column="school_id" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="classTypeId" column="classTypeId" />
+		<result property="major" column="major" />
+		<result property="remoteDesc" column="remote_desc" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		item_one_id,
+		major,
+		remote_desc,
+		item_second_id,
+		school_id,
+		status,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		del_flag,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{itemOneId},
+		#{major},
+		#{remoteDesc},
+		#{itemSecondId},
+		#{schoolId},
+		#{status},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{companyId}
+		
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseRemote" useGeneratedKeys="true" keyProperty="id">
+		insert into course_remote( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_remote( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_remote
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_remote
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseRemote">
+		update course_remote 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="major != null and major != ''">major = #{major},</if>
+			<if test="remoteDesc != null and remoteDesc != ''">remote_desc = #{remoteDesc},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseRemoteResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_remote
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseRemoteResultMap">
+		select <include refid="table_columns" /> 
+		from course_remote
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			1=1
+			<if test="name != null and name != ''">and a.name like '%${name}%'</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="status != null and status != ''">and a.status = #{status}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="companyId != null and companyId != ''">and a.company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseRemoteResultMap" parameterType="com.yuxin.wx.model.course.CourseRemote">
+		select <include refid="table_columns" />
+		from course_remote
+		where 1=1
+		<if test="name != null and name != ''">and name like '%${name}%' </if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		<if test="companyId != null">and company_id = #{companyId}</if>
+		<if test="delFlag != null">and del_flag = #{delFlag}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseRemote">
+		select count(id) from course_remote a
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<!-- 自定义分页查询 -->
+	<select id="queryCourseRemoteVoByKeys" resultMap="courseRemoteVoResultMap" parameterType="com.yuxin.wx.model.course.CourseRemote">
+		SELECT 
+		  a.id,
+		  a.name,
+		  a.status,
+		  a.del_flag,
+		  a.major,
+		  b.item_name AS itemOneName,
+		  c.item_name AS itemSecondName 
+		FROM
+		  course_remote a,
+		  sys_config_item b,
+		  sys_config_item c 
+		  <include refid="page_where" />
+		and a.item_one_id = b.id 
+	  	and c.id = a.item_second_id 
+	  	ORDER BY a.update_time DESC
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	
+	<!-- 根据班型id获取绑定远程教育 -->
+	<select id="findRemotesByClassTypeId" resultMap="courseRemoteResultMap" parameterType="String" >
+		SELECT
+			distinct
+			r.id,
+			r.NAME,
+			r.major,
+			r.status
+		FROM
+			course_remote r,
+			class_type c,
+			class_type_remote_relation cmr
+		WHERE
+			c.id = #{id}
+		AND r.id = cmr.remote_id
+		AND c.id = cmr.class_type_id
+		order by r.id DESC
+	</select>
+	<!-- 根据远程教育id获取远程教育 -->
+	<select id="findByOneId" resultMap="courseRemoteVoResultMap" parameterType="Integer">
+		SELECT 
+	    a.id,
+	    a.major,
+	    a.item_one_id,
+	    a.item_second_id,
+	    a.remote_desc,
+	    a.NAME,
+	    a.status,
+	    b.item_name AS itemOneName,
+	    c.item_name AS itemSecondName,
+	    d.id as classTypeId
+	  FROM
+	    course_remote a
+	    LEFT JOIN 
+	    sys_config_item b
+	    ON a.item_one_id = b.id 
+	    LEFT JOIN 
+	    sys_config_item c
+	    ON c.id = a.item_second_id 
+	    LEFT JOIN
+	    class_type_remote_relation d
+	    ON a.id=d.remote_id
+	  WHERE a.id = #{id}
+	  GROUP BY a.id
+	  limit 1  
+	</select>
+	
+	
+	
+	<!-- 根据远程教育id获取远程教育 -->
+	<select id="checkStopById" resultType="Integer" parameterType="Integer">
+		SELECT 
+		    COUNT(0)
+		    FROM
+		    course_remote a
+		    LEFT JOIN
+		    class_type_remote_relation d
+		    ON a.id=d.remote_id
+		LEFT JOIN 
+		    class_type c
+		    ON d.class_type_id=c.id
+		  WHERE a.id = #{id}
+		  AND c.publish_status='CLASS_ON_SALE'
+		  GROUP BY a.id  
+	</select>
+	
+	<select id="findByMajor" parameterType="com.yuxin.wx.model.course.CourseRemote" resultMap="courseRemoteResultMap">
+		select <include refid="table_columns" />
+		from  course_remote where major=#{major}
+		and del_flag=0 and status="REMOTE_ENABLE"
+		and company_id=#{companyId}
+	</select>
+	
+	<!-- 根据一二级项目查询远程教育 -->
+	<select id="queryCourseByItem" parameterType="com.yuxin.wx.model.course.CourseRemote" resultMap="courseRemoteResultMap">
+	    select <include refid="table_columns" />
+		from course_remote
+		where del_flag=0
+		<if test="name != null and name != ''">and name like '%${name}%' </if>
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		order by id DESC
+	</select>
+</mapper>

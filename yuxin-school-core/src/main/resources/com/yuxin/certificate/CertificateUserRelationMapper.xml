@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.certificate.mapper.CertificateUserRelationMapper">
+	<resultMap type="com.yuxin.wx.model.certificate.CertificateUserRelation" id="certificateUserRelationResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="cerId" column="cer_id" />
+		<result property="status" column="status" />
+		<result property="companyId" column="company_id" />
+		<result property="courseId" column="course_id" />
+		<result property="receiveTime" column="receive_time" />
+	</resultMap>
+	
+	
+	<resultMap type="com.yuxin.wx.vo.certificate.CertificateUserRelationVo" id="certificateUserRelationResultVoMap">
+		<result property="id" column="id" />
+		<result property="userId" column="userId" />
+		<result property="cerId" column="cerId" />
+		<result property="status" column="status" />
+		<result property="companyId" column="companyId" />
+		<result property="courseId" column="courseId" />
+		<result property="receiveTime" column="receiveTime" />
+		<result property="name" column="name" />
+		<result property="passConditions" column="passConditions" />
+		<result property="userName" column="userName" />
+		<result property="mobile" column="mobile" />
+		<result property="stuName" column="stuName" />
+		<result property="classTypeName" column="classTypeName" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.certificate.ViewCertificateVo" id="ViewCertificateVoMap">
+		<result property="cerId" column="cerId" />
+		<result property="cerName" column="cerName" />
+		<result property="courseId" column="courseId" />
+		<result property="status" column="status" />
+		<result property="releaseStatus" column="um" />
+		<result property="stuId" column="sid" />
+		<result property="stuName" column="sname" />
+		<result property="mobile" column="umobile" />
+		<result property="username" column="username" />
+		<result property="receiveTime" column="receiveTime" />
+		<result property="userId" column="uid" />
+	</resultMap>
+	
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		cer_id,
+		status,
+		company_id,
+		course_id,
+		receive_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{cerId},
+		#{status},
+		#{companyId},
+		#{courseId},
+		#{receiveTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.cerId},
+		#{item.status},
+		#{item.companyId},
+		#{item.courseId},
+		#{item.receiveTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.certificate.CertificateUserRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into certificate_user_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into certificate_user_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from certificate_user_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.certificate.CertificateUserRelation">
+		update certificate_user_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="cerId != null and cerId != ''">cer_id = #{cerId},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="receiveTime != null and receiveTime != ''">receive_time = #{receiveTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="certificateUserRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from certificate_user_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="certificateUserRelationResultMap">
+		select <include refid="table_columns" /> 
+		from certificate_user_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="cerId != null and cerId != ''">and cer_id = #{cerId}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="receiveTime != null and receiveTime != ''">and receive_time = #{receiveTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="certificateUserRelationResultMap" parameterType="com.yuxin.wx.model.certificate.CertificateUserRelation">
+		select <include refid="table_columns" />
+		from certificate_user_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.certificate.CertificateUserRelation">
+		select count(id) from certificate_user_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryCertificateUserRelationByStuIdAndCerIdAndClassId" resultMap="certificateUserRelationResultVoMap" parameterType="map">
+		select 
+			cur.id as id,
+			cur.user_id as userId,
+			cur.cer_id as cerId,
+			cur.status as status,
+			cur.company_id as companyId,
+			cur.course_id as courseId,
+			cur.receive_time as receiveTime,
+			cc.name as name,
+			cc.pass_conditions as passConditions,
+			u.userName as userName,
+			u.mobile as mobile,
+			(select s.name from student s where s.user_id = u.id) as stuName,
+			ct.name as classTypeName
+		from certificate_user_relation cur left join certificate_config cc on cur.cer_id = cc.id
+										   left join users_front u on u.id = cur.user_id
+										   left join class_type ct on ct.id = cur.course_id
+		where cur.user_id = #{userId} and cur.cer_id = #{cerId} and cur.course_id = #{classId} and cur.company_id = #{companyId}
+	</select>
+	
+	<select id="queryUserCertificateNum" resultType="Integer" parameterType="Integer">
+	select count(id) from certificate_user_relation where cer_id = #{cerId};
+	</select>
+	
+	<select id="queryUserAndCertificateInfo" resultMap="ViewCertificateVoMap" parameterType="com.yuxin.wx.vo.certificate.ViewCertificateVo">
+	select * from (
+		SELECT 
+		distinct(s.id)  sid,
+		cc.id  cerId,
+		cc.name  cerName,
+		cc.status  status,
+		ccr.course_id  courseId,
+		uf.id uid,
+		s.name  sname,
+		uf.mobile  umobile,
+		uf.username  username,
+		(select count(*) from certificate_user_relation where user_id = uid and cer_id = cerId)  um,
+		(select receive_time from certificate_user_relation as cur where cur.user_id = uid and cer_id = cerId)  receiveTime
+		from certificate_config cc left join 
+		certificate_course_relation ccr on cc.id = ccr.cer_id
+		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student s on sp.stu_id = s.id 
+		inner JOIN users_front uf on s.user_id = uf.id
+		left join certificate_user_relation cure on s.id = cure.user_id
+		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
+		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
+		or sp.pay_status_code='ORDER_CREATED') 
+		and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+		<if test="cerId != null and cerId != ''"> and cc.id = #{cerId} </if>
+		<if test="status !=null and status == 1 ">and cc.status = 1</if>
+		<if test="status !=null and status == 0 ">and cc.status = 0</if>
+		<if test="stuName != null and stuName != ''"> and s.name like '%${stuName}%' </if>
+		<if test="mobile != null and mobile != ''"> and uf.mobile like '%${mobile}%' </if>
+		<if test="username != null and username != ''"> and uf.username like '%${username}%' </if>
+		<if test="startTime != null and startTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[<=]]> '${endTime}'</if>
+		limit #{firstIndex},#{pageSize}
+		)innerTable where 1=1
+		<if test="releaseStatus == 1">and innerTable.um > 0</if>
+		<if test="releaseStatus == 0">and innerTable.um = 0</if>
+	</select>
+	
+	<select id="queryUserAndCertificateInfoCount" resultType="int" parameterType="com.yuxin.wx.vo.certificate.ViewCertificateVo">
+	
+	select count(uid) from (
+	SELECT 
+		distinct(uf.id) uid,
+		cc.id  cerId,
+		(select count(*) from certificate_user_relation where user_id = uid and cer_id = cerId)  um
+		from certificate_config cc left join 
+		certificate_course_relation ccr on cc.id = ccr.cer_id
+		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student s on sp.stu_id = s.id 
+		inner JOIN users_front uf on s.user_id = uf.id
+		left join certificate_user_relation cure on s.id = cure.user_id
+		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
+		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
+		or sp.pay_status_code='ORDER_CREATED') 
+		and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+		<if test="cerId != null and cerId != ''"> and cc.id = #{cerId} </if>
+		<if test="status !=null and status == 1 ">and cc.status = 1</if>
+		<if test="status !=null and status == 0 ">and cc.status = 0</if>
+		<if test="stuName != null and stuName != ''"> and s.name like '%${stuName}%' </if>
+		<if test="mobile != null and mobile != ''"> and uf.mobile like '%${mobile}%' </if>
+		<if test="username != null and username != ''"> and uf.username like '%${username}%' </if>
+		<if test="startTime != null and startTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[<=]]> '${endTime}'</if>
+	 	)innerTable where 1=1
+	 	<if test="releaseStatus == 1">and innerTable.um > 0</if>
+		<if test="releaseStatus == 0">and innerTable.um = 0</if>
+	</select>
+	
+	<select id="queryReleaseCount" resultType="int" parameterType="com.yuxin.wx.vo.certificate.ViewCertificateVo">
+		select count(cure.id) from certificate_user_relation cure inner join certificate_config cc on cure.cer_id = cc.id 
+		where 1=1 
+		<if test="cerId != null and cerId != ''"> and cure.cer_id = #{cerId} </if>
+		<if test="status == 1">and cc.status = 1</if>
+		<if test="status == 0">and cc.status = 0</if>
+		<if test="companyId != null and companyId != ''"> and cc.company_id = #{companyId}</if>
+		<if test="startTime != null and startTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[<=]]> '${endTime}'</if>
+	</select>
+	
+	<select id="findListBySearchCondtion" resultMap="ViewCertificateVoMap" parameterType="com.yuxin.wx.vo.certificate.ViewCertificateVo">
+		select * from (
+		SELECT 
+		distinct(s.id)  sid,
+		cc.id  cerId,
+		cc.name  cerName,
+		cc.status  status,
+		ccr.course_id  courseId,
+		uf.id uid,
+		s.name  sname,
+		uf.mobile  umobile,
+		uf.username  username,
+		(select count(*) from certificate_user_relation where user_id = uid and cer_id = cerId)  um,
+		(select receive_time from certificate_user_relation as cur where cur.user_id = uid and cer_id = cerId)  receiveTime
+		from certificate_config cc left join 
+		certificate_course_relation ccr on cc.id = ccr.cer_id
+		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student s on sp.stu_id = s.id 
+		inner JOIN users_front uf on s.user_id = uf.id
+		left join certificate_user_relation cure on s.id = cure.user_id
+		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
+		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
+		or sp.pay_status_code='ORDER_CREATED') 
+		and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+		<if test="cerId != null and cerId != ''"> and cc.id = #{cerId} </if>
+		<if test="status !=null and status == 1 ">and cc.status = 1</if>
+		<if test="status !=null and status == 0 ">and cc.status = 0</if>
+		<if test="stuName != null and stuName != ''"> and s.name like '%${stuName}%' </if>
+		<if test="mobile != null and mobile != ''"> and uf.mobile like '%${mobile}%' </if>
+		<if test="username != null and username != ''"> and uf.username like '%${username}%' </if>
+		<if test="startTime != null and startTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[<=]]> '${endTime}'</if>
+		)innerTable where 1=1
+		<if test="releaseStatus == 1">and innerTable.um > 0</if>
+		<if test="releaseStatus == 0">and innerTable.um = 0</if>
+	</select>
+</mapper>

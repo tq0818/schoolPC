@@ -1,0 +1,207 @@
+.ui-loader-default{ display:none}
+.ui-mobile-viewport{ border:none;}
+.ui-page {padding: 0; margin: 0; outline: 0}
+
+*{
+    outline:none;
+}
+a{
+    text-decoration:none;
+}
+.clear:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+/*每行的最外层*/
+main .form-control{
+    position: relative;
+    margin: 10px auto ;
+    height: 44px;
+    max-width: 600px;
+}
+@media screen and (max-width: 600px) { /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
+    main .form-control{
+        position: relative;
+        margin: 10px 20px;
+        height: 44px;
+    }
+}
+input{
+    -webkit-appearance: none;
+}
+/*所有输入框的样式*/
+main .form .form-control input {
+    padding:0px 8px;
+    height: 44px;
+    font-size: 14px;
+    width: 100%;
+    border: solid 1px #d2d2d4;
+    border-radius: 5px;
+    display: block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    color: #666;
+}
+/*标题文字和关闭按钮*/
+main .form .form-control label,main .form .form-control span.icon-close {
+    display: inline-block;
+    line-height: 44px;
+    font-size: 14px;
+    color:#333;
+    position: absolute;
+    z-index: 2;
+}
+main .form .form-control label {
+    text-align: left;
+    left: 0px;
+    margin-left: 8px;
+}
+main .form .form-control span.icon-close{
+    width: 44px;
+    right: 0px;
+    text-align:center;
+    display: none;
+}
+main .form .form-control span.icon-close .iconfont{
+    font-size: 18px;
+    color: #ccc;
+}
+/* 当分为左右两部分情况*/
+main .form-control .left-wrap{
+    width: 64%;
+    position:absolute;
+    left:0px;
+}
+main .form-control .right-wrap{
+    width: 36%;
+    position:absolute;
+    right:0px;
+    padding-left: 14px;
+}
+main .form .form-control .right-wrap span{
+    display:block;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    float: left;
+}
+/*验证码*/
+main .form .form-control .right-wrap span.code-word{
+    width: 60%;
+    font-size:18px;
+    letter-spacing:2px;
+    color:#57bae9;
+}
+main .form .form-control .right-wrap span.icon-update{
+    width: 40%;
+}
+main .form .right-wrap span.icon-update .iconfont{
+    font-size: 20px;
+    color: #ccc;
+}
+/*重新发送*/
+main .form .right-wrap span.right-word{
+    width: 100%;
+    padding-top:4px;
+}
+main .form .right-wrap span.right-word p{
+    background:#f2f6f9;
+    height: 36px;
+    color:#9d9d9e;
+    font-size:12px;
+    line-height: 36px;
+    border-radius: 6px;
+}
+main .form .right-wrap span.right-word p.p-disable{
+    background:#f2f6f9;
+    height: 36px;
+    color:#9d9d9e;
+    font-size:12px;
+    line-height: 36px;
+    border-radius: 6px;
+}
+main .form .right-wrap span.right-word p.p-enable{
+    background:#57bae9;
+    height: 36px;
+    color:#fff;
+    font-size:12px;
+    line-height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+/*按钮*/
+main .btn-wrap{
+    position: relative;
+    margin-top: 30px;
+}
+main .btn-wrap button{
+    background: #57bae9;
+    height: 44px;
+    width: 100%;
+    line-height: 44px;
+    font-size:18px;
+    border-radius:5px;
+    color: #fff;
+}
+main .btn-wrap a{
+    display:block;
+    float: right;
+    margin-top: 20px;
+    color: #ff0000;
+    font-size: 12px;
+}
+/*使用协议*/
+footer{
+    text-align: center;
+    font-size: 12px;
+    position:absolute;
+    bottom: 20px;
+    width: 100%;
+}
+footer label{
+    color: #57bae9;
+}
+/*使用条款*/
+.declare{
+    width: 100%;
+    font-size: 14px;
+    position: absolute;
+    bottom:0px;
+    left: 0px;
+    background: #ffffff;
+    z-index: 20;
+    text-shadow:none;
+    padding:0px 10px;
+    text-align: center;
+    height: 0px;
+    overflow: hidden;
+}
+.declare h1{
+    font-size: 20px;
+    color: #666;
+    margin-top: 10px;
+    line-height: 24px;
+}
+.declare p{
+    text-align: left;
+    text-indent: 2em;
+    line-height: 24px;
+    -webkit-font-smoothing:antialiased;
+    color: #999;
+    font-size: 16px;
+    margin-top: 20px;
+}
+.close{
+    position: absolute;
+    right: 10px;
+    top:10px;
+    color: #ddd;
+    z-index: 22;
+}
+.close .iconfont{
+    font-size: 18px;
+}

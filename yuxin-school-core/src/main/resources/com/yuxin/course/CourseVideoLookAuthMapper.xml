@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseVideoLookAuthMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseVideoLookAuth" id="courseVideoLookAuthResultMap">
+		<result property="id" column="id" />
+		<result property="testListenAuth" column="test_listen_auth" />
+		<result property="overFlowTime" column="over_flow_time" />
+		<result property="overFlowInfo" column="over_flow_info" />
+		<result property="userSeeAuth" column="user_see_auth" />
+		<result property="setPointName" column="set_point_name" />
+		<result property="namedTime" column="named_time" />
+		<result property="namedNum" column="named_num" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		test_listen_auth,
+		over_flow_time,
+		over_flow_info,
+		user_see_auth,
+		set_point_name,
+		named_time,
+		named_num,
+		company_id,
+		creator,
+		create_time,
+		updator,
+		update_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{testListenAuth},
+		#{overFlowTime},
+		#{overFlowInfo},
+		#{userSeeAuth},
+		#{setPointName},
+		#{namedTime},
+		#{namedNum},
+		#{companyId},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.testListenAuth},
+		#{item.overFlowTime},
+		#{item.overFlowInfo},
+		#{item.userSeeAuth},
+		#{item.setPointName},
+		#{item.namedTime},
+		#{item.namedNum},
+		#{item.companyId},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updator},
+		#{item.updateTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseVideoLookAuth" useGeneratedKeys="true" keyProperty="id">
+		insert into course_video_look_auth( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_video_look_auth( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_video_look_auth
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_video_look_auth
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseVideoLookAuth">
+		update course_video_look_auth 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="testListenAuth != null and testListenAuth != ''">test_listen_auth = #{testListenAuth},</if>
+			<if test="overFlowTime != null and overFlowTime != ''">over_flow_time = #{overFlowTime},</if>
+			<if test="overFlowInfo != null and overFlowInfo != ''">over_flow_info = #{overFlowInfo},</if>
+			<if test="userSeeAuth != null and userSeeAuth != ''">user_see_auth = #{userSeeAuth},</if>
+			<if test="setPointName != null and setPointName != ''">set_point_name = #{setPointName},</if>
+			<if test="namedTime != null and namedTime != ''">named_time = #{namedTime},</if>
+			<if test="namedNum != null and namedNum != ''">named_num = #{namedNum},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseVideoLookAuthResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_video_look_auth
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseVideoLookAuthResultMap">
+		select <include refid="table_columns" /> 
+		from course_video_look_auth
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="testListenAuth != null and testListenAuth != ''">and test_listen_auth = #{testListenAuth}</if>
+			<if test="overFlowTime != null and overFlowTime != ''">and over_flow_time = #{overFlowTime}</if>
+			<if test="overFlowInfo != null and overFlowInfo != ''">and over_flow_info = #{overFlowInfo}</if>
+			<if test="userSeeAuth != null and userSeeAuth != ''">and user_see_auth = #{userSeeAuth}</if>
+			<if test="setPointName != null and setPointName != ''">and set_point_name = #{setPointName}</if>
+			<if test="namedTime != null and namedTime != ''">and named_time = #{namedTime}</if>
+			<if test="namedNum != null and namedNum != ''">and named_num = #{namedNum}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseVideoLookAuthResultMap" parameterType="com.yuxin.wx.model.course.CourseVideoLookAuth">
+		select <include refid="table_columns" />
+		from course_video_look_auth
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseVideoLookAuth">
+		select count(id) from course_video_look_auth
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findAuthByCompanyId" parameterType="Integer" resultMap="courseVideoLookAuthResultMap">
+		select <include refid="table_columns"/>
+		from course_video_look_auth
+		where company_id = #{companyId}
+		limit 1
+	</select>
+</mapper>

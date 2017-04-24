@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentPayLogMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentPayLog" id="studentPayLogResultMap">
+		<result property="id" column="id" />
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="operateType" column="operate_type" />
+		<result property="description" column="description" />
+		<result property="operateTime" column="operate_time" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		pay_master_id,
+		operate_type,
+		description,
+		operate_time,
+		operator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{payMasterId},
+		#{operateType},
+		#{description},
+		#{operateTime},
+		#{operator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentPayLog" useGeneratedKeys="true" keyProperty="id">
+		insert into student_pay_log( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_pay_log( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_pay_log
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_pay_log
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentPayLog">
+		update student_pay_log 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="payMasterId != null and payMasterId != ''">pay_master_id = #{payMasterId},</if>
+			<if test="operateType != null and operateType != ''">operate_type = #{operateType},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="operateTime != null and operateTime != ''">operate_time = #{operateTime},</if>
+			<if test="operator != null and operator != ''">operator = #{operator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentPayLogResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_pay_log
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentPayLogResultMap">
+		select <include refid="table_columns" /> 
+		from student_pay_log
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+			<if test="operateType != null and operateType != ''">and operate_type = #{operateType}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="operateTime != null and operateTime != ''">and operate_time = #{operateTime}</if>
+			<if test="operator != null and operator != ''">and operator = #{operator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentPayLogResultMap" parameterType="com.yuxin.wx.model.student.StudentPayLog">
+		select <include refid="table_columns" />
+		from student_pay_log
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentPayLog">
+		select count(id) from student_pay_log
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

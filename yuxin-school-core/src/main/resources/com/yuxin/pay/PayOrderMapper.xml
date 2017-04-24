@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.pay.mapper.PayOrderMapper">
+	<resultMap type="com.yuxin.wx.model.pay.PayOrder" id="payOrderResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="orderNum" column="order_num" />
+		<result property="payNum" column="pay_num" />
+		<result property="payTime" column="pay_time" />
+		<result property="orderTime" column="order_time" />
+		<result property="commodityName" column="commodity_name" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="originalPrice" column="original_price" />
+		<result property="payPrice" column="pay_price" />
+		<result property="payType" column="pay_type" />
+		<result property="payStatus" column="pay_status" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="discountNo" column="discount_no" />
+        <result property="classPackageStageId" column="class_package_stage_id" />
+		<result property="remittanceNumber" column="remittance_number" />
+		<result property="collectionAmount" column="collection_amount" />
+		<result property="collectionTime" column="collection_time" />
+		<result property="remark" column="remark" />
+		<result property="mobile" column="mobile"/>
+		<result property="stuName" column="stuName"/>
+		<result property="commdityType" column="commdity_type"/>
+		
+		<result property="bizCode" column="biz_code" />
+		<result property="integralInstead" column="integral_instead" />
+		<result property="memberLength" column="member_length" />
+		<result property="memberInstead" column="member_instead" />
+		<result property="memberId" column="member_id" />
+		<result property="integralUsed" column="integral_used" />
+		<result property="memberDiscount" column="member_discount" />
+		<result property="integralNum" column="integral_num" />
+		<result property="exchangeScale" column="exchange_scale" />
+		<result property="couponInstead" column="coupon_instead" />
+		<result property="couponCode" column="coupon_code" />
+        <result property="usedRecharge" column="used_recharge" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.student.PayOrderVo" id="payOrderVoResultMap">
+		<result property="id" column="id" />
+		<result property="commdityType" column="commdity_type"/>
+		<result property="userId" column="user_id" />
+		<result property="orderNum" column="order_num" />
+		<result property="payNum" column="pay_num" />
+		<result property="payTime" column="pay_time" />
+		<result property="orderTime" column="order_time" />
+		<result property="commodityName" column="commodity_name" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="originalPrice" column="original_price" />
+		<result property="payPrice" column="pay_price" />
+		<result property="payType" column="pay_type" />
+		<result property="payStatus" column="pay_status" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="discountNo" column="discount_no" />
+        <result property="classPackageStageId" column="class_package_stage_id" />
+		<result property="lableType" column="lable_type" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="liveFlag" column="live_flag" />
+		<result property="faceFlag" column="face_flag" />
+		<result property="videoFlag" column="video_flag" />
+		
+		<result property="userName" column="user_name" />
+		<result property="nickName" column="nick_name" />
+		<result property="userMobile" column="user_mobile" />
+		
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.PayOrderIntegralVo" id="PayOrderIntegralMapVo">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="orderNum" column="order_num" />
+		<result property="payNum" column="pay_num" />
+		<result property="payTime" column="pay_time" />
+		<result property="orderTime" column="order_time" />
+		<result property="commodityName" column="commodity_name" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="originalPrice" column="original_price" />
+		<result property="payPrice" column="pay_price" />
+		<result property="payType" column="pay_type" />
+		<result property="payStatus" column="pay_status" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="discountNo" column="discount_no" />
+        <result property="classPackageStageId" column="class_package_stage_id" />
+		<result property="remittanceNumber" column="remittance_number" />
+		<result property="collectionAmount" column="collection_amount" />
+		<result property="collectionTime" column="collection_time" />
+		<result property="remark" column="remark" />
+		<result property="stuName" column="stuName"/>
+		<result property="integralInstead" column="integral_instead"/>
+		<result property="integralNum" column="integralNum"/>
+		<result property="exchangeScale" column="exchange_scale"/>
+		<result property="stuMobile" column="stuMobile"/>
+		<result property="couponInstead" column="coupon_instead" />
+		<result property="couponCode" column="coupon_code" />
+		<result property="username" column="username" />
+        <result property="used_recharge" column="used_recharge" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.PayOrderVipVo" id="PayOrderVipMapVo">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="orderNum" column="order_num" />
+		<result property="payNum" column="pay_num" />
+		<result property="payTime" column="pay_time" />
+		<result property="orderTime" column="order_time" />
+		<result property="commodityName" column="commodity_name" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="originalPrice" column="original_price" />
+		<result property="payPrice" column="pay_price" />
+		<result property="payType" column="pay_type" />
+		<result property="payStatus" column="pay_status" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="discountNo" column="discount_no" />
+        <result property="classPackageStageId" column="class_package_stage_id" />
+		<result property="remittanceNumber" column="remittance_number" />
+		<result property="collectionAmount" column="collection_amount" />
+		<result property="collectionTime" column="collection_time" />
+		<result property="remark" column="remark" />
+		<result property="stuName" column="stuName"/>
+		<result property="mobile" column="mobile"/>
+		<result property="username" column="username"/>
+		<result property="memberId" column="memberId"/>
+		<result property="memberLevel" column="memberLevel"/>
+		<result property="memberBuyLength" column="memberBuyLength"/>
+		<result property="memberEndTime" column="memberEndTime"/>
+		<result property="applyChannelCode" column="applyChannelCode"/>
+		<result property="orderMemberLevel" column="orderMemberLevel"/>
+		<result property="memberLength" column="memberLength"/>
+		<result property="couponInstead" column="coupon_instead" />
+		<result property="couponCode" column="coupon_code" />
+        <result property="usedRecharge" column="used_recharge" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		order_num,
+		pay_num,
+		pay_time,
+		order_time,
+		commodity_name,
+		commodity_id,
+		original_price,
+		pay_price,
+		pay_type,
+		pay_status,
+		item_one_id,
+		item_second_id,
+		company_id,
+		school_id,
+		discount_no,
+		class_package_stage_id,
+		commdity_type,
+		integral_instead,
+		member_instead,
+		member_id,
+		integral_used,
+		member_discount,
+		integral_num,
+		exchange_scale,
+		member_length,
+		biz_code,
+		coupon_instead,
+		coupon_code,
+        used_recharge
+    </sql>
+    <sql id="table_columns_vo">
+		pay_order.id,
+		user_id,
+		order_num,
+		pay_num,
+		pay_time,
+		order_time,
+		commodity_name,
+		commodity_id,
+		pay_order.original_price,
+		pay_price,
+		pay_type,
+		pay_status,
+		pay_order.item_one_id,
+		pay_order.item_second_id,
+		pay_order.company_id,
+		pay_order.school_id,
+		discount_no,
+		lable_type,
+		cover_url,
+		live_flag,
+		face_flag,
+		video_flag,
+        used_recharge
+    </sql>
+    <sql id="table_columns_simple">
+		id,
+		user_id,
+		order_num,
+		pay_num,
+		commodity_name,
+		commodity_id,
+		pay_price
+    </sql>
+    
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{orderNum},
+		#{payNum},
+		#{payTime},
+		#{orderTime},
+		#{commodityName},
+		#{commodityId},
+		#{originalPrice},
+		#{payPrice},
+		#{payType},
+		#{payStatus},
+		#{itemOneId},
+		#{itemSecondId},
+		#{companyId},
+		#{schoolId},
+		#{discountNo},
+		#{classPackageStageId},
+		#{commdityType},
+		#{integralInstead},
+		#{memberInstead},
+		#{memberId},
+		#{integralUsed},
+		#{memberDiscount},
+		#{integralNum},
+		#{exchangeScale},
+		#{memberLength},
+		#{bizCode},
+		#{couponInstead},
+		#{couponCode},
+        #{usedRecharge}
+	</sql>
+	
+	<sql id="history_entity_properties">
+		#{payOrderId},
+		#{payStatus},
+		#{payType},
+		#{payTime},
+		#{price},
+		#{payNum}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.orderNum},
+		#{item.payNum},
+		#{item.payTime},
+		#{item.orderTime},
+		#{item.commodityName},
+		#{item.commodityId},
+		#{item.originalPrice},
+		#{item.payPrice},
+		#{item.payType},
+		#{item.payStatus},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.discountNo},
+		#{item.remittanceNumber},
+		#{item.collectionAmount},
+		#{item.collectionTime},
+		#{item.remark},
+        #{item.usedRecharge}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.pay.PayOrder" useGeneratedKeys="true" keyProperty="id">
+		insert into pay_order( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<insert id="insertOrderHistory" parameterType="com.yuxin.wx.model.pay.PayOrderHistory" useGeneratedKeys="true" keyProperty="id">
+		insert into pay_order_history ( pay_order_id, pay_status, pay_type, pay_time, price, pay_num ) 
+		values ( <include refid="history_entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into pay_order( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from pay_order
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from pay_order
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		update pay_order 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
+			<if test="payNum != null and payNum != ''">pay_num = #{payNum},</if>
+			<if test="payTime != null and payTime != ''">pay_time = #{payTime},</if>
+			<if test="orderTime != null and orderTime != ''">order_time = #{orderTime},</if>
+			<if test="commodityName != null and commodityName != ''">commodity_name = #{commodityName},</if>
+			<if test="commodityId != null and commodityId != ''">commodity_id = #{commodityId},</if>
+			<if test="originalPrice != null and originalPrice != ''">original_price = #{originalPrice},</if>
+			<if test="payPrice != null and payPrice != ''">pay_price = #{payPrice},</if>
+			<if test="payType != null and payType != ''">pay_type = #{payType},</if>
+			<if test="payStatus != null and payStatus != ''">pay_status = #{payStatus},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="discountNo != null and discountNo != ''">discount_no = #{discountNo},</if>
+			<if test="remittanceNumber != null and remittanceNumber != ''">remittance_number = #{remittanceNumber},</if>
+			<if test="collectionAmount != null and collectionAmount != ''">collection_amount = #{collectionAmount},</if>
+			<if test="collectionTime != null and collectionTime != ''">collection_time = #{collectionTime},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="payOrderResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from pay_order
+		where id = #{id}
+	</select>
+	
+	<select id="findPayOrderVoById" resultMap="payOrderVoResultMap" parameterType="String" >
+		select pay_order.*,users_front.username as user_name,users_front.nick_name,users_front.mobile as user_mobile
+		from pay_order join users_front on pay_order.user_id = users_front.id
+		where pay_order.id = #{id}
+		limit 1
+	</select>
+	
+	<select id="queryAll" resultMap="payOrderResultMap">
+		select <include refid="table_columns" /> 
+		from pay_order
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
+			<if test="payNum != null and payNum != ''">and pay_num = #{payNum}</if>
+			<if test="payTime != null and payTime != ''">and pay_time = #{payTime}</if>
+			<if test="orderTime != null and orderTime != ''">and order_time = #{orderTime}</if>
+			<if test="commodityName != null and commodityName != ''">and commodity_name = #{commodityName}</if>
+			<if test="commodityId != null and commodityId != ''">and commodity_id = #{commodityId}</if>
+			<if test="originalPrice != null and originalPrice != ''">and original_price = #{originalPrice}</if>
+			<if test="payPrice != null and payPrice != ''">and pay_price = #{payPrice}</if>
+			<if test="payType != null and payType != ''">and pay_type = #{payType}</if>
+			<if test="payStatus != null and payStatus != ''">
+				<if test="payStatus == 'PAY_SUCCESS'">
+					and (pay_status = 'PAY_SUCCESS' or pay_status = 'PAY_REMIT_CONFIRM')
+				</if>
+				<if test="payStatus != 'PAY_SUCCESS'">
+					and pay_status = #{payStatus}
+				</if>
+			</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="discountNo != null and discountNo != ''">and discount_no = #{discountNo}</if>
+			<if test="remittanceNumber != null and remittanceNumber != ''">and remittance_number = #{remittanceNumber}</if>
+			<if test="collectionAmount != null and collectionAmount != ''">and collection_amount = #{collectionAmount}</if>
+			<if test="collectionTime != null and collectionTime != ''">and collection_time = #{collectionTime}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+		</trim>
+	</sql>
+	
+	<sql id="page_where_vo">
+		<trim prefix="where" prefixOverrides="and | or ">
+		    and pay_order.commodity_id = commodity.id and user_id = #{userId }
+			<if test="payStatus != null and payStatus != ''">
+				<if test="payStatus == 'PAY_SUCCESS'">
+					and (pay_status = 'PAY_SUCCESS' or pay_status = 'PAY_REMIT_CONFIRM')
+				</if>
+				<if test="payStatus != 'PAY_SUCCESS'">
+					and pay_status = #{payStatus}
+				</if>
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="payOrderResultMap" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		select <include refid="table_columns"/>
+		from pay_order
+		<include refid="page_where" />
+		order by order_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		select count(id) from pay_order
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findPayOrderByUserId" resultMap="payOrderVoResultMap" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		select <include refid="table_columns_vo" /> from pay_order,commodity <include refid="page_where_vo" />
+		group by order_time desc
+	</select>
+	<select id="findCountByCommodityId" parameterType="String" resultType="int" >
+		select count(id) from pay_order
+		where commodity_id=#{id}
+		limit 1
+	</select>
+	
+	<!-- 根据订单号查询订单 -->
+	<select id="findPayOrderByOrderNum" resultMap="payOrderResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from pay_order
+		where order_num = #{orderNum} limit 1
+	</select>
+	
+	
+	<select id="findPayOrderByParams" resultMap="payOrderResultMap" parameterType="map">
+		select  po.id,
+				po.order_num,
+				po.pay_num,
+				po.pay_time,
+				po.order_time,
+				po.commodity_name,
+				po.commdity_type,
+				po.commodity_id,
+				po.pay_price,
+				po.pay_type,
+				po.pay_status,
+				po.company_id,
+				po.collection_time,
+				po.remark,
+				 uf.mobile as discount_no,
+				 uf.username as coupon_code
+		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId}
+		<if test="payStatus != null and payStatus !=''">
+			<if test="payStatus == 1">
+				and po.pay_status = 'PAY_NON'
+			</if>
+			<if test="payStatus == 2">
+				and po.pay_status = 'PAY_REMIT' 
+			</if>
+			<if test="payStatus == 3">
+				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
+			</if>
+		</if>
+		<if test="payType != null and payType !=''">
+			<if test="payType == 1">
+				and po.pay_type = 'PAY_TYPE_ZFB' 
+			</if>
+			<if test="payType == 2">
+				and po.pay_type = 'PAY_TYPE_GRDB' 
+			</if>
+			<if test="payType == 3">
+				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
+			</if>
+			<if test="payType == 4">
+				and po.pay_type = 'PAY_TYPE_WX_GZH'
+			</if>
+			<if test="payType == 5">
+				and po.pay_type = 'PAY_TYPE_STUDYCARD'
+			</if>
+		</if>
+		<if test="timeLen !=null and timelen != -1 and payTime != null and payTime !='nos'">
+			<choose>
+				<when test="payTime == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="payTime == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startDate != null and startDate != ''">and po.order_time <![CDATA[>=]]> #{startDate}</if>
+		<if test="endDate != null and endDate != ''"> and po.order_time <![CDATA[<=]]> #{endDate}</if>
+		<if test="mobile != null and mobile != ''">
+			 and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%') 
+		</if>
+		<if test="schoolId != null and schoolId != ''">and po.school_id = #{schoolId}</if>
+		order by order_time desc
+		limit #{page},#{pageSize}
+	</select>
+	
+	<select id="findCountByParams" resultType="int" parameterType="map">
+		select  count(po.id) 
+		from pay_order po <if test="mobile != null and mobile != ''"> left join users_front uf on  uf.id = po.user_id </if> where po.company_id = #{companyId} 
+		<if test="payStatus != null and payStatus !=''">
+			<if test="payStatus == 1">
+				and po.pay_status = 'PAY_NON'
+			</if>
+			<if test="payStatus == 2">
+				and po.pay_status = 'PAY_REMIT' 
+			</if>
+			<if test="payStatus == 3">
+				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
+			</if>
+		</if>
+		<if test="payType != null and payType !=''">
+			<if test="payType == 1">
+				and po.pay_type = 'PAY_TYPE_ZFB' 
+			</if>
+			<if test="payType == 2">
+				and po.pay_type = 'PAY_TYPE_GRDB' 
+			</if>
+			<if test="payType == 3">
+				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
+			</if>
+			<if test="payType == 4">
+				and po.pay_type = 'PAY_TYPE_WX_GZH'
+			</if>
+			<if test="payType == 5">
+				and po.pay_type = 'PAY_TYPE_STUDYCARD'
+			</if>
+		</if>
+		<if test="timeLen !=null and timelen != -1 and payTime != null and payTime != 'nos'">
+			<choose>
+				<when test="payTime == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="payTime == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startDate != null and startDate != ''">and po.order_time <![CDATA[>=]]> #{startDate}</if>
+		<if test="endDate != null and endDate != ''"> and po.order_time <![CDATA[<=]]> #{endDate}</if>
+		<if test="mobile != null and mobile != ''">
+		 	and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%')
+		</if>
+		
+	</select>
+	
+	<!-- 条件查询订单信息 -->
+	<select id="findPayOrderByWhere" resultMap="payOrderResultMap" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		select  po.id,
+				po.user_id,
+				po.order_num,
+				po.pay_num,
+				po.pay_time,
+				po.order_time,
+				po.commodity_name,
+				po.commodity_id,
+				po.pay_price,
+				po.pay_type,
+				po.pay_status,
+				po.company_id,
+				po.remark,
+				uf.mobile as discount_no,
+				uf.mobile as mobile
+		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} 
+		and po.commodity_id=#{commodityId}
+		<if test="userId != null and userId != ''">and po.user_id = #{userId}</if>
+		<if test="payStatus != null and payStatus !=''">
+			<if test="payStatus == 1">
+				and po.pay_status = 'PAY_NON'
+			</if>
+			<if test="payStatus == 2">
+				and po.pay_status = 'PAY_REMIT' 
+			</if>
+			<if test="payStatus == 3">
+				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
+			</if>
+		</if>
+		<if test="payType != null and payType !=''">
+			<if test="payType == 1">
+				and po.pay_type = 'PAY_TYPE_ZFB' 
+			</if>
+			<if test="payType == 2">
+				and po.pay_type = 'PAY_TYPE_GRDB' 
+			</if>
+			<if test="payType == 3">
+				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
+			</if>
+		</if>
+		<if test="startDate != null"> and po.order_time <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and po.order_time <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}</if>
+		<if test="mobile != null and mobile != ''">
+			 and uf.mobile = #{mobile} 
+		</if>
+		order by order_time desc
+		limit #{page},#{pageSize}
+	</select>
+	
+	<select id="findCountByWhere" resultType="int" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		select  count(po.id) 
+		from pay_order po left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} 
+		and po.commodity_id=#{commodityId}
+		<if test="userId != null and userId != ''">and po.user_id = #{userId}</if>
+		<if test="payStatus != null and payStatus !=''">
+			<if test="payStatus == 1">
+				and po.pay_status = 'PAY_NON'
+			</if>
+			<if test="payStatus == 2">
+				and po.pay_status = 'PAY_REMIT' 
+			</if>
+			<if test="payStatus == 3">
+				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
+			</if>
+		</if>
+		<if test="payType != null and payType !=''">
+			<if test="payType == 1">
+				and po.pay_type = 'PAY_TYPE_ZFB' 
+			</if>
+			<if test="payType == 2">
+				and po.pay_type = 'PAY_TYPE_GRDB' 
+			</if>
+			<if test="payType == 3">
+				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
+			</if>
+		</if>
+		<if test="startDate != null"> and po.order_time <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and po.order_time <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}</if>
+		<if test="mobile != null and mobile != ''">
+			and uf.mobile = #{mobile}
+		</if>
+	</select>
+	
+	<!-- 查询总金额 -->
+	<select id="findPayOrderTotalMoney" resultMap="payOrderResultMap" parameterType="com.yuxin.wx.model.pay.PayOrder">
+		select  po.id,
+				po.user_id,
+				po.order_num,
+				po.pay_num,
+				po.pay_time,
+				po.order_time,
+				po.commodity_name,
+				po.commodity_id,
+				po.pay_price,
+				po.pay_type,
+				po.pay_status,
+				po.company_id,
+				po.remark,
+				uf.mobile as discount_no,
+				uf.mobile as mobile
+		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} 
+		and po.commodity_id=#{commodityId}
+		<if test="userId != null and userId != ''">and po.user_id = #{userId}</if>
+		<if test="payStatus != null and payStatus !=''">
+			<if test="payStatus == 1">
+				and po.pay_status = 'PAY_NON'
+			</if>
+			<if test="payStatus == 2">
+				and po.pay_status = 'PAY_REMIT' 
+			</if>
+			<if test="payStatus == 3">
+				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
+			</if>
+		</if>
+		<if test="payType != null and payType !=''">
+			<if test="payType == 1">
+				and po.pay_type = 'PAY_TYPE_ZFB' 
+			</if>
+			<if test="payType == 2">
+				and po.pay_type = 'PAY_TYPE_GRDB' 
+			</if>
+			<if test="payType == 3">
+				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
+			</if>
+		</if>
+		<if test="startDate != null"> and po.order_time <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and po.order_time <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}</if>
+		<if test="mobile != null and mobile != ''">
+			 and uf.mobile = #{mobile} 
+		</if>
+	</select>
+	
+	<!-- 积分订单 -->
+	<select id="findIntegralPayOrderList" resultMap="PayOrderIntegralMapVo" parameterType="com.yuxin.wx.vo.system.PayOrderIntegralVo">
+		select  po.id,
+				po.order_num,
+				po.pay_num,
+				po.pay_time,
+				po.order_time,
+				po.commodity_name,
+				po.commodity_id,
+				po.pay_price,
+				po.pay_type,
+				po.pay_status,
+				po.company_id,
+				po.remark,
+				s.name as stuName,
+				s.mobile as stuMobile,
+				po.exchange_scale,
+				po.integral_num as integralNum,
+				uf.username
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id
+		where po.company_id = #{companyId} and po.commdity_type='INTEGRAL'
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null">and date_format(po.order_time, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null"> and date_format(po.order_time, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		order by order_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findIntegralPayOrderListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.PayOrderIntegralVo">
+		select  count(po.id)
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id
+		where po.company_id = #{companyId} and po.commdity_type='INTEGRAL'
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null">and date_format(po.order_time, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null"> and date_format(po.order_time, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		limit 1
+	</select>
+	
+	<!-- 会员订单 -->
+	<select id="findVipPayOrderList" resultMap="PayOrderVipMapVo" parameterType="com.yuxin.wx.vo.system.PayOrderVipVo">
+		select  po.id,
+				po.order_num,
+				po.pay_num,
+				po.pay_time,
+				po.order_time,
+				po.commodity_name,
+				po.commodity_id,
+				po.pay_price,
+				po.pay_type,
+				po.pay_status,
+				po.company_id,
+				po.remark,
+				s.name as stuName,
+				s.mobile as mobile,
+				uf.username,
+				uf.member_id as memberId,
+				uf.member_level as memberLevel,
+				uf.member_buy_length as memberBuyLength,
+				uf.member_end_time as memberEndTime,
+				spm.apply_channel_code as applyChannelCode,
+				cmlc.name as orderMemberLevel,
+				po.member_length as memberLength
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id left join company_member_level_config cmlc on cmlc.id=po.member_id
+		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS'
+		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
+	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+	    <if test="memberId != null and memberId != ''">and uf.member_id = #{memberId}</if>
+	     <if test="username != null and username != ''">and uf.username like '%${username}%'</if>
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null">and date_format(po.order_time, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null"> and date_format(po.order_time, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		order by order_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findVipPayOrderListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.PayOrderVipVo">
+		select  count(po.id)
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS'
+			<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
+	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+	    <if test="memberId != null and memberId != ''">and uf.member_id = #{memberId}</if>
+	     <if test="username != null and username != ''">and uf.username like '%${username}%'</if>
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null">and date_format(po.order_time, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null"> and date_format(po.order_time, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		limit 1
+	</select>
+	<select id="findVipPayOrderListForExport" resultMap="PayOrderVipMapVo" parameterType="com.yuxin.wx.vo.system.PayOrderVipVo">
+		select  po.id,
+				po.order_num,
+				po.pay_num,
+				po.pay_time,
+				po.order_time,
+				po.commodity_name,
+				po.commodity_id,
+				po.pay_price,
+				po.pay_type,
+				po.pay_status,
+				po.company_id,
+				po.remark,
+				s.name as stuName,
+				s.mobile as mobile,
+				uf.username,
+				uf.member_id as memberId,
+				uf.member_level as memberLevel,
+				uf.member_buy_length as memberBuyLength,
+				uf.member_end_time as memberEndTime,
+				spm.apply_channel_code as applyChannelCode,
+				cmlc.name as orderMemberLevel,
+				po.member_length as memberLength
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS'
+		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
+	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+	    <if test="memberId != null and memberId != ''">and uf.member_id = #{memberId}</if>
+	    <if test="username != null and username != ''">and uf.username like '%${username}%'</if>
+		<if test="timeLen !=null and timeMark != null">
+			<choose>
+				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<when test="timeMark == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
+				<otherwise>
+				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="startTime != null and startTime != ''">and date_format(po.order_time, "%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''"> and date_format(po.order_time, "%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		order by order_time desc
+	</select>
+	<select id="findOrderFinishCountByUserId" resultType="int" parameterType="map" >
+		select count(id)
+		from pay_order 
+		where user_id = #{userId } and company_id = #{companyId}
+		and (pay_status = 'PAY_SUCCESS' or pay_status = 'PAY_REMIT_CONFIRM')
+		limit 1
+	</select>
+	
+	<select id="queryOrderBuyClassCountByUserId" resultType="int" parameterType="map">
+		select count(id)
+		from pay_order
+		where user_id=#{userId} and company_id =#{companyId}
+		and (pay_status = 'PAY_SUCCESS' or pay_status = 'PAY_REMIT_CONFIRM')
+		and commdity_type='COMMODITY_CLASS'
+		limit 1
+	</select>
+</mapper>

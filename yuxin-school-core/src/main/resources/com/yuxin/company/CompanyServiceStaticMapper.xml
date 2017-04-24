@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyServiceStaticMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyServiceStatic" id="companyServiceStaticResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="liveConcurrent" column="live_concurrent" />
+		<result property="videoStorage" column="video_storage" />
+		<result property="videoFlow" column="video_flow" />
+		<result property="faceStudent" column="face_student" />
+		<result property="messageSend" column="message_send" />
+		<result property="emailSend" column="email_send" />
+		<result property="schoolNum" column="school_num" />
+		<result property="onlineStudent" column="online_student"/>
+		<result property="resourceStorage" column="resource_storage" />
+		<result property="resourceFlow" column="resource_flow"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.CompanyAlarmLogVo" id="companyAlarmLogMap">
+		<result property="id" column="id"/>
+		<result property="companyId" column="companyId"/>
+		<result property="alarmBusinessType" column="alarmBusinessType"/>
+		<result property="alarmSendType" column="alarmSendType"/>
+		<result property="sendTime" column="sendTime"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.SystemConfigServiceVo" id="sysConfigCompanyServiceMap">
+		<result property="id" column="id"/>
+		<result property="groupCode" column="group_code"/>
+		<result property="updator" column="updator"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="delFlag" column="company_id"/>
+		<result property="companyId" column="del_flag"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		live_concurrent,
+		video_storage,
+		video_flow,
+		face_student,
+		message_send,
+		email_send,
+		school_num,
+		online_student,
+		resource_storage,
+		resource_flow
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{liveConcurrent},
+		#{videoStorage},
+		#{videoFlow},
+		#{faceStudent},
+		#{messageSend},
+		#{emailSend},
+		#{schoolNum},
+		#{onlineStudent},
+		#{resourceStorage},
+		#{resourceFlow}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.liveConcurrent},
+		#{item.videoStorage},
+		#{item.videoFlow},
+		#{item.faceStudent},
+		#{item.messageSend},
+		#{item.emailSend},
+		#{item.schoolNum},
+		#{item.onlineStudent},
+		#{item.resourceStorage},
+		#{item.resourceFlow}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">
+		insert into company_service_static( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_service_static( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_service_static
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic">
+		update company_service_static 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="liveConcurrent != null">live_concurrent = #{liveConcurrent},</if>
+			<if test="videoStorage != null">video_storage = #{videoStorage},</if>
+			<if test="videoFlow != null">video_flow = #{videoFlow},</if>
+			<if test="faceStudent != null">face_student = #{faceStudent},</if>
+			<if test="messageSend != null">message_send = #{messageSend},</if>
+			<if test="emailSend != null">email_send = #{emailSend},</if>
+			<if test="schoolNum != null">school_num = #{schoolNum},</if>
+			<if test="onlineStudent != null">online_student = #{onlineStudent},</if>
+			<if test="resourceStorage != null and resourceStorage != ''">resource_storage = #{resourceStorage},</if>
+			<if test="resourceFlow != null and resourceFlow != ''">resource_flow = #{resourceFlow},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyServiceStaticResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_service_static
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyServiceStaticResultMap">
+		select <include refid="table_columns" /> 
+		from company_service_static
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="liveConcurrent != null and liveConcurrent != ''">and live_concurrent = #{liveConcurrent}</if>
+			<if test="videoStorage != null and videoStorage != ''">and video_storage = #{videoStorage}</if>
+			<if test="videoFlow != null and videoFlow != ''">and video_flow = #{videoFlow}</if>
+			<if test="faceStudent != null and faceStudent != ''">and face_student = #{faceStudent}</if>
+			<if test="messageSend != null and messageSend != ''">and message_send = #{messageSend}</if>
+			<if test="emailSend != null and emailSend != ''">and email_send = #{emailSend}</if>
+			<if test="schoolNum != null and schoolNum != ''">and school_num = #{schoolNum}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyServiceStaticResultMap" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic">
+		select <include refid="table_columns" />
+		from company_service_static
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic">
+		select count(id) from company_service_static
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByCompanyId" resultMap="companyServiceStaticResultMap" parameterType="Integer">
+		select <include refid="table_columns"/>
+		from company_service_static
+		where company_id = #{companyId}
+	</select>
+	<!-- 查询所有公司已用户服务 -->
+	<select id="queryCompanyServicesUsed" resultMap="companyServiceStaticResultMap">
+		select <include refid="table_columns"/>
+		from company_service_static
+	</select>
+	
+	<!-- 添加发送警告信息日志 -->
+	<insert id="insertCompanyAlarmLog" parameterType="com.yuxin.wx.vo.company.CompanyAlarmLogVo" useGeneratedKeys="true" keyProperty="id">
+		insert into company_alarm_log(id,company_id,alarm_business_type,alarm_send_type,send_time)
+		values(#{id},#{companyId},#{alarmBusinessType},#{alarmSendType},#{sendTime})
+	</insert>
+	
+	<select id="queryCompanyServiceLogExit" parameterType="com.yuxin.wx.vo.company.CompanyAlarmLogVo" resultMap="companyAlarmLogMap">
+		select id,company_id as companyId,alarm_business_type as alarmBusinessType,alarm_send_type as alarmSendType,send_time as sendTime from company_alarm_log
+		<where>
+		1=1
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="alarmBusinessType != null">and alarm_business_type = #{alarmBusinessType}</if>
+			<if test="alarmSendType != null">and alarm_send_type = #{alarmSendType}</if>
+		</where>
+	</select>
+	
+	<!-- 查询公司没有开通的服务 -->
+	<select id="queryCompanyNoService" parameterType="int" resultMap="sysConfigCompanyServiceMap">
+		select id,group_code,updator,update_time,company_id,del_flag from sys_config_service where del_flag=0 and company_id=#{companyId}
+	</select>
+</mapper>

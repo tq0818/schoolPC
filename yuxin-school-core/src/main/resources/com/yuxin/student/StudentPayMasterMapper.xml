@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentPayMasterMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentPayMaster" id="studentPayMasterResultMap">
+		<result property="id" column="id" />
+		<result property="applyTime" column="apply_time" />
+		<result property="examTermId" column="exam_term_id" />
+		<result property="examTermName" column="exam_term_name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="classTypeName" column="class_type_name" />
+		<result property="classTypeHour" column="class_type_hour" />
+		<result property="stuId" column="stu_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="campusId" column="campus_id" />
+		<result property="applyPlaceId" column="apply_place_id" />
+		<result property="applyChannelCode" column="apply_channel_code" />
+		<result property="payStatusCode" column="pay_status_code" />
+		<result property="bizStatusCode" column="biz_status_code" />
+		<result property="isAgent" column="is_agent" />
+		<result property="isAgentMaterialComplete" column="is_agent_material_complete" />
+		<result property="isAgentComplete" column="is_agent_complete" />
+		<result property="agentRemark" column="agent_remark" />
+		<result property="trainingFee" column="training_fee" />
+		<result property="examAgentFee" column="exam_agent_fee" />
+		<result property="offerTypeCode" column="offer_type_code" />
+		<result property="offerAmount" column="offer_amount" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="paymentTypeCode" column="payment_type_code" />
+		<result property="remark" column="remark" />
+		<result property="relatedPayId" column="related_pay_id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="deleteFlag" column="delete_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="payOrderId" column="pay_order_id" />
+		<result property="usedFee" column="used_fee"/>
+		<result property="classPackageStageId" column="class_package_stage_id"/>
+		<result property="commodityType" column="commodity_type"/>
+		
+		<result property="integralInstead" column="integral_instead" />
+		<result property="memberInstead" column="member_instead" />
+		<result property="memberId" column="member_id" />
+		<result property="integralUsed" column="integral_used" />
+		<result property="memberDiscount" column="member_discount" />
+		<result property="integralNum" column="integral_num" />
+		<result property="exchangeScale" column="exchange_scale" />
+		<result property="memberLength" column="member_length" />
+		<result property="couponInstead" column="coupon_instead" />
+		<result property="couponCode" column="coupon_code" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.student.StuPayMasterVo" id="payMasterListVo">
+		<result property="id" column="id" />
+		<result property="applyTime" column="apply_time" />
+		<result property="examTermId" column="exam_term_id" />
+		<result property="examTermName" column="exam_term_name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="classTypeName" column="class_type_name" />
+		<result property="classTypeHour" column="class_type_hour" />
+		<result property="stuId" column="stu_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="campusId" column="campus_id" />
+		<result property="applyPlaceId" column="apply_place_id" />
+		<result property="applyChannelCode" column="apply_channel_code" />
+		<result property="payStatusCode" column="pay_status_code" />
+		<result property="bizStatusCode" column="biz_status_code" />
+		<result property="isAgent" column="is_agent" />
+		<result property="isAgentMaterialComplete" column="is_agent_material_complete" />
+		<result property="isAgentComplete" column="is_agent_complete" />
+		<result property="agentRemark" column="agent_remark" />
+		<result property="trainingFee" column="training_fee" />
+		<result property="examAgentFee" column="exam_agent_fee" />
+		<result property="offerTypeCode" column="offer_type_code" />
+		<result property="offerAmount" column="offer_amount" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="paymentTypeCode" column="payment_type_code" />
+		<result property="remark" column="remark" />
+		<result property="relatedPayId" column="related_pay_id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="deleteFlag" column="delete_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="payOrderId" column="pay_order_id" />
+		<result property="usedFee" column="used_fee"/>
+		<result property="orderTotalMoney" column="orderTotalMoney"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.student.StudentPayMasterVo4" id="payMasterListVo4">
+		<result property="commdityId" column="commodity_id" />
+		<result property="classTypeName" column="class_type_name" />
+		<result property="applyTime" column="apply_time" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.student.StuPaymasterVoList" id="stuClassTypeList">
+		<result property="id" column="id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="companyId" column="commodity_id" />
+		<result property="classTypeName" column="class_type_name" />
+		<result property="stuId" column="stu_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="isAgent" column="is_agent"/>
+		<result property="isAgentMaterialComplete" column="is_agent_material_complete"/>
+		<result property="isAgentComplete" column="is_agent_complete"/>
+		<result property="companyId" column="company_id"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.student.StuClassTypeVoList" id="stuPayClassTypeList">
+		<result property="payMasterId" column="payMasterId" />
+		<result property="moduleId" column="moduleId" />
+		<result property="itemOneId" column="itemOneId" />
+		<result property="itemOneName" column="itemOneName" />
+		<result property="itemSecondId" column="itemSecondId" />
+		<result property="itemSecondName" column="itemSecondName" />
+		<result property="classTypeId" column="commodity_id" />
+		<result property="classTypeName" column="classTypeName" />
+		<result property="stuId" column="stuId" />
+		<result property="schoolId" column="schoolId" />
+		<result property="companyId" column="company_id"/>
+		<result property="classTypeHour" column="classTypeHour"/>
+		<result property="examName" column="examName"/>
+		<result property="moduleName" column="moduleName"/>
+		<result property="teacherMethod" column="teacherMethod"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.course.OrderManage" id="orderManageMap">
+		<result property="id" column="id"/>
+		<result property="mobile" column="mobile"/>
+		<result property="stuName" column="stuName"/>
+		<result property="payTime" column="payTime"/>
+		<result property="orderTime" column="orderTime"/>
+		<result property="totalMount" column="totalMount"/>
+		<result property="commodityId" column="commodityId"/>
+		<result property="payPrice" column="payPrice"/>
+		<result property="payType" column="payType"/>
+		<result property="applyChannelCode" column="applyChannelCode"/>
+		<result property="stageId" column="stageId"/>
+		<result property="userId" column="userId"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.student.StudentListDataVo" id="studentPamasterDataVo">
+		<result property="id" column="id" />
+		<result property="coursesName" column="class_type_name"/>
+		<result property="payType" column="pay_type"/>
+		<result property="payMoney" column="pay_price"/>
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+		<result property="identityTypeCode" column="identity_type_code" />
+		<result property="identityId" column="identity_id" />
+		<result property="age" column="age" />
+		<result property="birthday" column="birthday" />
+		<result property="educationCode" column="education_code" />
+		<result property="hkAddress" column="hk_address" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="qq" column="qq" />
+		<result property="homePhone" column="home_phone" />
+		<result property="officePhone" column="office_phone" />
+		<result property="weixinId" column="weixin_id" />
+		<result property="emergencyContact" column="emergency_contact" />
+		<result property="emergencyPhone" column="emergency_phone" />
+		<result property="remark" column="remark" />
+		<result property="createTime" column="apply_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="deleteFlag" column="delete_flag" />
+		<result property="companyId" column="company_id"/>
+		<result property="schoolId" column="schoolId"/>
+		<result property="status" column="status" />
+		<result property="emailAuthSign" column="email_auth_sign" />
+		<result property="emailAuthSendtime" column="email_auth_sendtime" />
+		<result property="emailAuthCode" column="email_auth_code" />
+		<result property="userCity" column="user_city" />
+		<result property="uuid" column="uuid" />
+		<result property="headPicMin" column="head_pic_min" />
+		<result property="headPicMid" column="head_pic_mid" />
+		<result property="headPicMax" column="head_pic_max" />
+		<result property="registTime" column="regist_time" />
+		<result property="interests" column="interests" />
+		<result property="vipFlag" column="vip_flag" />
+		<result property="registType" column="regist_type" />
+		<result property="promoteSource" column="promote_source" />
+		<result property="promoteKeyword" column="promote_keyword" />
+		<result property="paymaterCount" column="paymaterCount"/>
+		<result property="userId" column="userId"/>
+		<result property="signUpTime" column="signUpTime"/>
+		<result property="isAgent" column="isAgent"/>
+		<result property="lastLoginTime" column="lastLoginTime"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="county" column="county"/>
+		<result property="addressDetail" column="address_detail"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		apply_time,
+		exam_term_id,
+		exam_term_name,
+		item_one_id,
+		item_one_name,
+		item_second_id,
+		item_second_name,
+		commodity_id,
+		class_type_name,
+		class_type_hour,
+		stu_id,
+		school_id,
+		campus_id,
+		apply_place_id,
+		apply_channel_code,
+		pay_status_code,
+		biz_status_code,
+		is_agent,
+		is_agent_material_complete,
+		is_agent_complete,
+		agent_remark,
+		training_fee,
+		exam_agent_fee,
+		offer_type_code,
+		offer_amount,
+		total_amount,
+		payment_type_code,
+		remark,
+		related_pay_id,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		delete_flag,
+		company_id,
+		pay_order_id,
+		class_package_stage_id,
+		commodity_type,
+		integral_instead,
+		member_instead,
+		member_id,
+		integral_used,
+		member_discount,
+		integral_num,
+		exchange_scale,
+		member_length,
+		coupon_instead,
+		coupon_code
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{applyTime},
+		#{examTermId},
+		#{examTermName},
+		#{itemOneId},
+		#{itemOneName},
+		#{itemSecondId},
+		#{itemSecondName},
+		#{commodityId},
+		#{classTypeName},
+		#{classTypeHour},
+		#{stuId},
+		#{schoolId},
+		#{campusId},
+		#{applyPlaceId},
+		#{applyChannelCode},
+		#{payStatusCode},
+		#{bizStatusCode},
+		#{isAgent},
+		#{isAgentMaterialComplete},
+		#{isAgentComplete},
+		#{agentRemark},
+		#{trainingFee},
+		#{examAgentFee},
+		#{offerTypeCode},
+		#{offerAmount},
+		#{totalAmount},
+		#{paymentTypeCode},
+		#{remark},
+		#{relatedPayId},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{deleteFlag},
+		#{companyId},
+		#{payOrderId},
+		#{classPackageStageId},
+		#{commodityType},
+		#{integralInstead},
+		#{memberInstead},
+		#{memberId},
+		#{integralUsed},
+		#{memberDiscount},
+		#{integralNum},
+		#{exchangeScale},
+		#{memberLength},
+		#{couponInstead},
+		#{couponCode}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentPayMaster" useGeneratedKeys="true" keyProperty="id">
+		insert into student_pay_master( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_pay_master( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_pay_master
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_pay_master
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		update student_pay_master 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="applyTime != null and applyTime != ''">apply_time = #{applyTime},</if>
+			<if test="examTermId != null">exam_term_id = #{examTermId},</if>
+			<if test="examTermName != null and examTermName != ''">exam_term_name = #{examTermName},</if>
+			<if test="itemOneId != null">item_one_id = #{itemOneId},</if>
+			<if test="itemOneName != null and itemOneName != ''">item_one_name = #{itemOneName},</if>
+			<if test="itemSecondId != null">item_second_id = #{itemSecondId},</if>
+			<if test="itemSecondName != null and itemSecondName != ''">item_second_name = #{itemSecondName},</if>
+			<if test="commodityId != null and commodityId != ''">commodity_id = #{commodityId},</if>
+			<if test="classTypeName != null and classTypeName != ''">class_type_name = #{classTypeName},</if>
+			<if test="classTypeHour != null and classTypeHour != ''">class_type_hour = #{classTypeHour},</if>
+			<if test="stuId != null">stu_id = #{stuId},</if>
+			<if test="schoolId != null ">school_id = #{schoolId},</if>
+			<if test="campusId != null ">campus_id = #{campusId},</if>
+			<if test="applyPlaceId != null and applyPlaceId != ''">apply_place_id = #{applyPlaceId},</if>
+			<if test="applyChannelCode != null">apply_channel_code = #{applyChannelCode},</if>
+			<if test="payStatusCode != null">pay_status_code = #{payStatusCode},</if>
+			<if test="bizStatusCode != null">biz_status_code = #{bizStatusCode},</if>
+			<if test="isAgent != null">is_agent = #{isAgent},</if>
+			<if test="isAgentMaterialComplete != null">is_agent_material_complete = #{isAgentMaterialComplete},</if>
+			<if test="isAgentComplete != null">is_agent_complete = #{isAgentComplete},</if>
+			<if test="agentRemark != null">agent_remark = #{agentRemark},</if>
+			<if test="trainingFee != null">training_fee = #{trainingFee},</if>
+			<if test="examAgentFee != null">exam_agent_fee = #{examAgentFee},</if>
+			<if test="offerTypeCode != null and offerTypeCode != ''">offer_type_code = #{offerTypeCode},</if>
+			<if test="offerAmount != null">offer_amount = #{offerAmount},</if>
+			<if test="totalAmount != null">total_amount = #{totalAmount},</if>
+			<if test="paymentTypeCode != null and paymentTypeCode != ''">payment_type_code = #{paymentTypeCode},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="relatedPayId != null">related_pay_id = #{relatedPayId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+			<if test="companyId != null">company_id  = #{companyId },</if>
+			<if test="usedFee != null">used_fee  = #{usedFee },</if>
+			<if test="payOrderId != null and payOrderId != ''">pay_order_id  = #{payOrderId },</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentPayMasterResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_pay_master
+		where id = #{id}
+	</select>
+		<select id="findByStuId" resultMap="studentPayMasterResultMap" parameterType="hashmap" >
+		select <include refid="table_columns" />
+		from student_pay_master
+		where stu_id = #{stuId} and pay_status_code!='STOPED' and delete_flag=0 and school_id=#{schoolId}
+	</select>
+	
+	<select id="queryAll" resultMap="studentPayMasterResultMap">
+		select <include refid="table_columns" /> 
+		from student_pay_master
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="applyTime != null and applyTime != ''">and apply_time = #{applyTime}</if>
+			<if test="examTermId != null and examTermId != ''">and exam_term_id = #{examTermId}</if>
+			<if test="examTermName != null and examTermName != ''">and exam_term_name = #{examTermName}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemOneName != null and itemOneName != ''">and item_one_name = #{itemOneName}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="itemSecondName != null and itemSecondName != ''">and item_second_name = #{itemSecondName}</if>
+			<if test="commodityId != null and commodityId != ''">and commodity_id = #{commodityId}</if>
+			<if test="classTypeName != null and classTypeName != ''">and class_type_name = #{classTypeName}</if>
+			<if test="classTypeHour != null and classTypeHour != ''">and class_type_hour = #{classTypeHour}</if>
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="campusId != null and campusId != ''">and campus_id = #{campusId}</if>
+			<if test="applyPlaceId != null and applyPlaceId != ''">and apply_place_id = #{applyPlaceId}</if>
+			<if test="applyChannelCode != null and applyChannelCode != ''">and apply_channel_code = #{applyChannelCode}</if>
+			<if test="payStatusCode != null and payStatusCode != ''">and pay_status_code = #{payStatusCode}</if>
+			<if test="bizStatusCode != null and bizStatusCode != ''">and biz_status_code = #{bizStatusCode}</if>
+			<if test="isAgent != null and isAgent != ''">and is_agent = #{isAgent}</if>
+			<if test="isAgentMaterialComplete != null and isAgentMaterialComplete != ''">and is_agent_material_complete = #{isAgentMaterialComplete}</if>
+			<if test="isAgentComplete != null and isAgentComplete != ''">and is_agent_complete = #{isAgentComplete}</if>
+			<if test="agentRemark != null and agentRemark != ''">and agent_remark = #{agentRemark}</if>
+			<if test="trainingFee != null and trainingFee != ''">and training_fee = #{trainingFee}</if>
+			<if test="examAgentFee != null and examAgentFee != ''">and exam_agent_fee = #{examAgentFee}</if>
+			<if test="offerTypeCode != null and offerTypeCode != ''">and offer_type_code = #{offerTypeCode}</if>
+			<if test="offerAmount != null and offerAmount != ''">and offer_amount = #{offerAmount}</if>
+			<if test="totalAmount != null and totalAmount != ''">and total_amount = #{totalAmount}</if>
+			<if test="paymentTypeCode != null and paymentTypeCode != ''">and payment_type_code = #{paymentTypeCode}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="relatedPayId != null and relatedPayId != ''">and related_pay_id = #{relatedPayId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="payOrderId != null and payOrderId != ''">and pay_order_id  = #{payOrderId }</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentPayMasterResultMap" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select <include refid="table_columns" />
+		from student_pay_master
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select count(id) from student_pay_master
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	
+	<!-- 插入并返回主键值 -->
+	<insert id="insertPayMaster" parameterType="com.yuxin.wx.model.student.StudentPayMaster" useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+		SELECT @@IDENTITY
+		</selectKey>
+		insert into student_pay_master( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	<select id="findListByTerm" resultType="com.yuxin.wx.vo.student.StudentVo" parameterType="com.yuxin.wx.vo.student.StudentVo">
+		select distinct s.id, s.name,s.sex,s.identity_id as identityId ,s.identity_type_code as identityTypeCode,s.age,s.birthday,s.education_code as educationCode,s.hk_address as hkAddress,s.mobile,s.email,s.qq,s.home_phone as homePhone,s.office_phone as officePhone,s.weixin_id as weixinId,s.emergency_contact as emergencyContact,s.emergency_phone as emergencyPhone,
+		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,p.school_id as schoolId,
+		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
+		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,p.updator,p.delete_flag  as deleteFlag
+		from student as s,student_pay_master as p 
+		where s.id=p.stu_id and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
+		and p.item_one_id=#{itemOneId} and s.school_id=#{schoolId}
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="isAgentMaterialComplete != null and isAgentMaterialComplete != ''"> and p.is_agent_material_complete=#{isAgentMaterialComplete}</if>
+		<if test="name !=null and name !=''"> and s.name like '%${name}%'</if>
+		<if test="mobile !=null and mobile !=''"> and s.mobile = #{mobile}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryListByTerm" resultType="com.yuxin.wx.vo.student.StudentVo" parameterType="com.yuxin.wx.vo.student.StudentVo">
+		select s.name,s.sex,s.identity_id as identityId ,s.identity_type_code as identityTypeCode,s.age,s.birthday,s.education_code as educationCode,s.hk_address as hkAddress,s.mobile,s.email,s.qq,s.home_phone as homePhone,s.office_phone as officePhone,s.weixin_id as weixinId,s.emergency_contact as emergencyContact,s.emergency_phone as emergencyPhone,
+		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,p.school_id as schoolId,
+		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
+		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,(select real_name from users where id=p.updator) as updator,p.delete_flag  as deleteFlag
+		from student as s,student_pay_master as p 
+		where s.id=p.stu_id and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
+		 and s.school_id=#{schoolId} and s.company_id=#{companyId} and p.is_agent=1
+		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="mobile != null and mobile != ''"> and s.mobile=#{mobile}</if>
+		<if test="isAgentMaterialComplete != null and isAgentMaterialComplete != ''"> and p.is_agent_material_complete=#{isAgentMaterialComplete}</if>
+	</select>
+	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentVo">
+		select count(*) from (select distinct s.id, s.name,s.sex,s.identity_id as identityId ,s.identity_type_code as identityTypeCode,s.age,s.birthday,s.education_code as educationCode,s.hk_address as hkAddress,s.mobile,s.email,s.qq,s.home_phone as homePhone,s.office_phone as officePhone,s.weixin_id as weixinId,s.emergency_contact as emergencyContact,s.emergency_phone as emergencyPhone,
+		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,p.school_id as schoolId,
+		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
+		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,p.updator,p.delete_flag  as deleteFlag
+		from student as s,student_pay_master as p 
+		where s.id=p.stu_id and s.delete_flag=0 and p.delete_flag=0 and p.school_id=#{schoolId} and p.commodity_type='COMMODITY_CLASS'
+		and p.item_one_id=#{itemOneId}
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="isAgentMaterialComplete != null and isAgentMaterialComplete != ''"> and p.is_agent_material_complete=#{isAgentMaterialComplete}</if>
+		<if test="name !=null and name !=''"> and s.name like '%${name}%'</if>
+		<if test="mobile !=null and mobile !=''"> and s.mobile = #{mobile}</if>
+		) as cnt
+	</select>
+	
+	<select id="queryListByClassType" resultMap="studentPayMasterResultMap" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,sum(total_amount) as totalAmount 
+		from student_pay_master as p left join class_type as t on p.commodity_id=t.id  
+		where 	p.school_id=#{schoolId} and  p.delete_flag=0 and t.type_code='CLASS_TYPE_REMOTE' and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_one_id=#{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and p.commodity_id=#{commodityId}</if>
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		group by p.exam_term_id,p.exam_term_name,p.commodity_id,p.class_type_name
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="pageCountClassType" resultType="Integer" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select count(*) from (select p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,sum(total_amount) from student_pay_master as p where p.school_id=#{schoolId} and  p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_one_id=#{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and p.commodity_id=#{commodityId}</if>
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		group by p.exam_term_id,p.exam_term_name,p.commodity_id,p.class_type_name
+		) as cnt limit 1
+	</select>
+	
+	<select id="queryListByClassType2" resultType="com.yuxin.wx.vo.student.StudentVo" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select s.id as stuId ,s.name,s.mobile,s.sex,s.age,s.education_code as educationCode,p.apply_time as applyTime,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.total_amount as  totalAmount,p.updator from student_pay_master as p,student as s  where 	p.stu_id=s.id and p.school_id=#{schoolId} and  p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_one_id=#{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and p.commodity_id=#{commodityId}</if>
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+		<select id="pageCountClassType2" resultType="Integer" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select count(*) from (select s.id as stuId ,s.name,s.mobile,s.sex,s.age,s.education_code as educationCode,p.apply_time as applyTime,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.total_amount as  totalAmount,p.updator from student_pay_master as p,student as s  where 	p.stu_id=s.id and p.school_id=#{schoolId} and  p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_one_id=#{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
+		<if test="classTypeId != null and classTypeId != ''">and p.commodity_id=#{classTypeId}</if>
+		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
+		) as cnt limit 1
+	</select>
+	<select id="findByStuMbile" parameterType="map" resultMap="studentPayMasterResultMap">
+		select b.* from 
+			student a,student_pay_master b 
+		where 
+			a.id=b.stu_id 
+		and
+			a.mobile=#{mobile}
+		and
+			b.company_id=#{companyId}
+		and 
+			b.school_id=#{schoolId}
+		and
+			b.delete_flag=0
+		and
+			b.pay_status_code='ORDER_PART_PAY'
+	</select>
+	<select id="findByStuMbile2" parameterType="map" resultMap="studentPayMasterResultMap">
+	   select b.* from student_pay_master b LEFT JOIN student a on a.id=b.stu_id LEFT JOIN users_front u on a.user_id=u.id
+		where 
+			b.company_id=#{companyId}
+		and 
+			b.school_id=#{schoolId}
+		and b.delete_flag =0
+		and b.pay_status_code!='ORDER_DELTED' 
+		and b.pay_status_code!='ORDER_CREATED' 
+		and b.pay_status_code!='ORDER_PRODUCT_CHANGED' 
+		and b.pay_status_code!='ORDER_STU_CHANGED'
+		and b.pay_status_code!='ORDER_STOPED'
+		and 
+			b.commodity_type='COMMODITY_CLASS'
+		<if test="mobile != null and mobile != ''">and (a.mobile=#{mobile} or u.username=#{mobile})</if>
+	</select>
+	<resultMap type="com.yuxin.wx.model.student.StudentPayMaster" id="myMap" extends="studentPayMasterResultMap">
+		<result property="hasPay" column="hasPay"/>
+	</resultMap>
+	<select id="findEntryMessage" parameterType="com.yuxin.wx.model.student.StudentPayMaster" resultMap="myMap">
+		select a.* from 
+			student_pay_master  a
+		where 
+			a.stu_id = #{stuId}
+		and
+			a.company_id=#{companyId}
+		and a.delete_flag =0
+		and a.pay_status_code!='ORDER_DELTED' 
+		and a.pay_status_code!='ORDER_CREATED' 
+		and a.pay_status_code!='ORDER_PRODUCT_CHANGED' 
+		and a.pay_status_code!='ORDER_STU_CHANGED'
+		and a.pay_status_code!='ORDER_STOPED'		
+		and a.commodity_type='COMMODITY_CLASS'
+		order by pay_status_code asc
+	</select>
+	
+	<select id="findUnPayMasterByStuId" parameterType="com.yuxin.wx.model.student.Student" resultMap="studentPayMasterResultMap">
+		select * from student_pay_master where stu_id=#{id} and company_id=#{companyId} and pay_status_code ='ORDER_CREATED'
+	</select>
+	<resultMap type="com.yuxin.wx.vo.student.StudentPayMasterVo3" extends="studentPayMasterResultMap" id="mymap">
+		<association property="student" javaType="com.yuxin.wx.model.student.Student">
+	  		<result column="name"  property="name" />
+	  		<result column="mobile"  property="mobile" />
+	  		<result column="email"  property="email" />
+  		</association>
+	</resultMap>
+	<select id="findList" parameterType="com.yuxin.wx.model.student.StudentPayMaster" resultMap="mymap">
+		select a.*,b.name,b.mobile,b.email from
+			student_pay_master a,
+			student b
+			where
+				a.stu_id=b.id
+			and
+				a.delete_flag=0
+			and
+				a.pay_status_code='ORDER_PAID_NO_COURSE'
+			and
+				a.company_id=#{companyId}
+			and 
+				a.commodity_type='COMMODITY_CLASS'
+		<if test="itemOneId != null and itemOneId != ''">and a.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and a.item_second_id=#{itemSecondId}</if>
+		<if test="classTypeId != null and classTypeId != ''">and a.commodity_id=#{classTypeId}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="getCount" parameterType="com.yuxin.wx.model.student.StudentPayMaster" resultType="int">
+		select count(a.id) from
+		student_pay_master a,
+		student b
+		where
+			a.stu_id=b.id
+		and
+			a.delete_flag=0
+		and
+			a.pay_status_code='ORDER_PAID_NO_COURSE'
+		and
+			a.company_id=#{companyId}
+		and 
+			a.commodity_type='COMMODITY_CLASS'
+		<if test="itemOneId != null">and a.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null">and a.item_second_id=#{itemSecondId}</if>
+		<if test="commodityId != null">and a.commodity_id=#{commodityId}</if>
+		<if test="schoolId != null">and a.school_id=#{schoolId}</if>
+		limit 1
+	</select>
+	
+	<select id="queryClassTypeByStuId" parameterType="com.yuxin.wx.vo.student.StuPaymasterVoList" resultMap="stuClassTypeList">
+		select a.id,a.stu_id,a.item_one_id,a.item_one_name,a.item_second_id,a.item_second_name,a.commodity_id,a.class_type_name,a.is_agent,a.is_agent_complete,a.is_agent_material_complete, 
+			a.school_id,a.company_id
+			from student_pay_master a 
+			LEFT JOIN class_type b on a.commodity_id=b.id 
+			where a.stu_id=#{stuId} and a.school_id=#{schoolId} and a.company_id=#{companyId} and delete_flag=0 
+			and a.pay_status_code!='ORDER_DELTED' 
+			and a.pay_status_code!='ORDER_CREATED' 
+			and a.pay_status_code!='ORDER_PRODUCT_CHANGED' 
+			and a.pay_status_code!='ORDER_STU_CHANGED'
+			and a.pay_status_code!='ORDER_STOPED'
+			and a.commodity_type='COMMODITY_CLASS'
+	</select>
+	
+	<select id="queryClasstypeById" parameterType="com.yuxin.wx.vo.student.StuClassTypeVoList" resultMap="stuPayClassTypeList">
+		select DISTINCT b.id as payMasterId, a.id as classTypeId,b.stu_id as stuId,d.id as moduleId, a.create_school_id as schoolId, b.class_type_name as classTypeName,b.item_one_name as itemOneName,b.item_second_name as itemSecondName,b.class_type_hour as classTypeHour,b.school_id,b.exam_term_name as examName,d.name as moduleName,d.teach_method as teacherMethod
+from class_type a left join student_pay_master b on a.id= b.commodity_id 
+LEFT JOIN class_type_module_relation c on b.commodity_id=c.class_type_id 
+LEFT JOIN class_module d on c.module_id=d.id where b.commodity_id= #{classTypeId} and b.commodity_type='COMMODITY_CLASS' limit 1
+	</select>
+	
+	<select id="stuPayMasterList" parameterType="com.yuxin.wx.vo.student.StuPayMasterVo" resultMap="payMasterListVo">
+<!-- 		select <include refid="table_columns" />
+		from student_pay_master
+		where delete_flag=0 and pay_status_code!='ORDER_DELTED' and pay_status_code!='ORDER_STOPED' and pay_status_code!='ORDER_STU_CHANGED'
+		and pay_status_code!='ORDER_CREATED' and pay_status_code!='ORDER_PRODUCT_CHANGED' and commodity_type='COMMODITY_CLASS' and company_id=#{companyId}
+	    <if test="schoolId != null">and school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and commodity_id = #{commodityId}</if>
+		<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and apply_channel_code = #{applyChannelCode}</if>
+		<if test="startDate != null"> and date_format(create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(create_time)<![CDATA[<=]]>#{timeLen}</if> -->
+		select spm.id,
+		spm.apply_time,
+		spm.exam_term_id,
+		spm.exam_term_name,
+		spm.item_one_id,
+		spm.item_one_name,
+		spm.item_second_id,
+		spm.item_second_name,
+		spm.commodity_id,
+		spm.class_type_name,
+		spm.class_type_hour,
+		spm.stu_id,
+		spm.school_id,
+		spm.campus_id,
+		spm.apply_place_id,
+		spm.apply_channel_code,
+		spm.pay_status_code,
+		spm.biz_status_code,
+		spm.is_agent,
+		spm.is_agent_material_complete,
+		spm.is_agent_complete,
+		spm.agent_remark,
+		spm.training_fee,
+		spm.exam_agent_fee,
+		spm.offer_type_code,
+		spm.offer_amount,
+		spm.total_amount,
+		spm.payment_type_code,
+		spm.remark,
+		spm.related_pay_id,
+		spm.create_time,
+		spm.creator,
+		spm.update_time,
+		spm.updator,
+		spm.company_id,
+		spm.pay_order_id,
+		spm.class_package_stage_id,
+		spm.commodity_type,
+		spm.integral_instead,
+		spm.member_instead,
+		spm.member_id,
+		spm.delete_flag,
+		spm.integral_used,
+		spm.member_discount,
+		spm.integral_num,
+		spm.exchange_scale,
+		spm.member_length,
+		spm.coupon_instead,
+		spm.coupon_code,uf.username,
+		ccpo.name  as proxyOrgName
+		from student_pay_master spm
+		left join student s on  spm.stu_id=s.id
+		left join users_front uf on s.user_id=uf.id
+		left join company_config_proxy_org ccpo on ccpo.id = s.proxy_org_id
+		where spm.delete_flag=0 and spm.pay_status_code!='ORDER_DELTED' and spm.pay_status_code!='ORDER_STOPED' and spm.pay_status_code!='ORDER_STU_CHANGED'
+		and spm.pay_status_code!='ORDER_CREATED' and spm.pay_status_code!='ORDER_PRODUCT_CHANGED' and spm.commodity_type='COMMODITY_CLASS' and spm.company_id=#{companyId}
+	    <if test="schoolId != null">and spm.school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and spm.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and spm.item_second_id = #{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and spm.commodity_id = #{commodityId}</if>
+		<if test="stuId != null and stuId != ''">and spm.stu_id = #{stuId}</if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and spm.apply_channel_code = #{applyChannelCode}</if>
+		<if test="startDate != null"> and date_format(spm.create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(spm.create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(spm.create_time)<![CDATA[<=]]>#{timeLen}</if>
+		<if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id = #{proxyOrgId}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="stuPayMasterListCount" parameterType="com.yuxin.wx.vo.student.StuPayMasterVo" resultType="int">
+		select count(spm.id) from student_pay_master spm
+		left join student s on  spm.stu_id=s.id
+		left join users_front uf on s.user_id=uf.id
+		left join company_config_proxy_org ccpo on ccpo.id = s.proxy_org_id
+		where spm.delete_flag=0 and spm.pay_status_code!='ORDER_DELTED' and spm.pay_status_code!='ORDER_STOPED' and spm.pay_status_code!='ORDER_STU_CHANGED'
+		and spm.pay_status_code!='ORDER_CREATED' and spm.pay_status_code!='ORDER_PRODUCT_CHANGED' and spm.commodity_type='COMMODITY_CLASS' and spm.company_id=#{companyId}
+	    <if test="schoolId != null">and spm.school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and spm.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and spm.item_second_id = #{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and spm.commodity_id = #{commodityId}</if>
+		<if test="stuId != null and stuId != ''">and spm.stu_id = #{stuId}</if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and spm.apply_channel_code = #{applyChannelCode}</if>
+		<if test="startDate != null"> and date_format(spm.create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(spm.create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(spm.create_time)<![CDATA[<=]]>#{timeLen}</if>
+		<if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id = #{proxyOrgId}</if>
+		limit 1
+	</select>
+	
+	<!-- 订单合计金额 -->
+	<select id="queryorderTotalMoney" parameterType="com.yuxin.wx.vo.student.StuPayMasterVo" resultType="map">
+		select IFNULL(SUM(total_amount),0) as orderTotalMoney from student_pay_master
+		where delete_flag=0 and pay_status_code!='ORDER_DELTED' and pay_status_code!='ORDER_STOPED' and pay_status_code!='ORDER_STU_CHANGED'
+		and pay_status_code!='ORDER_CREATED' and pay_status_code!='ORDER_PRODUCT_CHANGED' and commodity_type='COMMODITY_CLASS' and company_id=#{companyId}
+	    <if test="schoolId != null">and school_id = #{schoolId}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="commodityId != null and commodityId != ''">and commodity_id = #{commodityId}</if>
+		<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+		<if test="applyChannelCode != null and applyChannelCode != ''">and apply_channel_code = #{applyChannelCode}</if>
+		<if test="startDate != null"> and date_format(create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null"> and date_format(create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(create_time)<![CDATA[<=]]>#{timeLen}</if>
+	</select>
+	
+	<!-- 订单折线图 -->
+	<select id="countUserByDate" resultType="map" parameterType="com.yuxin.wx.vo.student.StuPayMasterVo">
+	select  count(spm.id) num,date_format(spm.create_time, "%Y-%m-%d") createTime
+		from student_pay_master spm
+		left join student s on  spm.stu_id=s.id
+		where spm.delete_flag=0 and spm.pay_status_code!='ORDER_DELTED' and spm.pay_status_code!='ORDER_STOPED' and spm.pay_status_code!='ORDER_STU_CHANGED'
+		and spm.pay_status_code!='ORDER_CREATED' and spm.pay_status_code!='ORDER_PRODUCT_CHANGED' and spm.commodity_type='COMMODITY_CLASS' and spm.company_id=#{companyId}
+			<if test="schoolId != null"> and spm.school_id=#{schoolId}</if>
+			<if test="startDate != null"> and date_format(spm.create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+			<if test="endDate != null"> and date_format(spm.create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+			<if test="itemOneId != null and itemOneId != ''">and spm.item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and spm.item_second_id = #{itemSecondId}</if>
+			<if test="commodityId != null and commodityId != ''">and spm.commodity_id = #{commodityId}</if>
+			<if test="applyChannelCode != null and applyChannelCode != ''">and spm.apply_channel_code = #{applyChannelCode}</if>
+			<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(spm.create_time)<![CDATA[<=]]>#{timeLen}</if>
+			<if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id = #{proxyOrgId}</if>
+			group by date_format(spm.create_time, "%Y-%m-%d")
+	</select>
+	
+	<!-- 查询人数 -->
+	<select id="findByResourceid" resultType="Integer" parameterType="map">
+		select count(c.id) from
+		(select s.id
+		from student_pay_slave s
+		inner join student_pay_master m 
+			on s.pay_master_id = m.id
+		inner join student b on b.id = s.stu_id
+		where s.resource_id = #{resourceId} 
+		 and (m.pay_status_code='ORDER_PAID' or m.pay_status_code='ORDER_PART_PAY' or m.pay_status_code='ORDER_FINISHED' or m.pay_status_code='ORDER_PAID_NO_COURSE' or commodity_type='COMMODITY_CLASS')
+		<if test="itemOneId != null">
+			and m.item_one_id = #{itemOneId}
+		</if>
+		<if test="itemSecondId != null">
+		 and m.item_second_id = #{itemSecondId}
+		</if>
+		 and m.company_id = #{companyId} and 
+		 	m.school_id = #{schoolId} and 
+			m.delete_flag = 0
+		group by s.stu_id
+		) c limit 1
+	</select>
+	<select id="findCountByPayMaster" parameterType="com.yuxin.wx.model.student.StudentPayMaster" resultType="int">
+		select count(c.id) from
+		(select a.id from
+		student_pay_master a
+		inner join student b 
+			on a.stu_id=b.id
+		where
+			a.delete_flag=0
+		and
+			a.company_id=#{companyId}
+			 and (a.pay_status_code='ORDER_PAID' or a.pay_status_code='ORDER_PART_PAY' or a.pay_status_code='ORDER_FINISHED' or a.pay_status_code='ORDER_PAID_NO_COURSE' or commodity_type='COMMODITY_CLASS')
+		<if test="itemOneId != null">and a.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null">and a.item_second_id=#{itemSecondId}</if>
+		<if test="commodityId != null">and a.commodity_id=#{commodityId}</if>
+		<if test="schoolId != null">and a.school_id=#{schoolId}</if>
+		group by a.stu_id
+		) c limit 1
+	</select>
+	<select id="findByStuMbilestu" parameterType="map" resultMap="studentPayMasterResultMap">
+		select b.* from 
+			student_pay_master b 
+		where 
+			b.stu_id=#{stuId}
+		and
+			b.company_id=#{companyId}
+		and 
+			b.school_id=#{schoolId}
+		and
+			b.delete_flag=0
+		and 
+		b.pay_status_code!='ORDER_DELTED' 
+			and b.pay_status_code!='ORDER_CREATED' 
+			and b.pay_status_code!='ORDER_PRODUCT_CHANGED' 
+			and b.pay_status_code!='ORDER_STU_CHANGED'
+			and b.pay_status_code!='ORDER_STOPED'
+			and b.commodity_type='COMMODITY_CLASS'
+	</select>
+	
+	<!-- 统计已招生 -->
+	<select id="findStuCountByCompanyId" parameterType="Integer" resultType="Integer">
+		select count(id) from (
+			select count(id) id
+			from student_pay_master 
+			where company_id = #{companyId} and (commodity_type = 'COMMODITY_CLASS' or commodity_type = 'COMMODITY_PACKAGE') and
+				delete_flag = 0 and 
+				(pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE')
+	            group by stu_id
+            ) stu limit 1
+	</select>
+	<!-- 根据分校id查 -->
+	<select id="findStuCountBySchoolId" resultType="Integer">
+	select count(id) from (
+		select count(id) id
+		from student_pay_master 
+		where company_id = #{0} and 
+			school_id = #{1} and
+			delete_flag = 0 and 
+			(pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE')
+			group by stu_id
+			) stu limit 1
+	</select>
+	
+	<select id="findByClassAndStu" resultMap="studentPayMasterResultMap" parameterType="com.yuxin.wx.model.student.StudentPayMaster" >
+		select  <include refid="table_columns" />
+		from student_pay_master 
+		where company_id=#{companyId} and commodity_id=#{commodityId} and stu_id = #{stuId} and pay_status_code!='ORDER_DELTED' and pay_status_code!='ORDER_STOPED' and pay_status_code!='ORDER_CREATED' and commodity_type='COMMODITY_CLASS' and delete_flag=0
+	</select>
+	
+	<select id="findpayIdByStudentsId" resultMap="studentPayMasterResultMap" parameterType="map" >
+		select <include refid="table_columns" />
+		from student_pay_master
+		where stu_id = #{stuId}  and (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0
+		<if test="commodityType != null and commodityType != ''">and commodity_type=#{commodityType}</if>
+	</select>
+	
+	<!-- 查询课程下学员订单 -->
+	<select id="findpayIdByClassTypeStudent" resultMap="studentPayMasterResultMap" parameterType="map" >
+		select <include refid="table_columns" />
+		from student_pay_master
+		where stu_id = #{stuId} and commodity_id = #{commodityId} and commodity_type=#{commodityType} and delete_flag = 0
+	</select>
+	
+	<select id="updateByStuId"  parameterType="int" >
+		update 
+		student_pay_master
+		set delete_flag=#{deleteFlag}
+		where stu_id = #{stuId}  and company_id=#{companyId}
+	</select>
+	
+	<!-- 查询报过某个课程包的全部学员 -->
+	<select id="queryStusByClassPackage" resultMap="studentPayMasterResultMap"  parameterType="com.yuxin.wx.model.student.StudentPayMaster">
+		select <include refid="table_columns" />
+		from student_pay_master
+		where company_id=#{companyId} and school_id=#{schoolId} and commodity_type='COMMODITY_PACKAGE' and commodity_id=#{commodityId} and delete_flag = 0 and 
+		(pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE')
+	    group by stu_id
+	</select>
+
+	<!-- 订单管理 -->
+	<select id="queryClassPackageOrder" resultMap="orderManageMap" parameterType="com.yuxin.wx.vo.course.OrderManage">
+		select sp.id as id,s.mobile as mobile,s.name as stuName,s.user_id as userId,sp.apply_time as orderTime,sp.apply_channel_code as applyChannelCode,sp.commodity_id as commodityId,
+		sp.class_package_stage_id as stageId,sp.total_amount as totalMount,p.pay_type as payType,
+p.pay_time as payTime,p.pay_price as payPrice from student_pay_master sp LEFT JOIN student s on sp.stu_id=s.id LEFT JOIN pay_order p
+on sp.pay_order_id=p.id where sp.commodity_type='COMMODITY_PACKAGE' and sp.delete_flag = 0 
+and sp.commodity_id=#{commodityId} and sp.company_id=#{companyId}
+	<if test="schoolId != null and schoolId != ''">and sp.school_id = #{schoolId}</if>
+	<if test="stageId != null and stageId != ''">and sp.class_package_stage_id = #{stageId}</if>
+	<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
+	<if test="startDate != null"> and date_format(sp.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+	<if test="endDate != null"> and date_format(sp.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+	<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(sp.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+	order by sp.apply_time desc
+	limit #{firstIndex},#{pageSize}
+   </select>
+
+	<select id="queryClassPackageOrderCount" resultType="int" parameterType="com.yuxin.wx.vo.course.OrderManage">
+		select count(sp.id) from student_pay_master sp LEFT JOIN student s on sp.stu_id=s.id LEFT JOIN pay_order p
+on sp.pay_order_id=p.id where sp.commodity_type='COMMODITY_PACKAGE' and sp.delete_flag = 0 
+and sp.commodity_id=#{commodityId} and sp.company_id=#{companyId}
+	<if test="schoolId != null and schoolId != ''">and sp.school_id = #{schoolId}</if>
+	<if test="stageId != null and stageId != ''">and sp.class_package_stage_id = #{stageId}</if>
+	<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
+	<if test="startDate != null"> and date_format(sp.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+	<if test="endDate != null"> and date_format(sp.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+	<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(sp.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+  	limit 1
+   </select>
+   
+   <select id="queryClassPackageTotalOrder" resultMap="orderManageMap" parameterType="com.yuxin.wx.vo.course.OrderManage">
+		select sp.id as id,s.mobile as mobile,s.name as stuName,sp.apply_time as orderTime,sp.apply_channel_code as applyChannelCode,sp.commodity_id as commodityId,
+		sp.class_package_stage_id as stageId,sp.total_amount as totalMount,p.pay_type as payType,
+p.pay_time as payTime,p.pay_price as payPrice from student_pay_master sp LEFT JOIN student s on sp.stu_id=s.id LEFT JOIN pay_order p
+on sp.pay_order_id=p.id where sp.commodity_type='COMMODITY_PACKAGE' and sp.delete_flag = 0 
+and sp.commodity_id=#{commodityId} and sp.company_id=#{companyId}
+	<if test="schoolId != null and schoolId != ''">and sp.school_id = #{schoolId}</if>
+	<if test="stageId != null and stageId != ''">and sp.class_package_stage_id = #{stageId}</if>
+	<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
+	<if test="startDate != null"> and date_format(sp.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+	<if test="endDate != null"> and date_format(sp.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+	<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(sp.apply_time)<![CDATA[<=]]>#{timeLen}</if>
+   </select>
+   
+   <select id="queryLastApplytime" resultType="string" parameterType="int">
+		select apply_time from student_pay_master where id=(select max(id) from student_pay_master where stu_id=#{stuId}) limit 1
+	</select>
+	<select id="queryStuHasByClass" resultMap="payMasterListVo4" parameterType="com.yuxin.wx.vo.student.StudentClassLeanDetailVo">
+		SELECT a.commodity_id,a.class_type_name,DATE_FORMAT(a.apply_time,'%Y-%m-%d %H:%i:%s') as apply_time from student_pay_master a 
+		where a.company_id = #{companyId} and a.stu_id = #{stuId} and a.commodity_type='COMMODITY_CLASS'
+		and a.delete_flag = 0 and 
+		(a.pay_status_code='ORDER_PAID' or a.pay_status_code='ORDER_PART_PAY' or a.pay_status_code='ORDER_FINISHED' or a.pay_status_code='ORDER_PAID_NO_COURSE');
+	</select>
+	<!-- 会员升级时，查询旧订单信息 -->
+	<select id="findOrder" parameterType="map" resultMap="studentPayMasterResultMap">
+		select   
+		<include refid="table_columns" />
+		from    student_pay_master  spm 
+		where  
+			spm.stu_id=#{stuId}
+			and    spm.pay_status_code=#{payStatusCode}
+			and    spm.company_id=#{companyId}
+			and   spm.member_id=#{memberId}
+			and   spm.delete_flag=0
+			and   spm.creator=#{creator}
+			and   spm.member_length=#{memberBuyLength}
+		limit 1
+	</select>
+	
+	<select id="queryOrderCourseByStuId" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentPamasterDataVo">
+		select p.id,p.stu_id, p.commodity_id,p.class_type_name,
+	     po.pay_type,po.pay_price,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
+	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
+	p.apply_time,s.creator,s.delete_flag,s.school_id as schoolId,s.company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,u.school_id,
+	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,(select count(*)
+	from student_pay_master where stu_id = s.id and (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE')
+ and delete_flag=0 and commodity_type='COMMODITY_CLASS') as paymaterCount
+	 from student_pay_master p LEFT JOIN student s  on s.id=p.stu_id LEFT JOIN users_front u on s.user_id=u.id left join pay_order po on po.id=p.pay_order_id
+	 where p.company_id=#{companyId} and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+    or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0
+	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
+	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+	 <if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>	
+	 <if test="registType != null">
+	 	<choose>
+	 		<when test="registType == 1">
+	 			and u.id is not null
+	 		</when>
+	 		<otherwise>
+	 			and u.id is null
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="status != null">
+	 	<choose>
+	 		<when test="status == 1">
+	 			and u.status = #{status}
+	 		</when>
+	 		<otherwise>
+	 			and (u.status != 1 or u.status is null)
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="paymaterCount != null">
+	 	<choose>
+	 		<when test="paymaterCount == 1">
+	 			and (select count(*) from student_pay_master where stu_id = s.id and (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0 and commodity_type='COMMODITY_CLASS'  and company_id=#{companyId})<![CDATA[>=]]>1
+	 		</when>
+	 		<otherwise>
+	 			and (select count(*) from student_pay_master where stu_id = s.id and (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0 and commodity_type='COMMODITY_CLASS'  and company_id=#{companyId})<![CDATA[<=]]>0
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="startTime != null and startTime != ''">and date_format(p.apply_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 <if test="endTime != null and endTime != ''">and date_format(p.apply_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 <if test="province != null and province != ''">and s.province='${province}'</if>
+	 <if test="city != null and city != ''">and s.city= '${city}'</if>
+	 <if test="county != null and county != ''">and s.county= '${county}'</if>
+	 order by p.id DESC
+	limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryCommodityIdById" resultType="int" parameterType="int">
+		select commodity_id
+		from student_pay_master
+		where id=#{id}
+	</select>
+	
+	<select id="findByClassPackageAndStu" resultMap="studentPayMasterResultMap" parameterType="com.yuxin.wx.model.student.StudentPayMaster" >
+		select  <include refid="table_columns" />
+		from student_pay_master 
+		where company_id=#{companyId} and commodity_id=#{commodityId} and stu_id = #{stuId} and pay_status_code!='ORDER_DELTED' and pay_status_code!='ORDER_STOPED' and pay_status_code!='ORDER_CREATED' and commodity_type='COMMODITY_PACKAGE' and delete_flag=0
+	</select>
+	
+	<select id="queryPayMasterBuyCommodityByStuId" resultType="int" parameterType="map">
+		select count(spm.id)
+		from student_pay_master spm 
+		where spm.stu_id=#{stuId} and (spm.commodity_type='COMMODITY_CLASS' or spm.commodity_type='COMMODITY_PACKAGE') and spm.delete_flag=0
+		and (spm.pay_status_code='ORDER_PAID' 
+			or spm.pay_status_code='ORDER_PART_PAY' 
+			or spm.pay_status_code='ORDER_FINISHED' 
+			or spm.pay_status_code='ORDER_PAID_NO_COURSE') limit 1
+	</select>
+	
+	<select id="queryPayMasterBuyCommodityByStuIdAndCommodityId" resultType="int" parameterType="map">
+		select  count(spm.id)
+		from student_pay_master spm 
+		where spm.stu_id=#{stuId} and (spm.commodity_type='COMMODITY_CLASS' or spm.commodity_type='COMMODITY_PACKAGE') and spm.delete_flag=0 and spm.commodity_id=#{commodityId}
+		and (spm.pay_status_code='ORDER_PAID' 
+			or spm.pay_status_code='ORDER_PART_PAY' 
+			or spm.pay_status_code='ORDER_FINISHED' 
+			or spm.pay_status_code='ORDER_PAID_NO_COURSE') limit 1
+	</select>
+	
+	<resultMap type="com.yuxin.wx.vo.student.StudentPayMaster4ClassPackageVo" id="myMapClassPackage" extends="myMap">
+		<result property="hasPay" column="hasPay"/>
+		<result property="categoryCode" column="categoryCode"/>
+		<result property="classPackageStageTitle" column="classPackageStageTitle"/>
+	</resultMap>
+	<select id="findClassPackageEntryMessage" parameterType="com.yuxin.wx.model.student.StudentPayMaster" resultMap="myMapClassPackage">
+		select a.*,cp.category_code as categoryCode,cps.title as classPackageStageTitle from 
+			student_pay_master  a left join class_package cp on a.commodity_id = cp.id
+								  left join class_package_stage cps on a.class_package_stage_id = cps.id
+		where 
+			a.stu_id = #{stuId}
+		and
+			a.company_id=#{companyId}
+		and a.delete_flag =0
+		and a.pay_status_code!='ORDER_DELTED' 
+		and a.pay_status_code!='ORDER_CREATED' 
+		and a.pay_status_code!='ORDER_PRODUCT_CHANGED' 
+		and a.pay_status_code!='ORDER_STU_CHANGED'
+		and a.pay_status_code!='ORDER_STOPED'		
+		and a.commodity_type='COMMODITY_PACKAGE'
+		order by pay_status_code asc
+	</select>
+	
+	<select id="selectClassPackageCategoryCode" parameterType="map" resultType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select cpc.name as name,cpc.code, cpc.parent_id as parentId from class_package_category cpc
+		where cpc.company_id = #{companyId} 
+		and	cpc.school_id = #{schoolId}
+		and cpc.status = 1
+		and cpc.del_flag = 0
+		and cpc.code = #{code}
+	</select>
+	
+	<!-- 查询课程的学员购买数量 -->
+	<select id="selectStuNumByComId" parameterType="int" resultType="int">
+		select count(DISTINCT spm.stu_id)
+		from student_pay_master spm 
+		INNER JOIN student s on spm.stu_id = s.id
+		where spm.commodity_id = #{commodityId}
+		and commodity_type = 'COMMODITY_CLASS'
+		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
+		and spm.delete_flag = 0;
+	</select>
+</mapper>

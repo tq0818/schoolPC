@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuExampointMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuExampoint" id="tikuExampointResultMap">
+		<result property="id" column="id" />
+		<result property="sectionId" column="section_id" />
+		<result property="chapterId" column="chapter_id" />
+		<result property="pointName" column="point_name" />
+		<result property="delFlag" column="del_flag" />
+		<result property="parentId" column="parent_id" />
+		<result property="companyId" column="company_id" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		section_id,
+		chapter_id,
+		point_name,
+		del_flag,
+		parent_id,
+		company_id,
+		tiku_category_id,
+		tiku_subject_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{sectionId},
+		#{chapterId},
+		#{pointName},
+		#{delFlag},
+		#{parentId},
+		#{companyId},
+		#{tikuCategoryId},
+		#{tikuSubjectId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.sectionId},
+		#{item.chapterId},
+		#{item.pointName},
+		#{item.delFlag},
+		#{item.parentId},
+		#{item.companyId},
+		#{item.tikuCategoryId},
+		#{item.tikuSubjectId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuExampoint" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_exampoint( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_exampoint( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_exampoint
+		where id = #{id}
+	</delete>
+	
+	<delete id="deleteByTikuId">
+		delete from tiku_exampoint
+		where tiku_category_id = #{tikuId}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_exampoint
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuExampoint">
+		update tiku_exampoint 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="sectionId != null and sectionId != ''">section_id = #{sectionId},</if>
+			<if test="chapterId != null and chapterId != ''">chapter_id = #{chapterId},</if>
+			<if test="pointName != null and pointName != ''">point_name = #{pointName},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">tiku_category_id = #{tikuCategoryId},</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">tiku_subject_id = #{tikuSubjectId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuExampointResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_exampoint
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuExampointResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_exampoint
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="sectionId != null and sectionId != ''">and section_id = #{sectionId}</if>
+			<if test="chapterId != null and chapterId != ''">and chapter_id = #{chapterId}</if>
+			<if test="pointName != null and pointName != ''">and point_name = #{pointName}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">and tiku_subject_id = #{tikuSubjectId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuExampointResultMap" parameterType="com.yuxin.wx.model.tiku.TikuExampoint">
+		select <include refid="table_columns" />
+		from tiku_exampoint
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuExampoint">
+		select count(id) from tiku_exampoint
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+
+	<select id="findTikuExampoint" resultMap="tikuExampointResultMap" parameterType="com.yuxin.wx.model.tiku.TikuExampoint">
+		select <include refid="table_columns" />
+		from tiku_exampoint
+		<include refid="page_where" />
+	</select>
+	
+	<select id="getCPointCount" parameterType="Integer" resultType="Integer">
+		select count(id) from tiku_exampoint where parent_id = #{pointId} limit 1
+	</select>
+
+	<select id="findPointBySectionId" parameterType="Integer" resultMap="tikuExampointResultMap">
+		select <include refid="table_columns"/>
+		from tiku_exampoint
+		where section_id = #{sectionId} and 
+			del_flag = 0 
+			order by id
+	</select>
+	
+	<delete id="delByPid">
+		delete from tiku_exampoint
+		where parent_id = #{pid}
+	</delete>
+
+	<delete id="deleteBySubId">
+		delete from tiku_exampoint
+		where tiku_subject_id = #{subId}
+	</delete>
+</mapper>

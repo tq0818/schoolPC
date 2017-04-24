@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentAgentMaterialMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentAgentMaterial" id="studentAgentMaterialResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="materialTypeCode" column="material_type_code" />
+		<result property="materialName" column="material_name" />
+		<result property="materialNumYet" column="material_num_yet" />
+		<result property="materialNumNot" column="material_num_not" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		pay_master_id,
+		material_type_code,
+		material_name,
+		material_num_yet,
+		material_num_not,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+    
+	<sql id="table_columnsOne">
+		stu_id,
+		pay_master_id,
+		material_type_code,
+		material_name,
+		material_num_yet,
+		material_num_not,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+	
+	<sql id="entity_propertiesOne">
+		#{stuId},
+		#{payMasterId},
+		#{materialTypeCode},
+		#{materialName},
+		#{materialNumYet},
+		#{materialNumNot},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{payMasterId},
+		#{materialTypeCode},
+		#{materialName},
+		#{materialNumYet},
+		#{materialNumNot},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	
+	<sql id="entity_properties2">
+		#{item.id},
+		#{item.stuId},
+		#{item.payMasterId},
+		#{item.materialTypeCode},
+		#{item.materialName},
+		#{item.materialNumYet},
+		#{item.materialNumNot},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentAgentMaterial" useGeneratedKeys="true" keyProperty="id">
+		insert into student_agent_material( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<insert id="insertMaterial" parameterType="com.yuxin.wx.model.student.StudentAgentMaterial" useGeneratedKeys="true" keyProperty="id">
+		insert into student_agent_material( <include refid="table_columnsOne" /> ) 
+		values ( <include refid="entity_propertiesOne" /> )
+	</insert>
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_agent_material( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties2" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_agent_material
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_agent_material
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentAgentMaterial">
+		update student_agent_material 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="payMasterId != null and payMasterId != ''">pay_master_id = #{payMasterId},</if>
+			<if test="materialTypeCode != null and materialTypeCode != ''">material_type_code = #{materialTypeCode},</if>
+			<if test="materialName != null and materialName != ''">material_name = #{materialName},</if>
+			<if test="materialNumYet != null and materialNumYet != ''">material_num_yet = #{materialNumYet},</if>
+			<if test="materialNumNot != null and materialNumNot != ''">material_num_not = #{materialNumNot},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentAgentMaterialResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_agent_material
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentAgentMaterialResultMap">
+		select <include refid="table_columns" /> 
+		from student_agent_material
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+			<if test="materialTypeCode != null and materialTypeCode != ''">and material_type_code = #{materialTypeCode}</if>
+			<if test="materialName != null and materialName != ''">and material_name = #{materialName}</if>
+			<if test="materialNumYet != null and materialNumYet != ''">and material_num_yet = #{materialNumYet}</if>
+			<if test="materialNumNot != null and materialNumNot != ''">and material_num_not = #{materialNumNot}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentAgentMaterialResultMap" parameterType="com.yuxin.wx.model.student.StudentAgentMaterial">
+		select <include refid="table_columns" />
+		from student_agent_material
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentAgentMaterial">
+		select count(id) from student_agent_material
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findStudentAgentMaterialByStuId" resultMap="studentAgentMaterialResultMap"  parameterType="Integer">
+		select <include refid="table_columns" />  from student_agent_material
+		where stu_id=#{stuId} and pay_master_id=#{payMasterId}
+	</select>
+	
+	<select id="queryMaterialExit" parameterType="com.yuxin.wx.model.student.StudentAgentMaterial" resultType="int">
+	    select count(*) from student_agent_material where stu_id=#{stuId} and pay_master_id=#{payMasterId} limit 1
+	</select>
+
+	
+</mapper>

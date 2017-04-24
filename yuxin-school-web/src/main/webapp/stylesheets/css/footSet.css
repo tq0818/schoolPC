@@ -1,0 +1,108 @@
+.rows .col-3{width:300px !important;}
+.footerSetBox{
+    padding:20px;
+    margin: 0 2% 0 2%;
+    box-sizing: border-box;
+    width: 95%;
+}
+.footerSetBox h4{
+    font-size: 14px;
+    color:#999;
+    /*box-sizing: border-box;*/
+}
+.tableList{
+    margin-top:30px;
+}
+.tableList span,.tableList input{
+    float: left;
+}
+.tableList input{
+    padding:0;
+    margin-right:30px;
+    font-size: 12px;
+    line-height: 12px;
+    outline: none;
+}
+.tableList span{
+    font-size: 14px;
+    color:#666;
+    line-height: 26px;
+    margin-right: 20px;
+}
+.tableList input[type="button"]{
+    border:none;
+    color:#fff;
+    padding:7px 10px;
+    background-color:#00b7ee;
+    text-align: center;
+    border-radius: 4px;
+}
+.tableList input[type="button"]:hover{
+    background-color:#01aadd;
+}
+.tableList input[type="text"]{
+    width: 238px;
+    height: 26px;
+    border:1px solid #ccc;
+    /*border-radius: 4px;*/
+    color:#333;
+    padding-left:10px;
+    padding-right:10px;
+}
+.footerSetBox li.with13{
+    width: 13%;
+    text-align: left;
+}
+.footerSetBox li.with13 span{
+    font-size: 16px;
+}
+.footerSetBox li.with70{
+    width: 70%;
+    text-align: left;
+}
+.footerSetBox li.with7{
+    width: 7%;
+    text-align: right;
+}
+.footerSetBox i.nav-name-icon{
+   position: static;
+    margin-left: 11px;
+}
+.footerSetBox .row{
+   height: 40px;
+    padding:0 20px;
+    line-height: 38px;
+    font-size: 14px;
+}
+.footerSetBox .set-system {
+    width: 100%;
+    margin: 30px 0% 0 0%;
+    padding: 1px;
+}
+.footerSetBox .title-wrap{
+    margin-bottom: 20px;
+}
+.footerSetBox .tit-font .t{
+    font-size:16px;
+}
+.gNchoice input{
+    margin-left: 16px;
+    border: 1px solid #ccc;
+    width: 268px;
+    padding:7px 10px;
+    font-size: 12px;
+    line-height: 12px;
+}
+.gNchoice p{
+    font-size: 12px;
+    color:#fe5151;
+    margin-top:10px;
+    line-height: 12px;
+    margin-left:-96px;
+}
+.gNchoice label i{
+    font-size: 14px;
+    color:#333;
+    line-height:28px;
+    font-style: normal;
+}

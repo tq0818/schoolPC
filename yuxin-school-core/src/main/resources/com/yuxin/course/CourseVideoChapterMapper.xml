@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseVideoChapterMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseVideoChapter" id="courseVideoChapterResultMap">
+		<result property="id" column="id" />
+		<result property="chapterName" column="chapter_name" />
+		<result property="moduleId" column="module_id" />
+		<result property="chapterOrder" column="chapter_order" />
+	</resultMap>
+	
+	<resultMap id="chapterAndLectureByVideoResultMap" type="com.yuxin.wx.vo.course.ChapterAndLectureListVo"
+		extends="courseVideoChapterResultMap">
+		<collection property="videoLectrue" column="id"
+			javaType="ArrayList" ofType="com.yuxin.wx.model.course.CourseVideoLecture"
+			select="com.yuxin.wx.course.mapper.CourseVideoLectureMapper.findCourseVideoLectureByChapterId" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		chapter_name,
+		module_id,
+		chapter_order
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{chapterName},
+		#{moduleId},
+		#{chapterOrder}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseVideoChapter" useGeneratedKeys="true" keyProperty="id">
+		insert into course_video_chapter( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_video_chapter( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_video_chapter
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_video_chapter
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseVideoChapter">
+		update course_video_chapter 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="chapterName != null and chapterName != ''">chapter_name = #{chapterName},</if>
+			<if test="moduleId != null and moduleId != ''">module_id = #{moduleId},</if>
+			<if test="chapterOrder != null and chapterOrder != ''">chapter_order = #{chapterOrder},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseVideoChapterResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_video_chapter
+		where id = #{id}
+	</select>
+	
+	<select id="findChapterAndLectureByVideoId" resultMap="chapterAndLectureByVideoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_video_chapter
+		where course_video_id = #{courseVideoId}
+	</select>
+	
+	<select id="queryAll" resultMap="courseVideoChapterResultMap">
+		select <include refid="table_columns" /> 
+		from course_video_chapter
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="chapterName != null and chapterName != ''">and chapter_name = #{chapterName}</if>
+			<if test="moduleId != null and moduleId != ''">and module_id = #{moduleId}</if>
+			<if test="chapterOrder != null and chapterOrder != ''">and chapter_order = #{chapterOrder}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseVideoChapterResultMap" parameterType="com.yuxin.wx.model.course.CourseVideoChapter">
+		select <include refid="table_columns" />
+		from course_video_chapter
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseVideoChapter">
+		select count(id) from course_video_chapter
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByClassId" parameterType="map" resultMap="courseVideoChapterResultMap">
+		select d.* from 
+			class_type a,
+			class_type_module_relation b,
+			class_module c,
+			course_video_chapter d
+		where
+			a.id=b.class_type_id
+		and
+			b.module_id=c.id
+		and
+			c.id=d.module_id
+		and
+			a.id=#{classId}
+	</select>
+	
+	<select id="findByModuleId" parameterType="int"  resultMap="courseVideoChapterResultMap" >
+		select <include refid="table_columns" /> 
+		from course_video_chapter 
+		where module_id=#{moduleId} order by chapter_order asc
+	</select>
+	
+	<select id="findIdByModuleId" parameterType="int" resultType="int">
+		select cvc.id
+	  	from   course_video_chapter cvc
+		where  cvc.module_id = #{id} order by chapter_order asc,id asc
+	</select>
+	
+	<select id="findByChapterNameAndModuleId" parameterType="com.yuxin.wx.model.course.CourseVideoChapter" resultMap="courseVideoChapterResultMap">
+		select *
+	  	from   course_video_chapter cvc
+		where  cvc.module_id = #{moduleId} and chapter_name = #{chapterName}
+		limit 1;
+	</select>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysSchoolItemRelationMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysSchoolItemRelation" id="sysSchoolItemRelationResultMap">
+		<result property="id" column="id" />
+		<result property="schoolId" column="school_id" />
+		<result property="itemId" column="item_id" />
+		<result property="delFlag" column="del_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		school_id,
+		item_id,
+		del_flag,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{schoolId},
+		#{itemId},
+		#{delFlag},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.schoolId},
+		#{item.itemId},
+		#{item.delFlag},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysSchoolItemRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_school_item_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_school_item_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_school_item_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysSchoolItemRelation">
+		update sys_school_item_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="itemId != null and itemId != ''">item_id = #{itemId},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysSchoolItemRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_school_item_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysSchoolItemRelationResultMap">
+		select <include refid="table_columns" /> 
+		from sys_school_item_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="itemId != null and itemId != ''">and item_id = #{itemId}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysSchoolItemRelationResultMap" parameterType="com.yuxin.wx.model.system.SysSchoolItemRelation">
+		select <include refid="table_columns" />
+		from sys_school_item_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysSchoolItemRelation">
+		select count(id) from sys_school_item_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findSysSchoolItemRelationByItemId" resultMap="sysSchoolItemRelationResultMap" parameterType="com.yuxin.wx.model.system.SysSchoolItemRelation" >
+		select <include refid="table_columns" />
+		from sys_school_item_relation
+		where 1=1
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="itemId != null and itemId != ''">and item_id = #{itemId}</if>
+		limit 1
+	</select>
+</mapper>

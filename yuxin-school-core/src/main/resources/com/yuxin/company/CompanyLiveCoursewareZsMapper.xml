@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveCoursewareZsMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveCoursewareZs" id="companyLiveCoursewareZsResultMap">
+		<result property="id" column="id" />
+		<result property="coursewareId" column="courseware_id" />
+		<result property="coursewareNumber" column="courseware_number" />
+		<result property="url" column="url" />
+		<result property="subject" column="subject" />
+		<result property="roomId" column="room_id" />
+		<result property="screenshot" column="screenshot" />
+		<result property="recordId" column="record_id" />
+		<result property="description" column="description" />
+		<result property="token" column="token" />
+		<result property="moduleLessonId" column="module_lesson_id" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="addDate" column="add_date"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		courseware_id,
+		courseware_number,
+		url,
+		subject,
+		room_id,
+		screenshot,
+		record_id,
+		description,
+		token,
+		module_lesson_id,
+		company_id,
+		school_id,
+		add_date
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{coursewareId},
+		#{coursewareNumber},
+		#{url},
+		#{subject},
+		#{roomId},
+		#{screenshot},
+		#{recordId},
+		#{description},
+		#{token},
+		#{moduleLessonId},
+		#{companyId},
+		#{schoolId},
+		#{addDate}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.coursewareId},
+		#{item.coursewareNumber},
+		#{item.url},
+		#{item.subject},
+		#{item.roomId},
+		#{item.screenshot},
+		#{item.recordId},
+		#{item.description},
+		#{item.token},
+		#{item.moduleLessonId},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.addDate}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveCoursewareZs" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_courseware_zs( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_live_courseware_zs( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_live_courseware_zs
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_courseware_zs
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveCoursewareZs">
+		update company_live_courseware_zs 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="coursewareId != null and coursewareId != ''">courseware_id = #{coursewareId},</if>
+			<if test="coursewareNumber != null and coursewareNumber != ''">courseware_number = #{coursewareNumber},</if>
+			<if test="url != null and url != ''">url = #{url},</if>
+			<if test="subject != null and subject != ''">subject = #{subject},</if>
+			<if test="roomId != null and roomId != ''">room_id = #{roomId},</if>
+			<if test="screenshot != null and screenshot != ''">screenshot = #{screenshot},</if>
+			<if test="recordId != null and recordId != ''">record_id = #{recordId},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="token != null and token != ''">token = #{token},</if>
+			<if test="moduleLessonId != null and moduleLessonId != ''">module_lesson_id = #{moduleLessonId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="addDate != null and addDate != ''">add_date = #{addDate},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLiveCoursewareZsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_live_courseware_zs
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLiveCoursewareZsResultMap">
+		select <include refid="table_columns" /> 
+		from company_live_courseware_zs
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="coursewareId != null and coursewareId != ''">and courseware_id = #{coursewareId}</if>
+			<if test="coursewareNumber != null and coursewareNumber != ''">and courseware_number = #{coursewareNumber}</if>
+			<if test="url != null and url != ''">and url = #{url}</if>
+			<if test="subject != null and subject != ''">and subject = #{subject}</if>
+			<if test="roomId != null and roomId != ''">and room_id = #{roomId}</if>
+			<if test="screenshot != null and screenshot != ''">and screenshot = #{screenshot}</if>
+			<if test="recordId != null and recordId != ''">and record_id = #{recordId}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="token != null and token != ''">and token = #{token}</if>
+			<if test="moduleLessonId != null and moduleLessonId != ''">and module_lesson_id = #{moduleLessonId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="addDate != null and addDate != ''">and add_date = #{addDate}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyLiveCoursewareZsResultMap" parameterType="com.yuxin.wx.model.company.CompanyLiveCoursewareZs">
+		select <include refid="table_columns" />
+		from company_live_courseware_zs
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLiveCoursewareZs">
+		select count(id) from company_live_courseware_zs
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findCourse" parameterType="com.yuxin.wx.model.company.CompanyLiveCoursewareZs" resultMap="companyLiveCoursewareZsResultMap">
+		select <include refid="table_columns"/>
+		from company_live_courseware_zs
+		where company_id = #{companyId} and 
+			school_id = #{schoolId} and token is not null
+			<if test="subject != null and subject != ''">
+				and subject like concat('%',#{subject},'%')
+			</if>
+			order by id
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findCountCourse" parameterType="com.yuxin.wx.model.company.CompanyLiveCoursewareZs" resultType="Integer">
+		select count(id)
+		from company_live_courseware_zs
+		where company_id = #{companyId} and 
+			school_id = #{schoolId} and token is not null
+			<if test="subject != null and subject != ''">
+				and subject like concat('%',#{subject},'%')
+			</if>
+	</select>
+</mapper>

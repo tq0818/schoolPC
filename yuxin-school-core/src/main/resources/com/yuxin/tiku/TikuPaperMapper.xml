@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuPaperMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuPaper" id="tikuPaperResultMap">
+		<result property="id" column="id" />
+		<result property="paperName" column="paper_name" />
+		<result property="paperType" column="paper_type" />
+		<result property="examTime" column="exam_time" />
+		<result property="totalScore" column="total_score" />
+		<result property="region" column="region" />
+		<result property="containTopicType" column="contain_topic_type" />
+		<result property="paperStatus" column="paper_status" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tkuSubjectId" column="tku_subject_id" />
+		<result property="companyId" column="company_id" />
+		<result property="totalTopicNum" column="total_topic_num" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="auditor" column="auditor" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditorName" column="auditor_name" />
+		<result property="creatorName" column="creator_name" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.tiku.TikuExamPaperVo" id="tikuExamPaperResultMapVo">
+		<result property="id" column="id" />
+		<result property="paperName" column="paper_name" />
+		<result property="totalScore" column="total_score" />
+		<result property="totalTopicNum" column="total_topic_num" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<association property="name" column="creator" javaType="String"
+			select="findName"></association>
+		<association property="mobile" column="creator" javaType="String"
+			select="findMobile"></association>
+		<association property="cateName" column="tiku_category_id" javaType="String"
+			select="findCateName"></association>
+		<association property="subName" column="tku_subject_id" javaType="String"
+			select="findSubName"></association>
+			
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.tiku.TikuPaperVo" id="tikuPaperResultMapVo">
+		<result property="id" column="id" />
+		<result property="paperName" column="paper_name" />
+		<result property="paperType" column="paper_type" />
+		<result property="examTime" column="exam_time" />
+		<result property="totalScore" column="total_score" />
+		<result property="region" column="region" />
+		<result property="containTopicType" column="contain_topic_type" />
+		<result property="paperStatus" column="paper_status" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tkuSubjectId" column="tku_subject_id" />
+		<result property="companyId" column="company_id" />
+		<result property="totalTopicNum" column="total_topic_num" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="auditor" column="auditor" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditorName" column="auditor_name" />
+		<result property="creatorName" column="creator_name" />
+		<result property="categoryName" column="category_name" />
+		<result property="subjectName" column="subject_name" />
+		<result property="dictName" column="dict_name" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		paper_name,
+		paper_type,
+		exam_time,
+		total_score,
+		region,
+		contain_topic_type,
+		paper_status,
+		tiku_category_id,
+		tku_subject_id,
+		company_id,
+		total_topic_num,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		auditor,
+		audit_time
+	</sql>
+	<sql id="table_columns_vo">
+		p.id,
+		p.paper_name,
+		p.paper_type,
+		p.exam_time,
+		p.total_score,
+		p.region,
+		p.contain_topic_type,
+		p.paper_status,
+		p.tiku_category_id,
+		p.tku_subject_id,
+		p.company_id,
+		p.total_topic_num,
+		p.creator,
+		p.create_time,
+		p.updator,
+		p.update_time,
+		p.auditor,
+		p.audit_time
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{paperName},
+		#{paperType},
+		#{examTime},
+		#{totalScore},
+		#{region},
+		#{containTopicType},
+		#{paperStatus},
+		#{tikuCategoryId},
+		#{tkuSubjectId},
+		#{companyId},
+		#{totalTopicNum},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{auditor},
+		#{auditTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.paperName},
+		#{item.paperType},
+		#{item.examTime},
+		#{item.totalScore},
+		#{item.region},
+		#{item.containTopicType},
+		#{item.paperStatus},
+		#{item.tikuCategoryId},
+		#{item.tkuSubjectId},
+		#{item.companyId},
+		#{item.totalTopicNum},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updator},
+		#{item.updateTime},
+		#{item.auditor},
+		#{item.auditTime}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuPaper"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_paper(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into tiku_paper(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="batch_entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_paper
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_paper
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuPaper">
+		update tiku_paper
+		<trim prefix="set" suffixOverrides=",">
+			<if test="paperName != null and paperName != ''">paper_name = #{paperName},</if>
+			<if test="paperType != null and paperType != ''">paper_type = #{paperType},</if>
+			<if test="examTime != null and examTime != ''">exam_time = #{examTime},</if>
+			<if test="totalScore != null and totalScore != ''">total_score = #{totalScore},</if>
+			<if test="region != null and region != ''">region = #{region},</if>
+			<if test="containTopicType != null and containTopicType != ''">contain_topic_type = #{containTopicType},</if>
+			<if test="paperStatus != null and paperStatus != ''">paper_status = #{paperStatus},</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">tiku_category_id = #{tikuCategoryId},</if>
+			<if test="tkuSubjectId != null and tkuSubjectId != ''">tku_subject_id = #{tkuSubjectId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="totalTopicNum != null and totalTopicNum != ''">total_topic_num = #{totalTopicNum},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="auditor != null and auditor != ''">auditor = #{auditor},</if>
+			<if test="auditTime != null and auditTime != ''">audit_time = #{auditTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="tikuPaperResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from tiku_paper
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="tikuPaperResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_paper
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="paperName != null and paperName != ''">and paper_name LIKE '%${paperName}%'</if>
+			<if test="paperType != null and paperType != ''">and paper_type = #{paperType}</if>
+			<if test="examTime != null and examTime != ''">and exam_time = #{examTime}</if>
+			<if test="totalScore != null and totalScore != ''">and total_score = #{totalScore}</if>
+			<if test="region != null and region != ''">and region = #{region}</if>
+			<if test="containTopicType != null and containTopicType != ''">and contain_topic_type = #{containTopicType}</if>
+			<if test="paperStatus != null and paperStatus != ''">and paper_status = #{paperStatus}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tkuSubjectId != null and tkuSubjectId != ''">and tku_subject_id = #{tkuSubjectId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="totalTopicNum != null and totalTopicNum != ''">and total_topic_num = #{totalTopicNum}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="auditor != null and auditor != ''">and auditor = #{auditor}</if>
+			<if test="auditTime != null and auditTime != ''">and audit_time = #{auditTime}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="tikuPaperResultMap" parameterType="com.yuxin.wx.model.tiku.TikuPaper">
+		select
+		<include refid="table_columns" />
+		from tiku_paper
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.tiku.TikuPaper">
+		select count(id) from tiku_paper
+		<include refid="page_where" />
+	</select>
+	
+	<select id="pagevo" resultMap="tikuPaperResultMapVo" parameterType="com.yuxin.wx.model.tiku.TikuPaper">
+		select
+		<include refid="table_columns_vo" />,g.tiku_name category_name,s.subject_name,d.item_value dict_name
+		from tiku_paper p left join tiku_category g on p.tiku_category_id=g.id left join tiku_subject s on p.tku_subject_id=s.id left join sys_config_dict d on p.paper_type=d.item_code and d.dict_code='TIKU_PAPER_TYPE' 
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="paperName != null and paperName != ''">and p.paper_name LIKE '%${paperName}%'</if>
+			<if test="paperType != null and paperType != ''">and p.paper_type = #{paperType}</if>
+			<if test="examTime != null and examTime != ''">and p.exam_time = #{examTime}</if>
+			<if test="totalScore != null and totalScore != ''">and p.total_score = #{totalScore}</if>
+			<if test="region != null and region != ''">and p.region = #{region}</if>
+			<if test="containTopicType != null and containTopicType != ''">and p.contain_topic_type = #{containTopicType}</if>
+			<if test="paperStatus != null and paperStatus != ''">and p.paper_status = #{paperStatus}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and p.tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tkuSubjectId != null and tkuSubjectId != ''">and p.tku_subject_id = #{tkuSubjectId}</if>
+			<if test="companyId != null and companyId != ''">and p.company_id = #{companyId}</if>
+			<if test="totalTopicNum != null and totalTopicNum != ''">and p.total_topic_num = #{totalTopicNum}</if>
+			<if test="creator != null and creator != ''">and p.creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and p.create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and p.updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and p.update_time = #{updateTime}</if>
+			<if test="auditor != null and auditor != ''">and p.auditor = #{auditor}</if>
+			<if test="auditTime != null and auditTime != ''">and p.audit_time = #{auditTime}</if>
+		</trim>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+
+	<!-- 其他自定义SQL -->
+	<select id="findTikuUserByPage" parameterType="com.yuxin.wx.model.tiku.TikuPaper"
+		resultMap="tikuPaperResultMap">
+		select id,paper_name,paper_status,(SELECT u.username from
+		users as u where tiku_paper.auditor = u.id) as auditor_name,
+		(SELECT u.username from
+		users as u where tiku_paper.creator = u.id) as creator_name
+		from
+		tiku_paper
+		<include refid="page_where" />
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="TUCount" parameterType="com.yuxin.wx.model.tiku.TikuPaper" resultType="Integer">
+		select count(id) from tiku_paper
+		<include refid="page_where" />
+	</select>
+	
+	<select id="findName" parameterType="Integer" resultType="String">
+		select real_name name from users
+		where id = #{id}
+	</select>
+	<select id="findMobile" parameterType="Integer" resultType="String">
+		select mobile from users
+		where id = #{id}
+	</select>
+	<!-- 查询考试下的试题 -->
+	<select id="findPaperByExam" parameterType="com.yuxin.wx.model.tiku.TikuPaper" resultMap="tikuExamPaperResultMapVo">
+		select id,
+			paper_name,
+			total_score,
+			total_topic_num,
+			creator,
+			create_time,
+			tiku_category_id,
+			tku_subject_id
+		from tiku_paper
+		where paper_status = 'PAPER_STATUS_PUBLISH'
+			and company_id = #{companyId}
+			and paper_type = 'PAPER_TYPE_EXAM'
+		<if test="tikuCategoryId != null">
+			and tiku_category_id = #{tikuCategoryId}
+		</if>
+		<if test="tkuSubjectId != null">
+			and tku_subject_id = #{tkuSubjectId}
+		</if>
+		<if test="paperName != null and paperName != ''">
+			and paper_name like concat('%',#{paperName},'%')
+		</if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findPaperByExamCount" parameterType="com.yuxin.wx.model.tiku.TikuPaper" resultType="Integer">
+		select count(id)
+		from tiku_paper
+		where paper_status = 'PAPER_STATUS_PUBLISH'
+			and company_id = #{companyId}
+			and paper_type = 'PAPER_TYPE_EXAM'
+		<if test="tikuCategoryId != null">
+			and tiku_category_id = #{tikuCategoryId}
+		</if>
+		<if test="tkuSubjectId != null">
+			and tku_subject_id = #{tkuSubjectId}
+		</if>
+		<if test="paperName != null and paperName != ''">
+			and paper_name like concat('%',#{paperName},'%')
+		</if>
+		limit 1
+	</select>
+	
+	<select id="findCateName" parameterType="Integer" resultType="String">
+		select tiku_name cateName from tiku_category
+		where id = #{id}
+	</select>
+	
+	<select id="findSubName" parameterType="Integer" resultType="String">
+		select subject_name subName from tiku_subject
+		where id = #{id}
+	</select>
+	
+	
+	<select id="containhw" resultMap="tikuPaperResultMapVo" parameterType="com.yuxin.wx.model.tiku.TikuPaper">
+		select
+		<include refid="table_columns_vo" />,g.tiku_name category_name,s.subject_name,d.item_value dict_name
+		from tiku_paper p left join tiku_category g on p.tiku_category_id=g.id left join tiku_subject s on p.tku_subject_id=s.id left join sys_config_dict d on p.paper_type=d.item_code and d.dict_code='TIKU_PAPER_TYPE' 
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="paperName != null and paperName != ''">and p.paper_name LIKE '%${paperName}%'</if>
+			<if test="paperType != null and paperType != ''">and p.paper_type != #{paperType}</if>
+			<if test="examTime != null and examTime != ''">and p.exam_time = #{examTime}</if>
+			<if test="totalScore != null and totalScore != ''">and p.total_score = #{totalScore}</if>
+			<if test="region != null and region != ''">and p.region = #{region}</if>
+			<if test="containTopicType != null and containTopicType != ''">and p.contain_topic_type = #{containTopicType}</if>
+			<if test="paperStatus != null and paperStatus != ''">and p.paper_status = #{paperStatus}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and p.tiku_category_id = #{tikuCategoryId}</if>
+			<if test="tkuSubjectId != null and tkuSubjectId != ''">and p.tku_subject_id = #{tkuSubjectId}</if>
+			<if test="companyId != null and companyId != ''">and p.company_id = #{companyId}</if>
+			<if test="totalTopicNum != null and totalTopicNum != ''">and p.total_topic_num = #{totalTopicNum}</if>
+			<if test="creator != null and creator != ''">and p.creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and p.create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and p.updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and p.update_time = #{updateTime}</if>
+			<if test="auditor != null and auditor != ''">and p.auditor = #{auditor}</if>
+			<if test="auditTime != null and auditTime != ''">and p.audit_time = #{auditTime}</if>
+		</trim>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="containhwCount" resultType="int"
+		parameterType="com.yuxin.wx.model.tiku.TikuPaper">
+		select count(id) from tiku_paper p
+		where p.company_id = #{companyId}
+		<if test="paperType != null and paperType != ''">and p.paper_type != #{paperType}</if>
+		<if test="paperStatus != null and paperStatus != ''">and p.paper_status = #{paperStatus}</if>
+	</select>
+</mapper>

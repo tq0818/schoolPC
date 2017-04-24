@@ -1,0 +1,68 @@
+/*--Substandard style--*/
+.carousel-indicators {bottom:15px; top:auto;}
+.dl-index dt{float:left;}
+.dl-index dt,.dl-index dd{line-height:26px;}
+.text-bold{font-weight:bold;}
+.row-fluid .text_span{min-height:0;}
+/*个人资料*/
+.form_width .control-label{width:120px;}
+.form_width .controls{margin-left:130px; *margin-left:0px;}
+.input-prepend input[readonly]{background:#FFF; cursor:text;}
+/*table*/
+.table-bordered{border-left:1px solid #DDD;}
+.table-bordered th,.table-bordered td{border-left:0;}
+.bs-docs-sidenav{padding:0; background-color:#FFF; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; -webkit-box-shadow:0 1px 4px rgba(0,0,0,.065); -moz-box-shadow:0 1px 4px rgba(0,0,0,.065); box-shadow:0 1px 4px rgba(0,0,0,.065);}
+.bs-docs-sidenav > li > a{display:block; margin:0 0 -1px; padding:8px 14px; border:1px solid #e5e5e5;}
+.bs-docs-sidenav > li:first-child > a{-webkit-border-radius:6px 6px 0 0; -moz-border-radius:6px 6px 0 0; border-radius:6px 6px 0 0;}
+.bs-docs-sidenav > li:last-child > a{-webkit-border-radius:0 0 6px 6px; -moz-border-radius:0 0 6px 6px; border-radius:0 0 6px 6px;}
+.bs-docs-sidenav > .active > a{position:relative; z-index:2; padding:9px 15px; border:0; text-shadow:0 1px 0 rgba(0,0,0,.15); -webkit-box-shadow:inset 1px 0 0 rgba(0,0,0,.1),inset -1px 0 0 rgba(0,0,0,.1); -moz-box-shadow:inset 1px 0 0 rgba(0,0,0,.1),inset -1px 0 0 rgba(0,0,0,.1); box-shadow:inset 1px 0 0 rgba(0,0,0,.1),inset -1px 0 0 rgba(0,0,0,.1);}
+.bs-docs-sidenav .icon-chevron-right{float:right; margin-top:2px; margin-right:-6px; opacity:.25; filter:alpha(opacity=25);}
+.bs-docs-sidenav .active .icon-chevron-right, .bs-docs-sidenav .active a:hover .icon-chevron-right {opacity:1;}
+
+/*皮肤*/
+.logo_tab .nav-tabs > li > a,.new_menu_show .nav-tabs > li > a{padding-top:2px; padding-bottom:2px; -webkit-border-radius:0; -moz-border-radius:0; border-radius:0;}
+.logo_tab .tab-content{border:1px solid #CCC; height:32px; line-height:30px; overflow:hidden; background:#FFF;}
+.logo_tab .nav-tabs{border-bottom:none;}
+.new_menu_show .nav-tabs > li > a{color:#000;}
+.new_menu_show .nav-tabs > .active > a, .new_menu_show .nav-tabs > .active > a:hover,.new_menu_show .nav-tabs > .active > a:focus{background-color:#6ba2d8; border:none; color:#000;}
+.new_menu_show .nav-tabs > li > a{line-height:16px;}
+.new_menu_show .nav-tabs > li > a,.new_menu_show .nav-pills > li > a{padding-left:7px; padding-right:7px;}
+.buffer .logo_tab .tab-content{width:395px;}
+.ui-sortable-helper{display:table; background:#FCF9E6;}
+.player_edit .nav-tabs > li > a,.video_edit .nav-tabs > li > a{padding-top:5px; padding-bottom:5px;}
+.video_list .nav-tabs > li > a{padding-top:4px; padding-bottom:4px;}
+
+.icon-direction{background:url(../../img/icon_down_up.png) no-repeat; width:15px; height:16px;}
+.icon-share{background:url(../../img/icon_share.png) no-repeat; padding-left:20px; width:auto; margin-right:13px; text-decoration:none; color:#333;}
+/*--排序up down--*/
+.up0{background-position:0 -34px;}
+.up1{background-position:0 -51px;}
+.down0{background-position:0 0px;}
+.down1{background-position:0 -17px;}
+
+/*--icon-share--*/
+.share1{background-position:0px 0px;}
+.share2{background-position:0px -17px;}
+.share3{background-position:0px -34px;}
+.share4{background-position:0px -51px;}
+.share5{background-position:0px -68px;}
+
+.edit_play_box .control-group{margin-bottom:12px;}
+.edit_play_box .control-label{width:80px;}
+.form-horizontal input.ver{vertical-align:-2px;}
+.class_type1 tbody:last-child tr:last-child td{ border-bottom:none;}
+.upload_tab .input-append input.upload_img{width:300px; border-radius:3px;}
+.upload_tab .tab-pane{margin:5px;}
+.row-fluid [class*="span"].class_type_2{margin-left:0px;}
+.form_horizontal1 .control-label{width:230px;}
+
+i.icon-chevron-up{background-position:-288px -120px;}
+.navbar .brand{padding:0; margin:0 20px 0 -10px;}
+.navbar-inner{min-height:48px;}
+.navbar .nav > li > a{padding-top:15px; font-size:16px;}
+.navbar .btn-group.mt10{margin-top:10px;}
+.user_btn_group .dropdown-menu{margin-top:0px;}
+a.copyvideoid{margin-left:3px; margin-top:2px;}
+a.copyvideoid i.copy_ico{cursor:pointer;}
+
+.bs-docs-sidenav li a.br6{border-radius:6px;}

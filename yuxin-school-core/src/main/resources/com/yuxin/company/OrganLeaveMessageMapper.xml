@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.OrganLeaveMessageMapper">
+	<resultMap type="com.yuxin.wx.model.company.OrganLeaveMessage" id="organLeaveMessageResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+		<result property="qq" column="qq" />
+		<result property="contents" column="contents" />
+		<result property="recordTime" column="record_time" />
+		<result property="utmUrl" column="utm_url" />
+		<result property="ip" column="ip" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		mobile,
+		qq,
+		contents,
+		record_time,
+		utm_url,
+		ip
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{mobile},
+		#{qq},
+		#{contents},
+		#{recordTime},
+		#{utmUrl},
+		#{ip}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.mobile},
+		#{item.qq},
+		#{item.contents},
+		#{item.recordTime},
+		#{item.utmUrl},
+		#{item.ip}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage" useGeneratedKeys="true" keyProperty="id">
+		insert into organ_leave_message( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into organ_leave_message( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from organ_leave_message
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage">
+		update organ_leave_message 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="qq != null and qq != ''">qq = #{qq},</if>
+			<if test="contents != null and contents != ''">contents = #{contents},</if>
+			<if test="recordTime != null and recordTime != ''">recordTime = #{recordTime},</if>
+			<if test="utmUrl != null and utmUrl != ''">utmUrl = #{utmUrl},</if>
+			<if test="ip != null and ip != ''">ip = #{ip},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="organLeaveMessageResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from organ_leave_message
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="organLeaveMessageResultMap">
+		select <include refid="table_columns" /> 
+		from organ_leave_message
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
+			<if test="qq != null and qq != ''">and qq = #{qq}</if>
+			<if test="contents != null and contents != ''">and contents = #{contents}</if>
+			<if test="recordTime != null and recordTime != ''">and recordTime = #{recordTime}</if>
+			<if test="utmUrl != null and utmUrl != ''">and utmUrl = #{utmUrl}</if>
+			<if test="ip != null and ip != ''">and ip = #{ip}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="organLeaveMessageResultMap" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage">
+		select <include refid="table_columns" />
+		from organ_leave_message
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage">
+		select count(id) from organ_leave_message
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findAll" resultMap="organLeaveMessageResultMap" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage">
+		select <include refid="table_columns" />
+		from organ_leave_message
+	</select>
+	
+	<select id="queryOrganLeaveMessageList" resultMap="organLeaveMessageResultMap" parameterType="com.yuxin.wx.vo.user.OrganLeaveMessageVo">
+		select <include refid="table_columns" />
+		from organ_leave_message
+		<where>
+			1=1
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(record_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(record_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(record_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and record_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null">and record_time <![CDATA[<=]]> '${endTime}'</if>
+		</where>
+		order by record_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryOrganLeaveMessageListCount" resultType="int" parameterType="com.yuxin.wx.vo.user.OrganLeaveMessageVo">
+		select count(*)
+		from organ_leave_message
+		<where>
+			1=1
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(record_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(record_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(record_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null">and record_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null">and record_time <![CDATA[<=]]> '${endTime}'</if>
+		</where>
+	</select>
+	<select id="queryOrganLeaveMessageListForExport" resultMap="organLeaveMessageResultMap" parameterType="com.yuxin.wx.vo.user.OrganLeaveMessageVo">
+		select <include refid="table_columns" />
+		from organ_leave_message
+		<where>
+			1=1
+			<if test="timeLen !=null and marks != null">
+				<choose>
+					<when test="marks == 'today'">and (TO_DAYS(NOW())-TO_DAYS(record_time))=#{timeLen}</when>
+					<when test="marks == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(record_time))=#{timeLen}</when>
+					<otherwise>
+					and TO_DAYS(NOW())-TO_DAYS(record_time)<![CDATA[<=]]>#{timeLen}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="startTime != null and startTime != ''">and record_time <![CDATA[>=]]> '${startTime}'</if>
+			<if test="endTime != null and endTime != ''">and record_time <![CDATA[<=]]> '${endTime}'</if>
+		</where>
+		order by record_time desc
+	</select>
+	
+	<select id="queryByIp" resultType="int" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage">
+		select count(*)
+		from organ_leave_message
+		where ip=#{ip} 
+		and (TO_DAYS(date_format(NOW(), "%Y-%m-%d"))-TO_DAYS(date_format(record_time, "%Y-%m-%d")))=0
+	</select>
+	
+	<select id="queryOrganLeaveMessageListByMobile" resultType="com.yuxin.wx.model.company.OrganLeaveMessage" parameterType="com.yuxin.wx.model.company.OrganLeaveMessage">
+		select <include refid="table_columns" />
+		from organ_leave_message
+		where mobile = #{mobile}
+		and (TO_DAYS(date_format(NOW(), "%Y-%m-%d"))-TO_DAYS(date_format(record_time, "%Y-%m-%d")))=0
+	</select>
+</mapper>

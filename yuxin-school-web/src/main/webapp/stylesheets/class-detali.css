@@ -1,0 +1,61 @@
+.classes .mainbackground .c-main {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+.classes .mainbackground .c-main .q-c .c-content {
+    padding: 0 20px;
+}
+.classes .mainbackground .c-main p.c.q-c {
+    margin-bottom: 15px;
+    clear: both;
+}
+.classes .mainbackground .c-main p.c.q-c span.c-title.top {
+    vertical-align: top;
+}
+.classes .mainbackground .c-main p.c.q-c span.c-title {
+    float: left;
+    width: 130px;
+    height: 32px;
+    line-height: 32px;
+    text-align: left;
+    color: #999;
+    padding-right: 15px;
+}
+.classes .mainbackground .c-main p.c.q-c span.c-content {
+    width: 400px;
+}
+.classes .mainbackground .c-main p.c.q-c span {
+    display: inline-block;
+}
+span.c-content {
+    color: #999;
+}
+.classes .mainbackground .c-main p.c.q-c span.view {
+    display: block;
+}
+.classes .mainbackground .c-main p.c.q-c span.btns {
+    padding-top: 15px;
+}
+.company .btn {
+    border-radius: 2px;
+}
+.company .btn-default {
+    border: 1px solid #ccc;
+}
+.classes .mainbackground .c-main p.c.q-c {
+    margin-bottom: 15px;
+    clear: both;
+}
+.classes .mainbackground .c-main p.c span.c-title.q-title {
+    float: left;
+    width: 130px;
+    height: 32px;
+    line-height: 32px;
+    text-align: left;
+    color: #999;
+    padding-right: 15px;
+}
+.classes .mainbackground .c-main p.c. span.q-title {
+    display: inline-block;
+}

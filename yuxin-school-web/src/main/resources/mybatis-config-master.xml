@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//www.mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+    	<property name="dialect" value="MYSQL"/>
+    </properties>
+
+    <settings>
+        <setting name="cacheEnabled" value="true" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="defaultExecutorType" value="REUSE" />
+    </settings>
+	<plugins>
+		<plugin interceptor="com.yuxin.wx.utils.InterceptorStat">
+			<property name="databaseType" value="mysql"/>
+		</plugin>
+	</plugins>
+   	<mappers>
+   		<!-- user -->
+		<mapper resource="com/yuxin/users/UsersMapper.xml" />
+		<mapper resource="com/yuxin/users/UsersFrontMapper.xml" />
+		<mapper resource="com/yuxin/users/UsersLoginSessionMapper.xml" />
+		<mapper resource="com/yuxin/users/UserLessonTimeMapper.xml"/>
+		<mapper resource="com/yuxin/users/UserInviteRewardsRecordMapper.xml"/>
+		
+
+		<!-- 班级相关 -->
+		<mapper resource="com/yuxin/classes/ClassModuleLessonMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassModuleMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassModuleNoMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassModuleNoOnsaleMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassTypeMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassTypeModuleRelationMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassModuleVideoRelationMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassTypeRemoteRelationMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassTypeResourceMapper.xml" />
+		<mapper resource="com/yuxin/classes/ClassTypeResourceTypeMapper.xml" />
+
+		<!-- 课程相关 -->
+		<mapper resource="com/yuxin/course/CourseRemoteMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseVideoChapterMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseVideoLectureMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseVideoMapper.xml" />
+		<mapper resource="com/yuxin/course/VideoMapper.xml" />
+		<mapper resource="com/yuxin/course/VideoTagMapper.xml" />
+		<mapper resource="com/yuxin/course/LiveOpenCourseMapper.xml" />
+		<mapper resource="com/yuxin/course/VideoCourseCommentMapper.xml" />
+		<mapper resource="com/yuxin/course/VideoCourseNoteMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseVideoMarqueeMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseVideoMarqueeLineMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseExerciseMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseVideoLookAuthMapper.xml" />
+		<mapper resource="com/yuxin/course/CourseProtocolConfigMapper.xml" />
+		<mapper resource="com/yuxin/course/CoursePotocolBindHistoryMapper.xml" />
+		<mapper resource="com/yuxin/course/CoursePotocolUserRelationMapper.xml" />
+		
+		<!-- 学生相关 -->
+		<mapper resource="com/yuxin/student/StudentAgentMaterialMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentFeeStageMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentPayChangeInfoMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentPayLogMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentPayMasterMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentPaySlaveMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentFeeStageMapper.xml" />
+		<mapper resource="com/yuxin/student/StudentFeeRefundMapper.xml"/>
+		<mapper resource="com/yuxin/student/StudentStarMapper.xml"/>
+		<mapper resource="com/yuxin/pay/PayOrderMapper.xml" />
+		<!-- 系统相关 -->
+		<!-- 会员等级 -->
+		<mapper resource="com/yuxin/system/SysConfigCampusMapper.xml" />
+		<!-- 会员等级详情 -->
+		<mapper resource="com/yuxin/company/CompanyMemberLevelDetailMapper.xml" />
+		<mapper resource="com/yuxin/company/CompanyInviteRelationMapper.xml" />
+		
+		<mapper resource="com/yuxin/system/SysConfigCampusMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigItemMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigClassroomMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigDictMapper.xml" />
+		<mapper resource="com/yuxin/system/SysLogCouponUseMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigSchoolMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigTeacherLessonMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigTeacherMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigTermMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigTableMapper.xml" />
+		<mapper resource="com/yuxin/system/SysNewsMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysNewsTypeMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigLivePriceMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigVideoPriceMapper.xml"/>
+		<mapper resource="com/yuxin/commodity/CommodityMapper.xml" />
+		<mapper resource="com/yuxin/commodity/CommodityProductRealtionMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigItemIconMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexNewsMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysCcAccountMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexPrivatepageMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexClasstypeMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexItemMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexCustomMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexNewsMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysTaskLogMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigServiceMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigServiceGroupMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexModelMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigItemCourseMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigItemTagMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigPageRedirectMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysSmsLogMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigSeoMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIcoMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysUseRecordNoticTaskMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysServiceDredgeConfigMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysServiceDredgeDetailMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysLogStudentOperationMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigIndexPageTemplateMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigServiceGroupFlagMapper.xml"/>
+		
+		<!-- 名师相关 -->
+		<mapper resource="com/yuxin/system/SysTeacherPersonalStatusMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysTeacherPersonalStatusReplayMapper.xml" />
+		<mapper resource="com/yuxin/system/SysTeacherPersonalStatusPicMapper.xml" />
+		<mapper resource="com/yuxin/system/SysConfigDivisionMapper.xml" />
+
+		<!-- 缴费相关 -->
+		<mapper resource="com/yuxin/Fee/CourseRemotePayoffMapper.xml" />
+		<!-- 权限相关 -->
+		<mapper resource="com/yuxin/auth/AuthPrivilegeCategoryMapper.xml" />
+		<mapper resource="com/yuxin/auth/AuthPrivilegeMapper.xml" />
+		<mapper resource="com/yuxin/auth/AuthRoleMapper.xml" />
+		<mapper resource="com/yuxin/auth/AuthRolePrivilegeMapper.xml" />
+		<mapper resource="com/yuxin/auth/AuthUserRoleMapper.xml" />
+		<!-- 机构相关 -->
+		<mapper resource="com/yuxin/company/CompanyMapper.xml" />
+		<mapper resource="com/yuxin/company/CompanyFunctionSetMapper.xml" />
+		<mapper resource="com/yuxin/company/CompanyMemberServiceMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyServiceStaticMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyPayConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyServiceStaticDayMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyPicsMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexModelClasstypeMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexModelCustomMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexModelItemMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexModelNewsMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexModelPrivatepageMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexTemplateMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexTemplateMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyServiceStaticDayMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyEmailHistoryMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyMessageHistoryMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIndexModelNewsMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyVideoStaticCcMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyMemberServiceChangelogMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyMarketSetMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveCoursewareZsMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveRecordZsMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveIntercutZsMapper.xml"/>
+		<mapper resource="com/yuxin/company/OrganLeaveMessageMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyFootInfoMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyHeadFootConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyTotalLiveStaticDetailMapper.xml"/>
+		<mapper resource="com/yuxin/company/OrganLeaveMessageMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveStaticRecordMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyVideoConfigMapper.xml"/>
+
+		<mapper resource="com/yuxin/company/CompanyFootInfoMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyHeadFootConfigMapper.xml"/>
+
+		<mapper resource="com/yuxin/company/CompanyLiveConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyTotalLiveStaticDetailMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveConcurrentMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyAppBarConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyCashFlowMapper.xml"/>
+
+		<!-- 系统相关 -->
+		<mapper resource="com/yuxin/system/SysPageHeadFootMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysCyclePicMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigHelpMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigServiceMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigServiceGroupMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysRegisterRequestLogMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysLiveReverseAuthMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysSchoolItemRelationMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysPageHeadFooterTemplateMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysFileConvertTaskMapper.xml"/>
+		<!-- 新手引导 -->
+		<mapper resource="com/yuxin/company/CompanyNewStepMapper.xml"/>
+		<!-- 学员通知 -->
+		<mapper resource="com/yuxin/company/CompanyStudentMessageMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyLiveStaticDayDetailMapper.xml"/>
+
+		<!-- 题库 -->
+		<mapper resource="com/yuxin/tiku/TikuCategoryMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuChapterMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuExampointMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuPaperMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuPaperTopicMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuPaperTopicTypeMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuSectionMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuSetMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuSubjectMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuTopicExampointMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuTopicMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuTopicOptionMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuConfigMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserBatchMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserBatchTopicMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserExerciseMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserCollectMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserExerciseAnswerMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserWrongMapper.xml"/>
+		
+		<!-- 考试 -->
+		<mapper resource="com/yuxin/tiku/exam/TikuExamMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/exam/TikuExamPaperRelationMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/exam/TikuExamUserRelationMapper.xml"/>
+		<!-- Q&A -->
+		<mapper resource="com/yuxin/queAns/QuestionAnswerMapper.xml"/>
+		<mapper resource="com/yuxin/queAns/QuestionClassifyMapper.xml"/>
+		<mapper resource="com/yuxin/queAns/QuestionMapper.xml"/>
+		
+		<mapper resource="com/yuxin/common/BaseSqlMapper.xml"/>
+		<mapper resource="com/yuxin/student/LongitudinalTableColDefineMapper.xml"/>
+ 		<mapper resource="com/yuxin/student/LongitudinalTableDataMapper.xml"/> 
+		
+		<!-- 课程包 -->
+		<mapper resource="com/yuxin/classes/ClassPackageCategoryMapper.xml"/>
+		<mapper resource="com/yuxin/classes/ClassPackageMapper.xml"/>
+		<mapper resource="com/yuxin/classes/ClassPackageRelationMapper.xml"/>
+		<mapper resource="com/yuxin/classes/ClassPackageStageMapper.xml"/>
+		
+		<!-- 自定义页面 -->
+		<mapper resource="com/yuxin/company/CompanyConfigCustompageGroupMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyConfigCustompageMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyConfigCustompageTemplateMapper.xml"/>
+		
+		<!-- 积分、会员 -->
+		<mapper resource="com/yuxin/classes/ClassTypeMemberDiscountMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyMemberConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyIntegralConfigMapper.xml"/>
+		<mapper resource="com/yuxin/users/UserIntegralFlowMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyMemberLevelConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyMemberLevelDetailMapper.xml"/>
+		
+		<mapper resource="com/yuxin/classes/StatisticsMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyAppConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyAppAuthMapper.xml"/>
+		<!-- 直播上课统计 -->
+		<mapper resource="com/yuxin/company/CompanyLiveStaticDetailMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyAppWelcomePicMapper.xml"/>
+		
+		<!-- 优惠券  -->
+	    <mapper resource="com/yuxin/company/CompanyCouponsLibMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyCouponsPatchMapper.xml"/> 
+		<mapper resource="com/yuxin/company/CompanyCouponsConfigMapper.xml"/>
+		<mapper resource="com/yuxin/users/UsersFrontMyCouponsMapper.xml"/>
+		
+		<!-- 登录注册配置 -->
+		<mapper resource="com/yuxin/company/CompanyLoginConfigMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyRegisterConfigMapper.xml"/>
+		
+		<!-- 学员分组 -->
+		<mapper resource="com/yuxin/student/StudentGroupMapper.xml"/>
+		
+		 <!-- 优惠码 -->
+		 <mapper resource="com/yuxin/company/CompanyInvitConfigMapper.xml"/> 
+		 
+		<!-- 留言黑名单 -->
+		<mapper resource="com/yuxin/company/OrganLeaveMessageBlacklistMapper.xml"/>
+		
+		<!-- 优惠码 -->
+		 <mapper resource="com/yuxin/company/CompanyInvitConfigMapper.xml"/> 
+		 <!-- <mapper resource="com/yuxin/company/CompanyInviteRelationMapper.xml"/>-->
+		<mapper resource="com/yuxin/company/CompanyHardbindDataMapper.xml"/>   
+		<mapper resource="com/yuxin/users/UserInviteRewardsRecordMapper.xml"/> 
+		<!-- 资源 -->
+		 <mapper resource="com/yuxin/resource/ResourceListMapper.xml"/> 
+		 <mapper resource="com/yuxin/resource/ResourceUseRecordMapper.xml"/>
+		<!-- 测验 -->
+		<mapper resource="com/yuxin/course/CourseAfterTestContentMapper.xml"/>
+		<mapper resource="com/yuxin/course/CourseAfterTestMapper.xml"/>
+		
+		<!-- 证书 -->
+		<mapper resource="com/yuxin/certificate/CertificateConfigMapper.xml"/>
+		<mapper resource="com/yuxin/certificate/CertificateCourseRelationMapper.xml"/>
+		<mapper resource="com/yuxin/certificate/CertificateUserRelationMapper.xml"/>
+		<!-- 用户历史-->
+		<mapper resource="com/yuxin/users/UserHistoryMapper.xml"/>
+		
+		<!-- 竞赛成绩 -->
+		<mapper resource="com/yuxin/system/SysStudentScoreMapper.xml"/>
+		
+		<!-- 作业 -->
+		<mapper resource="com/yuxin/homework/HomeworkMapper.xml"/>
+		<mapper resource="com/yuxin/homework/HomeworkPaperDetailMapper.xml"/>
+		<mapper resource="com/yuxin/homework/HomeworkStudentCompleteMapper.xml"/>
+		<mapper resource="com/yuxin/homework/HomeworkTeacherReadMapper.xml"/>
+		<!-- 老师代理机构邀请码 -->
+		<mapper resource="com/yuxin/company/CompanyInvitConfigTeacherMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyInvitConfigOrgMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyConfigProxyOrgMapper.xml"/>
+		
+		<!-- 操作日志 -->
+		<mapper resource="com/yuxin/system/SysLogManagerOptionMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysLogManagerOptionDictMapper.xml"/>
+		
+		<!-- 学习卡 -->
+		<mapper resource="com/yuxin/company/CompanyStudyCardMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyStudyCardLibMapper.xml"/>
+		
+		<!--  老师代理机构邀请记录-->
+		<mapper resource="com/yuxin/company/OrganInviteRewardRecordMapper.xml"/>
+		<mapper resource="com/yuxin/company/TeacherInviteRewardRecordMapper.xml"/>
+		
+		<!-- 充值卡 -->
+		<mapper resource="com/yuxin/company/CompanyRechargeLibMapper.xml"/>
+		<mapper resource="com/yuxin/company/CompanyRechargePatchMapper.xml"/>
+	</mappers>
+
+</configuration>

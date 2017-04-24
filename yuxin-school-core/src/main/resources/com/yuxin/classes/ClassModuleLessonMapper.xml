@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassModuleLessonMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassModuleLesson" id="classModuleLessonResultMap">
+		<result property="id" column="id" />
+		<result property="lessonName" column="lesson_name" />
+		<result property="moduleNoId" column="module_no_id" />
+		<result property="lessonDate" column="lesson_date" />
+		<result property="scope" column="scope" />
+		<result property="weekType" column="week_type" />
+		<result property="lessonTimeStart" column="lesson_time_start" />
+		<result property="lessonTimeEnd" column="lesson_time_end" />
+		<result property="lessonHour" column="lesson_hour" />
+		<result property="teachers" column="teachers" />
+		<result property="assistants" column="assistants" />
+		<result property="masters" column="masters" />
+		<result property="teachersName" column="teachers_name" />
+		<result property="assistantsName" column="assistants_name" />
+		<result property="mastersName" column="masters_name" />
+		<result property="classroomId" column="classroom_id" />
+		<result property="classroom" column="classroom" />
+		<result property="liveRoom" column="live_room" />
+		<result property="remark" column="remark" />
+		<result property="liveCompanyType" column="live_company_type" />
+		<result property="liveroomIdGh" column="liveroom_id_gh" />
+		<result property="studentUrlGh" column="student_url_gh" />
+		<result property="teacherUrlGh" column="teacher_url_gh" />
+		<result property="assistantUrlGh" column="assistant_url_gh" />
+		<result property="replayUrlGh" column="replay_url_gh" />
+		<result property="delFlag" column="del_flag" />
+		<result property="sort" column="sort"/>
+		<result property="chapterFlag" column="chapter_flag"/>
+		<result property="supportMobile" column="support_mobile"/>
+		<result property="liveClassType" column="live_class_type"/>
+		<result property="createTime" column="create_time"/>
+		<result property="creator" column="creator"/>
+		<result property="barrage" column="barrage"/>
+		<result property="modetype" column="modetype"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
+		<result property="id" column="id"/>
+		<result property="companyId" column="company_id"/>
+		<result property="liveroomIdGh" column="liveroom_id_gh"/>
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		lesson_name,
+		module_no_id,
+		lesson_date,
+		scope,
+		week_type,
+		lesson_time_start,
+		lesson_time_end,
+		lesson_hour,
+		teachers,
+		assistants,
+		masters,
+		teachers_name,
+		assistants_name,
+		masters_name,
+		classroom_id,
+		classroom,
+		live_room,
+		remark,
+		live_company_type,
+		liveroom_id_gh,
+		student_url_gh,
+		teacher_url_gh,
+		assistant_url_gh,
+		replay_url_gh,
+		del_flag,
+		sort,
+		chapter_flag,
+		support_mobile,
+		live_class_type,
+		create_time,
+		creator,
+		barrage,
+		modetype
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{lessonName},
+		#{moduleNoId},
+		#{lessonDate},
+		#{scope},
+		#{weekType},
+		#{lessonTimeStart},
+		#{lessonTimeEnd},
+		#{lessonHour},
+		#{teachers},
+		#{assistants},
+		#{masters},
+		#{teachersName},
+		#{assistantsName},
+		#{mastersName},
+		#{classroomId},
+		#{classroom},
+		#{liveRoom},
+		#{remark},
+		#{liveCompanyType},
+		#{liveroomIdGh},
+		#{studentUrlGh},
+		#{teacherUrlGh},
+		#{assistantUrlGh},
+		#{replayUrlGh},
+		#{delFlag},
+		#{sort},
+		#{chapterFlag},
+		#{supportMobile},
+		#{liveClassType},
+		#{createTime},
+		#{creator},
+		#{barrage},
+		#{modetype}
+	</sql>
+	
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.lessonName},
+		#{item.moduleNoId},
+		#{item.lessonDate},
+		#{item.scope},
+		#{item.weekType},
+		#{item.lessonTimeStart},
+		#{item.lessonTimeEnd},
+		#{item.lessonHour},
+		#{item.teachers},
+		#{item.assistants},
+		#{item.masters},
+		#{item.teachersName},
+		#{item.assistantsName},
+		#{item.mastersName},
+		#{item.classroomId},
+		#{item.classroom},
+		#{item.liveRoom},
+		#{item.remark},
+		#{item.liveCompanyType},
+		#{item.liveroomIdGh},
+		#{item.studentUrlGh},
+		#{item.teacherUrlGh},
+		#{item.assistantUrlGh},
+		#{item.replayUrlGh},
+		#{item.delFlag},
+		#{item.sort},
+		#{item.chapterFlag},
+		#{item.supportMobile},
+		#{item.liveClassType},
+		#{item.createTime},
+		#{item.creator},
+		#{item.barrage},
+		#{item.modetype}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson" useGeneratedKeys="true" keyProperty="id">
+		insert into class_module_lesson( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_module_lesson( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		update class_module_lesson set del_flag = 1 where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_module_lesson
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		update class_module_lesson 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="lessonName != null and lessonName != ''">lesson_name = #{lessonName},</if>
+			<if test="moduleNoId != null and moduleNoId != ''">module_no_id = #{moduleNoId},</if>
+			<if test="lessonDate != null and lessonDate != ''">lesson_date = #{lessonDate},</if>
+			<if test="scope != null and scope != ''">scope = #{scope},</if>
+			<if test="weekType != null and weekType != ''">week_type = #{weekType},</if>
+			<if test="lessonTimeStart != null and lessonTimeStart != ''">lesson_time_start = #{lessonTimeStart},</if>
+			<if test="lessonTimeEnd != null and lessonTimeEnd != ''">lesson_time_end = #{lessonTimeEnd},</if>
+			<if test="lessonHour != null and lessonHour != ''">lesson_hour = #{lessonHour},</if>
+			<if test="teachers != null and teachers != ''">teachers = #{teachers},</if>
+			<if test="assistants != null and assistants != ''">assistants = #{assistants},</if>
+			<if test="masters != null and masters != ''">masters = #{masters},</if>
+			<if test="teachersName != null and teachersName != ''">teachers_name = #{teachersName},</if>
+			<if test="assistantsName != null and assistantsName != ''">assistants_name = #{assistantsName},</if>
+			<if test="mastersName != null and mastersName != ''">masters_name = #{mastersName},</if>
+			<if test="classroomId != null and classroomId != ''">classroom_id = #{classroomId},</if>
+			<if test="classroom != null and classroom != ''">classroom = #{classroom},</if>
+			<if test="liveRoom != null and liveRoom != ''">live_room = #{liveRoom},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="liveCompanyType != null and liveCompanyType != ''">live_company_type = #{liveCompanyType},</if>
+			<if test="liveroomIdGh != null and liveroomIdGh != ''">liveroom_id_gh = #{liveroomIdGh},</if>
+			<if test="studentUrlGh != null and studentUrlGh != ''">student_url_gh = #{studentUrlGh},</if>
+			<if test="teacherUrlGh != null and teacherUrlGh != ''">teacher_url_gh = #{teacherUrlGh},</if>
+			<if test="assistantUrlGh != null and assistantUrlGh != ''">assistant_url_gh = #{assistantUrlGh},</if>
+			<if test="replayUrlGh != null and replayUrlGh != ''">replay_url_gh = #{replayUrlGh},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+			<if test="chapterFlag != null">chapter_flag = #{chapterFlag},</if>
+			<if test="supportMobile != null and supportMobile != ''">support_mobile = #{supportMobile},</if>
+			<if test="liveClassType != null and liveClassType != ''">live_class_type = #{liveClassType},</if>
+			<if test="barrage != null">barrage = #{barrage},</if>
+			<if test="modetype != null">modetype = #{modetype},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classModuleLessonResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_module_lesson
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classModuleLessonResultMap">
+		select <include refid="table_columns" /> 
+		from class_module_lesson where del_flag = 0
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="lessonName != null and lessonName != ''">and lesson_name = #{lessonName}</if>
+			<if test="moduleNoId != null and moduleNoId != ''">and module_no_id = #{moduleNoId}</if>
+			<if test="lessonDate != null and lessonDate != ''">and lesson_date = #{lessonDate}</if>
+			<if test="scope != null and scope != ''">and scope = #{scope}</if>
+			<if test="weekType != null and weekType != ''">and week_type = #{weekType}</if>
+			<if test="lessonTimeStart != null and lessonTimeStart != ''">and lesson_time_start = #{lessonTimeStart}</if>
+			<if test="lessonTimeEnd != null and lessonTimeEnd != ''">and lesson_time_end = #{lessonTimeEnd}</if>
+			<if test="lessonHour != null and lessonHour != ''">and lesson_hour = #{lessonHour}</if>
+			<if test="teachers != null and teachers != ''">and teachers = #{teachers}</if>
+			<if test="assistants != null and assistants != ''">and assistants = #{assistants}</if>
+			<if test="masters != null and masters != ''">and masters = #{masters}</if>
+			<if test="teachersName != null and teachersName != ''">and teachers_name = #{teachersName}</if>
+			<if test="assistantsName != null and assistantsName != ''">and assistants_name = #{assistantsName}</if>
+			<if test="mastersName != null and mastersName != ''">and masters_name = #{mastersName}</if>
+			<if test="classroomId != null and classroomId != ''">and classroom_id = #{classroomId}</if>
+			<if test="classroom != null and classroom != ''">and classroom = #{classroom}</if>
+			<if test="liveRoom != null and liveRoom != ''">and live_room = #{liveRoom}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="liveCompanyType != null and liveCompanyType != ''">and live_company_type = #{liveCompanyType}</if>
+			<if test="liveroomIdGh != null and liveroomIdGh != ''">and liveroom_id_gh = #{liveroomIdGh}</if>
+			<if test="studentUrlGh != null and studentUrlGh != ''">and student_url_gh = #{studentUrlGh}</if>
+			<if test="teacherUrlGh != null and teacherUrlGh != ''">and teacher_url_gh = #{teacherUrlGh}</if>
+			<if test="assistantUrlGh != null and assistantUrlGh != ''">and assistant_url_gh = #{assistantUrlGh}</if>
+			<if test="replayUrlGh != null and replayUrlGh != ''">and replay_url_gh = #{replayUrlGh}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="liveClassType != null and liveClassType != ''">and live_class_type = #{liveClassType}</if>
+			<if test="barrage != null">and barrage = #{barrage}</if>
+			<if test="modetype != null">and modetype = #{modetype}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classModuleLessonResultMap" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		select <include refid="table_columns" />
+		from class_module_lesson
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		select count(id) from class_module_lesson
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findClassModuleLessonByClassroomId" resultMap="classModuleLessonResultMap" parameterType="Integer">
+		select lesson_date,scope,week_type from class_module_lesson where classroom_id = #{classroomId} and del_flag = 0 order by lesson_date desc
+	</select>
+	
+	<select id="findClassModuleLessonByModuleNoId" resultMap="classModuleLessonResultMap" parameterType="Integer">
+		select id,module_no_id,lesson_date,scope,week_type,lesson_name,lesson_time_start,lesson_time_end,lesson_hour,teachers,assistants,
+		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.teachers AND sct.del_flag = 0),'该老师被删除') as teachers_name,
+		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.assistants AND sct.del_flag = 0),'该助教被删除') as assistants_name,
+		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,
+		barrage,modetype
+		from class_module_lesson cml
+		where module_no_id = #{moduleNoId} and del_flag = 0 order by sort asc,lesson_date asc
+	</select>
+	
+	<select id="findClassModuleLessonByKeys" resultType="com.yuxin.wx.vo.classes.ClassModuleLessonVo" parameterType="com.yuxin.wx.vo.classes.ClassModuleLessonVo">
+		SELECT 
+		  a.id,
+		  a.teachers_name as teachersName,
+		  a.lesson_date as lessonDate,
+		  a.lesson_time_start as lessonTimeStart,
+		  a.classroom,
+		  a.barrage,
+		  a.modetype,
+		  c.item_name AS itemOneName,
+		  d.item_name AS itemSecondName,
+		  b.name AS moduleName,
+		  e.name AS moduleNoName,
+		  f.school_name AS schoolName,
+		  g.name as teacherName 
+		FROM
+		  class_module_lesson a,
+		  class_module b,
+		  sys_config_item c,
+		  sys_config_item d,
+		  class_module_no e,
+		  sys_config_school f,
+		  sys_config_teacher g 
+		WHERE a.del_flag = 0  
+		  and b.del_flag = 0 
+		  and e.del_flag = 0 
+		  and a.module_no_id = b.id 
+		  AND c.id = b.item_one_id 
+		  AND d.id = b.item_second_id 
+		  AND e.id = a.module_no_id 
+		  AND f.id=e.school_id 
+		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id = #{itemSecondId}</if>
+		<if test="schoolId != null and schoolId != ''">and f.id = #{schoolId}</if>
+		<if test="startTime != null and startTime != ''">and a.lesson_date >= #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and  #{endTime} >= a.lesson_date</if>
+		<if test="isOpen != null and isOpen == 1">and  CURDATE() >= a.lesson_date</if>
+		<if test="isOpen != null and isOpen == 2">and  a.lesson_date>=CURDATE() </if>
+		<if test="schoolId != null and schoolId == 2">and  a.school_id>=#{schoolId} </if>
+		<if test="teachersName != null and teachersName != ''">
+			AND FIND_IN_SET(g.id,a.teachers)>0
+			AND g.name LIKE '%${teachersName}%'
+		</if>
+		GROUP BY a.id
+		order by lesson_date desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	
+	
+	
+	<select id="findClassModuleLessonByKeysCount" resultType="Integer" parameterType="com.yuxin.wx.vo.classes.ClassModuleLessonVo">
+		SELECT COUNT(0) FROM
+		(
+		SELECT 
+		  a.id
+		from
+		class_module_lesson a,
+		  class_module b,
+		  sys_config_item c,
+		  sys_config_item d,
+		  class_module_no e,
+		  sys_config_school f,
+		  sys_config_teacher g 
+		WHERE a.module_no_id = b.id 
+		  AND c.id = b.item_one_id 
+		  AND d.id = b.item_second_id 
+		  AND e.id = a.module_no_id 
+		  AND f.id=e.school_id 
+		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id = #{itemSecondId}</if>
+		<if test="schoolId != null and schoolId != ''">and f.id = #{schoolId}</if>
+		<if test="startTime != null and startTime != ''">and a.lesson_date >= #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and  #{endTime} >= a.lesson_date</if>
+		<if test="isOpen != null and isOpen == 1">and  CURDATE() >= a.lesson_date</if>
+		<if test="isOpen != null and isOpen == 2">and  a.lesson_date>=CURDATE() </if>
+		<if test="schoolId != null and schoolId == 2">and  a.school_id>=#{schoolId} </if>
+		<if test="teachersName != null and teachersName != ''">
+			AND FIND_IN_SET(g.id,a.teachers)>0
+			AND g.name LIKE '%${teachersName}%'
+		</if>
+		GROUP BY a.id)countTable
+	</select>
+	
+	<select id="findClassModuleLessonById" resultType="com.yuxin.wx.vo.classes.ClassModuleLessonVo" parameterType="com.yuxin.wx.vo.classes.ClassModuleLessonVo">
+		SELECT 
+		  a.id,
+		  a.teachers_name as teachersName,
+		  a.lesson_date as lessonDate,
+		  a.lesson_time_start as lessonTimeStart,
+		  a.classroom,
+		  a.barrage,
+		  a.modetype,
+		  c.item_name AS itemOneName,
+		  d.item_name AS itemSecondName,
+		  b.name AS moduleName,
+		  e.name AS moduleNoName,
+		  f.school_name AS schoolName,
+		  g.name as teacherName 
+		FROM
+		  class_module_lesson a,
+		  class_module b,
+		  sys_config_item c,
+		  sys_config_item d,
+		  class_module_no e,
+		  sys_config_school f,
+		  sys_config_teacher g 
+		WHERE a.module_no_id = b.id 
+		  AND c.id = b.item_one_id 
+		  AND d.id = b.item_second_id 
+		  AND e.id = a.module_no_id 
+		  AND f.id=e.school_id 
+		  and a.id=#{id}
+		GROUP BY a.id
+	</select>
+	
+	<select id="findLessonsByRoomIdAndDate" resultMap="classModuleLessonResultMap" >
+		select lesson_name,classroom,lesson_date,scope,week_type from class_module_lesson where classroom_id = #{classroomId} and del_flag = 0 
+		<![CDATA[ 
+			and lesson_date > #{startDate} and lesson_date < #{endDate}
+		]]> 
+			order by lesson_date asc
+	</select>
+	<select id="findLessonByTeachers" resultMap="classModuleLessonResultMap" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		select lesson_name,teachers from class_module_lesson where
+		teachers = #{teachers} and lesson_date > now() and del_flag = 0 
+	</select>
+	<select id="findLessonInfoByRoomIdAndDate" resultMap="classModuleLessonResultMap" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		select lesson_name,lesson_date 
+			from class_module_lesson
+		where classroom_id = #{classroomId} and 
+			lesson_date > #{lessonDate} and del_flag = 0 
+			order by lesson_date
+	</select>
+	
+	<!-- 定时任务 -->
+	<select id="findByDate" resultMap="lessonVoResultMap" parameterType="String">
+		select l.id,
+			m.company_id,
+			l.liveroom_id_gh
+		from class_module_lesson l 
+			inner join class_module_no n 
+				on l.module_no_id = n.id
+			inner join class_module m
+				on m.id = n.module_id
+		where l.lesson_date = #{date}
+	</select>
+	
+	<select id="findLiveByTime" resultType="String" parameterType="map">
+		select l.live_room
+		from class_module_lesson l
+		inner join class_module_no n
+			on l.module_no_id = n.id
+		where (l.lesson_date = #{lessonDate} and 
+				str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+				str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+				and n.company_id = #{companyId}
+	</select>
+	
+	<!-- 移动课次到某个班号 -->
+	<update id="mvLesson" parameterType="map">
+		update class_module_lesson set module_no_id=#{moduleNoId} where id=#{lessonId} 
+	</update>
+	
+	<select id="findclassLessonByName" parameterType="map" resultMap="classModuleLessonResultMap">
+		select <include refid="table_columns" />
+		from class_module_lesson where del_flag=0 and lesson_name=#{lessonName} and module_no_id=#{moduleNo}
+	</select>
+	
+	<select id="findZsLiveByTime" resultType="com.yuxin.wx.vo.classes.CmlVo" parameterType="map">
+		select l.id id,
+			l.liveroom_id_gh roomId,
+			m.company_id companyId,
+			m.school_id schoolId
+		from class_module_lesson l
+		inner join class_module_no n
+			on l.module_no_id = n.id
+		inner join class_module m
+			on m.id = n.module_id
+		where l.lesson_date = #{lessonDate} and 
+			l.del_flag = 0 and 
+			l.live_company_type = #{liveCompanyType} and 
+			(l.replay_url_gh is null or l.replay_url_gh = '')
+	</select>
+	
+	<select id="findcmlByModuleNoId" resultMap="classModuleLessonResultMap" parameterType="int">
+		select id,lesson_date,lesson_name,lesson_time_start,teachers
+		from class_module_lesson 
+		where module_no_id = #{moduleNoId} and del_flag = 0 
+	</select>
+	
+	<select id="findClassModuleLessonIdsByModuleNoId" resultType="int" parameterType="int">
+		select id
+		from class_module_lesson where module_no_id = #{id}
+	</select>
+</mapper>

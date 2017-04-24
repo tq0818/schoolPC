@@ -1,0 +1,76 @@
+.classTra {
+	color: #999;
+	font-size: 12px;
+	margin-left: 50px;
+}
+
+.ml58 {
+	margin-left: 58px;
+}
+
+.w112 {
+	width: 112px;
+}
+
+.w25 {
+	width: 25px;
+	height: 10px;
+}
+
+.itemClass {
+	font-size: 14px;
+	line-height: 1.5;
+	display: inline-flex;
+}
+
+.w75 {
+	width: 75px;
+}
+
+.w150 {
+	width: 150px;
+}
+
+.w180 {
+	width: 180px;
+}
+
+.info {
+	display: inline-block;
+	height: 40px;
+	margin-left: -16px;
+	color:#666;
+}
+.kg{
+	margin-left: 30px;
+}
+.open{
+	font-size: 20px;
+	color: #1b6fbd;
+}
+.close{
+	font-size: 20px;
+}
+.fs12{
+	font-size: 12px;
+}
+.c{
+	line-height:35px;
+	color:#666;
+}
+.d{
+	font-size:12px;
+	color:#999;
+	margin-left: -58px;
+}
+.c span{
+	display:inline-block;
+}
+.c .c-title{
+	text-align:right;
+	
+}
+.c .c-content{
+	margin-left:20px;
+}
+

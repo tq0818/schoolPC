@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigDictMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigDict" id="sysConfigDictResultMap">
+		<result property="id" column="id" />
+		<result property="dictCode" column="dict_code" />
+		<result property="dictName" column="dict_name" />
+		<result property="itemCode" column="item_code" />
+		<result property="itemValue" column="item_value" />
+		<result property="parentItemId" column="parent_item_id" />
+		<result property="itemStatusCode" column="item_status_code" />
+		<result property="displaySeq" column="display_seq" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		dict_code,
+		dict_name,
+		item_code,
+		item_value,
+		parent_item_id,
+		item_status_code,
+		display_seq,
+		company_id
+		
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{dictCode},
+		#{dictName},
+		#{itemCode},
+		#{itemValue},
+		#{parentItemId},
+		#{itemStatusCode},
+		#{displaySeq},
+		#{companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigDict" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_dict( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_dict( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_dict
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_dict
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		update sys_config_dict 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="dictCode != null and dictCode != ''">dict_code = #{dictCode},</if>
+			<if test="dictName != null and dictName != ''">dict_name = #{dictName},</if>
+			<if test="itemCode != null and itemCode != ''">item_code = #{itemCode},</if>
+			<if test="itemValue != null and itemValue != ''">item_value = #{itemValue},</if>
+			<if test="parentItemId != null and parentItemId != ''">parent_item_id = #{parentItemId},</if>
+			<if test="itemStatusCode != null and itemStatusCode != ''">item_status_code = #{itemStatusCode},</if>
+			<if test="displaySeq != null and displaySeq != ''">display_seq = #{displaySeq},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigDictResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_dict
+		where id = #{id} and item_status_code=1
+	</select>
+	
+		<select id="findByCode" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict" >
+		select <include refid="table_columns" />
+		from sys_config_dict
+		where item_code=#{itemCode} and item_status_code=1
+		limit 1
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigDictResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_dict where item_status_code=1
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="dictCode != null and dictCode != ''">and dict_code = #{dictCode}</if>
+			<if test="dictName != null and dictName != ''">and dict_name = #{dictName}</if>
+			<if test="itemCode != null and itemCode != ''">and item_code = #{itemCode}</if>
+			<if test="itemValue != null and itemValue != ''">and item_value = #{itemValue}</if>
+			<if test="parentItemId != null and parentItemId != ''">and parent_item_id = #{parentItemId}</if>
+			<if test="itemStatusCode != null and itemStatusCode != ''">and item_status_code = #{itemStatusCode}</if>
+			<if test="displaySeq != null and displaySeq != ''">and display_seq = #{displaySeq}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select <include refid="table_columns" />
+		from sys_config_dict
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select count(id) from sys_config_dict
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<!-- 查询教室相关 字典表 -->
+	<select id="findDictByClassroom" resultMap="sysConfigDictResultMap">
+		select <include refid="table_columns"></include>
+			from sys_config_dict
+		where dict_code in
+			('CLASSROOM_ATTR','CLASSROOM_TYPE','CLASSROOM_KIND','CLASSROOM_RENT_TIME','CLASSROOM_LEVEL')
+	</select>
+	<select id="findByDicCode" parameterType="String" resultMap="sysConfigDictResultMap">
+		select <include refid="table_columns"></include>
+			from sys_config_dict
+		where dict_code=#{code} 
+		order by id
+	</select>
+	
+	<select id="queryConfigDictList" resultMap="sysConfigDictResultMap">
+	    select item_code,item_value from sys_config_dict where dict_code='SYS_NEWS_TYPE'
+	</select>
+	<select id="queryConfigDictListByDictCode" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select item_code,item_value from sys_config_dict where dict_code=#{dictCode}
+	</select>
+	<select id="findByCompanyId" resultMap="sysConfigDictResultMap" parameterType="Integer">
+		select <include refid="table_columns"></include>
+			from sys_config_dict
+		where company_id = #{companyId}
+	</select>
+</mapper>

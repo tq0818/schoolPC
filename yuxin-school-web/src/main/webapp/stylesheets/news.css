@@ -1,0 +1,125 @@
+.public-content .place {
+	font-size: 12px;
+	font-size: 1.2rem;
+	color: #7f7f7f
+}
+
+.public-content .place a {
+	color: #45abdb
+}
+
+.public-content .news-type {
+	width: 100%;
+	padding: 36px 0 20px;
+}
+
+.public-content .news-type .title {
+	border-bottom: 1px solid #dfe1e5
+}
+
+.public-content .news-type .title .h4 {
+	margin: 0 50px 10px;
+	line-height: 1.4
+}
+
+.public-content .news-type .title .time {
+	margin: 0 50px 10px;
+	color: #7f7f7f
+}
+
+.public-content .news-type .types {
+	margin: 10px 50px 0;
+	overflow: hidden
+}
+
+.public-content .news-type .types li {
+	margin: 10px 20px 5px 0;
+	padding: 10px 5px;
+	float: left;
+	border-bottom: 2px solid transparent
+}
+
+.public-content .news-type .types li:hover, .public-content .news-type .types li.active
+	{
+	border-bottom: 2px solid #4db565
+}
+
+.public-content .news-type .types li a {
+	color: #333;
+	text-decoration: none
+}
+
+.public-content .news-type .types li a:hover {
+	color: #333;
+	text-decoration: none
+}
+
+.public-content .news-type .contents {
+	margin: 30px 50px
+}
+
+.public-content .news-type .contents h1, .public-content .news-type .contents h2,
+	.public-content .news-type .contents h3, .public-content .news-type .contents h4,
+	.public-content .news-type .contents h5, .public-content .news-type .contents h6
+	{
+	line-height: 1.7;
+	margin-bottom: .5em
+}
+
+.public-content .news-type .contents p {
+	color: #7f7f7f;
+	font-size: 12px;
+	font-size: 1.2rem
+}
+
+.public-content .news-type .contents img {
+	max-width: 100%
+}
+
+.public-content .news-list {
+	margin: 20px auto;
+	padding: 20px 50px;
+	background-color: #fff;
+	clear: both
+}
+
+.public-content .news-list ul {
+	overflow: hidden
+}
+
+.public-content .news-list li {
+	padding: 10px 0;
+	clear: both;
+	border-top: 1px dotted #dfe1e5;
+	*border-top-style: expression(this.previousSibling == null ? "none" : "solid");
+	overflow: hidden
+}
+
+.public-content .news-list li:first-child {
+	border-top: none
+}
+
+.public-content .news-list li a {
+	display: block;
+	float: left;
+	width: 85%;
+	color: #4c4c4c;
+	font-size: 14px;
+	font-size: 1.4rem;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden
+}
+
+.public-content .news-list li a:hover {
+	text-decoration: none
+}
+
+.public-content .news-list li span {
+	width: 12%;
+	float: right;
+	text-align: right;
+	color: #999;
+	font-size: 14px;
+	font-size: 1.4rem
+}

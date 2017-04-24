@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyVideoConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyVideoConfig" id="companyVideoConfigResultMap">
+		<result property="id" column="id" />
+		<result property="userid" column="userid" />
+		<result property="writeToken" column="write_token" />
+		<result property="secretKey" column="secret_key" />
+		<result property="readToken" column="read_token" />
+		<result property="accessKey" column="access_key" />
+		<result property="buketName" column="buket_name" />
+		<result property="companyId" column="company_id" />
+		<result property="videoType" column="video_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		userid,
+		write_token,
+		secret_key,
+		read_token,
+		access_key,
+		buket_name,
+		company_id,
+		video_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userid},
+		#{writeToken},
+		#{secretKey},
+		#{readToken},
+		#{accessKey},
+		#{buketName},
+		#{companyId},
+		#{videoType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userid},
+		#{item.writeToken},
+		#{item.secretKey},
+		#{item.readToken},
+		#{item.accessKey},
+		#{item.buketName},
+		#{item.companyId},
+		#{item.videoType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyVideoConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_video_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_video_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_video_config
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_video_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyVideoConfig">
+		update company_video_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userid != null and userid != ''">userid = #{userid},</if>
+			<if test="writeToken != null and writeToken != ''">write_token = #{writeToken},</if>
+			<if test="secretKey != null and secretKey != ''">secret_key = #{secretKey},</if>
+			<if test="readToken != null and readToken != ''">read_token = #{readToken},</if>
+			<if test="accessKey != null and accessKey != ''">access_key = #{accessKey},</if>
+			<if test="buketName != null and buketName != ''">buket_name = #{buketName},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+			<if test="videoType != null and videoType != ''">video_type = #{videoType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyVideoConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_video_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyVideoConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_video_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userid != null and userid != ''">and userid = #{userid}</if>
+			<if test="writeToken != null and writeToken != ''">and write_token = #{writeToken}</if>
+			<if test="secretKey != null and secretKey != ''">and secret_key = #{secretKey}</if>
+			<if test="readToken != null and readToken != ''">and read_token = #{readToken}</if>
+			<if test="accessKey != null and accessKey != ''">and access_key = #{accessKey}</if>
+			<if test="buketName != null and buketName != ''">and buket_name = #{buketName}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="videoType != null and videoType != ''">and video_type = #{videoType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyVideoConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyVideoConfig">
+		select <include refid="table_columns" />
+		from company_video_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyVideoConfig">
+		select count(id) from company_video_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findConfigByCompanyId" parameterType="Integer" resultMap="companyVideoConfigResultMap">
+		select <include refid="table_columns"/>
+		from company_video_config
+		where company_id = #{companyId}
+	</select>
+</mapper>

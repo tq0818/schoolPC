@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.LongitudinalTableColDefineMapper">
+	<resultMap type="com.yuxin.wx.model.system.LongitudinalTableColDefine" id="longitudinalTableColDefineResultMap">
+		<result property="id" column="id" />
+		<result property="colName" column="col_name" />
+		<result property="colDataType" column="col_data_type" />
+		<result property="colComment" column="col_comment" />
+		<result property="colIsPk" column="col_is_pk" />
+		<result property="colAutoIncream" column="col_auto_incream" />
+		<result property="colAllowNull" column="col_allow_null" />
+		<result property="companyId" column="company_id" />
+		<result property="allowModify" column="allow_modify" />
+		<result property="tableName" column="table_name" />
+		<result property="sort" column="sort" />
+		<result property="tldType" column="tld_type" />
+		<result property="stuAllowRead" column="stu_allow_read" />
+		<result property="stuAllowWrite" column="stu_allow_write" />
+		<result property="orgAllowRead" column="org_allow_read" />
+		<result property="orgAllowWrite" column="org_allow_write" />
+		<result property="styleCss" column="style_css" />
+		<result property="styleClass" column="style_class" />
+		<result property="defaultValue" column="default_value" />
+		<result property="itemsName" column="items_name" />
+		<result property="itemsValue" column="items_value" />
+		<result property="items" column="items" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		col_name,
+		col_data_type,
+		col_comment,
+		col_is_pk,
+		col_auto_incream,
+		col_allow_null,
+		company_id,
+		allow_modify,
+		table_name,
+		tld_type,
+		stu_allow_read,
+		stu_allow_write,
+		org_allow_read,
+		org_allow_write,
+		style_css,
+		style_class,
+		default_value,
+		items_name,
+		items_value,
+		items
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{colName},
+		#{colDataType},
+		#{colComment},
+		#{colIsPk},
+		#{colAutoIncream},
+		#{colAllowNull},
+		#{companyId},
+		#{allowModify},
+		#{tableName},
+		#{tldType},
+		#{stuAllowRead},
+		#{stuAllowWrite},
+		#{orgAllowRead},
+		#{orgAllowWrite},
+		#{styleCss},
+		#{styleClass},
+		#{defaultValue},
+		#{itemsName},
+		#{itemsValue},
+		#{items}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.LongitudinalTableColDefine" useGeneratedKeys="true" keyProperty="id">
+		insert into longitudinal_table_col_define( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into longitudinal_table_col_define( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from longitudinal_table_col_define
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.LongitudinalTableColDefine">
+		update longitudinal_table_col_define 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="colName != null and colName != ''">col_name = #{colName},</if>
+			<if test="colDataType != null and colDataType != ''">col_data_type = #{colDataType},</if>
+			<if test="colComment != null and colComment != ''">col_comment = #{colComment},</if>
+			<if test="colIsPk != null and colIsPk != ''">col_is_pk = #{colIsPk},</if>
+			<if test="colAutoIncream != null and colAutoIncream != ''">col_auto_incream = #{colAutoIncream},</if>
+			<if test="colAllowNull != null and colAllowNull != ''">col_allow_null = #{colAllowNull},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="allowModify != null and allowModify != ''">allow_modify = #{allowModify},</if>
+			<if test="tableName != null and tableName != ''">table_name = #{tableName},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="longitudinalTableColDefineResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from longitudinal_table_col_define
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="longitudinalTableColDefineResultMap">
+		select <include refid="table_columns" /> 
+		from longitudinal_table_col_define
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="colName != null and colName != ''">and col_name = #{colName}</if>
+			<if test="colDataType != null and colDataType != ''">and col_data_type = #{colDataType}</if>
+			<if test="colComment != null and colComment != ''">and col_comment = #{colComment}</if>
+			<if test="colIsPk != null and colIsPk != ''">and col_is_pk = #{colIsPk}</if>
+			<if test="colAutoIncream != null and colAutoIncream != ''">and col_auto_incream = #{colAutoIncream}</if>
+			<if test="colAllowNull != null and colAllowNull != ''">and col_allow_null = #{colAllowNull}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="allowModify != null and allowModify != ''">and allow_modify = #{allowModify}</if>
+			<if test="tableName != null and tableName != ''">and table_name = #{tableName}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="longitudinalTableColDefineResultMap" parameterType="com.yuxin.wx.model.system.LongitudinalTableColDefine">
+		select <include refid="table_columns" />
+		from longitudinal_table_col_define
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.LongitudinalTableColDefine">
+		select count(id) from longitudinal_table_col_define
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByCompany" resultMap="longitudinalTableColDefineResultMap" >
+			select <include refid="table_columns" />
+			from longitudinal_table_col_define	
+			where company_id=#{companyId} and table_name=#{tableName} 
+			order by sort asc
+	</select>
+</mapper>

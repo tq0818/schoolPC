@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigItemIconMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigItemIcon" id="sysConfigItemIconResultMap">
+		<result property="id" column="id"/>
+		<result property="iconName" column="icon_name"/>
+		<result property="iconUrl" column="icon_url"/>
+		<result property="companyId" column="company_id"/>
+		<result property="validSign" column="valid_sign"/>
+		<result property="iconBackUrl" column="icon_back_url"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		icon_name,
+		icon_url,
+		company_id,
+		valid_sign,
+		icon_back_url
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{iconName},
+		#{iconUrl},
+		#{companyId},
+		#{validSign},
+		#{iconBackUrl}
+	</sql>
+	
+	<select id="findByPage" resultMap="sysConfigItemIconResultMap" parameterType="map">
+		select <include refid="table_columns"/>
+			from sys_config_item_icon
+		where company_id in (0,1)
+			and valid_sign = 1
+			order by id desc
+		limit #{page},#{pageSize}
+	</select>
+	<select id="findByPageCount" resultType="Integer" parameterType="map">
+		select count(id)
+			from sys_config_item_icon
+		where company_id in (0,1)
+			and valid_sign = 1
+			limit 1
+	</select>
+	
+	<select id="findUrlById" resultMap="sysConfigItemIconResultMap" parameterType="Integer">
+		select <include refid="table_columns"/>
+			from sys_config_item_icon
+		where id = #{id}
+	</select>
+</mapper>

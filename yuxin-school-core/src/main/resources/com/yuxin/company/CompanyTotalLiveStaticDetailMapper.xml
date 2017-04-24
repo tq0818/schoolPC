@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyTotalLiveStaticDetailMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyTotalLiveStaticDetail" id="companyTotalLiveStaticDetailResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="companyId" column="company_id" />
+		<result property="liveRoomId" column="live_room_id" />
+		<result property="liveData" column="live_data" />
+		<result property="liveDataTime" column="live_data_time" />
+		<result property="liveNum" column="live_num" />
+		<result property="liveType" column="live_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		company_id,
+		live_room_id,
+		live_data,
+		live_data_time,
+		live_num,
+		live_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{companyId},
+		#{liveRoomId},
+		#{liveData},
+		#{liveDataTime},
+		#{liveNum},
+		#{liveType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.companyId},
+		#{item.liveRoomId},
+		#{item.liveData},
+		#{item.liveDataTime},
+		#{item.liveNum},
+		#{item.liveType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyTotalLiveStaticDetail" useGeneratedKeys="true" keyProperty="id">
+		insert into company_total_live_static_detail( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_total_live_static_detail( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_total_live_static_detail
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_total_live_static_detail
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyTotalLiveStaticDetail">
+		update company_total_live_static_detail 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="liveRoomId != null and liveRoomId != ''">live_room_id = #{liveRoomId},</if>
+			<if test="liveData != null and liveData != ''">live_data = #{liveData},</if>
+			<if test="liveDataTime != null and liveDataTime != ''">live_data_time = #{liveDataTime},</if>
+			<if test="liveNum != null and liveNum != ''">live_num = #{liveNum},</if>
+			<if test="liveType != null and liveType != ''">live_type = #{liveType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyTotalLiveStaticDetailResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_total_live_static_detail
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyTotalLiveStaticDetailResultMap">
+		select <include refid="table_columns" /> 
+		from company_total_live_static_detail
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="liveRoomId != null and liveRoomId != ''">and live_room_id = #{liveRoomId}</if>
+			<if test="liveData != null and liveData != ''">and live_data = #{liveData}</if>
+			<if test="liveDataTime != null and liveDataTime != ''">and live_data_time = #{liveDataTime}</if>
+			<if test="liveNum != null and liveNum != ''">and live_num = #{liveNum}</if>
+			<if test="liveType != null and liveType != ''">and live_type = #{liveType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyTotalLiveStaticDetailResultMap" parameterType="com.yuxin.wx.model.company.CompanyTotalLiveStaticDetail">
+		select <include refid="table_columns" />
+		from company_total_live_static_detail
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyTotalLiveStaticDetail">
+		select count(id) from company_total_live_static_detail
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

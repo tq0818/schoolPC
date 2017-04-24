@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.OrganLeaveMessageBlacklistMapper">
+	<resultMap type="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist" id="organLeaveMessageBlacklistResultMap">
+		<result property="id" column="id" />
+		<result property="ip" column="ip" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		ip
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{ip}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.ip}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist" useGeneratedKeys="true" keyProperty="id">
+		insert into organ_leave_message_blacklist( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into organ_leave_message_blacklist( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from organ_leave_message_blacklist
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist">
+		update organ_leave_message_blacklist 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="ip != null and ip != ''">ip = #{ip},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="organLeaveMessageBlacklistResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from organ_leave_message_blacklist
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="organLeaveMessageBlacklistResultMap">
+		select <include refid="table_columns" /> 
+		from organ_leave_message_blacklist
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="ip != null and ip != ''">and ip = #{ip}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="organLeaveMessageBlacklistResultMap" parameterType="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist">
+		select <include refid="table_columns" />
+		from organ_leave_message_blacklist
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist">
+		select count(id) from organ_leave_message_blacklist
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryByIp" resultType="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist" parameterType="com.yuxin.wx.model.company.OrganLeaveMessageBlacklist">
+		select <include refid="table_columns" />
+		from organ_leave_message_blacklist
+		where ip=#{ip}
+		limit 1
+	</select>
+	
+	<select id="queryList" resultType="string" >
+		select ip
+		from organ_leave_message_blacklist
+	</select>
+</mapper>

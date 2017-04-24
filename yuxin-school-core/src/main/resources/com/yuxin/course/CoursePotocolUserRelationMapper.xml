@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CoursePotocolUserRelationMapper">
+	<resultMap type="com.yuxin.wx.model.course.CoursePotocolUserRelation" id="coursePotocolUserRelationResultMap">
+		<result property="id" column="id" />
+		<result property="potocolId" column="potocol_id" />
+		<result property="userId" column="user_id" />
+		<result property="courseId" column="course_id" />
+		<result property="recordTime" column="record_time" />
+		<result property="companyId" column="company_id" />
+		<result property="classPackageId" column="class_package_id" />
+	</resultMap>
+	
+	
+	<resultMap type="com.yuxin.wx.vo.course.ProtocolCourseOrPackageRelation" id="coursePotocolOrPackageRelationResultMap">
+		<result property="classTypeId" column="cid" />
+		<result property="classTypeName" column="cname" />
+		<result property="classPackageId" column="pkid" />
+		<result property="classPackageName" column="pkname" />
+		<result property="createTime" column="ctime" />
+		<result property="createUserId" column="update_userId" />
+		<result property="createUserName" column="update_userName" />
+		<result property="releaseCount" column="count" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		potocol_id,
+		user_id,
+		course_id,
+		record_time,
+		company_id,
+		class_package_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{potocolId},
+		#{userId},
+		#{courseId},
+		#{recordTime},
+		#{companyId},
+		#{classPackageId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.potocolId},
+		#{item.userId},
+		#{item.courseId},
+		#{item.recordTime},
+		#{item.companyId},
+		#{item.classPackageId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CoursePotocolUserRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into course_potocol_user_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_potocol_user_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_potocol_user_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CoursePotocolUserRelation">
+		update course_potocol_user_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="potocolId != null and potocolId != ''">potocol_id = #{potocolId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="recordTime != null and recordTime != ''">record_time = #{recordTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="classPackageId != null and classPackageId != ''">class_package_id = #{classPackageId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="coursePotocolUserRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_potocol_user_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="coursePotocolUserRelationResultMap">
+		select <include refid="table_columns" /> 
+		from course_potocol_user_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="potocolId != null and potocolId != ''">and potocol_id = #{potocolId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="recordTime != null and recordTime != ''">and record_time = #{recordTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="classPackageId != null and classPackageId != ''">and class_package_id = #{classPackageId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="coursePotocolUserRelationResultMap" parameterType="com.yuxin.wx.model.course.CoursePotocolUserRelation">
+		select <include refid="table_columns" />
+		from course_potocol_user_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CoursePotocolUserRelation">
+		select count(id) from course_potocol_user_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryProtocolRelationCourseOrCoursePackage" resultMap="coursePotocolOrPackageRelationResultMap" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		<choose>
+			<when test="type !=null and type== 0">
+			select distinct(c.id) cid,c.name cname,c.updator update_userId,u.username update_userName,c.update_time ctime,
+			(select count(id) from course_potocol_user_relation cpur where cpur.potocol_id = #{id} and cpur.course_id = cid) count
+			from class_type c inner join course_protocol_config cpc on c.protocol_id = cpc.id
+			left join course_potocol_user_relation cp 
+			on cpc.id = cp.potocol_id 
+			inner join users u on c.creator = u.id
+			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
+			order by cp.id desc  
+			</when >
+			<when test="type !=null and type== 1">
+			select distinct(pk.id) pkid,pk.name pkname,pk.updator update_userId,u.username update_userName,pk.update_time ctime,
+			(select count(id) from course_potocol_user_relation cpur where cpur.potocol_id = #{id} and cpur.class_package_id = pkid) count
+			from class_package pk inner join course_protocol_config cpc on pk.protocol_id = cpc.id
+			left join course_potocol_user_relation cp 
+			on cpc.id = cp.potocol_id 
+			inner join users u on pk.creator = u.id
+			where cpc.id = #{id} and cpc.type = 1 and cpc.company_id = #{companyId}
+			order by cp.id desc 
+			</when>
+		</choose>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryProtocolRelationCourseOrCoursePackageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		<choose>
+			<when test="type !=null and type== 0">
+			select count(distinct(c.id)) 
+			from class_type c inner join course_protocol_config cpc on c.protocol_id = cpc.id
+			left join course_potocol_user_relation cp 
+			on cpc.id = cp.potocol_id 
+			inner join users u on c.creator = u.id
+			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
+			order by cp.id desc  
+			</when >
+			<when test="type !=null and type== 1">
+			select count(distinct(pk.id))
+			from class_package pk inner join course_protocol_config cpc on pk.protocol_id = cpc.id
+			left join course_potocol_user_relation cp 
+			on cpc.id = cp.potocol_id 
+			inner join users u on pk.creator = u.id
+			where cpc.id = #{id} and cpc.type = 1 and cpc.company_id = #{companyId}
+			order by cp.id desc 
+			</when>
+		</choose>
+	</select>
+	
+	
+	<select id="queryHistoryBindCourseOrPackage" resultMap="coursePotocolOrPackageRelationResultMap" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		<choose>
+			<when test="type !=null and type== 0">
+			 select cpbh.course_id cid,c.name cname,c.updator update_userId,u.username update_userName,cpbh.bind_date ctime,
+			(select count(id) from course_potocol_user_relation cpur where cpur.potocol_id = #{id} and cpur.course_id = cid) count
+			from course_potocol_bind_history cpbh inner join course_protocol_config cpc on cpbh.potocol_id = cpc.id
+			inner join class_type c on cpbh.course_id = c.id 
+			inner join users u on c.creator = u.id
+			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
+			</when >
+			<when test="type !=null and type== 1">
+			select cpbh.class_package_id pkid,pk.name pkname,pk.updator update_userId,u.username update_userName,cpbh.bind_date ctime,
+			(select count(id) from course_potocol_user_relation cpur where cpur.potocol_id = #{id} and cpur.class_package_id = pkid) count
+			from course_potocol_bind_history cpbh inner join course_protocol_config cpc on cpbh.potocol_id = cpc.id
+			inner join class_package pk on cpbh.class_package_id = pk.id 
+			inner join users u on pk.creator = u.id
+			where cpc.id = #{id} and cpc.type = 1 and cpc.company_id = #{companyId}
+			</when>
+		</choose>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryHistoryBindCourseOrPackageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseProtocolConfig">
+		<choose>
+			<when test="type !=null and type== 0">
+			 select count(cpbh.course_id)
+			from course_potocol_bind_history cpbh inner join course_protocol_config cpc on cpbh.potocol_id = cpc.id
+			inner join class_type c on cpbh.course_id = c.id 
+			inner join users u on c.creator = u.id
+			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
+			</when >
+			<when test="type !=null and type== 1">
+			select count(cpbh.class_package_id)
+			from course_potocol_bind_history cpbh inner join course_protocol_config cpc on cpbh.potocol_id = cpc.id
+			inner join class_package pk on cpbh.class_package_id = pk.id 
+			inner join users u on pk.creator = u.id
+			where cpc.id = #{id} and cpc.type = 1 and cpc.company_id = #{companyId}
+			</when>
+		</choose>
+	</select>
+</mapper>

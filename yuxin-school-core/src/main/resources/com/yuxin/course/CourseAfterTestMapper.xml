@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseAfterTestMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseAfterTest" id="courseAfterTestResultMap">
+		<result property="id" column="id" />
+		<result property="courseId" column="course_id" />
+		<result property="chapterId" column="chapter_id" />
+		<result property="sort" column="sort" />
+		<result property="testType" column="test_type" />
+		<result property="testName" column="test_name" />
+		<result property="testScore" column="test_score" />
+		<result property="delFlag" column="del_flag" />
+		<result property="updater" column="updater" />
+		<result property="updateTime" column="update_time" />
+		<result property="testTotalNum" column="test_total_num" />
+		<result property="allowContinue" column="allow_continue" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		course_id,
+		chapter_id,
+		sort,
+		test_type,
+		test_name,
+		test_score,
+		del_flag,
+		updater,
+		update_time,
+		test_total_num,
+		allow_continue,
+		score,
+		pass_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{courseId},
+		#{chapterId},
+		#{sort},
+		#{testType},
+		#{testName},
+		#{testScore},
+		#{delFlag},
+		#{updater},
+		#{updateTime},
+		#{testTotalNum},
+		#{allowContinue},
+		#{score},
+		#{passFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.courseId},
+		#{item.chapterId},
+		#{item.sort},
+		#{item.testType},
+		#{item.testName},
+		#{item.testScore},
+		#{item.delFlag},
+		#{item.updater},
+		#{item.updateTime},
+		#{testTotalNum},
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseAfterTest" useGeneratedKeys="true" keyProperty="id">
+		insert into course_after_test( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_after_test( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_after_test
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_after_test
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseAfterTest">
+		update course_after_test 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+			<if test="chapterId != null and chapterId != ''">chapter_id = #{chapterId},</if>
+			<if test="sort != null ">sort = #{sort},</if>
+			<if test="testType != null ">test_type = #{testType},</if>
+			<if test="testName != null and testName != ''">test_name = #{testName},</if>
+			<if test="testScore != null ">test_score = #{testScore},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="updater != null and updater != ''">updater = #{updater},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="testTotalNum != null and testTotalNum != ''">test_total_num = #{testTotalNum},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			allow_continue = #{allowContinue},
+			<if test="passFlag != null and passFlag != ''">pass_flag = #{passFlag}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseAfterTestResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_after_test
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseAfterTestResultMap">
+		select <include refid="table_columns" /> 
+		from course_after_test
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+			<if test="chapterId != null and chapterId != ''">and chapter_id = #{chapterId}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+			<if test="testType != null and testType != ''">and test_type = #{testType}</if>
+			<if test="testName != null and testName != ''">and test_name = #{testName}</if>
+			<if test="testScore != null and testScore != ''">and test_score = #{testScore}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="updater != null and updater != ''">and updater = #{updater}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="testTotalNum != null and testTotalNum != ''">test_total_num = #{testTotalNum}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseAfterTestResultMap" parameterType="com.yuxin.wx.model.course.CourseAfterTest">
+		select <include refid="table_columns" />
+		from course_after_test
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseAfterTest">
+		select count(id) from course_after_test
+		<include refid="page_where" />
+	</select>
+	
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findTestListByChapterId" resultMap="courseAfterTestResultMap" parameterType="Integer">
+		select <include refid="table_columns" /> from course_after_test where chapter_id = #{chapterId} and del_flag = 0;
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="mvTest" parameterType="map">
+		update course_after_test set chapter_id=#{target} where id=#{test} 
+	</select>
+</mapper>

@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.VideoMapper">
+	<resultMap type="com.yuxin.wx.model.course.Video" id="videoResultMap">
+		<result property="id" column="id" />
+		<result property="videoName" column="video_name" />
+		<result property="videoCcId" column="video_cc_id" />
+		<result property="videoTime" column="video_time" />
+		<result property="vodeoSize" column="vodeo_size" />
+		<result property="videoStatus" column="video_status" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="videoTag" column="video_tag" />
+		<result property="videoPic" column="video_pic" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="storageType" column="storage_type"/>
+		<result property="webVideoId" column="web_video_id"/>
+		<result property="webVideoDomain" column="web_video_domain"/>
+		<result property="filePath" column="file_path"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.course.VideoVo" id="videoVoResultMap">
+		<result property="id" column="id" />
+		<result property="storageType" column="storage_type" />
+		<result property="videoName" column="video_name" />
+		<result property="videoCcId" column="video_cc_id" />
+		<result property="videoTime" column="video_time" />
+		<result property="vodeoSize" column="vodeo_size" />
+		<result property="videoStatus" column="video_status" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="videoTag" column="video_tag" />
+		<result property="videoPic" column="video_pic" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="schoolName" column="school_name" />
+		<result property="itemName" column="item_name" />
+		<result property="secondItemName" column="second_item_name"/>
+		<result property="webVideoId" column="web_video_id"/>
+		<result property="webVideoDomain" column="web_video_domain"/>
+        <result property="resourceType" column="resourceType"/>
+	</resultMap>
+    <resultMap type="com.yuxin.wx.vo.course.VideoVo" id="ResourceResultMap">
+        <result property="id" column="id" />
+        <result property="videoName" column="videoName" />
+        <result property="videoTime" column="videoTime" />
+        <result property="vodeoSize" column="videoSize" />
+        <result property="videoStatus" column="videoStatus" />
+        <result property="itemOneId" column="itemOneId" />
+        <result property="itemSecondId" column="itemSecondId" />
+        <result property="videoTag" column="videoTag" />
+        <result property="videoPic" column="videoPic" />
+        <result property="creator" column="creator" />
+        <result property="createTime" column="createTime" />
+        <result property="updator" column="updator" />
+        <result property="updateTime" column="updateTime" />
+        <result property="companyId" column="companyId" />
+        <result property="schoolId" column="schoolId" />
+        <result property="schoolName" column="schoolName" />
+        <result property="itemName" column="itemName" />
+        <result property="secondItemName" column="secondItemName"/>
+        <result property="webVideoId" column="webVideoId"/>
+        <result property="webVideoDomain" column="webVideoDomain"/>
+        <result property="resourceType" column="resourceType"/>
+        <result property="convertType" column="convertType"/>
+        <result property="excep" column="excep"/>
+    </resultMap>
+	<sql id="table_columns">
+		id,
+		video_name,
+		video_cc_id,
+		video_time,
+		vodeo_size,
+		video_status,
+		item_one_id,
+		item_second_id,
+		video_tag,
+		video_pic,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		company_id,
+		school_id,
+		storage_type,
+		web_video_id,
+		web_video_domain,
+		file_path
+    </sql>
+    <sql id="table_school_columns">
+		v.id,
+		v.storage_type,
+		video_name,
+		video_cc_id,
+		video_time,
+		vodeo_size,
+		video_status,
+		item_one_id,
+		item_second_id,
+		video_tag,
+		video_pic,
+		v.creator,
+		v.create_time,
+		v.updator,
+		v.update_time,
+		v.company_id,
+		school_id,
+		scs.school_name,
+		sci.item_name,
+		(select item_name from sys_config_item as si where si.id = v.item_second_id) as second_item_name,
+		web_video_id,
+		web_video_domain
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{videoName},
+		#{videoCcId},
+		#{videoTime},
+		#{vodeoSize},
+		#{videoStatus},
+		#{itemOneId},
+		#{itemSecondId},
+		#{videoTag},
+		#{videoPic},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{companyId},
+		#{schoolId},
+		#{storageType},
+		#{webVideoId},
+		#{webVideoDomain},
+		#{filePath}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.videoName},
+		#{item.videoCcId},
+		#{item.videoTime},
+		#{item.vodeoSize},
+		#{item.videoStatus},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.videoTag},
+		#{item.videoPic},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updator},
+		#{item.updateTime},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.webVideoId},
+		#{item.webVideoDomain},
+		#{item.filePath}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.Video" useGeneratedKeys="true" keyProperty="id">
+		insert into video( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into video( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from video
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from video
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteVideoByCCVId">
+		delete from video where video_cc_id = #{ccvid}
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.Video">
+		update video 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="videoName != null and videoName != ''">video_name = #{videoName},</if>
+			<if test="videoCcId != null and videoCcId != ''">video_cc_id = #{videoCcId},</if>
+			<if test="videoTime != null and videoTime != ''">video_time = #{videoTime},</if>
+			<if test="vodeoSize != null and vodeoSize != ''">vodeo_size = #{vodeoSize},</if>
+			<if test="videoStatus != null and videoStatus != ''">video_status = #{videoStatus},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="videoTag != null and videoTag != ''">video_tag = #{videoTag},</if>
+			<if test="videoPic != null and videoPic != ''">video_pic = #{videoPic},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="storageType != null and storageType != ''">storage_type = #{storageType},</if>
+			<if test="webVideoId != null and webVideoId != ''">web_video_id = #{webVideoId},</if>
+			<if test="webVideoDomain != null and webVideoDomain != ''">web_video_domain = #{webVideoDomain},</if>
+			<if test="filePath != null">file_path = #{filePath},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="videoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from video
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="videoResultMap">
+		select <include refid="table_columns" /> 
+		from video
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="videoName != null and videoName != ''">and video_name = #{videoName}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="videoCcId != null and videoCcId != ''">and video_cc_id = #{videoCcId}</if>
+			<if test="videoTime != null and videoTime != ''">and video_time = #{videoTime}</if>
+			<if test="vodeoSize != null and vodeoSize != ''">and vodeo_size = #{vodeoSize}</if>
+			<if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="videoTag != null and videoTag != ''">and video_tag = #{videoTag}</if>
+			<if test="videoPic != null and videoPic != ''">and video_pic = #{videoPic}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="webVideoId != null and webVideoId != ''">and web_video_id = #{webVideoId}</if>
+			<if test="webVideoDomain != null and webVideoDomain != ''">and web_video_domain = #{webVideoDomain}</if>
+		</trim>
+	</sql>
+	<sql id="page_where_vo">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="videoName != null and videoName != ''">and video_name LIKE '%${videoName}%'</if>
+			<if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="videoTag != null and videoTag != ''">and video_tag LIKE '%${videoTag}%'</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="beginTime != null and beginTime != ''">
+			<![CDATA[ 
+			and create_time >= #{beginTime}
+			]]></if>
+			<if test="endTime != null and endTime != ''">
+			<![CDATA[ 
+			and create_time <= #{endTime}
+			]]>
+			</if>
+			
+		</trim>
+	</sql>
+	<select id="page" resultMap="videoResultMap" parameterType="com.yuxin.wx.model.course.Video">
+		select <include refid="table_columns" />
+		from video
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.Video">
+		select count(id) from video
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findVideo" resultMap="videoVoResultMap" parameterType="com.yuxin.wx.vo.course.VideoVo">
+		select <include refid="table_school_columns" />
+		from video as v left join sys_config_school as scs on v.school_id = scs.id
+		inner join sys_config_item as sci on v.item_one_id = sci.id
+		where 1=1
+			<if test="videoName != null and videoName != ''">and video_name LIKE '%${videoName}%'</if>
+			<if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="videoTag != null and videoTag != ''">and video_tag LIKE '%${videoTag}%'</if>
+			<if test="companyId != null and companyId != ''">and v.company_id = #{companyId}</if>
+			<if test="beginTime != null and beginTime != ''">
+			<![CDATA[ 
+			and v.create_time >= #{beginTime}
+			]]></if>
+			<if test="endTime != null and endTime != ''">
+			<![CDATA[ 
+			and v.create_time <= #{endTime}
+			]]>
+			</if>
+			<if test="flag != null and flag != ''">
+				<choose>
+					<when test="flag == 'neibu'">
+						and (v.storage_type = 'VIDEO_STORAGE_TYPE_CC' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_QNVD' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_BLVS' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_LETV' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_SCORM'
+							or v.storage_type is NULL)
+					</when>
+					<otherwise>
+					   and (v.storage_type != 'VIDEO_STORAGE_TYPE_CC' 
+					   		and v.storage_type != 'VIDEO_STORAGE_TYPE_QNVD'  
+							and v.storage_type != 'VIDEO_STORAGE_TYPE_BLVS'
+					   		and v.storage_type != 'VIDEO_STORAGE_TYPE_LETV'
+					   		and v.storage_type != 'VIDEO_STORAGE_TYPE_SCORM')
+					</otherwise>
+			   </choose>
+			</if>
+		<if test="sortBy != null and sortBy != ''">order by create_time ${sortBy}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="totalCount" parameterType="com.yuxin.wx.vo.course.VideoVo" resultType="Integer">
+		select count(v.id)
+		from video as v left join sys_config_school as scs on v.school_id = scs.id
+		inner join sys_config_item as sci on v.item_one_id = sci.id
+		where 1=1
+			<if test="videoName != null and videoName != ''">and video_name LIKE '%${videoName}%'</if>
+			<if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="videoTag != null and videoTag != ''">and video_tag LIKE '%${videoTag}%'</if>
+			<if test="companyId != null and companyId != ''">and v.company_id = #{companyId}</if>
+			<if test="beginTime != null and beginTime != ''">
+			<![CDATA[ 
+			and v.create_time >= #{beginTime}
+			]]></if>
+			<if test="endTime != null and endTime != ''">
+			<![CDATA[ 
+			and v.create_time <= #{endTime}
+			]]>
+			</if>
+			<if test="flag != null and flag != ''">
+				<choose>
+					<when test="flag == 'neibu'">
+						and (v.storage_type = 'VIDEO_STORAGE_TYPE_CC' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_QNVD' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_BLVS' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_LETV' 
+							or v.storage_type = 'VIDEO_STORAGE_TYPE_SCORM'
+							or v.storage_type is NULL)
+					</when>
+					<otherwise>
+					   and (v.storage_type != 'VIDEO_STORAGE_TYPE_CC' 
+					   		and v.storage_type != 'VIDEO_STORAGE_TYPE_QNVD' 
+							and v.storage_type != 'VIDEO_STORAGE_TYPE_BLVS' 
+					   		and v.storage_type != 'VIDEO_STORAGE_TYPE_LETV'
+					   		and v.storage_type != 'VIDEO_STORAGE_TYPE_SCORM')
+					</otherwise>
+			   </choose>
+			</if>
+	</select>
+	<select id="uploadCount" parameterType="com.yuxin.wx.vo.course.VideoVo" resultType="Integer">
+		SELECT COUNT(id) from video where company_id = #{companyId};
+	</select>
+	
+	<select id="findSchoolIdByVId" parameterType="Integer" resultType="Integer">
+		select school_id from video where id = #{videoId}
+	</select>
+	<!-- 获取视频的大小 hanrb -->
+	<select id="sumVideoSize" parameterType="com.yuxin.wx.vo.course.VideoVo" resultType="String">
+		select ifnull(sum(vodeo_size),0) from video
+		where company_id = #{companyId} and
+			video_status = 'VIDEO_PROCESS_NOMAL'
+		<if test="createTime != null and createTime != ''">
+			and create_time <![CDATA[<=]]> CONCAT (date_format(#{createTime}, "%Y-%m-%d")," 23:59:59")
+			and create_time <![CDATA[>=]]> CONCAT (date_format(#{createTime}, "%Y-%m-%d")," 00:00:00")
+		</if>
+		<if test="storageType != null and storageType != ''">
+			and storage_type = #{storageType}
+		</if>
+	</select>
+
+	<!-- 根据公司id 进行日期分类 hanrb -->
+	<select id="getGroupSize" parameterType="Integer" resultMap="videoVoResultMap">
+		SELECT
+			date_format(create_time, "%Y-%m-%d") as create_time,
+			sum(video.vodeo_size) as vodeo_size
+		from video
+		where company_id = #{companyId} and create_time is not null
+		GROUP BY date_format(create_time, "%Y-%m-%d")
+	</select>
+    <select id="findSourceByPage" resultMap="ResourceResultMap" parameterType="com.yuxin.wx.vo.course.VideoVo">
+        select res.* from (
+        SELECT 
+        v.id AS id,
+        v.video_name videoName,
+        v.video_cc_id as videoCcId,
+        v.video_time as videoTime,
+        v.vodeo_size as videoSize,
+        v.video_status as videoStatus,
+        scs.school_name as schoolName,
+        sci.item_name as itemName,
+        (SELECT item_name FROM sys_config_item AS si WHERE si.id = v.item_second_id) AS secondItemName,
+        v.item_one_id as itemOneId,
+        v.item_second_id as itemSecondId,
+        v.video_tag as videoTag,
+        v.video_pic as videoPic,
+        v.school_id as schoolId,
+        v.company_id as companyId,
+        v.creator as creator,
+        v.create_time as createTime,
+        v.updator as updator,
+        v.update_time as updateTime,
+        v.storage_type as storageType,
+        v.web_video_id as webVideoId,
+        v.web_video_domain as webVideoDomain,
+        'video' as resourceType,
+        v.file_path as filePath,
+        '' as convertType,
+        '' as excep
+        FROM video AS v LEFT JOIN sys_config_school AS scs ON v.school_id = scs.id
+        INNER JOIN sys_config_item AS sci ON v.item_one_id = sci.id
+        where 1=1
+        <if test="searchType != null and searchType != '' and searchType != 'video' ">and v.id is null</if><!-- 利用id不可能为空的来区分video和resource , 当传入searchType时video内容不显示-->
+        <if test="videoName != null and videoName != ''">and video_name LIKE CONCAT('%',#{videoName},'%')</if>
+        <if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
+        <if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+        <if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+        <if test="videoTag != null and videoTag != ''">and video_tag LIKE CONCAT('%',#{videoTag},'%')</if>
+        <if test="companyId != null and companyId != ''">and v.company_id = #{companyId}</if>
+        <if test="beginTime != null and beginTime != ''">
+            <![CDATA[and TO_DAYS(v.create_time) >= TO_DAYS(#{beginTime})]]>
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <![CDATA[and TO_DAYS(v.create_time) <= TO_DAYS(#{endTime})]]>
+        </if>
+        <if test="flag != null and flag != ''">
+            <choose>
+                <when test="flag == 'neibu'">
+                    and (v.storage_type = 'VIDEO_STORAGE_TYPE_CC' 
+                        or v.storage_type = 'VIDEO_STORAGE_TYPE_QNVD' 
+						or v.storage_type = 'VIDEO_STORAGE_TYPE_BLVS' 
+                        or v.storage_type = 'VIDEO_STORAGE_TYPE_LETV' 
+                        or v.storage_type = 'VIDEO_STORAGE_TYPE_SCORM'
+                        or v.storage_type is NULL)
+                </when>
+                <otherwise>
+                   and (v.storage_type != 'VIDEO_STORAGE_TYPE_CC' 
+                        and v.storage_type != 'VIDEO_STORAGE_TYPE_QNVD'
+						and v.storage_type != 'VIDEO_STORAGE_TYPE_BLVS'  
+                        and v.storage_type != 'VIDEO_STORAGE_TYPE_LETV'
+                        and v.storage_type != 'VIDEO_STORAGE_TYPE_SCORM')
+                </otherwise>
+           </choose>
+        </if>
+        UNION ALL
+            SELECT
+                rl.id AS id,
+                rl.file_name AS videoName,
+                null AS videoCcId,
+                rl.upload_time AS createTime,
+                rl.file_size AS videoSize,
+                rl.del_flag AS videoStatus,
+                scs.school_name AS schoolName,
+                sci.item_name AS itemName,
+                (SELECT item_name FROM sys_config_item AS si WHERE si.id = rl.sys_item_one) AS secondItemName,
+                rl.sys_item_one AS itemOneId,
+                rl.sys_item_second AS itemSecondId,
+                rl.tag AS videoTag,
+                null AS videoPic,
+                rl.school_id AS schoolId,
+                rl.company_id AS companyId,
+                rl.upload_user_id AS creator,
+                rl.upload_time AS createTime,
+                rl.update_time AS updateTime,
+                null AS storageType,
+                null AS webVideoId,
+                null AS webVideoDomain,
+                null AS filePath,
+                rl.file_type AS resourceType,
+                rl.file_path AS filePath,
+                sfct.status as convertType,
+                sfct.excep_reason as excep
+            FROM resource_list rl
+            LEFT JOIN sys_config_school AS scs ON rl.company_id = scs.id
+            LEFT JOIN sys_file_convert_task sfct ON sfct.file_id = rl.id
+            INNER JOIN sys_config_item AS sci ON rl.sys_item_one = sci.id
+            where rl.company_id = #{companyId}
+            and rl.upload_type = 0
+            <if test="searchType != null and searchType != ''">and rl.file_category = #{searchType}</if>
+            <if test="videoName != null and videoName != ''">and rl.file_name LIKE CONCAT('%',#{videoName},'%')</if>
+            <choose>
+                <when test="videoStatus == null">
+                    and rl.del_flag = 0
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_NOMAL'">
+                    and rl.del_flag = 0 and rl.file_path is not null
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_DELETE'">
+                	and (rl.del_flag = 1 or sfct.status = 3 or sfct.status = 4)
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_INHAND'">
+                	and rl.del_flag = 0 and sfct.status = 0
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_UPLOAD'">
+                	and rl.del_flag = 0 and sfct.status = 1
+                </when>
+                <otherwise>
+                    and rl.del_flag is null <!-- 利用该字段不可能为空不显示该表内容 -->
+                </otherwise>
+            </choose>
+            <if test="itemOneId != null and itemOneId != ''">and rl.sys_item_one = #{itemOneId}</if>
+            <if test="itemSecondId != null and itemSecondId != ''">and rl.sys_item_second = #{itemSecondId}</if>
+            <if test="videoTag != null and videoTag != ''">and rl.tag LIKE CONCAT('%',#{videoTag},'%')</if>
+            <if test="beginTime != null and beginTime != ''">
+                <![CDATA[and TO_DAYS(rl.upload_time) >= TO_DAYS(#{beginTime})]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[and TO_DAYS(rl.upload_time)<= TO_DAYS(#{endTime})]]>
+            </if>
+        ) as res
+        <if test="sortBy == 'desc'">
+        	order by res.createTime desc 
+        </if>
+        <if test="sortBy == 'asc'">
+        	order by res.createTime asc 
+        </if>
+        limit #{firstIndex},#{pageSize}
+    </select>
+     
+    <select id="findSourceByPageCount" resultType="Integer" parameterType="com.yuxin.wx.vo.course.VideoVo">
+        select count(res.id) from (
+        SELECT 
+        v.id AS id,
+        v.video_name videoName,
+        v.video_cc_id videoCcId,
+        v.video_time videoTime,
+        v.vodeo_size videoSize,
+        v.video_status videoStatus,
+        scs.school_name AS schoolName,
+        sci.item_name AS itemName,
+        (SELECT item_name FROM sys_config_item AS si WHERE si.id = v.item_second_id) AS secondItemName,
+        v.item_one_id itemOneId,
+        v.item_second_id itemSecondId,
+        v.video_tag videoTag,
+        v.video_pic videoPic,
+        v.school_id schoolId,
+        v.company_id companyId,
+        v.creator creator,
+        v.create_time createTime,
+        v.updator updator,
+        v.update_time updateTime,
+        v.storage_type storageType,
+        v.web_video_id webVideoId,
+        v.web_video_domain webVideoDomain,
+        'video' AS resourceType,
+        v.file_path filePath
+        FROM video AS v LEFT JOIN sys_config_school AS scs ON v.school_id = scs.id
+        INNER JOIN sys_config_item AS sci ON v.item_one_id = sci.id
+        where 1=1
+        <if test="searchType != null and searchType != '' and searchType != 'video' ">and v.id is null</if><!-- 利用id不可能为空的来区分video和resource , 当传入searchType时video内容不显示-->
+        <if test="videoName != null and videoName != ''">and video_name LIKE CONCAT('%',#{videoName},'%')</if>
+        <if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
+        <if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+        <if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+        <if test="videoTag != null and videoTag != ''">and video_tag LIKE CONCAT('%',#{videoTag},'%')</if>
+        <if test="companyId != null and companyId != ''">and v.company_id = #{companyId}</if>
+        <if test="beginTime != null and beginTime != ''">
+            <![CDATA[and TO_DAYS(v.create_time) >= TO_DAYS(#{beginTime})]]>
+        </if>
+        <if test="endTime != null and endTime != ''">
+            <![CDATA[and TO_DAYS(v.create_time) <= TO_DAYS(#{endTime})]]>
+        </if>
+        <if test="flag != null and flag != ''">
+            <choose>
+                <when test="flag == 'neibu'">
+                    and (v.storage_type = 'VIDEO_STORAGE_TYPE_CC' 
+                        or v.storage_type = 'VIDEO_STORAGE_TYPE_QNVD' 
+						or v.storage_type = 'VIDEO_STORAGE_TYPE_BLVS' 
+                        or v.storage_type = 'VIDEO_STORAGE_TYPE_LETV' 
+                        or v.storage_type = 'VIDEO_STORAGE_TYPE_SCORM'
+                        or v.storage_type is NULL)
+                </when>
+                <otherwise>
+                   and (v.storage_type != 'VIDEO_STORAGE_TYPE_CC' 
+                        and v.storage_type != 'VIDEO_STORAGE_TYPE_QNVD' 
+						and v.storage_type != 'VIDEO_STORAGE_TYPE_BLVS' 
+                        and v.storage_type != 'VIDEO_STORAGE_TYPE_LETV'
+                        and v.storage_type != 'VIDEO_STORAGE_TYPE_SCORM')
+                </otherwise>
+           </choose>
+        </if>
+        UNION ALL
+            SELECT
+                rl.id AS id,
+                rl.file_name AS videoName,
+                null AS videoCcId,
+                rl.upload_time AS createTime,
+                rl.file_size AS videoSize,
+                rl.del_flag AS videoStatus,
+                scs.school_name AS schoolName,
+                sci.item_name AS itemName,
+                (SELECT item_name FROM sys_config_item AS si WHERE si.id = rl.sys_item_one) AS secondItemName,
+                rl.sys_item_one AS itemOneId,
+                rl.sys_item_second AS itemSecondId,
+                null AS videoTag,
+                null AS videoPic,
+                rl.school_id AS schoolId,
+                rl.company_id AS companyId,
+                rl.upload_user_id AS creator,
+                rl.upload_time AS createTime,
+                rl.update_time AS updateTime,
+                null AS storage_type,
+                null AS webVideoId,
+                null AS webVideoDomain,
+                null AS filePath,
+                rl.file_type AS resourceType,
+                rl.file_path AS filePath
+            FROM resource_list rl
+            LEFT JOIN sys_config_school AS scs ON rl.company_id = scs.id
+            LEFT JOIN sys_file_convert_task sfct ON sfct.file_id = rl.id
+            INNER JOIN sys_config_item AS sci ON rl.sys_item_one = sci.id
+            where rl.company_id = #{companyId}
+            and rl.upload_type = 0
+            <if test="searchType != null and searchType != ''">and rl.file_category = #{searchType}</if>
+            <if test="videoName != null and videoName != ''">and rl.file_name LIKE CONCAT('%',#{videoName},'%')</if>
+            <choose>
+                <when test="videoStatus == null">
+                    and rl.del_flag = 0
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_NOMAL'">
+                    and rl.del_flag = 0 and rl.file_path is not null
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_DELETE'">
+                	and (rl.del_flag = 1 or sfct.status = 3 or sfct.status = 4)
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_INHAND'">
+                	and rl.del_flag = 0 and sfct.status = 0
+                </when>
+                <when test="videoStatus == 'VIDEO_PROCESS_UPLOAD'">
+                	and rl.del_flag = 0 and sfct.status = 1
+                </when>
+                <otherwise>
+                    and rl.del_flag is null <!-- 利用该字段不可能为空不显示该表内容 -->
+                </otherwise>
+            </choose>
+            <if test="itemOneId != null and itemOneId != ''">and rl.sys_item_one = #{itemOneId}</if>
+            <if test="itemSecondId != null and itemSecondId != ''">and rl.sys_item_second = #{itemSecondId}</if>
+            <if test="videoTag != null and videoTag != ''">and rl.tag LIKE CONCAT('%',#{videoTag},'%')</if>
+            <if test="beginTime != null and beginTime != ''">
+                <![CDATA[and TO_DAYS(rl.upload_time) >= TO_DAYS(#{beginTime})]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[and TO_DAYS(rl.upload_time)<= TO_DAYS(#{endTime})]]>
+            </if>
+        ) as res
+    </select>
+    
+    <select id="findEQZero" resultMap="videoResultMap">
+    	select <include refid="table_columns"/> from video
+    	where vodeo_size <![CDATA[<]]> 0 
+    </select>
+    
+    <select id="findVideoByQiniuKeys" resultMap="videoResultMap" parameterType="String">
+    	select * from video 
+    	where web_video_id = #{keys}
+    </select>
+    
+    <select id="findWebVideoIdBystorageType" parameterType="com.yuxin.wx.model.course.Video" resultType="String">
+    	select web_video_id from video
+    	where company_id = #{companyId}
+    		and storage_type = #{storageType}
+    </select>
+</mapper>

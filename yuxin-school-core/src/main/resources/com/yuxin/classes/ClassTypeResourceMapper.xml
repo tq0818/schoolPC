@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeResourceMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassTypeResource" id="classTypeResourceResultMap">
+		<result property="id" column="id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="classTypeName" column="class_type_name" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="companyId" column="company_id" />
+		<result property="lectureType" column="lecture_type"/>
+		<result property="fileId" column="file_id"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeResourceVo" 
+	 extends="classTypeResourceResultMap" id="classTypeResourceResultVoMap">
+		<result property="name" column="name"/>
+		<result property="fileSize" column="file_size"/>
+		<result property="uploadTime" column="upload_time"/>
+		<result property="uploader" column="upload_user_name"></result>
+		<result property="sourceSize" column="source_size"></result>
+		<result property="oldData" column="old_data"></result>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		item_one_id,
+		item_second_id,
+		class_type_id,
+		class_type_name,
+		lecture_id,
+		resource_type,
+		company_id,
+		lecture_type,
+		file_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{itemOneId},
+		#{itemSecondId},
+		#{classTypeId},
+		#{classTypeName},
+		#{lectureId},
+		#{resourceType},
+		#{companyId},
+		#{lectureType},
+		#{fileId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.classTypeId},
+		#{item.classTypeName},
+		#{item.lectureId},
+		#{item.resourceType},
+		#{item.companyId},
+		#{item.lectureType},
+		#{item.fileId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type_resource( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_type_resource( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_type_resource
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_type_resource
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassTypeResource">
+		update class_type_resource 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="classTypeName != null and classTypeName != ''">class_type_name = #{classTypeName},</if>
+			<if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId},</if>
+			<if test="resourceType != null and resourceType != ''">resource_type = #{resourceType},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="fileId != null">file_id = #{fileId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classTypeResourceResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_type_resource
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classTypeResourceResultMap">
+		select <include refid="table_columns" /> 
+		from class_type_resource
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="classTypeName != null and classTypeName != ''">and class_type_name = #{classTypeName}</if>
+			<if test="lectureId != null and lectureId != ''">and lecture_id = #{lectureId}</if>
+			<if test="resourceType != null and resourceType != ''">and resource_type = #{resourceType}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="fileId != null">and file_id = #{fileId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classTypeResourceResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeResource">
+		select <include refid="table_columns" />
+		from class_type_resource
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeResource">
+		select count(id) from class_type_resource
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findResBy" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" resultMap="classTypeResourceResultVoMap">
+		select r.id,
+			r.item_one_id,
+			r.item_second_id,
+			r.class_type_id,
+			r.class_type_name,
+			r.lecture_id,
+			r.resource_type,
+			r.company_id,
+			r.lecture_type,
+			r.file_id,
+			rl.file_name name,
+			rl.file_size,
+			rl.upload_time,
+			rl.upload_user_name,
+			rl.source_size,
+			rl.old_data
+		from class_type_resource r
+		inner join resource_list rl 
+			on rl.id = r.file_id
+		where r.company_id = #{companyId} and 
+			r.class_type_id = #{classTypeId} and 
+			r.item_one_id = #{itemOneId} and 
+			r.item_second_id = #{itemSecondId} and 
+			r.resource_type is not null and 
+			r.resource_type != '' and 
+			rl.del_flag = 0
+			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
+		order by r.id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findResCountBy" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" resultType="Integer">
+		select count(r.id)
+		from class_type_resource r
+		inner join resource_list rl 
+			on rl.id = r.file_id
+		where r.company_id = #{companyId} and 
+			r.class_type_id = #{classTypeId} and 
+			rl.del_flag = 0 and
+			r.item_one_id = #{itemOneId} and 
+			r.item_second_id = #{itemSecondId} and 
+			r.resource_type is not null and 
+			r.resource_type != ''
+			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
+	</select>
+	<!-- 条件查询资料信息 -->
+	<select id="findResByCondition" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" resultMap="classTypeResourceResultVoMap">
+		select r.id,
+			r.item_one_id,
+			r.item_second_id,
+			r.class_type_id,
+			r.class_type_name,
+			r.lecture_id,
+			r.resource_type,
+			r.company_id,
+			r.lecture_type,
+			r.file_id,
+			rl.file_name name,
+			rl.file_size,
+			rl.upload_time,
+			rl.upload_user_name,
+			rl.source_size,
+			rl.old_data
+		from class_type_resource r
+		inner join resource_list rl 
+			on rl.id = r.file_id
+			and rl.del_flag = 0
+		where r.company_id = #{companyId} and 
+			r.resource_type is not null and 
+			r.resource_type != '' 
+			<if test="itemOneId != null and itemOneId != ''">and r.item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and r.item_second_id = #{itemSecondId}</if>
+			<if test="classTypeId != null and classTypeId != ''">and r.class_type_id = #{classTypeId}</if>
+			<if test="classTypeName != null and classTypeName != ''">and r.class_type_name = #{classTypeName}</if>
+			<if test="lectureId != null and lectureId != ''">and r.lecture_id = #{lectureId}</if>
+			<if test="resourceType != null and resourceType != ''">and r.resource_type = #{resourceType}</if>
+			<if test="lectureType != null and lectureType != ''">and r.lecture_type = #{lectureType}</if>
+		order by r.id desc
+	</select>
+</mapper>

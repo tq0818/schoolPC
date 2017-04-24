@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyStudyCardMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyStudyCard" id="companyStudyCardResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="courseList" column="course_list" />
+		<result property="courseType" column="course_type" />
+		<result property="totalNum" column="total_num" />
+		<result property="usedNum" column="used_num" />
+		<result property="useDateBegin" column="use_date_begin" />
+		<result property="useDateEnd" column="use_date_end" />
+		<result property="proxyOrgId" column="proxy_org_id" />
+		<result property="proxyOrgName" column="proxy_org_name" />
+		<result property="prefix" column="prefix" />
+		<result property="price" column="price" />
+		<result property="description" column="description" />
+		<result property="companyId" column="company_id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		course_list,
+		course_type,
+		total_num,
+		used_num,
+		use_date_begin,
+		use_date_end,
+		proxy_org_id,
+		proxy_org_name,
+		prefix,
+		price,
+		description,
+		company_id,
+		create_time,
+		creator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{courseList},
+		#{courseType},
+		#{totalNum},
+		#{usedNum},
+		#{useDateBegin},
+		#{useDateEnd},
+		#{proxyOrgId},
+		#{proxyOrgName},
+		#{prefix},
+		#{price},
+		#{description},
+		#{companyId},
+		#{createTime},
+		#{creator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.courseList},
+		#{item.courseType},
+		#{item.totalNum},
+		#{item.usedNum},
+		#{item.useDateBegin},
+		#{item.useDateEnd},
+		#{item.proxyOrgId},
+		#{item.proxyOrgName},
+		#{item.prefix},
+		#{item.price},
+		#{item.description},
+		#{item.companyId},
+		#{item.createTime},
+		#{item.creator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyStudyCard" useGeneratedKeys="true" keyProperty="id">
+		insert into company_study_card( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_study_card( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_study_card
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_study_card
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyStudyCard">
+		update company_study_card 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="courseList != null and courseList != ''">course_list = #{courseList},</if>
+			<if test="courseType != null and courseType != ''">course_type = #{courseType},</if>
+			<if test="totalNum != null and totalNum != ''">total_num = #{totalNum},</if>
+			<if test="usedNum != null and usedNum != ''">used_num = #{usedNum},</if>
+			<if test="useDateBegin != null and useDateBegin != ''">use_date_begin = #{useDateBegin},</if>
+			<if test="useDateEnd != null and useDateEnd != ''">use_date_end = #{useDateEnd},</if>
+			<if test="proxyOrgId != null and proxyOrgId != ''">proxy_org_id = #{proxyOrgId},</if>
+			<if test="proxyOrgName != null and proxyOrgName != ''">proxy_org_name = #{proxyOrgName},</if>
+			<if test="prefix != null and prefix != ''">prefix = #{prefix},</if>
+			<if test="price != null and price != ''">price = #{price},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyStudyCardResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_study_card
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyStudyCardResultMap">
+		select <include refid="table_columns" /> 
+		from company_study_card
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="courseList != null and courseList != ''">and course_list = #{courseList}</if>
+			<if test="courseType != null and courseType != ''">and course_type = #{courseType}</if>
+			<if test="totalNum != null and totalNum != ''">and total_num = #{totalNum}</if>
+			<if test="usedNum != null and usedNum != ''">and used_num = #{usedNum}</if>
+			<if test="useDateBegin != null and useDateBegin != ''">and use_date_begin = #{useDateBegin}</if>
+			<if test="useDateEnd != null and useDateEnd != ''">and use_date_end = #{useDateEnd}</if>
+			<if test="proxyOrgId != null and proxyOrgId != ''">and proxy_org_id = #{proxyOrgId}</if>
+			<if test="proxyOrgName != null and proxyOrgName != ''">and proxy_org_name = #{proxyOrgName}</if>
+			<if test="prefix != null and prefix != ''">and prefix = #{prefix}</if>
+			<if test="price != null and price != ''">and price = #{price}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyStudyCardResultMap" parameterType="com.yuxin.wx.model.company.CompanyStudyCard">
+		select <include refid="table_columns" />
+		from company_study_card
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyStudyCard">
+		select count(id) from company_study_card
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryStudyCards" resultType="com.yuxin.wx.vo.company.CompanyStudyCardsVo" parameterType="com.yuxin.wx.vo.company.CompanyStudyCardsVo">
+		select  sc.id as id,
+				sc.name as name,
+				sc.course_list as courseList,
+				sc.course_type as courseType,
+				sc.total_num as totalNum,
+				sc.used_num as usedNum,
+				sc.use_date_begin as useDateBegin,
+				sc.use_date_end as useDateEnd,
+				sc.proxy_org_id as proxyOrgId,
+				sc.proxy_org_name as proxyOrgName,
+				sc.prefix as prefix,
+				sc.price as price,
+				sc.description as description,
+				sc.company_id as companyId,
+				sc.create_time as createTime,
+				sc.creator as creator,
+				scl.name as proxyName,
+				scl.pefix as pefix,
+				u.username as username,
+				u.real_name as realName
+		from company_study_card sc left join company_config_proxy_org scl on sc.proxy_org_id = scl.id
+								   left join users u on u.id = sc.creator
+		where sc.company_id = #{companyId}
+		<if test="id != null and id != ''">and sc.id = #{id}</if>
+		<if test="name != null and name != ''">and sc.name like '%${name}%'</if>
+		<if test="proxyName != null and proxyName != ''">and scl.name like '%${proxyName}%'</if>
+		<if test="startDate != null and startDate != ''"> and date_format(sc.create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(sc.create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		order by sc.create_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryStudyCardsCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyStudyCardsVo">
+		select count(sc.id)
+		from company_study_card sc left join company_config_proxy_org scl on sc.proxy_org_id = scl.id
+		where sc.company_id = #{companyId}
+		<if test="id != null and id != ''">and sc.id = #{id}</if>
+		<if test="name != null and name != ''">and sc.name like '%${name}%'</if>
+		<if test="proxyName != null and proxyName != ''">and scl.name like '%${proxyName}%'</if>
+		<if test="startDate != null and startDate != ''"> and date_format(sc.create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(sc.create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+	</select>
+	
+	<select id="queryStudyCardsList" resultType="com.yuxin.wx.vo.company.CompanyStudyCardsVo" parameterType="com.yuxin.wx.vo.company.CompanyStudyCardsVo">
+		select  sc.id as id,
+				sc.name as name,
+				sc.course_list as courseList,
+				sc.course_type as courseType,
+				sc.total_num as totalNum,
+				sc.used_num as usedNum,
+				sc.use_date_begin as useDateBegin,
+				sc.use_date_end as useDateEnd,
+				sc.proxy_org_id as proxyOrgId,
+				sc.proxy_org_name as proxyOrgName,
+				sc.prefix as prefix,
+				sc.price as price,
+				sc.description as description,
+				sc.company_id as companyId,
+				sc.create_time as createTime,
+				sc.creator as creator,
+				scl.name as proxyName,
+				scl.pefix as pefix,
+				u.username as username,
+				u.real_name as realName
+		from company_study_card sc left join company_config_proxy_org scl on sc.proxy_org_id = scl.id
+								   left join users u on u.id = sc.creator
+		where sc.company_id = #{companyId}
+		<if test="name != null and name != ''">and sc.name like '%${name}%'</if>
+		<if test="proxyName != null and proxyName != ''">and scl.name like '%${proxyName}%'</if>
+		<if test="startDate != null and startDate != ''"> and date_format(sc.create_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
+		<if test="endDate != null and endDate != ''"> and date_format(sc.create_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
+		order by sc.create_time desc
+	</select>
+	
+	<select id="queryCountByNameOrPrefix" resultType="int" parameterType="map">
+		select count(id)
+		from company_study_card 
+		where company_id = #{companyId}
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="prefix != null and prefix != ''">and prefix = #{prefix}</if>
+	</select>
+</mapper>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyServiceStaticDayMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyServiceStaticDay" id="companyServiceStaticDayResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="useDate" column="use_date" />
+		<result property="liveNum" column="live_num" />
+		<result property="videoPcFlow" column="video_pc_flow" />
+		<result property="videoMobileFlow" column="video_mobile_flow" />
+		<result property="videoTotalFlow" column="video_total_flow" />
+		<result property="videoStorageNum" column="video_storage_num" />
+		<result property="emailNum" column="email_num" />
+		<result property="messageNum" column="message_num" />
+		<result property="resourceFlow" column="resource_flow" />
+		<result property="resourceStorageNum" column="resource_storage_num" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		use_date,
+		live_num,
+		video_pc_flow,
+		video_mobile_flow,
+		video_total_flow,
+		video_storage_num,
+		email_num,
+		message_num,
+		resource_flow,
+        resource_storage_num
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{useDate},
+		#{liveNum},
+		#{videoPcFlow},
+		#{videoMobileFlow},
+		#{videoTotalFlow},
+		#{videoStorageNum},
+		#{emailNum},
+		#{messageNum},
+		#{resourceFlow},
+		#{resourceStorageNum}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.useDate},
+		#{item.liveNum},
+		#{item.videoPcFlow},
+		#{item.videoMobileFlow},
+		#{item.videoTotalFlow},
+		#{item.videoStorageNum},
+		#{item.emailNum},
+		#{item.messageNum},
+		#{item.resourceFlow},
+		#{item.resourceStorageNum}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay" useGeneratedKeys="true" keyProperty="id">
+		insert into company_service_static_day( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_service_static_day( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_service_static_day
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay">
+		update company_service_static_day 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="useDate != null and useDate != ''">use_date = #{useDate},</if>
+			<if test="liveNum != null">live_num = #{liveNum},</if>
+			<if test="videoPcFlow != null">video_pc_flow = #{videoPcFlow},</if>
+			<if test="videoMobileFlow != null">video_mobile_flow = #{videoMobileFlow},</if>
+			<if test="videoTotalFlow != null">video_total_flow = #{videoTotalFlow},</if>
+			<if test="videoStorageNum != null">video_storage_num = #{videoStorageNum},</if>
+			<if test="emailNum != null">email_num = #{emailNum},</if>
+			<if test="messageNum != null">message_num = #{messageNum},</if>
+			<if test="resourceFlow != null">resource_flow = #{resourceFlow},</if>
+			<if test="resourceStorageNum != null">resource_storage_num = #{resourceStorageNum},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyServiceStaticDayResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_service_static_day
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyServiceStaticDayResultMap">
+		select <include refid="table_columns" /> 
+		from company_service_static_day
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="useDate != null and useDate != ''">and use_date = #{useDate}</if>
+			<if test="liveNum != null and liveNum != ''">and live_num = #{liveNum}</if>
+			<if test="videoPcFlow != null and videoPcFlow != ''">and video_pc_flow = #{videoPcFlow}</if>
+			<if test="videoMobileFlow != null and videoMobileFlow != ''">and video_mobile_flow = #{videoMobileFlow}</if>
+			<if test="videoTotalFlow != null and videoTotalFlow != ''">and video_total_flow = #{videoTotalFlow}</if>
+			<if test="videoStorageNum != null and videoStorageNum != ''">and video_storage_num = #{videoStorageNum}</if>
+			<if test="emailNum != null and emailNum != ''">and email_num = #{emailNum}</if>
+			<if test="messageNum != null and messageNum != ''">and message_num = #{messageNum}</if>
+			<if test="startTime != null and startTime != ''">
+			     <![CDATA[and use_date >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+			     <![CDATA[and use_date <= #{endTime} ]]>
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyServiceStaticDayResultMap" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay">
+		select <include refid="table_columns" />
+		from company_service_static_day
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay">
+		select count(id) from company_service_static_day
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findInfoByCompanyId" resultMap="companyServiceStaticDayResultMap" parameterType="Integer"> 
+		select <include refid="table_columns" />
+		from company_service_static_day
+		where company_id = #{companyId}
+	</select>
+	
+	<!-- 定时任务 -->
+	<select id="findByDateAndCompanyId" resultMap="companyServiceStaticDayResultMap" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay">
+		select <include refid="table_columns"/>
+		from company_service_static_day 
+		where company_id = #{companyId} and 
+			use_date = #{useDate}
+		limit 1
+	</select>
+	
+	<select id="findInfoByDate" resultMap="companyServiceStaticDayResultMap" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay">
+		select <include refid="table_columns"/>
+		from company_service_static_day
+		<include refid="page_where" />
+        <if test="searchType != null and searchType == 'video'">and video_total_flow is not null</if>
+        <if test="searchType != null and searchType == 'resource'">and resource_flow is not null</if>
+		group by use_date
+	</select>
+	
+	<select id="findFlowSum" parameterType="Integer" resultType="Double">
+		select sum(video_total_flow)
+		from company_service_static_day
+		where company_id = #{companyId}
+	</select>
+	<update id="updateByCompanyIdDate" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay">
+		update company_service_static_day
+		set video_total_flow = #{videoTotalFlow},
+			video_storage_num = #{videoStorageNum}
+		where company_id = #{companyId} and 
+			use_date = #{useDate}
+	</update>
+</mapper>

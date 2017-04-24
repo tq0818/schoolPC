@@ -1,0 +1,130 @@
+.lead{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(150,150,150,0.8);
+    z-index: 100;
+    top: 0;
+    line-height: 0;
+}
+.step-wrap{
+    width: 1200px;
+    height: 597px;
+    margin: 0px auto;
+    margin-top: 10px;
+    position: relative;
+}
+.step{
+    width: 100%;
+    height: 100%;
+    background-size: 1200px 597px;
+    display: none;
+}
+.step i.yel{
+    font-style:normal;
+    color:#ffe349;
+
+}
+.step1{
+    display: block;
+    background: url("../images/step/step1.png") center center no-repeat;
+    background-size: 1200px 597px;
+}
+.step2{
+    display: none;
+    background: url("../images/step/step2.png") center center no-repeat;
+    background-size: 1200px 597px
+}
+.step3{
+    display: none;
+    background: url("../images/step/step3.png") center center no-repeat;
+    background-size: 1200px 597px
+}
+.step4{
+    display: none;
+    background: url("../images/step/step4.png") center center no-repeat;
+    background-size: 1200px 597px
+}
+.step5{
+    display: none;
+    background: url("../images/step/step5.png") center center no-repeat;
+    background-size: 1200px 597px
+}
+.step6{
+    display: none;
+    background: url("../images/step/step6.png") center center no-repeat;
+    background-size: 1200px 597px
+}
+.step7{
+    display: none;
+    background: url("../images/step/step7.png") center center no-repeat;
+    background-size: 1200px 597px
+}
+.step-content{
+    width: 320px;
+    position: absolute;
+    left: 714px;
+    top: 273px;
+    z-index: 100;
+}
+.step-content h1{
+    color: #ffe400;
+    font-size: 24px;
+    margin: 20px 0px 10px 36px;
+}
+.step-content h2{
+    font-size: 16px;
+    color:#fffb89;
+    text-align: center;
+    margin-bottom: 14px;
+    margin-top: 52px;
+}
+.step-content p{
+    font-size: 14px;
+    color: #fff;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+a.lead-btn{
+    font-size: 16px;
+    color: #01c4ff;
+    display: block;
+    width: 80px;
+    height: 28px;
+    line-height: 28px;
+    background: #ffe349;
+    margin: 0px auto;
+    text-align: center;
+    border-radius: 3px;
+    margin-top: 22px;
+}
+a.lead-btn:hover{
+    text-decoration: none;
+}
+a.lead-btn:visited{
+    text-decoration: none;
+}
+/*.step1不同样式*/
+.step1 h2{
+    margin-top: 0px;
+}
+/*.step6不同样式*/
+.step6 h2{
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+.step6 p{
+    margin-bottom: 2px;
+}
+.step6 .lead-btn{
+    margin-top:10px;
+}
+/*.step7不同样式*/
+.step7 .step-content{
+    top:340px;
+}
+.step7 p{
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 26px;
+}

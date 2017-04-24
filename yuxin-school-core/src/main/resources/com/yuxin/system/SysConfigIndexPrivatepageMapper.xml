@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigIndexPrivatepageMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigIndexPrivatepage" id="sysConfigIndexPrivatepageResultMap">
+		<result property="id" column="id" />
+		<result property="schoolId" column="school_id" />
+		<result property="modelId" column="model_id" />
+		<result property="sort" column="sort" />
+		<result property="type" column="type" />
+		<result property="divcode" column="divcode" />
+		<result property="companyId" column="company_id" />
+		<result property="configId" column="config_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.SysConfigPrivatePageVo" id="sysConfigIndexPrivatepageResultMapVo">
+		<result property="id" column="id" />
+		<result property="schoolId" column="school_id" />
+		<result property="modelId" column="model_id" />
+		<result property="sort" column="sort" />
+		<result property="type" column="type" />
+		<result property="divcode" column="divcode" />
+		<result property="companyId" column="company_id" />
+		<result property="configId" column="config_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		school_id,
+		model_id,
+		sort,
+		type,
+		divcode,
+		company_id,
+		config_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{schoolId},
+		#{modelId},
+		#{sort},
+		#{type},
+		#{divcode},
+		#{companyId},
+		#{configId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.schoolId},
+		#{item.modelId},
+		#{item.sort},
+		#{item.type},
+		#{item.divcode},
+		#{item.companyId},
+		#{item.configId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigIndexPrivatepage" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_index_privatepage( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_index_privatepage( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_index_privatepage
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_index_privatepage
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigIndexPrivatepage">
+		update sys_config_index_privatepage 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="modelId != null and modelId != ''">model_id = #{modelId},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+			<if test="type != null and type != ''">type = #{type},</if>
+			<if test="divcode != null and divcode != ''">divcode = #{divcode},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigIndexPrivatepageResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_index_privatepage
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigIndexPrivatepageResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_index_privatepage
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="modelId != null and modelId != ''">and model_id = #{modelId}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+			<if test="type != null and type != ''">and type = #{type}</if>
+			<if test="divcode != null and divcode != ''">and divcode = #{divcode}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigIndexPrivatepageResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexPrivatepage">
+		select <include refid="table_columns" />
+		from sys_config_index_privatepage
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigIndexPrivatepage">
+		select count(id) from sys_config_index_privatepage
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findList" resultMap="sysConfigIndexPrivatepageResultMapVo" parameterType="com.yuxin.wx.model.system.SysConfigIndexPrivatepage">
+		select <include refid="table_columns" />
+		 from sys_config_index_privatepage 
+		where company_id=#{companyId} and school_id=#{schoolId}
+		 order by sort
+	</select>
+	<select id="findList2" resultMap="sysConfigIndexPrivatepageResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexPrivatepage">
+		select <include refid="table_columns" />
+		 from sys_config_index_privatepage 
+		where company_id=#{companyId} and school_id=#{schoolId} order by sort
+	</select>
+	
+	<select id="findByTemplate" resultMap="sysConfigIndexPrivatepageResultMap" parameterType="com.yuxin.wx.model.company.CompanyIndexModelPrivatepage">
+		select <include refid="table_columns" />
+		 from sys_config_index_privatepage 
+		where company_id=#{companyId} and school_id=#{schoolId} 
+		order by sort
+	</select>
+</mapper>

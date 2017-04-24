@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuTopicMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuTopic" id="tikuTopicResultMap">
+		<result property="id" column="id" />
+		<result property="topicName" column="topic_name" />
+		<result property="topicNameBlank" column="topic_name_blank" />
+		<result property="topicType" column="topic_type" />
+		<result property="score" column="score" />
+		<result property="answer" column="answer" />
+		<result property="difficulty" column="difficulty" />
+		<result property="analyseWord" column="analyse_word" />
+		<result property="analyseVideoUrl" column="analyse_video_url" />
+		<result property="analyseAudioUrl" column="analyse_audio_url" />
+		<result property="parentId" column="parent_id" />
+		<result property="status" column="status" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="auditor" column="auditor" />
+		<result property="auditTime" column="audit_time" />
+		<result property="paperFlag" column="paper_flag" />
+		<result property="childFlag" column="child_flag" />
+		<result property="correctFlag" column="correct_flag" />
+		<association property="creatorName" column="creator" javaType="String" select="findUserById"></association>
+		<association property="updatorName" column="updator" javaType="String" select="findUserById"></association>
+		<association property="auditorName" column="auditor" javaType="String" select="findUserById"></association>
+	</resultMap>
+
+	<resultMap type="com.yuxin.wx.vo.tiku.TikuTopicVo" id="tikuTopicVoResultMap" extends="tikuTopicResultMap">
+		<association property="point" column="id" javaType="com.yuxin.wx.model.tiku.TikuTopicExampoint" select="com.yuxin.wx.tiku.mapper.TikuTopicExampointMapper.findPointByTopicId"></association>
+		<collection property="option" column="id" javaType="ArrayList" ofType="com.yuxin.wx.model.tiku.TikuTopicOption" select="com.yuxin.wx.tiku.mapper.TikuTopicOptionMapper.findOptionByTopicId"></collection>
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		topic_name,
+		topic_name_blank,
+		topic_type,
+		score,
+		answer,
+		difficulty,
+		analyse_word,
+		analyse_video_url,
+		analyse_audio_url,
+		parent_id,
+		status,
+		tiku_subject_id,
+		tiku_category_id,
+		company_id,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		auditor,
+		audit_time,
+		paper_flag,
+		child_flag
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{topicName},
+		#{topicNameBlank},
+		#{topicType},
+		#{score},
+		#{answer},
+		#{difficulty},
+		#{analyseWord},
+		#{analyseVideoUrl},
+		#{analyseAudioUrl},
+		#{parentId},
+		#{status},
+		#{tikuSubjectId},
+		#{tikuCategoryId},
+		#{companyId},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{auditor},
+		#{auditTime},
+		#{paperFlag},
+		#{childFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.topicName},
+		#{item.topicNameBlank},
+		#{item.topicType},
+		#{item.score},
+		#{item.answer},
+		#{item.difficulty},
+		#{item.analyseWord},
+		#{item.analyseVideoUrl},
+		#{item.analyseAudioUrl},
+		#{item.parentId},
+		#{item.status},
+		#{item.tikuSubjectId},
+		#{item.tikuCategoryId},
+		#{item.companyId},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updator},
+		#{item.updateTime},
+		#{item.auditor},
+		#{item.auditTime},
+		#{item.paperFlag},
+		#{item.childFlag}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuTopic"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_topic(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into tiku_topic(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="batch_entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_topic
+		where id = #{id}
+	</delete>
+	
+	<delete id="delByTikuId">
+		delete from tiku_topic
+		where tiku_category_id = #{tikuId}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_topic
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="delBySubId">
+		delete from tiku_topic
+		where tiku_subject_id = #{subId}
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuTopic">
+		update tiku_topic
+		<trim prefix="set" suffixOverrides=",">
+			<if test="topicName != null and topicName != ''">topic_name = #{topicName},</if>
+			<if test="topicNameBlank != null and topicNameBlank != ''">topic_name_blank = #{topicNameBlank},</if>
+			<if test="topicType != null and topicType != ''">topic_type = #{topicType},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			<if test="answer != null">answer = #{answer},</if>
+			<if test="difficulty != null and difficulty != ''">difficulty = #{difficulty},</if>
+			<if test="analyseWord != null and analyseWord != ''">analyse_word = #{analyseWord},</if>
+			<if test="analyseVideoUrl != null and analyseVideoUrl != ''">analyse_video_url = #{analyseVideoUrl},</if>
+			<if test="analyseAudioUrl != null and analyseAudioUrl != ''">analyse_audio_url = #{analyseAudioUrl},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">tiku_subject_id = #{tikuSubjectId},</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">tiku_category_id = #{tikuCategoryId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="auditor != null and auditor != ''">auditor = #{auditor},</if>
+			<if test="auditTime != null and auditTime != ''">audit_time = #{auditTime},</if>
+			<if test="paperFlag != null and paperFlag != ''">paper_flag = #{paperFlag},</if>
+			<if test="childFlag != null and childFlag != ''">child_flag = #{childFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="tikuTopicResultMap" parameterType="String">
+		select
+		<include refid="table_columns" />
+		from tiku_topic
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="tikuTopicResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_topic
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="topicName != null and topicName != ''">and topic_name = #{topicName}</if>
+			<if test="topicNameBlank != null and topicNameBlank != ''">and topic_name_blank = #{topicNameBlank}</if>
+			<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="answer != null and answer != ''">and answer = #{answer}</if>
+			<if test="difficulty != null and difficulty != ''">and difficulty = #{difficulty}</if>
+			<if test="analyseWord != null and analyseWord != ''">and analyse_word = #{analyseWord}</if>
+			<if test="analyseVideoUrl != null and analyseVideoUrl != ''">and analyse_video_url = #{analyseVideoUrl}</if>
+			<if test="analyseAudioUrl != null and analyseAudioUrl != ''">and analyse_audio_url = #{analyseAudioUrl}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="tikuSubjectId != null and tikuSubjectId != ''">and tiku_subject_id = #{tikuSubjectId}</if>
+			<if test="tikuCategoryId != null and tikuCategoryId != ''">and tiku_category_id = #{tikuCategoryId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="auditor != null and auditor != ''">and auditor = #{auditor}</if>
+			<if test="auditTime != null and auditTime != ''">and audit_time = #{auditTime}</if>
+			<if test="paperFlag != null and paperFlag != ''">and paper_flag = #{paperFlag}</if>
+			<if test="childFlag != null and childFlag != ''">and child_flag = #{childFlag}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="tikuTopicResultMap" parameterType="com.yuxin.wx.model.tiku.TikuTopic">
+		select
+		<include refid="table_columns" />
+		from tiku_topic
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuTopic">
+		select count(id) from tiku_topic
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<!-- 查询试题 -->
+	<select id="findTopicByEntity" parameterType="com.yuxin.wx.model.tiku.TikuTopic" resultMap="tikuTopicResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_topic
+		where company_id = #{companyId} and
+		tiku_category_id = #{tikuCategoryId}
+			<if test="topicName != null and topicName != ''">
+				and topic_name like concat('%',#{topicName},'%')
+			</if>
+				<if test="status != null and status != ''">
+					<if test="status == 'topicYes'">
+						and (status = 'PAPER_STATUS_EDIT' or status =
+						'PAPER_STATUS_WAIT_AUDIT' or status = 'PAPER_STATUS_PUBLISH' or
+						status = 'PAPER_STATUS_AUDIT_FAIL')
+					</if>
+					<if test="status == 'topicNo'">
+						and (status = 'PAPER_STATUS_EDIT' or status = 'PAPER_STATUS_PUBLISH')
+					</if>
+					<if test="status != 'topicYes' and status != 'topicNo'">
+						and status = #{status}
+					</if>
+				</if>
+				<if test="tikuSubjectId != null">and tiku_subject_id = #{tikuSubjectId}</if>
+				<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+				<if test="paperFlag != null">and paper_flag = #{paperFlag}</if>
+				<if test="topicType != null and topicType != 'TOPIC_TYPE_CASE'">and parent_id = 0</if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<!-- 查询总数 -->
+	<select id="fingCountByEntity" parameterType="com.yuxin.wx.model.tiku.TikuTopic" resultType="Integer">
+		select count(id)
+		from tiku_topic
+		where company_id = #{companyId} and
+		tiku_category_id = #{tikuCategoryId}
+			<if test="topicName != null and topicName != ''">
+				and topic_name like concat('%',#{topicName},'%')
+			</if>
+				<if test="status != null and status != ''">
+					<if test="status == 'topicYes'">
+						and (status = 'PAPER_STATUS_EDIT' or status =
+						'PAPER_STATUS_WAIT_AUDIT' or status = 'PAPER_STATUS_PUBLISH' or
+						status = 'PAPER_STATUS_AUDIT_FAIL')
+					</if>
+					<if test="status == 'topicNo'">
+						and (status = 'PAPER_STATUS_EDIT' or status = 'PAPER_STATUS_PUBLISH')
+					</if>
+					<if test="status != 'topicYes' and status != 'topicNo'">
+						and status = #{status}
+					</if>
+				</if>
+				<if test="tikuSubjectId != null">and tiku_subject_id = #{tikuSubjectId}</if>
+				<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+				<if test="paperFlag != null">and paper_flag = #{paperFlag}</if>
+				<if test="topicType != null and topicType != 'TOPIC_TYPE_CASE'">and parent_id = 0</if> 
+		limit 1
+	</select>
+	<select id="findUserById" parameterType="Integer" resultType="String">
+		select username
+		from users
+		where id = #{id}
+	</select>
+	
+	<!-- 查询试题及选项 -->
+	<select id="findTopicAndOptionById" parameterType="Integer" resultMap="tikuTopicVoResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_topic
+		where id = #{id}
+	</select>
+
+	<select id="findNextId" parameterType="map" resultType="Integer">
+		select max(id)
+		from tiku_topic
+		where topic_type = #{types} and
+			company_id = #{companyId} and 
+			tiku_category_id = #{cateId} and 
+			tiku_subject_id = #{subId} and 
+			parent_id = 0  and 
+			paper_flag = 0
+		<if test="status != null and status != ''">and status = #{status}</if>
+		limit 1
+	</select>
+	<select id="findTopicByPaperId" parameterType="map" resultMap="tikuTopicResultMap">
+		select t.*
+		from
+		tiku_topic t
+		inner join tiku_paper_topic tpt on tpt.topic_id = t.id
+		where tpt.paper_id = #{paperId} and 
+			t.parent_id = 0 
+			<if test="topicType != null and topicType != ''">
+				and t.topic_type = #{topicType}
+			</if>
+		order by create_time desc
+	</select>
+
+	<select id="findExistTopic" parameterType="map" resultMap="tikuTopicResultMap">
+		select t.id,t.topic_name
+		from tiku_topic t
+		<if test="isCase != null and isCase != ''"> inner join tiku_topic_exampoint e on e.topic_id = t.id
+		</if>
+		where t.company_id = #{companyId} and
+		t.tiku_category_id = #{categoryId} and
+		t.tiku_subject_id = #{subId} and
+		t.topic_type = #{topicType} and
+		t.paper_flag = #{paperFlag} and 
+		t.status = 'PAPER_STATUS_PUBLISH' 
+		<if test="chapterId != null and chapterId != ''">and e.chapter_id = #{chapterId}</if>
+		<if test="sectionId != null and sectionId != ''">and e.section_id = #{sectionId}</if>
+		and t.parent_id = 0 and
+		t.id not in (select tpt.topic_id from tiku_paper_topic tpt where
+		tpt.paper_id = #{paperId})
+		<if test="topicName != null and topicName != ''">
+			and topic_name like concat('%',#{topicName},'%')
+		</if>
+		order by id desc
+		limit #{page},#{pageSize}
+	</select>
+	<select id="findCountExistTopic" parameterType="map" resultType="Integer">
+		select count(t.id)
+		from tiku_topic t
+		<if test="isCase != null and isCase != ''"> inner join tiku_topic_exampoint e on e.topic_id = t.id
+		</if>
+		where t.company_id = #{companyId} and
+		t.tiku_category_id = #{categoryId} and
+		t.tiku_subject_id = #{subId} and
+		t.topic_type = #{topicType} and
+		t.paper_flag = #{paperFlag} and 
+		t.status = 'PAPER_STATUS_PUBLISH'
+		<if test="chapterId != null and chapterId != ''">and e.chapter_id = #{chapterId}</if>
+		<if test="sectionId != null and sectionId != ''">and e.section_id = #{sectionId}</if>
+		and t.parent_id = 0 and
+		t.id not in (select tpt.topic_id from tiku_paper_topic tpt where
+		tpt.paper_id = #{paperId})
+		<if test="topicName != null and topicName != ''">
+			and topic_name like concat('%',#{topicName},'%')
+		</if>
+		limit 1
+	</select>
+
+	<select id="findChildTopicByParams" parameterType="map" resultMap="tikuTopicResultMap">
+		select t.id,t.topic_name,t.status,t.topic_type from tiku_topic t
+		<include refid="page_where" />
+		order by id desc
+	</select>
+
+	<select id="findCaseChildTopicByParentIds" parameterType="map"
+		resultMap="tikuTopicResultMap">
+		select t.id,t.parent_id,t.topic_type from tiku_topic t where
+		t.paper_flag = 0 and t.parent_id in
+		<foreach collection="array" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+		order by id desc
+	</select>
+
+	<!-- 获得子题id -->
+	<select id="findSubjectByParentId" parameterType="Integer" resultType="Integer">
+		select id
+		from tiku_topic
+		where parent_id = #{parentId}
+	</select>
+
+	<select id="findTikuTopicListByParentId" parameterType="Integer" resultMap="tikuTopicResultMap">
+		select <include refid="table_columns" />
+		from tiku_topic
+		where parent_id = #{parentId}
+	</select>
+	
+	<select id="delByIds" parameterType="list">
+		delete from tiku_topic
+		where id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<!-- 查询试卷试题 -->
+	<select id="findByPaperId" resultMap="tikuTopicResultMap">
+		select tt.id,
+		tt.topic_type,
+		tt.parent_id,
+		tuea.correct_flag from (select t.id,
+		t.topic_type,
+		t.parent_id
+		from tiku_topic t
+		where t.id in (
+		select p.topic_id
+		from
+		tiku_paper_topic p
+		where p.paper_id = #{0} and
+		p.parent_id = 0
+		)
+		) as tt
+		left join tiku_user_exercise_answer tuea
+		ON tt.id = tuea.topic_id
+		and tuea.user_id = #{1}
+		and tuea.user_exercise_id = #{2};
+	</select>
+	<!-- 查子题 -->
+	<select id="findListByParentId" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer"
+		resultMap="tikuTopicResultMap">
+		select t.id,
+		t.topic_type,
+		t.parent_id,
+		tuea.correct_flag
+		from tiku_topic t
+		left join tiku_user_exercise_answer tuea
+		on t.id = tuea.topic_id
+		and tuea.user_id = #{userId}
+		and tuea.user_exercise_id = #{userExerciseId}
+		where t.parent_id = #{parentId}
+	</select>
+	<select id="findTopicById" parameterType="Integer" resultMap="tikuTopicVoResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_topic
+		where id = #{id}
+	</select>
+	<select id="findTopicByBatchId" resultMap="tikuTopicResultMap">
+		select tt.id,
+		tt.topic_type,
+		tt.parent_id,
+		tuea.correct_flag from (select t.id,
+		t.topic_type,
+		t.parent_id
+		from tiku_topic t
+		where t.id in (
+		select bt.topic_id
+		from
+		tiku_user_batch_topic bt
+		where bt.batch_id = #{0}
+		)
+		) as tt
+		left join tiku_user_exercise_answer tuea
+		ON tt.id = tuea.topic_id
+		and tuea.user_id = #{1}
+		and tuea.user_exercise_id = #{2};
+	</select>
+</mapper>

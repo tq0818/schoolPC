@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyMemberServiceChangelogMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyMemberServiceChangelog" id="companyMemberServiceChangelogResultMap">
+		<result property="id" column="id" />
+		<result property="tableName" column="table_name" />
+		<result property="columnName" column="column_name" />
+		<result property="changeBefore" column="change_before" />
+		<result property="changeAfter" column="change_after" />
+		<result property="changeReason" column="change_reason" />
+		<result property="changeTime" column="change_time" />
+		<result property="companyId" column="company_id" />
+		<result property="updator" column="updator"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.CompanyMemberServiceChangelogVo"
+	 id="companyMemberServiceChangelogVoResultMap"
+	 extends="companyMemberServiceChangelogResultMap">
+	 <association property="name" column="updator" javaType="String"
+	  select="findNameByUpdator"></association>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		table_name,
+		column_name,
+		change_before,
+		change_after,
+		change_reason,
+		change_time,
+		company_id,
+		updator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{tableName},
+		#{columnName},
+		#{changeBefore},
+		#{changeAfter},
+		#{changeReason},
+		#{changeTime},
+		#{companyId},
+		#{updator}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.tableName},
+		#{item.columnName},
+		#{item.changeBefore},
+		#{item.changeAfter},
+		#{item.changeReason},
+		#{item.changeTime},
+		#{item.companyId},
+		#{item.updator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyMemberServiceChangelog" useGeneratedKeys="true" keyProperty="id">
+		insert into company_member_service_changelog( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_member_service_changelog( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_member_service_changelog
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_member_service_changelog
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyMemberServiceChangelog">
+		update company_member_service_changelog 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="tableName != null and tableName != ''">table_name = #{tableName},</if>
+			<if test="columnName != null and columnName != ''">column_name = #{columnName},</if>
+			<if test="changeBefore != null and changeBefore != ''">change_before = #{changeBefore},</if>
+			<if test="changeAfter != null and changeAfter != ''">change_after = #{changeAfter},</if>
+			<if test="changeReason != null and changeReason != ''">change_reason = #{changeReason},</if>
+			<if test="changeTime != null and changeTime != ''">change_time = #{changeTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyMemberServiceChangelogResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_member_service_changelog
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyMemberServiceChangelogResultMap">
+		select <include refid="table_columns" /> 
+		from company_member_service_changelog
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="tableName != null and tableName != ''">and table_name = #{tableName}</if>
+			<if test="columnName != null and columnName != ''">and column_name = #{columnName}</if>
+			<if test="changeBefore != null and changeBefore != ''">and change_before = #{changeBefore}</if>
+			<if test="changeAfter != null and changeAfter != ''">and change_after = #{changeAfter}</if>
+			<if test="changeReason != null and changeReason != ''">and change_reason = #{changeReason}</if>
+			<if test="changeTime != null and changeTime != ''">and change_time = #{changeTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyMemberServiceChangelogResultMap" parameterType="com.yuxin.wx.model.company.CompanyMemberServiceChangelog">
+		select <include refid="table_columns" />
+		from company_member_service_changelog
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyMemberServiceChangelog">
+		select count(id) from company_member_service_changelog
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findNameByUpdator" parameterType="Integer" resultType="String">
+		select username from users where id = #{id}
+	</select>
+</mapper>

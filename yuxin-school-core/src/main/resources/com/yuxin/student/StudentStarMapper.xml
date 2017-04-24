@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentStarMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentStar" id="studentStarResultMap">
+		<result property="id" column="id" />
+		<result property="userName" column="userName" />
+		<result property="userPic" column="userPic" />
+		<result property="sortNum" column="sortNum" />
+		<result property="des" column="des" />
+		<result property="companyId" column="company_id" />
+		<result property="userPhoto" column="user_photo" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		userName,
+		userPic,
+		sortNum,
+		des,
+		company_id,
+		user_photo
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userName},
+		#{userPic},
+		#{sortNum},
+		#{des},
+		#{companyId},
+		#{userPhoto}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userName},
+		#{item.userPic},
+		#{item.sortNum},
+		#{item.des},
+		#{item.companyId},
+		#{item.userPhoto}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentStar" useGeneratedKeys="true" keyProperty="id">
+		insert into student_star( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_star( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_star
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_star
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentStar">
+		update student_star 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userName != null and userName != ''">userName = #{userName},</if>
+			<if test="userPic != null and userPic != ''">userPic = #{userPic},</if>
+			<if test="sortNum != null and sortNum != ''">sortNum = #{sortNum},</if>
+			<if test="des != null and des != ''">des = #{des},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="userPhoto != null and userPhoto != ''">user_photo = #{userPhoto},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentStarResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_star
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentStarResultMap">
+		select <include refid="table_columns" /> 
+		from student_star
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userName != null and userName != ''">and userName = #{userName}</if>
+			<if test="userPic != null and userPic != ''">and userPic = #{userPic}</if>
+			<if test="sortNum != null and sortNum != ''">and sortNum = #{sortNum}</if>
+			<if test="des != null and des != ''">and des = #{des}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="userPhoto != null and userPhoto != ''">and user_photo = #{userPhoto}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentStarResultMap" parameterType="com.yuxin.wx.model.student.StudentStar">
+		select <include refid="table_columns" />
+		from student_star
+		<include refid="page_where" />
+		order by sortNum,id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentStar">
+		select count(id) from student_star
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

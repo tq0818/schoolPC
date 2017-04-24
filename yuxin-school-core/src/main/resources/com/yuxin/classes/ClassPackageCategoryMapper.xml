@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassPackageCategoryMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassPackageCategory" id="classPackageCategoryResultMap">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="parentId" column="parent_id" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="status" column="status" />
+		<result property="delFlag" column="del_flag" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="sort" column="sort" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		code,
+		name,
+		parent_id,
+		company_id,
+		school_id,
+		status,
+		del_flag,
+		creator,
+		create_time,
+		updator,
+		update_time,
+		sort
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{code},
+		#{name},
+		#{parentId},
+		#{companyId},
+		#{schoolId},
+		#{status},
+		#{delFlag},
+		#{creator},
+		#{createTime},
+		#{updator},
+		#{updateTime},
+		#{sort}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.code},
+		#{item.name},
+		#{item.parentId},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.status},
+		#{item.delFlag},
+		#{item.creator},
+		#{item.createTime},
+		#{item.updator},
+		#{item.updateTime},
+		#{item.sort}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory" useGeneratedKeys="true" keyProperty="id">
+		insert into class_package_category( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_package_category( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_package_category
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		update class_package_category 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="code != null and code != ''">code = #{code},</if>
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="parentId != null">parent_id = #{parentId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classPackageCategoryResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_package_category
+		where id = #{id}
+	</select>
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="code != null and code != ''">and code = #{code}</if>
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classPackageCategoryResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select <include refid="table_columns" />
+		from class_package_category
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select count(id) from class_package_category
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryClassCategoryLists" resultMap="classPackageCategoryResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select <include refid="table_columns" />
+		from class_package_category
+		where company_id=#{companyId} and del_flag=0
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="leavl != null and leavl != ''">
+			<choose>
+				<when test="leavl=='first'">and LENGTH(code)=3</when>
+				<when test="leavl=='second'">and LENGTH(code)=6</when>
+				<when test="leavl=='third'">and LENGTH(code)=9</when>
+			</choose>
+		</if>
+		<if test="code != null and code != ''">and code like '${code}%'</if>
+		<if test="parentId != null">and parent_id = #{parentId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="status != null">and status = #{status}</if>
+		order by sort ASC
+	</select>
+	
+	<!-- 查询公司课程分类中最大分类id -->
+	<select id="queryMaxIdByCompanyId" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select count(id)
+		from class_package_category
+		where company_id=#{companyId}
+		<if test="code != null and code != ''">and code = #{code}</if>
+		<if test="parentId != null">and parent_id = #{parentId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="status != null">and status = #{status}</if>
+	</select>
+	<select id="queryAll" resultType="com.yuxin.wx.model.classes.ClassPackageCategory" parameterType="int">
+		select <include refid="table_columns" />
+		from class_package_category
+		where company_id=#{companyId} and del_flag=0 and status='1' order by code asc
+	</select>
+	<select id="queryClassCategoryCodeByWhere" resultMap="classPackageCategoryResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select <include refid="table_columns" />
+		from class_package_category
+		where company_id=#{companyId}
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="code != null and code != ''">and code = #{code}</if>
+		<if test="parentId != null">and parent_id = #{parentId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="status != null">and status = #{status}</if>
+	</select>
+	
+	<select id="queryClassPackageCategoryByCode" resultMap="classPackageCategoryResultMap" parameterType="com.yuxin.wx.model.classes.ClassPackageCategory">
+		select <include refid="table_columns" />
+		from class_package_category
+		where company_id=#{companyId}
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="code != null and code != ''">and code = #{code}</if>
+		<if test="parentId != null">and parent_id = #{parentId}</if>
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="delFlag != null">and del_flag = #{delFlag}</if>
+	</select>
+</mapper>

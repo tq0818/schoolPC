@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyConfigCustompageMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyConfigCustompage" id="companyConfigCustompageResultMap">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="url" column="url" />
+		<result property="content" column="content" />
+		<result property="status" column="status" />
+		<result property="creater" column="creater" />
+		<result property="createTime" column="create_time" />
+		<result property="companyId" column="company_id" />
+		<result property="groupId" column="group_id" />
+		<result property="templateId" column="template_id" />
+		<result property="includeHeadFoot" column="include_head_foot" />
+		<result property="sort" column="sort" />
+		<result property="updateTime" column="update_time"/>
+		<result property="updator" column="updator"/>
+		<result property="creaters" column="creaters"/>
+		<result property="groupName" column="groupName"/>
+		<result property="screenFlag" column="screen_flag"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		title,
+		url,
+		content,
+		status,
+		creater,
+		create_time,
+		company_id,
+		group_id,
+		template_id,
+		include_head_foot,
+		sort,
+		update_time,
+		updator,
+		screen_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{title},
+		#{url},
+		#{content},
+		#{status},
+		#{creater},
+		#{createTime},
+		#{companyId},
+		#{groupId},
+		#{templateId},
+		#{includeHeadFoot},
+		#{sort},
+		#{updateTime},
+		#{updator},
+		#{screenFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.title},
+		#{item.url},
+		#{item.content},
+		#{item.status},
+		#{item.creater},
+		#{item.createTime},
+		#{item.companyId},
+		#{item.groupId},
+		#{item.templateId},
+		#{item.includeHeadFoot},
+		#{item.sort},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.screenFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage" useGeneratedKeys="true" keyProperty="id">
+		insert into company_config_custompage( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_config_custompage( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_config_custompage
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_config_custompage
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		update company_config_custompage 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="url != null and url != ''">url = #{url},</if>
+			<if test="content != null and content != ''">content = #{content},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="creater != null and creater != ''">creater = #{creater},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="groupId != null">group_id = #{groupId},</if>
+			<if test="templateId != null and templateId != ''">template_id = #{templateId},</if>
+			<if test="includeHeadFoot != null">include_head_foot = #{includeHeadFoot},</if>
+			<if test="sort != null and sort != ''">sort = #{sort},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="screenFlag != null">screen_flag = #{screenFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyConfigCustompageResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_config_custompage
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyConfigCustompageResultMap">
+		select <include refid="table_columns" /> 
+		from company_config_custompage
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="title != null and title != ''">and title = #{title}</if>
+			<if test="url != null and url != ''">and url = #{url}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="status != null">and status = #{status}</if>
+			<if test="creater != null and creater != ''">and creater = #{creater}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="groupId != null">and group_id = #{groupId}</if>
+			<if test="templateId != null and templateId != ''">and template_id = #{templateId}</if>
+			<if test="includeHeadFoot != null and includeHeadFoot != ''">and include_head_foot = #{includeHeadFoot}</if>
+			<if test="sort != null and sort != ''">and sort = #{sort}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyConfigCustompageResultMap" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		select <include refid="table_columns" />
+		from company_config_custompage
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		select count(id) from company_config_custompage
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryCompanyCustomList" resultMap="companyConfigCustompageResultMap" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		select id,
+			title,
+			url,
+			content,
+			status,
+			creater,
+			create_time,
+			company_id,
+			group_id,
+			template_id,
+			include_head_foot,
+			sort,
+			update_time,
+			updator,
+			screen_flag,
+			(select group_name from company_config_custompage_group where id=c.group_id) as groupName,
+			(select username from users where id=c.creater) as creaters
+		from company_config_custompage c where company_id=#{companyId}
+		<if test="title != null and title != ''">and title like '%${title}%'</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="groupId != null and groupId != ''">and group_id = #{groupId}</if>
+		<if test="templateId != null and templateId != ''">and template_id = #{templateId}</if>
+		<if test="includeHeadFoot != null and includeHeadFoot != ''">and include_head_foot = #{includeHeadFoot}</if>
+		ORDER BY update_time DESC,id DESC
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryCompanyCustomListCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		select count(id) from company_config_custompage where company_id=#{companyId}
+		<if test="title != null and title != ''">and title like '%${title}%'</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="groupId != null and groupId != ''">and group_id = #{groupId}</if>
+		<if test="templateId != null and templateId != ''">and template_id = #{templateId}</if>
+		<if test="includeHeadFoot != null and includeHeadFoot != ''">and include_head_foot = #{includeHeadFoot}</if>
+	</select>
+	
+	<select id="templeteCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		select count(id) from company_config_custompage
+		where company_id=#{companyId}
+		<if test="templateId != null and templateId != ''">and template_id = #{templateId}</if>
+		<if test="groupId != null and groupId != ''">and group_id = #{groupId}</if>
+	</select>
+	
+	<select id="queryCompanyCustomListByCondition" resultMap="companyConfigCustompageResultMap" parameterType="com.yuxin.wx.model.company.CompanyConfigCustompage">
+		select id,
+			title,
+			url,
+			content,
+			status,
+			creater,
+			create_time,
+			company_id,
+			group_id,
+			template_id,
+			include_head_foot,
+			sort,
+			update_time,
+			updator,
+			screen_flag,
+			(select group_name from company_config_custompage_group where id=c.group_id) as groupName,
+			(select username from users where id=c.creater) as creaters
+		from company_config_custompage c where company_id=#{companyId}
+		<if test="title != null and title != ''">and title like '%${title}%'</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="groupId != null and groupId != ''">and group_id = #{groupId}</if>
+		<if test="templateId != null and templateId != ''">and template_id = #{templateId}</if>
+		<if test="includeHeadFoot != null and includeHeadFoot != ''">and include_head_foot = #{includeHeadFoot}</if>
+		ORDER BY template_id DESC,sort ASC
+	</select>
+</mapper>

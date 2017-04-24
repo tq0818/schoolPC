@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyStudyCardLibMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyStudyCardLib" id="companyStudyCardLibResultMap">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="status" column="status" />
+		<result property="companyId" column="company_id" />
+		<result property="proxyOrganId" column="proxy_organ_id" />
+		<result property="stuId" column="stu_id" />
+		<result property="useTime" column="use_time" />
+		<result property="cardId" column="card_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		code,
+		status,
+		company_id,
+		proxy_organ_id,
+		stu_id,
+		use_time,
+		card_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{code},
+		#{status},
+		#{companyId},
+		#{proxyOrganId},
+		#{stuId},
+		#{useTime},
+		#{cardId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.code},
+		#{item.status},
+		#{item.companyId},
+		#{item.proxyOrganId},
+		#{item.stuId},
+		#{item.useTime},
+		#{item.cardId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyStudyCardLib" useGeneratedKeys="true" keyProperty="id">
+		insert into company_study_card_lib( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_study_card_lib( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_study_card_lib
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_study_card_lib
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyStudyCardLib">
+		update company_study_card_lib 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="code != null and code != ''">code = #{code},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="proxyOrganId != null and proxyOrganId != ''">proxy_organ_id = #{proxyOrganId},</if>
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="useTime != null and useTime != ''">use_time = #{useTime},</if>
+			<if test="cardId != null and cardId != ''">card_id = #{cardId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyStudyCardLibResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_study_card_lib
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyStudyCardLibResultMap">
+		select <include refid="table_columns" /> 
+		from company_study_card_lib
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="code != null and code != ''">and code = #{code}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="proxyOrganId != null and proxyOrganId != ''">and proxy_organ_id = #{proxyOrganId}</if>
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+			<if test="cardId != null and cardId != ''">and card_id = #{cardId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyStudyCardLibResultMap" parameterType="com.yuxin.wx.model.company.CompanyStudyCardLib">
+		select <include refid="table_columns" />
+		from company_study_card_lib
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyStudyCardLib">
+		select count(id) from company_study_card_lib
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="queryStudyCardLibs" resultType="com.yuxin.wx.vo.company.CompanyStudyCardLibVo" parameterType="com.yuxin.wx.vo.company.CompanyStudyCardLibVo"  >
+		select  scl.id as id,
+				scl.code as code,
+				scl.status as status,
+				scl.company_id as companyId,
+				scl.proxy_organ_id as proxyOrganId,
+				scl.stu_id as stuId,
+				scl.use_time as useTime,
+				scl.card_id as cardId,
+				s.name as name,
+				uf.username as username,
+				uf.mobile as mobile
+		from company_study_card_lib scl left join student s on s.id = scl.stu_id
+										left join users_front uf on uf.id = s.user_id
+		where scl.card_id = #{cardId} and scl.company_id = #{companyId}
+		<if test="code != null and code != ''">and scl.code = #{code}</if>								
+		<if test="username != null and username != ''">and uf.username = #{username}</if>								
+		<if test="mobile != null and mobile != ''">and uf.mobile = #{mobile}</if>								
+		<if test="name != null and name != ''">and s.name = #{name}</if>
+		order by scl.status desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryStudyCardLibsCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyStudyCardLibVo"  >
+		select count(scl.id)
+		from company_study_card_lib scl left join student s on s.id = scl.stu_id
+										left join users_front uf on uf.id = s.user_id
+		where scl.card_id = #{cardId} and scl.company_id = #{companyId}
+		<if test="code != null and code != ''">and scl.code = #{code}</if>								
+		<if test="username != null and username != ''">and uf.username = #{username}</if>								
+		<if test="mobile != null and mobile != ''">and uf.mobile = #{mobile}</if>								
+		<if test="name != null and name != ''">and s.name = #{name}</if>
+	</select>
+	
+	<select id="queryStudyCardLibsListByCardId" resultType="com.yuxin.wx.vo.company.CompanyStudyCardLibVo" parameterType="int"  >
+		select  scl.id as id,
+				scl.code as code,
+				scl.status as status,
+				scl.company_id as companyId,
+				scl.proxy_organ_id as proxyOrganId,
+				scl.stu_id as stuId,
+				scl.use_time as useTime,
+				scl.card_id as cardId,
+				s.name as name,
+				uf.username as username,
+				uf.mobile as mobile
+		from company_study_card_lib scl left join student s on s.id = scl.stu_id
+										left join users_front uf on uf.id = s.user_id
+		where scl.card_id = #{cardId} and scl.company_id = #{companyId}
+		order by scl.status desc
+	</select>
+</mapper>

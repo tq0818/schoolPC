@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.certificate.mapper.CertificateCourseRelationMapper">
+	<resultMap type="com.yuxin.wx.model.certificate.CertificateCourseRelation" id="certificateCourseRelationResultMap">
+		<result property="id" column="id" />
+		<result property="cerId" column="cer_id" />
+		<result property="courseId" column="course_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.certificate.CertificateUserCourseVo" id="certificateUserCourseResultVoMap">
+		<result property="courseId" column="courseId" />
+		<result property="stuId" column="sid" />
+		<result property="stuName" column="sname" />
+		<result property="mobile" column="umobile" />
+		<result property="username" column="username" />
+		<result property="totalLectureNum" column="tln" />
+		<result property="passLectureNum" column="rln" />
+		<result property="userNum" column="um" />
+		<result property="passConditions" column="passConditions" />
+		<result property="receiveTime" column="receiveTime" />
+		<result property="userId" column="uid" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		cer_id,
+		course_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{cerId},
+		#{courseId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.cerId},
+		#{item.courseId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.certificate.CertificateCourseRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into certificate_course_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into certificate_course_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from certificate_course_relation
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from certificate_course_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.certificate.CertificateCourseRelation">
+		update certificate_course_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="cerId != null and cerId != ''">cer_id = #{cerId},</if>
+			<if test="courseId != null and courseId != ''">course_id = #{courseId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="certificateCourseRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from certificate_course_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="certificateCourseRelationResultMap">
+		select <include refid="table_columns" /> 
+		from certificate_course_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="cerId != null and cerId != ''">and cer_id = #{cerId}</if>
+			<if test="courseId != null and courseId != ''">and course_id = #{courseId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="certificateCourseRelationResultMap" parameterType="com.yuxin.wx.model.certificate.CertificateCourseRelation">
+		select <include refid="table_columns" />
+		from certificate_course_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.certificate.CertificateCourseRelation">
+		select count(id) from certificate_course_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryRelationByCerId" resultMap="certificateCourseRelationResultMap" parameterType="Integer">
+		select id,course_id from certificate_course_relation where cer_id = #{cerId}
+	</select>
+	
+	<select id="pageReleaseCertificateList" resultMap="certificateUserCourseResultVoMap" parameterType="com.yuxin.wx.vo.certificate.ReleaseSearchVo">
+		select * from (SELECT 
+		distinct(s.id) as sid,
+		ccr.course_id as courseId,
+		s.name as sname,
+		uf.id as uid,
+		uf.mobile as umobile,
+		uf.username as username,
+		(SELECT COUNT(DISTINCT f.id)
+		FROM class_type a
+		INNER JOIN class_type_module_relation b 
+		ON a.id = b.class_type_id
+		INNER JOIN class_module c
+		ON b.module_id = c.id
+		INNER JOIN course_video_chapter d
+		ON d.module_id = c.id
+		INNER JOIN course_video_lecture f
+		ON d.id = f.chapter_id
+		WHERE a.id = courseId) as tln,
+		(SELECT count(*) from user_history as uh where uh.class_type_id = courseId and uh.user_id = uid and uh.study_status = 3) as rln,
+		(select count(*) from certificate_user_relation where user_id = uid and cer_id = #{cerId}) as um,
+		(select receive_time from certificate_user_relation as cur where cur.user_id = uid and cer_id = #{cerId}) as receiveTime
+		from certificate_course_relation ccr 
+		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student s on sp.stu_id = s.id 
+		inner JOIN users_front uf on s.user_id = uf.id
+		left join certificate_user_relation cure on s.id = cure.user_id
+		where ccr.cer_id = #{cerId} and cpr.product_type = 1 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
+		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
+		or sp.pay_status_code='ORDER_CREATED') 
+		and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+		<if test="courseId != null and courseId != ''"> and ccr.course_id = #{courseId} </if>
+		<if test="stuName != null and stuName != ''"> and s.name like '%${stuName}%' </if>
+		<if test="mobile != null and mobile != ''"> and uf.mobile like '%${mobile}%' </if>
+		<if test="username != null and username != ''"> and uf.username like '%${username}%' </if>
+		<if test="startTime != null and startTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[<=]]> '${endTime}'</if>
+		limit #{firstIndex},#{pageSize}
+		) innerTable where 1 = 1<if test="studyStatus == 0">and innerTable.tln = innerTable.rln</if>
+		<if test="studyStatus == 1">and innerTable.tln > innerTable.rln</if>
+		<if test="releaseStatus == 0">and innerTable.um > 0</if>
+		<if test="releaseStatus == 1">and innerTable.um = 0</if>
+	</select>
+	
+	<select id="pageReleaseCertificateListCount" resultType="int" parameterType="com.yuxin.wx.vo.certificate.ReleaseSearchVo">	
+		select count(uid) from 
+		(SELECT 
+		distinct(s.id) as sid,
+		ccr.course_id as courseId,
+		s.name as sname,
+		uf.id as uid,
+		uf.mobile as umobile,
+		uf.username as username,
+		(SELECT COUNT(DISTINCT f.id)
+		FROM class_type a
+		INNER JOIN class_type_module_relation b 
+		ON a.id = b.class_type_id
+		INNER JOIN class_module c
+		ON b.module_id = c.id
+		INNER JOIN course_video_chapter d
+		ON d.module_id = c.id
+		INNER JOIN course_video_lecture f
+		ON d.id = f.chapter_id
+		WHERE a.id = courseId) as tln,
+		(SELECT count(*) from user_history as uh where uh.class_type_id = courseId and uh.user_id = uid and uh.study_status = 3) as rln,
+		(select count(*) from certificate_user_relation where user_id = uid and cer_id = #{cerId}) as um
+		from certificate_course_relation ccr 
+		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student s on sp.stu_id = s.id 
+		inner JOIN users_front uf on s.user_id = uf.id
+		left join certificate_user_relation cure on s.id = cure.user_id
+		where ccr.cer_id = #{cerId} and cpr.product_type = 1 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
+		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
+		or sp.pay_status_code='ORDER_CREATED') 
+		and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+		<if test="courseId != null and courseId != ''"> and ccr.course_id = #{courseId}</if>
+		<if test="stuName != null and stuName != ''"> and s.name like '%${stuName}%' </if>
+		<if test="mobile != null and mobile != ''"> and uf.mobile like '%${mobile}%' </if>
+		<if test="username != null and username != ''"> and uf.username like '%${username}%' </if>
+		<if test="startTime != null and startTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(cure.receive_time,"%Y-%m-%d %H:%i") <![CDATA[<=]]> '${endTime}'</if>
+	 	)innerTable where 1 = 1<if test="studyStatus == 0">and innerTable.tln = innerTable.rln</if>
+		<if test="studyStatus == 1">and innerTable.tln > innerTable.rln</if>
+		<if test="releaseStatus == 0">and innerTable.um > 0</if>
+		<if test="releaseStatus == 1">and innerTable.um = 0</if>
+	</select>
+	
+	<delete id="deleteByCerId" parameterType="int">
+		delete from certificate_course_relation where cer_id = #{cerId}
+	</delete>
+</mapper>

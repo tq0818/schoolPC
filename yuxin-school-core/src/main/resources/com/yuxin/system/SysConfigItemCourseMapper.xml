@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigItemCourseMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigItemCourse" id="sysConfigItemCourseResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="configItemId" column="config_item_id" />
+		<result property="validityDay" column="validity_day" />
+		<result property="validityDate" column="validity_date" />
+		<result property="videoWatchCount" column="video_watch_count" />
+		<result property="liveWatchCount" column="live_watch_count" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		config_item_id,
+		validity_day,
+		validity_date,
+		video_watch_count,
+		live_watch_count,
+		del_flag
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{configItemId},
+		#{validityDay},
+		#{validityDate},
+		#{videoWatchCount},
+		#{liveWatchCount},
+		#{delFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.configItemId},
+		#{item.validityDay},
+		#{item.validityDate},
+		#{item.videoWatchCount},
+		#{item.liveWatchCount},
+		#{item.delFlag}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item_course( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_item_course( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_item_course
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_item_course
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		update sys_config_item_course 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="configItemId != null and configItemId != ''">config_item_id = #{configItemId},</if>
+			<if test="validityDay != null">validity_day = #{validityDay},</if>
+			<if test="validityDate != null and validityDate != ''">validity_date = #{validityDate},</if>
+			<if test="videoWatchCount != null and videoWatchCount != ''">video_watch_count = #{videoWatchCount},</if>
+			<if test="liveWatchCount != null and liveWatchCount != ''">live_watch_count = #{liveWatchCount},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="updateByItemId" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		update sys_config_item_course 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="validityDay != null">validity_day = #{validityDay},</if>
+			<if test="validityDate != null and validityDate != ''">validity_date = #{validityDate},</if>
+			<if test="videoWatchCount != null and videoWatchCount != ''">video_watch_count = #{videoWatchCount},</if>
+			<if test="liveWatchCount != null and liveWatchCount != ''">live_watch_count = #{liveWatchCount},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+		</trim>
+		<where>config_item_id = #{configItemId} and company_id = #{companyId}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigItemCourseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_item_course
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigItemCourseResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_item_course
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="configItemId != null and configItemId != ''">and config_item_id = #{configItemId}</if>
+			<if test="validityDay != null and validityDay != ''">and validity_day = #{validityDay}</if>
+			<if test="validityDate != null and validityDate != ''">and validity_date = #{validityDate}</if>
+			<if test="videoWatchCount != null and videoWatchCount != ''">and video_watch_count = #{videoWatchCount}</if>
+			<if test="liveWatchCount != null and liveWatchCount != ''">and live_watch_count = #{liveWatchCount}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigItemCourseResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		select <include refid="table_columns" />
+		from sys_config_item_course
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		select count(id) from sys_config_item_course
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findSysConfigItemCourse" resultMap="sysConfigItemCourseResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		select <include refid="table_columns" />
+		from sys_config_item_course
+		<include refid="page_where" />
+	</select>
+	
+	<select id="findByItem" resultMap="sysConfigItemCourseResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		select scic.id,
+		scic.company_id,
+		scic.config_item_id,
+		scic.validity_day,
+		scic.validity_date,
+		scic.video_watch_count,
+		scic.live_watch_count,
+		scic.del_flag
+		from sys_config_item_course as scic,sys_school_item_relation r,sys_config_item as sci
+		where scic.config_item_id = r.item_id and r.del_flag=0 and sci.id = scic.config_item_id and sci.item_type = 1
+		<if test="companyId != null and companyId != ''">and scic.company_id = #{companyId}</if>
+		<if test="configItemId != null and configItemId != ''">and config_item_id = #{configItemId}</if>
+		<if test="validityDay != null and validityDay != ''">and validity_day = #{validityDay}</if>
+		<if test="validityDate != null and validityDate != ''">and validity_date = #{validityDate}</if>
+		<if test="videoWatchCount != null and videoWatchCount != ''">and video_watch_count = #{videoWatchCount}</if>
+		<if test="liveWatchCount != null and liveWatchCount != ''">and live_watch_count = #{liveWatchCount}</if>
+		<if test="delFlag != null">and scic.del_flag = #{delFlag}</if>
+		group by scic.id
+	</select>
+	
+	<select id="findByItemIdAndComId" resultMap="sysConfigItemCourseResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse" >
+		select <include refid="table_columns" />
+		from sys_config_item_course
+		where config_item_id = #{configItemId} and company_id = #{companyId}
+		limit 1
+	</select>
+	
+	<update id="updateStatus" parameterType="com.yuxin.wx.model.system.SysConfigItemCourse">
+		update sys_config_item_course 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="validityDay != null">validity_day = #{validityDay},</if>
+			<if test="validityDate != null">validity_date = #{validityDate},</if>
+			<if test="videoWatchCount != null">video_watch_count = #{videoWatchCount},</if>
+			<if test="liveWatchCount != null">live_watch_count = #{liveWatchCount},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+		</trim>
+		where company_id = #{companyId} and 
+			config_item_id = #{configItemId}
+	</update>
+	
+</mapper>

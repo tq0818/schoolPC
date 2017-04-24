@@ -1,0 +1,40 @@
+package com.yuxin.wx.common;
+
+
+/**
+ * 
+ * @ClassName: Sheet
+ * @Description: 消息实体
+ * @author Chopin
+ * @date 2014年12月13日
+ * @version 1.0
+ */
+public class Message {
+	private String flag="";
+	private String message="";
+	private String sessionId="";
+	
+	public String getFlag(){
+		return flag;
+	}
+	
+	public void setFlag(String flag){
+		this.flag=flag;
+	}
+	
+	public String getMessage(){
+		return message;
+	}
+	
+	public void setMessage(){
+		this.message=message;
+	}
+	public String getSessionId(){
+		return sessionId;
+	}
+	
+	public void setSessionId(String sessionId){
+		this.sessionId=sessionId
+	}
+
+}

@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassType" id="classTypeResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="typeCode" column="type_code" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="schoolsId" column="schools_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="description" column="description" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="isSale" column="is_sale" />
+		<result property="cover" column="cover" />
+		<result property="subTitle" column="sub_title" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="baseNum" column="base_num"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="createSchoolId" column="create_school_id"/>
+		<result property="validityDay" column="validity_day"/>
+		<result property="validityDate" column="validity_date"/>
+		<result property="videoWatchCount" column="video_watch_count"/>
+		<result property="liveWatchCount" column="live_watch_count"/>
+		<result property="commodityId" column="commodityId"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+		<result property="buyNumMax" column="buy_num_max"/>
+		<result property="protocolId" column="protocol_id"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
+		<result property="id" column="id" />
+		<result property="commodityId" column="com_id" />
+		<result property="name" column="name" />
+		<result property="typeCode" column="type_code" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="schoolsId" column="schools_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="description" column="description" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="isSale" column="is_sale" />
+		<result property="cover" column="cover" />
+		<result property="subTitle" column="sub_title" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="lableType" column="lable_type" />
+		<result property="baseNum" column="base_num" />
+		<result property="actualNum" column="actualNum"/>
+		<result property="teacherId" column="teacher_id" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="createSchoolId" column="create_school_id"/>
+		<result property="itemTag" column="item_tag"/>
+		<result property="validityDay" column="validity_day"/>
+		<result property="validityDate" column="validity_date"/>
+		<result property="videoWatchCount" column="video_watch_count"/>
+		<result property="liveWatchCount" column="live_watch_count"/>
+		<result property="relationId" column="relationId"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+		<result property="buyNumMax" column="buy_num_max"/>
+		<result property="protocolId" column="protocol_id"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		type_code,
+		original_price,
+		real_price,
+		schools_id,
+		item_one_id,
+		item_second_id,
+		description,
+		publish_status,
+		publish_time,
+		is_sale,
+		cover,
+		sub_title,
+		detail_desc,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		del_flag,
+		company_id,
+		lable_type,
+		base_num,
+		teacher_id,
+		face_flag,
+		live_flag,
+		video_flag,
+		remote_flag,
+		recommend_flag,
+		create_school_id,
+		item_tag,
+		validity_day,
+		validity_date,
+		video_watch_count,
+		live_watch_count,
+		integral_flag,
+		member_flag,
+		buy_num_max,
+		protocol_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{typeCode},
+		#{originalPrice},
+		#{realPrice},
+		#{schoolsId},
+		#{itemOneId},
+		#{itemSecondId},
+		#{description},
+		#{publishStatus},
+		#{publishTime},
+		#{isSale},
+		#{cover},
+		#{subTitle},
+		#{detailDesc},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{companyId},
+		#{lableType},
+		#{baseNum},
+		#{teacherId},
+		#{faceFlag},
+		#{liveFlag},
+		#{videoFlag},
+		#{remoteFlag},
+		#{recommendFlag},
+		#{createSchoolId},
+		#{itemTag},
+		#{validityDay},
+		#{validityDate},
+		#{videoWatchCount},
+		#{liveWatchCount},
+		#{integralFlag},
+		#{memberFlag},
+		#{buyNumMax},
+		#{protocolId}
+	</sql>
+	
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.typeCode},
+		#{item.originalPrice},
+		#{item.realPrice},
+		#{item.schoolsId},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.description},
+		#{item.publishStatus},
+		#{item.publishTime},
+		#{item.isSale},
+		#{item.cover},
+		#{item.subTitle},
+		#{item.detailDesc},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.delFlag},
+		#{item.companyId},
+		#{item.lableType},
+		#{item.baseNum},
+		#{item.teacherId},
+		#{item.faceFlag},
+		#{item.liveFlag},
+		#{item.videoFlag},
+		#{item.remoteFlag},
+		#{item.recommendFlag},
+		#{item.createSchoolId},
+		#{item.itemTag},
+		#{item.validityDay},
+		#{item.validityDate},
+		#{item.videoWatchCount},
+		#{item.liveWatchCount},
+		#{item.integralFlag},
+		#{item.memberFlag},
+		#{item.buyNumMax},
+		#{item.protocolId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassType" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_type( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_type
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_type
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassType">
+		update class_type 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="typeCode != null and typeCode != ''">type_code = #{typeCode},</if>
+			<if test="originalPrice != null">original_price = #{originalPrice},</if>
+			<if test="realPrice != null">real_price = #{realPrice},</if>
+			<if test="schoolsId != null and schoolsId != ''">schools_id = #{schoolsId},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="publishStatus != null and publishStatus != ''">publish_status = #{publishStatus},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="isSale != null">is_sale = #{isSale},</if>
+			<if test="cover != null and cover != ''">cover = #{cover},</if>
+			<if test="subTitle != null and subTitle != ''">sub_title = #{subTitle},</if>
+			<if test="detailDesc != null">detail_desc = #{detailDesc},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="lableType != null and lableType != ''">lable_type = #{lableType},</if>
+			<if test="baseNum != null">base_num = #{baseNum},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="faceFlag != null">face_flag = #{faceFlag},</if>
+			<if test="liveFlag != null">live_flag = #{liveFlag},</if>
+			<if test="videoFlag != null">video_flag = #{videoFlag},</if>
+			<if test="remoteFlag != null">remote_flag = #{remoteFlag},</if>
+			<if test="recommendFlag !=null">recommend_flag = #{recommendFlag},</if>
+			<if test="itemTag != null and itemTag != ''">item_tag =#{itemTag},</if>
+			<if test="validityDay != null">validity_day =#{validityDay},</if>
+			<if test="validityDate != null and validityDate != ''">validity_date =#{validityDate},</if>
+			<if test="videoWatchCount != null">video_watch_count =#{videoWatchCount},</if>
+			<if test="liveWatchCount != null">live_watch_count =#{liveWatchCount},</if>
+			<if test="integralFlag != null">integral_flag = #{integralFlag},</if>
+			<if test="memberFlag != null">member_flag = #{memberFlag},</if>
+			<if test="buyNumMax != null">buy_num_max = #{buyNumMax},</if>
+			<if test="protocolId != null">protocol_id = #{protocolId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classTypeResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_type
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classTypeResultMap">
+		select <include refid="table_columns" /> 
+		from class_type
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+		    1=1
+			<if test="name != null and name != ''">and name like '%${name}%'</if>
+			<if test="typeCode != null and typeCode != ''">and type_code = #{typeCode}</if>
+			<if test="originalPrice != null and originalPrice != ''">and original_price = #{originalPrice}</if>
+			<if test="realPrice != null and realPrice != ''">and real_price = #{realPrice}</if>
+			<if test="schoolsId != null and schoolsId != ''">and schools_id = #{schoolsId}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="isSale != null and isSale != ''">and is_sale = #{isSale}</if>
+			<if test="cover != null and cover != ''">and cover = #{cover}</if>
+			<if test="subTitle != null and subTitle != ''">and sub_title = #{subTitle}</if>
+			<if test="detailDesc != null and detailDesc != ''">and detail_desc = #{detailDesc}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+			<if test="faceFlag != null and faceFlag != ''">and face_flag = #{faceFlag}</if>
+			<if test="liveFlag != null and liveFlag != ''">and live_flag = #{liveFlag}</if>
+			<if test="videoFlag != null and videoFlag != ''">and video_flag = #{videoFlag}</if>
+			<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = #{remoteFlag}</if>
+			<if test="protocolId != null and protocolId != ''">and protocol_id = #{protocolId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
+		select <include refid="table_columns" />
+		from class_type
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassType">
+		select count(id) from class_type
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findDetailById" resultMap="classTypeVoResultMap" parameterType="hashmap" >
+		SELECT 
+		  a.*,
+		  b.item_name AS itemOneName,
+		  c.item_name AS itemSecondName 
+		FROM
+		  class_type a,
+		  sys_config_item b,
+		  sys_config_item c 
+		where a.id = #{classId}
+		and a.item_one_id = b.id 
+		and c.id = a.item_second_id
+		limit 1
+	</select>
+	<select id="findListByItem" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
+		select <include refid="table_columns" />
+		from class_type 
+		<include refid="page_where" /> and del_flag=0 and publish_status='CLASS_ON_SALE'
+		<if test="createSchoolId != null"> and create_school_id=#{createSchoolId}</if>
+		 order by id desc
+	</select>
+	
+	<select id="findListByItem2" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
+		select <include refid="table_columns" />
+		from class_type 
+		<include refid="page_where" /> and publish_status='CLASS_ON_SALE' and del_flag=0 and company_id=#{companyId} and type_code='CLASS_TYPE_REMOTE'
+	</select>
+	
+	<!-- 自定义分页查询 -->
+	<select id="queryClassTypeByKeysForPage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
+		SELECT 
+		  a.id,
+		  a.item_one_id,
+		  a.item_second_id,
+		  a.name,
+		  a.publish_status,
+		  a.type_code,
+		  a.original_price,
+		  b.item_name AS itemOneName,
+		  c.item_name AS itemSecondName 
+		FROM
+		  class_type a,
+		  sys_config_item b,
+		  sys_config_item c 
+		  <include refid="page_where" />
+		  and a.item_one_id = b.id 
+		  and c.id = a.item_second_id 
+		  ORDER BY a.update_time DESC
+		  limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<!-- 查询班型并分页 -->
+	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
+		SELECT a.*, c.buy_num as actualNum 
+        FROM class_type a left join commodity_product_realtion pr on
+		pr.product_id = a.id
+		INNER JOIN commodity c ON c.id = pr.com_id 
+		where a.del_flag=0 and a.company_id = #{companyId} and c.type='COMMODITY_CLASS' 
+		<if test="name != null and name != ''">and a.name like '%${name}%'</if>
+		<if test="itemOneId != null and itemOneId != ''">and a.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and a.item_second_id = #{itemSecondId}</if>
+		<if test="publishStatus != null and publishStatus != ''">and a.publish_status = #{publishStatus}</if>
+		<if test="createSchoolId !=null and createSchoolId != ''">and a.create_school_id = #{createSchoolId}</if>
+		<if test="itemTag != null and itemTag != ''">and find_in_set(#{itemTag},a.item_tag)>0</if>
+		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},a.item_tag)>0</if>
+		<if test="teacherId != null and teacherId != ''">and a.teacher_id =${teacherId} </if>
+		<if test="teachersId != null and teachersId != ''">or a.teacher_id in(${teachersId}) </if>
+		  ORDER BY a.update_time DESC
+		 limit #{firstIndex},#{pageSize}
+	</select>
+	
+	
+	<select id="queryCounts" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassType">
+		SELECT count(id) FROM class_type
+		where del_flag=0 and company_id = #{companyId}
+		<if test="name != null and name != ''">and name like '%${name}%'</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+		<if test="createSchoolId !=null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
+		<if test="itemTag != null and itemTag != ''">and find_in_set(#{itemTag},item_tag)>0</if>
+		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},item_tag)>0</if>
+		<if test="teacherId != null and teacherId != ''">and teacher_id =${teacherId} </if>
+		<if test="teachersId != null and teachersId != ''">or teacher_id in(${teachersId}) </if>
+	</select>
+	
+	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">
+		select a.*
+		from class_type a,student_pay_master b
+		where 
+			b.stu_id=#{id}
+		and
+			a.company_id=#{companyId}
+		and
+			b.commodity_id=a.id
+		and
+			b.id=#{payMasterId}
+		and
+			b.delete_flag=0
+		and 
+			b.commodity_type='COMMODITY_CLASS'
+		limit 1
+			 
+	</select>
+	
+	<select id="findByItem" parameterType="map" resultMap="classTypeResultMap">
+		select <include refid="table_columns" />
+		from class_type where 
+		publish_status='CLASS_ON_SALE'
+		and company_id=#{companyId}
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemTwoId != null and itemTwoId != ''">and item_second_id = #{itemTwoId}</if>
+		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
+		and del_flag=0
+	</select>
+	
+	<select id="findClassByItem" parameterType="map" resultMap="classTypeResultMap">
+		select id,name
+		from class_type where 
+		 company_id=#{companyId}
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemTwoId != null and itemTwoId != ''">and item_second_id = #{itemTwoId}</if>
+		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
+		and del_flag=0
+		order by id desc
+	</select>
+	<select id="findByRemote" parameterType="String" resultMap="classTypeResultMap">
+		select a.* from
+		course_remote a,
+		class_type_remote_relation b,
+		class_type c
+		where
+			a.id=b.remote_id
+		and
+			b.class_type_id=c.id
+		and
+			a.id=#{id}
+		group by a.id
+	</select>
+	<select id="findByModule" parameterType="String" resultMap="classTypeResultMap">
+		select c.* from
+		class_module a,
+		class_type_module_relation b,
+		class_type c
+		where
+			a.id=b.module_id
+		and
+			b.class_type_id=c.id
+		and
+			a.id=#{id}
+		group by c.id
+	</select>
+	
+	<select id="queryClassTypeByName" parameterType="String" resultMap="classTypeResultMap">
+	    select <include refid="table_columns" />
+		from class_type where name=#{name}
+		limit 1
+	</select>
+	
+	
+	<select id="findNameById" parameterType="map" resultType="String">
+		select name 
+		from class_type 
+		where create_school_id in (#{schoolId}) and 
+			company_id in (#{companyId}) and 
+			publish_status = 'CLASS_ON_SALE' and 
+			del_flag = 0
+	</select>
+	<select id="findClassTypeList3" parameterType="String" resultMap="classTypeResultMap">
+		select <include refid="table_columns" /> 
+		from class_type 
+		where company_id=#{companyId} and del_flag=0
+	</select>
+	<select id="findClassTypeList4" parameterType="String" resultMap="classTypeResultMap">
+		select id,name 
+		from class_type 
+		where company_id=#{companyId} and del_flag=0 and publish_status = 'CLASS_ON_SALE';
+	</select>
+	<select id="findByItemOne" parameterType="map" resultMap="classTypeResultMap">
+		select <include refid="table_columns" /> 
+		from class_type 
+		where
+		company_id=#{companyId} and del_flag=0
+		and item_one_id=#{itemOneId}
+		and publish_status='CLASS_ON_SALE'
+	</select>
+	
+	<update id="changClassTypeCollectStatus" parameterType="com.yuxin.wx.model.classes.ClassType">
+	   update class_type set recommend_flag=#{recommendFlag} where id=#{id}
+	</update>
+	
+	<select id="queryClassTypeExits" parameterType="com.yuxin.wx.model.classes.ClassType" resultMap="classTypeResultMap">
+		select <include refid="table_columns" />
+		from class_type where company_id=#{companyId} and create_school_id=#{createSchoolId}
+		<if test="name != null and name != ''">and name = #{name}</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		and del_flag=0
+	</select>
+	
+	<select id="queryClassBycondition" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
+		select ct.*,c.id as commodityId from commodity c left join commodity_product_realtion pr on
+		c.id=pr.com_id left join class_type ct on ct.id=pr.product_id and ct.del_flag=0 and pr.product_type=1 and c.type='COMMODITY_CLASS'
+		where ct.company_id=#{companyId} and publish_status='CLASS_ON_SALE'
+		<if test="itemOneId != null and itemOneId != ''">and ct.item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and ct.item_second_id = #{itemSecondId}</if>
+		<if test="createSchoolId != null and createSchoolId != ''">and ct.create_school_id = #{createSchoolId}</if>
+	</select>
+	
+	<select id="findClassTypeBycompanyId" parameterType="Integer" resultMap="classTypeResultMap">
+		select <include refid="table_columns" />
+		from class_type where company_id=#{companyId} and del_flag=0
+	</select>
+	<select id="findClassTypeByCommodity" parameterType="int" resultMap="classTypeResultMap">
+		SELECT
+			a.name,
+			a.id,
+			a.original_price,
+			a.real_price,
+			a.base_num,
+			a.item_one_id,
+			a.item_second_id,
+			a.detail_desc
+		FROM
+			class_type a,
+			commodity_product_realtion b
+		WHERE
+			b.product_id = a.id
+		AND b.com_id = #{id}
+		<!-- AND b.product_type = 1 -->
+		AND a.del_flag = 0;
+	</select>
+	
+	<select id="findClassTypeByClass" parameterType="com.yuxin.wx.model.classes.ClassType" resultType="Integer">
+		select id from class_type
+		where company_id = #{companyId} and 
+			create_school_id = #{createSchoolId} and 
+			item_one_id = #{itemOneId} and 
+			item_second_id = #{itemSecondId} and 
+			del_flag = #{delFlag}
+	</select>
+	
+	<update id="updateDeflag" parameterType="map">
+		update class_type set
+			del_flag = #{delFlag}
+			,is_sale = 0
+		where id in
+			<foreach collection="classId" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</update>
+	
+	<!-- 查询课程包下的课程 -->
+	<select id="queryClassTypesByClassPackage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.vo.classes.ClassPackageConditionVo">
+		SELECT ct.*, c.buy_num as actualNum,cpr.id as relationId 
+        from class_type ct,class_package_relation cpr,class_package cp,commodity_product_realtion cr,commodity c
+        where ct.id=cpr.class_type_id and cpr.class_package_id=cp.id and ct.id=cr.product_id and cr.com_id=c.id and cr.product_type=1 and ct.del_flag=0 
+        and cp.company_id=#{companyId} 
+        and cpr.class_package_id=#{id}
+        <choose>
+        	<when test="stageId != null">and cpr.class_package_stage_id=#{stageId}</when>
+        	<otherwise>and cpr.class_package_stage_id is null</otherwise>
+        </choose>
+        order by cpr.sort ASC
+	</select>
+	
+	<!-- 查询课程包下是否存在某个课程 -->
+	<select id="queryIsExistByClassPackage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.vo.classes.ClassPackageConditionVo">
+		SELECT ct.id,ct.face_flag,
+		ct.live_flag,
+		ct.video_flag,
+		ct.remote_flag from class_type ct,class_package_relation cpr,class_package cp
+        where ct.id=cpr.class_type_id and cpr.class_package_id=cp.id and ct.del_flag=0 
+        and cp.company_id=#{companyId} 
+        and cpr.class_package_id=#{id} 
+        <if test="classTypeId != null and classTypeId != ''">
+        and cpr.class_type_id=#{classTypeId}
+        </if>
+	</select>
+	
+	<!-- 查询可以添加到会员课程的课程 -->
+	<select id="queryClassTypeForMember" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo">
+		select <include refid="table_columns" />
+		from class_type where company_id=#{companyId} and del_flag=0 and id not in (select class_type_id from class_type_member_discount where company_id =#{companyId} and member_id = #{memberId})
+		<if test="name != null and name != ''">and name like '%${name}%'</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		order by create_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryClassTypeForMemberCount" resultType="int" parameterType="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo">
+		select count(*)
+		from class_type where company_id=#{companyId} and del_flag=0 and id not in (select class_type_id from class_type_member_discount where company_id =#{companyId} and member_id = #{memberId})
+		<if test="name != null and name != ''">and name like '%${name}%'</if>
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+	</select>
+	<select id="queryClassTypeByOneAndTwoItem" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo">
+		select id,name
+		from class_type where company_id=#{companyId} and del_flag=0 and video_flag = 1
+		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+	</select>
+	
+	
+	<select id="findClassTypeVoByClassTypeId" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
+		select ct.*,cpr.product_id as com_id
+		from class_type ct inner join commodity_product_realtion cpr 
+		on ct.id = cpr.product_id
+		where ct.id = #{classTypeId} and cpr.product_type = 1
+	</select>
+	<!-- 查找机构所有的课程 -->
+	<select id="findAllclassType" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
+		select id,name
+		from class_type 
+		where company_id = #{companyId} and del_flag=0
+		<if test="schoolsId != null and schoolsId != ''">and schools_id = #{schoolsId}</if>
+		order by id desc
+	</select>
+</mapper>

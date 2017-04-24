@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigTeacherLessonMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysConfigTeacherLesson" id="sysConfigTeacherLessonResultMap">
+		<result property="id" column="id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="lessonFee" column="lesson_fee" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.SysConfigTeacherLessonVo" id="sysConfigTeacherLessonVoResultMap">
+		<result property="id" column="id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="moduleId" column="module_id" />
+		<result property="moduleName" column="module_name" />
+		<result property="lessonFee" column="lesson_fee" />
+		<result property="lessonCount" column="lesson_count"/>
+		<result property="teachMethod" column="teach_method"/>
+		<result property="totalHours" column="total_hours" />
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		teacher_id,
+		item_one_id,
+		item_second_id,
+		module_id,
+		lesson_fee
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{teacherId},
+		#{itemOneId},
+		#{itemSecondId},
+		#{moduleId},
+		#{lessonFee}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigTeacherLesson" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_teacher_lesson( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_config_teacher_lesson( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( #{item.id},#{item.teacherId},#{item.itemOneId},#{item.itemSecondId},#{item.moduleId},#{item.lessonFee} )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_config_teacher_lesson
+		where id = #{id}
+	</delete>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteByTeacherId">
+		delete from sys_config_teacher_lesson
+		where teacher_id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_config_teacher_lesson
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysConfigTeacherLesson">
+		update sys_config_teacher_lesson 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="moduleId != null and moduleId != ''">module_id = #{moduleId},</if>
+			<if test="lessonFee != null and lessonFee != ''">lesson_fee = #{lessonFee},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysConfigTeacherLessonResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_teacher_lesson
+		where id = #{id}
+	</select>
+	
+	<select id="findSysConfigTeacherLessonByTeaId" resultMap="sysConfigTeacherLessonResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_config_teacher_lesson
+		where teacher_id = #{id}
+		limit 1
+	</select>
+	
+	
+	<select id="findByTeacherId" resultMap="sysConfigTeacherLessonVoResultMap" parameterType="String" >
+		SELECT 
+		  a.*,
+		  b.name AS module_name, 
+		  b.teach_method as teach_method,
+		  c.item_name AS itemOneName,
+		  d.item_name AS itemSecondName,
+			<!-- (SELECT count(id) as lesson_count from class_module_lesson cml WHERE cml.module_no_id = a.module_id) as lesson_count -->
+		  b.total_class_hour as total_hours
+		FROM
+		  sys_config_teacher_lesson a,
+		  class_module b,
+		  sys_config_item c,
+		  sys_config_item d
+		WHERE a.module_id = b.id 
+		  AND a.item_one_id = c.id 
+		  AND d.id = a.item_second_id 
+		  AND a.teacher_id=#{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysConfigTeacherLessonResultMap">
+		select <include refid="table_columns" /> 
+		from sys_config_teacher_lesson
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="moduleId != null and moduleId != ''">and module_id = #{moduleId}</if>
+			<if test="lessonFee != null and lessonFee != ''">and lesson_fee = #{lessonFee}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysConfigTeacherLessonResultMap" parameterType="com.yuxin.wx.model.system.SysConfigTeacherLesson">
+		select <include refid="table_columns" />
+		from sys_config_teacher_lesson
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigTeacherLesson">
+		select count(id) from sys_config_teacher_lesson
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

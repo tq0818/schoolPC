@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuCategoryMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuCategory" id="tikuCategoryResultMap">
+		<result property="id" column="id" />
+		<result property="tikuName" column="tiku_name" />
+		<result property="tikuDesc" column="tiku_desc" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="companyId" column="company_id" />
+		<result property="iconUrl" column="icon_url" />
+		<result property="iconBackUrl" column="icon_back_url" />
+		<result property="delFlag" column="del_flag" />
+		
+	</resultMap>
+
+	<resultMap type="com.yuxin.wx.vo.tiku.TikuCategoryVo" id="tikuCategoryResultMapVo">
+		<result property="id" column="id" />
+		<result property="tikuName" column="tiku_name" />
+		<result property="tikuDesc" column="tiku_desc" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="companyId" column="company_id" />
+		<result property="subjectNo" column="subject_no" />
+		<result property="paperNo" column="paper_no" />
+		<result property="topicNo" column="topic_no" />
+		<result property="iconUrl" column="icon_url" />
+		<result property="iconBackUrl" column="icon_back_url" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		tiku_name,
+		tiku_desc,
+		item_one_id,
+		item_second_id,
+		company_id,
+		icon_url,
+		icon_back_url,
+		del_flag
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{tikuName},
+		#{tikuDesc},
+		#{itemOneId},
+		#{itemSecondId},
+		#{companyId},
+		#{iconUrl},
+		#{iconBackUrl},
+		#{delFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.tikuName},
+		#{item.tikuDesc},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.companyId}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuCategory"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_category(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into tiku_category(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="batch_entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_category
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_category
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuCategory">
+		update tiku_category
+		<trim prefix="set" suffixOverrides=",">
+			<if test="tikuName != null and tikuName != ''">tiku_name = #{tikuName},</if>
+			<if test="tikuDesc != null and tikuDesc != ''">tiku_desc = #{tikuDesc},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="iconUrl != null and iconUrl != ''">icon_url = #{iconUrl},</if>
+			<if test="iconBackUrl != null and iconBackUrl != ''">icon_back_url = #{iconBackUrl},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="tikuCategoryResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from tiku_category
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="tikuCategoryResultMap">
+		select
+		<include refid="table_columns" />
+		from tiku_category
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="tikuName != null and tikuName != ''">and tiku_name = #{tikuName}</if>
+			<if test="tikuDesc != null and tikuDesc != ''">and tiku_desc = #{tikuDesc}</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="tikuCategoryResultMap"
+		parameterType="com.yuxin.wx.model.tiku.TikuCategory">
+		select
+		<include refid="table_columns" />
+		from tiku_category
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.tiku.TikuCategory">
+		select count(id) from tiku_category
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="findTikuCategoryVo" resultMap="tikuCategoryResultMapVo"
+		parameterType="com.yuxin.wx.vo.tiku.TikuCategoryVo">
+		select tc.id,tc.tiku_name,tc.tiku_desc,tc.icon_url,tc.del_flag,(select count(ts.id) from
+		tiku_subject as ts where ts.category_id = tc.id and ts.del_flag = 0) as subject_no,
+		(select count(tp.id) from tiku_paper as tp where tp.tiku_category_id =
+		tc.id) as paper_no,
+		(select count(tt.id) from tiku_topic as tt where tt.tiku_category_id = tc.id and status = 'PAPER_STATUS_PUBLISH')
+		as topic_no
+		from tiku_category as tc
+		<if test="companyId != null and companyId != ''">where tc.company_id = #{companyId}</if>
+	</select>
+	
+	<select id="findTopCountById" parameterType="Integer" resultType="Integer">
+		select count(id) from tiku_topic where tiku_category_id = #{id} limit 1
+	</select>
+	
+	<select id="findTikuByComIdAndTName" parameterType="com.yuxin.wx.model.tiku.TikuCategory" resultType="Integer">
+		select count(id) from tiku_category where company_id = #{companyId} and tiku_name = #{tikuName} limit 1
+	</select>
+	
+	<select id="findCateList" parameterType="Integer" resultMap="tikuCategoryResultMap">
+		select <include refid="table_columns"/>
+		from tiku_category
+		where company_id = #{companyId} 	
+			and del_flag = 0	
+	</select>
+</mapper>

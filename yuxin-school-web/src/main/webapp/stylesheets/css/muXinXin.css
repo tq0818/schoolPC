@@ -1,0 +1,116 @@
+.searchMuxin {
+  font-size: 0;
+}
+.searchMuxin label {
+  display: inline-block;
+  margin-right: 30px;
+}
+.searchMuxin label span {
+  font-size: 14px;
+  line-height: 30px;
+  color: #666;
+}
+.searchMuxin .inTime {
+  width: 142px;
+}
+.searchMuxin input {
+  height: 16px;
+  vertical-align: top;
+  margin-left: 10px;
+  font-size: 12px;
+}
+.searchMuxin .inSearch {
+  width: 132px;
+}
+.searchMuxin .inUser {
+  width: 102px;
+}
+input.searchBut {
+  width: 45px;
+  height: 26px;
+  background-color: #00b7ee;
+  color: #fff;
+  font-size: 12px;
+  line-height: 12px;
+  border: none;
+  outline: none;
+  margin-left: -10px;
+  border-radius: 2px;
+  margin-top: 2px;
+}
+input.searchBut:hover {
+  background-color: #01aadd;
+}
+.starImg .titleImg {
+  width: 468px;
+  height: 180px;
+  border: 1px solid #ccc;
+  text-align: center;
+  line-height: 180px;
+  background-color: #fff;
+}
+.starImg img {
+  vertical-align: middle;
+}
+.uploadImg {
+  margin-top: 10px;
+  position: relative;
+  height: 42px;
+}
+.uploadImg button {
+  width: 120px;
+  height: 40px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 14px;
+  color: #999;
+  border: 1px solid #ccc;
+  vertical-align: top;
+}
+.uploadImg .intFile {
+  width: 122px;
+  height: 42px;
+  border: none;
+  outline: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.uploadImg span {
+  font-size: 12px;
+  line-height: 40px;
+  color: #999;
+}
+.FormSub {
+  width: 100%;
+  text-align: center;
+  font-size: 0;
+  margin-top: 142px;
+}
+.FormSub input {
+  width: 100px;
+  height: 35px;
+  border: 1px solid #949494;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 14px;
+  color: #474747;
+  text-align: center;
+  margin: 0 10px;
+  border-radius: 4px;
+}
+.FormSub input:hover {
+  background-color: #f3f3f3;
+}
+.FormSub .newOn {
+  border: none;
+  background-color: #00b7ee;
+  color: #fff;
+}
+.FormSub .newOn:hover {
+  background-color: #01aadd;
+}
+.height632 {
+  min-height: 630px;
+}

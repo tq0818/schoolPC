@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveRecordZsMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveRecordZs" id="companyLiveRecordZsResultMap">
+		<result property="id" column="id" />
+		<result property="recordId" column="record_id" />
+		<result property="name" column="name" />
+		<result property="recordStartTime" column="record_start_time" />
+		<result property="recordEndTime" column="record_end_time" />
+		<result property="recordCreatedTime" column="record_created_time" />
+		<result property="recordSize" column="record_size" />
+		<result property="roomId" column="room_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		record_id,
+		name,
+		record_start_time,
+		record_end_time,
+		record_created_time,
+		record_size,
+		room_id,
+		creator,
+		create_time,
+		school_id,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{recordId},
+		#{name},
+		#{recordStartTime},
+		#{recordEndTime},
+		#{recordCreatedTime},
+		#{recordSize},
+		#{roomId},
+		#{creator},
+		#{createTime},
+		#{schoolId},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.recordId},
+		#{item.name},
+		#{item.recordStartTime},
+		#{item.recordEndTime},
+		#{item.recordCreatedTime},
+		#{item.recordSize},
+		#{item.roomId},
+		#{item.creator},
+		#{item.createTime},
+		#{item.schoolId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveRecordZs" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_record_zs( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_live_record_zs( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_live_record_zs
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_record_zs
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveRecordZs">
+		update company_live_record_zs 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="recordId != null">record_id = #{recordId},</if>
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="recordStartTime != null and recordStartTime != ''">record_start_time = #{recordStartTime},</if>
+			<if test="recordEndTime != null and recordEndTime != ''">record_end_time = #{recordEndTime},</if>
+			<if test="recordCreatedTime != null and recordCreatedTime != ''">record_created_time = #{recordCreatedTime},</if>
+			<if test="recordSize != null">record_size = #{recordSize},</if>
+			<if test="roomId != null">room_id = #{roomId},</if>
+			<if test="creator != null">creator = #{creator},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="schoolId != null">school_id = #{schoolId},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLiveRecordZsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_live_record_zs
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLiveRecordZsResultMap">
+		select <include refid="table_columns" /> 
+		from company_live_record_zs
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="recordId != null">and record_id = #{recordId}</if>
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="recordStartTime != null and recordStartTime != ''">and record_start_time = #{recordStartTime}</if>
+			<if test="recordEndTime != null and recordEndTime != ''">and record_end_time = #{recordEndTime}</if>
+			<if test="recordCreatedTime != null and recordCreatedTime != ''">and record_created_time = #{recordCreatedTime}</if>
+			<if test="recordSize != null and recordSize != ''">and record_size = #{recordSize}</if>
+			<if test="roomId != null and roomId != ''">and room_id = #{roomId}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="schoolId != null">and school_id = #{schoolId}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyLiveRecordZsResultMap" parameterType="com.yuxin.wx.model.company.CompanyLiveRecordZs">
+		select <include refid="table_columns" />
+		from company_live_record_zs
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLiveRecordZs">
+		select count(id) from company_live_record_zs
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findRecord" parameterType="com.yuxin.wx.model.company.CompanyLiveRecordZs" resultMap="companyLiveRecordZsResultMap">
+		select <include refid="table_columns"/>
+		from company_live_record_zs
+		where company_id = #{companyId} and 
+			school_id = #{schoolId}
+			<if test="name != null and name != ''">
+			  and name like concat('%',#{name},'%')
+			</if>
+		order by id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findCountRecord" parameterType="com.yuxin.wx.model.company.CompanyLiveRecordZs" resultType="Integer">
+		select count(id)
+		from company_live_record_zs
+		where company_id = #{companyId} and 
+			school_id = #{schoolId}
+			<if test="name != null and name != ''">
+			  and name like concat('%',#{name},'%')
+			</if>
+	</select>
+	
+	<select id="findNameByRecordId" parameterType="String" resultType="String">
+		select name from company_live_record_zs
+		where record_id = #{recordId}
+		limit 1
+	</select>
+</mapper>

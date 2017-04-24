@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	">
+
+	<description>Spring公共配置</description>
+
+	<context:component-scan base-package="com.yuxin">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!--开启注解 -->
+	<context:annotation-config />
+
+	<!-- 开启自动切面代理 -->
+	<aop:aspectj-autoproxy />
+
+	<!-- 定时器开关 开始 -->
+	<task:annotation-driven />
+	<!-- 定时器开关 结束 -->
+
+	<!-- 定义受环境影响易变的变量 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="properties" ref="properties" />
+	</bean>
+	<!-- 定义受环境影响易变的变量 -->
+	<bean id="properties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="localOverride" value="true" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 标准配置 -->
+				<value>classpath*:/config.properties</value>
+				<!-- 本地开发环境配置 -->
+				<!-- <value>file:/d:/yuxinconf/school/*.properties</value> -->
+				<!-- 服务器生产环境配置 -->
+				<!-- <value>file:/etc/yuxinconf/school/*.properties</value> -->
+			</list>
+		</property>
+	</bean>
+
+		<!-- (父)数据源定义,使用Apache DBCP 连接池 -->
+	<bean id="parentDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="minPoolSize" value="10" />
+		<property name="maxPoolSize" value="200" />
+		<property name="maxIdleTime" value="30" />
+		<property name="acquireIncrement" value="5" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="numHelperThreads" value="5" />
+		<property name="acquireRetryDelay" value="500" />
+		<property name="autoCommitOnClose" value="true" />
+		<property name="propertyCycle" value="300" />
+		<property name="checkoutTimeout" value="5000" />
+	</bean>
+
+	<!-- 配置主库数据源 -->
+	<bean id="dataSourceSchool" parent="parentDataSource">
+		<property name="jdbcUrl">
+			<value>${dev.yitian.jdbc.url}</value>
+		</property>
+		<property name="user">
+			<value>${dev.yitian.db.username}</value>
+		</property>
+		<property name="password">
+			<value>${dev.yitian.db.password}</value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceSchool" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="false" />
+
+	<!-- 强烈建议用JdbcTemplate代替JdbcUtils -->
+	<bean id="jdbcTemplatePromotion" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSourceSchool" />
+	</bean>
+
+	<bean id="sqlSessionTemplateMaster" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0">
+			<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+				<property name="dataSource" ref="dataSourceSchool"></property>
+				<property name="configLocation" value="classpath:mybatis-config-master.xml"></property>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" value="SIMPLE" />
+		<constructor-arg index="2">
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplateMaster" />
+		<property name="basePackage">
+			<value>
+				com.yuxin.wx.user.mapper,
+				com.yuxin.wx.classes.mapper,
+				com.yuxin.wx.course.mapper,
+				com.yuxin.wx.student.mapper,
+				com.yuxin.wx.system.mapper,
+				com.yuxin.wx.auth.mapper,
+				com.yuxin.wx.commodity.mapper,
+				com.yuxin.wx.company.mapper,
+				com.yuxin.wx.pay.mapper,
+				com.yuxin.wx.tiku.mapper,
+				com.yuxin.wx.crm.mapper,
+				com.yuxin.wx.queAns.mapper,
+				com.yuxin.wx.tiku.exam.mapper,
+				com.yuxin.wx.check,
+				com.yuxin.wx.common,
+				com.yuxin.wx.statistics.mapper,
+				com.yuxin.wx.resource.mapper,
+				com.yuxin.wx.certificate.mapper,
+				com.yuxin.wx.homework.mapper
+			</value>
+		</property>
+	</bean>
+    <bean name="sysTableConfig" id="sysTableConfig" class="com.yuxin.wx.common.SysTableConfig" init-method="init" scope="singleton"/>
+    <bean id="proUtil" class="com.yuxin.wx.utils.PropertiesUtil" />
+    
+    <bean id="threadPoolTaskExecutor"
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+ 
+        <!-- 核心线程数，默认为1 -->
+        <property name="corePoolSize" value="20" />
+ 
+        <!-- 最大线程数，默认为Integer.MAX_VALUE -->
+        <property name="maxPoolSize" value="50" />
+ 
+        <!-- 队列最大长度，一般需要设置值>=notifyScheduledMainExecutor.maxNum；默认为Integer.MAX_VALUE -->
+        <property name="queueCapacity" value="10000" />
+ 
+        <!-- 线程池维护线程所允许的空闲时间，默认为60s -->
+        <property name="keepAliveSeconds" value="5" />
+        <!-- 线程池对拒绝任务（无线程可用）的处理策略，目前只支持AbortPolicy、CallerRunsPolicy；默认为后者 -->
+        <property name="rejectedExecutionHandler">
+            <!-- AbortPolicy:直接抛出java.util.concurrent.RejectedExecutionException异常 -->
+            <!-- CallerRunsPolicy:主线程直接执行该任务，执行完之后尝试添加下一个任务到线程池中，可以有效降低向线程池内添加任务的速度 -->
+            <!-- DiscardOldestPolicy:抛弃旧的任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->
+            <!-- DiscardPolicy:抛弃当前任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+    
+    <bean id="parameterRequestHandler" class="com.yuxin.wx.common.ParameterRequestHandler">
+    	<property name="maxLevelUrl">
+    		<list></list>
+    	</property>
+	    <property name="minLevelUrl">
+    		<list></list>
+    	</property>
+    	<property name="vipUrl">
+    		<list></list>
+    	</property>
+    </bean>
+ </beans>

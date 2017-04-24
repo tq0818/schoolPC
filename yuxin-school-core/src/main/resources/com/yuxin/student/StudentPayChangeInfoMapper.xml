@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.student.mapper.StudentPayChangeInfoMapper">
+	<resultMap type="com.yuxin.wx.model.student.StudentPayChangeInfo" id="studentPayChangeInfoResultMap">
+		<result property="id" column="id" />
+		<result property="stuId" column="stu_id" />
+		<result property="payMasterId" column="pay_master_id" />
+		<result property="changeType" column="change_type" />
+		<result property="reasonType" column="reason_type" />
+		<result property="reasonCode" column="reason_code" />
+		<result property="dutySectionCode" column="duty_section_code" />
+		<result property="remark" column="remark" />
+		<result property="refundNum" column="refund_num" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		stu_id,
+		pay_master_id,
+		change_type,
+		reason_type,
+		reason_code,
+		duty_section_code,
+		remark,
+		refund_num,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{stuId},
+		#{payMasterId},
+		#{changeType},
+		#{reasonType},
+		#{reasonCode},
+		#{dutySectionCode},
+		#{remark},
+		#{refundNum},
+		#{companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.student.StudentPayChangeInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into student_pay_change_info( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into student_pay_change_info( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from student_pay_change_info
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from student_pay_change_info
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.student.StudentPayChangeInfo">
+		update student_pay_change_info 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="stuId != null and stuId != ''">stu_id = #{stuId},</if>
+			<if test="payMasterId != null and payMasterId != ''">pay_master_id = #{payMasterId},</if>
+			<if test="changeType != null and changeType != ''">change_type = #{changeType},</if>
+			<if test="reasonType != null and reasonType != ''">reason_type = #{reasonType},</if>
+			<if test="reasonCode != null and reasonCode != ''">reason_code = #{reasonCode},</if>
+			<if test="dutySectionCode != null and dutySectionCode != ''">duty_section_code = #{dutySectionCode},</if>
+			<if test="remark != null and remark != ''">remark = #{remark},</if>
+			<if test="refundNum != null and refundNum != ''">refund_num = #{refundNum},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="studentPayChangeInfoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from student_pay_change_info
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="studentPayChangeInfoResultMap">
+		select <include refid="table_columns" /> 
+		from student_pay_change_info
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="stuId != null and stuId != ''">and stu_id = #{stuId}</if>
+			<if test="payMasterId != null and payMasterId != ''">and pay_master_id = #{payMasterId}</if>
+			<if test="changeType != null and changeType != ''">and change_type = #{changeType}</if>
+			<if test="reasonType != null and reasonType != ''">and reason_type = #{reasonType}</if>
+			<if test="reasonCode != null and reasonCode != ''">and reason_code = #{reasonCode}</if>
+			<if test="dutySectionCode != null and dutySectionCode != ''">and duty_section_code = #{dutySectionCode}</if>
+			<if test="remark != null and remark != ''">and remark = #{remark}</if>
+			<if test="refundNum != null and refundNum != ''">and refund_num = #{refundNum}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="studentPayChangeInfoResultMap" parameterType="com.yuxin.wx.model.student.StudentPayChangeInfo">
+		select <include refid="table_columns" />
+		from student_pay_change_info
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.student.StudentPayChangeInfo">
+		select count(id) from student_pay_change_info
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

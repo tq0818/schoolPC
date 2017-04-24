@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyCouponsPatchMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyCouponsPatch" id="companyCouponsPatchResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="totalNum" column="total_num" />
+		<result property="usedNum" column="used_num" />
+		<result property="remainNum" column="remain_num" />
+		<result property="status" column="status" />
+		<result property="issueWay" column="issue_way" />
+		<result property="forCrowd" column="for_crowd" />
+		<result property="useWay" column="use_way" />
+		<result property="useRange" column="use_range" />
+		<result property="timeLimitFrom" column="time_limit_from" />
+		<result property="timeLimitTo" column="time_limit_to" />
+		<result property="promoCodePrefix" column="promo_code_prefix" />
+		<result property="promoCodeLength" column="promo_code_length" />
+		<result property="noticWay" column="notic_way" />
+		<result property="noticSmsContents" column="notic_sms_contents" />
+		<result property="noticMsgContents" column="notic_msg_contents" />
+		<result property="insCashNum" column="ins_cash_num" />
+		<result property="overNum" column="over_num" />
+		<result property="overCutNum" column="over_cut_num" />
+		<result property="discountNum" column="discount_num" />
+		<result property="memberList" column="member_list" />
+		<result property="description" column="description" />
+		<result property="rangeItemOne" column="range_item_one" />
+		<result property="rangeItemSecond" column="range_item_second" />
+		<result property="rangeItemCourse" column="range_item_course" />
+		<result property="userList" column="user_list" />
+		<result property="companyId" column="company_id"/>
+		<result property="delFlag" column="del_flag"/>
+		<result property="sendDate" column="send_date"/>
+		<result property="commodityType" column="commodity_type"/>
+		<result property="rangeItemPackageCategory" column="range_item_package_category"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.company.CompanyCouponsPatchVo" id="companyCouponsPatchVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="totalNum" column="total_num" />
+		<result property="usedNum" column="used_num" />
+		<result property="remainNum" column="remain_num" />
+		<result property="status" column="status" />
+		<result property="issueWay" column="issue_way" />
+		<result property="forCrowd" column="for_crowd" />
+		<result property="useWay" column="use_way" />
+		<result property="useRange" column="use_range" />
+		<result property="timeLimitFrom" column="time_limit_from" />
+		<result property="timeLimitTo" column="time_limit_to" />
+		<result property="promoCodePrefix" column="promo_code_prefix" />
+		<result property="promoCodeLength" column="promo_code_length" />
+		<result property="noticWay" column="notic_way" />
+		<result property="noticSmsContents" column="notic_sms_contents" />
+		<result property="noticMsgContents" column="notic_msg_contents" />
+		<result property="insCashNum" column="ins_cash_num" />
+		<result property="overNum" column="over_num" />
+		<result property="overCutNum" column="over_cut_num" />
+		<result property="discountNum" column="discount_num" />
+		<result property="memberList" column="member_list" />
+		<result property="description" column="description" />
+		<result property="rangeItemOne" column="range_item_one" />
+		<result property="rangeItemSecond" column="range_item_second" />
+		<result property="rangeItemCourse" column="range_item_course" />
+		<result property="userList" column="user_list" />
+		<result property="companyId" column="company_id"/>
+		<result property="delFlag" column="del_flag"/>
+		<result property="sendDate" column="send_date"/>
+		<result property="commodityType" column="commodity_type"/>
+		<result property="rangeItemPackageCategory" column="range_item_package_category"/>
+		<association property="rangeItemOneName" column="range_item_one" javaType="String"
+		select="selectRangeItemOneNameById"></association>
+		<association property="rangeItemSecondName" column="range_item_second" javaType="String"
+		select="selectRangeItemSecondNameById"></association>
+		<association property="rangeItemCourseName" column="range_item_course" javaType="String"
+		select="selectRangeItemCourseNameById"></association>
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		name,
+		total_num,
+		used_num,
+		remain_num,
+		status,
+		issue_way,
+		for_crowd,
+		use_way,
+		use_range,
+		time_limit_from,
+		time_limit_to,
+		promo_code_prefix,
+		promo_code_length,
+		notic_way,
+		notic_sms_contents,
+		notic_msg_contents,
+		ins_cash_num,
+		over_num,
+		over_cut_num,
+		discount_num,
+		member_list,
+		description,
+		range_item_one,
+		range_item_second,
+		range_item_course,
+		user_list,
+		company_id,
+		del_flag,
+		send_date,
+		commodity_type,
+		range_item_package_category
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{totalNum},
+		#{usedNum},
+		#{remainNum},
+		#{status},
+		#{issueWay},
+		#{forCrowd},
+		#{useWay},
+		#{useRange},
+		#{timeLimitFrom},
+		#{timeLimitTo},
+		#{promoCodePrefix},
+		#{promoCodeLength},
+		#{noticWay},
+		#{noticSmsContents},
+		#{noticMsgContents},
+		#{insCashNum},
+		#{overNum},
+		#{overCutNum},
+		#{discountNum},
+		#{memberList},
+		#{description},
+		#{rangeItemOne},
+		#{rangeItemSecond},
+		#{rangeItemCourse},
+		#{userList},
+		#{companyId},
+		#{delFlag},
+		#{sendDate},
+		#{commodityType},
+		#{rangeItemPackageCategory}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.totalNum},
+		#{item.usedNum},
+		#{item.remainNum},
+		#{item.status},
+		#{item.issueWay},
+		#{item.forCrowd},
+		#{item.useWay},
+		#{item.useRange},
+		#{item.timeLimitFrom},
+		#{item.timeLimitTo},
+		#{item.promoCodePrefix},
+		#{item.promoCodeLength},
+		#{item.noticWay},
+		#{item.noticSmsContents},
+		#{item.noticMsgContents},
+		#{item.insCashNum},
+		#{item.overNum},
+		#{item.overCutNum},
+		#{item.discountNum},
+		#{item.memberList},
+		#{item.description},
+		#{item.rangeItemOne},
+		#{item.rangeItemSecond},
+		#{item.rangeItemCourse},
+		#{item.userList},
+		#{item.companyId},
+		#{item.delFlag},
+		#{item.sendDate},
+		#{item.commodityType},
+		#{item.rangeItemPackageCategory}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch" useGeneratedKeys="true" keyProperty="id">
+		insert into company_coupons_patch( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_coupons_patch( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_coupons_patch
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_coupons_patch
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch">
+		update company_coupons_patch 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="totalNum != null and totalNum != ''">total_num = #{totalNum},</if>
+			<if test="usedNum != null">used_num = #{usedNum},</if>
+			<if test="remainNum != null">remain_num = #{remainNum},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="issueWay != null">issue_way = #{issueWay},</if>
+			<if test="forCrowd != null and forCrowd != ''">for_crowd = #{forCrowd},</if>
+			<if test="useWay != null">use_way = #{useWay},</if>
+			<if test="useRange != null">use_range = #{useRange},</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">time_limit_from = #{timeLimitFrom},</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">time_limit_to = #{timeLimitTo},</if>
+			<if test="promoCodePrefix != null and promoCodePrefix != ''">promo_code_prefix = #{promoCodePrefix},</if>
+			<if test="promoCodeLength != null and promoCodeLength != ''">promo_code_length = #{promoCodeLength},</if>
+			<if test="noticWay != null">notic_way = #{noticWay},</if>
+			<if test="noticSmsContents != null and noticSmsContents != ''">notic_sms_contents = #{noticSmsContents},</if>
+			<if test="noticMsgContents != null and noticMsgContents != ''">notic_msg_contents = #{noticMsgContents},</if>
+			<if test="insCashNum != null and insCashNum != ''">ins_cash_num = #{insCashNum},</if>
+			<if test="overNum != null and overNum != ''">over_num = #{overNum},</if>
+			<if test="overCutNum != null and overCutNum != ''">over_cut_num = #{overCutNum},</if>
+			<if test="discountNum != null and discountNum != ''">discount_num = #{discountNum},</if>
+			<if test="memberList != null and memberList != ''">member_list = #{memberList},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="rangeItemOne != null and rangeItemOne != ''">range_item_one = #{rangeItemOne},</if>
+			<if test="rangeItemSecond != null and rangeItemSecond != ''">range_item_second = #{rangeItemSecond},</if>
+			<if test="rangeItemCourse != null and rangeItemCourse != ''">range_item_course = #{rangeItemCourse},</if>
+			<if test="userList != null and userList != ''">user_list = #{userList},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="sendDate != null and sendDate != ''">send_date = #{sendDate},</if>
+			<if test="commodityType != null and commodityType != ''">commodity_type = #{commodityType},</if>
+			<if test="rangeItemPackageCategory != null and rangeItemPackageCategory != ''">range_item_package_category = #{rangeItemPackageCategory},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyCouponsPatchResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_coupons_patch
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyCouponsPatchResultMap">
+		select <include refid="table_columns" /> 
+		from company_coupons_patch
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="totalNum != null and totalNum != ''">and total_num = #{totalNum}</if>
+			<if test="usedNum != null and usedNum != ''">and used_num = #{usedNum}</if>
+			<if test="remainNum != null and remainNum != ''">and remain_num = #{remainNum}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="issueWay != null and issueWay != ''">and issue_way = #{issueWay}</if>
+			<if test="forCrowd != null and forCrowd != ''">and for_crowd = #{forCrowd}</if>
+			<if test="useWay != null and useWay != ''">and use_way = #{useWay}</if>
+			<if test="useRange != null and useRange != ''">and use_range = #{useRange}</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">and time_limit_from = #{timeLimitFrom}</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">and time_limit_to = #{timeLimitTo}</if>
+			<if test="promoCodePrefix != null and promoCodePrefix != ''">and promo_code_prefix = #{promoCodePrefix}</if>
+			<if test="promoCodeLength != null and promoCodeLength != ''">and promo_code_length = #{promoCodeLength}</if>
+			<if test="noticWay != null and noticWay != ''">and notic_way = #{noticWay}</if>
+			<if test="noticSmsContents != null and noticSmsContents != ''">and notic_sms_contents = #{noticSmsContents}</if>
+			<if test="noticMsgContents != null and noticMsgContents != ''">and notic_msg_contents = #{noticMsgContents}</if>
+			<if test="insCashNum != null and insCashNum != ''">and ins_cash_num = #{insCashNum}</if>
+			<if test="overNum != null and overNum != ''">and over_num = #{overNum}</if>
+			<if test="overCutNum != null and overCutNum != ''">and over_cut_num = #{overCutNum}</if>
+			<if test="discountNum != null and discountNum != ''">and discount_num = #{discountNum}</if>
+			<if test="memberList != null and memberList != ''">and member_list = #{memberList}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="rangeItemOne != null and rangeItemOne != ''">and range_item_one = #{rangeItemOne}</if>
+			<if test="rangeItemSecond != null and rangeItemSecond != ''">and range_item_second = #{rangeItemSecond}</if>
+			<if test="rangeItemCourse != null and rangeItemCourse != ''">and range_item_course = #{rangeItemCourse}</if>
+			<if test="userList != null and userList != ''">and user_list = #{userList}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyCouponsPatchResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch">
+		select <include refid="table_columns" />
+		from company_coupons_patch
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch">
+		select count(id) from company_coupons_patch
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="queryCouponsByCondition" resultMap="companyCouponsPatchResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch">
+		select <include refid="table_columns" />
+		from company_coupons_patch
+		where company_id=#{companyId}
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="totalNum != null and totalNum != ''">and total_num = #{totalNum}</if>
+			<if test="usedNum != null and usedNum != ''">and used_num = #{usedNum}</if>
+			<if test="remainNum != null and remainNum != ''">and remain_num = #{remainNum}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="issueWay != null and issueWay != ''">and issue_way = #{issueWay}</if>
+			<if test="forCrowd != null and forCrowd != ''">and for_crowd = #{forCrowd}</if>
+			<if test="useWay != null and useWay != ''">and use_way = #{useWay}</if>
+			<if test="useRange != null and useRange != ''">and use_range = #{useRange}</if>
+			<if test="timeLimitFrom != null and timeLimitFrom != ''">and time_limit_from = #{timeLimitFrom}</if>
+			<if test="timeLimitTo != null and timeLimitTo != ''">and time_limit_to = #{timeLimitTo}</if>
+			<if test="promoCodePrefix != null and promoCodePrefix != ''">and promo_code_prefix = #{promoCodePrefix}</if>
+			<if test="promoCodeLength != null and promoCodeLength != ''">and promo_code_length = #{promoCodeLength}</if>
+			<if test="noticWay != null and noticWay != ''">and notic_way = #{noticWay}</if>
+			<if test="noticSmsContents != null and noticSmsContents != ''">and notic_sms_contents = #{noticSmsContents}</if>
+			<if test="noticMsgContents != null and noticMsgContents != ''">and notic_msg_contents = #{noticMsgContents}</if>
+			<if test="insCashNum != null and insCashNum != ''">and ins_cash_num = #{insCashNum}</if>
+			<if test="overNum != null and overNum != ''">and over_num = #{overNum}</if>
+			<if test="overCutNum != null and overCutNum != ''">and over_cut_num = #{overCutNum}</if>
+			<if test="discountNum != null and discountNum != ''">and discount_num = #{discountNum}</if>
+			<if test="memberList != null and memberList != ''">and member_list = #{memberList}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="rangeItemOne != null and rangeItemOne != ''">and range_item_one = #{rangeItemOne}</if>
+			<if test="rangeItemSecond != null and rangeItemSecond != ''">and range_item_second = #{rangeItemSecond}</if>
+			<if test="rangeItemCourse != null and rangeItemCourse != ''">and range_item_course = #{rangeItemCourse}</if>
+			<if test="userList != null and userList != ''">and user_list = #{userList}</if>
+	</select>
+	
+	<!-- 查询过期要清除的 优惠券 -->
+	<select id="findCouponsByDate" parameterType="Date" resultType="Integer">
+		select id from company_coupons_patch
+		where #{cleantime} >= time_limit_to 
+	</select>
+	<!-- 根据批次id查询 码 -->
+	<select id="findCodeByPatchId" parameterType="Integer" resultType="String">
+		select code from company_coupons_lib
+		where patch_id = #{id}
+	</select>
+	<!-- 根据code 删除用户下的优惠券 -->
+	<delete id="delUserByCode" parameterType="list">
+		delete from users_front_my_coupons
+		where coupons_code in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<!-- 删除优惠券库 -->
+	
+	<delete id="delLibByPatch" parameterType="Integer">
+		delete from company_coupons_lib
+		where patch_id = #{id}
+	</delete>
+	<select id="queryCouponsPatchListByCompanyId" resultMap="companyCouponsPatchVoResultMap" parameterType="com.yuxin.wx.vo.company.CompanyCouponsPatchVo">
+		select <include refid="table_columns" />
+		from company_coupons_patch ccp
+		where ccp.company_id=#{companyId} and del_flag = '0'
+		<if test="name != null and name != '' ">and ccp.name like '%${name}%'</if>
+		<if test="startStatus != null and startStatus != '' ">
+			<choose>
+				<when test="startStatus=='begin'">
+					and  TO_DAYS(ccp.time_limit_from)-TO_DAYS(NOW()) > 0
+				</when>
+				<when test="startStatus=='ing'">
+					and TO_DAYS(NOW())-TO_DAYS(ccp.time_limit_from) >= 0
+					and TO_DAYS(ccp.time_limit_to)-TO_DAYS(NOW()) >= 0
+				</when>
+				<when test="startStatus=='old'">
+					and TO_DAYS(NOW())-TO_DAYS(ccp.time_limit_to) > 0
+				</when>
+			</choose>
+		</if>
+		<if test="startDate != null and startDate != ''">and ccp.time_limit_from >= #{startDate}</if>
+		<if test="endDate != null and endDate != ''">and ccp.time_limit_to <![CDATA[<= ]]> #{endDate}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		order by ccp.time_limit_to desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCouponsPatchListCountByCompanyId" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyCouponsPatchVo">
+		select count(*)
+		from company_coupons_patch ccp
+		where ccp.company_id=#{companyId} and del_flag = '0'
+		<if test="name != null and name != '' ">and ccp.name like '%${name}%'</if>
+		<if test="startStatus != null and startStatus != '' ">
+			<choose>
+				<when test="startStatus=='begin'">
+					and TO_DAYS(ccp.time_limit_from)-TO_DAYS(NOW()) > 0
+				</when>
+				<when test="startStatus=='ing'">
+					and  TO_DAYS(NOW())-TO_DAYS(ccp.time_limit_from) >= 0
+					and TO_DAYS(ccp.time_limit_to)-TO_DAYS(NOW()) >= 0
+				</when>
+				<when test="startStatus=='old'">
+					and  TO_DAYS(NOW())-TO_DAYS(ccp.time_limit_to) > 0
+				</when>
+			</choose>
+		</if>
+		<if test="startDate != null and startDate != ''">and ccp.time_limit_from >= #{startDate}</if>
+		<if test="endDate != null and endDate != ''">and ccp.time_limit_to <![CDATA[<= ]]> #{endDate}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		order by ccp.time_limit_to desc
+	</select>
+	<select id="selectRangeItemOneNameById" parameterType="Integer" resultType="String">
+		select item_name
+		from sys_config_item
+		where id = #{range_item_one}
+	</select>
+	<select id="selectRangeItemSecondNameById" parameterType="Integer" resultType="String">
+		select item_name
+		from sys_config_item
+		where id = #{range_item_second}
+	</select>
+	<select id="selectRangeItemCourseNameById" parameterType="Integer" resultType="String">
+		select name
+		from commodity
+		where id = #{range_item_course}
+	</select>
+	
+	<select id="queryCouponsPatchById" resultMap="companyCouponsPatchVoResultMap" parameterType="Integer">
+		select <include refid="table_columns" />
+		from company_coupons_patch ccp 
+		where ccp.id=#{id} and del_flag = '0'
+		limit 1
+	</select>
+	<select id="queryCouponseBycondtion" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch" resultMap="companyCouponsPatchResultMap">
+		select <include refid="table_columns" /> 
+		from company_coupons_patch
+		where company_id=#{companyId} and del_flag=0
+		<if test="name != null and name != ''">and name = #{name}</if>
+	</select>
+	
+	
+	<select id="queryAllUsers" parameterType="Integer" resultType="com.yuxin.wx.model.user.UsersFront">
+		select id,mobile
+		from users_front where company_id=#{companyId} and status='1'
+	</select>
+	<select id="queryMemberUsers" parameterType="com.yuxin.wx.model.user.UsersFront" resultType="com.yuxin.wx.model.user.UsersFront">
+		select id,mobile
+		from users_front where company_id=#{companyId}  and member_id=#{memberId} and status='1' and member_status = '1' and (member_buy_length>0 || member_buy_length=-1)
+		and (TO_DAYS(date_format(NOW(), "%Y-%m-%d"))-TO_DAYS(member_end_time) <![CDATA[<]]> 0 || member_end_time is null)
+	</select>
+	<select id="queryAlreadyBuyClassUsers" parameterType="Integer" resultType="com.yuxin.wx.model.user.UsersFront">
+		select id,mobile
+		from users_front
+		where user_id in (
+		select distinct user_id
+		from pay_order where commdity_type in('COMMODITY_CLASS','COMMODITY_PACKAGE') and company_id=#{companyId} and user_id is not null
+		) and status='1'
+	</select>
+	<select id="findCompanyCouponsPatchBySearch" resultMap="companyCouponsPatchResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch">
+		select * from company_coupons_patch where company_id = #{companyId} and del_flag=0
+		<if test="useWay != null and useWay != ''">and use_way = #{useWay}</if>
+		limit 1
+	</select>
+</mapper>

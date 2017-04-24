@@ -1,0 +1,1244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassModuleMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassModule" id="classModuleResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="totalClassHour" column="total_class_hour" />
+		<result property="teachMethod" column="teach_method" />
+		<result property="moduleType" column="module_type" />
+		<result property="moduleDesc" column="module_desc" />
+		<result property="schoolId" column="school_id" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="companyId" column="company_id" />
+		<result property="chapterFlag" column="chapter_flag"/>
+		<result property="liveType" column="live_type"/>
+	</resultMap>
+
+
+	<resultMap type="com.yuxin.wx.vo.classes.ClassModuleVo" id="classModuleVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="totalClassHour" column="total_class_hour" />
+		<result property="teachMethod" column="teach_method" />
+		<result property="moduleType" column="module_type" />
+		<result property="moduleDesc" column="module_desc" />
+		<result property="campusId" column="campus_id"/>
+		<result property="schoolId" column="school_id" />
+		<result property="moduleNoName" column="moduleNoName" />
+		<result property="enrollYetStudents" column="enrollYetStudents" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+
+	<resultMap type="com.yuxin.wx.vo.classes.ModuleLessonVo" id="moduleLessonVoResultMap">
+		<result property="id" column="id" />
+		<result property="lessonName" column="lesson_name" />
+		<result property="lessonDate" column="lesson_date" />
+		<result property="endDate" column="end_date"/>
+		<result property="lessonTimeStart" column="lesson_time_start" />
+		<result property="lessonTimeEnd" column="lesson_time_end" />
+		<result property="name" column="name" />
+		<result property="enrollYetStudents" column="enroll_yet_students" />
+		<result property="moduleId" column="module_id" />
+		<result property="teacherUrlGh" column="teacher_url_gh"/>
+		<result property="replayUrlGh" column="replay_url_gh"/>
+		<result property="liveroomIdGh" column="liveroom_id_gh"/>
+		<result property="moduleNoId" column="module_no_id"/>
+		<result property="teacherId" column="teachers"/>
+		<result property="assistantId" column="assistants"/>
+		<result property="teacherName" column="teacher_name"/>
+		<result property="classType" column="class_type"/>
+		<result property="liveCompanyType" column="live_company_type"/>
+	</resultMap>
+
+	<resultMap type="com.yuxin.wx.vo.classes.ClassmoduleNoOnsaleVo" id="classModuleNoOnsaleMap">
+		<result property="id" column="id"/>
+		<result property="classtypeId" column="classtype_id"/>
+		<result property="moduleId" column="module_id"/>
+		<result property="moduleNoId" column="module_no_id"/>
+		<result property="defaultFlag" column="default_flag"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClassVideoModuleVo" id="videoModuleMap">
+		<result property="id" column="id"/>
+		<result property="classTypeId" column="classTypeId"/>
+		<result property="moduleId" column="moduleId"/>
+		<result property="name" column="name"/>
+		<result property="itemOneId" column="itemOneId"/>
+		<result property="itemSecondId" column="itemSecondId"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		item_one_id,
+		item_second_id,
+		total_class_hour,
+		teach_method,
+		module_type,
+		module_desc,
+		school_id,
+		publish_status,
+		publish_time,
+		del_flag,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		company_id,
+		sort,
+		chapter_flag
+	</sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{itemOneId},
+		#{itemSecondId},
+		#{totalClassHour},
+		#{teachMethod},
+		#{moduleType},
+		#{moduleDesc},
+		#{schoolId},
+		#{publishStatus},
+		#{publishTime},
+		#{delFlag},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{companyId},
+		#{sort},
+		#{chapterFlag}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.totalClassHour},
+		#{item.teachMethod},
+		#{item.moduleType},
+		#{item.moduleDesc},
+		#{item.schoolId},
+		#{item.publishStatus},
+		#{item.publishTime},
+		#{item.delFlag},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.companyId},
+		#{item.chapterFlag}
+	</sql>
+
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassModule"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into class_module(
+		<include refid="table_columns" />
+		)
+		values (
+		<include refid="entity_properties" />
+		)
+	</insert>
+
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="batchInsert" parameterType="java.util.List"
+		useGeneratedKeys="true">
+		insert into class_module(
+		<include refid="table_columns" />
+		)
+		values
+		<foreach item="item" collection="list" separator=",">
+			(
+			<include refid="batch_entity_properties" />
+			)
+		</foreach>
+	</insert>
+
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_module
+		where id = #{id}
+	</delete>
+
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_module
+		where id in
+		<foreach item="item" collection="array" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassModule">
+		update class_module
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="totalClassHour != null">total_class_hour = #{totalClassHour},</if>
+			<if test="teachMethod != null and teachMethod != ''">teach_method = #{teachMethod},</if>
+			<if test="moduleType != null and moduleType != ''">module_type = #{moduleType},</if>
+			<if test="moduleDesc != null and moduleDesc != ''">module_desc = #{moduleDesc},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="publishStatus != null and publishStatus != ''">publish_status = #{publishStatus},</if>
+			<if test="publishTime != null and publishTime != ''">publish_time = #{publishTime},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="sort != null">sort = #{sort},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="classModuleResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from class_module
+		where id = #{id}
+	</select>
+
+	<!-- 根据id查询模块信息 -->
+	<select id="queryOneById" resultMap="classModuleResultMap"
+		parameterType="String">
+		select
+		<include refid="table_columns" />
+		from class_module
+		where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="classModuleResultMap">
+		select
+		<include refid="table_columns" />
+		from class_module
+	</select>
+
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			1=1
+			<if test="id != null and id != ''">and id = #{id}</if>
+			<if test="name != null and name != ''">and name like '%${name}%'</if>
+			<if test="itemOneId != null">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null">and item_second_id = #{itemSecondId}</if>
+			<if test="totalClassHour != null and totalClassHour != ''">and total_class_hour = #{totalClassHour}</if>
+			<if test="teachMethod != null and teachMethod != ''">and teach_method = #{teachMethod}</if>
+			<if test="moduleType != null and moduleType != ''">and module_type = #{moduleType}</if>
+			<if test="moduleDesc != null and moduleDesc != ''">and module_desc = #{moduleDesc}</if>
+			<if test="schoolId != null">and school_id = #{schoolId}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="publishTime != null and publishTime != ''">and publish_time = #{publishTime}</if>
+			<if test="delFlag != null">and del_flag = #{delFlag}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="companyId != null">and a.company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<sql id="page_where_item">
+		<trim prefix="where" prefixOverrides="and | or ">
+			1=1
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="teachMethod != null and teachMethod != ''">and teach_method != #{teachMethod}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		</trim>
+	</sql>
+
+	<select id="page" resultMap="classModuleResultMap"
+		parameterType="com.yuxin.wx.model.classes.ClassModule">
+		select
+		<include refid="table_columns" />
+		from class_module a
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="pageCount" resultType="int"
+		parameterType="com.yuxin.wx.model.classes.ClassModule">
+		select count(id) from class_module a
+		<include refid="page_where" />
+	</select>
+
+	<!-- 其他自定义SQL -->
+	<select id="queryClassModuleByKeys" resultMap="classModuleVoResultMap"
+		parameterType="com.yuxin.wx.model.classes.ClassModule">
+		SELECT
+		a.id,
+		a.name,
+		a.item_one_id,
+		a.item_second_id,
+		a.total_class_hour,
+		a.teach_method,
+		a.publish_status,
+		b.item_name AS itemOneName,
+		c.item_name AS itemSecondName
+		FROM
+		class_module a,
+		sys_config_item b,
+		sys_config_item c
+		<include refid="page_where" />
+		and a.item_one_id = b.id
+		and c.id = a.item_second_id
+		ORDER BY a.update_time DESC
+	</select>
+
+	<select id="queryClassModules" resultMap="classModuleVoResultMap"
+		parameterType="com.yuxin.wx.model.classes.ClassModule">
+		SELECT
+		a.id,
+		a.name,
+		a.item_one_id,
+		a.item_second_id,
+		a.total_class_hour,
+		a.teach_method,
+		a.publish_status,
+		b.item_name AS itemOneName,
+		c.item_name AS itemSecondName
+		FROM
+		class_module a,
+		sys_config_item b,
+		sys_config_item c
+		<include refid="page_where" />
+		and a.item_one_id = b.id
+		and c.id = a.item_second_id
+		and a.del_flag=0
+		ORDER BY a.update_time DESC
+	</select>
+
+	<!-- 根据id查询模块信息 -->
+	<select id="queryOneVoById" resultMap="classModuleVoResultMap"
+		parameterType="String">
+		select
+		a.*,
+		b.item_name AS itemOneName,
+		c.item_name AS itemSecondName
+		from
+		class_module a,
+		sys_config_item b,
+		sys_config_item c
+		where a.id = #{id}
+		and a.item_one_id = b.id
+		and c.id = a.item_second_id
+	</select>
+
+
+
+	<select id="findListByClassId" resultMap="classModuleResultMap"
+		parameterType="hashmap">
+		select distinct m.*
+		from class_type as t,
+		class_type_module_relation as r,class_module as m
+		where
+		t.id=r.class_type_id and r.module_id=m.id and t.id=#{classId} and t.create_school_id=#{schoolId}
+	</select>
+	
+	<select id="findModulesByModule" resultMap="classModuleResultMap" parameterType="com.yuxin.wx.model.classes.ClassModule">
+		select
+		<include refid="table_columns" />
+		from class_module a
+		<include refid="page_where_item" />
+	</select>
+	
+	<select id="queryClassModuleByKeysCount" resultType="int"
+		parameterType="com.yuxin.wx.model.classes.ClassModule">
+		SELECT
+		count(*)
+		FROM
+		class_module a,
+		sys_config_item b,
+		sys_config_item c
+		where 1=1
+		<if test="teachMethod != null and teachMethod != ''">and teach_method = #{teachMethod}</if>
+		<if test="id != null and id != ''">and id = #{id}</if>
+		<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+		<if test="name != null and name != ''">and name like '%${name}%'</if>
+		<if test="itemOneId != null and itemOneId != ''"> and item_one_id = #{itemOneId}</if>
+		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+		<if test="moduleType != null and moduleType != ''">and module_type = #{moduleType}</if>
+		and a.item_one_id = b.id
+		and c.id = a.item_second_id
+	</select>
+
+	<select id="findModulesBySecondItemId" resultMap="classModuleResultMap"
+		parameterType="String">
+		select id, name, teach_method,
+		total_class_hour,module_type,module_desc from class_module where item_second_id =
+		#{secondItemId} and del_flag = 0
+	</select>
+
+	<!-- 根据班型id获取绑定模块 -->
+	<select id="findModulesByClassTypeId" resultMap="classModuleResultMap"
+		parameterType="String">
+		SELECT
+		    DISTINCT
+			m. NAME,
+			m.teach_method,
+			m.total_class_hour,
+			m.id,
+			m.sort,
+			m.chapter_flag
+			FROM
+			class_module m,
+			class_type c,
+			class_type_module_relation cmr
+		WHERE
+		c.id = #{id}
+		AND m.id = cmr.module_id
+		AND c.id = cmr.class_type_id
+		ORDER BY
+		sort,m.create_time asc
+	</select>
+
+	<!-- 根据班型查询所有模块信息 -->
+	<select id="queryAllModules" parameterType="String"
+		resultMap="classModuleVoResultMap">
+		select
+		DISTINCT
+		a.*,
+		b.item_name AS itemOneName,
+		c.item_name AS itemSecondName,
+		d.name As moduleNoName,
+		d.campus_id,
+		d.enroll_yet_students AS enrollYetStudents
+		from
+		class_module a,
+		sys_config_item b,
+		sys_config_item c,
+		class_module_no d,
+		class_type t,
+		class_type_module_relation cmr
+		where t.id = #{id}
+		and a.item_one_id = b.id
+		and c.id = a.item_second_id
+		and a.id = d.module_id
+		and a.id = cmr.module_id
+		and t.id = cmr.class_type_id
+	</select>
+
+	<!-- 根据模块id验证是否可以修改 -->
+	<select id="checkUpdate" resultType="Integer" parameterType="Integer">
+		SELECT
+		COUNT(0)
+		FROM class_type_module_relation WHERE module_id = #{id}
+	</select>
+
+	<!-- 根据模块id验证是否可以停售改 -->
+	<select id="checkStop" resultType="Integer" parameterType="Integer">
+		SELECT
+		COUNT(0)
+		FROM
+		class_type_module_relation a
+		LEFT JOIN class_type b
+		ON a.class_type_id = b.id
+		WHERE module_id = #{id}
+		AND b.publish_status ="CLASS_ON_SALE"
+	</select>
+
+	<select id="findByClassTypeId" parameterType="String"
+		resultMap="classModuleResultMap">
+		select
+		b.*
+		from
+		class_type_module_relation a,class_module b
+		where
+		a.class_type_id=#{id}
+		and
+		a.module_id=b.id
+	</select>
+	<select id="findByPayMasterId" parameterType="com.yuxin.wx.model.student.StudentPaySlave"
+		resultMap="classModuleResultMap">
+		select c.* from
+		student_pay_master a,
+		student_pay_slave b,
+		class_module c
+		where
+		a.id=b.pay_master_id
+		and
+		b.module_id=c.id
+		and
+		a.id=#{payMasterId}
+		<if test="campusId != null and campusId != ''">and b.campus_id=#{campusId}</if>
+	</select>
+
+	<select id="findBySchoolId" parameterType="com.yuxin.wx.vo.classes.ModuleLessonVo"
+
+		resultMap="moduleLessonVoResultMap">
+		<choose>
+			<when test="classType == 1">
+				SELECT
+					result.*, sct.`name` AS teacherName
+					FROM
+					(
+						SELECT
+						l.id,
+			            l.lesson_name,
+			            l.lesson_date,
+			            l.lesson_date end_date,
+			            l.lesson_time_start,
+			            l.lesson_time_end,
+			            l.teacher_url_gh,
+			            l.replay_url_gh,
+			            l.liveroom_id_gh,
+			            l.teachers,
+			            l.assistants,
+			            l.live_company_type,
+			            n.id module_no_id,
+			            n.name,
+			            n.module_id,
+			            '1' AS classType
+						FROM
+						class_module_lesson l
+						inner join class_module_no n ON l.module_no_id = n.id
+						inner join class_module m ON n.module_id = m.id
+						<if test="teacherId != null">
+						inner join sys_config_teacher t ON (t.id = l.teachers
+							or t.id = l.assistants) and t.user_id = #{teacherId}
+						</if>
+						WHERE
+						m.school_id = #{schoolId}
+						<if test="name != null and name != ''">
+							and (l.lesson_name like concat('%',#{name},'%')
+								or n.name like concat('%',#{name},'%'))
+						</if>
+						<if test="id != null">
+							and l.id = #{id}
+						</if>
+						<if test="status == 1 or status == 2 or status == 3">
+							and l.lesson_date = #{lessonDate}
+						</if>
+						<if test="status == 0 and statuss == 4 ">
+							and l.lesson_date = #{lessonDate} and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status == 0 and statuss == 5 ">
+							and ((l.lesson_date = #{lessonDate} and 
+							str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status == 0 and statuss == 6 ">
+							and ((#{lessonDate} = l.lesson_date and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<if test="status != 0 and statuss == 4 ">
+							and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status != 0 and statuss == 5 ">
+							and ((str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status != 0 and statuss == 6 ">
+							and ((str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<!-- 今天未开始的直播 -->
+						<if test="status == 4">
+							and l.lesson_date = #{lessonDate} 
+							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<!-- 七天内的直播 -->
+						<if test="status == 5">
+							and l.lesson_date > DATE_FORMAT(NOW(), '%Y-%m-%d') and l.lesson_date <![CDATA[<=]]> #{lessonDate}
+						</if>
+						and l.del_flag = 0
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and n.del_flag = 0
+						group by l.id
+						order by l.lesson_date,str_to_date(l.lesson_time_start,'%H:%i')
+						LIMIT #{firstIndex},#{pageSize}
+					)AS result
+					LEFT JOIN sys_config_teacher sct ON result.teachers = sct.id
+			</when>
+			<otherwise>
+				SELECT * from (
+					SELECT
+					result.*, sct.`name` AS teacherName
+					FROM
+					(
+						SELECT
+						l.id,
+			            l.lesson_name,
+			            l.lesson_date,
+			            l.lesson_date end_date,
+			            l.lesson_time_start,
+			            l.lesson_time_end,
+			            l.teacher_url_gh,
+			            l.replay_url_gh,
+			            l.liveroom_id_gh,
+			            l.teachers,
+			            l.assistants,
+			            l.live_company_type,
+			            n.id module_no_id,
+			            n.name,
+			            n.module_id,
+			            '1' AS classType
+						FROM
+						class_module_lesson l
+						inner join class_module_no n ON l.module_no_id = n.id
+						inner join class_module m ON n.module_id = m.id
+						<if test="teacherId != null">
+						inner join sys_config_teacher t ON (t.id = l.teachers
+							or t.id = l.assistants) and t.user_id = #{teacherId}
+						</if>
+						WHERE
+						m.school_id = #{schoolId}
+						<if test="name != null and name != ''">
+							and (l.lesson_name like concat('%',#{name},'%')
+								or n.name like concat('%',#{name},'%'))
+						</if>
+						<if test="id != null">
+							and l.id = #{id}
+						</if>
+						<if test="status == 1 or status == 2 or status == 3">
+							and l.lesson_date = #{lessonDate}
+						</if>
+						<if test="status == 0 and statuss == 4 ">
+							and l.lesson_date = #{lessonDate} and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status == 0 and statuss == 5 ">
+							and ((l.lesson_date = #{lessonDate} and 
+							str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status == 0 and statuss == 6 ">
+							and ((#{lessonDate} = l.lesson_date and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<if test="status != 0 and statuss == 4 ">
+							and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status != 0 and statuss == 5 ">
+							and ((str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status != 0 and statuss == 6 ">
+							and ((str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<!-- 今天未开始的直播 -->
+						<if test="status == 4">
+							and l.lesson_date = #{lessonDate} 
+							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<!-- 七天内的直播 -->
+						<if test="status == 5">
+							and l.lesson_date > DATE_FORMAT(NOW(), '%Y-%m-%d') and l.lesson_date <![CDATA[<=]]> #{lessonDate}
+						</if>
+						and l.del_flag = 0
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and n.del_flag = 0
+						group by l.id
+					)AS result
+					LEFT JOIN sys_config_teacher sct ON result.teachers = sct.id
+					UNION ALL
+					SELECT
+					loc.id,
+					loc.open_course_name AS lesson_name,
+					loc.start_open_data AS lesson_date,
+					loc.end_open_data end_date,
+					loc.start_time AS lesson_time_start,
+					loc.end_time AS lesson_time_end,
+					loc.teacher_url_gh,
+					loc.replay_url_gh,
+					loc.liveroom_id_gh,
+					loc.teacher_id AS teachers,
+					'' as assistants,
+					loc.live_service_provider as live_company_type,
+					'' as module_no_id,
+					'' as name,
+					'' as module_id,
+					'2' as classType,
+					(SELECT sct.name FROM sys_config_teacher sct where id = loc.teacher_id) as
+					teacherName
+			
+					FROM
+					live_open_course AS loc
+					<if test="teacherId != null">
+					inner join sys_config_teacher t ON (t.id = loc.teacher_id
+						or t.id = loc.assistant_id) and t.user_id = #{teacherId}
+					</if>
+					WHERE
+					loc.school_id = #{schoolId}
+					<if test="name != null and name != ''">
+						and loc.open_course_name like concat('%',#{name})
+					</if>
+					<if test="status == 1 or status == 2 or status == 3">
+						and ( #{lessonDate} >= loc.start_open_data
+							and loc.end_open_data >= #{lessonDate})
+					</if>
+					<if test="status == 0 and statuss == 4 ">
+						and 
+						STR_TO_DATE(CONCAT(date_format(#{lessonDate} , '%y-%m-%d'),
+			                    '',
+			                    #{currentTime}),
+			            '%y-%m-%d %H:%i') >
+			            STR_TO_DATE(CONCAT(date_format(loc.start_open_data , '%y-%m-%d'),
+			                    '',
+			                    loc.start_time),
+			            '%y-%m-%d %H:%i') and
+			            STR_TO_DATE(CONCAT(date_format(loc.end_open_data , '%y-%m-%d'),
+			                    '',
+			                    loc.end_time),
+			            '%y-%m-%d %H:%i') >
+						STR_TO_DATE(CONCAT(date_format(#{lessonDate} , '%y-%m-%d'),
+			                    '',
+			                    #{currentTime}),
+			            '%y-%m-%d %H:%i')
+					</if>
+					<if test="status == 0 and statuss == 5 ">
+						and 
+						((loc.start_open_data = #{lessonDate} and
+						str_to_date(loc.start_time,'%H:%i') >
+						str_to_date(#{currentTime},'%H:%i'))
+						or loc.start_open_data > #{lessonDate})
+					</if>
+					<if test="status == 0 and statuss == 6 ">
+						and ((#{lessonDate} = loc.end_open_data and
+						str_to_date(#{currentTime},'%H:%i') >
+						str_to_date(loc.end_time,'%H:%i')) or
+						#{lessonDate} > loc.end_open_data)
+					</if>
+					<if test="status != 0 and statuss == 4 ">
+						and str_to_date(#{currentTime},'%H:%i') >
+						str_to_date(loc.start_time,'%H:%i') and
+						str_to_date(loc.end_time,'%H:%i') >
+						str_to_date(#{currentTime},'%H:%i')
+					</if>
+					<if test="status != 0 and statuss == 5 ">
+						and ((str_to_date(loc.start_time,'%H:%i') >
+						str_to_date(#{currentTime},'%H:%i'))
+						or loc.start_open_data > #{lessonDate})
+					</if>
+					<if test="status != 0 and statuss == 6 ">
+						and ((str_to_date(#{currentTime},'%H:%i') >
+						str_to_date(loc.end_time,'%H:%i')) or
+						#{lessonDate} > loc.end_open_data)
+					</if>
+					<!-- 今天未开始的直播 -->
+					<if test="status == 4">
+						and loc.end_open_data = #{lessonDate} 
+						and str_to_date(loc.start_time,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+					</if>
+					<!-- 七天内的直播 -->
+					<if test="status == 5">
+						and loc.end_open_data > DATE_FORMAT(NOW(), '%Y-%m-%d') and loc.end_open_data <![CDATA[<=]]> #{lessonDate}
+					</if>
+					and loc.publish_status = 1
+					and loc.del_flag = 0
+				) as moreResult
+				order by lesson_date,str_to_date(lesson_time_start,'%H:%i')
+				LIMIT #{firstIndex},#{pageSize}
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="queryList" parameterType="com.yuxin.wx.model.classes.ClassModule" resultMap="classModuleVoResultMap">
+		SELECT a.*, b.item_name AS itemOneName, c.item_name AS itemSecondName, (
+			SELECT COUNT(id)
+			FROM class_module_no d
+			WHERE d.module_id = a.id
+		) AS moduleNoNum
+	FROM class_module a 
+	LEFT JOIN sys_config_item b ON a.item_one_id = b.id
+	LEFT JOIN sys_config_item c ON a.item_second_id = c.id
+	where a.company_id=#{companyId}
+	and
+		a.school_id=#{schoolId}
+	<if test="itemOneId != null and itemOneId != ''">and a.item_one_id = #{itemOneId}</if>
+	<if test="itemSecondId != null and itemSecondId != ''">and a.item_second_id = #{itemSecondId}</if>
+	<if test="teachMethod != null and teachMethod != ''">and a.teach_method = #{teachMethod}</if>
+	order by a.update_time desc
+	limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCount" parameterType="com.yuxin.wx.model.classes.ClassModule" resultType="int">
+		SELECT count(a.id)
+	FROM class_module a 
+	LEFT JOIN sys_config_item b ON a.item_one_id = b.id
+	LEFT JOIN sys_config_item c ON a.item_second_id = c.id
+	where a.company_id=#{companyId}
+	and
+		a.school_id=#{schoolId}
+	<if test="itemOneId != null and itemOneId != ''">and a.item_one_id = #{itemOneId}</if>
+	<if test="itemSecondId != null and itemSecondId != ''">and a.item_second_id = #{itemSecondId}</if>
+	<if test="teachMethod != null and teachMethod != ''">and a.teach_method = #{teachMethod}</if>
+	</select>
+	<update id="changeStatus" parameterType="String">
+		update class_module set del_flag=1,update_time=#{updateTime},updator=#{updator} where id=#{id}
+	</update>
+	<select id="findByName" parameterType="com.yuxin.wx.model.classes.ClassModule" resultMap="classModuleResultMap">
+		select <include refid="table_columns" />
+		from class_module where name=#{name} and company_id=#{companyId} and del_flag=0
+	</select>													         
+	<select id="findClassModuleVoById" parameterType="String" resultMap="classModuleVoResultMap">
+		select a.*,b.item_name as itemOneName,c.item_name as itemSecondName from 
+			class_module a
+		left join
+			sys_config_item b 
+		on
+			a.item_one_id=b.id
+		left join
+			sys_config_item c
+		on
+			a.item_second_id=c.id
+		where
+			a.id=#{id}
+			
+				
+	</select>
+	
+
+	<select id="findCountBySchoolId" parameterType="com.yuxin.wx.vo.classes.ModuleLessonVo"
+		resultType="Integer">
+		<choose>
+			<when test="classType == 1">
+			SELECT
+					count(id)
+					FROM
+					(
+						SELECT
+						l.id
+						FROM
+						class_module_lesson l
+						inner join class_module_no n ON l.module_no_id = n.id
+						inner join class_module m ON n.module_id = m.id
+						<if test="teacherId != null">
+						inner join sys_config_teacher t ON (t.id = l.teachers
+							or t.id = l.assistants) and t.user_id = #{teacherId}
+						</if>
+						WHERE
+						m.school_id = #{schoolId}
+						<if test="name != null and name != ''">
+							and (l.lesson_name like concat('%',#{name},'%')
+								or n.name like concat('%',#{name},'%'))
+						</if>
+						<if test="id != null">
+							and l.id = #{id}
+						</if>
+						<if test="status == 1 or status == 2 or status == 3">
+							and l.lesson_date = #{lessonDate}
+						</if>
+						<if test="status == 0 and statuss == 4 ">
+							and l.lesson_date = #{lessonDate} and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status == 0 and statuss == 5 ">
+							and ((l.lesson_date = #{lessonDate} and 
+							str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status == 0 and statuss == 6 ">
+							and ((#{lessonDate} = l.lesson_date and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<if test="status != 0 and statuss == 4 ">
+							and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status != 0 and statuss == 5 ">
+							and ((str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status != 0 and statuss == 6 ">
+							and ((str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<!-- 今天未开始的直播 -->
+						<if test="status == 4">
+							and l.lesson_date = #{lessonDate} 
+							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<!-- 七天内的直播 -->
+						<if test="status == 5">
+							and l.lesson_date > DATE_FORMAT(NOW(), '%Y-%m-%d') and l.lesson_date <![CDATA[<=]]> #{lessonDate}
+						</if>
+						and l.del_flag = 0
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and n.del_flag = 0
+						group by l.id
+					)AS result
+			</when>
+			<otherwise>
+				SELECT count(id) from (
+					SELECT
+					result.*
+					FROM
+					(
+						SELECT
+						l.id
+						FROM
+						class_module_lesson l
+						inner join class_module_no n ON l.module_no_id = n.id
+						inner join class_module m ON n.module_id = m.id
+						<if test="teacherId != null">
+						inner join sys_config_teacher t ON (t.id = l.teachers
+							or t.id = l.assistants) and t.user_id = #{teacherId}
+						</if>
+						WHERE
+						m.school_id = #{schoolId}
+						<if test="name != null and name != ''">
+							and (l.lesson_name like concat('%',#{name},'%')
+								or n.name like concat('%',#{name},'%'))
+						</if>
+						<if test="id != null">
+							and l.id = #{id}
+						</if>
+						<if test="status == 1 or status == 2 or status == 3">
+							and l.lesson_date = #{lessonDate}
+						</if>
+						<if test="status == 0 and statuss == 4 ">
+							and l.lesson_date = #{lessonDate} and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status == 0 and statuss == 5 ">
+							and ((l.lesson_date = #{lessonDate} and 
+							str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status == 0 and statuss == 6 ">
+							and ((#{lessonDate} = l.lesson_date and 
+							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<if test="status != 0 and statuss == 4 ">
+							and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
+							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<if test="status != 0 and statuss == 5 ">
+							and ((str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							or l.lesson_date > #{lessonDate})
+						</if>
+						<if test="status != 0 and statuss == 6 ">
+							and ((str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{lessonDate} > l.lesson_date)
+						</if>
+						<!-- 今天未开始的直播 -->
+						<if test="status == 4">
+							and l.lesson_date = #{lessonDate} 
+							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<!-- 七天内的直播 -->
+						<if test="status == 5">
+							and l.lesson_date > DATE_FORMAT(NOW(), '%Y-%m-%d') and l.lesson_date <![CDATA[<=]]> #{lessonDate}
+						</if>
+						and l.del_flag = 0
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and m.del_flag = 0
+						and m.teach_method = 'TEACH_METHOD_LIVE'
+						and m.publish_status = 'MODULE_PUBLISHED'
+						and n.del_flag = 0
+						group by l.id
+					)AS result
+					<!-- LEFT JOIN sys_config_teacher sct ON result.teachers = sct.id -->
+					UNION ALL
+					SELECT
+					loc.id
+					FROM
+					live_open_course AS loc
+					<if test="teacherId != null">
+					inner join sys_config_teacher t ON (t.id = loc.teacher_id
+						or t.id = loc.assistant_id) and t.user_id = #{teacherId}
+					</if>
+					WHERE
+					loc.school_id = #{schoolId}
+					<if test="name != null and name != ''">
+						and loc.open_course_name like concat('%',#{name},'%')
+					</if>
+					<if test="status == 1 or status == 2 or status == 3">
+						and ( #{lessonDate} >= loc.start_open_data
+							and loc.end_open_data >= #{lessonDate})
+					</if>
+					<if test="status == 0 and statuss == 4 ">
+						and 
+						STR_TO_DATE(CONCAT(date_format(#{lessonDate} , '%y-%m-%d'),
+			                    '',
+			                    #{currentTime}),
+			            '%y-%m-%d %H:%i') >
+			            STR_TO_DATE(CONCAT(date_format(loc.start_open_data , '%y-%m-%d'),
+			                    '',
+			                    loc.start_time),
+			            '%y-%m-%d %H:%i') and
+			            STR_TO_DATE(CONCAT(date_format(loc.end_open_data , '%y-%m-%d'),
+			                    '',
+			                    loc.end_time),
+			            '%y-%m-%d %H:%i') >
+						STR_TO_DATE(CONCAT(date_format(#{lessonDate} , '%y-%m-%d'),
+			                    '',
+			                    #{currentTime}),
+			            '%y-%m-%d %H:%i')
+					</if>
+					<if test="status != 0 and statuss == 4 ">
+					and
+						str_to_date(#{currentTime},'%H:%i') >
+						str_to_date(loc.start_time,'%H:%i') and
+						str_to_date(loc.end_time,'%H:%i') >
+						str_to_date(#{currentTime},'%H:%i')
+					</if>
+					<if test="status == 0 and statuss == 5 ">
+						and ((loc.start_open_data = #{lessonDate} and
+						str_to_date(loc.start_time,'%H:%i') >
+						str_to_date(#{currentTime},'%H:%i'))
+						or loc.start_open_data > #{lessonDate})
+					</if>
+					<if test="status != 0 and statuss == 5 ">
+						and ((str_to_date(loc.start_time,'%H:%i') >
+						str_to_date(#{currentTime},'%H:%i'))
+						or loc.start_open_data > #{lessonDate})
+					</if>
+					<if test="status == 0 and statuss == 6 ">
+						and ((#{lessonDate} = loc.end_open_data and
+						str_to_date(#{currentTime},'%H:%i') >
+						str_to_date(loc.end_time,'%H:%i')) or
+						#{lessonDate} > loc.end_open_data)
+					</if>
+					<if test="status != 0 and statuss == 6 ">
+						and ((str_to_date(#{currentTime},'%H:%i') >
+						str_to_date(loc.end_time,'%H:%i')) or
+						#{lessonDate} > loc.end_open_data)
+					</if>
+						<!-- 今天未开始的直播 -->
+						<if test="status == 4">
+							and l.lesson_date = #{lessonDate} 
+							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						</if>
+						<!-- 七天内的直播 -->
+						<if test="status == 5">
+							and l.lesson_date > DATE_FORMAT(NOW(), '%Y-%m-%d') and l.lesson_date <![CDATA[<=]]> #{lessonDate}
+						</if>
+					and loc.publish_status = 1
+					and loc.del_flag = 0
+				) as moreResult
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 根据班型id查询模块详细信息 <select id="queryModulesByClassTypeId" parameterType="int" 
+		resultMap="moduleListVoMap"> select d.id,a.id,a.name,a.module_type,a.total_class_hour,b.id,b.name,b.school_id 
+		from class_module a,class_module_no b,class_type_module_relation c,class_type 
+		d where a.id=b.module_id and a.id=c.module_id and c.class_type_id=d.id and 
+		d.id=#{classTypeId} </select> -->
+
+	<select id="findModuleByIds" parameterType="java.util.List"
+		resultMap="classModuleResultMap">
+		select id,item_one_id,item_second_id
+		from class_module
+		where id in
+		<foreach item="item" collection="list" separator="," open="("
+			close=")" index="">
+			#{item}
+		</foreach>
+	</select>
+	<resultMap type="com.yuxin.wx.model.classes.ClassModule" id="myMap">
+		<id column="mId"  property="id" />
+		<result column="mName"  property="name" />
+		<result column="mteachMethod"  property="teachMethod" />
+		<result column="totalHours"  property="totalClassHour" />
+		<collection property="classModuleNos" ofType="com.yuxin.wx.model.classes.ClassModuleNo">
+	  		<id column="noId"  property="id" />
+	    	<result column="noName"  property="name" />
+	    	<result column="noTotalHours"  property="totalHours" />
+	    	<result column="noCampusId"  property="campusId" />
+  		</collection>
+	</resultMap>
+	<select id="findClassModules" parameterType="com.yuxin.wx.model.classes.ClassModuleNo" resultMap="myMap">
+		select c.id as mId,c.name as mName,c.teach_method as mteachMethod,d.id as noId, d.name as noName,d.campus_id as noCampusId,c.total_class_hour as totalHours from 
+	class_type a ,
+	class_type_module_relation b,
+	class_module c,
+	class_module_no d ,
+	class_module_no_onsale cmo 
+	where
+		a.id=b.class_type_id
+	and
+		b.module_id=c.id
+	and
+		a.id=#{classTypeId}
+	and
+		a.company_id=#{companyId}
+	and
+		a.del_flag=0
+	and
+		c.del_flag=0
+	and
+		d.del_flag=0
+	and
+		c.id=d.module_id
+	<!-- and
+	d.publish_status=? -->
+	and
+		d.item_one_id=#{itemOneId}
+	and
+		d.item_second_id=#{itemSecondId}
+	<if test="examTerm != null and examTerm != ''">and d.exam_term=#{examTerm}</if>
+	<if test="campusId != null and campusId != ''">and d.campus_id=#{campusId}</if>
+	and 
+		cmo.module_no_id=d.id
+	and cmo.classtype_id=a.id
+	<!-- and
+	c.publish_status=?  -->
+	</select>
+	
+	<select id="isUse" parameterType="map" resultType="int">
+		select count(c.id) from 
+		class_module a,
+		class_type_module_relation b,
+		class_type c
+		where
+			a.id=b.module_id
+		and
+			b.class_type_id=c.id
+		and
+			a.id=#{id}
+		and
+		  	c.publish_status='CLASS_ON_SALE'
+		and
+			c.is_sale=1
+		and
+			a.company_id=#{companyId}
+			
+	</select>
+	
+	
+	<select id="queryModuleByName" parameterType="com.yuxin.wx.model.classes.ClassModule" resultMap="classModuleResultMap">
+		select <include refid="table_columns" />
+		 from class_module where name=#{name} and item_one_id=#{itemOneId} and item_second_id=#{itemSecondId} and teach_method='TEACH_METHOD_VIDEO'
+	</select>
+	
+	<!-- 根据班型id查询模块信息 -->
+	<select id="queryModuleByClasstypeId" parameterType="int" resultMap="classModuleResultMap">
+		select b.id, name, item_one_id, item_second_id, total_class_hour, teach_method, module_type, module_desc, school_id, publish_status, publish_time, del_flag, create_time, creator, update_time, updator, company_id from class_type_module_relation a LEFT JOIN class_module b on a.module_id=b.id 
+where a.class_type_id=#{classTypeId} and  teach_method='TEACH_METHOD_VIDEO' LIMIT 1
+	</select>
+	
+	<!-- 添加在售模块班号 -->
+	<insert id="insertClassModuleOnsale" parameterType="com.yuxin.wx.vo.classes.ClassmoduleNoOnsaleVo" useGeneratedKeys="true" keyProperty="id">
+		insert into class_module_no_onsale(id,classtype_id,module_id,module_no_id,default_flag) values(#{id},#{classtypeId},#{moduleId},#{moduleNoId},#{defaultFlag})
+	</insert>
+	
+	<delete id="deleteClassModuleOnsaleById" parameterType="com.yuxin.wx.vo.classes.ClassmoduleNoOnsaleVo">
+		delete from class_module_no_onsale where classtype_id=#{classtypeId} and module_no_id=#{moduleNoId}
+	</delete>
+		<!-- 根据模块号查询班号 -->
+	<select id="queryModuleNoByClassTypeId" parameterType="int" resultMap="classModuleNoOnsaleMap">
+		select id,classtype_id,module_id,module_no_id,default_flag from class_module_no_onsale
+		where classtype_id=#{classTypeId}
+	</select>
+	
+	<!-- 根据模块号查询班号 -->
+	<select id="queryModuleNoByModuleId" parameterType="int" resultMap="classModuleNoOnsaleMap">
+		select id,classtype_id,module_id,module_no_id,default_flag from class_module_no_onsale
+		where module_id=#{moduleId}
+	</select>
+	
+	<!-- 查询录播下的模块信息 -->
+	<select id="queryVideoModule" parameterType="com.yuxin.wx.vo.classes.ClassVideoModuleVo" resultMap="videoModuleMap">
+		select a.id,a.class_type_id as classTypeId,a.module_id,b.id as moduleId,b.`name` as name,b.item_one_id as itemOneId,b.item_second_id as itemSecondId from class_type_module_relation a RIGHT JOIN class_module b on a.module_id=b.id
+ 		where a.class_type_id=#{classTypeId} and teach_method='TEACH_METHOD_VIDEO'
+	</select>
+	
+	<select id="queryModulesByCompanyId" parameterType="Integer" resultMap="classModuleResultMap">
+		select <include refid="table_columns" />
+		 from class_module where company_id=#{companyId}
+	</select>
+	
+	<!-- 根据某个班号是否存在 -->
+	<select id="queryModuleNoIsExist" parameterType="com.yuxin.wx.vo.classes.ClassmoduleNoOnsaleVo" resultMap="classModuleNoOnsaleMap">
+		select id,classtype_id,module_id,module_no_id from class_module_no_onsale
+		where classtype_id=#{classtypeId} and module_id=#{moduleId} and module_no_id=#{moduleNoId}
+	</select>
+	
+	<!-- 修改在售班号 -->
+	<update id="updateClassModuleOnsale" parameterType="com.yuxin.wx.vo.classes.ClassmoduleNoOnsaleVo">
+		update class_module_no_onsale 
+		set classtype_id=#{classtypeId},module_id=#{moduleId},module_no_id=#{moduleNoId},default_flag=#{defaultFlag}
+		where id=#{id}
+	</update>
+	<select id="calculationHourByClassType" resultType="int" parameterType="Integer">
+		SELECT SUM(cm.total_class_hour) as total_hour FROM class_module cm WHERE id IN (SELECT ctmr.module_id FROM `class_type_module_relation` ctmr WHERE ctmr.class_type_id = #{classTypeId});
+	</select>
+	
+	<select id="findTeacherName" parameterType="String" resultType="String">
+		select name 
+		from sys_config_teacher
+		where id = #{id}
+	</select>
+	
+	<select id="findCompanyIdByClassNo" parameterType="String" resultMap="classModuleResultMap">
+		select m.company_id,
+			m.school_id,
+			l.id,
+			'live' live_type
+		from class_module_lesson l
+		inner join class_module_no n
+			on n.id = l.module_no_id
+		inner join class_module m
+			on m.id = n.module_id
+		where l.liveroom_id_gh = #{roomId}
+		union all
+		select loc.company_id,
+			loc.school_id,
+			loc.id,
+			'open' live_type
+		from live_open_course loc
+		where loc.liveroom_id_gh = #{roomId}
+	</select>
+	
+	<update id="updateModelByItem" parameterType="map">
+		update class_module 
+		set del_flag = 1
+		where item_one_id = #{oneItemId} and 
+			item_second_id = #{twoItemId}
+	</update>
+</mapper>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.CourseVideoMapper">
+	<resultMap type="com.yuxin.wx.model.course.CourseVideo" id="courseVideoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="description" column="description" />
+		<result property="cover" column="cover" />
+		<result property="schoolId" column="school_id" />
+		<result property="teachers" column="teachers" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishDate" column="publish_date" />
+		<result property="delFlage" column="del_flage" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.course.CourseVideoVo" id="courseVideoVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="description" column="description" />
+		<result property="cover" column="cover" />
+		<result property="schoolId" column="school_id" />
+		<result property="teachers" column="teachers" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishDate" column="publish_date" />
+		<result property="delFlage" column="del_flage" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="creatorName" column="creator_name" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		item_one_id,
+		item_second_id,
+		description,
+		cover,
+		school_id,
+		teachers,
+		publish_status,
+		publish_date,
+		del_flage,
+		create_time,
+		creator,
+		update_time,
+		updator
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{itemOneId},
+		#{itemSecondId},
+		#{description},
+		#{cover},
+		#{schoolId},
+		#{teachers},
+		#{publishStatus},
+		#{publishDate},
+		#{delFlage},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.CourseVideo" useGeneratedKeys="true" keyProperty="id">
+		insert into course_video( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into course_video( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from course_video
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from course_video
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.CourseVideo">
+		update course_video 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="itemOneId != null and itemOneId != ''">item_one_id = #{itemOneId},</if>
+			<if test="itemSecondId != null and itemSecondId != ''">item_second_id = #{itemSecondId},</if>
+			<if test="description != null and description != ''">description = #{description},</if>
+			<if test="cover != null and cover != ''">cover = #{cover},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="teachers != null and teachers != ''">teachers = #{teachers},</if>
+			<if test="publishStatus != null and publishStatus != ''">publish_status = #{publishStatus},</if>
+			<if test="publishDate != null and publishDate != ''">publish_date = #{publishDate},</if>
+			<if test="delFlage != null and delFlage != ''">del_flage = #{delFlage},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="courseVideoResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from course_video
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="courseVideoResultMap">
+		select <include refid="table_columns" /> 
+		from course_video
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name like '%${name}%'</if>
+			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
+			<if test="description != null and description != ''">and description = #{description}</if>
+			<if test="cover != null and cover != ''">and cover = #{cover}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="teachers != null and teachers != ''">and teachers = #{teachers}</if>
+			<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
+			<if test="publishDate != null and publishDate != ''">and publish_date = #{publishDate}</if>
+			<if test="delFlage != null and delFlage != ''">and del_flage = #{delFlage}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="courseVideoResultMap" parameterType="com.yuxin.wx.model.course.CourseVideo">
+		select <include refid="table_columns" />
+		from course_video
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.CourseVideo">
+		select count(id) from course_video
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findListByModuleId" resultMap="courseVideoResultMap" parameterType="String">
+		select 
+		v.id,name,item_one_id,item_second_id,description,cover,publish_status,
+		publish_date,del_flage,create_time,creator,update_time,updator
+		from course_video as  v,class_module_video_relation as r
+		where v.id=r.video_id and r.module_id=#{moduleId} and v.school_id=#{schoolId}
+	</select>
+	
+	<select id="findListByClassId" resultMap="courseVideoResultMap" parameterType="hashmap">
+		select DISTINCT
+		v.id,name,item_one_id,item_second_id,description,cover,publish_status,
+		publish_date,del_flage,create_time,creator,update_time,updator
+		
+		from course_video as  v,class_module_video_relation as vr,class_type_module_relation mr
+		where v.id=vr.video_id and vr.module_id=mr.module_id and mr.class_type_id=#{classId} and v.publish_status='PUBLISHED'
+	</select>
+	
+	
+	
+	<select id="queryVideoByKeys" resultMap="courseVideoVoResultMap" parameterType="com.yuxin.wx.model.course.CourseVideo">
+		SELECT
+		  a.id,
+		  a.name,
+		  a.item_one_id,
+		  a.item_second_id,
+		  a.publish_status,
+		  a.create_time,
+		  b.item_name AS itemOneName,
+		  c.item_name AS itemSecondName,
+		  d.username as creator_name
+		FROM
+		  course_video a
+			left join
+		  sys_config_item b
+			on a.item_one_id = b.id
+			left join
+		  sys_config_item c
+			on a.item_second_id=c.id
+			left join
+		  users d 
+		  on a.creator=d.id
+		<include refid="page_where" />
+	  	ORDER BY a.update_time DESC 
+	  	limit #{firstIndex},#{pageSize}
+	</select>
+</mapper>

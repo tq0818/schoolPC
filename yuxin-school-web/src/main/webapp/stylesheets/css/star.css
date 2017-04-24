@@ -1,0 +1,134 @@
+.s-box .nav {
+  height: 60px;
+  background-color: #000000;
+}
+/*页头*/
+.L-headcontent div.login_reg > a:hover {
+  color: #949494;
+}
+.headeColor .nav {
+  float: left;
+}
+.headeColor .nav li {
+  float: left;
+  margin-left: 72px;
+  height: 60px;
+  line-height: 60px;
+  color: #fff;
+}
+.headeColor .nav a {
+  color: #fff;
+  font-size: 16px;
+}
+.headeColor .nav a:hover {
+  color: #ED8E28;
+}
+/*大背景图*/
+.Carousel {
+  width: 100%;
+  height: 339px;
+  border-bottom: 1px solid #E0E0E0;
+  background-color: #F2F0F1;
+  position: relative;
+}
+.Carousel img {
+  position: absolute;
+  left: -260px;
+  top: 0;
+}
+/*内容*/
+.content {
+  width: 1200px;
+  margin: 0 auto;
+}
+.content .tit {
+  /*background-color: red;*/
+  color: #444444;
+  font: 23px "微软雅黑";
+  padding-top: 47px;
+  padding-bottom: 30px;
+}
+/*学员展示*/
+.content {
+  padding-bottom: 118px;
+}
+.content .view {
+  /*background-color: green;*/
+  width: 100%;
+}
+.view:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.view {
+  zoom: 1;
+}
+.view .study {
+  width: 267px;
+  height: 442px;
+  border: 1px solid #E0E0E0;
+  float: left;
+  margin-right: 41px;
+  margin-bottom: 39px;
+}
+.view .spe {
+  margin-right: 0;
+}
+.study .study-up {
+  width: 100%;
+  height: 158px;
+  /*background-color: #E8E8E8;*/
+  border-bottom: 1px solid #F8F8F8;
+  padding-top: 21px;
+}
+.study .study-img {
+  width: 111px;
+  height: 111px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin: 0 auto;
+  /*border: 1px solid  #EEEEEE;*/
+  background: url("../../image/head_big2.png") no-repeat;
+  overflow: hidden;
+}
+.study-author {
+  font-size: 17px;
+  color: #333333;
+  margin-top: 18px;
+  text-align: center;
+}
+.study .study-down {
+  font-size: 11px;
+  color: #9B9B9B;
+  width: 228px;
+  margin: 0 auto;
+  margin-top: 10px;
+  line-height: 21px;
+}
+/*分页按钮*/
+.screen-right-cont {
+  position: relative;
+}
+/* .pagination {
+  position: absolute;
+  width: 460px;
+  height: 30px;
+  left: 438px;
+  top: 1500px;
+}
+.pagination li {
+  float: left;
+  list-style: none;
+}
+.pagination li a {
+  font-size: 14px;
+}
+.pagination li a:hover {
+  background-color: #FEA01A;
+  border-color: #FEA01A;
+  color: #fff;
+} */
+/* .pages li span{
+	font-size: 1.4rem;	
+} */

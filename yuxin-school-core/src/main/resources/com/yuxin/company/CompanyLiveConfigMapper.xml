@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyLiveConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveConfig" id="companyLiveConfigResultMap">
+		<result property="id" column="id" />
+		<result property="domain" column="domain" />
+		<result property="teacherToken" column="teacher_token" />
+		<result property="assistantToken" column="assistant_token" />
+		<result property="studentWebToken" column="student_web_token" />
+		<result property="studentClientToken" column="student_client_token" />
+		<result property="loginName" column="login_name" />
+		<result property="password" column="password" />
+		<result property="liveType" column="live_type" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		domain,
+		teacher_token,
+		assistant_token,
+		student_web_token,
+		student_client_token,
+		login_name,
+		password,
+		live_type,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{domain},
+		#{teacherToken},
+		#{assistantToken},
+		#{studentWebToken},
+		#{studentClientToken},
+		#{loginName},
+		#{password},
+		#{liveType},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.domain},
+		#{item.teacherToken},
+		#{item.assistantToken},
+		#{item.studentWebToken},
+		#{item.studentClientToken},
+		#{item.loginName},
+		#{item.password},
+		#{item.liveType},
+		#{teim.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_live_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_live_config
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_live_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig">
+		update company_live_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="domain != null and domain != ''">domain = #{domain},</if>
+			<if test="teacherToken != null and teacherToken != ''">teacher_token = #{teacherToken},</if>
+			<if test="assistantToken != null and assistantToken != ''">assistant_token = #{assistantToken},</if>
+			<if test="studentWebToken != null and studentWebToken != ''">student_web_token = #{studentWebToken},</if>
+			<if test="studentClientToken != null and studentClientToken != ''">student_client_token = #{studentClientToken},</if>
+			<if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="liveType != null and liveType != ''">live_type = #{liveType},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyLiveConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_live_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyLiveConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_live_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="domain != null and domain != ''">and domain = #{domain}</if>
+			<if test="teacherToken != null and teacherToken != ''">and teacher_token = #{teacherToken}</if>
+			<if test="assistantToken != null and assistantToken != ''">and assistant_token = #{assistantToken}</if>
+			<if test="studentWebToken != null and studentWebToken != ''">and student_web_token = #{studentWebToken}</if>
+			<if test="studentClientToken != null and studentClientToken != ''">and student_client_token = #{studentClientToken}</if>
+			<if test="loginName != null and loginName != ''">and login_name = #{loginName}</if>
+			<if test="password != null and password != ''">and password = #{password}</if>
+			<if test="liveType != null and liveType != ''">and live_type = #{liveType}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyLiveConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig">
+		select <include refid="table_columns" />
+		from company_live_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig">
+		select count(id) from company_live_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<!-- 根据公司id查 -->
+	<select id="findByCompanyId" parameterType="Integer" resultMap="companyLiveConfigResultMap">
+		select <include refid="table_columns"/>
+		from company_live_config
+		where company_id = #{companyId}
+	</select>
+</mapper>

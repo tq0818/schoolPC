@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuPaperTopicMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuPaperTopic" id="tikuPaperTopicResultMap">
+		<result property="id" column="id" />
+		<result property="paperId" column="paper_id" />
+		<result property="topicId" column="topic_id" />
+		<result property="topicType" column="topic_type" />
+		<result property="parentId" column="parent_id" />
+		<result property="topicScore" column="topic_score" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.tiku.TikuTopic" id="tikuTopicResultMap">
+		<result property="id" column="id" />
+		<result property="topicName" column="topic_name" />
+		<result property="topicNameBlank" column="topic_name_blank" />
+		<result property="topicType" column="topic_type" />
+		<result property="score" column="score" />
+		<result property="answer" column="answer" />
+		<result property="difficulty" column="difficulty" />
+		<result property="analyseWord" column="analyse_word" />
+		<result property="analyseVideoUrl" column="analyse_video_url" />
+		<result property="analyseAudioUrl" column="analyse_audio_url" />
+		<result property="parentId" column="parent_id" />
+		<result property="status" column="status" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="auditor" column="auditor" />
+		<result property="auditTime" column="audit_time" />
+		<result property="paperFlag" column="paper_flag" />
+		<result property="childFlag" column="child_flag" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		paper_id,
+		topic_id,
+		topic_type,
+		parent_id,
+		topic_score
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{paperId},
+		#{topicId},
+		#{topicType},
+		#{parentId},
+		#{topicScore}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.paperId},
+		#{item.topicId},
+		#{item.topicType},
+		#{item.parentId},
+		#{item.topicScore}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuPaperTopic" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_paper_topic( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_paper_topic( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_paper_topic
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuPaperTopic">
+		update tiku_paper_topic 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
+			<if test="topicId != null and topicId != ''">topic_id = #{topicId},</if>
+			<if test="topicType != null and topicType != ''">topic_type = #{topicType},</if>
+			<if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+			<if test="topicScore != null and topicScore != ''">topic_score = #{topicScore},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuPaperTopicResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_paper_topic
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuPaperTopicResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_paper_topic
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="paperId != null and paperId != ''">and paper_id = #{paperId}</if>
+			<if test="topicId != null and topicId != ''">and topic_id = #{topicId}</if>
+			<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+			<if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
+			<if test="topicScore != null and topicScore != ''">and topic_score = #{topicScore}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuPaperTopicResultMap" parameterType="com.yuxin.wx.model.tiku.TikuPaperTopic">
+		select <include refid="table_columns" />
+		from tiku_paper_topic
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuPaperTopic">
+		select count(id) from tiku_paper_topic
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findTopicPaperById" parameterType="map" resultMap="tikuPaperTopicResultMap">
+		select <include refid="table_columns"/>
+		from tiku_paper_topic 
+		<include refid="page_where" />
+		limit 1
+	</select>
+	
+	<delete id="delPaperTopic" parameterType="map">
+		delete from tiku_paper_topic 
+		where paper_id = #{paperId} and
+			topic_id in 
+			<foreach collection="topicIds" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</delete>
+	<select id="findPaperCountById" parameterType="Integer" resultType="Integer">
+		select count(id)
+		from tiku_paper_topic 
+		where paper_id = #{paperId} and 
+			parent_id = 0
+			limit 1
+	</select>
+	
+	<select id="findTopicPaperByParentIdAndPaperId" resultMap="tikuTopicResultMap">
+		SELECT * from tiku_topic tt WHERE id in( SELECT tpt.topic_id from tiku_paper_topic tpt WHERE tpt.parent_id = #{parentId} and tpt.paper_id = #{paperId});
+	</select>
+	
+	<select id="findListByTopicId" parameterType="Integer" resultMap="tikuPaperTopicResultMap">
+		select <include refid="table_columns"/>
+		from tiku_paper_topic
+		where topic_id = #{topicId}
+	</select>
+	
+	<!-- 查询其他试卷是否使用该试题 -->
+	<select id="findOtherByPaperTopic" parameterType="map" resultMap="tikuPaperTopicResultMap">
+		select <include refid="table_columns"/>
+		from tiku_paper_topic 
+		where topic_id = #{topicId} and 
+			paper_id not in (#{paperId})
+	</select>
+	
+	<select id="findTopicByPaperId" parameterType="Integer" resultMap="tikuPaperTopicResultMap">
+		select <include refid="table_columns"/>
+		from tiku_paper_topic
+		where paper_id = #{paperId} and 
+			parent_id = 0
+	</select>
+	
+	<select id="findTopicScore" parameterType="map" resultType="Float">
+		select topic_score 
+		from tiku_paper_topic
+		where paper_id = #{paperId} and 
+			topic_id = #{topicId}
+	</select>
+	
+	<select id="findIdByType" parameterType="map" resultType="Integer">
+		select id
+		from tiku_paper_topic
+		where paper_id = #{paperId} and
+			topic_type = #{topicType} and 
+			parent_id = 0
+	</select>
+	
+	<update id="updateByIds" parameterType="map">
+		update tiku_paper_topic
+			set topic_score = #{topicScore}
+		where id in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</update>
+	
+	<select id="findCount" parameterType="map" resultType="Integer">
+		select count(id) from tiku_paper_topic
+		where paper_id = #{paperId}
+			<choose>
+				<when test="topicType == 'TOPIC_TYPE_CASE'">
+					and parent_id != 0 and parent_id is not null
+				</when>
+				<otherwise>
+					and topic_type = #{topicType}
+					and (parent_id = 0 or parent_id is null)
+				</otherwise>
+			</choose>
+	</select>
+	
+	<select id="findSumScore" parameterType="map" resultType="Double">
+		select sum(topic_score) from tiku_paper_topic
+		where paper_id = #{paperId}
+			<choose>
+				<when test="topicType == 'TOPIC_TYPE_CASE'">
+					and parent_id != 0 and parent_id is not null
+				</when>
+				<otherwise>
+					and topic_type = #{topicType}
+					and (parent_id = 0 or parent_id is null)
+				</otherwise>
+			</choose>
+	</select>
+</mapper>

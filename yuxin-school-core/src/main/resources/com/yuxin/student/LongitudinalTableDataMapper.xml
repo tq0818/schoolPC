@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.LongitudinalTableDataMapper">
+	<resultMap type="com.yuxin.wx.model.system.LongitudinalTableData" id="longitudinalTableDataResultMap">
+		<result property="id" column="id" />
+		<result property="colId" column="col_id" />
+		<result property="colName" column="col_name" />
+		<result property="colValue" column="col_value" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="rowId" column="row_id"/>
+		<result property="tableName" column="table_name"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		col_id,
+		col_name,
+		col_value,
+		company_id,
+		school_id,
+		row_id,
+		table_name
+    </sql>
+	<sql id="entity_properties">
+		#{colId},
+		#{colName},
+		#{colValue},
+		#{companyId},
+		#{schoolId},
+		#{rowId},
+		#{tableName}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.LongitudinalTableData" useGeneratedKeys="true" keyProperty="id">
+		insert into longitudinal_table_data( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into longitudinal_table_data( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from longitudinal_table_data
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.LongitudinalTableData">
+		update longitudinal_table_data 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="colId != null and colId != ''">col_id = #{colId},</if>
+			<if test="colName != null and colName != ''">col_name = #{colName},</if>
+			<if test="colValue != null ">col_value = #{colValue},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="longitudinalTableDataResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from longitudinal_table_data
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="longitudinalTableDataResultMap">
+		select <include refid="table_columns" /> 
+		from longitudinal_table_data
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="colId != null and colId != ''">and col_id = #{colId}</if>
+			<if test="colName != null and colName != ''">and col_name = #{colName}</if>
+			<if test="colValue != null and colValue != ''">and col_value = #{colValue}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="rowId != null ">and row_id = #{rowId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="longitudinalTableDataResultMap" parameterType="com.yuxin.wx.model.system.LongitudinalTableData">
+		select <include refid="table_columns" />
+		from longitudinal_table_data
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.LongitudinalTableData">
+		select count(id) from longitudinal_table_data
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="query" resultMap="longitudinalTableDataResultMap" parameterType="com.yuxin.wx.model.system.LongitudinalTableData">
+		select id,<include refid="table_columns" />
+		from longitudinal_table_data
+		<include refid="page_where" />
+	</select>
+	<select id="getCurrtRow" resultType="Integer" parameterType="com.yuxin.wx.model.system.LongitudinalTableData">
+		select max(row_id) 
+		from longitudinal_table_data
+		<include refid="page_where" />
+	</select>
+	
+	<select id="getSequence" resultType="Integer" parameterType="com.yuxin.wx.model.system.LongitudinalTableData">
+		select max(CAST(col_value as SIGNED))
+		from longitudinal_table_data
+		where col_name='id'
+	</select>
+	
+</mapper>

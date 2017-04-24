@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysLogStudentOperationMapper">
+	<resultMap type="com.yuxin.wx.vo.system.SysLogStudentOperationVo" id="sysLogStudentOperationResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="operaTime" column="opera_time" />
+		<result property="operation" column="operation" />
+		<result property="cost" column="cost" />
+		<result property="operationType" column="operation_type" />
+		<result property="companyId" column="company_id" />
+		<result property="sourceId" column="source_id"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		user_name,
+		opera_time,
+		operation,
+		cost,
+		operation_type,
+		company_id,
+		source_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{userName},
+		#{operaTime},
+		#{operation},
+		#{cost},
+		#{operationType},
+		#{companyId},
+		#{sourceId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.userName},
+		#{item.operaTime},
+		#{item.operation},
+		#{item.cost},
+		#{item.operationType},
+		#{item.companyId},
+		#{item.sourceId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_log_student_operation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_log_student_operation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_log_student_operation
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_log_student_operation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation">
+		update sys_log_student_operation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="userName != null and userName != ''">user_name = #{userName},</if>
+			<if test="operaTime != null and operaTime != ''">opera_time = #{operaTime},</if>
+			<if test="operation != null and operation != ''">operation = #{operation},</if>
+			<if test="cost != null">cost = #{cost},</if>
+			<if test="operationType != null">operation_type = #{operationType},</if>
+			<if test="companyId != null">company_id = #{companyId},</if>
+			<if test="sourceId != null">source_id = #{sourceId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysLogStudentOperationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_log_student_operation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" /> 
+		from sys_log_student_operation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="userName != null and userName != ''">and user_name = #{userName}</if>
+			<if test="operaTime != null and operaTime != ''">and opera_time = #{operaTime}</if>
+			<if test="operation != null and operation != ''">and operation = #{operation}</if>
+			<if test="cost != null">and cost = #{cost}</if>
+			<if test="operationType != null">and operation_type = #{operationType}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="sourceId != null">and source_id = #{sourceId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysLogStudentOperationResultMap" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation">
+		select <include refid="table_columns" />
+		from sys_log_student_operation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation">
+		select count(id) from sys_log_student_operation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="selectOneAsc" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" />
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		order by asc
+		limit 1
+	</select>
+	
+	<select id="selectOneDesc" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" />
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		order by desc
+		limit 1
+	</select>
+	
+	<select id="selectListAsc" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" />
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		order by asc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="selectListDesc" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" />
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		order by desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="selectListCount" parameterType="com.yuxin.wx.model.system.SysLogStudentOperation" resultMap="sysLogStudentOperationResultMap">
+		select count(*)
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="selectListByDateAsc" parameterType="com.yuxin.wx.vo.system.SysLogStudentOperationVo" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" />
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		and (
+			between str_to_date(startTime,'%y-%m-%d') 
+			and date_add(str_to_date(endTime,'%y-%m-%d'), INTERVAL 1 day))
+		order by asc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="selectListByDateDesc" parameterType="com.yuxin.wx.vo.system.SysLogStudentOperationVo" resultMap="sysLogStudentOperationResultMap">
+		select <include refid="table_columns" />
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		and (
+			between str_to_date(startTime,'%y-%m-%d') 
+			and date_add(str_to_date(endTime,'%y-%m-%d'), INTERVAL 1 day))
+		order by desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="selectListByDateCount" parameterType="com.yuxin.wx.vo.system.SysLogStudentOperationVo" resultMap="sysLogStudentOperationResultMap">
+		select count(*)
+		from sys_log_student_operation 
+		<include refid="page_where" />
+		and (
+			between str_to_date(startTime,'%y-%m-%d') 
+			and date_add(str_to_date(endTime,'%y-%m-%d'), INTERVAL 1 day))
+	</select>
+	
+	
+	<select id="findBySearch" parameterType="com.yuxin.wx.vo.system.SysLogStudentOperationVo" resultMap="sysLogStudentOperationResultMap">
+		select slso.*,uf.head_pic_max
+		from sys_log_student_operation slso 
+		inner join users_front uf on slso.user_id = uf.id
+		where slso.company_id = #{companyId}
+		<if test="cusorder != null">order by ${cusorder}</if>
+		<if test="cuslimit != null">limit ${cuslimit}</if>
+		
+	</select>
+</mapper>

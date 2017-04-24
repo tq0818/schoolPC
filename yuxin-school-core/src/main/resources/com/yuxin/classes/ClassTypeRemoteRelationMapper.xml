@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeRemoteRelationMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassTypeRemoteRelation" id="classTypeRemoteRelationResultMap">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="remoteId" column="remote_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ModuleRemoteVo" id="remoteVoMap">
+		<result property="id" column="id"/>
+		<result property="classTypeId" column="class_type_id"/>
+		<result property="remoteId" column="remote_id"/>
+		<result property="remoteName" column="name"/>
+		<result property="itemOneId" column="item_one_id"/>
+		<result property="itemSecondId" column="item_second_id"/>
+		<result property="major" column="major"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		class_type_id,
+		remote_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{classTypeId},
+		#{remoteId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassTypeRemoteRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type_remote_relation( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into class_type_remote_relation( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( #{item.id},#{item.classTypeId},#{item.remoteId} )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from class_type_remote_relation
+		where class_type_id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from class_type_remote_relation
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.classes.ClassTypeRemoteRelation">
+		update class_type_remote_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="classTypeId != null and classTypeId != ''">class_type_id = #{classTypeId},</if>
+			<if test="remoteId != null and remoteId != ''">remote_id = #{remoteId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="classTypeRemoteRelationResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from class_type_remote_relation
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="classTypeRemoteRelationResultMap">
+		select <include refid="table_columns" /> 
+		from class_type_remote_relation
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classTypeId != null and classTypeId != ''">and class_type_id = #{classTypeId}</if>
+			<if test="remoteId != null and remoteId != ''">and remote_id = #{remoteId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="classTypeRemoteRelationResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeRemoteRelation">
+		select <include refid="table_columns" />
+		from class_type_remote_relation
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeRemoteRelation">
+		select count(id) from class_type_remote_relation
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!--根据班型id删除相关连的远程教育 -->
+	<delete id="deleteByClassTypeId" parameterType="String">
+		delete from class_type_remote_relation
+		where class_type_id =#{id}
+	</delete>
+	
+	<!-- 根据班型id查询远程模块信息 -->
+	<select id="queryRomoteListByClassTypeId" parameterType="int" resultMap="remoteVoMap">
+		select a.id,a.class_type_id,a.remote_id,b.name,b.item_one_id,b.item_second_id,b.major from class_type_remote_relation a,course_remote b where a.remote_id=b.id
+		and a.class_type_id=#{classTypeId}
+	</select>
+</mapper>

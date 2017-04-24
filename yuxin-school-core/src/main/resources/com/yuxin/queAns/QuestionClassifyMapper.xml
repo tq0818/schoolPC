@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.queAns.mapper.QuestionClassifyMapper">
+	<resultMap type="com.yuxin.wx.model.queAns.QuestionClassify" id="queQuestionClassifyResultMap">
+		<result property="id" column="id" />
+		<result property="itemId" column="item_id" />
+		<result property="classifyName" column="classify_name" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="classType" column="class_type" />
+		<result property="delFlag" column="del_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="itemName" column="item_name" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		item_id,
+		classify_name,
+		company_id,
+		school_id,
+		class_type,
+		del_flag,
+		create_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{itemId},
+		#{classifyName},
+		#{companyId},
+		#{schoolId},
+		#{classType},
+		#{delFlag},
+		#{createTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.itemId},
+		#{item.classifyName},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.classType},
+		#{item.delFlag},
+		#{item.createTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.queAns.QuestionClassify" useGeneratedKeys="true" keyProperty="id">
+		insert into question_classify( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into question_classify( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from question_classify
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from question_classify
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.queAns.QuestionClassify">
+		update question_classify 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="itemId != null and itemId != ''">item_id = #{itemId},</if>
+			<if test="classifyName != null and classifyName != ''">classify_name = #{classifyName},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="classType != null and classType != ''">class_type = #{classType},</if>
+			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="queQuestionClassifyResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from question_classify
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="queQuestionClassifyResultMap">
+		select <include refid="table_columns" /> 
+		from question_classify
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="itemId != null and itemId != ''">and item_id = #{itemId}</if>
+			<if test="classifyName != null and classifyName != ''">and classify_name = #{classifyName}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="classType != null and classType != ''">and class_type = #{classType}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="queQuestionClassifyResultMap" parameterType="com.yuxin.wx.model.queAns.QuestionClassify">
+		select <include refid="table_columns" />
+		from question_classify
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="findQuestionClassify" resultMap="queQuestionClassifyResultMap" parameterType="com.yuxin.wx.model.queAns.QuestionClassify">
+		select <include refid="table_columns" />
+		from question_classify
+		<include refid="page_where" />
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.queAns.QuestionClassify">
+		select count(id) from question_classify
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findQuestionClassifyKc" resultMap="queQuestionClassifyResultMap" parameterType="com.yuxin.wx.model.queAns.QuestionClassify">
+		select
+		qc.id,
+		i.item_name as item_name,
+		qc.classify_name,
+		qc.del_flag,
+		i.id as item_id
+		from (sys_config_item i, sys_school_item_relation r)
+		left join question_classify as qc on i.id = qc.item_id
+		where i.id=r.item_id and i.company_id = #{companyId} and r.del_flag =0
+		and i.item_type = #{classType}
+		and r.school_id = #{schoolId}
+	</select>
+	
+	
+	<!-- 查询本公司自定义分类 -->
+	<select id="findClassifyByCompany" parameterType="map" resultMap="queQuestionClassifyResultMap">
+		select <include refid="table_columns"/>
+		from question_classify
+		where company_id = #{companyId}
+			and school_id = #{schoolId} 
+			and class_type = #{classType}
+			and del_flag = 1
+		order by id
+	</select>
+</mapper>

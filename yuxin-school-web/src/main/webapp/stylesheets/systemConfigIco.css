@@ -1,0 +1,59 @@
+a{
+	text-decoration: none;
+}
+.btn-addkeyword,.btn-addtitle,.btn-addescription{
+	float: right;
+	margin-top: -28px;
+}
+.user-list{
+	width:95%;
+	margin-left: 30px;
+	min-height: 200px;
+}
+.keywords_list span{
+	margin: 0px 15px 15px 2px;
+}	
+
+.box{
+    width: 100%;
+    height: auto;
+}
+.box .tab-box{
+    width: 100%;
+    height: auto;
+}
+.box .tab-box li{
+    display: inline-block;
+    min-width: 60px;
+    margin: 5px 5px;
+    border-radius: 3px;
+    text-align: center;
+    padding: 0 3px;
+    border:1px solid #dddddd;
+}
+.box .tab-box li em{
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 3px;
+}
+span.c-content span.btns .c-up {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 68px;
+    height: 32px;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    cursor: pointer;
+    z-index: 1;
+}
+.iconfont.open {
+  color: #1b6fbd;
+}
+.close {
+   float: none;
+   font-weight:normal;  
+}
+.i{
+	font-size:14px;
+}

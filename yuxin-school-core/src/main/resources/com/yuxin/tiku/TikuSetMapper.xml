@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuSetMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuSet" id="tikuSetResultMap">
+		<result property="id" column="id" />
+		<result property="freeStuNo" column="free_stu_no" />
+		<result property="freeStuTry" column="free_stu_try" />
+		<result property="freeStuTryDay" column="free_stu_try_day" />
+		<result property="chargeStuAll" column="charge_stu_all" />
+		<result property="chargeStuItem" column="charge_stu_item" />
+		<result property="chargeStuItemSecond" column="charge_stu_item_second" />
+		<result property="topicAuditYes" column="topic_audit_yes" />
+		<result property="topicAuditNo" column="topic_audit_no" />
+		<result property="paperAuditYes" column="paper_audit_yes" />
+		<result property="paperAuditNo" column="paper_audit_no" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		free_stu_no,
+		free_stu_try,
+		free_stu_try_day,
+		charge_stu_all,
+		charge_stu_item,
+		charge_stu_item_second,
+		topic_audit_yes,
+		topic_audit_no,
+		paper_audit_yes,
+		paper_audit_no,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{freeStuNo},
+		#{freeStuTry},
+		#{freeStuTryDay},
+		#{chargeStuAll},
+		#{chargeStuItem},
+		#{chargeStuItemSecond},
+		#{topicAuditYes},
+		#{topicAuditNo},
+		#{paperAuditYes},
+		#{paperAuditNo},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.freeStuNo},
+		#{item.freeStuTry},
+		#{item.freeStuTryDay},
+		#{item.chargeStuAll},
+		#{item.chargeStuItem},
+		#{item.chargeStuItemSecond},
+		#{item.topicAuditYes},
+		#{item.topicAuditNo},
+		#{item.paperAuditYes},
+		#{item.paperAuditNo},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuSet" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_set( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_set( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<delete id="delByCateId">
+		delete from tiku_set
+		where tiku_category_id = #{cateId}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_set
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuSet">
+		update tiku_set 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="freeStuNo != null">free_stu_no = #{freeStuNo},</if>
+			<if test="freeStuTry != null">free_stu_try = #{freeStuTry},</if>
+			<if test="freeStuTryDay != null">free_stu_try_day = #{freeStuTryDay},</if>
+			<if test="chargeStuAll != null">charge_stu_all = #{chargeStuAll},</if>
+			<if test="chargeStuItem != null">charge_stu_item = #{chargeStuItem},</if>
+			<if test="chargeStuItemSecond != null">charge_stu_item_second = #{chargeStuItemSecond},</if>
+			<if test="topicAuditYes != null">topic_audit_yes = #{topicAuditYes},</if>
+			<if test="topicAuditNo != null">topic_audit_no = #{topicAuditNo},</if>
+			<if test="paperAuditYes != null">paper_audit_yes = #{paperAuditYes},</if>
+			<if test="paperAuditNo != null">paper_audit_no = #{paperAuditNo},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuSetResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_set
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuSetResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_set
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="freeStuNo != null and freeStuNo != ''">and free_stu_no = #{freeStuNo}</if>
+			<if test="freeStuTry != null and freeStuTry != ''">and free_stu_try = #{freeStuTry}</if>
+			<if test="freeStuTryDay != null and freeStuTryDay != ''">and free_stu_try_day = #{freeStuTryDay}</if>
+			<if test="chargeStuAll != null and chargeStuAll != ''">and charge_stu_all = #{chargeStuAll}</if>
+			<if test="chargeStuItem != null and chargeStuItem != ''">and charge_stu_item = #{chargeStuItem}</if>
+			<if test="chargeStuItemSecond != null and chargeStuItemSecond != ''">and charge_stu_item_second = #{chargeStuItemSecond}</if>
+			<if test="topicAuditYes != null and topicAuditYes != ''">and topic_audit_yes = #{topicAuditYes}</if>
+			<if test="topicAuditNo != null and topicAuditNo != ''">and topic_audit_no = #{topicAuditNo}</if>
+			<if test="paperAuditYes != null and paperAuditYes != ''">and paper_audit_yes = #{paperAuditYes}</if>
+			<if test="paperAuditNo != null and paperAuditNo != ''">and paper_audit_no = #{paperAuditNo}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuSetResultMap" parameterType="com.yuxin.wx.model.tiku.TikuSet">
+		select <include refid="table_columns" />
+		from tiku_set
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuSet">
+		select count(id) from tiku_set
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<!-- 根据公司id 题库id查询 -->
+	<select id="findSetByCompanyIdAndCategoryId" parameterType="com.yuxin.wx.model.tiku.TikuSet" resultMap="tikuSetResultMap">
+		select <include refid="table_columns"/> 
+		from tiku_set 
+		where company_id = #{companyId}
+		limit 1
+	</select>
+</mapper>

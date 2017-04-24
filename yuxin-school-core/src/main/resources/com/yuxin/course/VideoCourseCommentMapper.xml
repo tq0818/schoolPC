@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.course.mapper.VideoCourseCommentMapper">
+	<resultMap type="com.yuxin.wx.model.course.VideoCourseComment" id="videoCourseCommentResultMap">
+		<result property="id" column="id" />
+		<result property="comment" column="comment" />
+		<result property="score" column="score" />
+		<result property="videoLectureId" column="video_lecture_id" />
+		<result property="userId" column="user_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.vo.system.TeacherCommentVo" id="teacherCommentVoResultMap">
+		<result property="id" column="id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="comment" column="comment" />
+		<result property="score" column="score" />
+		<result property="fromId" column="source"/>
+		<result property="videoLectureId" column="video_lecture_id" />
+		<result property="videoChapterId" column="video_chapter_id"/>
+		<result property="userId" column="user_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="createTime" column="create_time" />
+		<result property="userName" column="userName" />
+		<result property="classTypeId" column="class_type_id" />
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		comment,
+		score,
+		video_lecture_id,
+		user_id,
+		school_id,
+		company_id,
+		create_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{comment},
+		#{score},
+		#{videoLectureId},
+		#{userId},
+		#{schoolId},
+		#{companyId},
+		#{createTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.comment},
+		#{item.score},
+		#{item.videoLectureId},
+		#{item.userId},
+		#{item.schoolId},
+		#{item.companyId},
+		#{item.createTime}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.course.VideoCourseComment" useGeneratedKeys="true" keyProperty="id">
+		insert into video_course_comment( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into video_course_comment( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from video_course_comment
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.course.VideoCourseComment">
+		update video_course_comment 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="comment != null and comment != ''">comment = #{comment},</if>
+			<if test="score != null and score != ''">score = #{score},</if>
+			<if test="videoLectureId != null and videoLectureId != ''">video_lecture_id = #{videoLectureId},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="videoCourseCommentResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from video_course_comment
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="videoCourseCommentResultMap">
+		select <include refid="table_columns" /> 
+		from video_course_comment
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="comment != null and comment != ''">and comment = #{comment}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="videoLectureId != null and videoLectureId != ''">and video_lecture_id = #{videoLectureId}</if>
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="videoCourseCommentResultMap" parameterType="com.yuxin.wx.model.course.VideoCourseComment">
+		select <include refid="table_columns" />
+		from video_course_comment
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.course.VideoCourseComment">
+		select count(id) from video_course_comment
+		<include refid="page_where" />
+	</select>
+	<select id="findByTeacherId" resultMap="teacherCommentVoResultMap" parameterType="com.yuxin.wx.vo.system.TeacherCommentVo">
+		select vcc.id,teacher_id,comment,source,score,video_chapter_id,video_lecture_id,vcc.user_id,vcc.create_time,vcc.class_type_id,(select nick_name from users_front where id=vcc.user_id) as userName from video_course_comment vcc
+		inner join sys_config_teacher syt on vcc.teacher_id = syt.id 
+		where vcc.del_flag=0 and syt.del_flag =0
+		<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+		<if test="companyId != null and companyId != ''">and vcc.company_id = #{companyId}</if>
+		<if test="schoolId != null and schoolId != ''">and vcc.school_id = #{schoolId}</if>
+		<if test="id != null and id != ''">and vcc.id = #{id}</if>
+		order by vcc.id desc limit #{firstIndex},#{pageSize} 
+	</select>
+	<select id="commentCount" resultType="int" parameterType="com.yuxin.wx.vo.system.TeacherCommentVo">
+		select count(vcc.id) from video_course_comment vcc inner join sys_config_teacher sct on vcc.teacher_id = sct.id
+		where vcc.del_flag=0 and sct.del_flag = 0
+		<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
+		<if test="companyId != null and companyId != ''">and vcc.company_id = #{companyId}</if>
+		<if test="id != null and id != ''">and vcc.id = #{id}</if>
+		limit 1
+	</select>
+	<!-- 其他自定义SQL -->
+	
+</mapper>

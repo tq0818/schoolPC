@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyInvitConfigMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyInvitConfig" id="companyInvitConfigResultMap">
+		<result property="id" column="id" />
+		<result property="usePriv" column="use_priv" />
+		<result property="openFlag" column="open_flag" />
+		<result property="oneBeinviteFlag" column="one_beinvite_flag" />
+		<result property="oneBeinviteGetMoney" column="one_beinvite_get_money" />
+		<result property="oneBeinviteMoneyPeriod" column="one_beinvite_money_period" />
+		<result property="oneInviteRgstMoney" column="one_invite_rgst_money" />
+		<result property="oneInviteRgstIntegral" column="one_invite_rgst_integral" />
+		<result property="oneInviteCsptMoney" column="one_invite_cspt_money" />
+		<result property="oneInviteCsptIntegral" column="one_invite_cspt_integral" />
+		<result property="oneInviteCsptPercent" column="one_invite_cspt_percent" />
+		<result property="twoInviteRgstMoney" column="two_invite_rgst_money" />
+		<result property="twoInviteRgstIntegral" column="two_invite_rgst_integral" />
+		<result property="twoInviteCsptMoney" column="two_invite_cspt_money" />
+		<result property="twoInviteCsptIntegral" column="two_invite_cspt_integral" />
+		<result property="twoInviteCsptPercent" column="two_invite_cspt_percent" />
+		<result property="twoInviteFlag" column="two_invite_flag" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		use_priv,
+		open_flag,
+		one_beinvite_flag,
+		one_beinvite_get_money,
+		one_beinvite_money_period,
+		one_invite_rgst_money,
+		one_invite_rgst_integral,
+		one_invite_cspt_money,
+		one_invite_cspt_integral,
+		one_invite_cspt_percent,
+		two_invite_rgst_money,
+		two_invite_rgst_integral,
+		two_invite_cspt_money,
+		two_invite_cspt_integral,
+		two_invite_cspt_percent,
+		two_invite_flag,
+		company_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{usePriv},
+		#{openFlag},
+		#{oneBeinviteFlag},
+		#{oneBeinviteGetMoney},
+		#{oneBeinviteMoneyPeriod},
+		#{oneInviteRgstMoney},
+		#{oneInviteRgstIntegral},
+		#{oneInviteCsptMoney},
+		#{oneInviteCsptIntegral},
+		#{oneInviteCsptPercent},
+		#{twoInviteRgstMoney},
+		#{twoInviteRgstIntegral},
+		#{twoInviteCsptMoney},
+		#{twoInviteCsptIntegral},
+		#{twoInviteCsptPercent},
+		#{twoInviteFlag},
+		#{companyId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.usePriv},
+		#{item.openFlag},
+		#{item.oneBeinviteFlag},
+		#{item.oneBeinviteGetMoney},
+		#{item.oneBeinviteMoneyPeriod},
+		#{item.oneInviteRgstMoney},
+		#{item.oneInviteRgstIntegral},
+		#{item.oneInviteCsptMoney},
+		#{item.oneInviteCsptIntegral},
+		#{item.oneInviteCsptPercent},
+		#{item.twoInviteRgstMoney},
+		#{item.twoInviteRgstIntegral},
+		#{item.twoInviteCsptMoney},
+		#{item.twoInviteCsptIntegral},
+		#{item.twoInviteCsptPercent},
+		#{item.twoInviteFlag},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyInvitConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_invit_config( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_invit_config( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from company_invit_config
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_invit_config
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyInvitConfig">
+		update company_invit_config 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="usePriv != null ">use_priv = #{usePriv},</if>
+			<if test="openFlag != null">open_flag = #{openFlag},</if>
+			<if test="oneBeinviteFlag != null ">one_beinvite_flag = #{oneBeinviteFlag},</if>
+			one_beinvite_get_money = #{oneBeinviteGetMoney},
+			one_beinvite_money_period = #{oneBeinviteMoneyPeriod},
+			one_invite_rgst_money = #{oneInviteRgstMoney},
+			one_invite_rgst_integral = #{oneInviteRgstIntegral},
+			one_invite_cspt_money = #{oneInviteCsptMoney},
+			one_invite_cspt_integral = #{oneInviteCsptIntegral},
+			one_invite_cspt_percent = #{oneInviteCsptPercent},
+			two_invite_rgst_money = #{twoInviteRgstMoney},
+			two_invite_rgst_integral = #{twoInviteRgstIntegral},
+			two_invite_cspt_money = #{twoInviteCsptMoney},
+			two_invite_cspt_integral = #{twoInviteCsptIntegral},
+			two_invite_cspt_percent = #{twoInviteCsptPercent},
+			<if test="twoInviteFlag != null ">two_invite_flag = #{twoInviteFlag},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyInvitConfigResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_invit_config
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyInvitConfigResultMap">
+		select <include refid="table_columns" /> 
+		from company_invit_config
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="usePriv != null ">and use_priv = #{usePriv}</if>
+			<if test="openFlag != null ">and open_flag = #{openFlag}</if>
+			<if test="oneBeinviteFlag != null ">and one_beinvite_flag = #{oneBeinviteFlag}</if>
+			<if test="oneBeinviteGetMoney != null and oneBeinviteGetMoney != ''">and one_beinvite_get_money = #{oneBeinviteGetMoney}</if>
+			<if test="oneBeinviteMoneyPeriod != null and oneBeinviteMoneyPeriod != ''">and one_beinvite_money_period = #{oneBeinviteMoneyPeriod}</if>
+			<if test="oneInviteRgstMoney != null and oneInviteRgstMoney != ''">and one_invite_rgst_money = #{oneInviteRgstMoney}</if>
+			<if test="oneInviteRgstIntegral != null and oneInviteRgstIntegral != ''">and one_invite_rgst_integral = #{oneInviteRgstIntegral}</if>
+			<if test="oneInviteCsptMoney != null and oneInviteCsptMoney != ''">and one_invite_cspt_money = #{oneInviteCsptMoney}</if>
+			<if test="oneInviteCsptIntegral != null and oneInviteCsptIntegral != ''">and one_invite_cspt_integral = #{oneInviteCsptIntegral}</if>
+			<if test="oneInviteCsptPercent != null and oneInviteCsptPercent != ''">and one_invite_cspt_percent = #{oneInviteCsptPercent}</if>
+			<if test="twoInviteRgstMoney != null and twoInviteRgstMoney != ''">and two_invite_rgst_money = #{twoInviteRgstMoney}</if>
+			<if test="twoInviteRgstIntegral != null and twoInviteRgstIntegral != ''">and two_invite_rgst_integral = #{twoInviteRgstIntegral}</if>
+			<if test="twoInviteCsptMoney != null and twoInviteCsptMoney != ''">and two_invite_cspt_money = #{twoInviteCsptMoney}</if>
+			<if test="twoInviteCsptIntegral != null and twoInviteCsptIntegral != ''">and two_invite_cspt_integral = #{twoInviteCsptIntegral}</if>
+			<if test="twoInviteCsptPercent != null and twoInviteCsptPercent != ''">and two_invite_cspt_percent = #{twoInviteCsptPercent}</if>
+			<if test="twoInviteFlag != null ">and two_invite_flag = #{twoInviteFlag}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyInvitConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyInvitConfig">
+		select <include refid="table_columns" />
+		from company_invit_config
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyInvitConfig">
+		select count(id) from company_invit_config
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findInvitConfigByCompanyId" resultMap="companyInvitConfigResultMap" parameterType="int">
+		select <include refid="table_columns" />
+		from company_invit_config where company_id=#{companyId}
+		limit 1
+	</select>
+</mapper>

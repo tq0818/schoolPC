@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysFileConvertTaskMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysFileConvertTask" id="sysFileConvertTaskResultMap">
+		<result property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="version" column="version" />
+		<result property="status" column="status" />
+		<result property="serverId" column="server_id" />
+		<result property="excuteTime" column="excute_time" />
+		<result property="excepExcuteTime" column="excep_excute_time" />
+		<result property="excepReason" column="excep_reason" />
+		<result property="completeTime" column="complete_time" />
+		<result property="fileId" column="file_id" />
+		<result property="filePath" column="file_path" />
+		<result property="companyId" column="company_id"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		create_time,
+		creator,
+		version,
+		status,
+		server_id,
+		excute_time,
+		excep_excute_time,
+		excep_reason,
+		complete_time,
+		file_id,
+		file_path
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{createTime},
+		#{creator},
+		#{version},
+		#{status},
+		#{serverId},
+		#{excuteTime},
+		#{excepExcuteTime},
+		#{excepReason},
+		#{completeTime},
+		#{fileId},
+		#{filePath}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.createTime},
+		#{item.creator},
+		#{item.version},
+		#{item.status},
+		#{item.serverId},
+		#{item.excuteTime},
+		#{item.excepExcuteTime},
+		#{item.excepReason},
+		#{item.completeTime},
+		#{item.fileId},
+		#{item.filePath}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysFileConvertTask" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_file_convert_task( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_file_convert_task( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_file_convert_task
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_file_convert_task
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysFileConvertTask">
+		update sys_file_convert_task 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null">creator = #{creator},</if>
+			<if test="version != null">version = #{version},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="serverId != null and serverId != ''">server_id = #{serverId},</if>
+			<if test="excuteTime != null and excuteTime != ''">excute_time = #{excuteTime},</if>
+			<if test="excepExcuteTime != null and excepExcuteTime != ''">excep_excute_time = #{excepExcuteTime},</if>
+			<if test="excepReason != null and excepReason != ''">excep_reason = #{excepReason},</if>
+			<if test="completeTime != null and completeTime != ''">complete_time = #{completeTime},</if>
+			<if test="fileId != null">file_id = #{fileId},</if>
+			<if test="filePath != null and filePath != ''">file_path = #{filePath},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateReturn" parameterType="com.yuxin.wx.model.system.SysFileConvertTask"
+		flushCache="true">
+		update sys_file_convert_task 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="version != null">version = #{version},</if>
+			<if test="status != null">status = #{status},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysFileConvertTaskResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_file_convert_task
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysFileConvertTaskResultMap">
+		select <include refid="table_columns" /> 
+		from sys_file_convert_task
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="version != null and version != ''">and version = #{version}</if>
+			<if test="status != null">and status = #{status}</if>
+			<if test="serverId != null and serverId != ''">and server_id = #{serverId}</if>
+			<if test="excuteTime != null and excuteTime != ''">and excute_time = #{excuteTime}</if>
+			<if test="excepExcuteTime != null and excepExcuteTime != ''">and excep_excute_time = #{excepExcuteTime}</if>
+			<if test="excepReason != null and excepReason != ''">and excep_reason = #{excepReason}</if>
+			<if test="completeTime != null and completeTime != ''">and complete_time = #{completeTime}</if>
+			<if test="fileId != null">and file_id = #{fileId}</if>
+			<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysFileConvertTaskResultMap" parameterType="com.yuxin.wx.model.system.SysFileConvertTask">
+		select <include refid="table_columns" />
+		from sys_file_convert_task
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	
+	<select id="pageThreeHundred" resultMap="sysFileConvertTaskResultMap" parameterType="Integer">
+		select ct.id,
+			ct.version,
+			ct.status,
+			ct.file_id,
+			ct.file_path,
+			rl.company_id
+		from sys_file_convert_task ct
+		inner join resource_list rl on rl.id = ct.file_id
+			and rl.del_flag = 0
+		where ct.version = #{version}
+			<if test="version == 0">
+				and status = 0
+			</if>
+			<if test="version == 1">
+				and status = 3
+			</if>
+		limit 300
+	</select>
+	
+	<select id="queryTaskNeedConvert" resultMap="sysFileConvertTaskResultMap">
+		select ct.id,
+			ct.version,
+			ct.status,
+			ct.file_id,
+			ct.file_path,
+			rl.company_id
+		from sys_file_convert_task ct
+		inner join resource_list rl on rl.id = ct.file_id
+			and rl.del_flag = 0
+		where ct.version = #{version}
+			<if test="version == 0">
+				and status = 0
+			</if>
+			<if test="version == 1">
+				and status = 3
+			</if>
+		order by create_time asc
+		limit ${limit}
+	</select>
+	<update id="checkTaskVersion"  parameterType="com.yuxin.wx.model.system.SysFileConvertTask">
+		update sys_file_convert_task set version = ${version+1},
+			server_id='${serverId}',excute_time=#{excuteTime}
+		 where id=#{id} and version=#{version} 
+	</update>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysFileConvertTask">
+		select count(id) from sys_file_convert_task
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<update id="updateResourceList" parameterType="com.yuxin.wx.model.resource.ResourceList">
+		update resource_list set 
+			file_path = #{filePath},
+			file_size = #{fileSize}
+		where id = #{id}
+	</update>
+</mapper>

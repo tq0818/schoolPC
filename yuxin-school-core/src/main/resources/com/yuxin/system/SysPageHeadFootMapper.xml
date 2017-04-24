@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysPageHeadFootMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysPageHeadFoot" id="sysPageHeadFootResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="parentId" column="parent_id" />
+		<result property="pageType" column="page_type" />
+		<result property="fileUrl" column="file_url" />
+		<result property="content" column="content" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="validFlag" column="valid_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="sequence" column="sequence"/>
+		<result property="pageHeadType" column="page_head_type"/>
+		<result property="configId" column="config_id"/>
+		<result property="urlType" column="url_type"/>
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.system.SysPageHeadFootVo" id="sysPageHeadFootVoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="parentId" column="parent_id" />
+		<result property="pageType" column="page_type" />
+		<result property="fileUrl" column="file_url" />
+		<result property="content" column="content" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="validFlag" column="valid_flag" />
+		<result property="openType" column="open_type"/>
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="sequence" column="sequence"/>
+		<result property="pageHeadType" column="page_head_type"/>
+		<result property="count" column="count"/>
+		<result property="configId" column="config_id"/>
+		<result property="urlType" column="url_type"/>
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		name,
+		url,
+		parent_id,
+		page_type,
+		file_url,
+		content,
+		company_id,
+		school_id,
+		valid_flag,
+		open_type,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		sequence,
+		page_head_type,
+		config_id,
+		url_type
+    </sql>
+    
+	<sql id="table_columnsOne">
+		name,
+		url,
+		parent_id,
+		page_type,
+		file_url,
+		content,
+		company_id,
+		school_id,
+		valid_flag,
+		open_type,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		sequence,
+		page_head_type,
+		config_id,
+		url_type
+    </sql>
+    
+	<sql id="entity_propertiesOne">
+		#{name},
+		#{url},
+		#{parentId},
+		#{pageType},
+		#{fileUrl},
+		#{content},
+		#{companyId},
+		#{schoolId},
+		#{validFlag},
+		#{openType},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{sequence},
+		#{pageHeadType},
+		#{configId},
+		#{urlType}
+	</sql>
+	
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{url},
+		#{parentId},
+		#{pageType},
+		#{fileUrl},
+		#{content},
+		#{companyId},
+		#{schoolId},
+		#{validFlag},
+		#{openType},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{sequence},
+		#{pageHeadType},
+		#{configId},
+		#{urlType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.url},
+		#{item.parentId},
+		#{item.pageType},
+		#{item.fileUrl},
+		#{item.content},
+		#{item.companyId},
+		#{item.schoolId},
+		#{item.validFlag},
+		#{item.openType},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.sequence},
+		#{item.pageHeadType},
+		#{item.configId},
+		#{item.urlType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_page_head_foot( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 添加页头标题 -->
+	<insert id="insertHeadTitle" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" useGeneratedKeys="true" keyProperty="id">
+	    insert into sys_page_head_foot( <include refid="table_columnsOne" /> ) 
+		values ( <include refid="entity_propertiesOne" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_page_head_foot( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from sys_page_head_foot
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_page_head_foot
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+  
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		update sys_page_head_foot 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="url != null">url = #{url},</if>
+			<if test="parentId != null">parent_id = #{parentId},</if>
+			<if test="pageType != null and pageType != ''">page_type = #{pageType},</if>
+			<if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
+			<if test="validFlag != null">valid_flag = #{validFlag},</if>
+			<if test="openType != null and openType != ''">open_type = #{openType},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="sequence != null">sequence = #{sequence},</if>
+			<if test="pageHeadType != null and pageHeadType != ''">page_head_type = #{pageHeadType},</if>
+			<if test="urlType != null and urlType != ''">url_type = #{urlType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+
+	<select id="findById" resultMap="sysPageHeadFootResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_page_head_foot
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysPageHeadFootResultMap">
+		select <include refid="table_columns" /> 
+		from sys_page_head_foot where valid_flag=1
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="name != null and name != ''">and name = #{name}</if>
+			<if test="url != null and url != ''">and url = #{url}</if>
+			<if test="parentId != null ">and parent_id = #{parentId}</if>
+			<if test="pageType != null">and page_type = #{pageType}</if>
+			<if test="fileUrl != null and fileUrl != ''">and file_url = #{fileUrl}</if>
+			<if test="content != null and content != ''">and content = #{content}</if>
+			<if test="companyId != null">and company_id = #{companyId}</if>
+			<if test="schoolId != null">and school_id = #{schoolId}</if>
+			<if test="validFlag != null">and valid_flag = #{validFlag}</if>
+			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+			<if test="creator != null and creator != ''">and creator = #{creator}</if>
+			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+			<if test="updator != null and updator != ''">and updator = #{updator}</if>
+			<if test="pageHeadType != null and pageHeadType != ''">and page_head_type = #{pageHeadType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysPageHeadFootResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		select <include refid="table_columns" />
+		from sys_page_head_foot
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		select count(id) from sys_page_head_foot
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 查询首页页头信息 -->
+	<select id="querySysPageHeadFootList" parameterType="com.yuxin.wx.vo.system.SysPageHeadFootVo" resultMap="sysPageHeadFootVoResultMap">
+	    select s.id, s.name, s.url, s.parent_id, s.page_type, s.file_url, s.content, s.company_id, s.school_id, s.valid_flag,s.open_type,s.sequence,s.page_head_type, 
+		(select count(id) from sys_page_head_foot where valid_flag=1 and company_id=#{companyId} and parent_id=s.id) as count
+		from sys_page_head_foot s
+		where parent_Id=0
+		   <if test="pageType != null">and s.page_type = #{pageType}</if>
+		   <if test="companyId != null ">and s.company_id = #{companyId}</if>
+		   <if test="schoolId != null ">and s.school_id = #{schoolId}</if>
+		   <if test="parentId != null ">and s.parent_id = #{parentId}</if>
+		   <if test="validFlag != null">and s.valid_flag = #{validFlag}</if>
+		   ORDER BY s.sequence,s.id ASC
+	</select>
+	
+	<!-- 查询二级标题 -->
+	<select id="queryTwoSysPagerList" parameterType="com.yuxin.wx.vo.system.SysPageHeadFootVo" resultMap="sysPageHeadFootVoResultMap">
+	      select <include refid="table_columns" /> 
+		from sys_page_head_foot
+		where parent_id>0 and page_type='head'
+	</select>
+	<!-- 其他自定义SQL -->
+	<select id="selectAll" resultMap="sysPageHeadFootVoResultMap">
+		 select id, name, url, parent_id, page_type, file_url, content, company_id, school_id, valid_flag 
+		from sys_page_head_foot
+		where valid_flag=1
+	</select>
+	<select id="findByConpanyId" resultMap="sysPageHeadFootResultMap" parameterType="String">
+		select id,name,content from sys_page_head_foot where company_id=#{id}
+	</select>
+	
+	<!-- 查询公告标题可用数量 -->
+	<select id="queryIsUseHeadTitle" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" resultType="int">
+	     select count(valid_flag) 
+		from sys_page_head_foot
+		where valid_flag=1 and parent_id=0
+		   <if test="pageType != null and pageType != ''">and page_type = #{pageType}</if>
+		   <if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		   <if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		   limit 1
+	</select>
+	<update id="updateByNameAndCpId" parameterType="map">
+		update sys_page_head_foot set content=#{value},update_time=#{updateTime},updator=#{updator} where company_id=#{id} and name=#{name}
+	</update>
+	<select id="selectByCpIdAndName" parameterType="map" resultType="String">
+		select content from sys_page_head_foot where  company_id=#{id} and name=#{name} and school_id=#{schoolId} and page_type='foot' limit 1
+	</select>
+	
+	<update id="changStatus" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+	    update sys_page_head_foot set valid_flag = #{validFlag} where id=#{id}
+	</update>
+	
+	<!-- 查询有效一级页头信息 -->
+	<select id="queryHeadIsUse" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" resultMap="sysPageHeadFootVoResultMap">
+	    select id,name,url,open_type from sys_page_head_foot 
+	    where parent_id=0 and valid_flag=1
+	     <if test="pageType != null and pageType != ''">and page_type = #{pageType}</if>
+		 <if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		 order by sequence,id ASC
+	</select>
+	
+	<select id="selectHeadCount" parameterType="String" resultType="int">
+		select count(id) from sys_page_head_foot
+		where 
+		page_type='head'
+		and
+		valid_flag=1
+		and
+		company_id=#{companyId} limit 1
+	</select>
+	<select id="selectFootCount" parameterType="String" resultType="int">
+		select count(id) from sys_page_head_foot
+		where 
+		page_type='foot'
+		and
+		valid_flag=1
+		and
+		company_id=#{companyId} limit 1
+	</select>
+	
+	<select id="queryAllByCompanyId" parameterType="Integer" resultMap="sysPageHeadFootResultMap">
+		select <include refid="table_columns" />
+		from sys_page_head_foot
+		where company_id = #{companyId}
+	</select>
+	
+	<select id="findHeadFoot" resultMap="sysPageHeadFootResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		select <include refid="table_columns" />
+		from sys_page_head_foot
+		<include refid="page_where" />
+		limit 1
+	</select>
+	
+	<!-- 根据配置信息查询详细内容 -->
+	<select id="queryFootContentsByConfigId" resultMap="sysPageHeadFootVoResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		 select s.id, s.name, s.url, s.parent_id, s.page_type, s.file_url, s.content, s.company_id, s.school_id, s.valid_flag,s.open_type,s.sequence,s.page_head_type, 
+		(select count(id) from sys_page_head_foot where valid_flag=1 and company_id=#{companyId} and parent_id=s.id) as count,s.url_type
+		from sys_page_head_foot s
+		where s.company_id=#{companyId}
+		<if test="pageType != null">and s.page_type = #{pageType}</if>
+		<if test="configId != null and configId != ''">and s.config_id = #{configId}</if>
+		<if test="parentId != null ">and s.parent_id = #{parentId}</if>
+		ORDER BY s.sequence,s.id ASC
+	</select>
+	
+	<select id="queryFootFlex" resultMap="sysPageHeadFootResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		  select <include refid="table_columns" /> 
+		from sys_page_head_foot
+		where parent_id>0 and page_type='foot'
+		<if test="companyId != null">and company_id=#{companyId}</if>
+		ORDER BY id ASC
+	</select>
+	
+	<select id="queryFootContentByParentId" resultMap="sysPageHeadFootVoResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		 select s.id, s.name, s.url, s.parent_id, s.page_type, s.file_url, s.content, s.company_id, s.school_id, s.valid_flag,s.open_type,s.sequence,s.page_head_type,s.url_type
+		from sys_page_head_foot s
+		where s.parent_id=#{parentId} and s.company_id=#{companyId}
+		<if test="pageType != null">and s.page_type = #{pageType}</if>
+		<if test="configId != null and configId != ''">and s.config_id = #{configId}</if>
+	</select>
+	
+	<!-- 根据CompanyId和page_head_type查询数据库是否有该记录 -->
+		<select id="findEntityByCompanyIdAndType" resultMap="sysPageHeadFootResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		 select s.id, s.name, s.url, s.parent_id, s.page_type, s.file_url, s.content, s.company_id, s.school_id, s.valid_flag,s.open_type,s.sequence,s.page_head_type,s.url_type
+			from sys_page_head_foot s
+		where s.page_head_type=#{pageHeadType} and s.company_id=#{companyId} limit 1
+	</select>
+	
+	<select id="queryWapheadByCompanyId" resultMap="sysPageHeadFootResultMap" parameterType="int">
+		select <include refid="table_columns" />
+		from sys_page_head_foot
+		where company_id = #{companyId}
+		and page_type = 'waphead'
+	</select>
+	
+	<select id="queryWapheadByCompanyIdAndUrlName" resultMap="sysPageHeadFootResultMap" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot">
+		select <include refid="table_columns" />
+		from sys_page_head_foot
+		where company_id = #{companyId}
+		and page_type = 'waphead'
+		and url = #{url}
+		limit 1
+	</select>
+</mapper>

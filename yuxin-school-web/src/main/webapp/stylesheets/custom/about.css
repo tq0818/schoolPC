@@ -1,0 +1,251 @@
+.place {
+	padding: 20px 0;
+	color: #7f7f7f;
+	font-size: 12px;
+	font-size: 1.2rem
+}
+
+.place a {
+	color: #459dcc
+}
+
+.about {
+	overflow: hidden;
+	margin-bottom: 30px
+}
+
+.about .about-left {
+	float: left;
+	width: 180px;
+	background-color: #fff;
+	overflow: hidden
+}
+
+.about .about-left li {
+	text-align: center;
+	line-height: 72px;
+	border-bottom: 1px solid #dfe1e6
+}
+
+.about .about-left li a {
+	display: block;
+	line-height: 72px;
+	text-decoration: none
+}
+
+.about .about-left li a.active, .about .about-left li a:hover {
+	color: #fff;
+	background-color: #45abdb
+}
+
+.about .about-right {
+	margin-left: 210px;
+	background-color: #fff
+}
+
+.about .about-right .title {
+	margin-bottom: 20px;
+	padding: 20px 40px;
+	border-bottom: 1px solid #dfe1e6
+}
+
+.about .about-right .title .h4 {
+	color: #459dcc
+}
+
+.about .about-right .contents {
+	padding: 10px 40px 20px
+}
+
+.about .about-right .contents p {
+	font-size: 12px;
+	font-size: 1.2rem
+}
+
+.about .about-right.linkus {
+	background-color: transparent
+}
+
+.about .about-right.linkus .contents {
+	padding: 0 0 10px;
+	background-color: #fff;
+	margin-bottom: 20px
+}
+
+.about .about-right.linkus .contents .linktype {
+	overflow: hidden;
+	zoom: 1
+}
+
+.about .about-right.linkus .contents .linktype li {
+	float: left;
+	width: 33%;
+	padding: 20px 0 30px;
+	text-align: center
+}
+
+.about .about-right.linkus .contents .linktype li.icons i {
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin: 0 auto 20px
+}
+
+.about .about-right.linkus .contents .linktype li.i1 i {
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: 0 0
+}
+
+.about .about-right.linkus .contents .linktype li.i2 i {
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -101px 0
+}
+
+.about .about-right.linkus .contents .linktype li.i3 i {
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -202px 0
+}
+
+.about .about-right.linkus .contents .content {
+	padding: 0 40px
+}
+
+
+.about .about-right.linkus .contents .content img {
+	max-width: 100%
+}
+
+.about .about-right.linkus .contents .content.about-us {
+	height: 210px;
+	max-height: 210px
+}
+
+.about .about-right.linkus .contents .content.about-us .picture {
+	float: left;
+	width: 25%;
+	margin-right: 5%;
+	vertical-align: middle
+}
+
+.about .about-right.linkus .contents .content.about-us .picture img {
+	max-width: 100%;
+	vertical-align: middle
+}
+
+.about .about-right.linkus .contents .content.about-us .text {
+	float: left;
+	width: 48%;
+	margin-right: 2%
+}
+
+.about .about-right.linkus .contents .content.about-us .text p {
+	color: #4c4c4c;
+	font-size: 12px;
+	font-size: 1.2rem
+}
+
+.about .about-right.linkus .contents .content.about-us .links {
+	float: right;
+	width: 20%
+}
+
+.about .about-right.linkus .contents .content.about-us .links li {
+	position: relative;
+	padding: 15px 10px 15px 40px;
+	border-top: 1px solid #eff1f5;
+	color: #7f7f7f;
+	font-size: 16px;
+	font-size: 1.6rem
+}
+
+.about .about-right.linkus .contents .content.about-us .links li .icons
+	{
+	position: absolute;
+	top: 11px;
+	left: 0;
+	width: 30px;
+	height: 30px
+}
+
+.about .about-right.linkus .contents .content.about-us .links li .icons.sina
+	{
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -368px 0
+}
+
+.about .about-right.linkus .contents .content.about-us .links li .icons.wx
+	{
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -400px 0
+}
+
+.about .about-right.linkus .contents .content.about-us .links li .icons.tel
+	{
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -432px 0
+}
+
+.about .about-right.linkus .contents .content.about-us .links li a {
+	color: #7f7f7f;
+	font-size: 16px;
+	font-size: 1.6rem
+}
+
+.about .about-right.linkus .contents .content.about-us .links li a:hover
+	{
+	text-decoration: none
+}
+
+.about .about-right.linkus .contents .content.about-us .links li:first-child
+	{
+	border-top: none
+}
+
+.about .about-right.linkus .contents .content .types {
+	overflow: hidden
+}
+
+.about .about-right.linkus .contents .content .types li {
+	float: left;
+	width: 30%;
+	margin: 0 1.5%
+}
+
+.about .about-right.linkus .contents .content .types li .icons {
+	width: 120px;
+	height: 120px;
+	margin: 0 auto
+}
+
+.about .about-right.linkus .contents .content .types li .icons.i1 {
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: 0 -116px
+}
+
+.about .about-right.linkus .contents .content .types li .icons.i2 {
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -120px -116px
+}
+
+.about .about-right.linkus .contents .content .types li .icons.i3 {
+	background-image: url('../images/about.icons.png');
+	background-repeat: no-repeat;
+	background-position: -240px -116px
+}
+
+.about .about-right.linkus .contents .content .types li .h5 {
+	margin: 15px 0 10px;
+	text-align: center
+}
+
+.about .about-right.linkus .contents .content .types li p {
+	color: #7f7f7f
+}

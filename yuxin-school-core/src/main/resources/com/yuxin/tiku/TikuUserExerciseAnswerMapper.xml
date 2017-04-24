@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuUserExerciseAnswerMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer" id="tikuUserExerciseAnswerResultMap">
+		<result property="id" column="id" />
+		<result property="userExerciseId" column="user_exercise_id" />
+		<result property="topicId" column="topic_id" />
+		<result property="topicType" column="topic_type" />
+		<result property="userAnswer" column="user_answer" />
+		<result property="correctFlag" column="correct_flag" />
+		<result property="score" column="score" />
+		<result property="userId" column="user_id" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="companyId" column="company_id" />
+		<result property="parentId" column="parent_id" />
+		<result property="keyMarker" column="key_marker" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_exercise_id,
+		topic_id,
+		topic_type,
+		user_answer,
+		correct_flag,
+		score,
+		user_id,
+		category_id,
+		subject_id,
+		company_id,
+		parent_id,
+		key_marker
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userExerciseId},
+		#{topicId},
+		#{topicType},
+		#{userAnswer},
+		#{correctFlag},
+		#{score},
+		#{userId},
+		#{categoryId},
+		#{subjectId},
+		#{companyId},
+		#{parentId},
+		#{keyMarker}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userExerciseId},
+		#{item.topicId},
+		#{item.topicType},
+		#{item.userAnswer},
+		#{item.correctFlag},
+		#{item.score},
+		#{item.userId},
+		#{item.categoryId},
+		#{item.subjectId},
+		#{item.companyId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_user_exercise_answer( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_user_exercise_answer( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_user_exercise_answer
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer">
+		update tiku_user_exercise_answer 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userExerciseId != null and userExerciseId != ''">user_exercise_id = #{userExerciseId},</if>
+			<if test="topicId != null and topicId != ''">topic_id = #{topicId},</if>
+			<if test="topicType != null and topicType != ''">topic_type = #{topicType},</if>
+			<if test="userAnswer != null and userAnswer != ''">user_answer = #{userAnswer},</if>
+			<if test="correctFlag != null">correct_flag = #{correctFlag},</if>
+			<if test="score != null">score = #{score},</if>
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="keyMarker != null">key_marker = #{keyMarker},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuUserExerciseAnswerResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_user_exercise_answer
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuUserExerciseAnswerResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_user_exercise_answer
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userExerciseId != null and userExerciseId != ''">and user_exercise_id = #{userExerciseId}</if>
+			<if test="topicId != null and topicId != ''">and topic_id = #{topicId}</if>
+			<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+			<if test="userAnswer != null and userAnswer != ''">and user_answer = #{userAnswer}</if>
+			<if test="correctFlag != null and correctFlag != ''">and correct_flag = #{correctFlag}</if>
+			<if test="score != null and score != ''">and score = #{score}</if>
+			<if test="userId != null and userId != ''">and userId = #{user_id}</if>
+			<if test="categoryId != null and categoryId != ''">and categoryId = #{category_id}</if>
+			<if test="subjectId != null and subjectId != ''">and subjectId = #{subject_id}</if>
+			<if test="companyId != null and companyId != ''">and companyId = #{company_id}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuUserExerciseAnswerResultMap" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer">
+		select <include refid="table_columns" />
+		from tiku_user_exercise_answer
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer">
+		select count(id) from tiku_user_exercise_answer
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+	<select id="findExerciseAnswerCountByUserIdAndSubjectId" resultType="int" >
+		select count(id) from tiku_user_exercise_answer where subject_id = #{subjectId} and user_id = #{userId} limit 1
+	</select>
+	
+	<select id="findAnswerByMoreId" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswer" resultMap="tikuUserExerciseAnswerResultMap">
+		select <include refid="table_columns"/>
+		from tiku_user_exercise_answer
+		where topic_id = #{topicId} 
+			<choose>
+				<when test="userExerciseId != null and userExerciseId != ''">
+					and user_exercise_id = #{userExerciseId} limit 1
+				</when>
+				<otherwise>
+					order by id desc
+					limit 0,1
+				</otherwise>
+			</choose>
+	</select>
+	
+	<select id="findTikuUserExerciseAnswerByTopIds" resultMap="tikuUserExerciseAnswerResultMap"
+		parameterType="java.util.List">
+		select
+		<include refid="table_columns" />
+		from tiku_user_exercise_answer
+		where topic_id in(
+		<foreach item="item" collection="list" separator=",">
+			#{item.topicId}
+		</foreach>
+		)
+		and user_exercise_id in(
+		<foreach item="item" collection="list" separator=",">
+			#{item.userExerciseId}
+		</foreach>
+		)
+	</select>
+	
+	<select id="findbyUserExerciseId" resultMap="tikuUserExerciseAnswerResultMap" parameterType="Integer">
+		select
+		<include refid="table_columns" />
+		from tiku_user_exercise_answer
+		where user_exercise_id = #{exerciseId} and (correct_flag = 0 or correct_flag is null)
+	</select>
+	
+	<select id="findByExerId" resultMap="tikuUserExerciseAnswerResultMap" parameterType="Integer">
+		select
+		<include refid="table_columns" />
+		from tiku_user_exercise_answer
+		where user_exercise_id = #{exerciseId}
+	</select>
+	
+	<select id="findTrueCountByExeId" parameterType="Integer" resultType="Integer">
+		select count(id) from tiku_user_exercise_answer where user_exercise_id = #{exerciseId} and correct_flag = 1 limit 1
+	</select>
+	
+	<select id="findCategoryCountByUserId" parameterType="Integer" resultType="Integer">
+		SELECT count(DISTINCT category_id) as categoryCount FROM tiku_user_exercise_answer where user_id = #{user_id} limit 1
+	</select>
+	<select id="findExerciseScore" parameterType="Integer" resultType="java.lang.Double">
+		select sum(score) from tiku_user_exercise_answer where user_exercise_id = #{exerciseId}
+	</select>
+</mapper>

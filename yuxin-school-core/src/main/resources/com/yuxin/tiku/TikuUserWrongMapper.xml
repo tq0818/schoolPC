@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuUserWrongMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuUserWrong" id="tikuUserWrongResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="topicId" column="topic_id" />
+		<result property="topicType" column="topic_type" />
+		<result property="addTime" column="add_time" />
+		<result property="userAnswer" column="user_answer" />
+		<result property="delFlag" column="del_flag" />
+		<result property="categoryId" column="category_id" />
+		<result property="subjectId" column="subject_id" />
+		<result property="companyId" column="company_id" />
+		<result property="parentId" column="parent_id" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		topic_id,
+		topic_type,
+		add_time,
+		user_answer,
+		del_flag,
+		category_id,
+		subject_id,
+		company_id,
+		parent_id
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{topicId},
+		#{topicType},
+		#{addTime},
+		#{userAnswer},
+		#{delFlag},
+		#{categoryId},
+		#{subjectId},
+		#{companyId},
+		#{parentId}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.topicId},
+		#{item.topicType},
+		#{item.addTime},
+		#{item.userAnswer},
+		#{item.delFlag},
+		#{item.categoryId},
+		#{item.subjectId},
+		#{item.companyId},
+		#{item.parentId}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuUserWrong" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_user_wrong( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_user_wrong( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="batch_entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_user_wrong
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.tiku.TikuUserWrong">
+		update tiku_user_wrong 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="topicId != null and topicId != ''">topic_id = #{topicId},</if>
+			<if test="topicType != null and topicType != ''">topic_type = #{topicType},</if>
+			<if test="addTime != null and addTime != ''">add_time = #{addTime},</if>
+			<if test="userAnswer != null and userAnswer != ''">user_answer = #{userAnswer},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="categoryId != null and categoryId != ''">category_id = #{categoryId},</if>
+			<if test="subjectId != null and subjectId != ''">subject_id = #{subjectId},</if>
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="tikuUserWrongResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_user_wrong
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="tikuUserWrongResultMap">
+		select <include refid="table_columns" /> 
+		from tiku_user_wrong
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="topicId != null and topicId != ''">and topic_id = #{topicId}</if>
+			<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
+			<if test="addTime != null and addTime != ''">and add_time = #{addTime}</if>
+			<if test="userAnswer != null and userAnswer != ''">and user_answer = #{userAnswer}</if>
+			<if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
+			<if test="categoryId != null and categoryId != ''">and category_id = #{categoryId}</if>
+			<if test="subjectId != null and subjectId != ''">and subject_id = #{subjectId}</if>
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="tikuUserWrongResultMap" parameterType="com.yuxin.wx.model.tiku.TikuUserWrong">
+		select <include refid="table_columns" />
+		from tiku_user_wrong
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.tiku.TikuUserWrong">
+		select count(id) from tiku_user_wrong
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findWrongByUserIdAndSubjectId" resultType="int" >
+		select count(w.id) 
+		from tiku_user_wrong w
+		inner join tiku_topic c
+			on c.id = w.topic_id
+		where w.user_id = #{userId} and 
+			w.subject_id = #{subjectId} and 
+			w.del_flag = 0
+			limit 1
+	</select>
+	
+	<select id="findTikuUserWrongByUserIdAndSubjectId" resultMap="tikuUserWrongResultMap" >
+		select w.id,w.topic_id, w.topic_type, w.parent_id 
+		from tiku_user_wrong w
+		inner join tiku_topic c
+			on c.id = w.topic_id
+		where w.user_id = #{userId} and 
+			w.subject_id = #{subjectId} and 
+			w.del_flag = 0
+	</select>
+	
+	<select id="findTopicByWrong" parameterType="com.yuxin.wx.model.tiku.TikuUserWrong" resultMap="tikuUserWrongResultMap">
+		select <include refid="table_columns"/>
+		from tiku_user_wrong
+		where user_id = #{userId} and 
+			company_id = #{companyId} and 
+			subject_id = #{subjectId} and 
+			parent_id = 0
+	</select>
+		
+	<delete id="deleteTikuUserWrongById">
+		delete from tiku_user_wrong where user_id = #{0} and topic_id = #{1}
+	</delete>
+	
+	<select id="isOnly" parameterType="com.yuxin.wx.model.tiku.TikuUserWrong" resultType="Integer">
+		select count(id)
+		from tiku_user_wrong
+		where user_id = #{userId} and topic_id = #{topicId}
+		limit 1
+	</select>
+</mapper>

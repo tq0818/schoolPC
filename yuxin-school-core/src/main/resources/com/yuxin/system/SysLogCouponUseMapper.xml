@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysLogCouponUseMapper">
+	<resultMap type="com.yuxin.wx.model.system.SysLogCouponUse" id="sysLogCouponUseResultMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="useTime" column="use_time" />
+		<result property="useWay" column="use_way" />
+		<result property="couponCode" column="coupon_code" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="commodityType" column="commodity_type" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		user_id,
+		use_time,
+		use_way,
+		coupon_code,
+		commodity_id,
+		commodity_type
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{userId},
+		#{useTime},
+		#{useWay},
+		#{couponCode},
+		#{commodityId},
+		#{commodityType}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.useTime},
+		#{item.useWay},
+		#{item.couponCode},
+		#{item.commodityId},
+		#{item.commodityType}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysLogCouponUse" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_log_coupon_use( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into sys_log_coupon_use( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from sys_log_coupon_use
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.system.SysLogCouponUse">
+		update sys_log_coupon_use 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userId != null and userId != ''">user_id = #{userId},</if>
+			<if test="useTime != null and useTime != ''">use_time = #{useTime},</if>
+			<if test="useWay != null and useWay != ''">use_way = #{useWay},</if>
+			<if test="couponCode != null and couponCode != ''">coupon_code = #{couponCode},</if>
+			<if test="commodityId != null and commodityId != ''">commodity_id = #{commodityId},</if>
+			<if test="commodityType != null and commodityType != ''">commodity_type = #{commodityType},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="sysLogCouponUseResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from sys_log_coupon_use
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="sysLogCouponUseResultMap">
+		select <include refid="table_columns" /> 
+		from sys_log_coupon_use
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+			<if test="useTime != null and useTime != ''">and use_time = #{useTime}</if>
+			<if test="useWay != null and useWay != ''">and use_way = #{useWay}</if>
+			<if test="couponCode != null and couponCode != ''">and coupon_code = #{couponCode}</if>
+			<if test="commodityId != null and commodityId != ''">and commodity_id = #{commodityId}</if>
+			<if test="commodityType != null and commodityType != ''">and commodity_type = #{commodityType}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="sysLogCouponUseResultMap" parameterType="com.yuxin.wx.model.system.SysLogCouponUse">
+		select <include refid="table_columns" />
+		from sys_log_coupon_use
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysLogCouponUse">
+		select count(id) from sys_log_coupon_use
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	
+</mapper>

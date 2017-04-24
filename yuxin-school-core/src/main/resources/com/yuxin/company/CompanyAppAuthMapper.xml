@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.company.mapper.CompanyAppAuthMapper">
+	<resultMap type="com.yuxin.wx.model.company.CompanyAppAuth" id="companyAppAuthResultMap">
+		<result property="id" column="id" />
+		<result property="companyId" column="company_id" />
+		<result property="authorizeTime" column="authorize_time" />
+		<result property="accessKey" column="accessKey" />
+		<result property="status" column="status" />
+		<result property="endTime" column="end_time" />
+		<result property="version" column="version" />
+		<result property="platform" column="platform" />
+		<result property="domain" column="domain" />
+	</resultMap>
+	
+	<sql id="table_columns">
+		id,
+		company_id,
+		authorize_time,
+		accessKey,
+		status,
+		end_time,
+		version,
+		platform,
+		domain
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{companyId},
+		#{authorizeTime},
+		#{accessKey},
+		#{status},
+		#{endTime},
+		#{version},
+		#{platform},
+		#{domain}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.companyId},
+		#{item.authorizeTime},
+		#{item.accessKey},
+		#{item.status},
+		#{item.endTime},
+		#{item.version},
+		#{item.platform},
+		#{item.domain}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.company.CompanyAppAuth" useGeneratedKeys="true" keyProperty="id">
+		insert into company_app_auth( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into company_app_auth( <include refid="table_columns" /> ) 
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tbl_users
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from company_app_auth
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="com.yuxin.wx.model.company.CompanyAppAuth">
+		update company_app_auth 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
+			<if test="authorizeTime != null and authorizeTime != ''">authorize_time = #{authorizeTime},</if>
+			<if test="accessKey != null and accessKey != ''">accessKey = #{accessKey},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="endTime != null and endTime != ''">end_time = #{endTime},</if>
+			<if test="version != null and version != ''">version = #{version},</if>
+			<if test="platform != null and platform != ''">platform = #{platform},</if>
+			<if test="domain != null and domain != ''">domain = #{domain},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
+	<select id="findById" resultMap="companyAppAuthResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from company_app_auth
+		where id = #{id}
+	</select>
+	
+	<select id="queryAll" resultMap="companyAppAuthResultMap">
+		select <include refid="table_columns" /> 
+		from company_app_auth
+	</select>
+	
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+			<if test="authorizeTime != null and authorizeTime != ''">and authorize_time = #{authorizeTime}</if>
+			<if test="accessKey != null and accessKey != ''">and accessKey = #{accessKey}</if>
+			<if test="status != null and status != ''">and status = #{status}</if>
+			<if test="endTime != null and endTime != ''">and end_time = #{endTime}</if>
+			<if test="version != null and version != ''">and version = #{version}</if>
+			<if test="platform != null and platform != ''">and platform = #{platform}</if>
+			<if test="domain != null and domain != ''">and domain = #{domain}</if>
+		</trim>
+	</sql>
+	
+	<select id="page" resultMap="companyAppAuthResultMap" parameterType="com.yuxin.wx.model.company.CompanyAppAuth">
+		select <include refid="table_columns" />
+		from company_app_auth
+		<include refid="page_where" />
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.company.CompanyAppAuth">
+		select count(id) from company_app_auth
+		<include refid="page_where" />
+	</select>
+	
+	<!-- 其他自定义SQL -->
+	<select id="findByParams" resultMap="companyAppAuthResultMap" parameterType="com.yuxin.wx.model.company.CompanyAppAuth">
+		select *
+		from company_app_auth
+		where company_id = #{companyId} 
+		limit 1
+	</select>
+</mapper>

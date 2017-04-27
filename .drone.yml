@@ -39,6 +39,11 @@ pipeline:
   pushtomaven:
     image: maven:3-jdk-7-alpine
     volumes: /data/maven:/root/.m2
+    environment:
+      DEV_DEPLOY_USER: ${DEV_DEPLOY_USER}
+      DEV_DEPLOY_PASS: ${DEV_DEPLOY_PASS}
+      PROD_DEPLOY_USER: ${PROD_DEPLOY_USER}
+      PROD_DEPLOY_PASS: ${PROD_DEPLOY_PASS}
     commands:
       - cd yuxin-school-model && mvn deploy
     when:

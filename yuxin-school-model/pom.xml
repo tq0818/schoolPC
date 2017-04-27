@@ -11,7 +11,6 @@
 	<artifactId>yuxin-school-model</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>yuxin-school-model</name>
-	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

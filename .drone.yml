@@ -30,14 +30,14 @@ pipeline:
     recursive: true
     tags: true
   build:
-    image: maven:3-jdk-8-alpine
+    image: maven:3-jdk-7-alpine
     volumes:
       - /data/maven:/root/.m2
     commands:
       - cp .settings.xml /root/.m2/settings.xml
-      - mvn clean install -Dmaven.test.skip=true -P envprop
+      - mvn clean install -Dmaven.test.skip=true
   pushtomaven:
-    image: maven:3-jdk-8-alpine
+    image: maven:3-jdk-7-alpine
     volumes: /data/maven:/root/.m2
     environment:
       DEV_DEPLOY_USER: ${DEV_DEPLOY_USER}

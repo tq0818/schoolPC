@@ -19,6 +19,34 @@
 		<school.api.version>0.1-SNAPSHOT</school.api.version>
 	</properties>
 	
+	<repositories>
+		<repository>
+			<id>private-repos</id>
+			<name>Private repository</name>
+			<url>http://172.16.7.35:8081/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>private-repos</id>
+			<name>Private repository</name>
+			<url>http://172.16.7.35:8081/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	
 	<dependencyManagement>
 		<dependencies>
 			<!-- Spring framework -->

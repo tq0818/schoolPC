@@ -35,15 +35,10 @@ pipeline:
       - /data/maven:/root/.m2
     commands:
       - cp .settings.xml /root/.m2/settings.xml
-      - mvn clean install -Dmaven.test.skip=true -P envprop
+      - mvn clean install -Dmaven.test.skip=true
   pushtomaven:
     image: maven:3-jdk-7-alpine
     volumes: /data/maven:/root/.m2
-    environment:
-      DEV_DEPLOY_USER: ${DEV_DEPLOY_USER}
-      DEV_DEPLOY_PASS: ${DEV_DEPLOY_PASS}
-      PROD_DEPLOY_USER: ${PROD_DEPLOY_USER}
-      PROD_DEPLOY_PASS: ${PROD_DEPLOY_PASS}
     commands:
       - cd ../yuxin-school-model && mvn deploy
     when:
@@ -58,14 +53,3 @@ pipeline:
     <<: *dockertest
     repo: "${ALI_DOCKER_URL}/winshare/winshare-yuxin-school"
     dockerfile: Dockerfile.web
-
-  reload-test-service:
-    image: docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /data/test/csc:/data/test/csc
-    commands:
-      - sh /data/test/csc/stopcsc.sh
-      - sh /data/test/csc/startcsc.sh
-    when:
-      branch: [master,stable,test,release/*]

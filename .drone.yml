@@ -30,12 +30,25 @@ pipeline:
     recursive: true
     tags: true
   build:
-    image: maven:3-jdk-8-alpine
+    image: maven:3-jdk-7-alpine
     volumes:
       - /data/maven:/root/.m2
     commands:
       - cp .settings.xml /root/.m2/settings.xml
       - mvn clean install -Dmaven.test.skip=true -P envprop
+  pushtomaven:
+    image: maven:3-jdk-7-alpine
+    volumes: /data/maven:/root/.m2
+    environment:
+      DEV_DEPLOY_USER: ${DEV_DEPLOY_USER}
+      DEV_DEPLOY_PASS: ${DEV_DEPLOY_PASS}
+      PROD_DEPLOY_USER: ${PROD_DEPLOY_USER}
+      PROD_DEPLOY_PASS: ${PROD_DEPLOY_PASS}
+    commands:
+      - cd ../yuxin-school-model && mvn deploy
+    when:
+      branch: [master,stable,refs/tags/*]
+      
   winshare-yuxin-school:
     <<: *docker
     repo: "${ALI_DOCKER_URL}/winshare/winshare-yuxin-school"

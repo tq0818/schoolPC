@@ -40,7 +40,7 @@ pipeline:
     image: maven:3-jdk-7-alpine
     volumes: /data/maven:/root/.m2
     commands:
-      - cd ../yuxin-school-model && mvn deploy
+      - cd yuxin-school-model && mvn deploy
     when:
       branch: [master,stable,refs/tags/*]
       

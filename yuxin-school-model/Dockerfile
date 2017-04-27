@@ -1,4 +1,4 @@
-FROM registry.aliyuncs.com/winshare/openjdk:8-jre-alpine
+FROM registry.aliyuncs.com/winshare/openjdk:7-jre-alpine
 #set enviroments
 ENV JAVA_TOOL_OPTIONS="-Xms512m -Xmx512m -Xmn128m -XX:NewRatio=4 -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -XX:AutoBoxCacheMax=20000 -XX:+AlwaysPreTouch -Djava.security.egd=file:/dev/./urandom -XX:MaxTenuringThreshold=2"
 ENV RMS_JDBC_URL="jdbc:mysql://172.16.7.27:3306/qa_ws_rms?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true"

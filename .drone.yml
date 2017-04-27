@@ -1,0 +1,58 @@
+#global docker info
+dockerpub: &dockerinfo
+   image: plugins/docker
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+   force_tag: true
+   mirror: "https://docker.mirrors.ustc.edu.cn"
+   registry: ${ALI_DOCKER_URL}
+   username: ${ALI_DOCKER_USER}
+   password: ${ALI_DOCKER_PASS}
+   email: ${ALI_DOCKER_USER}
+docker: &docker
+   <<: *dockerinfo
+   tags:
+     - ${DRONE_TAG=latest}
+     - latest
+   when:
+     event: [push,tag]
+     branch: [master,stable,refs/tags/*]
+dockertest: &dockertest
+   <<: *dockerinfo
+   tags: ${DRONE_BRANCH}
+   when:
+     event: [push,tag]
+     branch: [test,hotfix*,release/*]
+
+pipeline:
+  clone:
+    image: plugins/git
+    recursive: true
+    tags: true
+  build:
+    image: maven:3-jdk-8-alpine
+    volumes:
+      - /data/maven:/root/.m2
+    commands:
+      - cp .settings.xml /root/.m2/settings.xml
+      - mvn clean install -Dmaven.test.skip=true -P envprop
+  winshare-yuxin-school:
+    <<: *docker
+    repo: "${ALI_DOCKER_URL}/winshare/winshare-yuxin-school"
+    dockerfile: Dockerfile.web
+  
+  winshare-yuxin-school-test:
+    <<: *dockertest
+    repo: "${ALI_DOCKER_URL}/winshare/winshare-yuxin-school"
+    dockerfile: Dockerfile.web
+
+  reload-test-service:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/test/csc:/data/test/csc
+    commands:
+      - sh /data/test/csc/stopcsc.sh
+      - sh /data/test/csc/startcsc.sh
+    when:
+      branch: [master,stable,test,release/*]

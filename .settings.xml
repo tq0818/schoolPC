@@ -1,0 +1,35 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+		      <localRepository>/root/.m2/repository</localRepository>
+
+<servers>
+
+	<server>
+
+		<id>nexus-releases</id>
+
+		<username>${env.PROD_DEPLOY_USER}</username>
+
+		<password>${env.PROD_DEPLOY_PASS}</password>
+
+	</server>
+
+	<server> 
+
+		<id>nexus-snapshots</id>
+
+		<username>${env.DEV_DEPLOY_USER}</username>
+
+		<password>${env.DEV_DEPLOY_PASS}</password>
+
+	</server>
+
+</servers>
+
+</settings>

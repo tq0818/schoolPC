@@ -19,6 +19,6 @@ DEFULT_CODE=1 \
 ACCOUNTEDNBLE=false \
 CLIENT_LOGIN_URL="http://172.16.7.205:8082/school"
 WORKDIR /usr/local/tomcat/webapps/
-COPY ${ALI_DOCKER_URL}/winshare/winshare-yuxin-schoolfront/usr/local/tomcat/webapps/schoolfront.war /usr/local/tomcat/webapps/ yuxin-school-web/target/manage.war /usr/local/tomcat/webapps/
+COPY yuxin-school-web/target/manage.war /usr/local/tomcat/webapps/
 EXPOSE 8080
 CMD ["catalina.sh", "run"]

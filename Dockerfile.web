@@ -1,6 +1,6 @@
 FROM registry.aliyuncs.com/winshare/tomcat:7-jre7
 #set enviroments
-ENV JAVA_TOOL_OPTIONS="-Xms6g -Xmx6g -Xmn512m -XX:NewRatio=4 -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m -XX:AutoBoxCacheMax=20000 -XX:+AlwaysPreTouch -Djava.security.egd=file:/dev/./urandom -XX:MaxTenuringThreshold=2"
+ENV JAVA_TOOL_OPTIONS="-Xms2g -Xmx2g -Xmn512m -XX:NewRatio=4 -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m -XX:AutoBoxCacheMax=20000 -XX:+AlwaysPreTouch -Djava.security.egd=file:/dev/./urandom -XX:MaxTenuringThreshold=2"
 ENV RMS_JDBC_URL="jdbc:mysql://172.16.7.27:3306/qa_ws_rms?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true"
 ENV RMS_JDBC_USER_NAME=qa \
 RMS_JDBC_USER_PASSWORD=xw2wEDYIFCxesOco \
@@ -19,6 +19,6 @@ DEFULT_CODE=1 \
 ACCOUNTEDNBLE=false \
 CLIENT_LOGIN_URL="http://172.16.7.205:8082/school"
 WORKDIR /usr/local/tomcat/webapps/
-COPY yuxin-school-web/target/manage.war /usr/local/tomcat/webapps/
+COPY ${ALI_DOCKER_URL}/winshare/winshare-yuxin-schoolfront/usr/local/tomcat/webapps/schoolfront.war /usr/local/tomcat/webapps/ yuxin-school-web/target/manage.war /usr/local/tomcat/webapps/
 EXPOSE 8080
 CMD ["catalina.sh", "run"]

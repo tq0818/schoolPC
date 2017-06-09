@@ -153,6 +153,9 @@
 		from company_live_record_zs
 		where company_id = #{companyId} and 
 			school_id = #{schoolId}
+			<if test="recordId != null and recordId != ''">
+				and record_id = #{recordId}
+			</if>
 			<if test="name != null and name != ''">
 			  and name like concat('%',#{name},'%')
 			</if>

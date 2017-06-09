@@ -7,9 +7,11 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.util.FileQNUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.artofsolving.jodconverter.office.OfficeException;
+import org.aspectj.util.FileUtil;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -132,7 +134,7 @@ public class OpenOfficeHandler {
 //                converter.convert(file, outFile);
                 converter.convert(file,docType,outFile,null);
                 nameMap.put("filePath", "pdf/"+fileName+".pdf");
-                nameMap.put("size", "0");
+                nameMap.put("size", String.valueOf(outFile.length()));
                 nameMap.put("sourcePath", file.getAbsolutePath()+file.getName());
             }
             long end = System.currentTimeMillis() - start;
@@ -157,7 +159,7 @@ public class OpenOfficeHandler {
             }else{
                 nameMap.put(JsonMsg.MSG, "office转换异常," + e.getMessage());
             }
-            file.delete();
+                file.delete();
         }finally{
         	if(connection.isConnected()){
         		connection.disconnect();

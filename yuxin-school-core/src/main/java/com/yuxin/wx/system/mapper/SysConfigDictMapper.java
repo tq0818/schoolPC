@@ -29,4 +29,5 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 		
 		List<SysConfigDict> findByCompanyId(Integer companyId);
 		List<SysConfigDict> queryConfigDictListByDictCode(SysConfigDict sysConfigDict);
+	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
 }

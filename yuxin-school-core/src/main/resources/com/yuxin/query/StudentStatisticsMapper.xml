@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.query.mapper.StudentStatisticsMapper">
+	<select id="getAllStudentNum" resultType="Long" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		select count(1) as studentNum from student s INNER JOIN users_front u ON u.id = s.user_id
+		left join sys_config_dict d on s.`edu_school` = d.`item_code`
+		where 1 = 1
+		<if test="teacherArea!=null and teacherArea!=''">
+			and s.edu_area = #{teacherArea}
+		</if>
+		<if test="schoolName!=null and schoolName!=''">
+			and d.item_value = #{schoolName}
+		</if>
+	</select>
+
+
+	<select id="getAllStudentNumOfComplete" resultType="Long" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		SELECT COUNT(1) AS studentNum FROM student s INNER JOIN users_front u ON u.id = s.user_id
+		left join sys_config_dict d on s.`edu_school` = d.`item_code`
+		WHERE edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1
+		AND edu_area IS NOT NULL AND edu_school IS NOT NULL AND edu_step IS NOT NULL AND
+		edu_year IS NOT NULL AND edu_class IS NOT NULL
+		<if test="teacherArea!=null and teacherArea!=''">
+			and s.edu_area = #{teacherArea}
+		</if>
+		<if test="schoolName!=null and schoolName!=''">
+			and d.item_value = #{schoolName}
+		</if>
+	</select>
+
+	<select id="getAreaStudentStatistics" resultType="Map" >
+		SELECT COUNT(1) AS stuNum, edu_area FROM student s INNER JOIN users_front u ON u.id = s.`user_id`
+		WHERE s.edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1
+		AND edu_area IS NOT NULL AND edu_school IS NOT NULL AND edu_step IS NOT NULL AND
+		edu_year IS NOT NULL AND edu_class IS NOT NULL GROUP BY edu_area
+	</select>
+
+	<select id="getOrgStudentStatisticsByAreaAndStep" resultType="Map" parameterType="Map">
+		SELECT COUNT(s.`id`) AS stuNum,c.`item_value` FROM sys_config_dict c LEFT JOIN student s ON c.`item_code` = s.`edu_school`
+  		LEFT JOIN users_front u ON u.id = s.`user_id` AND s.edu_identity = 0 LEFT JOIN sys_config_dict pc ON pc.`id` = c.`parent_item_id`
+  		LEFT JOIN edu_step_school_relation e ON e.`edu_school_id` = c.`id` WHERE 1=1
+  		<if test="eduArea!=null and eduArea!=''">
+			and pc.`item_code` = #{eduArea}
+		</if>
+		AND IFNULL(u.teacher_flag, 0)!=1
+		<if test="eduStep!=null and eduStep!=''">
+			AND e.`edu_step_new_code` = #{eduStep}
+		</if>
+    	GROUP BY c.`item_code`
+	</select>
+
+	<select id="getOrgStudentStatistics" resultType="Map" parameterType="Map">
+		SELECT COUNT(s.`id`) AS stuNum,c.`item_value` FROM sys_config_dict c LEFT JOIN student s ON c.`item_code` = s.`edu_school`
+		LEFT JOIN users_front u ON u.id = s.`user_id` AND s.edu_identity = 0 LEFT JOIN sys_config_dict pc ON pc.`id` = c.`parent_item_id`
+		LEFT JOIN edu_step_school_relation e ON e.`edu_school_id` = c.`id` WHERE 1=1
+		<if test="orgCode!=null and orgCode!=''">
+			and c.`item_value` = #{orgCode}
+		</if>
+		AND IFNULL(u.teacher_flag, 0)!=1
+		GROUP BY c.`item_code`
+	</select>
+</mapper>

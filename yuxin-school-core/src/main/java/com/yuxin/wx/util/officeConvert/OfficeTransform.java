@@ -1,6 +1,7 @@
 package com.yuxin.wx.util.officeConvert;
 
 import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.util.FileQNUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
@@ -79,7 +80,7 @@ public class OfficeTransform {
 //                .setOfficeHome(new File(openOffice))
 //                .buildOfficeManager();
     }
-    
+
     public static String resetManage(){
     	try {
     		Process pid=Runtime.getRuntime().exec("ps -ef");
@@ -133,13 +134,13 @@ public class OfficeTransform {
 			e.printStackTrace();
 			return e.getMessage();
 		}
-    } 
+    }
     /**
      * office转换成pdf
      *
      * @param inputFileStr 要转换的路径
      * @return Map<String,String> pdf="/2/20160726/11.pdf",html="/2/20160726/11.html"
-     * @throws Exception 
+     * @throws Exception
      */
     public static Map<String,String> transformPdf(String oldpath,String dir) throws Exception{
 		oldpath = imageServiceRealPath + oldpath;
@@ -164,7 +165,7 @@ public class OfficeTransform {
 
 		return createFile(dir,file,"pdf");
 	}
-    
+
     private static Map<String,String> createFile(String dir,File file,String type) {
 		Map<String,String> nameMap = new HashMap<String, String>();
 		String fileFullName = file.getName().toLowerCase();
@@ -178,7 +179,7 @@ public class OfficeTransform {
 				log.info("pdf存放路径," + "pdf/"+fileName+".pdf");
 				converter.convert(file, pdf);
 				nameMap.put("filePath", "pdf/"+fileName+".pdf");
-				nameMap.put("size","0");
+				nameMap.put("size", String.valueOf(pdf.length()));
 				//pdf.delete();
 			}
 			//把数据保存到数据库

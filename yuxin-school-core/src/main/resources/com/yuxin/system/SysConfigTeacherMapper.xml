@@ -41,6 +41,10 @@
 		<result property="userName" column="user_name" />
 		<result property="isDistinguished" column="is_distinguished" />
 		<result property="inviteCode" column="invite_code" />
+
+		<result property="teacherLevel" column="teacher_level" />
+		<result property="teacherArea" column="teacher_area" />
+		<result property="schoolName" column="school_name" />
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -116,7 +120,10 @@
 		headpic_url,
 		user_id,
 		is_distinguished,
-		invite_code
+		invite_code,
+		teacher_level,
+		teacher_area,
+		school_name
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -154,7 +161,10 @@
 		#{headpicUrl},
 		#{userId},
 		#{isDistinguished},
-		#{inviteCode}
+		#{inviteCode},
+		#{teacherLevel},
+		#{teacherArea},
+		#{schoolName}
 	</sql>
 
 	<!-- 适用于主键自增类型 -->
@@ -236,7 +246,11 @@
 			<if test="userId != null and userId != ''">user_id = #{userId},</if>
 			<if test="headpicUrl != null and headpicUrl != ''">headpic_url = #{headpicUrl},</if>
 			<if test="isDistinguished != null">is_distinguished = #{isDistinguished},</if>
-			<if test="inviteCode != null and inviteCode !=''">invite_code = #{inviteCode}</if>
+			<if test="inviteCode != null and inviteCode !=''">invite_code = #{inviteCode},</if>
+
+			<if test="teacherLevel != null and teacherLevel !=''">teacher_level = #{teacherLevel},</if>
+			<if test="teacherArea != null and teacherArea !=''">teacher_area = #{teacherArea},</if>
+			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -279,6 +293,10 @@
 			<if test="userId != ''">user_id = #{userId},</if>
 			<if test="headpicUrl != null and headpicUrl != ''">headpic_url = #{headpicUrl},</if>
 			<if test="isDistinguished != null">is_distinguished = #{isDistinguished},</if>
+
+			<if test="teacherLevel != null and teacherLevel !=''">teacher_level = #{teacherLevel},</if>
+			<if test="teacherArea != null and teacherArea !=''">teacher_area = #{teacherArea},</if>
+			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -340,6 +358,10 @@
 			<if test="educationCode != null and educationCode != ''">and education_code = #{educationCode}</if>
 			<if test="headpicUrl != null and headpicUrl != ''">and headpic_url = #{headpicUrl}</if>
 			<if test="userId != null and userId !=''">and user_id = #{userId}</if>
+
+			<if test="teacherLevel != null and teacherLevel !=''">and teacher_level = #{teacherLevel}</if>
+			<if test="teacherArea != null and teacherArea !=''">and teacher_area = #{teacherArea}</if>
+			<if test="schoolName != null and schoolName !=''">and school_name = #{schoolName}</if>
 		</trim>
 	</sql>
 
@@ -748,11 +770,41 @@
     
     
     <select id="queryTeachersData" resultMap="teachersVoMap" parameterType="com.yuxin.wx.vo.system.TeachersVo">
-	   select a.id,a.name,a.mobile,a.headpic_url,a.resume,a.school_id,(select count(id) from class_type where is_sale=1 and del_flag=0 and teacher_id=a.id and company_id=#{companyId}) as courseNum,
-(select sum(com.base_num + com.buy_num) from commodity com inner join commodity_product_realtion pr on com.id=pr.com_id inner JOIN class_type ct on ct.id=pr.product_id 
-where com.status=1 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct.company_id=#{companyId}) as stuNum,(select ROUND((select sum(score) from video_course_comment where teacher_id=a.id and del_flag=0)/(select count(id) from video_course_comment where teacher_id=a.id and del_flag=0),0)) as score
-from sys_config_teacher a
-where a.status_code='TEACHER_USERD' and a.teacher_type='PERSON_TEACHER' and a.del_flag=0 and a.is_distinguished=1 and a.company_id=#{companyId}
+		SELECT
+		a.id,
+		a. NAME,
+		a.mobile,
+		a.headpic_url,
+		a.resume,
+		class_type.courseNum,
+		commodity.stuNum
+		from sys_config_teacher a
+		left join (
+		SELECT
+		count(id) as courseNum,
+		teacher_id
+		FROM
+		class_type
+		WHERE
+		is_sale = 1
+		AND del_flag = 0
+		group by teacher_id
+		) as class_type on class_type.teacher_id = a.id
+		left join (
+		SELECT
+		sum(com.base_num + com.buy_num) as stuNum,
+		ct.teacher_id
+		FROM
+		commodity com
+		INNER JOIN commodity_product_realtion pr ON com.id = pr.com_id
+		INNER JOIN class_type ct ON ct.id = pr.product_id
+		WHERE com. STATUS = 1
+		GROUP BY ct.teacher_id
+		) as commodity on commodity.teacher_id = a.id
+		WHERE a.status_code = "TEACHER_USERD"
+		AND a.teacher_type = "PERSON_TEACHER"
+		AND a.del_flag = 0
+		AND a.is_distinguished = 1
 	  <if test="name != null and name != ''">and a.name like '%${name}%'</if>
 	  <choose>
 			<when test="schoolsId != null and schoolsId != ''">and a.school_id in(${schoolsId})</when>
@@ -761,8 +813,7 @@ where a.status_code='TEACHER_USERD' and a.teacher_type='PERSON_TEACHER' and a.de
 			</otherwise>
 	 </choose>
       <if test="cusorder != null and cusorder != '' and cusorder=='all'">
-      	 ORDER BY (select ROUND((select sum(score) from video_course_comment where teacher_id=a.id and del_flag=0 and is_distinguished=1)/(select count(id) from video_course_comment where teacher_id=a.id and del_flag=0 and is_distinguished=1),0)) DESC,(select sum(com.base_num + com.buy_num) from commodity com inner join commodity_product_realtion pr on com.id=pr.com_id inner JOIN class_type ct on ct.id=pr.product_id 
-where com.status=1 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct.company_id=#{companyId}) DESC
+		  ORDER BY a.create_time DESC
       </if>
 	  limit #{firstIndex},#{pageSize}
 	</select>

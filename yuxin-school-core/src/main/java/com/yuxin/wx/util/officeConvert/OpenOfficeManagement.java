@@ -6,6 +6,7 @@ import com.artofsolving.jodconverter.DocumentFormat;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.util.FileQNUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.artofsolving.jodconverter.office.OfficeException;
@@ -127,7 +128,7 @@ public class OpenOfficeManagement {
 //                converter.convert(file, outFile);
                 converter.convert(file,docType,outFile,null);
 				nameMap.put("filePath", outFilePdfStr);
-				nameMap.put("size", "0");
+				nameMap.put("size", String.valueOf(outFile.length()));
 				nameMap.put("sourcePath", file.getAbsolutePath()+file.getName());
             }
             long end = System.currentTimeMillis() - start;

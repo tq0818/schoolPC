@@ -36,6 +36,13 @@
 		<result property="groupOneId" column="group_one_id"/>
 		<result property="groupTwoId" column="group_two_id"/>
 		<result property="proxyOrgId" column="proxy_org_id"/>
+
+		<result property="eduIdentity" column="edu_identity"/>
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="eduYear" column="edu_year"/>
+		<result property="eduClass" column="edu_class"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.student.StudentVo" id="studentResultMap2">
@@ -93,6 +100,13 @@
 		<result property="relatedPayId" column="related_pay_id" />
 		<result property="companyId" column="company_id"/>
 		<result property="username" column="username"/>
+
+		<result property="eduIdentity" column="edu_identity"/>
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="eduYear" column="edu_year"/>
+		<result property="eduClass" column="edu_class"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.student.StuVo" id="stuVoResultMap">
@@ -161,6 +175,13 @@
 		<result property="username" column="username"/>
 		
 		<result property="protocolId" column="protocol_id"/>
+
+		<result property="eduIdentity" column="edu_identity"/>
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="eduYear" column="edu_year"/>
+		<result property="eduClass" column="edu_class"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.user.UsersFrontVo" id="usersFrontVoResultMap">
@@ -259,7 +280,13 @@
 		address_detail,
 		group_one_id,
 		group_two_id,
-		proxy_org_id
+		proxy_org_id,
+		edu_identity,
+		edu_area,
+		edu_school,
+		edu_step,
+		edu_year,
+		edu_class
     </sql>
     <sql id="table_vo_columns">
 		u.id,
@@ -318,7 +345,13 @@
 		u.member_status,
 		u.qq,
 		u.weibo,
-		u.invite_code
+		u.invite_code,
+		s.edu_identity,
+		s.edu_area,
+		s.edu_school,
+		s.edu_step,
+		s.edu_year,
+		s.edu_class
     </sql>
         
 	<sql id="entity_properties">
@@ -355,7 +388,13 @@
 		#{addressDetail},
 		#{groupOneId},
 		#{groupTwoId},
-		#{proxyOrgId}
+		#{proxyOrgId},
+		#{eduIdentity},
+		#{eduArea},
+		#{eduSchool},
+		#{eduStep},
+		#{eduYear},
+		#{eduClass}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -425,6 +464,13 @@
 			<if test="groupTwoId != null and groupTwoId != ''">group_two_id = #{groupTwoId},</if>
 			<if test="groupTwoId == null or groupTwoId == ''">group_two_id = null,</if>
 			<if test="proxyOrgId != null and proxyOrgId != ''">proxy_org_id = #{proxyOrgId},</if>
+
+			<if test="eduIdentity != null">edu_identity = #{eduIdentity},</if>
+			<if test="eduArea != null">edu_area = #{eduArea},</if>
+			<if test="eduSchool != null">edu_school = #{eduSchool},</if>
+			<if test="eduStep != null">edu_step = #{eduStep},</if>
+			<if test="eduYear != null">edu_year = #{eduYear},</if>
+			<if test="eduClass != null">edu_class = #{eduClass},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -458,6 +504,13 @@
 			<if test="groupOneId == null or groupOneId == ''">group_one_id = null,</if>
 			<if test="groupTwoId != null and groupTwoId != ''">group_two_id = #{groupTwoId},</if>
 			<if test="groupTwoId == null or groupTwoId == ''">group_two_id = null,</if>
+
+			<if test="eduIdentity != null">edu_identity = #{eduIdentity},</if>
+			<if test="eduArea != null and eduArea != ''">edu_area = #{eduArea},</if>
+			<if test="eduSchool != null and eduSchool != ''">edu_school = #{eduSchool},</if>
+			<if test="eduStep != null and eduStep != ''">edu_step = #{eduStep},</if>
+			<if test="eduYear != null and eduYear != ''">edu_year = #{eduYear},</if>
+			<if test="eduClass != null and eduClass != ''">edu_class = #{eduClass},</if>
 		</trim>
 		<where>
 			company_id=#{companyId}
@@ -502,8 +555,19 @@
 			<if test="updator != null and updator != ''">and updator = #{updator}</if>
 			<if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
 			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
-			<if test="groupOneId != null and groupOneId != ''">group_one_id = #{groupOneId},</if>
-			<if test="groupTwoId != null and groupTwoId != ''">group_two_id = #{groupTwoId},</if>
+			<if test="groupOneId != null and groupOneId != ''">and group_one_id = #{groupOneId}</if>
+			<if test="groupTwoId != null and groupTwoId != ''">and group_two_id = #{groupTwoId}</if>
+
+
+
+
+			<if test="eduIdentity != null">and edu_identity = #{eduIdentity}</if>
+			<if test="eduArea != null and eduArea != ''">and edu_area = #{eduArea}</if>
+			<if test="eduSchool != null and eduSchool != ''">and edu_school = #{eduSchool}</if>
+			<if test="eduStep != null and eduStep != ''">and edu_step = #{eduStep}</if>
+			<if test="eduYear != null and eduYear != ''">and edu_year = #{eduYear}</if>
+			<if test="eduClass != null and eduClass != ''">and edu_class = #{eduClass}</if>
+
 		</trim>
 	</sql>
 	
@@ -532,8 +596,15 @@
 			<if test="updator != null and updator != ''">and updator = #{updator}</if>
 			<if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
 			<if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
-			<if test="groupOneId != null and groupOneId != ''">group_one_id = #{groupOneId},</if>
-			<if test="groupTwoId != null and groupTwoId != ''">group_two_id = #{groupTwoId},</if>
+			<if test="groupOneId != null and groupOneId != ''">and group_one_id = #{groupOneId}</if>
+			<if test="groupTwoId != null and groupTwoId != ''">and group_two_id = #{groupTwoId}</if>
+
+			<if test="eduIdentity != null">and edu_identity = #{eduIdentity}</if>
+			<if test="eduArea != null and eduArea != ''">and edu_area = #{eduArea}</if>
+			<if test="eduSchool != null and eduSchool != ''">and edu_school = #{eduSchool}</if>
+			<if test="eduStep != null and eduStep != ''">and edu_step = #{eduStep}</if>
+			<if test="eduYear != null and eduYear != ''">and edu_year = #{eduYear}</if>
+			<if test="eduClass != null and eduClass != ''">and edu_class = #{eduClass}</if>
 		</trim>
 	</sql>
 	
@@ -736,7 +807,8 @@
 	<select id="findMessageByMobile" parameterType="map" resultMap="studentResultMap">
 		select 
 			a.*,
-			u.username
+			u.username,
+			u.teacher_flag as teacherFlag
 		from student a LEFT JOIN users_front u on a.user_id=u.id
 		where 
 			a.delete_flag=0
@@ -884,14 +956,25 @@
 	
 	<!-- 学员列表功能 -->
 	<select id="queryStudentsList" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
-		select DISTINCT(s.id),s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
+		select  s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
 	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,u.school_id,
 	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,u.member_id,u.member_level,u.member_buy_length,u.member_status,
-	ccpo.name as proxyOrgName
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id LEFT JOIN users_front u on s.user_id=u.id
+	ccpo.name as proxyOrgName,s.edu_identity,edu_area.item_value as edu_area,edu_school.item_value as edu_school,edu_step.item_value as edu_step,s.edu_year,
+		s.edu_class,u.teacher_flag as teacherFlag
+
+		from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id LEFT JOIN users_front u on s.user_id=u.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
-	 where s.company_id=#{companyId} 
+	left join (
+		select item_code,item_value from sys_config_dict where dict_code = 'EDU_SCHOOL_AREA'
+	) as edu_area on  edu_area.item_code = s.edu_area
+		left join (
+		select item_code,item_value from sys_config_dict where dict_code = 'EDU_SCHOOL'
+		) as edu_school on  edu_school.item_code = s.edu_school
+		left join (
+			select item_code,item_value from sys_config_dict where dict_code = 'EDU_STEP'
+			) as edu_step on  edu_step.item_code = s.edu_step
+		where 1=1
 	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -940,15 +1023,39 @@
 	  <if test="groupTwoId != null and groupTwoId != ''">and group_two_id= '${groupTwoId}'</if>
 	  <if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
 	  <if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
+		GROUP by s.id
 	 order by s.id DESC
 	limit #{firstIndex},#{pageSize}
+
+<!--
+		left join (
+		select stu_id,
+		is_Agent
+		from student_pay_master
+		where (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0
+		and is_Agent = 1 and commodity_type= 'COMMODITY_CLASS'
+		GROUP BY stu_id
+		) as agent on agent.stu_id = s.id
+		left join (
+		select stu_id,
+		"1" as Ispay
+		from student_pay_master
+		where pay_status_code='ORDER_PART_PAY' and delete_flag=0
+		and commodity_type= 'COMMODITY_CLASS'
+		GROUP BY stu_id
+		) as agent2 on agent.stu_id = s.id
+		-->
 	</select>
-	
+
 	<select id="queryStudentsListCount" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
 		select count(DISTINCT(s.id))
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id LEFT JOIN users_front u on s.user_id=u.id
+	 from student s
+	LEFT JOIN student_pay_master sp on s.id=sp.stu_id
+	LEFT JOIN users_front u on s.user_id=u.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
-	 where s.company_id=#{companyId}  
+	 where 1=1
 	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -997,6 +1104,8 @@
 	  <if test="groupTwoId != null and groupTwoId != ''">and group_two_id= '${groupTwoId}'</if>
 	   <if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
 	  <if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
 	</select>
 	<select id="queryStudentsList1" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 		select s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,

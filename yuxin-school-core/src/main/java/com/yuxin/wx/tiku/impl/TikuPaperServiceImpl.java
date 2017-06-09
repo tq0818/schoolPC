@@ -2,6 +2,7 @@ package com.yuxin.wx.tiku.impl;
 
 import com.yuxin.wx.api.tiku.ITikuPaperService;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.tiku.TikuPaper;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.tiku.mapper.TikuPaperMapper;
@@ -157,10 +158,10 @@ public class TikuPaperServiceImpl extends BaseServiceImpl implements ITikuPaperS
 	}
 	
 	@Override
-	public PageFinder<TikuPaperVo> containhw(TikuPaper search){
+	public PageFinder2<TikuPaperVo> containhw(TikuPaper search){
 		List<TikuPaperVo> list = tikuPaperMapper.containhw(search);
 		Integer count = tikuPaperMapper.containhwCount(search);
-		PageFinder<TikuPaperVo> pageFinder=new PageFinder<TikuPaperVo>(search.getPage(), search.getPageSize(), count, list);
+		PageFinder2<TikuPaperVo> pageFinder=new PageFinder2<TikuPaperVo>(search.getPage(), search.getPageSize(), count, list);
 		return pageFinder;
 	}
 

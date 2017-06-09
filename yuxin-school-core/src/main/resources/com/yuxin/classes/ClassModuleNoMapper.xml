@@ -213,7 +213,7 @@
 			<if test="planEnrollStudents != null and planEnrollStudents != ''">plan_enroll_students = #{planEnrollStudents},</if>
 			<if test="enrollYetStudents != null and enrollYetStudents != ''">enroll_yet_students = #{enrollYetStudents},</if>
 			<if test="publishStatus != null and publishStatus != ''">publish_status = #{publishStatus},</if>
-			<if test="totalHours != null and totalHours != ''">total_hours = #{totalHours},</if>
+			<if test="totalHours != null">total_hours = #{totalHours},</if>
 			<if test="classTeachType != null and classTeachType != ''">class_teach_type = #{classTeachType},</if>
 			<if test="description != null and description != ''">description = #{description},</if>
 			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>

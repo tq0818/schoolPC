@@ -166,10 +166,10 @@
 			<if test="payMethod != null and payMethod != ''">pay_method = #{payMethod},</if>
 			<if test="remark != null and remark != ''">remark = #{remark},</if>
 			<if test="createType != null and createType != ''">create_type = #{createType},</if>
-			<if test="posReal != null and posReal != ''">pos_real = #{posReal},</if>
-			<if test="cashReal != null and cashReal != ''">cash_real = #{cashReal},</if>
-			<if test="checkReal != null and checkReal != ''">check_real = #{checkReal},</if>
-			<if test="remitReal != null and remitReal != ''">remit_real = #{remitReal},</if>
+			<if test="posReal != null">pos_real = #{posReal},</if>
+			<if test="cashReal != null">cash_real = #{cashReal},</if>
+			<if test="checkReal != null">check_real = #{checkReal},</if>
+			<if test="remitReal != null">remit_real = #{remitReal},</if>
 			<if test="payDate != null and payDate != ''">pay_date = #{payDate},</if>
 			<if test="updateTime != null and createType != ''">update_time = #{updateTime},</if>
 			<if test="updator != null and updator != ''">updator = #{updator},</if>
@@ -421,7 +421,7 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
 		<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(p.apply_time)<![CDATA[<=]]>#{timeLen}</if>
-		 ) as a group by payMasterId) as cnt limit 1
+		 ) as a) as cnt limit 1
 			</otherwise>
 		</choose>
 	</select>

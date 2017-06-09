@@ -106,63 +106,91 @@
         </trim>
     </sql>
     <select id="page" resultMap="userInviteRewardsRecordResultMap2" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
-        SELECT DISTINCT (user_id) AS dsuser_id,(SELECT invite_code FROM users_front uf WHERE uf.id = dsuser_id) AS invite_code, (SELECT username
-        FROM users_front uf WHERE uf.id = dsuser_id) AS username, (SELECT mobile FROM users_front uf WHERE uf.id = dsuser_id) AS mobile,
+        SELECT
+        DISTINCT(uirr.user_id) AS dsuser_id,
+        uirr.id,
+        users_front.invite_code AS invite_code,
+        users_front.username AS username,
+        users_front.mobile AS mobile,
+        inviteReg.inviteRegNumber as inviteRegNumber,
+        inviteCon.inviteConNumber as inviteConNumber,
+        totalMoneyRecord.totalMoney as totalMoney,
+        totalIntegralRecord.totalIntegral as totalIntegral
+        FROM user_invite_rewards_record uirr
+        left join users_front on users_front.id  = uirr.user_id
         <if test="twoInviteFlag != null">
             <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and cid is not null
-                    )AS inviteRegNumber, 
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT count(id) as inviteRegNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 0 and cid is not null GROUP BY user_id
+                    ) as inviteReg on inviteReg.user_id = uirr.user_id
                 </when>
-                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and ccid is null )AS
-                    inviteRegNumber, 
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT count(id) as inviteRegNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 0 and ccid is  null GROUP BY user_id
+                    ) as inviteReg on inviteReg.user_id = uirr.user_id
                 </when>
             </choose>
         </if>
         <if test="twoInviteFlag != null">
             <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1) as inviteConNumber, 
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT count(id) as inviteConNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 1 and invite_code is not null GROUP BY user_id
+                    ) as inviteCon on inviteCon.user_id = uirr.user_id
                 </when>
-                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1 and ccid is null) as
-                    inviteConNumber, 
-                </when>
-            </choose>
-        </if>
-        <if test="twoInviteFlag != null">
-            <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_money IS NOT NULL )AS totalMoney, 
-                </when>
-                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_money IS NOT NULL and ccid is null )AS totalMoney, 
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT count(id) as inviteConNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 1 and ccid is null and invite_code is not null GROUP BY user_id
+                    ) as inviteCon on inviteCon.user_id = uirr.user_id
                 </when>
             </choose>
         </if>
         <if test="twoInviteFlag != null">
             <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_integral IS NOT NULL )AS totalIntegral 
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_money),0) as totalMoney,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_money IS NOT NULL GROUP BY user_id
+                    ) as totalMoneyRecord on totalMoneyRecord.user_id = uirr.user_id
                 </when>
-                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_integral IS NOT NULL and ccid is null )AS totalIntegral 
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_money),0) as totalMoney,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_money IS NOT NULL and ccid is null GROUP BY user_id
+                    ) as totalMoneyRecord on totalMoneyRecord.user_id = uirr.user_id
                 </when>
             </choose>
         </if>
-        FROM user_invite_rewards_record as uirr left join users_front as uf on uirr.user_id = uf.id where uirr.company_id = #{companyId} and cid
-        is not null
-        <if test="userId != null">and user_id = #{userId}</if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_integral),0) as totalIntegral,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_integral IS NOT NULL GROUP BY user_id
+                    ) as totalIntegralRecord on totalIntegralRecord.user_id = uirr.user_id
+                </when>
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_integral),0) as totalIntegral,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_integral IS NOT NULL and ccid is null GROUP BY user_id
+                    ) as totalIntegralRecord on totalIntegralRecord.user_id = uirr.user_id
+                </when>
+            </choose>
+        </if>
+        where uirr.company_id = #{companyId}
+        and cid is not NULL
+        <if test="userId != null and userId != ''">and uirr.user_id = #{userId}</if>
         <if test="searchDateType != null">
             <choose>
-                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now()) 
+                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now())
                 </when>
                 <when test="searchDateType == 2">
                     and date_sub(curdate(),interval 7 day) <![CDATA[<=]]>
-                    date(uirr.create_time) 
+                    date(uirr.create_time)
                 </when>
-                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') 
+                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
                 </when>
             </choose>
         </if>
         <if test="searchName != null">and uf.username like '%${searchName}%' or uf.mobile like '%${searchName}%' or uf.invite_code like '%${searchName}%'</if>
+        group by dsuser_id
         order by uirr.id desc limit #{firstIndex},#{pageSize}
     </select>
     <select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
@@ -279,63 +307,91 @@
         null and uirr.reason = #{reason} 
     </select>
     <select id="exprotWithoutPage" resultMap="userInviteRewardsRecordResultMap2" parameterType="com.yuxin.wx.model.user.UserInviteRewardsRecord">
-        SELECT DISTINCT (user_id) AS dsuser_id,(SELECT invite_code FROM users_front uf WHERE uf.id = dsuser_id) AS invite_code, (SELECT username
-        FROM users_front uf WHERE uf.id = dsuser_id) AS username, (SELECT mobile FROM users_front uf WHERE uf.id = dsuser_id) AS mobile,
+        SELECT
+        DISTINCT(uirr.user_id) AS dsuser_id,
+        uirr.id,
+        users_front.invite_code AS invite_code,
+        users_front.username AS username,
+        users_front.mobile AS mobile,
+        inviteReg.inviteRegNumber as inviteRegNumber,
+        inviteCon.inviteConNumber as inviteConNumber,
+        totalMoneyRecord.totalMoney as totalMoney,
+        totalIntegralRecord.totalIntegral as totalIntegral
+        FROM user_invite_rewards_record uirr
+        left join users_front on users_front.id  = uirr.user_id
         <if test="twoInviteFlag != null">
             <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and cid is not null
-                    )AS inviteRegNumber, 
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT count(id) as inviteRegNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 0 and cid is not null GROUP BY user_id
+                    ) as inviteReg on inviteReg.user_id = uirr.user_id
                 </when>
-                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 0 and ccid is null )AS
-                    inviteRegNumber, 
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT count(id) as inviteRegNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 0 and ccid is  null GROUP BY user_id
+                    ) as inviteReg on inviteReg.user_id = uirr.user_id
                 </when>
             </choose>
         </if>
         <if test="twoInviteFlag != null">
             <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1) as inviteConNumber, 
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT count(id) as inviteConNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 1 and invite_code is not null GROUP BY user_id
+                    ) as inviteCon on inviteCon.user_id = uirr.user_id
                 </when>
-                <when test="twoInviteFlag == 0"> (SELECT COUNT(id) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND reason = 1 and ccid is null) as
-                    inviteConNumber, 
-                </when>
-            </choose>
-        </if>
-        <if test="twoInviteFlag != null">
-            <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_money IS NOT NULL )AS totalMoney, 
-                </when>
-                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_money),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_money IS NOT NULL and ccid is null )AS totalMoney, 
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT count(id) as inviteConNumber,user_id FROM user_invite_rewards_record where company_id  = #{companyId} and reason = 1 and ccid is null and invite_code is not null GROUP BY user_id
+                    ) as inviteCon on inviteCon.user_id = uirr.user_id
                 </when>
             </choose>
         </if>
         <if test="twoInviteFlag != null">
             <choose>
-                <when test="twoInviteFlag == 1"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_integral IS NOT NULL )AS totalIntegral 
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_money),0) as totalMoney,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_money IS NOT NULL GROUP BY user_id
+                    ) as totalMoneyRecord on totalMoneyRecord.user_id = uirr.user_id
                 </when>
-                <when test="twoInviteFlag == 0"> (SELECT COALESCE(SUM(rewards_integral),0) FROM user_invite_rewards_record WHERE user_id = dsuser_id AND
-                    rewards_integral IS NOT NULL and ccid is null )AS totalIntegral 
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_money),0) as totalMoney,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_money IS NOT NULL and ccid is null GROUP BY user_id
+                    ) as totalMoneyRecord on totalMoneyRecord.user_id = uirr.user_id
                 </when>
             </choose>
         </if>
-        FROM user_invite_rewards_record as uirr left join users_front as uf on uirr.user_id = uf.id where uirr.company_id = #{companyId} and cid
-        is not null
-        <if test="userId != null">and user_id = #{userId}</if>
+        <if test="twoInviteFlag != null">
+            <choose>
+                <when test="twoInviteFlag == 1">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_integral),0) as totalIntegral,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_integral IS NOT NULL GROUP BY user_id
+                    ) as totalIntegralRecord on totalIntegralRecord.user_id = uirr.user_id
+                </when>
+                <when test="twoInviteFlag == 0">
+                    left join (
+                    SELECT COALESCE(SUM(rewards_integral),0) as totalIntegral,user_id FROM user_invite_rewards_record WHERE company_id  = #{companyId} and rewards_integral IS NOT NULL and ccid is null GROUP BY user_id
+                    ) as totalIntegralRecord on totalIntegralRecord.user_id = uirr.user_id
+                </when>
+            </choose>
+        </if>
+        where uirr.company_id = #{companyId}
+        and cid is not NULL
+        <if test="userId != null and userId != ''">and uirr.user_id = #{userId}</if>
         <if test="searchDateType != null">
             <choose>
-                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now()) 
+                <when test="searchDateType == 1"> and to_days(uirr.create_time) = to_days(now())
                 </when>
                 <when test="searchDateType == 2">
                     and date_sub(curdate(),interval 7 day) <![CDATA[<=]]>
-                    date(uirr.create_time) 
+                    date(uirr.create_time)
                 </when>
-                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') 
+                <when test="searchDateType == 3"> and DATE_FORMAT(uirr.create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
                 </when>
             </choose>
         </if>
         <if test="searchName != null">and uf.username like '%${searchName}%' or uf.mobile like '%${searchName}%' or uf.invite_code like '%${searchName}%'</if>
+        group by dsuser_id
         order by uirr.id desc
     </select>
     <select id="findInvitedTypeAndId" resultType="java.util.Map" parameterType="java.util.Map">

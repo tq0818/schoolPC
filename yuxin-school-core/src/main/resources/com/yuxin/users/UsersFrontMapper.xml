@@ -760,15 +760,21 @@
 		limit 1
 	</select>
 	<select id="countUserByDate" resultType="map" parameterType="com.yuxin.wx.vo.user.UsersFrontVo">
-	select  count(id) num,date_format(regist_time, "%Y-%m-%d") registTime
-		from users_front
-		where company_id=#{companyId}
-			<if test="schoolId != null"> and school_id=#{schoolId}</if>
+	select  count(u.id) num,date_format(regist_time, "%Y-%m-%d") registTime
+		from users_front u
+		left join student s
+		on s.user_id = u.id
+		LEFT JOIN sys_config_dict d
+		ON d.`item_code` = s.`edu_school`
+		where u.company_id=#{companyId}
+			<if test="schoolId != null"> and u.school_id=#{schoolId}</if>
 			<if test="startDate != null"> and date_format(regist_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 			<if test="endDate != null"> and date_format(regist_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
 			<if test="vipFlag != null"> and vip_flag = #{vipFlag}</if>
 			<if test="registType != null"> and regist_type = #{registType}</if>
 			<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(regist_time)<![CDATA[<=]]>#{timeLen}</if>
+			<if test="eduArea != null and eduArea!=''"> and s.edu_area=#{eduArea}</if>
+			<if test="eduSchool != null and eduSchool!=''"> and d.item_value =#{eduSchool}</if>
 			group by date_format(regist_time, "%Y-%m-%d")
 	</select>
 	<select id="countOffLine" resultType="com.yuxin.wx.vo.user.UsersFrontVo" parameterType="com.yuxin.wx.vo.user.UsersFrontVo">

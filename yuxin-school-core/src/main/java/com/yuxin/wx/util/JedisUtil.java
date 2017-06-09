@@ -47,10 +47,10 @@ public class JedisUtil {
 				host = props.getProperty("yunduoketang.redis.host");// 控制台上的“内网地址”
 				port = 6379; // 默认端口 6379，不用改
 				//username = props.getProperty("yunduoketang.redis.username");// 控制台上的“访问账号”
-				//password = props.getProperty("yunduoketang.redis.password");// 邮件中提供的“密码”
+				password = props.getProperty("yunduoketang.redis.password");// 邮件中提供的“密码”
 			}
 			jedis = new Jedis(host, port,timeout);
-			//jedis.auth(username+":"+password);//instance_id:password
+			jedis.auth(password);//instance_id:password
 			jedis.select(0);
 		}catch(Exception e){
 			log.error("--------------初始化redis链接异常，原因["+e+"]---------------",e);

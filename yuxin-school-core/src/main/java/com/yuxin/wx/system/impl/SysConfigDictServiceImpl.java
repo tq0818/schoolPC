@@ -200,5 +200,8 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 		// TODO Auto-generated method stub
 		return sysConfigDictMapper.queryConfigDictListByDictCode(sysConfigDict);
 	}
-
+	@Override
+	public SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict){
+		return sysConfigDictMapper.queryConfigDictValue(sysConfigDict);
+	}
 }

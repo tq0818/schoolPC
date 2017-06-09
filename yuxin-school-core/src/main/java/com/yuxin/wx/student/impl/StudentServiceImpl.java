@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.common.PageFinder2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -468,7 +469,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	}
 
 	@Override
-	public PageFinder<StudentListVo> findStudentsList(StudentListVo search) {
+	public PageFinder2<StudentListVo> findStudentsList(StudentListVo search) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("commodityType", "COMMODITY_CLASS");
 		List<StudentListVo> data = studentMapper.queryStudentsList(search);
@@ -494,7 +495,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		     }
 		}
 		Integer count = studentMapper.queryStudentsListCount(search);
-		PageFinder<StudentListVo> pageFinder = new PageFinder<StudentListVo>(
+		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
 				search.getPage(), search.getPageSize(), count, data);
 		return pageFinder;
 	}
@@ -580,7 +581,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 			if (isUserFront && f==null && student!=null) {
 					UsersFront usersFront = new UsersFront();
 					if(null!=username && !"".equals(username)){
-						usersFront.setUsername(username);
+						usersFront.setUsername(username.toLowerCase());
 					}
 					usersFront.setPassword(student.getPassword());
 					usersFront.setMobile(mobile);
@@ -1583,7 +1584,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 					
 					/* 生成usersfront */
 					usersFront = new UsersFront();
-					if(student.getUsername() != null) usersFront.setUsername(student.getUsername());
+					if(student.getUsername() != null) usersFront.setUsername(student.getUsername().toLowerCase());
 					if(student.getPassword() != null) usersFront.setPassword(student.getPassword());
 					if(student.getMobile() != null) usersFront.setMobile(student.getMobile());
 					if(student.getEmail() != null) usersFront.setEmail(student.getEmail());

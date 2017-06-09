@@ -401,8 +401,23 @@
 	<select id="containhwCount" resultType="int"
 		parameterType="com.yuxin.wx.model.tiku.TikuPaper">
 		select count(id) from tiku_paper p
-		where p.company_id = #{companyId}
+		where 1=1
+		<if test="paperName != null and paperName != ''">and p.paper_name LIKE '%${paperName}%'</if>
 		<if test="paperType != null and paperType != ''">and p.paper_type != #{paperType}</if>
+		<if test="examTime != null and examTime != ''">and p.exam_time = #{examTime}</if>
+		<if test="totalScore != null and totalScore != ''">and p.total_score = #{totalScore}</if>
+		<if test="region != null and region != ''">and p.region = #{region}</if>
+		<if test="containTopicType != null and containTopicType != ''">and p.contain_topic_type = #{containTopicType}</if>
 		<if test="paperStatus != null and paperStatus != ''">and p.paper_status = #{paperStatus}</if>
+		<if test="tikuCategoryId != null and tikuCategoryId != ''">and p.tiku_category_id = #{tikuCategoryId}</if>
+		<if test="tkuSubjectId != null and tkuSubjectId != ''">and p.tku_subject_id = #{tkuSubjectId}</if>
+		<if test="companyId != null and companyId != ''">and p.company_id = #{companyId}</if>
+		<if test="totalTopicNum != null and totalTopicNum != ''">and p.total_topic_num = #{totalTopicNum}</if>
+		<if test="creator != null and creator != ''">and p.creator = #{creator}</if>
+		<if test="createTime != null and createTime != ''">and p.create_time = #{createTime}</if>
+		<if test="updator != null and updator != ''">and p.updator = #{updator}</if>
+		<if test="updateTime != null and updateTime != ''">and p.update_time = #{updateTime}</if>
+		<if test="auditor != null and auditor != ''">and p.auditor = #{auditor}</if>
+		<if test="auditTime != null and auditTime != ''">and p.audit_time = #{auditTime}</if>
 	</select>
 </mapper>

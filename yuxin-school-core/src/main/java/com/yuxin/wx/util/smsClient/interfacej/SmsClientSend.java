@@ -50,7 +50,7 @@ public class SmsClientSend {
 
 	public static String sendSmsTwo(String mobile, String content) {
 
-		return sendSms(CompanyInfo.URL_UTF8, CompanyInfo.USER_ID_TWO, CompanyInfo.ACCOUNT_TWO, CompanyInfo.PASSWORD_TWO, mobile, content, null,
+		return sendSms(CompanyInfo.URL_UTF82, CompanyInfo.USER_ID_TWO, CompanyInfo.ACCOUNT_TWO, CompanyInfo.PASSWORD_TWO, mobile, content, null,
 				null, null, null, null, null, null, "POST", "UTF-8", "UTF-8");
 	}
 	/**

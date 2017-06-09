@@ -144,11 +144,21 @@
 	    select item_code,item_value from sys_config_dict where dict_code='SYS_NEWS_TYPE'
 	</select>
 	<select id="queryConfigDictListByDictCode" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
-		select item_code,item_value from sys_config_dict where dict_code=#{dictCode}
+		select item_code,item_value,id from sys_config_dict
+		where dict_code=#{dictCode} and item_status_code = '1'
+		<if test="parentItemId != null and parentItemId != ''">and parent_item_id = #{parentItemId}</if>
+		<if test="itemCode != null and itemCode != ''">and item_code = #{itemCode}</if>
+		<if test="itemValue != null and itemValue != ''">and item_value = #{itemValue}</if>
+		ORDER by display_seq asc
 	</select>
 	<select id="findByCompanyId" resultMap="sysConfigDictResultMap" parameterType="Integer">
 		select <include refid="table_columns"></include>
 			from sys_config_dict
 		where company_id = #{companyId}
+	</select>
+	<select id="queryConfigDictValue" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select item_value from sys_config_dict
+		where dict_code=#{dictCode} and item_code = #{itemCode}
+		limit 1
 	</select>
 </mapper>

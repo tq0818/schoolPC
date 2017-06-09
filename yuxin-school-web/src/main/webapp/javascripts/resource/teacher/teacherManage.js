@@ -2,20 +2,20 @@ var TimeFn = null;
 var backResult=null;
 var teacherNameResult = null;
 var mobileNum = null;
-var arrMsg = ['登陆账号不能为空', '用户名已存在', '用户名只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成', '老师名称不能为空', '该老师姓名已存在', '老师姓名由汉字、字母 、数字、下划线组成', '手机号不能为空','该手机号已存在','手机号格式不正确','请输入密码','请输入确认密码','两次密码不一致','老师简介不能超过500个字'];
+var arrMsg = ['登陆账号不能为空', '登陆账号已存在', '登陆账号只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成', '老师名称不能为空', '该老师姓名已存在', '老师姓名由汉字、字母 、数字、下划线组成', '手机号不能为空','该手机号已存在','手机号格式不正确','请输入密码','请输入确认密码','两次密码不一致','老师简介不能超过500个字'];
 $(function() {
 	//给二级学科id赋值
 	var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
 	$("#itemSecondId").val(itemTwoId);
-	
+
 	//二级学科点击
 	$(".itemTwo").click(function(){
 		$(this).attr("class", "btn btn-mini itemTwo btn-success").siblings().attr("class",
-		"btn btn-mini itemTwo btn-default");
+			"btn btn-mini itemTwo btn-default");
 		var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
 		$("#itemSecondId").val(itemTwoId);
 	});
-	
+
 	// 加载日期控件
 	$("#datetimepicker").datetimepicker({
 		lang : 'ch',
@@ -39,7 +39,7 @@ $(function() {
 
 	// 给公共页头添加被选择的样式
 	$(".smbar").children(".header").children(".navspace").find("li:eq(3)")
-			.find("a").addClass("active");
+		.find("a").addClass("active");
 	// 进页面的时候加载模块信息
 	$(".long a:first").click();
 
@@ -82,13 +82,13 @@ $(function() {
 		ajaxCheckUserName();
 		checkUserName();
 	});
-	
+
 	//ajax请求添加老师的名称是否存在
 	$("#teacherName").blur(function(){
 		ajaxCheckTeacherName();
 		checkTeacherName();
 	});
-	
+
 	//ajax请求添加老师的手机号是否存在
 	$("#mobile").blur(function(){
 		var hmobile = $("#HMobile").val();
@@ -97,9 +97,9 @@ $(function() {
 			ajaxCheckMobileNum();
 			checkMobileNum();
 		}
-		
+
 	});
-	
+
 	$("#pwd").blur(function(){
 		var teaId = $("#teacherId").val();
 		var pwd = $("#pwd").val();
@@ -134,147 +134,151 @@ $(function() {
 			$("#pwd").removeAttr("name");
 		}
 	});
-	
-	
+
+
 	// 提交添加老师、修改老师表单
 	$(".btn-primary").click(
-			function() {
+		function() {
 //				// 获取右侧所有的模块ID
-				var moduleIds = "";
+			var moduleIds = "";
 //				$(".right li").each(function() {
 //					moduleIds += $(this).attr("date-id") + ",";
 //				});
 
-				var pwd = $("#pwd").val();
-				var pwdNext = $("#pwdNext").val();
-				
-				var teacherId = $("#teacherId").val();
-				if(!teacherId || teacherId == 0 || $(".hiddenUserName").val() == ""){
-					ajaxCheckUserName();
-					var uName = checkUserName();
-					if(!uName){
-						return false;
-					}
-					
-					if (!pwd) {
-						alertMsg(arrMsg[9]);
-						return;
-					}
-					if (!pwdNext) {
-						alertMsg(arrMsg[10]);
-						return;
-					}
+			var pwd = $("#pwd").val();
+			var pwdNext = $("#pwdNext").val();
+
+			var teacherId = $("#teacherId").val();
+			if(!teacherId || teacherId == 0 || $(".hiddenUserName").val() == ""){
+				ajaxCheckUserName();
+				var uName = checkUserName();
+				if(!uName){
+					return false;
+				}
+
+				if (!pwd) {
+					alertMsg(arrMsg[9]);
+					return;
+				}
+				if (!pwdNext) {
+					alertMsg(arrMsg[10]);
+					return;
+				}
+				if (pwdNext != pwd) {
+					alertMsg(arrMsg[11]);
+					return;
+				}
+
+			}else{
+				if(pwd || pwdNext){
 					if (pwdNext != pwd) {
 						alertMsg(arrMsg[11]);
 						return;
 					}
-					
 				}else{
-					if(pwd || pwdNext){
-						if (pwdNext != pwd) {
-							alertMsg(arrMsg[11]);
-							return;
-						}
-					}else{
-						$("#pwd").removeAttr("name");
-					}
+					$("#pwd").removeAttr("name");
 				}
-				ajaxCheckTeacherName();
-				var tName = checkTeacherName();
-				if(!tName){
+			}
+			ajaxCheckTeacherName();
+			var tName = checkTeacherName();
+			if(!tName){
+				return false;
+			}
+
+			//老师简介不允许超过500
+			var resume = $("#resume").val();
+			if(resume != null && resume.length > 500){
+				alertMsg(arrMsg[12]);
+				return false;
+			}
+			var hmobile = $("#HMobile").val();
+			var mobile = $("#mobile").val();
+			if(mobile!=hmobile){
+				ajaxCheckMobileNum();
+				var mobileNum = checkMobileNum();
+				if(!mobileNum){
 					return false;
 				}
-				
-				//老师简介不允许超过500
-				var resume = $("#resume").val();
-				if(resume != null && resume.length > 500){
-					alertMsg(arrMsg[12]);
-					return false;
-				}
-				var hmobile = $("#HMobile").val();
-				var mobile = $("#mobile").val();
-				if(mobile!=hmobile){
-					ajaxCheckMobileNum();
-					var mobileNum = checkMobileNum();
-					if(!mobileNum){
-						return false;
-					}
-				}
+			}
+			var schoolName = $.trim($("#schoolName").val());
+			if(schoolName==""){
+				alertMsg("请填写学校名称");
+				return false;
+			}
+			// 添加老师必须指定学科，所以如果没有学科的情况下是不可以新建老师的
+			var subject = $(".itemOneClass").find("a");
+			if (subject.length == 0) {
+				$('<div class="c-fa">' + "请先添加学科" + '</div>').appendTo(
+					'body').fadeIn(100).delay(1000).fadeOut(200,
+					function() {
+						$(this).remove();
+					});
+				return false;
+			}
 
-				// 添加老师必须指定学科，所以如果没有学科的情况下是不可以新建老师的
-				var subject = $(".itemOneClass").find("a");
-				if (subject.length == 0) {
-					$('<div class="c-fa">' + "请先添加学科" + '</div>').appendTo(
-							'body').fadeIn(100).delay(1000).fadeOut(200,
-							function() {
-								$(this).remove();
-							});
-					return false;
-				}
 
-				
-				var url = "";
-				var msg = "";
-				var birthday = $("#datetimepicker").val();
-				if (!birthday) {
-					$("#datetimepicker").attr("name", "");
-				}
+			var url = "";
+			var msg = "";
+			var birthday = $("#datetimepicker").val();
+			if (!birthday) {
+				$("#datetimepicker").attr("name", "");
+			}
 
-				if (teacherId == "" || teacherId == 0) {
-					url = rootPath + "/sysConfigTeacher/add?moduleIds="
-							+ moduleIds;
-					msg = "增加成功";
-				} else {
-					url = rootPath + "/sysConfigTeacher/update?moduleIds="
-							+ moduleIds;
-					msg = "修改成功";
-				}
+			if (teacherId == "" || teacherId == 0) {
+				url = rootPath + "/sysConfigTeacher/add?moduleIds="
+					+ moduleIds;
+				msg = "增加成功";
+			} else {
+				url = rootPath + "/sysConfigTeacher/update?moduleIds="
+					+ moduleIds;
+				msg = "修改成功";
+			}
 
-				$.ajax({
-					type : "post",
-					data : $("#teacherManageForm").serialize(),
-					url : url,
-					beforeSend : function(XMLHttpRequest) {
-						$(".loading").show();
-						$(".loading-bg").show();
-					},
-					success : function(result) {
-						$('<div class="c-fa">' + msg + '</div>').appendTo(
-								'body').fadeIn(100).delay(1000).fadeOut(200,
-								function() {
-									$(this).remove();
-								});
-					},
-					complete : function(XMLHttpRequest, textStatus) {
-						$(".loading").hide();
-						$(".loading-bg").hide();
-						window.location.href = rootPath
-								+ "/sysConfigTeacher/toTeacherIndex";
-					},
-				});
+			$.ajax({
+				type : "post",
+				data : $("#teacherManageForm").serialize(),
+				url : url,
+				beforeSend : function(XMLHttpRequest) {
+					$(".loading").show();
+					$(".loading-bg").show();
+				},
+				success : function(result) {
+					$('<div class="c-fa">' + msg + '</div>').appendTo(
+						'body').fadeIn(100).delay(1000).fadeOut(200,
+						function() {
+							$(this).remove();
+						});
+				},
+				complete : function(XMLHttpRequest, textStatus) {
+					$(".loading").hide();
+					$(".loading-bg").hide();
+					window.location.href = rootPath
+						+ "/sysConfigTeacher/toTeacherIndex";
+				},
 			});
+		});
 
 	// 切换类别
 	$('.tabs').on(
-			'click',
-			'a.btn',
-			function() {
-				var _this = $(this),
-				// 获得索引
+		'click',
+		'a.btn',
+		function() {
+			var _this = $(this),
+			// 获得索引
 				index = _this.index(),
-				// active
+			// active
 				active = _this.hasClass('.btn-success'),
-				// 获得对象
+			// 获得对象
 				obj = $('.sel-tabs .left ul');
 
-				if (!active) {
-					_this.addClass('btn-success').siblings('a').removeClass(
-							'btn-success').addClass('btn-default');
-				}
-				obj.eq(index).fadeIn(200).siblings('ul').fadeOut(200);
+			if (!active) {
+				_this.addClass('btn-success').siblings('a').removeClass(
+					'btn-success').addClass('btn-default');
+			}
+			obj.eq(index).fadeIn(200).siblings('ul').fadeOut(200);
 
-			});
-	
+		});
+
 	$(".itemOne").click(function(){
 		chooseOneItem(this);
 	});
@@ -312,8 +316,8 @@ function chooseOneItem(obj) {
 				$(this).removeClass("show").addClass("hide");
 			}
 		}
-		
-		
+
+
 		//给二级学科id赋值
 		var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
 		$("#itemSecondId").val(itemTwoId);
@@ -397,7 +401,7 @@ function addModule() {
 	postForm.target = "_blank";
 	var itemOneId = $(".itemOneClass").find("a.btn-success").attr("itemOneId");
 	var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr(
-			"itemTwoId");
+		"itemTwoId");
 	var teachMethod = $(".tabs").find("a.btn-success").attr("teachMethod");
 
 	var itemOneInput = document.createElement("input"); // 学科 input
@@ -678,7 +682,7 @@ function savePic() {
 
 	$.ajaxFileUpload({
 		url : rootPath + "/sysConfigTeacher/savePic;" + window["sessionName"]
-				+ "=" + window["sessionId"],
+		+ "=" + window["sessionId"],
 		secureuri : false,// 安全协议
 		async : false,
 		fileElementId : 'imgData',
@@ -687,7 +691,7 @@ function savePic() {
 		success : function(data) {
 
 			$("#target").parent().html(
-					'<img id="target" src="' + data.url + '"/>');
+				'<img id="target" src="' + data.url + '"/>');
 			$("#target").trigger("change");
 			$("#img1").attr("src", data.url);
 			$("#img2").attr("src", data.url);
@@ -704,7 +708,7 @@ function saveHeadPic() {
 	var path = $("#target").attr("src");
 	if (!path) {
 		$('<div class="c-fa">' + "请选择头像" + '</div>').appendTo('body').fadeIn(
-				100).delay(1000).fadeOut(200, function() {
+			100).delay(1000).fadeOut(200, function() {
 			$(this).remove();
 		});
 		return;
@@ -753,6 +757,9 @@ function ajaxCheckUserName(){
 		data : { "userName" : userName },
 		url : rootPath + "/authPrivilege/checkUserName",
 		success : function(data) {
+			if(data!="true"){
+				alertMsg(data)
+			}
 			backResult = data;
 		}
 	});
@@ -794,7 +801,7 @@ function checkUserName(){
 }
 
 function checkTeacherName(){
-	
+
 	console.log("checkTeacherName方法，teacherName： "+teacherName+", teacherNameResult:"+teacherNameResult);
 	var teacherName = $("#teacherName").val();
 	if(!teacherName){

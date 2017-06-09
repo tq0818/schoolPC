@@ -567,7 +567,7 @@ public class FileUtil {
 			in.close();
 			json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
 			json.put("filePath", path);
-			json.put("size", size);
+				json.put("size", size);
 			return json;
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -21,6 +21,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuxin.wx.api.system.*;
+import com.yuxin.wx.common.*;
+import com.yuxin.wx.model.system.*;
+import com.yuxin.wx.utils.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,17 +63,7 @@ import com.yuxin.wx.api.student.IStudentGroupService;
 import com.yuxin.wx.api.student.IStudentPayMasterService;
 import com.yuxin.wx.api.student.IStudentPaySlaveService;
 import com.yuxin.wx.api.student.IStudentService;
-import com.yuxin.wx.api.system.ILongitudinalTableColDefineService;
-import com.yuxin.wx.api.system.ILongitudinalTableDataService;
-import com.yuxin.wx.api.system.ISysConfigDictService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
-import com.yuxin.wx.api.system.ISysConfigSchoolService;
 import com.yuxin.wx.api.user.IUsersFrontService;
-import com.yuxin.wx.common.ExcelSheetEntity;
-import com.yuxin.wx.common.JsonMsg;
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.common.SysLoader;
-import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.classes.ClassModule;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassPackageCategory;
@@ -84,20 +78,8 @@ import com.yuxin.wx.model.student.StudentFeeRefund;
 import com.yuxin.wx.model.student.StudentFeeStage;
 import com.yuxin.wx.model.student.StudentGroup;
 import com.yuxin.wx.model.student.StudentPayMaster;
-import com.yuxin.wx.model.system.LongitudinalTableColDefine;
-import com.yuxin.wx.model.system.LongitudinalTableData;
-import com.yuxin.wx.model.system.SysConfigDict;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
-import com.yuxin.wx.utils.EntityUtil;
-import com.yuxin.wx.utils.ExcelUtil;
-import com.yuxin.wx.utils.FileUploadUtil;
-import com.yuxin.wx.utils.ImportExcl;
-import com.yuxin.wx.utils.ParameterUtil;
-import com.yuxin.wx.utils.PropertiesUtil;
-import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
 import com.yuxin.wx.vo.student.StudentListDataVo;
@@ -168,6 +150,8 @@ public class StudentController {
     private IStudentGroupService studentGroupServiceImpl;
     @Autowired
     private IClassPackageCategoryService classPackageCategoryServiceImpl;
+    @Autowired
+    private ISysConfigTeacherService sysConfigTeacherServiceImpl;
 
     // 跳转到学员列表页面
     @RequestMapping(value = "/studentList")
@@ -222,7 +206,24 @@ public class StudentController {
         }
         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
-        
+
+
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
+
+        areaDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("steps", steps);
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
         // 跳转多班号或单班号
         if (cfs != null && "1".equals(cfs.getStatus())) {
             return "student/studentList-full";
@@ -236,12 +237,24 @@ public class StudentController {
         search.setFunctionCode("COMPANY_FUNCTION_COURSE");
         search.setCompanyId(WebUtils.getCurrentCompanyId());
         CompanyFunctionSet cfs = companyFunctionSetServiceImpl.findCompanyUseCourse(search);
+
+
+
+
         if (cfs != null && "1".equals(cfs.getStatus())) {
             return "/student/index-full";
         }
         return "/student/index";
     }
-
+    @ResponseBody
+    @RequestMapping(value = "/getSchoolList/{id}")
+    public List<SysConfigDict> getSchoolList(HttpServletRequest request,@PathVariable Integer id) {
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL");
+        areaDict.setParentItemId(id);
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        return areas;
+    }
     @ResponseBody
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageFinder<Student> query(Model model, Student search) {
@@ -1760,6 +1773,36 @@ public class StudentController {
     @RequestMapping(value = "studentDetailMessage", method = RequestMethod.POST)
     public String studentDetailMessage(String mobile, Model model) {
         Student student = studentServiceImpl.findMessageByMobile(mobile, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
+
+        SysConfigDict dict = new SysConfigDict();
+        //学段
+        if (student.getEduStep() != null) {
+            dict.setDictCode("EDU_STEP");
+            dict.setItemCode(student.getEduStep());
+            SysConfigDict obj = sysConfigDictServiceImpl.queryConfigDictValue(dict);
+            if(obj!=null){
+                student.setEduStep(obj.getItemValue());
+            }
+        }
+        //区域
+        if (student.getEduArea() != null) {
+            dict.setDictCode("EDU_SCHOOL_AREA");
+            dict.setItemCode(student.getEduArea());
+            SysConfigDict obj = sysConfigDictServiceImpl.queryConfigDictValue(dict);
+            if(obj!=null){
+                student.setEduArea(obj.getItemValue());
+            }
+        }
+        //学校
+        if (student.getEduSchool() != null) {
+            dict.setDictCode("EDU_SCHOOL");
+            dict.setItemCode(student.getEduSchool());
+            SysConfigDict obj = sysConfigDictServiceImpl.queryConfigDictValue(dict);
+            if(obj!=null){
+                student.setEduSchool(obj.getItemValue());
+            }
+        }
+
         model.addAttribute("student", student);
         if (null != student.getGroupOneId()) {
             StudentGroup g1 = studentGroupServiceImpl.findStudentGroupById(student.getGroupOneId());
@@ -2524,7 +2567,7 @@ public class StudentController {
      */
     @ResponseBody
     @RequestMapping(value = "/queryStudentsList")
-    public PageFinder<StudentListVo> queryStudentsListData(StudentListVo search) {
+    public PageFinder2<StudentListVo> queryStudentsListData(StudentListVo search) {
         String flag = "";
         search.setCompanyId(WebUtils.getCurrentCompanyId());
         // 分页调整
@@ -2541,7 +2584,8 @@ public class StudentController {
         if (subject.hasRole("代理机构")) {
             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
         }
-        PageFinder<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
+
+        PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
         return pageFinder;
     }
 
@@ -2992,6 +3036,30 @@ public class StudentController {
             map.put("city", s.getCity());
             map.put("county", s.getCounty());
             map.put("addressDetail", s.getAddressDetail());
+            String eduIdentity = "";
+if(s.getEduIdentity()!=null){
+    if(s.getTeacherFlag()!=null && String.valueOf(s.getTeacherFlag()).equals("1")){
+        eduIdentity = "教师";
+    }else{
+        eduIdentity = (String.valueOf(s.getEduIdentity()).equals("0"))?"学生":"普通用户";
+    }
+}map.put("eduIdentity", eduIdentity);
+            String area = "";
+            String school = "";
+            if(!StringUtils.isBlank(s.getEduArea())){
+                area = s.getEduArea();
+            }
+            if(!StringUtils.isBlank(s.getEduSchool())){
+                school = s.getEduSchool();
+            }
+            map.put("eduArea", area);
+            map.put("eduSchool", school);
+            if(!StringUtils.isBlank(s.getEduStep())){
+                map.put("eduClass", s.getEduStep()+s.getEduYear()+"年"+s.getEduClass()+"班");
+            }else{
+                map.put("eduClass", "");
+            }
+
             //
             // for(LongitudinalTableData n : ns){
             // if("stu_id".equals(n.getColName()) &&
@@ -3012,7 +3080,7 @@ public class StudentController {
             lists.add(map);
         }
         StringBuffer title = new StringBuffer(
-                "手机号:mobile,用户名:username,姓名:name,证件号码:identityId,邮箱:email,QQ号:qq,紧急联系人:emergencyContact,紧急联系人电话:emergencyPhone,省:province,市:city,县:county,详细地址:addressDetail");
+                "手机号:mobile,用户名:username,姓名:name,身份:eduIdentity,所在区域:eduArea,学校:eduSchool,所在班级:eduClass,邮箱:email,QQ号:qq,紧急联系人:emergencyContact,紧急联系人电话:emergencyPhone,省:province,市:city,区（县）:county,详细地址:addressDetail");
         List<LongitudinalTableColDefine> coldefine = longitudinalTableColDefineServiceImpl.findByCompany(WebUtils.getCurrentCompanyId(), "student");
         if (coldefine != null && coldefine.size() > 0) {
             for (LongitudinalTableColDefine d : coldefine) {

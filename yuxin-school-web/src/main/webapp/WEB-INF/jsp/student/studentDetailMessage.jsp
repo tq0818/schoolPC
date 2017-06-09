@@ -363,16 +363,32 @@
                             <span class="c-content">${wx:dictCode2Name(student.educationCode)}</span>
                         </p>
                     </li>
-                    <li>
+					<li>
+						<p class='c'>
+							<span class="c-title">个人身份</span>
+							<span class="c-content">
+								<c:choose>
+									<c:when test="${student.teacherFlag==1}">
+										教师
+									</c:when>
+									<c:otherwise>
+										${student.eduIdentity==0?'学生':''}
+										${student.eduIdentity==1?'普通用户':''}
+									</c:otherwise>
+								</c:choose>
+							</span>
+						</p>
+					</li>
+                    <li style="${student.eduIdentity!=0?'display:none;':''}">
                         <p class='c'>
-                            <span class="c-title">证件类型</span>
-                            <span class="c-content">${wx:dictCode2Name(student.identityTypeCode)}</span>
+                            <span class="c-title">所在区域/学校</span>
+                            <span class="c-content">${student.eduArea} ${student.eduSchool}</span>
                         </p>
                     </li>
-                    <li>
+                    <li style="${student.eduIdentity!=0?'display:none;':''}">
                         <p class='c'>
-                            <span class="c-title">证件号码</span>
-                            <span class="c-content cc">${student.identityId}</span>
+                            <span class="c-title">所在班级</span>
+                            <span class="c-content cc">${student.eduStep}${student.eduYear}级${student.eduClass}班</span>
                         </p>
                     </li>
                     <c:if test="${sgOpen==1 }">

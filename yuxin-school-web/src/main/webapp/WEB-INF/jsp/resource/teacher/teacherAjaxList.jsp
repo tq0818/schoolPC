@@ -93,7 +93,7 @@
              <p class="c">
                  <span class="c-title">性别</span>
                  <span class="c-content">
-                     <input type="text" class="readonly" value="${item.sex == 'MALE' ? '男' : '女' }" readonly>
+                     <input type="text" class="readonly" value="${item.sex != 'MALE' ? '女' : '男' }" readonly>
                  </span>
              </p>
              <p class="c">
@@ -108,6 +108,41 @@
                      <input type="text" class="readonly" value="${item.isDistinguished == 1 ? '是' : '否' }" readonly>
                  </span>
              </p>
+
+        <p class='c'>
+            <span class="c-title">教师级别</span>
+									<span class="c-content">
+                                         <c:choose>
+                                             <c:when test="${item.teacherLevel=='GRADE_HIGH'}"><c:set var="teacherLevel" value="小学高级"></c:set></c:when>
+                                             <c:when test="${item.teacherLevel=='MIDDLE_GRADE_HIGH'}"><c:set var="teacherLevel" value="中小学高级"></c:set></c:when>
+                                             <c:when test="${item.teacherLevel=='MIDDLE_ONE'}"><c:set var="teacherLevel" value="中学一级"></c:set></c:when>
+                                             <c:when test="${item.teacherLevel=='MIDDLE_TWO'}"><c:set var="teacherLevel" value="中学二级"></c:set></c:when>
+                                             <c:when test="${item.teacherLevel=='MIDDLE_HIGH'}"><c:set var="teacherLevel" value="中学高级"></c:set></c:when>
+                                         </c:choose>
+                                        <input type="text" class="readonly" value="${teacherLevel}" readonly>
+
+									</span>
+        </p>
+        <p class='c'>
+            <span class="c-title">所在区域</span>
+            <span class="c-content">
+                <c:choose>
+                    <c:when test="${item.teacherArea=='alone'}"><c:set var="teacherArea" value="直属直管"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='qing_yang'}"><c:set var="teacherArea" value="青羊区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='jin_niu'}"><c:set var="teacherArea" value="金牛区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='jin_jiang'}"><c:set var="teacherArea" value="锦江区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='wu_hou'}"><c:set var="teacherArea" value="武侯区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='gao_xin'}"><c:set var="teacherArea" value="高新区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='tian_fu_xin'}"><c:set var="teacherArea" value="天府新区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='cheng_hua'}"><c:set var="teacherArea" value="成华区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='long_quan_yi'}"><c:set var="teacherArea" value="龙泉驿区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='shuang_liu'}"><c:set var="teacherArea" value="双流区"></c:set></c:when>
+                </c:choose>
+                <input type="text" class="readonly" value="${teacherArea}" readonly>
+            </span>
+        </p>
+
+
              <p class="c">
                  <span class="c-title">现居地址</span>
                  <span class="c-content">
@@ -144,9 +179,15 @@
                      <input type="text" class="readonly" value="${item.bankAccountNum}" readonly>
                  </span>
              </p>
+            <p class="c">
+                <span class="c-title">学校名称</span>
+                <span class="c-content">
+                    <input type="text" class="readonly" value="${item.schoolName}" readonly>
+                </span>
+            </p>
              <p class="c c-p">
                  <span class="c-title">简介</span>
-                 <span class="c-content c-introduction">
+                 <span class="c-content c-introduction" style="width: 480px;word-wrap:break-word">
                      ${item.resume}
                  </span>
              </p>

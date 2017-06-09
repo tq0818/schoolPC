@@ -115,6 +115,7 @@ $(function () {
             var allowdtypes = 'wmv,wm,asf,asx,rm,rmvb,ra,ram,mpg,mpeg,mpe,vob,dat,mov,3gp,mp4,mp4v,m4v,mkv,avi,flv,f4v,mts';
             if (allowdtypes.indexOf(fileType) < 0) {
                 var content = "请使用正确的视频文件";
+                alert(content)
                 errorMsgHandler(content);
                 return false;
             } else {

@@ -1,1 +1,1 @@
-$.imageserver="http://image.yunduoketang.com/";
+$.imageserver="http://images.cdds365.com/";

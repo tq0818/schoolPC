@@ -109,7 +109,7 @@ public class CompanyHeadFootConfigController {
 			companyFootInfoServiceImpl.insert(companyInfo);
 		}else{
 			if(null!=companyInfo1.getLogoPic() && !"".equals(companyInfo1.getLogoPic())){
-				companyInfo1.setLogoPic(url+companyInfo.getLogoPic());
+				companyInfo1.setLogoPic(url+companyInfo1.getLogoPic());
 			}
 			if(StringUtils.isNotBlank(companyInfo1.getSecurityIco())){
 				companyInfo1.setIcoPath(url+companyInfo1.getSecurityIco());

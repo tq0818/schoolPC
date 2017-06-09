@@ -70,7 +70,7 @@
                                     .append(
                                             '<tr >'
                                             + '<td>'
-                                            + (stu.mobile ? stu.mobile+"/"(stu.name?stu.name:""):
+                                            + (stu.mobile ? stu.mobile+"/"+(stu.name?stu.name:""):
                                                  (stu.name?stu.name:""))
                                             + '</td>'
                                             + '<td>'

@@ -43,6 +43,7 @@
 	            	digits:true,
 	            	remote: {
                 		url: rootPath+"/sysConfigTeacher/checkMobiles",
+						async:false,
                 		type:"post",
                 		dataType:"json",
                 		data:{
@@ -123,6 +124,7 @@
 //				});
 			},
 			addTeacher : function(){
+				$("#userId").focus();
 				if($("#addTeachersForm").valid()){
 					var tuserName,password,realName,tMobile;
 					tuserName=$("#tuserName").val();

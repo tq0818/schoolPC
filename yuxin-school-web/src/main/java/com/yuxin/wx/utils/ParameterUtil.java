@@ -22,7 +22,8 @@ public class ParameterUtil {
 	
 	
 	public static Boolean isEmail(String str){
-		Pattern pattern = Pattern.compile("^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+.[a-zA-Z]{2,3}$");
+
+		Pattern pattern = Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
 		Matcher matcher = pattern.matcher(str);
 		return matcher.matches();
 	}

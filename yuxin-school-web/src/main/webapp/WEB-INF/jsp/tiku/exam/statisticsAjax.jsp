@@ -42,7 +42,17 @@
 	             <li class="w25" title="${paper.paperName }">${paper.paperNameSub }</li>
 	             <li class="w11">${paper.paperCount }次</li>
 	             <li class="w11">${paper.passPaperPeople}人</li>
-	             <li class="w11">${paper.paperPassRate }%</li>
+				 <li class="w11">
+					 <c:choose>
+						 <c:when test="${paper.allPaperPeople==null || paper.allPaperPeople==0}">
+							 0%
+						 </c:when>
+						 <c:otherwise>
+							 <fmt:formatNumber type="number" value="${paper.passPaperPeople/paper.allPaperPeople*100}" pattern="0.00" maxFractionDigits="2"/>%
+						 </c:otherwise>
+					 </c:choose>
+
+				 </li>
 	             <li class="w15">${paper.paperAvg }分</li>
 	             <li class="w11">${paper.allPaperPeople-paper.passPaperPeople}人</li>
 	             <li class="w16 button detail" paperId="${paper.tikuPaperId }">查看详情</li>

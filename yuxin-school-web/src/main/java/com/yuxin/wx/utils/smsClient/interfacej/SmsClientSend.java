@@ -14,7 +14,7 @@ import com.yuxin.wx.utils.smsClient.tool.SmsClientAccessTool;
  * <span>软维提供的JAVA接口信息（短信，彩信）调用API</span><br/>
  * <span>----------发送短信-------------</span>
  * </p>
- * 
+ *
  * @author LIP
  * @version 1.0.1
  */
@@ -30,7 +30,7 @@ public class SmsClientSend {
 	 * </p>
 	 * <br/>
 	 * </p>
-	 * 
+	 *
 	 * @param url
 	 *            ：必填--发送连接地址URL--比如>http://118.145.30.35/sms.aspx
 	 * @param userid
@@ -57,7 +57,7 @@ public class SmsClientSend {
 	public static String sendSmsTwo(HttpServletRequest request,String mobile
 			, String content,Integer uid,String businessType) {
 
-		return sendSms(request,CompanyInfo.URL_UTF8, CompanyInfo.USER_ID_TWO
+		return sendSms(request,CompanyInfo.URL_UTF82, CompanyInfo.USER_ID_TWO
 				, CompanyInfo.ACCOUNT_TWO, CompanyInfo.PASSWORD_TWO, mobile
 				, content, null,null, null, null, null, null, null, "POST"
 				, "UTF-8", "UTF-8",uid,businessType);
@@ -68,10 +68,10 @@ public class SmsClientSend {
 	 * <span>发送信息方法--暂时私有化，这里仅仅是提供用户接口而已。其实用不了那么复杂</span><br/>
 	 * <span>发送信息最终的组合形如：http://118.145.30.35/sms.aspx?action=send</span>
 	 * </p>
-	 * 
+	 *
 	 * @param url
 	 *            ：必填--发送连接地址URL--比如>http://118.145.30.35/sms.aspx
-	 * 
+	 *
 	 * @param userid
 	 *            ：必填--用户ID，为数字
 	 * @param account
@@ -104,7 +104,7 @@ public class SmsClientSend {
 	 *            ：选填--返回内容编码方式，默认为UTF-8
 	 * @return 返回发送之后收到的信息
 	 */
-	
+
 	private static String sendSms(HttpServletRequest request,String url, String userid, String account,
 			String password, String mobile, String content, String action,
 			String sendTime, String checkContent, String taskName,

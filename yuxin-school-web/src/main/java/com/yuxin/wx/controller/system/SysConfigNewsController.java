@@ -292,6 +292,7 @@ import com.yuxin.wx.vo.system.SysNewsVo;
 						s1.setCreateName(sysNews.getCreateName());
 						s1.setUserName(sysNews.getUserName());
 						s1.setNewsStatus(sysNews.getNewsStatus());
+						 s1.setNewsTypeName(sysNews.getNewsTypeName());
 						ar1.add(s1);
 						count++;
 					 }

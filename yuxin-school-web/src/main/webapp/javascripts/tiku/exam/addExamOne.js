@@ -149,7 +149,7 @@ var res;
 		        return false;
 			}
 			if(typeof(failWord) == "undefined" || failWord == null || failWord == ""){
-				$.msg("请设未置通过提示");
+				$.msg("请设置未通过提示");
 		        return false;
 			}
 			var et = $("#etcount").val();

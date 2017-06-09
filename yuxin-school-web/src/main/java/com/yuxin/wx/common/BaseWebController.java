@@ -8,6 +8,7 @@ import com.yuxin.wx.api.user.IUsersLoginSessionService;
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.model.company.*;
 import com.yuxin.wx.model.system.SysConfigService;
+import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersLoginSession;
 import com.yuxin.wx.util.DateUtil;
@@ -94,8 +95,16 @@ public class BaseWebController {
     @RequestMapping(value = "/index", method = { RequestMethod.POST, RequestMethod.GET })
     public ModelAndView index(HttpServletRequest request, Model model) {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("index/index");
         Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("教科院")){
+            mv.setViewName("redirect:/query/statistics/index");
+        }else if(subject.hasRole("区县负责人")){
+            mv.setViewName("redirect:/query/areastatistics/index");
+        }else if(subject.hasRole("直属校负责人")){
+            mv.setViewName("redirect:/query/orgstatistics/index");
+        }else{
+            mv.setViewName("index/index");
+        }
         Session session = subject.getSession(true);
         Company currtCompany = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
         if (currtCompany != null) {

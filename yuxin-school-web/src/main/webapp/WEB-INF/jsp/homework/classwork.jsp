@@ -213,7 +213,7 @@
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
 
-
+<script type="text/javascript" src="<%=rootPath%>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/homework/homework.js"></script>
 </body>
 </html>

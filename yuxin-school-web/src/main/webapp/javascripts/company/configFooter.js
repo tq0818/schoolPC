@@ -96,7 +96,7 @@ var editor=null;
 	//判断是否为自主域名
 	function isSelf(){
     	$.ajax({
-    		url:rootPath+"/sysPageHeadFoot/isEnterootPathriseVersion",
+    		url:rootPath+"/sysPageHeadFoot/isEnterpriseVersion",
     		type:"post",
     		success:function(data){
     			if(data){

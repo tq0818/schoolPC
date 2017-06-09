@@ -56,7 +56,9 @@
 							class="btn btn-mini btn-method btn-primary"
 							data-type="STUDENT_MESSAGE_MOBILE">短信通知</a> <a
 							href="javascript:;" class="btn btn-mini btn-method btn-default"
-							data-type="STUDENT_MESSAGE_WEB">站内信通知</a>
+							data-type="STUDENT_MESSAGE_WEB">站内信通知</a><a
+							href="javascript:;" class="btn btn-mini btn-method btn-default"
+							data-type="STUDENT_MESSAGE_EMAIL">邮件通知</a>
 						</span>
 					</p>
 					<p class="c">

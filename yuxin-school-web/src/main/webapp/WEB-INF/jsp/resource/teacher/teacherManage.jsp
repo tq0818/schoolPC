@@ -169,7 +169,44 @@ $(function(){
 		                            </span>
 		                        </p>
 		                    </li>
-		                                       
+
+
+							<li>
+								<p class='c'>
+									<span class="c-title">教师级别<em>*</em></span>
+									<span class="c-content">
+										<select name="teacherLevel">
+											<option value="GRADE_HIGH"  ${teacher.teacherLevel=='GRADE_HIGH'?'selected':''}>小学高级</option>
+											<option value="MIDDLE_GRADE_HIGH" ${teacher.teacherLevel=='MIDDLE_GRADE_HIGH'?'selected':''} >中小学高级</option>
+											<option value="MIDDLE_ONE" ${teacher.teacherLevel=='MIDDLE_ONE'?'selected':''}>中学一级</option>
+											<option value="MIDDLE_TWO"  ${teacher.teacherLevel=='MIDDLE_TWO'?'selected':''}>中学二级</option>
+											<option value="MIDDLE_HIGH" ${teacher.teacherLevel=='MIDDLE_HIGH'?'selected':''}>中学高级</option>
+										</select>
+									</span>
+								</p>
+							</li>
+
+							<li>
+								<p class='c'>
+									<span class="c-title">所在区域<em>*</em></span>
+		                            <span class="c-content">
+		                                <select name="teacherArea">
+											<option value="alone" ${teacher.teacherArea=='alone'?'selected':''}>直属直管</option>
+											<option value="qing_yang" ${teacher.teacherArea=='qing_yang'?'selected':''} >青羊区</option>
+											<option value="jin_niu" ${teacher.teacherArea=='jin_niu'?'selected':''}>金牛区</option>
+											<option value="jin_jiang" ${teacher.teacherArea=='jin_jiang'?'selected':''} >锦江区</option>
+											<option value="wu_hou" ${teacher.teacherArea=='wu_hou'?'selected':''}>武侯区</option>
+											<option value="gao_xin" ${teacher.teacherArea=='gao_xin'?'selected':''}>高新区</option>
+											<option value="tian_fu_xin" ${teacher.teacherArea=='tian_fu_xin'?'selected':''}>天府新区</option>
+											<option value="cheng_hua" ${teacher.teacherArea=='cheng_hua'?'selected':''}>成华区</option>
+											<option value="long_quan_yi" ${teacher.teacherArea=='long_quan_yi'?'selected':''}>龙泉驿区</option>
+											<option value="shuang_liu" ${teacher.teacherArea=='shuang_liu'?'selected':''}>双流区</option>
+										</select>
+		                            </span>
+								</p>
+							</li>
+
+
 		                    <li>
 		                        <p class='c'>
 		                            <span class="c-title">现居住址</span>
@@ -225,6 +262,14 @@ $(function(){
 					                 </span>
 		                        </p>
 		                    </li>
+							<li>
+								<p class="c">
+									<span class="c-title">学校名称<em>*</em></span>
+										<span class="c-content" style="width: 60%">
+											<input name="schoolName" id="schoolName" value="${teacher.schoolName}" type="text" style="width:350px">
+										</span>
+								</p>
+							</li>
 		                    <li style="width:100%;">
 		                        <p class='c' style="width:100%;">
 		                            <span class="c-title" style="width:15%;">简介</span>

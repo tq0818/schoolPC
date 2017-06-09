@@ -4,7 +4,7 @@
  * @Date: 2015-3-23
  */
 (function($){
-	$.imageserver="http://image.yunduoketang.com/";
+	$.imageserver="http://images.cdds365.com/";
 	var modelUtil={
 		//step1:解析个人配置
 		/**

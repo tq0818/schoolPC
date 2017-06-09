@@ -1,4 +1,4 @@
-$.imageserver = 'http://image.yunduoketang.com/';
+$.imageserver = 'http://images.cdds365.com/';
 (function($) {
 	Array.prototype.containsKey = function(_key) {
         for (var i = 0; i < this.length; i++) {

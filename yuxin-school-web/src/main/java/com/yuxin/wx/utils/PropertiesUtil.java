@@ -101,13 +101,13 @@ public class PropertiesUtil {
 	private @Value("${server.excle.tempPath}")
 	String exclePath;
 	
-	private @Value("admin@yunduowxjy.com")
+	private @Value("admin@winshare-edu.com")
 	String  zsLoginName;
 	
-	private @Value("http://yunduowxjy.gensee.com")
+	private @Value("http://winshare-edu.gensee.com")
 	String  zsAddress;
 	
-	private @Value("Yunduo2017")
+	private @Value("888888")
 	String  zsPassWord;
 	
 	private @Value("${eketang.live.login.server}")

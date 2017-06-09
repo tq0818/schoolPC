@@ -435,7 +435,7 @@ $(document).ready(function(){
   	//判断是否企业标准版
 		var isSelfNet=true;
 		$.ajax({
-			url:rootPath+"/companyFootInfo/isEnterootPathriseVersion",
+			url:rootPath+"/sysPageHeadFoot/isEnterpriseVersion",
 			async:false,
 			type:"post",
 			success:function(data){
@@ -528,7 +528,7 @@ function loadData(){
 //判断是否为自主域名
 function isSelf(){
 	$.ajax({
-		url:rootPath+"/sysPageHeadFoot/isEnterootPathriseVersion",
+		url:rootPath+"/sysPageHeadFoot/isEnterpriseVersion",
 		type:"post",
 		success:function(data){
 			if(data){

@@ -91,7 +91,12 @@ $(function() {
 		$("#canReturn").html("可退:"+(total*1-hasUsed*1));
 		$("#refundFee").val(total*1-hasUsed*1);
 	}
+var save_falg = false;
 	function save(){
+		if(save_falg){
+			return ;
+		}
+		save_falg = true;
 		var money=0;
 		$(".money").each(function(){
 			money=money+$(this).val()*1;
@@ -105,12 +110,14 @@ $(function() {
 			$.ajax({
 				url:rootPath+"/studentFeeRefund/returnFee",
 				type:"post",
+				async:false,
 				data:$("#feeMessage").serialize(),
 				success:function(data){
+					save_falg = false;
 					if("success"==data){
 						$.alert("退费成功",function(){
-							//window.location.href=rootPath+"/student/toStuSearch";
-							history.go(-1);
+							window.location.href=rootPath+"/student/studentList";
+							//history.go(-1);
 						});
 	    				
 					}else{

@@ -134,7 +134,7 @@
                                 <li style="height: 58px; margin-left: -80px;">
                                     <p class='c'>
                                         <span class="c-title">课程名称</span>  <span class="c-content">
-									<input type="text" value="${course.openCourseName}" name="openCourseName" id="openCourseName">
+									<input type="text" value="${course.openCourseName}" name="openCourseName" id="openCourseName" maxlength="62">
 								</span>
                                     </p>
                                 </li>
@@ -363,7 +363,7 @@
                         </div>
                         <p class="text-center">
                             <a href="javascript:Forms.saveCutPic();" class="btn btn-primary">确定</a>
-                            <a href="javascript:;" class="btn btn-default btn-cancel close">取消</a>
+                            <a href="javascript:;" class="btn btn-default btn-cancel">取消</a>
                         </p>
                     </div>
                 </div>
@@ -443,7 +443,7 @@
 								<p class='c'>
 									<span class="c-title">课程名称</span> <span class="c-content">
 										<input type="text" value="${course.openCourseName}"
-										name="openCourseName" id="openCourseName">
+										name="openCourseName" id="openCourseName" maxlength="62">
 									</span>
 								</p>
 							</li>

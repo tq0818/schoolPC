@@ -913,6 +913,7 @@
 				url: rootPath+"/video/searchVideos",
 				data: search,
 				type:"post",
+				async: false,
 				dataType:"json",
 				success: function(jsonData){
 					if(jsonData.data && jsonData.data.length>0){
@@ -1361,15 +1362,9 @@
 						$this.searchVideos();
 					})	
 				}else{
-					setTimeout(function () {
-						$this.searchResource();
-					  }, 1000);
-					
 					$('.add-layer-bg').fadeIn(200,function(){
 						$('.w1100').fadeIn(200);
-						setTimeout(function () {
-							$this.searchResource();
-						  }, 500);
+						$this.searchResource();
 					})
 				}
 			});

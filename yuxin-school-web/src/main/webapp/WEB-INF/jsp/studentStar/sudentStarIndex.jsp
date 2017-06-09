@@ -238,7 +238,7 @@
             </div>
         </div>
         <div class="idea clear">
-            <div class="left  fl"><i class="star">*</i>学员心声</div>
+            <div class="left  fl">学员心声</div>
             <textarea class="right  fr" name="des"></textarea>
             <div class="number fl">0/200</div>
         </div>

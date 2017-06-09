@@ -4439,21 +4439,38 @@ public class ClassModuleController {
 			classModuleLessonServiceImpl.update(lec);
 		}
 		//更新班号表信息
-		List<ClassModuleNo> arr=classModuleNoServiceImpl.queryClassModuleNoById(moduleId);
-		if(!arr.isEmpty()&&arr.size()>0){
+		ClassModuleLesson classModuleLessonObj = classModuleLessonServiceImpl.findClassModuleLessonById(lesson.getId());
+		List<ClassModuleLesson> lessons=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(classModuleLessonObj.getModuleNoId());
 			Integer count=0;
-			ClassModuleNo moduleNo=arr.get(0);
-			List<ClassModuleLesson> lessons=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNo.getId());
+			ClassModuleNo moduleNo= new ClassModuleNo();
 			for(ClassModuleLesson le:lessons){
 				count+=Integer.parseInt(le.getLessonHour());
 			}
 			moduleNo.setTotalHours(count);
+			moduleNo.setId(classModuleLessonObj.getModuleNoId());
 			classModuleNoServiceImpl.update(moduleNo);
+
+
+			ClassModuleNo classModuleNo = classModuleNoServiceImpl.findClassModuleNoById(moduleNo.getId());
 			ClassModule module=new ClassModule();
-			module.setId(moduleId);
+			module.setId(classModuleNo.getModuleId());
 			module.setTotalClassHour(count);
 			classModuleServiceImpl.update(module);
-		}
+//		List<ClassModuleNo> arr=classModuleNoServiceImpl.queryClassModuleNoById(moduleId);
+//		if(!arr.isEmpty()&&arr.size()>0){
+//			Integer count=0;
+//			ClassModuleNo moduleNo=arr.get(0);
+//			List<ClassModuleLesson> lessons=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNo.getId());
+//			for(ClassModuleLesson le:lessons){
+//				count+=Integer.parseInt(le.getLessonHour());
+//			}
+//			moduleNo.setTotalHours(count);
+//			classModuleNoServiceImpl.update(moduleNo);
+//			ClassModule module=new ClassModule();
+//			module.setId(moduleId);
+//			module.setTotalClassHour(count);
+//			classModuleServiceImpl.update(module);
+//		}
 		return json;
 	}
 

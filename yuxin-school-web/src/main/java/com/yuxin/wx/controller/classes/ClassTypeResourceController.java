@@ -276,31 +276,19 @@ public class ClassTypeResourceController {
         String officepath = propertiesUtil.getFileStoragePath() + filename
                 + suffix;
         File f = new File(officepath);
-        boolean ism = true;
         try {
             // 判断是否为图像
             multipartFile.transferTo(f);
             if (oname.length() > 120) {
                 return "{\"msg\":\"" + "nameTooLang" + "\"}";
             }
-            if (f.length() > (1024 * 1024 * 20)) {
+            if (f.length() > (1024 * 1024 * 150)) {
 				/* json.put("msg", "sizeOutOf"); */
                 return "{\"msg\":\"" + "sizeOutOf" + "\"}";
-            }
-            String[] types = new String[] { ".pdf", ".swf", ".doc", ".docx",
-                    ".xls", ".xlsx", ".ppt", ".pptx", ".zip", ".rar" };
-            for (String s : types) {
-                if (suffix.equals(s)) {
-                    ism = false;
-                    break;
-                }
             }
             String dir = "";
 			/* String cate = ""; */
             JSONObject json = new JSONObject();
-            if (ism) {
-                return "{\"msg\":\"" + "文件格式不正确" + "\"}";
-            }
             dir += companyId + "/docs/";
             json = FileUtil.uploadDocument(f, "coursefile", "zs");
             Users user = usersImpl.findUsersById(WebUtils

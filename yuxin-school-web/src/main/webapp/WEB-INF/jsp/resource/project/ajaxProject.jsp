@@ -167,7 +167,7 @@
         <span class="l-content">
         	<textarea rows="6" cols="38" id="remark" style="resize: none;" onkeyup="javascript:check();"></textarea>
         </span>
-        <span style="color:red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已输入<span id="remarkHint" ></span>个字，不多于128个字</span>
+        <span style="color:red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已输入<span id="remarkHint" >0</span>个字，不多于128个字</span>
     </p>
     <p class="c">
         <span class="l-title">学科图标：</span>

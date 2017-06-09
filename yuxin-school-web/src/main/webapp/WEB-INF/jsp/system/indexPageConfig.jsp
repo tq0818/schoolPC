@@ -267,7 +267,7 @@
 	                                    </p>
 	                                </li>
 	                                <li class="clear">
-	                                    <h4 class="fl">名师排序</h4>
+	                                    <h4 class="fl">会员排序</h4>
 	                                    <p class="fr">
 	                                        <input type="button" data-order="asc" value="递增" class="swChioceBut active">
 	                                        <input type="button" data-order="desc" value="递减" class="swChioceBut">

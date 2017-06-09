@@ -74,7 +74,7 @@
 				
 					<span>被邀请注册的总人数：${totalRegNumber}&nbsp;&nbsp;人</span> <span>被邀请消费的总人数：${totalConNumber}&nbsp;&nbsp;人</span>
 					<span>发放代金券奖励总金额：<fmt:formatNumber type="number" value="${totalRewardsMoney }" pattern="0.00" maxFractionDigits="2"/>&nbsp;&nbsp;元</span> <span>发放积分奖励总数：${totalRewardsIntegral }&nbsp;&nbsp;积分</span>
-					<span  class="a-derive  q-derive"
+					<span  class="a-derive"
 						style="font-size: 14px; border-radius: 2px;">导出</span>
 				</div>
 				<div class="user-list">

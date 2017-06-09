@@ -153,7 +153,9 @@ $(function () {
             switch(acceptSource){
             case("flash"):{
             	resourceUpload.text("添加flash资源");
+                cate="swf";
             	addResourceTcTips.text("允许上传文件格式为：swf");
+                $("#resourceUploadInput").attr("accept",".swf");
             	$("#resourceSubmit").off("click").on("click",function(){
             		selajaxstroage("#pickfiles");
             	});
@@ -161,8 +163,10 @@ $(function () {
             }
             case("audio"):{
             	resourceUpload.text("添加音频资源");
+                cate="mp3";
             	addResourceTcTips.text("允许上传文件格式为：mp3");
             	$("#resourceSubmit").off("click").on("click",function(){
+                    $("#resourceUploadInput").attr("accept",".mp3");
             		selajaxstroage("#audiofiles");
             	});
             	break;
@@ -172,6 +176,7 @@ $(function () {
             	cate = "ppt";
             	addResourceTcTips.text("允许上传文件格式为：ppt,pptx");
             	$("#resourceSubmit").off("click").on("click",function(){
+                    $("#resourceUploadInput").attr("accept",".ppt,pptx");
             		selajaxstroage("#pptfiles");
             	});
             	break;
@@ -181,6 +186,7 @@ $(function () {
             	cate = "docs";
             	addResourceTcTips.text("允许上传文件格式为：doc,pdf,xls,docx,xlsx");
             	$("#resourceSubmit").off("click").on("click",function(){
+                    $("#resourceUploadInput").attr("accept",".doc,pdf,xls,docx,xlsx");
             		selajaxstroage("#docfiles");
             	});
             	break;
@@ -593,7 +599,42 @@ function delscorm(id) {
 function resourcechange(e) {
     var f = $("#resourceUploadInput")[0].files;
     for(var i=0;i<f.length;i++){
-        updocs(f[i]);
+        if(cate=="swf"){
+            var name = f[i].name;
+            var fileText =name.substring(name.lastIndexOf(".")+1,name.length);
+            var fileName =fileText.toLowerCase();
+            if(fileName!="swf"){
+                alert("请上传swf格式的文件")
+                return;
+            }else{updocs(f[i]);}
+        }else if(cate=="mp3"){
+            var name = f[i].name;
+            var fileText =name.substring(name.lastIndexOf(".")+1,name.length);
+            var fileName =fileText.toLowerCase();
+            if(fileName!="mp3"){
+                alert("请上传mp3格式的文件")
+                return;
+            }else{updocs(f[i]);}
+        }else if(cate=="ppt"){
+            var name = f[i].name;
+            var fileText =name.substring(name.lastIndexOf(".")+1,name.length);
+            var fileName =fileText.toLowerCase();
+            if(fileName!="ppt"){
+                alert("请上传ppt格式的文件")
+                return;
+            }else{updocs(f[i]);}
+        }else if(cate=="docs"){
+            var name = f[i].name;
+            var fileText =name.substring(name.lastIndexOf(".")+1,name.length);
+            var fileName =fileText.toLowerCase();
+            if(fileName=="doc" || fileName=="pdf" || fileName=="xls"||fileName=="docx"||fileName=="xlsx"){
+                //
+                updocs(f[i]);
+            }else{
+                alert("请上传doc,pdf,xls,docx,xlsx格式的文件")
+                return;
+            }
+        }
     }
 }
 

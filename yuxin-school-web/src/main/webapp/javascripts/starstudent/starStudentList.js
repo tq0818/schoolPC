@@ -43,7 +43,7 @@ function alertMsg(msg){
                 data.des= $.trim(tar.find("textarea[name='des']").val());
                 if(!/.{1,10}/.test(data.userName)){
 //                    alertMsg("请输入有效的学员内容!(10字以内)");
-                	$.msg('请输入有效的学员内容!(10字以内)');
+                	$.msg('请输入有效的学员名称!(10字以内)');
                     return;
                 }
                 if(data.userName.length > 10){

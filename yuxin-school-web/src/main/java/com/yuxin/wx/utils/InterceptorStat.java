@@ -42,7 +42,7 @@ public class InterceptorStat implements Interceptor {
         returnValue = invocation.proceed();
         long end = System.currentTimeMillis();
         Double time = Double.parseDouble(String.valueOf((end - start)))/1000;
-        if (time >=3) {//3秒
+        if (time >=30) {//3秒
             StringBuffer sb = new StringBuffer();
             sb.append("insert into sys_stat_sql(mapper_id,sql_content,addTime,cost_time,platform) values(");
             sb.append("'"+sqlId+"'");

@@ -2,6 +2,7 @@ package com.yuxin.wx.utils;
 
 import com.yuxin.wx.api.system.ISysBlackListService;
 import com.yuxin.wx.api.system.ISysSmsLogService;
+import com.yuxin.wx.common.SMSHandler;
 import com.yuxin.wx.model.system.SysBlackList;
 import com.yuxin.wx.model.system.SysSmsLog;
 import com.yuxin.wx.util.JedisUtil;
@@ -25,20 +26,20 @@ public class SMSUtil {
 	/**
 	 * 注册短信模板
 	 */
-	public static final String SMS_TEMPLETE_REGISTER="21590";
+	public static final String SMS_TEMPLETE_REGISTER="178572";
 	/**
 	 * 找回密码短信模板
 	 */
-	public static final String SMS_TEMPLETE_FORGET="21589";
+	public static final String SMS_TEMPLETE_FORGET="178572";
 	/**
 	 * 重置手机号
 	 */
-	public static final String SMS_TEMPLETE_RESETMOBILE="21588";
+	public static final String SMS_TEMPLETE_RESETMOBILE="178572";
 
 	/**
 	 * 设置支付信息
 	 */
-	public static final String SMS_TEMPLETE_SETPAYINFO="92606";
+	public static final String SMS_TEMPLETE_SETPAYINFO="178572";
 
 	private static ISysSmsLogService sysSmsLogServiceimpl;
 
@@ -224,8 +225,8 @@ public class SMSUtil {
 		}
 
 		try{
-			//SMSHandler.send(phoneNum, templeteId, new String[]{code});
-			SmsClientSend.sendSms(phoneNum,log.getContent());
+			SMSHandler.send(phoneNum, templeteId, new String[]{code});
+			//SmsClientSend.sendSms(phoneNum,log.getContent());
 			log.setSendStatus("1");
 		}catch(Exception ex){
 			log.setSendStatus("0");

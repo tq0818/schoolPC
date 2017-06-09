@@ -435,6 +435,7 @@ $(document).ready(function(){
 			url: rootPath+"/video/searchVideos",
 			data: search,
 			type:"post",
+			async: false,
 			dataType:"json",
 			success: function(jsonData){
 				if(jsonData.data && jsonData.data.length>0){

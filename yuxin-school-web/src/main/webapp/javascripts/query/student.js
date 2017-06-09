@@ -228,6 +228,7 @@
 					if(jsonData.data.length==0){
 						$(".tables").find("table").append('<tr><td colspan="8">没有查找到数据</td></tr>');
 					}
+					var hhh = '<tr><th width="12%">所属分校</th><th width="12%">姓名</th><th width="12%">用户名</th><th width="12%">手机</th><th width="12%">邮箱</th><th width="15%">注册时间</th><th width="10%">用户类型</th><th width="15%">来源</th></tr>';
 					$.each(jsonData.data,function(i,user){
 						var registHtml="";
 						if(user.registType){
@@ -239,23 +240,24 @@
 								registHtml="手机端";
 							}
 						}
-						$(".tables").find("table").append('<tr>'+
-								'<td>'+(user.schoolName?user.schoolName:"")+'</td>'+
-								'<td>'+(user.name?user.name:"")+'</td>'+
-								'<td>'+(user.username?user.username:"")+'</td>'+
-								'<td>'+(user.mobile?user.mobile:"")+'</td>'+
-								'<td>'+(user.email?user.email:"")+'</td>'+
-								'<td>'+(user.registTime?user.registTime:"")+'</td>'+
-								'<td>'+(user.vipFlag=="1"?"收费用户":"免费用户")+'</td>'+
-								'<td>'+registHtml+'</td>'+
-								'</tr>');
+						hhh+='<tr>'+
+							'<td>'+(user.schoolName?user.schoolName:"")+'</td>'+
+							'<td>'+(user.name?user.name:"")+'</td>'+
+							'<td>'+(user.username?user.username:"")+'</td>'+
+							'<td>'+(user.mobile?user.mobile:"")+'</td>'+
+							'<td>'+(user.email?user.email:"")+'</td>'+
+							'<td>'+(user.registTime?user.registTime:"")+'</td>'+
+							'<td>'+(user.vipFlag=="1"?"收费用户":"免费用户")+'</td>'+
+							'<td>'+registHtml+'</td>'+
+							'</tr>';
+
 //						if(user.registType=="1"){
 //							online_input+=1;
 //						}else{
 //							offline_input+=1;
 //						}
 					});
-					
+					$(".tables").find("table").html(hhh);
 					if(jsonData.rowCount>12){
 						$(".pagination").pagination(jsonData.rowCount, {
 					    	 next_text : "下一页",

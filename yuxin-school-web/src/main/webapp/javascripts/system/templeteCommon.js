@@ -5,7 +5,7 @@
 	var Model = {
 			config : {
 				companyFootInfo : {},//公司默认配置
-				baseImgUrl    : 'http://image.yunduoketang.com/',
+				baseImgUrl    : 'http://images.cdds365.com/',
 				companyEneter : false
 			} 
 	};
@@ -49,7 +49,7 @@
   	};
   	Model.queryCompanyLeve = function(){
   		var _this = this;
-  		this.ajax('/companyFootInfo/isEnterootPathriseVersion',{},function(result){
+  		this.ajax('/sysPageHeadFoot/isEnterpriseVersion',{},function(result){
   			_this.config.companyEneter = result;
   			_this.appendInfo();
   		})

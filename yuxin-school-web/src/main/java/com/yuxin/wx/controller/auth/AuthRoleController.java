@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.model.user.Users;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,8 +198,9 @@ public class AuthRoleController {
  	@RequestMapping(value="/authAdmin2")
  	public String queryAuthRoleIsAdmin2(HttpServletRequest request){
  		Integer userId = WebUtils.getCurrentUserId(request);
+		Users user = WebUtils.getCurrentUser();
  		Subject subject = SecurityUtils.getSubject();
- 		if(authRoleServiceImpl.hasRoleFlag(userId)){
+ 		if(authRoleServiceImpl.hasRoleFlag(userId) && user.getUserType()!=null && user.getUserType().equals("USER_TYPE_ORG")){
  			return "1";
  		}
  		else if(subject.hasRole("直播老师")&& !authRoleServiceImpl.hasRoleFlag(userId)){

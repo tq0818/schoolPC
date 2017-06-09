@@ -37,12 +37,24 @@
         	<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
-        	<input type="text" id="sfzh" name="identityId" placeholder="证件号码"/>
-        	<select id="registStatus" name="status">
-        		<option value="">前台账号状态</option>
-        		<option value="1">启用</option>
-        		<option value="0">禁用</option>
-        	</select>
+        	<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
+
+			<select name="eduArea" id="eduArea">
+				<option value="">请选择区域</option>
+				<c:forEach items="${areas}" var="area" >
+					<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+				</c:forEach>
+			</select>
+
+			<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+				<option value="">请选择学校</option>
+			</select>
+
+			<select id="registStatus" name="status">
+				<option value="">前台账号状态</option>
+				<option value="1">启用</option>
+				<option value="0">禁用</option>
+			</select>
         	<select id="registMethods" name="registType">
         		<option value="">前台登录账号</option>
         		<option value="1">已开通</option>
@@ -95,7 +107,10 @@
 					<th width="8%">手机号</th>
 					<th width="8%">用户名</th>
 					<th width="8%">姓名</th>
-					<th width="10%">证件号码</th>
+					<th width="5%">身份</th>
+					<th width="8%">区域</th>
+					<th width="12%">学校</th>
+					<th width="10%">所在班级</th>
 					<c:if test="${userorg_roleopenflag==1 }">
 					<shiro:hasAnyRoles name="机构管理员,代理机构">
 					<th width="10%">所属代理机构</th>
@@ -109,10 +124,10 @@
 				</tr>
 				<c:choose>
 					<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
-						<tr><td colspan="11">暂无数据</td></tr>
+						<tr><td colspan="15">暂无数据</td></tr>
 					</c:when>
 					<c:otherwise>
-						<tr><td colspan="10">暂无数据</td></tr>
+						<tr><td colspan="14">暂无数据</td></tr>
 					</c:otherwise>
 				</c:choose>
 				
@@ -166,19 +181,57 @@
 							<input type="radio" id="insertwoman" class="sSex" name="sSex" value="FEMALE">女
 						</div>
 					</div>
+
 				<div class="form-group">
-					<label class="col-md-2 control-label">证件类型</label>
+					<label class="col-md-2 control-label">个人身份<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
-						<select id="sIdentity" name="sIdentity">
-							<option value="">请选择</option>	
+						<input type="radio" value="0" name="addeduIdentity" checked="checked" id="add_eduIdentity_stu">学生
+						<input type="radio" value="1" name="addeduIdentity" id="add_eduIdentity_normal">普通用户
+					</div>
+				</div>
+
+				<div class="form-group" id="add_div_school">
+					<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
+					<div class="col-md-2">
+						<select name="eduArea" id="addEduArea">
+							<option value="">请选择所在区域</option>
+							<c:forEach items="${areas}" var="area" >
+								<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+							</c:forEach>
 						</select>
 					</div>
-					<label class="col-md-2 control-label">证件号码</label>
+					<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
-						<input class="form-control" id="sIdentityNum" name="sIdentityNum" type="text" />
+						<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
+							<option value="">请选择所在学校</option>
+						</select>
 						<span class="tips" style="color:red;"></span>
 					</div>
-				</div>	
+				</div>
+				<div class="form-group" id="add_div_class">
+					<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>
+					<div class="col-md-2" style="width: 700px;">
+						<select name="eduStep" id="addEduStep" >
+							<option value="">请选择当前学段</option>
+							<c:forEach items="${steps}" var="step">
+								<option value="${step.itemCode}">${step.itemValue}</option>
+							</c:forEach>
+						</select>
+
+						<select name="eduYear" id="addEduYear" style="float: left">
+							<option value="">请选择入学年份</option>
+							<c:forEach items="${years}" var="year">
+								<option value="${year}">${year}</option>
+							</c:forEach>
+						</select>
+
+						<select name="eduClass" id="addEduClass">
+							<c:forEach begin="1" end="30" varStatus="index">
+								<option value="${index.index}">${index.index}班</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="col-md-2 control-label">出生日期</label>
 					<div class="col-md-2">
@@ -334,20 +387,61 @@
 							<input type="radio" id="updatewoman" class="uSex" name="uSex" value="FEMALE">女
 						</div>
 					</div>
+
 				<div class="form-group">
-					<label class="col-md-2 control-label">证件类型</label>
+					<label class="col-md-2 control-label">个人身份<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
-						<select id="uIdentity" name="uIdentity">
-							<option value="">请选择</option>	
+						<input type="radio" value="0" name="editeduIdentity" checked="checked" id="edit_eduIdentity_stu">学生
+						<input type="radio" value="1" name="editeduIdentity" id="edit_eduIdentity_normal">普通用户
+					</div>
+				</div>
+
+
+				<div class="form-group" id="edit_div_school">
+					<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
+					<div class="col-md-2">
+						<select name="eduArea" id="editEduArea">
+							<option value="">请选择所在区域</option>
+							<c:forEach items="${areas}" var="area" >
+								<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+							</c:forEach>
 						</select>
 					</div>
-					<label class="col-md-2 control-label">证件号码</label>
+					<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
-						<input class="form-control" id="uIdentityNum" name="uIdentityNum" type="text"/>
+						<select name="eduSchool" id="editEduSchool" data-id="${student.eduSchool}">
+							<option value="">请选择所在学校</option>
+						</select>
 						<span class="tips" style="color:red;"></span>
 					</div>
-				</div>	
-				<div class="form-group">
+				</div>
+				<div class="form-group" id="edit_div_class">
+					<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>
+					<div class="col-md-2" style="width: 700px;">
+						<select name="eduStep" id="editEduStep" >
+							<option value="">请选择当前学段</option>
+							<c:forEach items="${steps}" var="step">
+								<option value="${step.itemCode}">${step.itemValue}</option>
+							</c:forEach>
+						</select>
+
+						<select name="eduYear" id="editEduYear" style="float: left">
+							<option value="">请选择入学年份</option>
+							<c:forEach items="${years}" var="year">
+								<option value="${year}">${year}</option>
+							</c:forEach>
+						</select>
+
+						<select name="eduClass" id="editEduClass">
+							<c:forEach begin="1" end="30" varStatus="index">
+								<option value="${index.index}">${index.index}班</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+
+
+				<div class="form-group" id="li_school">
 					<label class="col-md-2 control-label">出生日期</label>
 					<div class="col-md-2">
 						<input class="form-control date-picker " id="uBirth" name="uBirth" type="text" />

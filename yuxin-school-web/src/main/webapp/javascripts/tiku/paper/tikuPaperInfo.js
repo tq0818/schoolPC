@@ -20,6 +20,13 @@
 	            },
 	        },
 	        messages: {
+				examTime:{
+					number:"请输出数字"
+				},
+				totalScore:{
+					number:"请输出数字"
+				}
+
 	        },
 	        submitHandler: function (form) {
 	            form.submit();

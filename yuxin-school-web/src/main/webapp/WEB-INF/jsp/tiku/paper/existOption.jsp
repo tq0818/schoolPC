@@ -25,7 +25,7 @@
 	    		<td>
 	    			<input type="checkbox" data-id="${t.id }" class="addTopic"/>
 	    		</td>
-	    		<td class="nonimg" align="left" style="text-align: left;padding-left: 15px;"<%--  title="${t.topicName }" --%>>
+	    		<td class="nonimg" align="left" style="text-align: left;cursor:pointer;padding-left: 15px;"<%--  title="${t.topicName }" --%>>
 	    			<%-- <c:if test="${fn:length(t.topicName ) > 40}">
 	    				${fn:substring(t.topicName,0,40) }......
 	    			</c:if>

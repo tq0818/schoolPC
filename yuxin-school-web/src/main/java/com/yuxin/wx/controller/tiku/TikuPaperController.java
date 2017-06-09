@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.common.PageFinder2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -731,7 +732,7 @@ public class TikuPaperController {
      */
     @ResponseBody
     @RequestMapping("/search1")
-    public PageFinder<TikuPaperVo> search1(TikuPaper search) {
+    public PageFinder2<TikuPaperVo> search1(TikuPaper search) {
         search.setPageSize(8);
         search.setCompanyId(WebUtils.getCurrentCompanyId());
         search.setPaperStatus("PAPER_STATUS_PUBLISH");

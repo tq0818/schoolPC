@@ -93,12 +93,12 @@ public class FileUtilOSS {
 	
 	private static void init(){
 		try{
-			props=PropertiesLoaderUtils.loadProperties(resource);
-			String endpoint=props.getProperty("yunduoketang.oss.endpoint");
-	    	String accessKeyId=props.getProperty("yunduoketang.oss.accessKeyId");
-	    	String accessKeySecret=props.getProperty("yunduoketang.oss.accessKeySecret");
-	    	BUCKET=props.getProperty("yunduoketang.oss.bucket");
-	    	client=new OSSClient(endpoint,accessKeyId, accessKeySecret);
+//			props=PropertiesLoaderUtils.loadProperties(resource);
+//			String endpoint=props.getProperty("yunduoketang.oss.endpoint");
+//	    	String accessKeyId=props.getProperty("yunduoketang.oss.accessKeyId");
+//	    	String accessKeySecret=props.getProperty("yunduoketang.oss.accessKeySecret");
+//	    	BUCKET=props.getProperty("yunduoketang.oss.bucket");
+//	    	client=new OSSClient(endpoint,accessKeyId, accessKeySecret);
 		}catch(Exception e){
 			log.error("OSS-client初始化失败，原因："+e,e);
 			e.printStackTrace();

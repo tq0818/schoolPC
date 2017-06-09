@@ -1,0 +1,22 @@
+i{font-style: normal;}
+.statistical-box{height:auto;min-height: 130px;background: #f6f6f6;    margin: 20px 40px 0;    line-height: 130px;overflow: hidden;}
+.charts-box{padding-bottom: 15px;}
+.statistical-box .scount{width: 50%;display: inline-block;text-align: center;font-size: 18px;}
+.c_red{color: #cc0000;}
+.gg-biaoge .e-charst{height:390px;}
+
+.query-statistical{
+    padding: 20px;}
+.query-statistical .query-box{margin-bottom: 10px;}
+.query-statistical .q-select{min-width:175px;}
+.query-statistical .q-second{margin-left:10px;}
+.query-statistical .q-btn{width: 80px;
+    vertical-align: middle;
+    margin-left: 150px;}
+.nodata{
+    font-size:16px;text-align: center;background: #fff;
+    height: 150px;line-height: 150px;}
+@media screen and (max-width:720px){
+	.statistical-box .scount,.charts-box.q-box .wit50{width: 100%}
+	.charts-box .gg-biaoge .biaoge-cont{margin-right: 0;margin-bottom: 20px;}
+}

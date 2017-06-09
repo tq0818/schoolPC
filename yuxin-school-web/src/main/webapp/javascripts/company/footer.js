@@ -10,7 +10,7 @@
             .on('click','input[type="text"]',function(){
             	var isSelfNet=true;
             	$.ajax({
-            		url:rootPath+"/sysPageHeadFoot/isEnterootPathriseVersion",
+            		url:rootPath+"/sysPageHeadFoot/isEnterpriseVersion",
             		async:false,
             		type:"post",
             		success:function(data){
@@ -66,7 +66,7 @@
             	//判断是否企业标准版
             	var isSelfNet=true;
             	$.ajax({
-            		url:rootPath+"/sysPageHeadFoot/isEnterootPathriseVersion",
+            		url:rootPath+"/sysPageHeadFoot/isEnterpriseVersion",
             		async:false,
             		type:"post",
             		success:function(data){

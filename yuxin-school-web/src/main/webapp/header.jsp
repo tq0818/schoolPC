@@ -207,9 +207,9 @@ button.cloze {
 														$("#oldPwd").val("");
 														$("#newPwd").val("");
 														$("#nextPwd").val("");
-														$('.edit-pwd').fadeOut(200,function(){
-												            $('.add-subs-layer-bg').fadeOut(200);
-												        });
+//														$('.edit-pwd').fadeOut(200,function(){
+//												            $('.add-subs-layer-bg').fadeOut(200);
+//												        });
 													});
 												}
 									}
@@ -311,6 +311,18 @@ button.cloze {
            <shiro:hasPermission name="system_head">
             <li code="system_head"><a href="<%=rootPath %>/company/system/firstTransferStation" >系统</a></li>
 			</shiro:hasPermission>
+
+            <shiro:hasPermission name="statistics_all">
+                <li code="statistics_all"><a href="<%=rootPath %>/company/statistics/firstTransferStation" >总览</a></li>
+            </shiro:hasPermission>
+
+            <shiro:hasPermission name="statistics_area">
+                <li code="statistics_area"><a href="<%=rootPath %>/company/areastatistics/firstTransferStation" >总览</a></li>
+            </shiro:hasPermission>
+
+            <shiro:hasPermission name="statistics_org">
+                <li code="statistics_org"><a href="<%=rootPath %>/company/orgstatistics/firstTransferStation" >总览</a></li>
+            </shiro:hasPermission>
         </ul>
         <ul class="nav nav-right">
             <c:choose>

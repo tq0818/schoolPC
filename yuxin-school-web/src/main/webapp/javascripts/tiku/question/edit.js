@@ -96,6 +96,7 @@ $(function(){
 									$(".option-div:eq(" + [i] + ")").find(".qution-title").html("选项" + optionArray[i]);
 									$(".option-div:eq(" + [i] + ")").find("input[name='answer']").val(optionArray[i]);
 								}
+								$(".right-answer").html($("input[name=answer]:checked").val()==null?"":$("input[name=answer]:checked").val());
 								//修改选项
 								var param = getOptionJson();
 								$.ajax({
@@ -120,6 +121,7 @@ $(function(){
 						$(".option-div:eq(" + [i] + ")").find(".qution-title").html("选项" + optionArray[i]);
 						$(".option-div:eq(" + [i] + ")").find("input[name='answer']").val(optionArray[i]);
 					}
+					$(".right-answer").html($("input[name=answer]:checked").val()==null?"":$("input[name=answer]:checked").val());
 				}
 			});
 			

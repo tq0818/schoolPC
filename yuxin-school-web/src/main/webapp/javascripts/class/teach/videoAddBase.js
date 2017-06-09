@@ -876,6 +876,7 @@
 				url: rootPath+"/video/searchVideos",
 				data: search,
 				type:"post",
+				async: false,
 				dataType:"json",
 				success: function(jsonData){
 					if(jsonData.data && jsonData.data.length>0){
@@ -1324,14 +1325,14 @@
 						$this.searchVideos();
 					})	
 				}else{
-					setTimeout(function () {
-						$this.searchResource();
-					  }, 500);
+					//setTimeout(function () {
+					//	$this.searchResource();
+					//  }, 500);
 					$('.add-layer-bg').fadeIn(200,function(){
 						$('.w1100').fadeIn(200);
-						setTimeout(function () {
+						//setTimeout(function () {
 							$this.searchResource();
-						  }, 500);
+						 // }, 500);
 					})
 				}
 			});

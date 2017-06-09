@@ -508,7 +508,7 @@
 				<div class="pay-order">
 					<span><input type="radio" name="payType" value="ALL" checked> 全款</span> 
 					 <shiro:hasPermission name="student_add_fee">  
-					<span><input type="radio" name="payType" value="STAGE"> 分期 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="stageNum none"> 共分 <input id="val_total_stage" class="sm" type="text" value="">期</span></span>
+					<span><input type="radio" name="payType" value="STAGE"> 分期 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="stageNum none"> 共分 <input maxlength="2" id="val_total_stage" class="sm" type="text" value="">期</span></span>
 					</shiro:hasPermission>
 				</div>
 				<div class="pay-list-left">

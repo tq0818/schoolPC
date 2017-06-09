@@ -54,7 +54,7 @@
                 <p class="c">
                     <span class="c-title">试卷名称</span>
                     <span class="c-content">
-                       <input type="text" id="paperName" name="paperName" value="${paper.paperName}" style="width: 500px;">
+                       <input type="text" id="paperName" name="paperName" maxlength="99" value="${paper.paperName}" style="width: 500px;">
                     </span>
                 </p>
                 <p class="c">

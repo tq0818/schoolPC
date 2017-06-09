@@ -316,6 +316,9 @@
 		<!-- 充值卡 -->
 		<mapper resource="com/yuxin/company/CompanyRechargeLibMapper.xml"/>
 		<mapper resource="com/yuxin/company/CompanyRechargePatchMapper.xml"/>
+
+		<!-- 统计查询 -->
+		<mapper resource="com/yuxin/query/StudentStatisticsMapper.xml"/>
 	</mappers>
 
 </configuration>

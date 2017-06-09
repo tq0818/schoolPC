@@ -5,7 +5,7 @@
 <html lang="zh-cn">
 <head>
 <%@include file="/decorators/import.jsp" %>
-    <title>多班号管理</title> 
+    <title>课程评论</title>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css">
     <link rel="stylesheet" href="<%=rootPath %>/stylesheets/company.css"/>
     <link rel="stylesheet" href="<%=rootPath %>/stylesheets/minitip.css"/>

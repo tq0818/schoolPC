@@ -2,6 +2,109 @@
 
     var student = {
         init: function () {
+            $("#eduArea").change(function(){
+                var area = $(this).find(":selected").attr("data-id");
+                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
+                if(area==null || area==""){
+                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                }else{
+                    $.ajax({
+                        url: rootPath + "/student/getSchoolList/"+area,
+                        type: "post",
+                        success: function (data) {
+                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                            var options = '';
+                            $.each(data,function(i,j){
+                                if(schoolVal==j.itemValue){
+                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
+                                }else{
+                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+                                }
+
+                            });
+                            $("#eduSchool").append(options);
+                        }
+                    });
+                }
+            });
+            $("#editEduArea").change(function(){
+                var area = $(this).find(":selected").attr("data-id");
+                var schoolVal = $.trim($("#editEduSchool").attr("data-id"));
+                if(area==null || area==""){
+                    $("#editEduSchool").html('<option value="">请选择所在学校</option>');
+                }else{
+                    $.ajax({
+                        url: rootPath + "/student/getSchoolList/"+area,
+                        type: "post",
+                        success: function (data) {
+                            $("#editEduSchool").html('<option value="">请选择所在学校</option>');
+                            var options = '';
+                            $.each(data,function(i,j){
+                                if(schoolVal==j.itemCode){
+                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
+                                }else{
+                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+                                }
+
+                            });
+                            $("#editEduSchool").append(options);
+                        }
+                    });
+                }
+            });
+            $("#addEduArea").change(function(){
+                var area = $(this).find(":selected").attr("data-id");
+                var schoolVal = $.trim($("#addEduSchool").attr("data-id"));
+                if(area==null || area==""){
+                    $("#addEduSchool").html('<option value="">请选择所在学校</option>');
+                }else{
+                    $.ajax({
+                        url: rootPath + "/student/getSchoolList/"+area,
+                        type: "post",
+                        success: function (data) {
+                            $("#addEduSchool").html('<option value="">请选择所在学校</option>');
+                            var options = '';
+                            $.each(data,function(i,j){
+                                if(schoolVal==j.itemValue){
+                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
+                                }else{
+                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+                                }
+
+                            });
+                            $("#addEduSchool").append(options);
+                        }
+                    });
+                }
+            });
+            $("#addEduArea").change();
+
+            $("#add_eduIdentity_stu").click(function(){
+                //$("#add_div_school").show();
+                $("#addEduSchool").show();
+                $("#addEduSchool").parent().prev().show();
+                $("#add_div_class").show();
+            });
+            $("#add_eduIdentity_normal").click(function(){
+                $("#addEduSchool").hide();
+                $("#addEduSchool").parent().prev().hide();
+                $("#add_div_class").hide();
+            });
+            $("#edit_eduIdentity_stu").click(function(){
+                //$("#edit_div_school").show();
+                $("#editEduSchool").show();
+                $("#editEduSchool").parent().prev().show();
+                $("#edit_div_class").show();
+            });
+            $("#edit_eduIdentity_normal").click(function(){
+                //$("#edit_div_school").hide();
+                $("#editEduSchool").hide();
+                $("#editEduSchool").parent().prev().hide();
+                $("#edit_div_class").hide();
+            });
+
+
+
             var $this = this;
             $selectSubMenu('student_manage');
             // 初始化日期框
@@ -44,6 +147,7 @@
                              .submit();
               
             });
+            $("#eduArea").change();
             //批量报名
             $(".signUpMany").on('click', function () {
             	if(!student.checkMaxSignUpNum()){
@@ -128,13 +232,14 @@
 			data.county=$("#caddress").find("#dist").val()?$("#caddress").find("#dist").val():"";
 			data.groupOneId=$("#studentG1").val();
 			data.groupTwoId=$("#studentG2").val();
+            data.eduArea=$("#eduArea").val();
+            data.eduSchool=$("#eduSchool").val();
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
             data.proxyOrgName = $('#proxyOrgName').val();
             var tel = $("#stuMobile").val(); // 获取手机号
             if (tel != "") {
-                var telReg = !!tel
-                    .match(/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+                var telReg = !!tel.match(/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
                 // 如果手机号码不能通过验证
                 if(isNaN(tel)){
 					$.msg('请输入有效的手机号码');
@@ -179,15 +284,24 @@
 	                            $(".user-list")
 	                                .find("table")
 	                                .append(
-	                                '<tr><td colspan="11">没有查找到数据</td></tr>');
+	                                '<tr><td colspan="15">没有查找到数据</td></tr>');
                         	}else{
                         		  $(".user-list")
 	                                .find("table")
 	                                .append(
-	                                '<tr><td colspan="10">没有查找到数据</td></tr>');
+	                                '<tr><td colspan="14">没有查找到数据</td></tr>');
                         	}
                         }
                         $.each(jsonData.data,function (i, stu) {
+                            var eduIdentity = null;
+                            if(stu.teacherFlag!=null){
+                                if(stu.teacherFlag==1){
+                                    eduIdentity = "教师";
+                                }
+                            }
+                            if(eduIdentity==null){
+                                eduIdentity = (stu.eduIdentity!=null ? (stu.eduIdentity==0?"学生":"普通用户"): "")
+                            }
                                 $(".user-list")
                                     .find("table")
                                     .append(
@@ -208,7 +322,18 @@
                                         : "")
                                     + '</td>'
                                     + '<td>'
-                                    + (stu.identityId ? stu.identityId
+                                    + eduIdentity
+                                    + '</td>'
+                                    + '<td>'
+                                    + (stu.eduArea ? stu.eduArea
+                                        : "")
+                                    + '</td>'
+                                    + '<td>'
+                                    + (stu.eduSchool ?stu.eduSchool
+                                        : "")
+                                    + '</td>'
+                                    + '<td>'
+                                    + (stu.eduStep!=null ? (stu.eduStep+stu.eduYear+"年"+stu.eduClass+"班")
                                         : "")
                                     + '</td>'
                                     + (userorg_roleopenflag==1 && proxyOrgRole==1?'<td>'
@@ -399,7 +524,7 @@
             },
             sMobile: {
                 required: true,
-                minlength: 9,
+                minlength: 8,
                 maxlength: 11,
                 isMobile: true,
                 remote: {
@@ -528,23 +653,23 @@
             },
             uMobile: {
                 required: true,
-                minlength: 9,
+                minlength: 8,
                 maxlength: 11,
                 isMobile: true,
 
             },
             uEmergencyPhone: {
-            	minlength: 9,
+            	minlength: 8,
                 maxlength: 20,
                 digits: true
             },
             uTel:{
-            	  minlength: 9,
+            	  minlength: 8,
             	  maxlength: 20,
                   digits: true
             },
             uOfficeTel:{
-            	  minlength: 9,
+            	  minlength: 8,
             	  maxlength: 20,
                   digits: true
             },
@@ -955,6 +1080,8 @@
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
                 $(".addStudentPopup").css("top", "2%");
+                $("#add_div_school").show();
+                $("#add_div_class").show();
                 Form.clearData();
                 $('#insertman').prop("checked", true);
                 $(".colsekuang").hide();
@@ -975,6 +1102,16 @@
         },
         addTeacher: function () {
             if ($("#addStudentForm").valid()) {
+                var add_eduIdentity = 1;
+                if($('input:radio[name="addeduIdentity"]:checked').val()=="0"){
+                    add_eduIdentity = 0;
+                }else{
+                    $("#addEduStep").find("option[value='']").prop("selected","true");
+                    //$("#addEduArea").find("option[value='']").attr("selected","true");
+                    $("#addEduSchool").find("option[value='']").prop("selected","true");
+                    $("#addEduYear").find("option[value='']").prop("selected","true");
+                }
+
             	var data={};
                 data.name = $("#sName").val();
                 data.sex = $('input:radio[name="sSex"]:checked').val();
@@ -1001,6 +1138,34 @@
                 data.username=$("#suserName").val();
                 data.groupOneId=$("#studentG1_add").val();
                 data.groupTwoId=$("#studentG2_add").val();
+
+                data.eduIdentity=add_eduIdentity;
+                data.eduArea=$("#addEduArea").val();
+                data.eduSchool=$("#addEduSchool").val();
+                data.eduStep=$("#addEduStep").val();
+                data.eduYear=$("#addEduYear").val();
+                data.eduClass=$("#addEduClass").val();
+
+
+                if(add_eduIdentity==0){
+                    if(data.eduArea==""){
+                        $.msg("请选择所在区域");
+                        return;
+                    }
+                    if(data.eduSchool==""){
+                        $.msg("请选择学校");
+                        return;
+                    }
+                    if(data.eduStep=="" || data.eduYear==""){
+                        $.msg("请选择班级");
+                        return;
+                    }
+                }else{
+                    if(data.eduArea==""){
+                        $.msg("请选择所在区域");
+                        return;
+                    }
+                }
                 $(".customData").find(".field").each(function(){
                 	data[$(this).attr("name")]=$(this).val();
                 });
@@ -1268,6 +1433,56 @@
                         })
                         $("#studentG2_edit").find("option[value='"+(jsonData.groupTwoId?jsonData.groupTwoId:'')+"']").attr("selected",true); 
                         $("#studentG2_edit").html($("#studentG2_edit").html());
+
+
+                        var eduIdentity = jsonData.eduIdentity;
+                        var eduArea = jsonData.eduArea;
+                        if (eduIdentity == 1) {
+                            $('#edit_eduIdentity_normal').prop("checked", true);
+                            //$("#edit_div_school").hide();
+                            //$("#edit_div_class").hide();
+
+
+                            //$("#edit_div_school").hide();
+                            $("#editEduSchool").hide();
+                            $("#editEduSchool").parent().prev().hide();
+                            $("#edit_div_class").hide();
+
+
+                        } else {
+                            $('#edit_eduIdentity_stu').prop("checked", true);
+
+                            $("#editEduSchool").show();
+                            $("#editEduSchool").parent().prev().show();
+                            $("#edit_div_class").show();
+
+
+
+                            //$("#edit_div_school").show();
+                           // $("#edit_div_class").show();
+                        }
+
+                        $("#editEduArea").find("option").each(function(){
+                            $(this).removeAttr("selected");
+                        });
+                        $("#editEduStep").find("option").each(function(){
+                            $(this).removeAttr("selected");
+                        })
+                        $("#editEduYear").find("option").each(function(){
+                            $(this).removeAttr("selected");
+                        })
+                        $("#editEduClass").find("option").each(function(){
+                            $(this).removeAttr("selected");
+                        })
+
+                        $("#editEduArea option[value="+eduArea+"]").prop("selected",true);
+
+                        $("#editEduStep option[value="+jsonData.eduStep+"]").prop("selected",true);
+                        $("#editEduYear option[value="+jsonData.eduYear+"]").prop("selected",true);
+                        $("#editEduClass option[value="+jsonData.eduClass+"]").prop("selected",true);
+                        $("#editEduSchool").attr("data-id",jsonData.eduSchool);
+                        $("#editEduArea").change();
+
                     }
                 });
                 $(".updateStudentPopup1").show();
@@ -1283,6 +1498,15 @@
         },
         updateStudent: function () {
             if ($("#updateStudentForm").valid()) {
+                var add_eduIdentity = 1;
+                if($('input:radio[name="editeduIdentity"]:checked').val()=="0"){
+                    add_eduIdentity = 0;
+                }else{
+                    $("#editEduStep").find("option[value='']").prop("selected","true");
+                    //$("#editEduArea").find("option[value='']").attr("selected","true");
+                    $("#editEduSchool").find("option[value='']").prop("selected","true");
+                    $("#editEduYear").find("option[value='']").prop("selected","true");
+                }
             	var data={};
             	data.id=$("#uId").val();
                 data.name = $("#uName").val();
@@ -1309,6 +1533,35 @@
                 data.isUserFront = $('input:radio[name="uUserFront"]:checked').val()==1;
                 data.groupOneId=$("#studentG1_edit").val();
                 data.groupTwoId=$("#studentG2_edit").val();
+
+                data.eduIdentity=add_eduIdentity;
+                data.eduArea=$("#editEduArea").val();
+                data.eduSchool=$("#editEduSchool").val();
+                data.eduStep=$("#editEduStep").val();
+                data.eduYear=$("#editEduYear").val();
+                data.eduClass=$("#editEduClass").val();
+
+
+                if(add_eduIdentity==0){
+                    if(data.eduArea==""){
+                        $.msg("请选择所在区域");
+                        return;
+                    }
+                    if(data.eduSchool==""){
+                        $.msg("请选择学校");
+                        return;
+                    }
+                    if(data.eduStep=="" || data.eduYear==""){
+                        $.msg("请选择班级");
+                        return;
+                    }
+                }else{
+                    if(data.eduArea==""){
+                        $.msg("请选择所在区域");
+                        return;
+                    }
+                }
+
                 $(".customData").find(".field").each(function(){
                 	console.log($(this).attr("name"),$(this).val());
                 	data[$(this).attr("name")]=$(this).val();

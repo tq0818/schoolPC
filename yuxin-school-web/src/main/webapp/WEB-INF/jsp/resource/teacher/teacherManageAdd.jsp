@@ -137,8 +137,42 @@ $(function(){
 		                                <input type="radio" name="isDistinguished" value="0" > 否
 		                            </span>
 		                        </p>
-		                    </li>  
-		                    <li>
+		                    </li>
+							<li>
+								<p class='c'>
+									<span class="c-title">教师级别<em>*</em></span>
+									<span class="c-content">
+										<select name="teacherLevel">
+											<option value="GRADE_HIGH" >小学高级</option>
+											<option value="MIDDLE_GRADE_HIGH" >中小学高级</option>
+											<option value="MIDDLE_ONE">中学一级</option>
+											<option value="MIDDLE_TWO" >中学二级</option>
+											<option value="MIDDLE_HIGH">中学高级</option>
+										</select>
+									</span>
+								</p>
+							</li>
+
+							<li>
+								<p class='c'>
+									<span class="c-title">所在区域<em>*</em></span>
+		                            <span class="c-content">
+		                                <select name="teacherArea">
+											<option value="alone" >直属直管</option>
+											<option value="qing_yang" >青羊区</option>
+											<option value="jin_niu">金牛区</option>
+											<option value="jin_jiang" >锦江区</option>
+											<option value="wu_hou">武侯区</option>
+											<option value="gao_xin">高新区</option>
+											<option value="tian_fu_xin">天府新区</option>
+											<option value="cheng_hua">成华区</option>
+											<option value="long_quan_yi">龙泉驿区</option>
+											<option value="shuang_liu">双流区</option>
+										</select>
+		                            </span>
+								</p>
+							</li>
+							<li>
 		                        <p class='c'>
 		                            <span class="c-title">出生日期</span>
 		                            <span class="c-content">
@@ -211,6 +245,14 @@ $(function(){
 					                 </span>
 		                        </p>
 		                    </li>
+							<li>
+								<p class="c">
+									<span class="c-title">学校名称<em>*</em></span>
+										<span class="c-content" style="width: 60%">
+											<input name="schoolName" id="schoolName" type="text" style="width:350px">
+										</span>
+								</p>
+							</li>
 		                   <li style="width:100%;">
 		                        <p class='c' style="width:100%;">
 		                            <span class="c-title" style="width:15%;">简介</span>

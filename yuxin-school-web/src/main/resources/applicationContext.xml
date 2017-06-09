@@ -133,6 +133,7 @@
 				com.yuxin.wx.resource.mapper,
 				com.yuxin.wx.certificate.mapper,
 				com.yuxin.wx.homework.mapper
+				com.yuxin.wx.query.mapper
 			</value>
 		</property>
 	</bean>

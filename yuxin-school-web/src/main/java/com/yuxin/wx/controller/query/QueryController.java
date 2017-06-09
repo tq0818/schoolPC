@@ -1,17 +1,45 @@
 package com.yuxin.wx.controller.query;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.yuxin.wx.api.auth.IAuthRoleService;
+import com.yuxin.wx.api.company.ICompanyMarketSetService;
+import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.api.company.IOrganLeaveMessageBlacklistService;
+import com.yuxin.wx.api.company.IOrganLeaveMessageService;
+import com.yuxin.wx.api.fee.IStageService;
+import com.yuxin.wx.api.pay.IPayOrderService;
+import com.yuxin.wx.api.student.IStudentFeeRefundService;
+import com.yuxin.wx.api.student.IStudentFeeStageService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
+import com.yuxin.wx.api.user.IUserIntegralFlowService;
+import com.yuxin.wx.api.user.IUsersFrontService;
+import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.ExcelSheetEntity;
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.ViewFiles;
+import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.company.CompanyFunctionSet;
+import com.yuxin.wx.model.company.OrganLeaveMessage;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.system.SysConfigService;
+import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.model.user.UserIntegralFlow;
+import com.yuxin.wx.model.user.UserLoginSession;
+import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.utils.ExcelUtil;
+import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.company.CompanyTotalVo;
+import com.yuxin.wx.vo.fee.RefundVo;
+import com.yuxin.wx.vo.fee.StagingTotalVo;
+import com.yuxin.wx.vo.fee.StagingVo;
+import com.yuxin.wx.vo.query.MarketingVo;
+import com.yuxin.wx.vo.query.RegisterInfoVo;
+import com.yuxin.wx.vo.system.PayOrderIntegralVo;
+import com.yuxin.wx.vo.system.PayOrderVipVo;
+import com.yuxin.wx.vo.user.OrganLeaveMessageVo;
+import com.yuxin.wx.vo.user.UserIntegralFlowVO;
+import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
+import com.yuxin.wx.vo.user.UsersFrontVo;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -26,53 +54,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.fabric.xmlrpc.base.Data;
-import com.yuxin.wx.api.auth.IAuthRoleService;
-import com.yuxin.wx.api.company.ICompanyMarketSetService;
-import com.yuxin.wx.api.company.ICompanyService;
-import com.yuxin.wx.api.company.IOrganLeaveMessageBlacklistService;
-import com.yuxin.wx.api.company.IOrganLeaveMessageService;
-import com.yuxin.wx.api.fee.IStageService;
-import com.yuxin.wx.api.pay.IPayOrderService;
-import com.yuxin.wx.api.student.IStudentFeeRefundService;
-import com.yuxin.wx.api.student.IStudentFeeStageService;
-import com.yuxin.wx.api.system.ISysConfigDictService;
-import com.yuxin.wx.api.user.IUserIntegralFlowService;
-import com.yuxin.wx.api.user.IUsersFrontService;
-import com.yuxin.wx.api.user.IUsersService;
-import com.yuxin.wx.common.ExcelSheetEntity;
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.common.ViewFiles;
-import com.yuxin.wx.company.impl.CompanyMarketSetServiceImpl;
-import com.yuxin.wx.model.company.Company;
-import com.yuxin.wx.model.company.CompanyFunctionSet;
-import com.yuxin.wx.model.company.OrganLeaveMessage;
-import com.yuxin.wx.model.company.OrganLeaveMessageBlacklist;
-import com.yuxin.wx.model.student.StudentFeeRefund;
-import com.yuxin.wx.model.system.SysConfigDict;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigService;
-import com.yuxin.wx.model.user.UserIntegralFlow;
-import com.yuxin.wx.model.user.UserLoginSession;
-import com.yuxin.wx.model.user.UsersFront;
-import com.yuxin.wx.student.mapper.StudentFeeStageMapper;
-import com.yuxin.wx.utils.DateUtil;
-import com.yuxin.wx.utils.ExcelUtil;
-import com.yuxin.wx.utils.WebUtils;
-import com.yuxin.wx.vo.company.CompanyTotalVo;
-import com.yuxin.wx.vo.company.CompanyVo;
-import com.yuxin.wx.vo.fee.RefundVo;
-import com.yuxin.wx.vo.fee.StagingTotalVo;
-import com.yuxin.wx.vo.fee.StagingVo;
-import com.yuxin.wx.vo.query.MarketingVo;
-import com.yuxin.wx.vo.query.RegisterInfoVo;
-import com.yuxin.wx.vo.system.PayOrderIntegralVo;
-import com.yuxin.wx.vo.system.PayOrderVipVo;
-import com.yuxin.wx.vo.user.OrganLeaveMessageExcelVo;
-import com.yuxin.wx.vo.user.UserIntegralFlowVO;
-import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
-import com.yuxin.wx.vo.user.OrganLeaveMessageVo;
-import com.yuxin.wx.vo.user.UsersFrontVo;
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/query")
@@ -104,6 +90,9 @@ public class QueryController {
 	private IOrganLeaveMessageService  organLeaveMessageServiceImpl;
 	@Autowired
 	private IOrganLeaveMessageBlacklistService  organLeaveMessageServiceBlacklistImpl;
+	@Autowired
+	private ISysConfigTeacherService sysConfigTeacherServiceImpl;
+
 	
 	/**
 	 * 页面跳转
@@ -210,6 +199,19 @@ public class QueryController {
 		Subject subject = SecurityUtils.getSubject();
 		if(search.getSchoolId() == null && !subject.hasRole("机构管理员")){
 			search.setSchoolId(WebUtils.getCurrentSchoolId());
+		}
+
+		if(subject.hasRole("区县负责人")){
+			Users loginUser = WebUtils.getCurrentUser();
+			//获取账号对应用户信息
+			SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
+			search.setEduArea(teacher!=null ? teacher.getTeacherArea():"");
+		}
+		if(subject.hasRole("直属校负责人")){
+			Users loginUser = WebUtils.getCurrentUser();
+			//获取账号对应用户信息
+			SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
+			search.setEduSchool(teacher!=null ? teacher.getSchoolName():"");
 		}
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<Map> countUserByDate = usersFrontServiceImpl.countUserByDate(search);

@@ -12,7 +12,7 @@
 	}
 </style>
 </head>
-<body">
+<body>
 	<c:choose>
 		<c:when test="${firstName eq 'student' }">
 			<jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp"/>
@@ -34,6 +34,15 @@
 		</c:when>
 		<c:when test="${firstName eq 'system' }">
 			<jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"/>
+		</c:when>
+		<c:when test="${firstName eq 'statistics' }">
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics.jsp"/>
+		</c:when>
+		<c:when test="${firstName eq 'areastatistics' }">
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"/>
+		</c:when>
+		<c:when test="${firstName eq 'orgstatistics' }">
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_org.jsp"/>
 		</c:when>
 	</c:choose>
 	<script type="text/javascript">

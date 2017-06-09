@@ -267,6 +267,7 @@
 					// 添加
 					$("#addTiku").click(function(){
 						$("#isTikuId").val("");
+						Forms.queryItemSecond();
 						$(".add-teacher-room-bg").fadeIn(200,function(){
 							$(".edit-tiku").fadeIn(200);
 						});

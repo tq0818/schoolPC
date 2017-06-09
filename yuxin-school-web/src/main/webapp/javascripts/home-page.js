@@ -380,9 +380,9 @@ Array.prototype.containsObj = function(obj){
 		    		             '<span class="zhibo-intro"><em>时长：</em>'+ obj.timeLong +'</span>'+
 		    		             '<span class="zhibo-intro"><em>授课类型：</em>'+ obj._classType +'</span>'+
 		    		        '</div>'+
-		    		        '<div class="zhibo-right">'+
+		    		        '<div class="zhibo-right" style="width: auto;">'+
 		    		        	((liveTeacher && !living) ? '<div class="zhibo-btn btn-left fl"><span class="zhibo-look" data-id="'+ obj.id +'">查看</span><span class="zhibo-change" data-id="'+ obj.id +'">修改</span></div>' : '')+
-		    		        	(paikeTeacher ? '<div class="zhibo-btn btn-right fl open sel-resource"  data-id="'+ obj.id +'" data-classType="'+ obj.classType +'">管理资料</div>' : '')+
+		    		        	(paikeTeacher ? '<div class="zhibo-btn btn-right fl open sel-resource" style="margin-right:20px;"  data-id="'+ obj.id +'" data-classType="'+ obj.classType +'">管理资料</div>' : '')+
 		    		            '<div class="zhibo-btn btn-right fr open come-in-room" data-type="upclass" data-id="'+ obj.id +'" data-classType="'+ obj.classType +'">开始上课</div>'+
 		    		        '</div>';
     				_this.liveCourse.append(html);

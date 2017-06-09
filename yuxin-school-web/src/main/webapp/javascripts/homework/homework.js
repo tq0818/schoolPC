@@ -1,6 +1,48 @@
 	/**
  * 在jQuery加载完成后执行
  */
+
+	function docChange(){
+		$.ajaxFileUpload({
+			url:rootPath + "/classTypeResource/docupload2;"+ window["sessionName"] + "=" + window["sessionId"],
+			type:"post",
+			secureuri:false,
+			fileElementId:"doctype",
+			dataType: "json",
+			success:function(data){
+				if (data.msg == 'success') {
+					$("#dochint").removeClass('colorRed').addClass('colorGre').html("上传完成");
+					if(!$('.fujian .EncName').length){
+						$('.fujianmc').append('<div class="fl rightCon"><span class="EncName">'+ $("#doctype").val() +'</span><span class="EncClose">删除</span></div>')
+					}else{
+						$('.fujian .EncName').html(name);
+					}
+					//如果是连续上传，则删除上一个的资源
+					if($('#Enclosure').data('resourceId')){
+						Model.ajax('/classTypeResource/delreslist',{id:$('#Enclosure').data('resourceId')},function(result){
+							if(result.msg != 'success'){
+								console.log(result.msg || '删除失败');
+							}
+						});
+					}
+					$('#Enclosure').data('resourceId',data.fileId);
+				} else {
+					if(data.msg == "formatNotRight"){
+						$("#dochint").html("<span style='color:red;'>上传文件格式不正确</span>");
+					}else if(data.msg == "sizeOutOf"){
+						$("#dochint").html("<span style='color:red;'>文件不能大于150MB</span>");
+					}else if(data.msg == "success"){
+						$("#doctype").attr("url",data.fileId);
+						$("#dochint").html("<span style='color:green;'>上传成功</span>");
+					}else if(data.msg == "nameTooLang"){
+						$("#dochint").html("<span style='color:red;'>文件名太长</span>");
+					}else{
+						$("#dochint").html("<span style='color:green;'>" + data.msg + "</span>");
+					}
+				}
+			}
+		});
+	}
 (function($){
 	var Model = {};
 	Model.ajaxLoad = function(url,dataInfo,func){
@@ -520,35 +562,6 @@
 		
 	});
 
-	function docChange(){
-		$.ajaxFileUpload({
-			url:rootPath + "/classTypeResource/docupload2;"+ window["sessionName"] + "=" + window["sessionId"],
-			type:"post",
-			secureuri:false,
-			fileElementId:"doctype",
-			dataType: "json",
-			success:function(data){
-				if (data.msg == 'success') {
-					$("#dochint").removeClass('colorRed').addClass('colorGre').html("上传完成");
-					if(!$('.fujian .EncName').length){
-						$('.fujianmc').append('<div class="fl rightCon"><span class="EncName">'+ name +'</span><span class="EncClose">删除</span></div>')
-					}else{
-						$('.fujian .EncName').html(name);
-					}
-					//如果是连续上传，则删除上一个的资源
-					if($('#Enclosure').data('resourceId')){
-						Model.ajax('/classTypeResource/delreslist',{id:$('#Enclosure').data('resourceId')},function(result){
-							if(result.msg != 'success'){
-								console.log(result.msg || '删除失败');
-							}
-						});
-					}
-					$('#Enclosure').data('resourceId',data.fileId);
-				} else {
-					$("#dochint").html("<span style='color:red;'>" + data.msg + "</span>");
-				}
-			}
-		});
-	}
+
 })(jQuery);
 

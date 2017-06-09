@@ -198,43 +198,7 @@
 		    });
 		}
 	});
-	function docChange(){
-		$("#homework_result").html('<span class="colorRed">上传中</span>');
-		$.ajaxFileUpload({
-			url:rootPath + "/classTypeResource/docupload;"+ window["sessionName"] + "=" + window["sessionId"],
-			type:"post",
-			secureuri:false,
-			fileElementId:"doctype",
-			dataType: "json",
-			success:function(data){
-				if (data.msg == 'success') {
-					var fileId = data.fileId;
-					var htrId = $("#hiddenId").data('htrid');
-					$.ajax({
-						url : "/homeworkTeacherRead/saveResource",
-						type:"post",
-						data:{
-							'htrId':htrId,
-							'resourceId':fileId},
-						dataType:"json",
-						success:function(data){
-						}
-					});
 
-					$('#hiddenId').data('fileid',fileId);
-					$("#homework_result").html('<span class="colorGre">上传完成</span>');
-					$("#fileName").html(name);
-					$(".homework_resource_name").html('');
-					$(".homework_resource_name").append('<span class="EncClose readattachmentjob_delfile">删除</span>');
-				} else {
-					$("#homework_result").html('<span class="colorRed">'+data.msg+'</span>');
-				}
-
-
-
-			}
-		});
-	}
 	$(function(){
 		var readAttachmentJob = new ReadAttachmentJob();
 		readAttachmentJob._init();
@@ -250,4 +214,52 @@
 		})
 	})
 })(window,document,jQuery)
-	
+function docChange(){
+	$("#homework_result").html('<span class="colorRed">上传中</span>');
+	$.ajaxFileUpload({
+		url:rootPath + "/classTypeResource/docupload2;"+ window["sessionName"] + "=" + window["sessionId"],
+		type:"post",
+		secureuri:false,
+		fileElementId:"doctype",
+		dataType: "json",
+		success:function(data){
+			if (data.msg == 'success') {
+				var fileId = data.fileId;
+				var htrId = $("#hiddenId").data('htrid');
+				$.ajax({
+					url : "/homeworkTeacherRead/saveResource",
+					type:"post",
+					data:{
+						'htrId':htrId,
+						'resourceId':fileId},
+					dataType:"json",
+					success:function(data){
+					}
+				});
+
+				$('#hiddenId').data('fileid',fileId);
+				$("#homework_result").html('<span class="colorGre">上传完成</span>');
+				$("#fileName").html($("#doctype").val());
+				$(".homework_resource_name").html('');
+				$(".homework_resource_name").append('<span class="EncClose readattachmentjob_delfile">删除</span>');
+			} else {
+				var result_msg = "";
+				if(data.msg == "formatNotRight"){
+					result_msg = "上传文件格式不正确";
+				}else if(data.msg == "sizeOutOf"){
+					result_msg ="文件不能大于150MB";
+				}else if(data.msg == "success"){
+					result_msg ="上传成功";
+				}else if(data.msg == "nameTooLang"){
+					result_msg ="文件名太长";
+				}else{
+					result_msg =data.msg;
+				}
+				$("#homework_result").html('<span class="colorRed">'+result_msg+'</span>');
+			}
+
+
+
+		}
+	});
+}

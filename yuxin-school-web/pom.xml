@@ -178,7 +178,7 @@
 			<artifactId>jodconverter-core</artifactId>
 			<version>3.0</version>
 		</dependency>
-		<dependency>
+		<dependency> 
 			<groupId>com.sun.star</groupId>
 			<artifactId>juh</artifactId>
 			<version>3.2.1</version>

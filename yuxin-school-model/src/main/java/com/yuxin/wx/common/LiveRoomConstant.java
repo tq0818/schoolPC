@@ -33,7 +33,7 @@ public interface LiveRoomConstant {
 	/**
 	 * 进入展示互动学生密钥（web端）
 	 */
-	public static final String STUDENT_TOKEN_WEB = "zs_s_secret_w";
+	public static final String STUDENT_TOKEN_WEB = "zs_s_secret_w";//zs_s_secret_w
 	/**
 	 * 进入展示互动学生密钥（客户端）
 	 */
@@ -45,15 +45,15 @@ public interface LiveRoomConstant {
 	/**
 	 * 展示互动登陆账号
 	 */
-	public static final String LOGIN_NAME = "admin@yunduowxjy.com";
+	public static final String LOGIN_NAME = "admin@winshare-edu.com";
 	/**
 	 * 展示互动密码
 	 */
-	public static final String PASSWORD = "Yunduo2017";
+	public static final String PASSWORD = "888888";
 	/**
 	 * 展示互动访问路径
 	 */
-	public static final String DOMIN_NAME = "http://yunduowxjy.gensee.com";
+	public static final String DOMIN_NAME = "http://winshare-edu.gensee.com";
 	/**
 	 * 创建展示互动直播课程
 	 */

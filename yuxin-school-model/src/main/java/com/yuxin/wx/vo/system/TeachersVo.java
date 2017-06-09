@@ -35,7 +35,25 @@ public class TeachersVo extends BaseEntity {
 	private String itemOneName;
 	private String schoolsId;
 	private String schoolName;
-	
+	private String teacherLevel;
+	private String teacherArea;
+
+	public String getTeacherLevel() {
+		return teacherLevel;
+	}
+
+	public void setTeacherLevel(String teacherLevel) {
+		this.teacherLevel = teacherLevel;
+	}
+
+	public String getTeacherArea() {
+		return teacherArea;
+	}
+
+	public void setTeacherArea(String teacherArea) {
+		this.teacherArea = teacherArea;
+	}
+
 	public TeachersVo() {
 		
 	}

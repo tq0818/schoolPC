@@ -94,7 +94,70 @@ public class StudentListVo extends BaseEntity{
 	
 	private Integer proxyOrgId;
 	private String proxyOrgName;
-	
+	private Integer eduIdentity;
+	private String eduArea;
+	private String eduSchool;
+	private String eduStep;
+	private String eduYear;
+
+	public Integer getTeacherFlag() {
+		return teacherFlag;
+	}
+
+	public void setTeacherFlag(Integer teacherFlag) {
+		this.teacherFlag = teacherFlag;
+	}
+
+	private Integer teacherFlag;
+	public String getEduClass() {
+		return eduClass;
+	}
+
+	public void setEduClass(String eduClass) {
+		this.eduClass = eduClass;
+	}
+
+	public Integer getEduIdentity() {
+		return eduIdentity;
+	}
+
+	public void setEduIdentity(Integer eduIdentity) {
+		this.eduIdentity = eduIdentity;
+	}
+
+	public String getEduArea() {
+		return eduArea;
+	}
+
+	public void setEduArea(String eduArea) {
+		this.eduArea = eduArea;
+	}
+
+	public String getEduSchool() {
+		return eduSchool;
+	}
+
+	public void setEduSchool(String eduSchool) {
+		this.eduSchool = eduSchool;
+	}
+
+	public String getEduStep() {
+		return eduStep;
+	}
+
+	public void setEduStep(String eduStep) {
+		this.eduStep = eduStep;
+	}
+
+	public String getEduYear() {
+		return eduYear;
+	}
+
+	public void setEduYear(String eduYear) {
+		this.eduYear = eduYear;
+	}
+
+	private String eduClass;
 	public StudentListVo() {
 
 	}

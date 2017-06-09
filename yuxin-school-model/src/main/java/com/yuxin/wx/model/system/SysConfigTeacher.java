@@ -70,6 +70,35 @@ public class SysConfigTeacher extends BaseEntity {
 	private Integer courseCount;//开课数量
 	private Integer stuCount;	//学习人数
 
+	private String teacherLevel;
+	private String teacherArea;
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
+	}
+
+	public String getTeacherLevel() {
+		return teacherLevel;
+	}
+
+	public void setTeacherLevel(String teacherLevel) {
+		this.teacherLevel = teacherLevel;
+	}
+
+	public String getTeacherArea() {
+		return teacherArea;
+	}
+
+	public void setTeacherArea(String teacherArea) {
+		this.teacherArea = teacherArea;
+	}
+
+	private String schoolName;
+
 	public String getInviteCode() {
 		return inviteCode;
 	}

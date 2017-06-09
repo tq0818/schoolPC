@@ -87,7 +87,27 @@ public class UsersFrontVo extends BaseEntity {
     private String invitCode;
     private Integer proxyOrgId;// 代理机构id
 
+    private String eduArea;//区域
+    private String eduSchool;//机构
+
+    public String getEduArea() {
+        return eduArea;
+    }
+
+    public void setEduArea(String eduArea) {
+        this.eduArea = eduArea;
+    }
+
+    public String getEduSchool() {
+        return eduSchool;
+    }
+
+    public void setEduSchool(String eduSchool) {
+        this.eduSchool = eduSchool;
+    }
+
     public UsersFrontVo() {
+
         super();
         // TODO Auto-generated constructor stub
     }

@@ -2,23 +2,18 @@ package com.yuxin.wx.vo.tiku;
 
 import java.util.List;
 
+import com.yuxin.wx.common.BaseEntity;
 import com.yuxin.wx.model.tiku.TikuSubject;
 
-public class TikuCategoryAndSubjectVo {
-	private Integer id;
-	private String	tikuName;		 /* 题库分类名称 */ 
+public class TikuCategoryAndSubjectVo extends BaseEntity {
+	private String	tikuName;		 /* 题库分类名称 */
 	private String	tikuDesc;		 /* 题库分类描述 */ 
 	private String  iconUrl;			/*题库图标地址*/
 	private String  iconBackUrl;/*题库图标地址*/
 	
 	List<TikuSubject> subjects;
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+
 	public String getTikuName() {
 		return tikuName;
 	}

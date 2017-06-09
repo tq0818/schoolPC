@@ -3,6 +3,7 @@ package com.yuxin.wx.api.tiku;
 import java.util.List;
 
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.tiku.TikuPaper;
 import com.yuxin.wx.vo.tiku.TikuExamPaperVo;
 import com.yuxin.wx.vo.tiku.TikuPaperVo;
@@ -147,6 +148,6 @@ public interface ITikuPaperService  {
 	 */
 	Integer findPaperByExamCount(TikuPaper paper);
 
-	PageFinder<TikuPaperVo> containhw(TikuPaper search);
+	PageFinder2<TikuPaperVo> containhw(TikuPaper search);
 
 }

@@ -154,4 +154,5 @@ public interface ISysConfigDictService  {
     List<SysConfigDict> findAll();
     
     List<SysConfigDict> queryConfigDictListByDictCode(SysConfigDict sysConfigDict);
+	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
 }

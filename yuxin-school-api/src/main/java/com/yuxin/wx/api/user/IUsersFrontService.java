@@ -1,14 +1,14 @@
 package com.yuxin.wx.api.user;
 
-import java.util.List;
-import java.util.Map;
-
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
 import com.yuxin.wx.vo.user.UsersStudentInfo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service Interface:UsersFront

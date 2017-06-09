@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
@@ -391,7 +392,7 @@ public interface IStudentService  {
 	 * @param search
 	 * @return
 	 */
-	PageFinder<StudentListVo> findStudentsList(StudentListVo search);
+	PageFinder2<StudentListVo> findStudentsList(StudentListVo search);
 	
 	PageFinder<StudentListVo> findStudentsList1(StudentListVo search);
 	

@@ -36,11 +36,9 @@ import com.yuxin.wx.vo.query.MarketingVo;
 import com.yuxin.wx.vo.query.RegisterInfoVo;
 import com.yuxin.wx.vo.system.PayOrderIntegralVo;
 import com.yuxin.wx.vo.system.PayOrderVipVo;
-import com.yuxin.wx.vo.user.OrganLeaveMessageVo;
-import com.yuxin.wx.vo.user.UserIntegralFlowVO;
-import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
-import com.yuxin.wx.vo.user.UsersFrontVo;
+import com.yuxin.wx.vo.user.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.util.SystemOutLogger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +46,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -200,24 +195,26 @@ public class QueryController {
 		if(search.getSchoolId() == null && !subject.hasRole("机构管理员")){
 			search.setSchoolId(WebUtils.getCurrentSchoolId());
 		}
-
-		if(subject.hasRole("区县负责人")){
+		if(subject.hasRole("教科院")){
+			search.setIsStu(1);
+		}else if(subject.hasRole("区县负责人")){
 			Users loginUser = WebUtils.getCurrentUser();
 			//获取账号对应用户信息
-			SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-			search.setEduArea(teacher!=null ? teacher.getTeacherArea():"");
-		}
-		if(subject.hasRole("直属校负责人")){
+			UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+			search.setEduArea(uersAreaRelation!=null ? uersAreaRelation.getEduArea():"");
+			search.setIsStu(1);
+		}else if(subject.hasRole("直属校负责人")){
 			Users loginUser = WebUtils.getCurrentUser();
 			//获取账号对应用户信息
-			SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-			search.setEduSchool(teacher!=null ? teacher.getSchoolName():"");
+			UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+			search.setEduSchool(uersAreaRelation!=null ? uersAreaRelation.getEduSchool():"");
+			search.setIsStu(1);
 		}
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<Map> countUserByDate = usersFrontServiceImpl.countUserByDate(search);
 		return countUserByDate;
 	}
-	
+
 	/**
 	 * 查询用户图表数据
 	 * @param model

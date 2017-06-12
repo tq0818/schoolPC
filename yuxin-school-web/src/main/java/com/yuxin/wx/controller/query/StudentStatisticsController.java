@@ -4,11 +4,13 @@ import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
+import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -26,15 +28,14 @@ import java.util.Map;
 @Controller
 @RequestMapping("/query")
 public class StudentStatisticsController {
-    @Autowired
-    private ISysConfigTeacherService sysConfigTeacherServiceImpl;
 	@Autowired
 	private IStudentStatisticsService studentStatisticsServiceImpl;
     @Autowired
     private ISysConfigDictService sysConfigDictServiceImpl;
     @Autowired
     private ICompanyFunctionSetService companyFunctionSetServiceImpl;
-
+    @Autowired
+    private IUsersService usersServiceImpl;
 	/**
 	 * 页面跳转
 	 * @param model
@@ -43,11 +44,12 @@ public class StudentStatisticsController {
 	 */
 	@RequestMapping(value="/statistics/index")
 	public String index(Model model, HttpServletRequest request){
-        SysConfigTeacher teacher = new SysConfigTeacher();
+        //获取账号对应用户信息
+        UsersAreaRelation uersAreaRelation = new UsersAreaRelation();
 		//学员总数
-		Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(teacher);
+		Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(uersAreaRelation);
 		//完善属性学员总数
-		Long completeStuNum = studentStatisticsServiceImpl.getAllStudentNumOfComplete(teacher);
+		Long completeStuNum = studentStatisticsServiceImpl.getAllStudentNumOfComplete(uersAreaRelation);
 
 		model.addAttribute("allStuNum",allStuNum);
 		model.addAttribute("completeStuNum",completeStuNum);
@@ -178,24 +180,24 @@ public class StudentStatisticsController {
      * @return
      */
     @RequestMapping(value="/areastatistics/index")
-    public String areaindex(Model model, HttpServletRequest request){
+    public String areaindex(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
-            return "index";
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-        if(teacher==null){
-            return "index";
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //学员总数
-        Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(teacher);
+        Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(uersAreaRelation);
         //完善属性学员总数
-        Long completeStuNum = studentStatisticsServiceImpl.getAllStudentNumOfComplete(teacher);
+        Long completeStuNum = studentStatisticsServiceImpl.getAllStudentNumOfComplete(uersAreaRelation);
 
         //查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
-        areaDict.setItemCode(teacher.getTeacherArea());
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
         areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         if(area!=null && area.get(0)!=null){
@@ -203,7 +205,7 @@ public class StudentStatisticsController {
         }
         model.addAttribute("allStuNum",allStuNum);
         model.addAttribute("completeStuNum",completeStuNum);
-        model.addAttribute("eduArea", teacher.getTeacherArea());
+        model.addAttribute("eduArea", uersAreaRelation.getEduArea());
         return "/query/areaindex";
     }
 
@@ -214,20 +216,20 @@ public class StudentStatisticsController {
      * @return
      */
     @RequestMapping(value="/areastatistics/queryOrg")
-    public String queryOrgArea(Model model, HttpServletRequest request) {
+    public String queryOrgArea(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
-            return "index";
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-        if(teacher==null){
-            return "index";
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
         }
 
         //查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
-        areaDict.setItemCode(teacher.getTeacherArea());
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
         areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         if(area!=null && area.get(0)!=null){
@@ -250,15 +252,15 @@ public class StudentStatisticsController {
      * @return
      */
     @RequestMapping(value="/areastatistics/studentList")
-    public String studentListArea(Model model, HttpServletRequest request){
+    public String studentListArea(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
-            return "index";
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-        if(teacher==null){
-            return "index";
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         // 查询课程的多课程单元和多班号功能
         CompanyFunctionSet search = new CompanyFunctionSet();
@@ -267,7 +269,7 @@ public class StudentStatisticsController {
         //查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
         areaDict.setDictCode("EDU_SCHOOL_AREA");
-        areaDict.setItemCode(teacher.getTeacherArea());
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
         List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         if(areas!=null && areas.get(0)!=null){
             model.addAttribute("area", areas.get(0));
@@ -303,22 +305,29 @@ public class StudentStatisticsController {
      * @return
      */
     @RequestMapping(value="/orgstatistics/index")
-    public String orgindex(Model model, HttpServletRequest request){
+    public String orgindex(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
-            return "index";
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-        if(teacher==null){
-            return "index";
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //学员总数
-        Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(teacher);
+        Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(uersAreaRelation);
         //完善属性学员总数
-        Long completeStuNum = studentStatisticsServiceImpl.getAllStudentNumOfComplete(teacher);
+        Long completeStuNum = studentStatisticsServiceImpl.getAllStudentNumOfComplete(uersAreaRelation);
 
-        model.addAttribute("schoolDict", teacher.getSchoolName());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL");
+        areaDict.setItemCode(uersAreaRelation.getEduSchool());
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(areas!=null && areas.get(0)!=null){
+            model.addAttribute("schoolDict", areas.get(0).getItemValue());
+        }
         model.addAttribute("allStuNum",allStuNum);
         model.addAttribute("completeStuNum",completeStuNum);
         return "/query/orgindex";
@@ -331,15 +340,15 @@ public class StudentStatisticsController {
      * @return
      */
     @RequestMapping(value="/orgstatistics/studentList")
-    public String studentListOrg(Model model, HttpServletRequest request){
+    public String studentListOrg(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
-            return "index";
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-        if(teacher==null){
-            return "index";
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         // 查询课程的多课程单元和多班号功能
         CompanyFunctionSet search = new CompanyFunctionSet();
@@ -348,9 +357,9 @@ public class StudentStatisticsController {
         //查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
         areaDict.setDictCode("EDU_SCHOOL");
-        areaDict.setItemValue(teacher.getSchoolName());
+        areaDict.setItemCode(uersAreaRelation.getEduSchool());
         List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-        if(schools!=null && schools.get(0)!=null){
+        if(schools!=null && schools.size()>0 && schools.get(0)!=null){
             model.addAttribute("school", schools.get(0));
         }
 
@@ -384,19 +393,26 @@ public class StudentStatisticsController {
      * @return
      */
     @RequestMapping(value="/orgstatistics/queryOrg")
-    public String queryOrgOfOrg(Model model, HttpServletRequest request) {
+    public String queryOrgOfOrg(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
-            return "index";
+            throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(loginUser.getId());
-        if(teacher==null){
-            return "index";
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
         }
 
         //查询学校所在区域
-        model.addAttribute("school", teacher.getSchoolName());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL");
+        areaDict.setItemCode(uersAreaRelation.getEduSchool());
+        List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(schools!=null && schools.size()>0 && schools.get(0)!=null){
+            model.addAttribute("school", schools.get(0).getItemValue());
+        }
 
         //查询学校所属学段
         SysConfigDict stepDict = new SysConfigDict();

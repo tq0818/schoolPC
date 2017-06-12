@@ -25,6 +25,7 @@ import com.yuxin.wx.api.system.*;
 import com.yuxin.wx.common.*;
 import com.yuxin.wx.model.system.*;
 import com.yuxin.wx.utils.*;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -2584,7 +2585,9 @@ public class StudentController {
         if (subject.hasRole("代理机构")) {
             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
         }
-
+        if(subject.hasRole("教科院") || subject.hasRole("区县负责人") || subject.hasRole("直属校负责人")){
+            search.setIsStu(1);
+        }
         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
         return pageFinder;
     }

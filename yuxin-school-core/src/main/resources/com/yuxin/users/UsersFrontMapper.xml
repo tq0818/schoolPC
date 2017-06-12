@@ -774,7 +774,8 @@
 			<if test="registType != null"> and regist_type = #{registType}</if>
 			<if test="timeLen !=null">and TO_DAYS(NOW())-TO_DAYS(regist_time)<![CDATA[<=]]>#{timeLen}</if>
 			<if test="eduArea != null and eduArea!=''"> and s.edu_area=#{eduArea}</if>
-			<if test="eduSchool != null and eduSchool!=''"> and d.item_value =#{eduSchool}</if>
+			<if test="eduSchool != null and eduSchool!=''"> and d.item_code =#{eduSchool}</if>
+			<if test="isStu != null and isStu == 1"> and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
 			group by date_format(regist_time, "%Y-%m-%d")
 	</select>
 	<select id="countOffLine" resultType="com.yuxin.wx.vo.user.UsersFrontVo" parameterType="com.yuxin.wx.vo.user.UsersFrontVo">

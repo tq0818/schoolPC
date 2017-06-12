@@ -37,6 +37,15 @@
 		<result property="proxyOrgId" column="proxy_org_id" />
 	</resultMap>
 	
+	<resultMap type="com.yuxin.wx.vo.user.UsersAreaRelation" id="usersAreaRelationMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school"/>
+		<result property="userType" column="user_type"/>
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+
 	<resultMap type="com.yuxin.wx.model.user.UserLoginSession" id="userLoginSessionMap">
 		<result property="id" column="id"/>
 		<result property="userId" column="userId"/>
@@ -446,5 +455,9 @@
 	<select id="queryuserIsExist" resultMap="usersResultMap" parameterType="com.yuxin.wx.model.user.Users">
 		select <include refid="table_columns" /> 
 		from users where username = #{username}
+	</select>
+
+	<select id="findUsersAreaRelation" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
+		select * from users_area_relation where user_id = #{id}
 	</select>
 </mapper>

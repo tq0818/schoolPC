@@ -4,6 +4,7 @@ import com.sun.org.glassfish.external.probe.provider.annotations.ProbeParam;
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.statistics.Statistics;
 import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,13 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	 * 获取学生总数
 	 * @return
 	 */
-	public Long getAllStudentNum(SysConfigTeacher teacher);
+	public Long getAllStudentNum(UsersAreaRelation usersAreaRelation);
 
 	/**
 	 * 获取完善属性的学员总数
 	 * @return
 	 */
-	public Long getAllStudentNumOfComplete(SysConfigTeacher teacher);
+	public Long getAllStudentNumOfComplete(UsersAreaRelation usersAreaRelation);
 
 	/**
 	 * 获取区域统计信息

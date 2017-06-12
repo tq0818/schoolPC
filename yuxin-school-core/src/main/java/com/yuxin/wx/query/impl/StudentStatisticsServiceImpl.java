@@ -3,6 +3,7 @@ package com.yuxin.wx.query.impl;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.query.mapper.StudentStatisticsMapper;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,13 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Autowired
     private StudentStatisticsMapper studentstatisticsMapper;
     @Override
-    public Long getAllStudentNum(SysConfigTeacher teacher) {
-        return studentstatisticsMapper.getAllStudentNum(teacher);
+    public Long getAllStudentNum(UsersAreaRelation usersAreaRelation) {
+        return studentstatisticsMapper.getAllStudentNum(usersAreaRelation);
     }
 
     @Override
-    public Long getAllStudentNumOfComplete(SysConfigTeacher teacher) {
-        return studentstatisticsMapper.getAllStudentNumOfComplete(teacher);
+    public Long getAllStudentNumOfComplete(UsersAreaRelation usersAreaRelation) {
+        return studentstatisticsMapper.getAllStudentNumOfComplete(usersAreaRelation);
     }
 
     @Override

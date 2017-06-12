@@ -8,6 +8,7 @@ import com.yuxin.wx.model.user.UserLoginSession;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import com.yuxin.wx.vo.user.UsersVo;
 /**
  * Service Interface:Users
@@ -120,4 +121,11 @@ public interface UsersMapper extends BaseMapper<Users> {
 	  Users findUsersByConfition(Users user);
 	  
 	  List<Users> queryuserIsExist(Users user);
+
+	/**
+	 * 通过用户id获取对应区域信息
+	 * @param id
+	 * @return
+	 */
+    UsersAreaRelation findUsersAreaRelation(Integer id);
 }

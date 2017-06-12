@@ -33,6 +33,7 @@ import com.yuxin.wx.user.mapper.UsersMapper;
 import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.user.InitDataVo;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -567,5 +568,10 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	public List<Users> queryuserIsExist(Users user) {
 		// TODO Auto-generated method stub
 		return usersMapper.queryuserIsExist(user);
+	}
+
+	@Override
+	public UsersAreaRelation findUsersAreaRelation(Integer id) {
+		return usersMapper.findUsersAreaRelation(id);
 	}
 }

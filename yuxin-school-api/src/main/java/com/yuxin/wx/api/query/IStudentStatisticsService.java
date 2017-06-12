@@ -2,6 +2,7 @@ package com.yuxin.wx.api.query;
 
 
 import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 import java.util.List;
 import java.util.Map;
@@ -17,13 +18,13 @@ public interface IStudentStatisticsService {
      * 获取学生总数
      * @return
      */
-    public Long getAllStudentNum(SysConfigTeacher teacher);
+    public Long getAllStudentNum(UsersAreaRelation uersAreaRelation);
 
     /**
      * 获取完善属性的学员总数
      * @return
      */
-    public Long getAllStudentNumOfComplete(SysConfigTeacher teacher);
+    public Long getAllStudentNumOfComplete(UsersAreaRelation uersAreaRelation);
 
     /**
      * 获取区域统计信息

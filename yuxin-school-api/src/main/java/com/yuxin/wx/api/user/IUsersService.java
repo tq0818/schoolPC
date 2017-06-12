@@ -20,6 +20,7 @@ import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.user.InitDataVo;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 /**
  * Service Interface:Users
@@ -383,5 +384,11 @@ public interface IUsersService  {
    * @return
    */
   List<Users> queryuserIsExist(Users user);
-  
+
+	/**
+	 * 根据用户名获取对应区域信息
+	 * @param id
+	 * @return
+	 */
+    UsersAreaRelation findUsersAreaRelation(Integer id);
 }

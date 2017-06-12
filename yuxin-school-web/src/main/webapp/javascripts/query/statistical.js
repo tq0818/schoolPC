@@ -65,6 +65,17 @@
 										dataValue.push(result[i].stuNum);
 									}
 								}
+								if(dataKey.length>25 && dataKey.length<=35){
+									$('.e-charst').css('height', '500px');
+								}else if(dataKey.length>35 && dataKey.length<=45){
+									$('.e-charst').css('height', '700px');
+								}else if(dataKey.length>45 && dataKey.length<=55){
+									$('.e-charst').css('height', '900px');
+								}else if(dataKey.length>55){
+									$('.e-charst').css('height', '4000px');
+								}else {
+									$('.e-charst').css('height', '390px');
+								}
 								_this.setCharts(perfect,"学校教育信息完善情况",dataKey,dataValue,"#70ad47");
 							}else{
 								$(perfect).html('<div class="nodata">暂无数据！！！</div>');

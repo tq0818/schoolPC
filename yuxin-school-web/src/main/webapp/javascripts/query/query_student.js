@@ -336,8 +336,8 @@
                                         : '未开通')
                                     + '</td>'
                                     + '<td class="ustatus">'
-                                    + (stu.status == 1 ? '启用'
-                                        : '禁用')
+                                    + (stu.status == 1 ? '正常'
+                                        : '异常')
                                     + '</td>'
                                     + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'

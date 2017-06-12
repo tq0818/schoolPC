@@ -44,6 +44,10 @@
 							<option value="${area.itemCode}" data-id="${area.id}" >${area.itemValue}</option>
 						</select>
 
+						<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+							<option value="">请选择学校</option>
+						</select>
+
 						<%--<select id="registStatus" name="status">--%>
 							<%--<option value="">前台账号状态</option>--%>
 							<%--<option value="1">启用</option>--%>
@@ -140,6 +144,32 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
 	$selectSubMenu('statistics_area_detail');
+
+	window.onload = function(){
+		var area = '${area.id}';
+		var schoolVal = $.trim($("#eduSchool").attr("data-id"));
+		if(area==null || area==""){
+			$("#eduSchool").html('<option value="">请选择所在学校</option>');
+		}else{
+			$.ajax({
+				url: rootPath + "/student/getSchoolList/"+area,
+				type: "post",
+				success: function (data) {
+					$("#eduSchool").html('<option value="">请选择所在学校</option>');
+					var options = '';
+					$.each(data,function(i,j){
+						if(schoolVal==j.itemValue){
+							options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
+						}else{
+							options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+						}
+
+					});
+					$("#eduSchool").append(options);
+				}
+			});
+		}
+	};
 </script>
 </body>
 </html>

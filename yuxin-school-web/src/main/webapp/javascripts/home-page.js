@@ -227,7 +227,7 @@ Array.prototype.containsObj = function(obj){
     				success = arg.length>2?arg[2]:function(){},
     				error = arg.length>3?arg[3]:function(){};
     			$.ajax({ 
-    		 		  type: "post", 
+    		 		  type: "post",
     		 		  url : rootPath+arg[0], 
     		 		  data: arg[1],
     		 		  dataType: "json",

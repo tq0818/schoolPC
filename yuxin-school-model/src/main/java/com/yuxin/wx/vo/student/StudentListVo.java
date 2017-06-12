@@ -99,6 +99,15 @@ public class StudentListVo extends BaseEntity{
 	private String eduSchool;
 	private String eduStep;
 	private String eduYear;
+	private Integer isStu; //是否学生，1是。0否
+
+	public Integer getIsStu() {
+		return isStu;
+	}
+
+	public void setIsStu(Integer isStu) {
+		this.isStu = isStu;
+	}
 
 	public Integer getTeacherFlag() {
 		return teacherFlag;

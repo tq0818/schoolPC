@@ -90,6 +90,16 @@ public class UsersFrontVo extends BaseEntity {
     private String eduArea;//区域
     private String eduSchool;//机构
 
+    private Integer isStu; //是否学生,1是。0不是
+
+    public Integer getIsStu() {
+        return isStu;
+    }
+
+    public void setIsStu(Integer isStu) {
+        this.isStu = isStu;
+    }
+
     public String getEduArea() {
         return eduArea;
     }

@@ -24,8 +24,15 @@ var msgCount;
  			 }
  	    	selClassOrModule(url,oneItem,$("#two").val());
  		});
-
+ 		if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE' && $(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
+			$(".con-tzbt,.con-fsnr").hide();
+			$(".notice-main").css({'margin':'100px auto 100px'});
+		}
+ 		
+ 		
  		$(".btn-method").on('click',function(){
+ 			$(".con-tzbt,.con-fsnr").show();
+ 			$(".notice-main").css({'margin':'0 auto'});
  			var type = $(this).data("type");
 			$(this).addClass('btn-primary').removeClass('btn-default').siblings().removeClass('btn-primary').addClass('btn-default');//选中第一行
 			$(".btn-type:first").addClass('btn-primary').removeClass('btn-default').siblings().removeClass('btn-primary').addClass('btn-default');//第二行默认选中第一个
@@ -34,6 +41,10 @@ var msgCount;
 				$(".btn-type").last().prev().show();
 				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup").hide();
 				$(".sendStuMsg,.zhan,#messageContent").show();
+				if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE'){
+					$(".con-tzbt,.con-fsnr").hide();
+					$(".notice-main").css({'margin':'100px auto 100px'});
+				}
 			}
 			if(type == "STUDENT_MESSAGE_WEB"){
 				$(".btn-type").last().prev().hide();
@@ -48,6 +59,8 @@ var msgCount;
 			}
  		});
  		$('.btn-type').on('click',function(){
+ 			$(".con-tzbt,.con-fsnr").show();
+ 			$(".notice-main").css({'margin':'0 auto'});
  			var notice_fs;
  			var notice_type = $(this).data('type');
  			$.each($('.btn-method'),function(){
@@ -66,6 +79,10 @@ var msgCount;
  				selItem();
  				$('.sendStuMsg').show();
  				$('.phoneHint,.emailHint,.stuGroup').hide();
+ 				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
+					$(".con-tzbt,.con-fsnr").hide();
+					$(".notice-main").css({'margin':'100px auto 100px'});
+				}
  			}
  			if(notice_type == 'STUDENT_MESSAGE_GROUP'){
  				selectGroup1('_edit');
@@ -315,6 +332,7 @@ var msgCount;
     		 success:function(data){
     			 $(".btn-view").html(data.count + "人");
     			 $("#sendStu,#useEmailMsg").html(data.count);
+    			 $("#useMsg").html(data.count+"条");
     		 },
 	   			complete:function(XMLHttpRequest,textStatus){
 	   				$(".loading").hide();

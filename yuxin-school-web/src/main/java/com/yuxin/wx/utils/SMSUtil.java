@@ -40,7 +40,11 @@ public class SMSUtil {
 	 * 设置支付信息
 	 */
 	public static final String SMS_TEMPLETE_SETPAYINFO="178572";
-
+	/**
+	 * 课程开课通知
+	 * */
+	public  static final String SMS_TEMPLETE_LESSONNOTICE="182114";
+	
 	private static ISysSmsLogService sysSmsLogServiceimpl;
 
 	private static ISysBlackListService sysBlackListServiceImpl;
@@ -220,7 +224,7 @@ public class SMSUtil {
 			log.setContent("【在线网校】您正在进行密码找回操作，本次操作的验证码是"+code+"。");
 		}else if(templeteId.equals(SMS_TEMPLETE_SETPAYINFO)){
 			log.setContent("【在线网校】设置支付信息验证码是："+code+"，请您尽快填写。如非本人操作，请忽略本条短信");
-		}else{
+		}else {
 			log.setContent("【在线网校】您正在进行重置登录账号操作，本次操作的验证码是"+code+"。");
 		}
 
@@ -313,6 +317,39 @@ public class SMSUtil {
 		sysBlackListServiceImpl.insert(bl);
 	}
 
+	
+	public static String sendLessonNotic(HttpServletRequest request,String phoneNum,String lessonName,String date){
+		Integer userId=WebUtils.getCurrentUserId(request);
+		String ip=WebUtils.getIpAddr(request);
+		String result="";
+		//记录发送历史
+		SysSmsLog log=new SysSmsLog();
+		log.setBusinessType("lessonnotice");
+		log.setIp(ip);
+		log.setMobile(phoneNum);
+		log.setSendTime(new Date());
+		log.setUserId(userId);
+		try {
+			SMSHandler.send(phoneNum, SMS_TEMPLETE_LESSONNOTICE, new String[]{lessonName,date});
+			log.setSendStatus("1");
+			result = "发送成功";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.setSendStatus("0");
+			_log.error("短信发送失败",e);
+			e.printStackTrace();
+			result = "发送失败";
+		}finally{
+			sysSmsLogServiceimpl.insert(log);
+			return result;
+		}
+		
+		
+		
+		
+		
+	}
+	
 	/**
 	 * 发送自定义短信
 	 * @param request

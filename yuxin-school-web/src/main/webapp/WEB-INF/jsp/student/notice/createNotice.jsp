@@ -44,7 +44,7 @@
 			</div>
 			<div class="main-content">
 				<div class="notice-main">
-					<p class="c">
+					<p class="c con-tzbt">
 						<span class="c-title">通知标题：</span> <span class="c-content long">
 							<input type="text" id="title" maxlength="15">
 						</span>
@@ -145,12 +145,15 @@
 						<span class="c-title">邮件标题：</span> <input id="email_title" type="text"/>
 					</p>
 					<!-- 发送内容 -->
-					<p class="c">
-						<span class="c-title">发送内容：</span><br> <span
+					<p class="c ">
+						<div class="con-fsnr">
+							<span class="c-title">发送内容：</span><br> <span
 							class="c-content l-content" id="messageContent"> <textarea
 								id="msgcount" class="msg-content" onkeydown="valida();"
 								onkeyup="valida();" onkeypress="valida();" maxlength="140"></textarea>
-						</span>
+							</span>
+						</div>
+						
 						<!-- 站内信 --> 
 						<div id="ckecktor"> 
 							<textarea id="newsContents" class="msg-content"></textarea>

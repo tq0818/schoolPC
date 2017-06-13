@@ -23,7 +23,7 @@
 		<div class="biaoge-coment biaoge-left fl wit50">
 			<div class="biaoge-cont">
 				<div class="block-title">
-					<h3>学员趋势图</h3>
+					<h3><i class="c_red">${schoolDict}</i>学员趋势图</h3>
 					<span class="more"><a href="<%=rootPath %>/query/orgstatistics/studentList" style="color: #00b7ee; text-decoration:none;">更多</a></span>
 			</div>
 				<div class="e-charst" id="stu-qushi"></div>

@@ -25,13 +25,13 @@ var msgCount;
  	    	selClassOrModule(url,oneItem,$("#two").val());
  		});
  		if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE' && $(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
-			$(".con-tzbt,.con-fsnr").hide();
+			$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 			$(".notice-main").css({'margin':'100px auto 100px'});
 		}
  		
  		
  		$(".btn-method").on('click',function(){
- 			$(".con-tzbt,.con-fsnr").show();
+ 			$(".con-tzbt,.con-fsnr,.tips-txt").show();
  			$(".notice-main").css({'margin':'0 auto'});
  			var type = $(this).data("type");
 			$(this).addClass('btn-primary').removeClass('btn-default').siblings().removeClass('btn-primary').addClass('btn-default');//选中第一行
@@ -42,7 +42,7 @@ var msgCount;
 				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup").hide();
 				$(".sendStuMsg,.zhan,#messageContent").show();
 				if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE'){
-					$(".con-tzbt,.con-fsnr").hide();
+					$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 					$(".notice-main").css({'margin':'100px auto 100px'});
 				}
 			}
@@ -59,7 +59,7 @@ var msgCount;
 			}
  		});
  		$('.btn-type').on('click',function(){
- 			$(".con-tzbt,.con-fsnr").show();
+ 			$(".con-tzbt,.con-fsnr,.tips-txt").show();
  			$(".notice-main").css({'margin':'0 auto'});
  			var notice_fs;
  			var notice_type = $(this).data('type');
@@ -80,7 +80,7 @@ var msgCount;
  				$('.sendStuMsg').show();
  				$('.phoneHint,.emailHint,.stuGroup').hide();
  				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
-					$(".con-tzbt,.con-fsnr").hide();
+					$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 					$(".notice-main").css({'margin':'100px auto 100px'});
 				}
  			}
@@ -112,10 +112,13 @@ var msgCount;
  			var groupTwoId = null;
  			var phone = null;
  			var email = null;
- 			if(title == ""){
-				$("#title").focus();
-				$("#title").select();
-				return false;
+ 			if($(".btn-type.btn-primary").attr("data-type")!='STUDENT_MESSAGE_CLASSTYPE' && $(".btn-method.btn-primary").attr("data-type")!='STUDENT_MESSAGE_MOBILE'){
+ 				if(title == ""){
+ 					$("#title").focus();
+ 					$("#title").select();
+ 					
+ 					return false;
+ 				}
  			}
  			
  			if(method == 'STUDENT_MESSAGE_MOBILE' && types == "STUDENT_MESSAGE_SPECIAL"){
@@ -212,13 +215,15 @@ var msgCount;
  			}else{
  				msgcount = $("#msgcount").val();
  			}
- 			if(!msgcount){
-// 				if(!reg.test($.trim(arr[i]))){
-					$('<div class="c-fa">'+ "发送内容不能为空！" +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){
- 						$(this).remove();}
- 					);
- 					return false;
-//				}
+ 			if($(".btn-type.btn-primary").attr("data-type")!='STUDENT_MESSAGE_CLASSTYPE' && $(".btn-method.btn-primary").attr("data-type")!='STUDENT_MESSAGE_MOBILE'){
+	 			if(!msgcount){
+	// 				if(!reg.test($.trim(arr[i]))){
+						$('<div class="c-fa">'+ "发送内容不能为空！" +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){
+	 						$(this).remove();}
+	 					);
+	 					return false;
+	//				}
+	 			}
  			}
  			console.log('send');
  			$.ajax({

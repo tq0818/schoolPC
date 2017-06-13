@@ -2265,13 +2265,19 @@ public class ClassModuleController {
 					json.put(JsonMsg.RESULT, "msgNotCount");
 					return json;
 				}
-				companyStudentMessageServiceImpl.insert(companyStudentMessage);
+				//companyStudentMessageServiceImpl.insert(companyStudentMessage);
 				//2016/7/7 无手机号则不发送短信
 				Integer sendcounts=0;
-				sendcounts = sendPhoneMessage(request, companyStudentMessage, content, companyId, schoolId, user,
+				//课程通知
+				messageCost = 1;
+				companyStudentMessage.setTitle("课程开课通知");
+				sendcounts = sendPhoneLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user,
 						messageCost, stuList, sendcounts);
+				//SMSUtil.sendLessonNotic(request, "13880918056", "测试课程", "2017-06-06");
 			//	companyStudentMessage.setMessageCost(stuList.size() * (messageCost));
 				companyStudentMessage.setMessageCost(sendcounts * (messageCost));//2016/7/7  发送条数更改
+				css.setMessageSend(css.getMessageSend()+companyStudentMessage.getMessageCost());
+				companyServiceStaticServiceImpl.update(css);
 			}else if(companyStudentMessage.getMessageType().equals("STUDENT_MESSAGE_MODULENO")){
 
 				if(((cms.getMessageTotal() + cms.getGiveMessage()) - css.getMessageSend()) <= 0){
@@ -2308,7 +2314,7 @@ public class ClassModuleController {
 						return json;
 					}
 					result = SmsClientSend.sendSmsTwo(request
-							,phone.trim(), content + "【在线网校】"
+							,phone.trim(), content + "【成都数字学校】"
 							,user.getId(),"stu-notice");
 					status = result.substring(result.indexOf("<returnstatus>"),result.indexOf("</returnstatus>"));
 					status = status.substring(status.indexOf(">") + 1);
@@ -2417,7 +2423,10 @@ public class ClassModuleController {
 						count ++;
 					}
 					companyStudentMessage.setMessageCost(count * (messageCost));
+					
 				}
+				css.setMessageSend(css.getMessageSend()+companyStudentMessage.getMessageCost());
+				companyServiceStaticServiceImpl.update(css);
 			}else if(companyStudentMessage.getMessageType().equals("STUDENT_MESSAGE_GROUP")){
 				Map<String,Object> search = new HashMap<String,Object>();
 				search.put("companyId", WebUtils.getCurrentCompanyId());
@@ -2713,10 +2722,12 @@ public class ClassModuleController {
 		String result;
 		String status;
 		String message;
+		
 		for (Student s : stuList) {
 			if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+				
 				result = SmsClientSend.sendSmsTwo(request
-						,s.getMobile().trim(), content + "【在线网校】"
+						,s.getMobile().trim(), content + "【成都数字学校】"
 						,user.getId(),"stu-notice");
 				status = result.substring(result.indexOf("<returnstatus>"),result.indexOf("</returnstatus>"));
 				status = status.substring(status.indexOf(">") + 1);
@@ -2730,12 +2741,12 @@ public class ClassModuleController {
 				cmh.setReceiverMobile(s.getMobile().trim());
 				cmh.setContent(companyStudentMessage.getContent());
 				cmh.setSendTime(new Date());
-				if(status.equals("Success")){
+				if(result.equals("发送成功")){
 					cmh.setSendStatus(1);
 				}else{
 					cmh.setSendStatus(0);
 				}
-				cmh.setSendResult(message);
+				cmh.setSendResult(result);
 				cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
 				cmh.setCompanyId(companyId);
 				cmh.setSchoolId(schoolId);
@@ -2748,6 +2759,86 @@ public class ClassModuleController {
 		return sendcounts;
 	}
 
+	
+	/**
+	 * 学员通知发送短信
+	 * @author licong
+	 * @date 2016年10月25日 下午5:00:38
+	 * @param
+	 * @param request
+	 * @param companyStudentMessage
+	 * @param content
+	 * @param companyId
+	 * @param schoolId
+	 * @param user
+	 * @param messageCost
+	 * @param stuList
+	 * @param sendcounts
+	 * @return
+	 */
+	public Integer sendPhoneLessonMessage(HttpServletRequest request, CompanyStudentMessage companyStudentMessage,
+			String content, Integer companyId, Integer schoolId, Users user, Integer messageCost, List<Student> stuList,
+			Integer sendcounts) {
+		String result;
+		String status;
+		String message;
+		
+		String className = "《"+companyStudentMessage.getClassTypeName()+"》";
+		
+		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(companyStudentMessage.getClassTypeId());
+		
+		List<ClassModuleNo> moduleNos = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(0).getId());
+		
+		List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
+		//获取第一个课次的时间
+			
+		lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String date  = sdf.format(moduleNos.get(0).getStartDate())+"  "+ lessons.get(0).getLessonTimeStart();
+		
+		companyStudentMessage.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
+		companyStudentMessageServiceImpl.insert(companyStudentMessage);
+		for (Student s : stuList) {
+			if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+				
+				result = SMSUtil.sendLessonNotic(request, s.getMobile(), className, date);
+				
+				
+//				result = SmsClientSend.sendSmsTwo(request
+//						,s.getMobile().trim(), content + "【在线网校】"
+//						,user.getId(),"stu-notice");
+//				status = result.substring(result.indexOf("<returnstatus>"),result.indexOf("</returnstatus>"));
+//				status = status.substring(status.indexOf(">") + 1);
+//				message = result.substring(result.indexOf("<message>"),result.indexOf("</message>"));
+//				message = message.substring(message.indexOf(">") + 1);
+//				if(message.equals("ok")){
+//					message = "发送成功";
+//				}
+				CompanyMessageHistory cmh = new CompanyMessageHistory();
+				cmh.setReceiverUserId(""+s.getId());
+				cmh.setReceiverMobile(s.getMobile().trim());
+				cmh.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
+				cmh.setSendTime(new Date());
+				if(result.equals("发送成功")){
+					cmh.setSendStatus(1);
+				}else{
+					cmh.setSendStatus(0);
+				}
+				cmh.setSendResult(result);
+				cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
+				cmh.setCompanyId(companyId);
+				cmh.setSchoolId(schoolId);
+				cmh.setCostNum(messageCost);
+				cmh.setMessageId(companyStudentMessage.getId());
+				companyMessageHistoryServiceImpl.insert(cmh);
+				sendcounts++;
+			}
+		}
+		return sendcounts;
+	}
+	
+	
 	//添加模块
 	@ResponseBody
 	@RequestMapping(value="/saveModules",method=RequestMethod.POST)

@@ -350,6 +350,11 @@ public class SMSUtil {
 		
 	}
 	
+	
+//	public static void main(String[] args) throws Exception {
+//		SMSHandler.send("13880918056", SMS_TEMPLETE_LESSONNOTICE, new String[]{"测试发送","2017-06-06"});
+//		//log.setSendStatus("1");
+//	}
 	/**
 	 * 发送自定义短信
 	 * @param request

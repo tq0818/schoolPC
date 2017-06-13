@@ -167,8 +167,8 @@
 					<p class="c zhan">
 						<span class="c-title">消耗短信：</span> <span class="c-content"><span
 							id="useMsg"></span> <em style="font-size: inherit;color: #999;padding-right:20px;padding-left:20px;">剩余短信：<span id="Surplus">${!empty count?count:0 } 条</span></em><span
-							style="color: red; float: right;">已输入<span id="write"></span>个字符，单条短信70个字符
-						</span></span>&nbsp;<span style="color:red;">* 最多140个字</span>
+							style="color: red; float: right;" class="tips-txt">已输入<span id="write"></span>个字符，单条短信70个字符
+						</span></span>&nbsp;<span style="color:red;" class="tips-txt">* 最多140个字</span>
 					</p>
 					<p class="c use_email" style="display:none;">
 						<span class="c-title">消耗邮件：</span> <span class="c-content"><span

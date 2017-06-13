@@ -345,9 +345,12 @@ public class QuestionController {
         question.setSchoolId(schoolId);
         question.setPageSize(10);
         question.setDelFlag(1);
+        Subject subject = SecurityUtils.getSubject();
         if (authRoleServiceImpl.hasRoleFlag(userId)) {
             model.addAttribute("isMan", "yes");
-        } else {
+        } else if(subject.hasRole("运营")){//是否运营人员
+            model.addAttribute("isMan", "yes");
+        } else{
             model.addAttribute("isMan", "no");
         }
         String imgUrl = "http://" + properties.getProjectImageUrl() + "/";

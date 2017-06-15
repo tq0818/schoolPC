@@ -11,6 +11,7 @@
 		<result property="itemStatusCode" column="item_status_code" />
 		<result property="displaySeq" column="display_seq" />
 		<result property="companyId" column="company_id" />
+		<result property="isDirectly" column="is_directly" />
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -22,8 +23,8 @@
 		parent_item_id,
 		item_status_code,
 		display_seq,
-		company_id
-		
+		company_id,
+		is_directly
     </sql>
 	<sql id="entity_properties">
 		#{id},

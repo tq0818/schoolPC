@@ -155,6 +155,27 @@
 					$("#myForm").attr("action",rootPath+"/authPrivilege/addAuthPrivilage").submit();
 				}
 			},
+			syncOrgUser : function(){
+				$.ajax({
+					url : rootPath + "/tool/createUsersByOrg",
+                    dataType:'json',
+                    beforeSend:function(XMLHttpRequest){
+                        $(".loading").show();
+                        $(".loading-bg").show();
+                    },
+					success : function(result) {
+						if(result){
+							$.msg(result);
+						}else{
+							$.msg("成功！");
+						}
+					},complete:function(XMLHttpRequest,textStatus){
+                        $(".loading").hide();
+                        $(".loading-bg").hide();
+                        $.footerPosition({ cur: '.footer', pre: '.mainbackground' });
+                    }
+				});
+			},
 			deleteUser : function(id){
 				var kg=0;
 				$.ajax({

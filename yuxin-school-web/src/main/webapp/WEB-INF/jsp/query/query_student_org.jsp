@@ -53,31 +53,6 @@
                         <select id="eduClass" name="eduClass" style="width:150px;">
                         <option value="">请选择班级</option>
                         </select>
-						<%--<select name="eduArea" id="eduArea">--%>
-							<%--<option value="${school.itemCode}" data-id="${school.id}" >${school.itemValue}</option>--%>
-						<%--</select>--%>
-
-						<%--<select id="registStatus" name="status">--%>
-							<%--<option value="">前台账号状态</option>--%>
-							<%--<option value="1">启用</option>--%>
-							<%--<option value="0">禁用</option>--%>
-						<%--</select>--%>
-						<%--<select id="registMethods" name="registType">--%>
-							<%--<option value="">前台登录账号</option>--%>
-							<%--<option value="1">已开通</option>--%>
-							<%--<option value="0">未开通</option>--%>
-						<%--</select>--%>
-						<%--<select id="payStatus" name="paymaterCount">--%>
-							<%--<option value="">报名状态</option>--%>
-							<%--<option value="1">已报名</option>--%>
-							<%--<option value="0">未报名</option>--%>
-						<%--</select>--%>
-						<%--<c:if test="${sgOpen==1 }">--%>
-							<%--<select id="studentG1" name="groupOneId" onchange="javaScript:selectGroup2(this,'');" >--%>
-							<%--</select>--%>
-							<%--<select id="studentG2" name="groupTwoId">--%>
-							<%--</select>--%>
-						<%--</c:if>--%>
 
 					</div>
 					<div style="margin-top: 10px;">
@@ -164,7 +139,7 @@
          }
          $("#eduYear").append(yearBody);
          var classesBody = "";
-         for(i = 10;i > 0;i--){
+         for(i = 1;i <=30; i++){
            var li ="<option value='"+i+"'>"+i+"班</option>";
            classesBody += li;
          }

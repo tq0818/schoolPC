@@ -24,6 +24,7 @@
 		<mapper resource="com/yuxin/users/UsersLoginSessionMapper.xml" />
 		<mapper resource="com/yuxin/users/UserLessonTimeMapper.xml"/>
 		<mapper resource="com/yuxin/users/UserInviteRewardsRecordMapper.xml"/>
+		<mapper resource="com/yuxin/users/UsersAreaRelationMapper.xml"/>
 		
 
 		<!-- 班级相关 -->

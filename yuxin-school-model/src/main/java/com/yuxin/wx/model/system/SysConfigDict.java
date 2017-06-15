@@ -20,6 +20,7 @@ public class SysConfigDict extends BaseEntity {
 	private String	itemStatusCode;		 /* 字典项状态 */ 
 	private Integer	displaySeq;		 /* 显示顺序 */ 
 	private Integer companyId;
+	private Integer isDirectly;		/* 是否直属校：1是，0否 */
 
 	// Constructor
 	public SysConfigDict() {
@@ -118,6 +119,14 @@ public class SysConfigDict extends BaseEntity {
 
 	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
+	}
+
+	public Integer getIsDirectly() {
+		return isDirectly;
+	}
+
+	public void setIsDirectly(Integer isDirectly) {
+		this.isDirectly = isDirectly;
 	}
 
 	@Override

@@ -64,6 +64,7 @@
             <span class="line"></span>
             <span class="rb">
                 <a href="javascript:Form.editUser('save');" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em>添加用户</a>
+				<a href="javascript:Form.syncOrgUser('sync');" class="btn btn-mini btn-primary" style="height:14px">同步机构账号</a>
             </span>
         </div>
         <div class="clear">

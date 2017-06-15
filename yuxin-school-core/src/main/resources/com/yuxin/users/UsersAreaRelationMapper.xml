@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.user.mapper.UsersAreaRelationMapper">
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.vo.user.UsersAreaRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into users_area_relation(user_id, edu_area, edu_school, user_type, create_time)
+		values (#{userId}, #{eduArea}, #{eduSchool}, #{userType}, #{createTime})
+	</insert>
+</mapper>

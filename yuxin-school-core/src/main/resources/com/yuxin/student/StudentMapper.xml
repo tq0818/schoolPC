@@ -1157,6 +1157,9 @@
 	 <if test="endTime != null and endTime != ''">and s.create_time <![CDATA[<=]]> '${endTime}'</if>
 	 <if test="userId != null">and s.creator = #{userId})</if>
 	 <if test="stusMobile != null and stusMobile != ''">or s.mobile in(${stusMobile})</if>
+	 <if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
+	 <if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
+	 <if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
 	 order by s.id DESC
 	limit #{firstIndex},#{pageSize}
 	</select>

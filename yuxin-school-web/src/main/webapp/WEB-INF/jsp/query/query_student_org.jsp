@@ -41,15 +41,17 @@
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
                         <span style="margin-left:30px">当前学段</span>
                         <select id="eduStep" name="eduStep" style="width:150px;">
+                           <option value="">请选择学段</option>
                            <c:forEach items="${stepList}" var="step">
                                <option value="${step.itemCode}">${step.itemValue}</option>
                            </c:forEach>
                            
                         </select>
                         <select id="eduYear" name="eduYear" style="width:150px;">
-                           <option>请选择入学年份</option>
+                           <option value="">请选择入学年份</option>
                         </select>
                         <select id="eduClass" name="eduClass" style="width:150px;">
+                        <option value="">请选择班级</option>
                         </select>
 						<%--<select name="eduArea" id="eduArea">--%>
 							<%--<option value="${school.itemCode}" data-id="${school.id}" >${school.itemValue}</option>--%>
@@ -156,7 +158,7 @@
 		 var currdate = new Date();
 		 var year = currdate.getFullYear();
 		 var yearBody = "";
-         for(i = 0;i < 11;i++){
+         for(i = 0;i < 12;i++){
            var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
            yearBody += li;
          }

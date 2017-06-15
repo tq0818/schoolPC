@@ -237,6 +237,9 @@
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
             data.proxyOrgName = $('#proxyOrgName').val();
+            data.eduStep = $('#eduStep').val();
+            data.eduYear = $('#eduYear').val();
+            data.eduClass = $('#eduClass').val();
             var tel = $("#stuMobile").val(); // 获取手机号
 
             if ($(".to").val() != "") {

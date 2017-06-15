@@ -1026,6 +1026,9 @@
 		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
 		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
 		<if test="isStu != null and isStu == 1"> and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
+		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
+		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
+		<if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
 		GROUP by s.id
 	 order by s.id DESC
 	limit #{firstIndex},#{pageSize}

@@ -39,7 +39,18 @@
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
-
+                        <span style="margin-left:30px">当前学段</span>
+                        <select id="eduStep" name="eduStep" style="width:150px;">
+                           <c:forEach items="${stepList}" var="step">
+                               <option value="${step.itemCode}">${step.itemValue}</option>
+                           </c:forEach>
+                           
+                        </select>
+                        <select id="eduYear" name="eduYear" style="width:150px;">
+                           <option>请选择入学年份</option>
+                        </select>
+                        <select id="eduClass" name="eduClass" style="width:150px;">
+                        </select>
 						<%--<select name="eduArea" id="eduArea">--%>
 							<%--<option value="${school.itemCode}" data-id="${school.id}" >${school.itemValue}</option>--%>
 						<%--</select>--%>
@@ -140,6 +151,23 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
 	$selectSubMenu('statistics_org_detail');
+	
+	$(document).ready(function(){
+		 var currdate = new Date();
+		 var year = currdate.getFullYear();
+		 var yearBody = "";
+         for(i = 0;i < 11;i++){
+           var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
+           yearBody += li;
+         }
+         $("#eduYear").append(yearBody);
+         var classesBody = "";
+         for(i = 10;i > 0;i--){
+           var li ="<option value='"+i+"'>"+i+"班</option>";
+           classesBody += li;
+         }
+         $("#eduClass").append(classesBody);
+	});
 </script>
 </body>
 </html>

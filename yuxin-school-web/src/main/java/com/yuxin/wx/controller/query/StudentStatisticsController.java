@@ -383,6 +383,8 @@ public class StudentStatisticsController {
 
         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
+        List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
+        model.addAttribute("stepList", stepList);
         return "/query/query_student_org";
     }
 

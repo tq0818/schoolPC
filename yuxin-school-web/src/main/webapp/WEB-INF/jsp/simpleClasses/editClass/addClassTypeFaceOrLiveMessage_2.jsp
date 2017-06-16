@@ -500,9 +500,7 @@ input+span{
     <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/simpleclasses/addClassTypePic.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/simpleclasses/addClassTypeOnsale.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/plugins/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/plugins/ckeditor/plugins/video/plugin.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/plugins/ckeditor/plugins/video/plugin.js"></script>
+    <script type="text/javascript" src="<%=rootPath %>/plugins/ckeditor2/ckeditor.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/plugins/jcrop/js/jquery.Jcrop.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/plugins/select2/select2.js"></script> 
@@ -514,5 +512,8 @@ input+span{
 	<script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script type="text/javascript" src="<%=rootPath %>/javascripts/simpleclasses/addClassTypeVideo.js"></script>
 	<script type="text/javascript" src="<%=rootPath %>/javascripts/class/checkIsCommonTeac.js"></script>
+<script>
+    CKEDITOR.replace( 'newsContents' );
+</script>
 </body>
 </html>

@@ -2585,7 +2585,7 @@ public class StudentController {
         if (subject.hasRole("代理机构")) {
             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
         }
-        if(subject.hasRole("教科院") || subject.hasRole("区县负责人") || subject.hasRole("直属校负责人")){
+        if(subject.hasRole("教科院") || subject.hasRole("区县负责人") || subject.hasRole("学校负责人")){
             search.setIsStu(1);
         }
         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);

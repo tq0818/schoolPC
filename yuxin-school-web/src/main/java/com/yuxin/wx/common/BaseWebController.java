@@ -100,7 +100,7 @@ public class BaseWebController {
             mv.setViewName("redirect:/query/statistics/index");
         }else if(subject.hasRole("区县负责人")){
             mv.setViewName("redirect:/query/areastatistics/index");
-        }else if(subject.hasRole("直属校负责人")){
+        }else if(subject.hasRole("学校负责人")){
             mv.setViewName("redirect:/query/orgstatistics/index");
         }else{
             mv.setViewName("index/index");

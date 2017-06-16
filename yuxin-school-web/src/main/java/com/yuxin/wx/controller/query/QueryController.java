@@ -203,7 +203,7 @@ public class QueryController {
 			UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
 			search.setEduArea(uersAreaRelation!=null ? uersAreaRelation.getEduArea():"");
 			search.setIsStu(1);
-		}else if(subject.hasRole("直属校负责人")){
+		}else if(subject.hasRole("学校负责人")){
 			Users loginUser = WebUtils.getCurrentUser();
 			//获取账号对应用户信息
 			UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());

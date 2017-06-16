@@ -154,7 +154,7 @@ public class StudentStatisticsController {
         }
 
         List<Map> orgStuStatistics = null;
-        if(!subject.hasRole("直属校负责人")){
+        if(!subject.hasRole("学校负责人")){
             if(StringUtils.isBlank(eduStep) || "null".equals(eduStep)){
                 return null;
             }

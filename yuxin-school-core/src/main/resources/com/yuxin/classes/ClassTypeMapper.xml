@@ -412,6 +412,10 @@
 		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},a.item_tag)>0</if>
 		<if test="teacherId != null and teacherId != ''">and a.teacher_id =${teacherId} </if>
 		<if test="teachersId != null and teachersId != ''">or a.teacher_id in(${teachersId}) </if>
+		<if test="faceFlag != null and faceFlag != ''">and a.face_flag = ${faceFlag}</if>
+		<if test="liveFlag != null and liveFlag != ''">and a.live_flag = ${liveFlag}</if>
+		<if test="videoFlag != null and videoFlag != ''">and a.video_flag = ${videoFlag}</if>
+		<if test="remoteFlag != null and remoteFlag != ''">and a.remote_flag = ${remoteFlag}</if>
 		  ORDER BY a.update_time DESC
 		 limit #{firstIndex},#{pageSize}
 	</select>
@@ -429,6 +433,10 @@
 		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},item_tag)>0</if>
 		<if test="teacherId != null and teacherId != ''">and teacher_id =${teacherId} </if>
 		<if test="teachersId != null and teachersId != ''">or teacher_id in(${teachersId}) </if>
+		<if test="faceFlag != null and faceFlag != ''">and face_flag = ${faceFlag}</if>
+		<if test="liveFlag != null and liveFlag != ''">and live_flag = ${liveFlag}</if>
+		<if test="videoFlag != null and videoFlag != ''">and video_flag = ${videoFlag}</if>
+		<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = ${remoteFlag}</if>
 	</select>
 	
 	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">

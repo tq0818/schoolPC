@@ -72,6 +72,16 @@
                     <a href="javascript:Form.queryAllCommdityByItem(1,null,null,'CLASS_STOP_SALE');" ids="CLASS_STOP_SALE" class="btn btn-mini btn-default">已下架</a>
                 </span>
             </p>
+            <p class="c">
+                <span class="t-title">授课方式</span>
+                <span class="t-content" id="flagList">
+                	<a href="javascript:Form.queryCommdityByFlag(1)" class="btn btn-mini btn-default btn-success">全部</a>
+                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_LIVE" class="btn btn-mini btn-default">直播</a>
+                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_VIDEO" class="btn btn-mini btn-default">录播</a>
+                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_FACE" class="btn btn-mini btn-default">面授</a>
+                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_REMOTE" class="btn btn-mini btn-default">其他</a>
+                </span>
+            </p>
         </div>
     </div>
 </div>

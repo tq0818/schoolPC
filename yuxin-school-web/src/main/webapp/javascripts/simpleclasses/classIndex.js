@@ -208,11 +208,29 @@
 						}
 					});
 				}
+
+				var faceFlag = 0;
+				var liveFlag = 0;
+				var videoFlag = 0;
+				var remoteFlag = 0;
+				$("#flagList").find("a").each(function(i){
+					if($(this).hasClass('btn-success')){
+						var cid=$(this).attr("ids");
+						switch(cid){
+							case "IS_LIVE":liveFlag = 1;break;
+							case "IS_VIDEO":videoFlag = 1;break;
+							case "IS_FACE":faceFlag = 1;break;
+							case "IS_REMOTE":remoteFlag = 1;break;
+							default:break;
+						}
+					}
+				});
 //				window.Form.querylablesList(id);
 				$.ajax({
 					url : rootPath + "/simpleClasses/showAllclassType",
 					type : "post",
-					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec},
+					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
+						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
 					beforeSend:function(XMLHttpRequest){
 			            $(".loading").show();
 			            $(".loading-bg").show();
@@ -224,6 +242,88 @@
 							$(".loading").hide();
 				            $(".loading-bg").hide();
 				     }
+				});
+			},
+			queryCommdityByFlag : function(page,id,itemSecondId,status,lab,labTwo){
+				var labSec="";
+				if(id==null){
+					$("#itemOneList").find("a").each(function(i){
+						if($(this).hasClass('btn-success')){
+							var cid=$(this).attr("ids");
+							id=cid;
+						}
+					});
+				}
+				if(itemSecondId==null){
+					$("#itemSecondList").find("a").each(function(i){
+						if($(this).hasClass('btn-success')){
+							var cid=$(this).attr("ids");
+							itemSecondId=cid;
+						}
+					});
+				}else{
+
+				}
+				Form.querylablesList(null,null,"change");
+				if(status==null){
+					$("#statusList").find("a").each(function(i){
+						if($(this).hasClass('btn-success')){
+							var cid=$(this).attr("ids");
+							status=cid;
+						}
+					});
+				}
+				if(lab==null){
+					$("#labelLists").find("a").each(function(i){
+						if($(this).hasClass('btn-success')){
+							var cid=$(this).attr("ids");
+							lab=cid;
+						}
+					});
+				}
+				if(labTwo && labTwo!=null){
+					labSec=labTwo;
+				}else{
+					$("#labelSecondLists").find("a").each(function(i){
+						if($(this).hasClass('btn-success')){
+							var cid=$(this).attr("ids");
+							labSec=cid;
+						}
+					});
+				}
+				var faceFlag = 0;
+				var liveFlag = 0;
+				var videoFlag = 0;
+				var remoteFlag = 0;
+				$("#flagList").find("a").each(function(i){
+					if($(this).hasClass('btn-success')){
+						var cid=$(this).attr("ids");
+						switch(cid){
+							case "IS_LIVE":liveFlag = 1;break;
+							case "IS_VIDEO":videoFlag = 1;break;
+							case "IS_FACE":faceFlag = 1;break;
+							case "IS_REMOTE":remoteFlag = 1;break;
+							default:break;
+						}
+					}
+				});
+	//				window.Form.querylablesList(id);
+				$.ajax({
+					url : rootPath + "/simpleClasses/showAllclassType",
+					type : "post",
+					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
+						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
+					beforeSend:function(XMLHttpRequest){
+						$(".loading").show();
+						$(".loading-bg").show();
+					},
+					success : function(result) {
+						$("#commodityDetailList").html(result);
+					},
+					complete:function(XMLHttpRequest,textStatus){
+						$(".loading").hide();
+						$(".loading-bg").hide();
+					}
 				});
 			},
 			queryAllCommdityByItemNew : function(page,id,itemSecondId,status,lab,labTwo){
@@ -272,10 +372,27 @@
 						}
 					});
 				}
+				var faceFlag = 0;
+				var liveFlag = 0;
+				var videoFlag = 0;
+				var remoteFlag = 0;
+				$("#flagList").find("a").each(function(i){
+					if($(this).hasClass('btn-success')){
+						var cid=$(this).attr("ids");
+						switch(cid){
+							case "IS_LIVE":liveFlag = 1;break;
+							case "IS_VIDEO":videoFlag = 1;break;
+							case "IS_FACE":faceFlag = 1;break;
+							case "IS_REMOTE":remoteFlag = 1;break;
+							default:break;
+						}
+					}
+				});
 				$.ajax({
 					url : rootPath + "/simpleClasses/showAllclassType",
 					type : "post",
-					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec},
+					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
+						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
 					beforeSend:function(XMLHttpRequest){
 			            $(".loading").show();
 			            $(".loading-bg").show();

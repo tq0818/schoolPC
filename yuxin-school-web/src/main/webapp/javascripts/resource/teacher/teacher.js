@@ -47,7 +47,7 @@ $(function(){
 			  url:rootPath+"/sysConfigTeacher/updateSortId",
 			  data:{id:id,sortId:sortId},
 			  success:function(result){
-				  alert(result);
+				  $.msg("保存成功");
 				  var itemOneId = $("#itemId").val();
 				  var teaName = $("#teacherName").val();
 				  queryPageByKeys(itemOneId,1,teaName);

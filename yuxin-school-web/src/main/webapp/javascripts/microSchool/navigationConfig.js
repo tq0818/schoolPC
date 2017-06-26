@@ -165,8 +165,9 @@
             
             sort: function(){
             	var self = this;
-            	var SERVICE_CLASS,SERVICE_CLASS_PACKAGE,SERVICE_OPENCLASS,SERVICE_TEACHER,SERVICE_TIKU,SERVICE_QUESTION_ANSWER,SERVICE_MEMBER;
+            	var SERVICE_CLASS,SERVICE_CLASS_VIDEO,SERVICE_CLASS_PACKAGE,SERVICE_OPENCLASS,SERVICE_TEACHER,SERVICE_TIKU,SERVICE_QUESTION_ANSWER,SERVICE_MEMBER;
             	var SERVICE_CLASS_HTML = "";
+				var SERVICE_CLASS_VIDEO_HTML = "";
             	var SERVICE_CLASS_PACKAGE_HTML = "";
             	var SERVICE_OPENCLASS_HTML = "";
             	var SERVICE_TEACHER_HTML = ""; 
@@ -179,6 +180,11 @@
             			SERVICE_CLASS_HTML = $(this).prop('outerHTML');
             			$(this).remove();
             		}
+					if($(this).attr("data-service") == "SERVICE_CLASS_VIDEO"){
+						SERVICE_CLASS_VIDEO = $(this).attr("data-sort");
+						SERVICE_CLASS_VIDEO_HTML = $(this).prop('outerHTML');
+						$(this).remove();
+					}
             		if($(this).attr("data-service") == "SERVICE_CLASS_PACKAGE"){
             			SERVICE_CLASS_PACKAGE = $(this).attr("data-sort");
             			SERVICE_CLASS_PACKAGE_HTML = $(this).prop('outerHTML');
@@ -210,11 +216,14 @@
             			$(this).remove();
             		}
             	})
-            	for (var int = 1; int <= 7; int++) {
+            	for (var int = 1; int <= 8; int++) {
             		switch(''+int){
             			case SERVICE_CLASS:
             				$("#navbarconfigs").append(SERVICE_CLASS_HTML);
             				break;
+						case SERVICE_CLASS_VIDEO:
+							$("#navbarconfigs").append(SERVICE_CLASS_VIDEO_HTML);
+							break;
             			case SERVICE_CLASS_PACKAGE:
             				$("#navbarconfigs").append(SERVICE_CLASS_PACKAGE_HTML);
             				break;

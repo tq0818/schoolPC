@@ -59,7 +59,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_CLASS_PACKAGE" data-sort="2" id="SERVICE_CLASS_PACKAGE">
+                        <div class="section n true" data-service="SERVICE_CLASS_VIDEO" data-sort="2" id="SERVICE_CLASS_VIDEO">
+                            <div class="block l-menu">
+                                <div class="title-wrap">
+                                    <ul class="row clear">
+                                        <li class="with13">
+                                            <span class="title-info in2304 headName"><span class="HeadName">点播课程</span><input class="HeadNameInput none" type="text" value="点播课程"/></span>
+
+                                        </li>
+                                        <li class="with10">
+                                            <a href="javascript:void(0);" class="headStatus" data-service="SERVICE_CLASS_VIDEO" style="text-decoration: none;">
+                                                <i class="iconfont normal open" >&#xe603;</i>
+												<span class="open">已启用</span>
+                                            </a>
+                                        </li>
+                                        <li class="with70 link-address"></li>
+                                        <li class="with7">
+                                            <i class="iconfont edit-icon mar-lr5" data-service="SERVICE_CLASS_VIDEO"></i>
+                                            <i class="iconfont nav-name-icon" style="cursor: move;"> </i>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section n true" data-service="SERVICE_CLASS_PACKAGE" data-sort="3" id="SERVICE_CLASS_PACKAGE">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -91,7 +114,7 @@
                             </div>
                         </div>
                        
-                        <div class="section n true" data-service="SERVICE_OPENCLASS" data-sort="3" id="SERVICE_OPENCLASS">
+                        <div class="section n true" data-service="SERVICE_OPENCLASS" data-sort="4" id="SERVICE_OPENCLASS">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -122,7 +145,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_TEACHER" data-sort="4" id="SERVICE_TEACHER">
+                        <div class="section n true" data-service="SERVICE_TEACHER" data-sort="5" id="SERVICE_TEACHER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -153,7 +176,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_TIKU" data-sort="5" id="SERVICE_TIKU">
+                        <div class="section n true" data-service="SERVICE_TIKU" data-sort="6" id="SERVICE_TIKU">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -184,7 +207,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_QUESTION_ANSWER" data-sort="6" id="SERVICE_QUESTION_ANSWER">
+                        <div class="section n true" data-service="SERVICE_QUESTION_ANSWER" data-sort="7" id="SERVICE_QUESTION_ANSWER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -215,7 +238,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_MEMBER" data-sort="7" id="SERVICE_MEMBER">
+                        <div class="section n true" data-service="SERVICE_MEMBER" data-sort="8" id="SERVICE_MEMBER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">

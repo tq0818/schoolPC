@@ -439,4 +439,6 @@ public interface ISysConfigTeacherService {
     SysConfigTeacher findByInviteCode(SysConfigTeacher search);
 
 	PageFinder<TeachersVo> findTeachersBycondition(TeachersVo teacher);
+	
+	int updateSortId(SysConfigTeacher search);
 }

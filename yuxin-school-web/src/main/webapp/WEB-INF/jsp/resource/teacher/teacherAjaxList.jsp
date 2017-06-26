@@ -70,12 +70,22 @@
                     <input type="text" class="readonly" value="${item.name }" readonly>
                 </span>
             </p>
-            <p class="c">
+            <p class="c" style="width:30%">
                 <span class="c-title">手机号</span>
                 <span class="c-content">
                     <input type="text" class="readonly" value="${item.mobile }" readonly>
                 </span>
+                
             </p>
+            <c:if test="${item.isDistinguished==1 }">
+	            <p class="r sort">
+	            	<span class="c-title">排序:</span>
+	                <span class="c-content">
+	                    <input type="text" id="${item.id }_sortId" value="${item.sortId>0?item.sortId:'' }" class="sortinput">
+	                </span>
+	                <input type="button" class="sortSave" data-id="${item.id }" data-sort="${item.sortId>0?item.sortId:'' }" value="保存">
+	            </p>
+            </c:if>
         </div>
         
         <div class="r-list-content clear hide">

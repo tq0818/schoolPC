@@ -41,10 +41,10 @@
 		<result property="userName" column="user_name" />
 		<result property="isDistinguished" column="is_distinguished" />
 		<result property="inviteCode" column="invite_code" />
-
 		<result property="teacherLevel" column="teacher_level" />
 		<result property="teacherArea" column="teacher_area" />
 		<result property="schoolName" column="school_name" />
+		<result property="sortId" column="sort_id" />
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -123,7 +123,8 @@
 		invite_code,
 		teacher_level,
 		teacher_area,
-		school_name
+		school_name,
+		sort_id
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -164,7 +165,8 @@
 		#{inviteCode},
 		#{teacherLevel},
 		#{teacherArea},
-		#{schoolName}
+		#{schoolName},
+		#{sortId}
 	</sql>
 
 	<!-- 适用于主键自增类型 -->
@@ -545,7 +547,7 @@
 		</if>
 		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		and status_code = 'TEACHER_USERD' order by create_time desc
+		and status_code = 'TEACHER_USERD' order by sort_id is null, sort_id asc
 		limit #{firstIndex},#{pageSize}
 	</select>
 
@@ -566,7 +568,7 @@
 		</if>
 		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		and status_code = 'TEACHER_USERD' order by create_time desc
+		and status_code = 'TEACHER_USERD' order by sort_id is null,sort_id asc
 	</select>
 
 	<select id="findTeacherIdByMobile" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -601,7 +603,9 @@
 		sct.work_phone,
 		sct.emergency_contact_name,
 		sct.emergency_contact_phone,
-		sct.resume
+		sct.resume,
+		sct.sort_id,
+		sct.is_distinguished
 		FROM
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
@@ -610,7 +614,7 @@
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
 		AND sct.del_flag = 0 AND sctl.item_one_id =
-		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id
+		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc
 		limit #{firstIndex},#{pageSize}
 	</select>
 
@@ -627,7 +631,7 @@
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
 		AND sct.del_flag = 0 AND sctl.item_one_id =
-		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id)
+		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc)
 		noTable
 	</select>
 
@@ -832,4 +836,8 @@
 where com.status=1 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct.company_id=#{companyId}) DESC
       </if>
 	</select>
+	<update id="updateSortId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		update sys_config_teacher set
+		sort_id = #{sortId} where id =  #{id}
+	</update>
 </mapper>

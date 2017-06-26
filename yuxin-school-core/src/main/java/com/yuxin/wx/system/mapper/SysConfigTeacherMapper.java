@@ -139,4 +139,6 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
 	List<TeachersVo> queryTeachersData(TeachersVo teacher);
 
 	Integer queryTeachersDataCount(TeachersVo teacher);
+	
+	int updateSortId(SysConfigTeacher search);
 }

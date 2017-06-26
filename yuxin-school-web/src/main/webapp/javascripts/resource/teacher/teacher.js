@@ -23,7 +23,38 @@ $(function(){
 		var teaName = $("#teacherName").val();
 		queryPageByKeys(itemOneId,1,teaName);
 	});
-	
+	$(document).delegate(".sortSave","click",function(){
+		
+
+		
+		  var id = $(this).attr("data-id");
+		  var sortId = $("#"+id+"_sortId").val();
+		  
+		  sortId =sortId.trim();
+		 
+		  var reg =/(^$)|(^[1-9]{1,2}$)/
+		  if(!reg.test(sortId)){
+			  $.msg("请输入正确序号");
+			  return false;
+		  }
+		  
+		  if(sortId.length==0){
+			  sortId =0;
+		  }
+		  
+		  $.ajax({
+			  type:"post",
+			  url:rootPath+"/sysConfigTeacher/updateSortId",
+			  data:{id:id,sortId:sortId},
+			  success:function(result){
+				  alert(result);
+				  var itemOneId = $("#itemId").val();
+				  var teaName = $("#teacherName").val();
+				  queryPageByKeys(itemOneId,1,teaName);
+			  }
+			  
+		  });
+	  });
 });
 
 //给当前的条件添加样式
@@ -189,5 +220,8 @@ function queryTeacherOfLessons(obj, teacherId){
              $(".loading-bg").hide();
 	      },
 	  });
+	  
+	  
+	  
 }
 

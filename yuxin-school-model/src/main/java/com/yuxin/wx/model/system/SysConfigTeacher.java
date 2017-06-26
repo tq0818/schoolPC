@@ -72,7 +72,11 @@ public class SysConfigTeacher extends BaseEntity {
 
 	private String teacherLevel;
 	private String teacherArea;
-
+	
+	private Integer sortId;
+	
+	
+	
 	public String getSchoolName() {
 		return schoolName;
 	}
@@ -449,4 +453,13 @@ public class SysConfigTeacher extends BaseEntity {
 	public void setIsDistinguished(Integer isDistinguished) {
 		this.isDistinguished = isDistinguished;
 	}
+
+	public Integer getSortId() {
+		return sortId;
+	}
+
+	public void setSortId(Integer sortId) {
+		this.sortId = sortId;
+	}
+	
 }

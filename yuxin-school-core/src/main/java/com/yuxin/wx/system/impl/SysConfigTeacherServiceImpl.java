@@ -551,4 +551,10 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 		return pageFinder;
 	}
 
+	@Override
+	public int updateSortId(SysConfigTeacher search) {
+		// TODO Auto-generated method stub
+		return sysConfigTeacherMapper.updateSortId( search);
+	}
+
 }

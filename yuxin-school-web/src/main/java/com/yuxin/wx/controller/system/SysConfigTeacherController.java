@@ -1142,4 +1142,22 @@ public class SysConfigTeacherController {
 		}
 		return pageFinder;
 	}
+	
+	
+
+	@ResponseBody
+	@RequestMapping(value="/updateSortId")
+	public String updateSortId(SysConfigTeacher teacher,Model model,HttpServletRequest request){
+		
+		if(teacher.getSortId()==0){
+			teacher.setSortId(null);
+		}
+		int index = sysConfigTeacherServiceImpl.updateSortId(teacher);
+		if(index ==1){
+			return "success";  
+		}else{
+			return "fail"; 
+		}
+		
+	}
 }

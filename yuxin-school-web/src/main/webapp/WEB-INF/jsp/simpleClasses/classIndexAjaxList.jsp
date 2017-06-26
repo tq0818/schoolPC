@@ -47,6 +47,7 @@
 			    	</c:if>
 			      </a>
 			    </div>
+
 			    <div class="infos-title">
 			        <h2 class="h5">
 			        	 <a href="javascript:Form.showClassTypeDetail(${allCommdotity.id },'${allCommdotity.typeCode }');" title="${allCommdotity.name }">
@@ -59,7 +60,7 @@
 				          	</c:otherwise>
 				          </c:choose>
 				        </a>
-			        </h2>
+			        </h2> 
 			        <div class="type" id="lab${allCommdotity.id }">
 			        	<c:if test="${allCommdotity.liveFlag==1 }"> 
 			        		 <a href="javascript:;" mark="live" class="btn btn-mini btn-default">直播</a>
@@ -84,26 +85,36 @@
 			        	<c:if test="${empty allCommdotity.description }">
 			        		&nbsp;&nbsp;
 			        	</c:if>
-			        </p>
+			        </p> 
+			        <div class="btns list-btn">
+				      <a href="javascript:Form.deleteClassType(${allCommdotity.id });" class="btn btn-sm btn-default deleteGoods">删除</a>
+				    	<c:if test="${allCommdotity.publishStatus=='CLASS_ON_SALE'}">
+				    	    <a href="javascript:Form.stopOnsale(${allCommdotity.id });" class="btn btn-sm btn-default downGoods">下架</a>
+				    	    <a href="javascript:Form.editClassType(${allCommdotity.id });" class="btn btn-sm btn-primary">管理</a>
+				    	    <a href="<%=rootPath %>/classModuleLesson/classesResource/${allCommdotity.id }/none" target="_blank" class="btn btn-sm btn-primary">资料</a>
+				    	</c:if>
+				    	<c:if test="${allCommdotity.publishStatus=='CLASS_STOP_SALE'}">
+				    	    <a href="javascript:Form.classTypeOnsale(${allCommdotity.id });" class="btn btn-sm btn-default upSale">上架</a>
+				    		<a href="javascript:Form.editClassType(${allCommdotity.id });" class="btn btn-sm btn-primary">管理</a>
+				    	</c:if>
+				    	<c:if test="${allCommdotity.publishStatus=='CLASS_UNPUBLISHED'}">
+				    		<a href="javascript:Form.editClassType(${allCommdotity.id });" class="btn btn-sm btn-primary">管理</a>
+				    	</c:if>
+				    </div>
 			    </div>
 			    <div class="infos-tips clear">
 			        <p><span class="price">￥ ${allCommdotity.realPrice }</span><del>${allCommdotity.originalPrice }</del><span style="float:right; color: gray;font-size: 10px;">${allCommdotity.actualNum }人学习</span></p>
 			    </div>
-			    <div class="btns" style="padding:0px;">
-			      <a href="javascript:Form.deleteClassType(${allCommdotity.id });" class="btn btn-sm btn-default deleteGoods">删除</a>
-			    	<c:if test="${allCommdotity.publishStatus=='CLASS_ON_SALE'}">
-			    	    <a href="javascript:Form.stopOnsale(${allCommdotity.id });" class="btn btn-sm btn-default downGoods">下架</a>
-			    	    <a href="javascript:Form.editClassType(${allCommdotity.id });" class="btn btn-sm btn-primary">管理</a>
-			    	    <a href="<%=rootPath %>/classModuleLesson/classesResource/${allCommdotity.id }/none" target="_blank" class="btn btn-sm btn-primary">资料</a>
-			    	</c:if>
-			    	<c:if test="${allCommdotity.publishStatus=='CLASS_STOP_SALE'}">
-			    	    <a href="javascript:Form.classTypeOnsale(${allCommdotity.id });" class="btn btn-sm btn-default upSale">上架</a>
-			    		<a href="javascript:Form.editClassType(${allCommdotity.id });" class="btn btn-sm btn-primary">管理</a>
-			    	</c:if>
-			    	<c:if test="${allCommdotity.publishStatus=='CLASS_UNPUBLISHED'}">
-			    		<a href="javascript:Form.editClassType(${allCommdotity.id });" class="btn btn-sm btn-primary">管理</a>
-			    	</c:if>
-			    </div>
+		        <div class="course-sort">
+		        	<label for="" class="sort-txt">学科课程排序：</label>
+		        	<input type="text" class="sort-input" name="sortInput" placeholder ="未排序">
+		        	<!-- <div class="sortbtn"> -->
+		        		<i class='iconfont icons sortbtn sortbtn-gou'>&#xe660;</i>
+		        		<i class='iconfont icons sortbtn sortbtn-cha'>&#xe6bd;</i>
+		        	<!-- </div> -->
+		        	
+		        </div>
+			    
 			</li>
 		</c:forEach>
 	</ul>
@@ -193,6 +204,30 @@
 		  })
 	  })
 		
+	  	$("[name=sortInput]").focus(function(){
+	  		var _this = $(this);
+	  		_this.addClass("editing");
+	  		_this.siblings('.sortbtn').show();
+	  	});
+	  	$(".course-sort").delegate(".sortbtn-gou","click",function(e){
+	  		var _input = $("[name=sortInput]").val();
+	  		var reg = /^[1-8]$/;
+	  		if(_input=='') {
+	  			$.msg("请输入序号");
+	  			return false;
+	  		}
+	  		if(!reg.test(_input)) {
+	  			$.msg("请输入正确的序号");
+	  			return false;
+	  		}
+
+	  		$("[name=sortInput]").removeClass("editing");
+	  		$(e.delegateTarget).find('.sortbtn').hide();
+	  	}).delegate(".sortbtn-cha","click",function(e){
+				$("[name=sortInput]").val("").removeClass("editing");
+				$(e.delegateTarget).find('.sortbtn').hide();
+	  	});;	
+
   });
 </script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/javascripts/class/editClass/validatePrivilige.js"></script>

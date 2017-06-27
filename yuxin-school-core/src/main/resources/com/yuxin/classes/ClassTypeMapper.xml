@@ -285,7 +285,7 @@
 			<if test="memberFlag != null">member_flag = #{memberFlag},</if>
 			<if test="buyNumMax != null">buy_num_max = #{buyNumMax},</if>
 			<if test="protocolId != null">protocol_id = #{protocolId},</if>
-		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==0">subject_class_order = null</if>
+		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
 		    
 		 </trim>
 		<where>id = #{id}</where>

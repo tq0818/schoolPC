@@ -34,7 +34,7 @@ $(function(){
 		 
 		  var reg =/(^$)|(^[1-9][0-9]{0,1}$)/
 		  if(!reg.test(sortId)){
-			  $.msg("请输入正确序号");
+			  $.msg("请输入正整数，并且数字范围在1-99");
 			  return false;
 		  }
 		  

@@ -547,7 +547,7 @@
 		</if>
 		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		and status_code = 'TEACHER_USERD' order by sort_id is null, sort_id asc
+		and status_code = 'TEACHER_USERD' order by sort_id is null, sort_id asc, create_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 

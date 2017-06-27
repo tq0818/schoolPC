@@ -17,7 +17,7 @@
 	<ul class="clear" id="ulListss">
 	<li class='add-class'> <a href='javascript:;' class="checkStudent operate_btn btn-sel-stu"><i class='iconfont icons'>&#xe61c;</i></a></li>
 	  <c:forEach items="${pageFinder.data }" var="allCommdotity" varStatus="status">
-		   <li id="commodityLi${allCommdotity.id }" onmouseover="Form.showSave(${allCommdotity.id})" onmouseout="Form.closeSave(${allCommdotity.id})">
+		   <li id="commodityLi${allCommdotity.id }" onmouseover="Form.showSave(${allCommdotity.id})" onmouseout="Form.closeSave(${allCommdotity.id})" publishStatus="${allCommdotity.publishStatus}">
 		   		<c:choose>
 		   			<c:when test="${allCommdotity.publishStatus=='CLASS_STOP_SALE' }">
 		   				<i class="tips" style="background-color: rgba(231,31,26,0.8);color: white;">
@@ -107,7 +107,7 @@
 			    </div>
 		        <div class="course-sort">
 		        	<label for="" class="sort-txt">学科课程排序：</label>
-		        	<input type="text" class="sort-input" name="sortInput" placeholder ="未排序">
+		        	<input type="text" class="sort-input" maxLength="2" name="sortInput" <c:if test="${not empty allCommdotity.subjectClassOrder}"> value="${allCommdotity.subjectClassOrder }" </c:if> <c:if test="${empty allCommdotity.subjectClassOrder}"> placeholder ="未排序"</c:if> onfocus="this.placeholder=''" onblur="this.placeholder='未排序'">
 		        	<!-- <div class="sortbtn"> -->
 		        		<i class='iconfont icons sortbtn sortbtn-gou'>&#xe660;</i>
 		        		<i class='iconfont icons sortbtn sortbtn-cha'>&#xe6bd;</i>
@@ -125,6 +125,7 @@
  <input type="hidden" id="itemOneId" name="itemOneId" value="${itemOneId }"/>
  <input type="hidden" id="searchName" value="${searchName }"/>
  <script type="text/javascript">
+ var orderCount = ${orderCount};
  function resizeLayout(){
 	 var w=$(".upload-layer").width();
 	 var h=$(".upload-layer").height();
@@ -210,19 +211,51 @@
 	  		_this.siblings('.sortbtn').show();
 	  	});
 	  	$(".course-sort").delegate(".sortbtn-gou","click",function(e){
-	  		var _input = $("[name=sortInput]").val();
-	  		var reg = /^[1-8]$/;
-	  		if(_input=='') {
-	  			$.msg("请输入序号");
+	  		if(orderCount >= 8 ){
+	  			$.msg("排序总数不能超过8个.");
 	  			return false;
 	  		}
-	  		if(!reg.test(_input)) {
-	  			$.msg("请输入正确的序号");
+	  		var publishStatus = $(this).parent().parent("li[id^='commodityLi']").attr("publishStatus"); 
+	  		if(publishStatus !="CLASS_ON_SALE"){
+	  			$.msg("课程未发布,不能排序.");
+	  			return false;
+	  		}
+	  		
+	  		var _input = $(this).prev().val();
+	  		var reg =  /(^$)|(^[1-9]\d*$)/;
+	 	  	if(!$.trim(reg) && !reg.test(_input)) {
+	  			$.msg("请输入正整数,并且序号范围1-99");
 	  			return false;
 	  		}
 
 	  		$("[name=sortInput]").removeClass("editing");
 	  		$(e.delegateTarget).find('.sortbtn').hide();
+	  		var id;
+	        var itemOneId;
+	        $("#itemOneList").find("a").each(function(i){
+				if($(this).hasClass('btn-success')){
+					var cid=$(this).attr("ids");
+					itemOneId=cid;
+					return false;
+				}
+			});
+	  	    id = $(this).parent().parent("li[id^='commodityLi']").attr("id"); 
+	  		id = id.replace("commodityLi","");
+		    $.ajax({
+				type:'GET',
+				data:{'id':id,'order':_input,'itemOneId':itemOneId},
+				url:"<%=rootPath%>/simpleClasses/updateSubjectClassOrder",
+				dataType : "json",
+				success:function(data){
+					if(data=='success'){
+						$.msg("修改排序成功");
+						Form.queryAllCommdityByItem(1);
+					}else{
+						$.msg("修改排序失败");
+					}
+				}
+			});
+
 	  	}).delegate(".sortbtn-cha","click",function(e){
 				$("[name=sortInput]").val("").removeClass("editing");
 				$(e.delegateTarget).find('.sortbtn').hide();

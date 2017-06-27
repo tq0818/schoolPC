@@ -2,7 +2,7 @@
 .points-use-class .classes .mainbackground .c-main p.c span.conten-width{width:60%;}p.c span.conten-width input{width:100%;}
 .classes .mainbackground .course-sort {padding: 5px 10px;}
 .classes .mainbackground .course-sort .sort-txt{display: inline-block;}
-.classes .mainbackground .course-sort .sort-input{width: 90px;border:1px solid transparent;color:#ccc;}
+.classes .mainbackground .course-sort .sort-input{cursor: pointer;width: 90px;border:1px solid transparent;color:#ccc;}
 .classes .mainbackground .course-sort .iconfont{    vertical-align: middle;margin-left: 3px;}
 .classes .mainbackground .course-sort .sortbtn-gou{font-size: 22px;color: #80e808;}
 .classes .mainbackground .course-sort .sortbtn-cha{font-size: 18px;color: #f64a13;}

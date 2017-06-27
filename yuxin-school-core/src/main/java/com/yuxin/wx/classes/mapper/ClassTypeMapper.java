@@ -113,4 +113,13 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	ClassTypeVo findClassTypeVoByClassTypeId(Integer classTypeId);
 	List<ClassType> findClassTypeVoByClassTypeId(ClassType cp);
 	List<ClassType> findAllclassType(ClassType cp);
+	
+	/**
+	 * 修改学科课程排序
+	 * @param cp
+	 * @return
+	 */
+	int updateSubjectClassOrder(ClassType cp);
+	
+	int countSubjectClassOrder(Integer itemOenId);
 }

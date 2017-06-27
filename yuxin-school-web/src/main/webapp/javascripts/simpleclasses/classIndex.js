@@ -460,6 +460,7 @@
 								}
 								
 								//alert(result);
+								Form.queryAllCommdityByItem(1);
 							}
 						});
 					}else{
@@ -507,6 +508,7 @@
 							$("#commodityLi"+id).find("i:first").text("在售").css({"background-color":"rgba(194,235,235,.8)","color":"black"});
 							$("#commodityLi"+id).find("div.btns").find("a:eq(1)").text("下架").attr("href","javascript:Form.stopOnsale("+result.id+")");
 						}
+						Form.queryAllCommdityByItem(1);
 					}
 				});
 			},

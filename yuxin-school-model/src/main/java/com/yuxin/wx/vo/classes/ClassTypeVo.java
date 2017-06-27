@@ -68,6 +68,7 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer protocolId;	//协议id
 	
 	private Integer commodityId;//商品id
+	private Integer subjectClassOrder;//学科课程排序
 	
 	public Integer getCommodityId() {
 		return commodityId;
@@ -431,6 +432,12 @@ public class ClassTypeVo extends BaseEntity {
 	}
 	public void setBuyNumMax(Integer buyNumMax) {
 		this.buyNumMax = buyNumMax;
+	}
+	public Integer getSubjectClassOrder() {
+		return subjectClassOrder;
+	}
+	public void setSubjectClassOrder(Integer subjectClassOrder) {
+		this.subjectClassOrder = subjectClassOrder;
 	}
 	
 }

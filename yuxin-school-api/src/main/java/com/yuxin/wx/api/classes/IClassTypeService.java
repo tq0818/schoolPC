@@ -427,4 +427,17 @@ public interface IClassTypeService  {
 	ClassTypeVo findClassTypeVoByClassTypeId(Integer classTypeId);
 
 	List<ClassType> findAllclassType(ClassType cp);
+	
+	/**
+	 * 修改学科课程排序
+	 * @param cp
+	 * @return
+	 */
+	int updateSubjectClassOrder(ClassType cp);
+	
+	/**
+	 * 获取当前学科课程排序总数
+	 * @return
+	 */
+	int countSubjectClassOrder(Integer itemOenId);
 }

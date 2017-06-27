@@ -74,6 +74,7 @@ public class ClassType extends BaseEntity {
     private Integer memberFlag; /* 是否允许使用会员 */
     private Integer relationId;
     private Integer protocolId; // 协议id
+    private Integer subjectClassOrder;//学科课程排序
     
     public Integer getRelationId() {
         return this.relationId;
@@ -528,5 +529,15 @@ public class ClassType extends BaseEntity {
     public void setProtocolId(Integer protocolId) {
         this.protocolId = protocolId;
     }
+
+	public Integer getSubjectClassOrder() {
+		return subjectClassOrder;
+	}
+
+	public void setSubjectClassOrder(Integer subjectClassOrder) {
+		this.subjectClassOrder = subjectClassOrder;
+	}
+    
+    
 
 }

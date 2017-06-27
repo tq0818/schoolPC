@@ -40,6 +40,7 @@
 		<result property="memberFlag" column="member_flag"/>
 		<result property="buyNumMax" column="buy_num_max"/>
 		<result property="protocolId" column="protocol_id"/>
+	    <result property="subjectClassOrder" column="subject_class_order"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
@@ -86,6 +87,7 @@
 		<result property="memberFlag" column="member_flag"/>
 		<result property="buyNumMax" column="buy_num_max"/>
 		<result property="protocolId" column="protocol_id"/>
+		<result property="subjectClassOrder" column="subject_class_order"/>
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -283,7 +285,9 @@
 			<if test="memberFlag != null">member_flag = #{memberFlag},</if>
 			<if test="buyNumMax != null">buy_num_max = #{buyNumMax},</if>
 			<if test="protocolId != null">protocol_id = #{protocolId},</if>
-		</trim>
+		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==0">subject_class_order = null</if>
+		    
+		 </trim>
 		<where>id = #{id}</where>
 	</update>
 	
@@ -416,8 +420,8 @@
 		<if test="liveFlag != null and liveFlag != ''">and a.live_flag = ${liveFlag}</if>
 		<if test="videoFlag != null and videoFlag != ''">and a.video_flag = ${videoFlag}</if>
 		<if test="remoteFlag != null and remoteFlag != ''">and a.remote_flag = ${remoteFlag}</if>
-		  ORDER BY a.update_time DESC
-		 limit #{firstIndex},#{pageSize}
+		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
+		limit #{firstIndex},#{pageSize}
 	</select>
 	
 	
@@ -671,5 +675,13 @@
 		where company_id = #{companyId} and del_flag=0
 		<if test="schoolsId != null and schoolsId != ''">and schools_id = #{schoolsId}</if>
 		order by id desc
+	</select>
+	
+	<update id="updateSubjectClassOrder" parameterType="com.yuxin.wx.model.classes.ClassType">
+	     update class_type set subject_class_order = #{subjectClassOrder} where item_one_id = #{itemOneId} and del_flag = 0 and publish_status = 'CLASS_ON_SALE' and id = #{id} and (select ct2.num from (select count(ct.id) num  from class_type ct where ct.publish_status = 'CLASS_ON_SALE' and  ct.subject_class_order > 0) ct2)  &lt;  8
+	</update>
+	
+	<select id="countSubjectClassOrder" resultType="Integer" parameterType="Integer">
+	     select count(id) from class_type  where  item_one_id = #{itemOneId}  and del_flag = 0  and publish_status = 'CLASS_ON_SALE' and  subject_class_order > 0
 	</select>
 </mapper>

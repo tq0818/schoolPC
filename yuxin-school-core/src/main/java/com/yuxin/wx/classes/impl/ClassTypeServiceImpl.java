@@ -476,4 +476,16 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	public List<ClassType> findAllclassType(ClassType cp) {
 		return classTypeMapper.findAllclassType(cp);
 	}
+
+	@Override
+	public int updateSubjectClassOrder(ClassType cp) {
+		int row = classTypeMapper.updateSubjectClassOrder(cp);
+		return row;
+	}
+
+	@Override
+	public int countSubjectClassOrder(Integer itemOneId) {
+		int count = classTypeMapper.countSubjectClassOrder(itemOneId);
+		return count;
+	}
 }

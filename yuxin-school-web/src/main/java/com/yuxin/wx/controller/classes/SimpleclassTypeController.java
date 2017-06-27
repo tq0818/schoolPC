@@ -239,6 +239,8 @@ public class SimpleclassTypeController {
 		}
 		model.addAttribute("pageFinder", pageFinder);
 		model.addAttribute("searchName", search.getName());
+		int orderCount = classTypeServiceImpl.countSubjectClassOrder(search.getItemOneId());
+		model.addAttribute("orderCount", orderCount);
 		return "simpleClasses/classIndexAjaxList";
 	} 
 	
@@ -2122,4 +2124,45 @@ public class SimpleclassTypeController {
 		List<ClassType> list = classTypeServiceImpl.queryCourseByOneAndTwoItem(search);
 		return list;
 	}
+	
+	/**
+	 * 修改课程学科排序
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("updateSubjectClassOrder")
+	public String updateSubjectClassOrder(HttpServletRequest request,HttpServletResponse response){
+		String result = "failed";
+		try{
+			ClassType ct = new ClassType();
+			String orderStr  = request.getParameter("order");
+			String idStr = request.getParameter("id");
+			String itemOneIdStr = request.getParameter("itemOneId");
+			if(StringUtils.isNotBlank(idStr) && StringUtils.isNotBlank(itemOneIdStr)){
+				if(StringUtils.isBlank(orderStr)){
+					ct.setSubjectClassOrder(null);
+				}else{
+					int order = Integer.parseInt(orderStr);
+					ct.setSubjectClassOrder(order);
+				}
+				int id = Integer.parseInt(idStr);
+				int itemOneId = Integer.parseInt(itemOneIdStr);
+		        ct.setId(id);
+				ct.setItemOneId(itemOneId);
+				int row = classTypeServiceImpl.updateSubjectClassOrder(ct);
+				if(row ==1){
+					result = "success";
+				}
+				
+			}
+			
+		}catch(Exception e){
+			log.error("updateSubjectClassOrder is error :", e);
+		}
+	    return result;
+		
+	}
+	
 }

@@ -107,7 +107,7 @@
 			    </div>
 		        <div class="course-sort">
 		        	<label for="" class="sort-txt">学科课程排序：</label>
-		        	<input type="text" class="sort-input" maxLength="2" name="sortInput" <c:if test="${not empty allCommdotity.subjectClassOrder}"> value="${allCommdotity.subjectClassOrder }" </c:if> <c:if test="${empty allCommdotity.subjectClassOrder}"> placeholder ="未排序"</c:if> onfocus="this.placeholder=''" onblur="this.placeholder='未排序'">
+		        	<input type="text" class="sort-input" maxLength="2" name="sortInput" <c:if test="${not empty allCommdotity.subjectClassOrder}"> value="${allCommdotity.subjectClassOrder }"  isOrder="1" </c:if> <c:if test="${empty allCommdotity.subjectClassOrder}"> placeholder ="未排序"</c:if> onfocus="this.placeholder=''" onblur="this.placeholder='未排序'">
 		        	<!-- <div class="sortbtn"> -->
 		        		<i class='iconfont icons sortbtn sortbtn-gou'>&#xe660;</i>
 		        		<i class='iconfont icons sortbtn sortbtn-cha'>&#xe6bd;</i>
@@ -211,7 +211,8 @@
 	  		_this.siblings('.sortbtn').show();
 	  	});
 	  	$(".course-sort").delegate(".sortbtn-gou","click",function(e){
-	  		if(orderCount >= 8 ){
+	  		var isOrder = $(this).prev().attr("isOrder");
+	  		if(isOrder !=1 && orderCount >= 8 ){
 	  			$.msg("排序总数不能超过8个.");
 	  			return false;
 	  		}

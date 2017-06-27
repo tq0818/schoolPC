@@ -83,7 +83,7 @@
 	                <span class="c-content">
 	                    <input type="text" id="${item.id }_sortId" value="${item.sortId>0?item.sortId:'' }" class="sortinput">
 	                </span>
-	                <input type="button" class="sortSave" data-id="${item.id }" data-sort="${item.sortId>0?item.sortId:'' }" value="保存">
+	                <input type="button" class="sortSave" data-id="${item.id }" data-type="${item.sortId>0?'old':'new' }" value="保存">
 	            </p>
             </c:if>
         </div>

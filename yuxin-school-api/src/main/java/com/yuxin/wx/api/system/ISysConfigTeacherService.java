@@ -441,4 +441,6 @@ public interface ISysConfigTeacherService {
 	PageFinder<TeachersVo> findTeachersBycondition(TeachersVo teacher);
 	
 	int updateSortId(SysConfigTeacher search);
+
+	int checkSortCount();
 }

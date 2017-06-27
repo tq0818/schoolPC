@@ -29,10 +29,10 @@ $(function(){
 		
 		  var id = $(this).attr("data-id");
 		  var sortId = $("#"+id+"_sortId").val();
-		  
+		  var type =  $(this).attr("data-type");
 		  sortId =sortId.trim();
 		 
-		  var reg =/(^$)|(^[1-9]{1,2}$)/
+		  var reg =/(^$)|(^[1-9][0-9]{0,1}$)/
 		  if(!reg.test(sortId)){
 			  $.msg("请输入正确序号");
 			  return false;
@@ -45,9 +45,9 @@ $(function(){
 		  $.ajax({
 			  type:"post",
 			  url:rootPath+"/sysConfigTeacher/updateSortId",
-			  data:{id:id,sortId:sortId},
+			  data:{id:id,sortId:sortId,type:type},
 			  success:function(result){
-				  $.msg("保存成功");
+				  $.msg(result);
 				  var itemOneId = $("#itemId").val();
 				  var teaName = $("#teacherName").val();
 				  queryPageByKeys(itemOneId,1,teaName);

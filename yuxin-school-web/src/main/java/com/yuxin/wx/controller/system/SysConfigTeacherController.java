@@ -1147,17 +1147,26 @@ public class SysConfigTeacherController {
 
 	@ResponseBody
 	@RequestMapping(value="/updateSortId")
-	public String updateSortId(SysConfigTeacher teacher,Model model,HttpServletRequest request){
-		
+	public String updateSortId(SysConfigTeacher teacher,String type,Model model,HttpServletRequest request){
+		int count;
 		if(teacher.getSortId()==0){
 			teacher.setSortId(null);
 		}
+		if(type.equals("new")){
+			count = checkSortCount();
+			if(count>=8){
+				return "排序设置已超过8个，请修改后再设置";
+			}
+		}
 		int index = sysConfigTeacherServiceImpl.updateSortId(teacher);
 		if(index ==1){
-			return "success";  
+			return "保存成功";  
 		}else{
-			return "fail"; 
+			return "保存失败"; 
 		}
 		
+	}
+	public int checkSortCount(){
+		return sysConfigTeacherServiceImpl.checkSortCount();
 	}
 }

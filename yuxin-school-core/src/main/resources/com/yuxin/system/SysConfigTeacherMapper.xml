@@ -840,4 +840,7 @@ where com.status=1 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct
 		update sys_config_teacher set
 		sort_id = #{sortId} where id =  #{id}
 	</update>
+	<select id="checkSortCount" resultType="Integer">
+		select count(sort_id) from sys_config_teacher
+	</select>
 </mapper>

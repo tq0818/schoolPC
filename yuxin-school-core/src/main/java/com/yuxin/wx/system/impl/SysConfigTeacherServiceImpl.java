@@ -557,4 +557,10 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 		return sysConfigTeacherMapper.updateSortId( search);
 	}
 
+	@Override
+	public int checkSortCount() {
+		// TODO Auto-generated method stub
+		return sysConfigTeacherMapper.checkSortCount();
+	}
+
 }

@@ -2145,6 +2145,9 @@ public class SimpleclassTypeController {
 					ct.setSubjectClassOrder(null);
 				}else{
 					int order = Integer.parseInt(orderStr);
+					if(order <= 0){
+						return result;
+					}
 					ct.setSubjectClassOrder(order);
 				}
 				int id = Integer.parseInt(idStr);

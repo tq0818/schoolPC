@@ -223,7 +223,7 @@
 	  		
 	  		var _input = $(this).prev().val();
 	  		var reg =  /(^$)|(^[1-9]\d*$)/;
-	 	  	if(!$.trim(reg) && !reg.test(_input)) {
+	 	  	if(!$.trim(_input) == '' && !reg.test(_input)) {
 	  			$.msg("请输入正整数,并且序号范围1-99");
 	  			return false;
 	  		}

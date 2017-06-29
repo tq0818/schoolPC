@@ -203,12 +203,15 @@
 		  $('.upload-layer').fadeOut(200,function(){
 			  $(".add-layer-bg").fadeOut(200);
 		  })
-	  })
-		
+	  });
+		var oldVal = '';
 	  	$("[name=sortInput]").focus(function(){
 	  		var _this = $(this);
+			console.log(_this.val());
+			$("#ulListss .sort-input").removeClass("editing");
 	  		_this.addClass("editing");
 	  		_this.siblings('.sortbtn').show();
+			_this.val()?oldVal=_this.val():oldVal='';
 	  	});
 	  	$(".course-sort").delegate(".sortbtn-gou","click",function(e){
 	  		var isOrder = $(this).prev().attr("isOrder");
@@ -258,10 +261,31 @@
 			});
 
 	  	}).delegate(".sortbtn-cha","click",function(e){
-				$("[name=sortInput]").val("").removeClass("editing");
+			var sortinput = $(this).closest(".course-sort").find("[name=sortInput]");
+			if(oldVal){
+				sortinput.val(oldVal);
+			}else{
+				sortinput.val("");
+			}
+			sortinput.removeClass("editing");
 				$(e.delegateTarget).find('.sortbtn').hide();
-	  	});;	
-
+	  	});
+	  $(document).bind("click",function(e){
+		  var _this = $(e.target);
+		  if(_this.hasClass("sort-input")){
+			  oldVal = _this.val();
+		  }
+		  var sortinput = $(".course-sort").find(".editing");
+		  if(!_this.hasClass('sort-input')&& !_this.hasClass('sortbtn-gou')){
+			  if(oldVal){
+				  sortinput.val(oldVal);
+			  }else{
+				  sortinput.val("");
+			  }
+			  sortinput.removeClass("editing");
+			  $(e.delegateTarget).find('.sortbtn').hide();
+		  }
+	  });
   });
 </script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/javascripts/class/editClass/validatePrivilige.js"></script>

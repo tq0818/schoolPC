@@ -2270,7 +2270,7 @@ public class ClassModuleController {
 				List<Student> ssList = new ArrayList<Student>();
 				for(int n = 1 ; n <= stuList.size() ; n++){
 					ssList.add(stuList.get(n-1));
-					if(n==stuList.size()||n%200==0){
+					if(n==stuList.size()||n%100==0){
 						sList.add(ssList);
 						ssList= new ArrayList<Student>();
 					}

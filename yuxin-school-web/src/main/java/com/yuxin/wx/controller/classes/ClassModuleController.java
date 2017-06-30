@@ -2265,6 +2265,18 @@ public class ClassModuleController {
 					json.put(JsonMsg.RESULT, "msgNotCount");
 					return json;
 				}
+				
+				List<List<Student>> sList = new ArrayList<List<Student>>();
+				List<Student> ssList = new ArrayList<Student>();
+				for(int n = 1 ; n <= stuList.size() ; n++){
+					ssList.add(stuList.get(n-1));
+					if(n==stuList.size()||n%200==0){
+						sList.add(ssList);
+						ssList= new ArrayList<Student>();
+					}
+				}
+				
+				
 				//companyStudentMessageServiceImpl.insert(companyStudentMessage);
 				//2016/7/7 无手机号则不发送短信
 				Integer sendcounts=0;
@@ -2276,10 +2288,10 @@ public class ClassModuleController {
 				isFlag = Integer.parseInt(isHurry);
 				try{
 					if(isFlag>0){
-						sendcounts = sendHurryLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user, messageCost, stuList, sendcounts,isFlag);
+						sendcounts = sendHurryLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user, messageCost, sList, sendcounts,isFlag);
 					}else{
 						sendcounts = sendPhoneLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user,
-								messageCost, stuList, sendcounts);
+								messageCost, sList, sendcounts);
 					}
 				}catch(Exception e){
 					json.put(JsonMsg.RESULT, "noLesson");
@@ -2784,12 +2796,12 @@ public class ClassModuleController {
 	 * @param schoolId
 	 * @param user
 	 * @param messageCost
-	 * @param stuList
+	 * @param sList
 	 * @param sendcounts
 	 * @return
 	 */
 	public Integer sendPhoneLessonMessage(HttpServletRequest request, CompanyStudentMessage companyStudentMessage,
-			String content, Integer companyId, Integer schoolId, Users user, Integer messageCost, List<Student> stuList,
+			String content, Integer companyId, Integer schoolId, Users user, Integer messageCost, List<List<Student>> sList,
 			Integer sendcounts) {
 		String result;
 		String status;
@@ -2807,14 +2819,26 @@ public class ClassModuleController {
 		lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String date  = sdf.format(moduleNos.get(0).getStartDate())+"  "+ lessons.get(0).getLessonTimeStart();
+		String date  = sdf.format(lessons.get(0).getLessonDate())+"  "+ lessons.get(0).getLessonTimeStart();
 		
 		companyStudentMessage.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
 		companyStudentMessageServiceImpl.insert(companyStudentMessage);
-		for (Student s : stuList) {
-			if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+		
+		for (List<Student> ssList : sList) {
+			String num = "";
+			for(int n = 0 ; n < ssList.size() ; n++){
+				Student s = ssList.get(n);
+				if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){
+					if(n==ssList.size()-1){
+						num+=s.getMobile();
+					}else{
+						num+=s.getMobile()+",";
+					}
+				}
+			}
+			//if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
 				
-				result = SMSUtil.sendLessonNotic(request, s.getMobile(), className, date);
+				result = SMSUtil.sendLessonNotic(request, num, className, date);
 				
 				
 //				result = SmsClientSend.sendSmsTwo(request
@@ -2827,25 +2851,28 @@ public class ClassModuleController {
 //				if(message.equals("ok")){
 //					message = "发送成功";
 //				}
-				CompanyMessageHistory cmh = new CompanyMessageHistory();
-				cmh.setReceiverUserId(""+s.getId());
-				cmh.setReceiverMobile(s.getMobile().trim());
-				cmh.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
-				cmh.setSendTime(new Date());
-				if(result.equals("发送成功")){
-					cmh.setSendStatus(1);
-				}else{
-					cmh.setSendStatus(0);
+				for(Student s : ssList){
+					if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+						CompanyMessageHistory cmh = new CompanyMessageHistory();
+						cmh.setReceiverUserId(""+s.getId());
+						cmh.setReceiverMobile(s.getMobile().trim());
+						cmh.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
+						cmh.setSendTime(new Date());
+						if(result.equals("发送成功")){
+							cmh.setSendStatus(1);
+						}else{
+							cmh.setSendStatus(0);
+						}
+						cmh.setSendResult(result);
+						cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
+						cmh.setCompanyId(companyId);
+						cmh.setSchoolId(schoolId);
+						cmh.setCostNum(messageCost);
+						cmh.setMessageId(companyStudentMessage.getId());
+						companyMessageHistoryServiceImpl.insert(cmh);
+						sendcounts++;
+					}
 				}
-				cmh.setSendResult(result);
-				cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
-				cmh.setCompanyId(companyId);
-				cmh.setSchoolId(schoolId);
-				cmh.setCostNum(messageCost);
-				cmh.setMessageId(companyStudentMessage.getId());
-				companyMessageHistoryServiceImpl.insert(cmh);
-				sendcounts++;
-			}
 		}
 		return sendcounts;
 	}
@@ -2863,12 +2890,12 @@ public class ClassModuleController {
 	 * @param schoolId
 	 * @param user
 	 * @param messageCost
-	 * @param stuList
+	 * @param sList
 	 * @param sendcounts
 	 * @return
 	 */
 	public Integer sendHurryLessonMessage(HttpServletRequest request, CompanyStudentMessage companyStudentMessage,
-			String content, Integer companyId, Integer schoolId, Users user, Integer messageCost, List<Student> stuList,
+			String content, Integer companyId, Integer schoolId, Users user, Integer messageCost, List<List<Student>> sList,
 			Integer sendcounts,int isFlag) {
 		String result;
 		String status;
@@ -2887,16 +2914,28 @@ public class ClassModuleController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String date  = sdf.format(moduleNos.get(0).getStartDate())+"  "+ lessons.get(0).getLessonTimeStart();
+		content ="";
 		if(isFlag==1){
-			companyStudentMessage.setContent("【成都数字学校】亲爱的用户，您报名的《"+className+"》课程的观看口令是"+LiveRoomConstant.STUDENT_TOKEN_CLINT+"，请访问成都数字学校网站首页输入口令观看直播，非常感谢！");
+			content="【成都数字学校】亲爱的用户，您报名的《"+className+"》课程的观看口令是"+LiveRoomConstant.STUDENT_TOKEN_CLINT+"，请访问成都数字学校网站首页输入口令观看直播，非常感谢！";
 		}else{
-			companyStudentMessage.setContent("【成都数字学校】因为发生不可抗力故障，导致网站服务器暂时无法访问，预计在明日恢复正常，为您带来的不便，敬请谅解！");
+			content="【成都数字学校】因为发生不可抗力故障，导致网站服务器暂时无法访问，预计在明日恢复正常，为您带来的不便，敬请谅解！";
 		}
+		companyStudentMessage.setContent(content);
 		companyStudentMessageServiceImpl.insert(companyStudentMessage);
-		for (Student s : stuList) {
-			if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
-				
-				result = SMSUtil.sendHurryNotice(request, s.getMobile(), className, LiveRoomConstant.STUDENT_TOKEN_CLINT,isFlag);
+		for (List<Student> ssList : sList) {
+			String num = "";
+			for(int n = 0 ; n < ssList.size() ; n++){
+				Student s = ssList.get(n);
+				if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){
+					if(n==ssList.size()-1){
+						num+=s.getMobile();
+					}else{
+						num+=s.getMobile()+",";
+					}
+				}
+			}
+			//if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+				result = SMSUtil.sendHurryNotice(request, num, className, LiveRoomConstant.STUDENT_TOKEN_CLINT,isFlag);
 				
 				
 //				result = SmsClientSend.sendSmsTwo(request
@@ -2909,25 +2948,28 @@ public class ClassModuleController {
 //				if(message.equals("ok")){
 //					message = "发送成功";
 //				}
-				CompanyMessageHistory cmh = new CompanyMessageHistory();
-				cmh.setReceiverUserId(""+s.getId());
-				cmh.setReceiverMobile(s.getMobile().trim());
-				cmh.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
-				cmh.setSendTime(new Date());
-				if(result.equals("发送成功")){
-					cmh.setSendStatus(1);
-				}else{
-					cmh.setSendStatus(0);
+				for(Student s : ssList){
+					if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+						CompanyMessageHistory cmh = new CompanyMessageHistory();
+						cmh.setReceiverUserId(""+s.getId());
+						cmh.setReceiverMobile(s.getMobile().trim());
+						cmh.setContent(content);
+						cmh.setSendTime(new Date());
+						if(result.equals("发送成功")){
+							cmh.setSendStatus(1);
+						}else{
+							cmh.setSendStatus(0);
+						}
+						cmh.setSendResult(result);
+						cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
+						cmh.setCompanyId(companyId);
+						cmh.setSchoolId(schoolId);
+						cmh.setCostNum(messageCost);
+						cmh.setMessageId(companyStudentMessage.getId());
+						companyMessageHistoryServiceImpl.insert(cmh);
+						sendcounts++;
+					}
 				}
-				cmh.setSendResult(result);
-				cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
-				cmh.setCompanyId(companyId);
-				cmh.setSchoolId(schoolId);
-				cmh.setCostNum(messageCost);
-				cmh.setMessageId(companyStudentMessage.getId());
-				companyMessageHistoryServiceImpl.insert(cmh);
-				sendcounts++;
-			}
 		}
 		return sendcounts;
 	}

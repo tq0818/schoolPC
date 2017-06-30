@@ -347,7 +347,7 @@ public class SMSUtil {
 			e.printStackTrace();
 			result = "发送失败";
 		}finally{
-			sysSmsLogServiceimpl.insert(log);
+			//sysSmsLogServiceimpl.insert(log);
 			return result;
 		}
 		
@@ -383,7 +383,7 @@ public class SMSUtil {
 			e.printStackTrace();
 			result = "发送失败";
 		}finally{
-			sysSmsLogServiceimpl.insert(log);
+			//sysSmsLogServiceimpl.insert(log);
 			return result;
 		}
 		
@@ -391,7 +391,14 @@ public class SMSUtil {
 	
 	
 	public static void main(String[] args) throws Exception {
-		SMSHandler.send("13880918056", SMS_TEMPLETE_LOGINNOTICE, new String[]{"测试发送","zs_s_secret_c"});
+		String num = "13880918056";
+		try{
+			for(int n = 0 ; n < 20 ; n++){
+				SMSHandler.send(num+",13880918056", SMS_TEMPLETE_LESSONNOTICE, new String[]{"《走出幼小衔接的误区》","2017-07-01  09:30"});
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		//log.setSendStatus("1");
 	}
 	/**

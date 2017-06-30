@@ -31,6 +31,7 @@
     		    height: 28px;
     		        padding: 0.15em 8px .35em;
     	}
+    	.main-content .lj-tops{display: inline-block;color:#999;}
     </style>
 </head>
 <body>
@@ -169,6 +170,12 @@
 							id="useMsg"></span> <em style="font-size: inherit;color: #999;padding-right:20px;padding-left:20px;">剩余短信：<span id="Surplus">${!empty count?count:0 } 条</span></em><span
 							style="color: red; float: right;" class="tips-txt">已输入<span id="write"></span>个字符，单条短信70个字符
 						</span></span>&nbsp;<span style="color:red;" class="tips-txt">* 最多140个字</span>
+						<span class="hurry-Notice">
+							<label class="lj-tops"><input value="1" class="hurryNotice" type="checkbox">直播口令通知</label>
+						
+						<label class="lj-tops"><input value="2" class="hurryNotice" type="checkbox">故障通知</label>
+						</span>
+						
 					</p>
 					<p class="c use_email" style="display:none;">
 						<span class="c-title">消耗邮件：</span> <span class="c-content"><span
@@ -230,6 +237,15 @@
 				[ 'TextColor', 'BGColor' ], [ 'Maximize' ], [ '-' ]];
 		email_editor.config.baseFloatZIndex = 10100;
 		email_editor.config.customConfig = 'config.js';
+		
+		
+		$(".lj-tops").bind("click",function(){
+			
+			var _checkbox= $(this).siblings().find("input");
+			if(_checkbox.is(":checked")){
+				_checkbox.attr('checked',false);
+			}
+		});
 	</script>
 
 </body>

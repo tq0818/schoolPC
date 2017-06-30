@@ -39,22 +39,23 @@ var msgCount;
 			selItem();
 			if(type == 'STUDENT_MESSAGE_MOBILE'){
 				$(".btn-type").last().prev().show();
-				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup").hide();
+				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup,.lj-tops").hide();
 				$(".sendStuMsg,.zhan,#messageContent").show();
 				if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE'){
+					$(".lj-tops").show();
 					$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 					$(".notice-main").css({'margin':'100px auto 100px'});
 				}
 			}
 			if(type == "STUDENT_MESSAGE_WEB"){
 				$(".btn-type").last().prev().hide();
-				$("#messageContent,.zhan,.phoneHint,.emailHint,.emailTitle,#email_ckecktor,#use_email,.stuGroup,.use_email").hide();
+				$("#messageContent,.zhan,.phoneHint,.emailHint,.emailTitle,#email_ckecktor,#use_email,.stuGroup,.use_email,.lj-tops").hide();
 				$("#ckecktor,.sendStuMsg").show();
  				
 			}
 			if(type == 'STUDENT_MESSAGE_EMAIL'){
 				$(".btn-type").last().prev().show();
-				$(".phoneHint,.emailHint,#ckecktor,#messageContent,.zhan").hide();
+				$(".phoneHint,.emailHint,#ckecktor,#messageContent,.zhan,.lj-tops").hide();
 				$(".sendStuMsg,.emailTitle,#email_ckecktor,.use_email").show();
 			}
  		});
@@ -69,15 +70,15 @@ var msgCount;
  			$(this).addClass('btn-primary').removeClass('btn-default').siblings().removeClass('btn-primary').addClass('btn-default');
  			if(notice_fs == 'STUDENT_MESSAGE_MOBILE' && notice_type == 'STUDENT_MESSAGE_SPECIAL'){
  				$(".phoneHint").show();
- 				$(".sendStuMsg,.emailHint,.stuGroup").hide();
+ 				$(".sendStuMsg,.emailHint,.stuGroup,.lj-tops").hide();
  			}
  			if(notice_fs == 'STUDENT_MESSAGE_EMAIL' && notice_type == 'STUDENT_MESSAGE_SPECIAL'){
  				$(".emailHint").show();
- 				$(".sendStuMsg,.phoneHint,.stuGroup").hide();
+ 				$(".sendStuMsg,.phoneHint,.stuGroup,.lj-tops").hide();
  			}
  			if(notice_type == 'STUDENT_MESSAGE_CLASSTYPE' || notice_type == 'STUDENT_MESSAGE_MODULENO'){
  				selItem();
- 				$('.sendStuMsg').show();
+ 				$('.sendStuMsg,.lj-tops').show();
  				$('.phoneHint,.emailHint,.stuGroup').hide();
  				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
 					$(".con-tzbt,.con-fsnr,.tips-txt").hide();
@@ -87,7 +88,7 @@ var msgCount;
  			if(notice_type == 'STUDENT_MESSAGE_GROUP'){
  				selectGroup1('_edit');
  				$('.stuGroup').show();
- 				$('.phoneHint,.emailHint,.sendStuMsg').hide();
+ 				$('.phoneHint,.emailHint,.sendStuMsg,.lj-tops').hide();
  			}
  			valida();
  		});
@@ -226,10 +227,11 @@ var msgCount;
 	 			}
  			}
  			console.log('send');
+ 			var isHurry = $('.hurryNotice:checked').val();
  			$.ajax({
  				url:rootPath + "/classModule/sendMsg",
  				type:"post",
- 				data:{"title":title,"content":msgcount,"messageType":types,"messageMethod":method,"itemOneId":oneItemId,"itemSecondId":twoItemId,"classTypeId":classId,'groupOneId':groupOneId,'groupTwoId':groupTwoId,'email':email,'emailTitle':emailTitle,"phone":phone,"moduleNoId":classId},
+ 				data:{"title":title,"content":msgcount,"messageType":types,"messageMethod":method,"itemOneId":oneItemId,"itemSecondId":twoItemId,"classTypeId":classId,'groupOneId':groupOneId,'groupTwoId':groupTwoId,'email':email,'emailTitle':emailTitle,"phone":phone,"moduleNoId":classId,"isHurry":isHurry},
  				dataType:"json",
 				beforeSend:function(XMLHttpRequest){
 		              $(".loading").show();

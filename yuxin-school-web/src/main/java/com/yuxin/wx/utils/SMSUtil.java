@@ -44,7 +44,14 @@ public class SMSUtil {
 	 * 课程开课通知
 	 * */
 	public  static final String SMS_TEMPLETE_LESSONNOTICE="182114";
-	
+	/**
+	 * 课程直播口令模板
+	 * */
+	public  static final String SMS_TEMPLETE_LOGINNOTICE="187965";
+	/**
+	 * 网站故障通知
+	 * */
+	public  static final String SMS_TEMPLETE_HURRYNOTICE="187966";
 	private static ISysSmsLogService sysSmsLogServiceimpl;
 
 	private static ISysBlackListService sysBlackListServiceImpl;
@@ -350,11 +357,43 @@ public class SMSUtil {
 		
 	}
 	
+	public static String sendHurryNotice(HttpServletRequest request,String phoneNum,String lessonName,String date,int isFlag){
+		Integer userId=WebUtils.getCurrentUserId(request);
+		String ip=WebUtils.getIpAddr(request);
+		String result="";
+		//记录发送历史
+		SysSmsLog log=new SysSmsLog();
+		log.setBusinessType("lessonnotice");
+		log.setIp(ip);
+		log.setMobile(phoneNum);
+		log.setSendTime(new Date());
+		log.setUserId(userId);
+		try {
+			if(isFlag==1){
+				SMSHandler.send(phoneNum, SMS_TEMPLETE_LOGINNOTICE, new String[]{lessonName,date});
+			}else{
+				SMSHandler.send(phoneNum, SMS_TEMPLETE_HURRYNOTICE, new String[]{lessonName,date});
+			}
+			log.setSendStatus("1");
+			result = "发送成功";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.setSendStatus("0");
+			_log.error("短信发送失败",e);
+			e.printStackTrace();
+			result = "发送失败";
+		}finally{
+			sysSmsLogServiceimpl.insert(log);
+			return result;
+		}
+		
+	}
 	
-//	public static void main(String[] args) throws Exception {
-//		SMSHandler.send("13880918056", SMS_TEMPLETE_LESSONNOTICE, new String[]{"测试发送","2017-06-06"});
-//		//log.setSendStatus("1");
-//	}
+	
+	public static void main(String[] args) throws Exception {
+		SMSHandler.send("13880918056", SMS_TEMPLETE_LOGINNOTICE, new String[]{"测试发送","zs_s_secret_c"});
+		//log.setSendStatus("1");
+	}
 	/**
 	 * 发送自定义短信
 	 * @param request

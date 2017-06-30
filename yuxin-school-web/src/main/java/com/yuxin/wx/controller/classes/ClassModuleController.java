@@ -2208,7 +2208,7 @@ public class ClassModuleController {
 	 */
 	@ResponseBody
 	@RequestMapping("/sendMsg")
-	public JSONObject sendMsg(HttpServletRequest request,CompanyStudentMessage companyStudentMessage,String phone,String email){
+	public JSONObject sendMsg(HttpServletRequest request,CompanyStudentMessage companyStudentMessage,String phone,String email,String isHurry){
 		String result = "";
 		String status = "";
 		String message = "";
@@ -2271,8 +2271,20 @@ public class ClassModuleController {
 				//课程通知
 				messageCost = 1;
 				companyStudentMessage.setTitle("课程开课通知");
-				sendcounts = sendPhoneLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user,
-						messageCost, stuList, sendcounts);
+				int isFlag =0;
+				if(isHurry!=null)
+				isFlag = Integer.parseInt(isHurry);
+				try{
+					if(isFlag>0){
+						sendcounts = sendHurryLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user, messageCost, stuList, sendcounts,isFlag);
+					}else{
+						sendcounts = sendPhoneLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user,
+								messageCost, stuList, sendcounts);
+					}
+				}catch(Exception e){
+					json.put(JsonMsg.RESULT, "noLesson");
+					return json;
+				}
 				//SMSUtil.sendLessonNotic(request, "13880918056", "测试课程", "2017-06-06");
 			//	companyStudentMessage.setMessageCost(stuList.size() * (messageCost));
 				companyStudentMessage.setMessageCost(sendcounts * (messageCost));//2016/7/7  发送条数更改
@@ -2803,6 +2815,88 @@ public class ClassModuleController {
 			if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
 				
 				result = SMSUtil.sendLessonNotic(request, s.getMobile(), className, date);
+				
+				
+//				result = SmsClientSend.sendSmsTwo(request
+//						,s.getMobile().trim(), content + "【在线网校】"
+//						,user.getId(),"stu-notice");
+//				status = result.substring(result.indexOf("<returnstatus>"),result.indexOf("</returnstatus>"));
+//				status = status.substring(status.indexOf(">") + 1);
+//				message = result.substring(result.indexOf("<message>"),result.indexOf("</message>"));
+//				message = message.substring(message.indexOf(">") + 1);
+//				if(message.equals("ok")){
+//					message = "发送成功";
+//				}
+				CompanyMessageHistory cmh = new CompanyMessageHistory();
+				cmh.setReceiverUserId(""+s.getId());
+				cmh.setReceiverMobile(s.getMobile().trim());
+				cmh.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
+				cmh.setSendTime(new Date());
+				if(result.equals("发送成功")){
+					cmh.setSendStatus(1);
+				}else{
+					cmh.setSendStatus(0);
+				}
+				cmh.setSendResult(result);
+				cmh.setBusinessType("BUSINESS_STUDENT_MESSAGE");
+				cmh.setCompanyId(companyId);
+				cmh.setSchoolId(schoolId);
+				cmh.setCostNum(messageCost);
+				cmh.setMessageId(companyStudentMessage.getId());
+				companyMessageHistoryServiceImpl.insert(cmh);
+				sendcounts++;
+			}
+		}
+		return sendcounts;
+	}
+	
+	
+	/**
+	 * 学员应急发送短信
+	 * @author licong
+	 * @date 2016年10月25日 下午5:00:38
+	 * @param
+	 * @param request
+	 * @param companyStudentMessage
+	 * @param content
+	 * @param companyId
+	 * @param schoolId
+	 * @param user
+	 * @param messageCost
+	 * @param stuList
+	 * @param sendcounts
+	 * @return
+	 */
+	public Integer sendHurryLessonMessage(HttpServletRequest request, CompanyStudentMessage companyStudentMessage,
+			String content, Integer companyId, Integer schoolId, Users user, Integer messageCost, List<Student> stuList,
+			Integer sendcounts,int isFlag) {
+		String result;
+		String status;
+		String message;
+		
+		String className = "《"+companyStudentMessage.getClassTypeName()+"》";
+		
+		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(companyStudentMessage.getClassTypeId());
+		
+		List<ClassModuleNo> moduleNos = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(0).getId());
+		
+		List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
+		//获取第一个课次的时间
+			
+		lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String date  = sdf.format(moduleNos.get(0).getStartDate())+"  "+ lessons.get(0).getLessonTimeStart();
+		if(isFlag==1){
+			companyStudentMessage.setContent("【成都数字学校】亲爱的用户，您报名的《"+className+"》课程的观看口令是"+LiveRoomConstant.STUDENT_TOKEN_CLINT+"，请访问成都数字学校网站首页输入口令观看直播，非常感谢！");
+		}else{
+			companyStudentMessage.setContent("【成都数字学校】因为发生不可抗力故障，导致网站服务器暂时无法访问，预计在明日恢复正常，为您带来的不便，敬请谅解！");
+		}
+		companyStudentMessageServiceImpl.insert(companyStudentMessage);
+		for (Student s : stuList) {
+			if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
+				
+				result = SMSUtil.sendHurryNotice(request, s.getMobile(), className, LiveRoomConstant.STUDENT_TOKEN_CLINT,isFlag);
 				
 				
 //				result = SmsClientSend.sendSmsTwo(request

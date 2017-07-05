@@ -960,21 +960,15 @@
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
 	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,u.school_id,
 	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,u.member_id,u.member_level,u.member_buy_length,u.member_status,
-	ccpo.name as proxyOrgName,s.edu_identity,edu_area.item_value as edu_area,edu_school.item_value as edu_school,edu_step.item_value as edu_step,s.edu_year,
+	ccpo.name as proxyOrgName,s.edu_identity,d.item_value as edu_area,d1.item_value as edu_school,d2.item_value as edu_step,s.edu_year,
 		s.edu_class,u.teacher_flag as teacherFlag
 
 		from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id LEFT JOIN users_front u on s.user_id=u.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
-	left join (
-		select item_code,item_value from sys_config_dict where dict_code = 'EDU_SCHOOL_AREA'
-	) as edu_area on  edu_area.item_code = s.edu_area
-		left join (
-		select item_code,item_value from sys_config_dict where dict_code = 'EDU_SCHOOL'
-		) as edu_school on  edu_school.item_code = s.edu_school
-		left join (
-			select item_code,item_value from sys_config_dict where dict_code = 'EDU_STEP'
-			) as edu_step on  edu_step.item_code = s.edu_step
-		where 1=1
+	 LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
+	 LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
+	 LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
+	 where 1=1
 	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>

@@ -27,6 +27,31 @@
 				},
 				event:function(){
 					var $this = this;
+					$("#eduArea").change(function(){
+						var area = $(this).find(":selected").attr("data-id");
+						var schoolVal = $.trim($("#eduSchool").attr("data-id"));
+						if(area==null || area==""){
+							$("#eduSchool").html('<option value="">请选择所在学校</option>');
+						}else{
+							$.ajax({
+								url: rootPath + "/student/getSchoolList/"+area,
+								type: "post",
+								success: function (data) {
+									$("#eduSchool").html('<option value="">请选择所在学校</option>');
+									var options = '';
+									$.each(data,function(i,j){
+										if(schoolVal==j.itemValue){
+											options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
+										}else{
+											options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+										}
+
+									});
+									$("#eduSchool").append(options);
+								}
+							});
+						}
+					});
 					$("#queryById").on("click", function() {
 						// 查询
 						 $this.search();
@@ -58,6 +83,10 @@
 							                    	var   countClassPeoples=$(".peoples").html();
 							                    	var  classTypeId=$(".classTypeId").val();
 							                    	var watchType = $('#watchType').val();
+												    var eduArea = $('#eduArea').val();
+												    var eduSchool = $('#eduSchool').val();
+												    var eduStep = $('#eduStep').val();
+												    var eduYear = $('#eduYear').val();
 							                        // 取得要提交页面的URL  
 							                        var action = rootPath + "/companyLiveStaticDetail/exportStatistics";
 							                        if($('.export-data'))
@@ -140,6 +169,10 @@
 			            data.classLessionId = $("#classLesson").val();
 			            data.classTypeId=$(".classTypeId").val();
 			            data.watchType = $('#watchType').val();
+			            data.eduArea = $('#eduArea').val();
+			            data.eduSchool = $('#eduSchool').val();
+			            data.eduStep = $('#eduStep').val();
+			            data.eduYear = $('#eduYear').val();
 			            data.page = page ? page : 1;
 						$.ajax({
 							url : rootPath+ "/companyLiveStaticDetail/queryall",
@@ -155,18 +188,22 @@
 								$(".peoples").html(jsonData.rowCount);
 								// 如果jsonData中么有值得话，输出没有找到数据
 								 if (jsonData.data.length == 0) {
-			                            $("#lession_list").find("table") .append( '<tr><td colspan="7">没有查找到数据</td></tr>');
+			                            $("#lession_list").find("table") .append( '<tr><td colspan="8">没有查找到数据</td></tr>');
 			                        }
 			                        $.each(jsonData.data,function (i, live) {
 			                                $("#lession_list") .find("table") .append(
 			                                    '<tr>'
 		                                		+ '<td>' + (live.lessonName? live.lessonName : '') + '</td>'
 			                                    + '<td>' +(live.watchType==0? '看直播' : live.watchType==1? '看回放' : '') + '</td>'
-			                                    + '<td>' + (live.inTime?new Date(live.inTime).Format("yyyy-MM-dd hh:mm:ss"): '') + '</td>'
-		                                		+ '<td>' + (live.mobile ? live.mobile : '') + '</td>'
+			                                    // + '<td>' + (live.inTime?new Date(live.inTime).Format("yyyy-MM-dd hh:mm:ss"): '') + '</td>'
+                                                // + '<td>' + (live.mobile ? live.mobile : '') + '</td>'
 			                                    + '<td>' + (live.userName ? live.userName : '') + '</td>'
 			                                    + '<td>' + (live.name? live.name : '') + '</td>'
-			                                    + '<td>' + (live.email? live.email : '') + '</td>'
+			                                    + '<td>' + (live.eduArea? live.eduArea : '') + '</td>'
+			                                    + '<td>' + (live.eduSchool? live.eduSchool : '') + '</td>'
+			                                    + '<td>' + (live.eduStep? live.eduStep : '') + '</td>'
+			                                    + '<td>' + (live.eduYear? live.eduYear : '') + '</td>'
+			                                    // + '<td>' + (live.email? live.email : '') + '</td>'
 			                                    + '</tr>');
 			                            });
 			                        if (jsonData.rowCount >jsonData.pageSize) {

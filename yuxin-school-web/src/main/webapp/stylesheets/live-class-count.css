@@ -42,3 +42,8 @@
 .student-info{
     display: none;
 }
+.count-search{width:100%;
+    margin-bottom: 10px;}
+.search-btn-count{
+    float: right;
+    display: inline-block;}

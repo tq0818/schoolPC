@@ -45,50 +45,79 @@
 					<div class="count-content join-num" style="margin-top:10px;">
 <!-- 					<form method="post" id="searchForm"> -->
 						<div class="count-chose clear">
-							<div class="fl">
-							
-								<input type="text" placeholder="学员手机号/用户名查询" id="mobile" name="mobile"/> 
-								课次查询：<select id="classLesson" name="classLessionId">
-											<option value="">全部</option>
-											<c:forEach var="val" items="${list}">
-												<option value="${val.id}">${val.lesson_name}</option>
-											</c:forEach>
-										</select>
-								学习方式：<select id="watchType" name="watchType">
-											<option value="">全部</option>
-											<option value="0">看直播</option>
-											<option value="1">看回放</option>	
-										</select>
-								<button class="btn btn-sm btn-primary btn-search" id="queryById">查询</button>
-								
-								<span>总计上课人数：<em class="peoples"></em>人
-								</span>
+								<div class="count-search">
+									<input type="text" placeholder="学员手机号/用户名查询" id="mobile" name="mobile"/>
+										课次查询：<select id="classLesson" name="classLessionId">
+										<option value="">全部</option>
+										<c:forEach var="val" items="${list}">
+											<option value="${val.id}">${val.lesson_name}</option>
+										</c:forEach>
+									</select>
+										学习方式：<select id="watchType" name="watchType">
+										<option value="">全部</option>
+										<option value="0">看直播</option>
+										<option value="1">看回放</option>
+									</select>
+									<span>总计上课人数：<em class="peoples"></em>人
+									</div>
+
+								<div class="count-search">
+									区域：<select name="eduArea" id="eduArea">
+										<option value="">请选择区域</option>
+										<c:forEach items="${areas}" var="area" >
+											<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+										</c:forEach>
+									</select>
+										学校：<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+										<option value="">请选择学校</option>
+									</select>
+										学段：<select name="eduStep" id="eduStep">
+										<option value="">请选择学段</option>
+										<c:forEach items="${steps}" var="step" >
+											<option value="${step.itemCode}" data-id="${step.id}">${step.itemValue}</option>
+										</c:forEach>
+									</select>
+										年份：<select name="eduYear" id="eduYear">
+										<option value="">请选择年份</option>
+										<c:forEach items="${years}" var="year" >
+											<option value="${year}" data-id="${year}">${year}</option>
+										</c:forEach>
+									</select>
+
+									<div class="search-btn-count">
+										<button class="btn btn-sm btn-primary btn-search" id="queryById">查询</button>
+										<button class="btn btn-sm btn-primary" id="export">导出列表</button>
+									</div>
+
+									</span>
+								</div>
 							</div>
-							<div class="fr">
-								<button class="btn btn-sm btn-primary" id="export">导出列表</button>
-							</div>
-						</div>
 <!-- 						</form> -->
 						<div id="lession_list" class="tables">
 							<table class="table table-center">
 								<colgroup>
 									<col width="14.29%">
+									<col width="10.29%">
 									<col width="14.29%">
 									<col width="14.29%">
-									<col width="14.29%">
-									<col width="14.29%">
+									<col width="12.29%">
+									<col width="18.29%">
+									<col width="9.29%">
 									<col width="7.29%">
-									<col width="21.29%">
 								</colgroup>
 								<tbody>
 									<tr>
 										<th>课次名称</th>
 										<th>学习方式</th>
-										<th>上课时间</th>
-										<th>手机号</th>
+										<%--<th>上课时间</th>--%>
+										<%--<th>手机号</th>--%>
 										<th>用户名</th>
 										<th>学员名称</th>
-										<th>邮箱</th>
+										<th>区域</th>
+										<th>学校</th>
+										<th>学段</th>
+										<th>年份</th>
+										<%--<th>邮箱</th>--%>
 									</tr>
 								</tbody>
 							</table>

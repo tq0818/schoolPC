@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.utils.DateUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,6 +63,8 @@ public class CompanyLiveStaticDetailController {
 	private ILongitudinalTableDataService longitudinalTableDataServiceImpl;
 	@Autowired
 	private ILongitudinalTableColDefineService longitudinalTableColDefineServiceImpl;
+	@Autowired
+	private ISysConfigDictService sysConfigDictServiceImpl;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model, CompanyLiveStaticDetail search) {
@@ -154,6 +159,23 @@ public class CompanyLiveStaticDetailController {
 //			return "classes/liveClassCountMuticlass";
 //		}
 		model.addAttribute("plus", cfs != null && "1".equals(cfs.getStatus()));
+
+		//查询学校所在区域
+		SysConfigDict areaDict = new SysConfigDict();
+		areaDict.setDictCode("EDU_SCHOOL_AREA");
+		List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+		model.addAttribute("areas", areas);
+		//学段
+		areaDict.setDictCode("EDU_STEP");
+		List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+		model.addAttribute("steps", steps);
+		//年份列表
+		List<Integer> years = new ArrayList<Integer>();
+		int curYear = DateUtil.getCurYear();
+		for(int year = 0;year<12;year++){
+			years.add(curYear-year);
+		}
+		model.addAttribute( "years", years);
 		// 跳转到单班号
 		return "classes/liveClassCount";
 	}
@@ -216,12 +238,16 @@ public class CompanyLiveStaticDetailController {
 		
 		for (CompanyLiveStaticDetailVo s : pageFinder.getData()) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mobile", s.getMobile());
+//			map.put("mobile", s.getMobile());
 			map.put("userName", s.getUserName());
 			map.put("nickName", s.getNickName());
 			map.put("name", s.getName());
-			map.put("email", s.getEmail());
+//			map.put("email", s.getEmail());
 			map.put("lessonName", s.getLessonName());
+			map.put("eduArea", s.getEduArea());
+			map.put("eduSchool", s.getEduSchool());
+			map.put("eduStep", s.getEduStep());
+			map.put("eduYear", s.getEduYear());
 			Integer watchType = s.getWatchType();
 			String type = "";
 			if(watchType != null){
@@ -241,7 +267,7 @@ public class CompanyLiveStaticDetailController {
 			lists.add(map);
 		}
 		log.info("开始导出表格。。。。。。");
-		StringBuffer title = new StringBuffer("课次:lessonName,学习方式:watchType,上课时间:inTime,手机号:mobile,用户名:userName,学员名称:name,邮箱:email");
+		StringBuffer title = new StringBuffer("课次:lessonName,学习方式:watchType,用户名:userName,学员名称:name,区域:eduArea,学校:eduSchool,学段:eduStep,年份:eduYear");
 		
 		List<LongitudinalTableColDefine> coldefine=longitudinalTableColDefineServiceImpl.findByCompany(WebUtils.getCurrentCompanyId(), "student");
 		if(coldefine!=null && coldefine.size()>0){

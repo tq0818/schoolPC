@@ -32,7 +32,44 @@ public class CompanyLiveStaticDetailVo extends BaseEntity {
 	private Date inTime;			//进入直播的时间
 	private Date outTime;			//离开直播的时间
 	private Integer watchType;		//看直播、看回看
-	
+
+	private String eduArea;		//区域
+	private String eduSchool;		//学校
+	private String eduStep;		//学段
+	private String eduYear;		//年份
+
+	public String getEduArea() {
+		return eduArea;
+	}
+
+	public void setEduArea(String eduArea) {
+		this.eduArea = eduArea;
+	}
+
+	public String getEduSchool() {
+		return eduSchool;
+	}
+
+	public void setEduSchool(String eduSchool) {
+		this.eduSchool = eduSchool;
+	}
+
+	public String getEduStep() {
+		return eduStep;
+	}
+
+	public void setEduStep(String eduStep) {
+		this.eduStep = eduStep;
+	}
+
+	public String getEduYear() {
+		return eduYear;
+	}
+
+	public void setEduYear(String eduYear) {
+		this.eduYear = eduYear;
+	}
+
 	public Date getInTime() {
 		return inTime;
 	}

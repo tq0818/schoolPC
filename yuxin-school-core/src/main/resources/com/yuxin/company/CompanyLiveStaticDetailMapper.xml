@@ -24,6 +24,10 @@
 		<result property="inTime" column="in_time" />
 		<result property="outTime" column="out_time" />
 		<result property="watchType" column="watch_type" />
+		<result property="eduArea" column="edu_area" />
+		<result property="eduSchool" column="edu_school" />
+		<result property="eduStep" column="edu_step" />
+		<result property="eduYear" column="edu_year" />
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -152,7 +156,7 @@
 	<!-- 查询所有的直播上课统计 -->
 	<select id="queryAllCompanyLiveStaticDetail" resultMap="companyLiveStaticDetailVoResultMap"
 		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
-		select DISTINCT clsr.id,clsr.live_date,clsr.in_time,clsr.out_time,clsr.watch_type,uf.mobile,uf.username,uf.nick_name,s.`name`,s.email,e.lesson_name
+		select DISTINCT clsr.id,clsr.live_date,clsr.in_time,clsr.out_time,clsr.watch_type,uf.mobile,uf.username,uf.nick_name,s.`name`,s.email,e.lesson_name,d.`item_value` as edu_area,d1.`item_value` as edu_school,d2.`item_value` as edu_step,s.edu_year
 		FROM student_pay_master spm
 		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
 		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
@@ -160,6 +164,12 @@
 		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
 		INNER JOIN users_front uf ON uf.id = clsr.user_id
 		INNER JOIN student s on s.user_id = uf.id
+		LEFT JOIN sys_config_dict d
+		ON d.`item_code` = s.`edu_area`
+		LEFT JOIN sys_config_dict d1
+		ON d1.`item_code` = s.`edu_school`
+		LEFT JOIN sys_config_dict d2
+		ON d2.`item_code` = s.`edu_step`
 		WHERE spm.company_id = #{companyId}
 		and spm.commodity_id =  #{classTypeId}
 		AND spm.commodity_type = 'COMMODITY_CLASS'
@@ -169,6 +179,10 @@
 		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
 	 	<if test="mobile != null and mobile != ''">and (uf.mobile = '${mobile}' or uf.username like '%${mobile}%' )</if>
 	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<!-- 查询直播上课统计条数 -->
@@ -191,6 +205,10 @@
 		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
 	 	<if test="mobile != null and mobile != ''">and (uf.mobile = '${mobile}' or uf.username like '%${mobile}%' )</if>
 	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
 	</select>
 	
 

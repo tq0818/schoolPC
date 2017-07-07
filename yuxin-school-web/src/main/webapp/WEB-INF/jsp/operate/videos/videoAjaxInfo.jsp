@@ -64,13 +64,12 @@
                     </c:when>
                     <c:when test="${vo.videoStatus == 'VIDEO_PROCESS_DELETE'}">
                         <span class="sp_infor" style="color: red;">
-                        <c:forEach items="${dictList }"var ="dict"><c:if test="${dict.itemCode==vo.videoStatus }">${dict.itemValue }</c:if></c:forEach>
-<%--                         	${wx:dictCode2Name(vo.videoStatus)} --%>
+                         <c:forEach items="${dictList }" var ="dict"><c:if test="${dict.itemCode==vo.videoStatus }">${dict.itemValue }</c:if></c:forEach>
                     	</span>
                     </c:when>
                     <c:when test="${vo.videoStatus != 'VIDEO_PROCESS_DELETE'}">
                         <span class="sp_infor">
-                        	 <c:forEach items="${dictList }"var ="dict"><c:if test="${dict.itemCode==vo.videoStatus }">${dict.itemValue }</c:if></c:forEach>
+                         	 <c:forEach items="${dictList }" var ="dict"><c:if test="${dict.itemCode==vo.videoStatus}">${dict.itemValue }</c:if></c:forEach>
 <%--                         	${wx:dictCode2Name(vo.videoStatus)} --%>
                     	</span>
                     </c:when>

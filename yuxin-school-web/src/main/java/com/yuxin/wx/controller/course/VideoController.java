@@ -942,8 +942,7 @@ public class VideoController {
             model.addAttribute("comService", comService);
             model.addAttribute("userId", WebUtils.getCurrentUserId(request));
             model.addAttribute("companyId", companyId);
-            List<SysConfigDict> dictList = sysConfigDictServiceImpl.findAll();
-            model.addAttribute("dictList", dictList);
+          
         } else {
             return "operate/videos/noVideoService";
         }
@@ -1101,6 +1100,8 @@ public class VideoController {
         // 图片服务器地址
         model.addAttribute("ccUserId", companyPayConfig.getCcUserId());
         model.addAttribute("imageServeUrl", this.propertiesUtil.getImageServicePath());
+        List<SysConfigDict> dictList = sysConfigDictServiceImpl.findAll();
+        model.addAttribute("dictList", dictList);
         for (VideoVo videoVo : pageFinder.getData()) {
             Users user = this.usersService.findUsersById(videoVo.getCreator());
             if (user != null) {

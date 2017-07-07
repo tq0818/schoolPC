@@ -228,10 +228,17 @@ var msgCount;
  			}
  			console.log('send');
  			var isHurry = $('.hurryNotice:checked').val();
+ 			var lessonId = $('#classLesson').val();
+ 			if($.trim(lessonId) ==""){
+ 				 $('<div class="c-fa">'+ "您还没选择课次" +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){
+			        	$(this).remove();
+			      });
+ 				 return;
+ 			}
  			$.ajax({
  				url:rootPath + "/classModule/sendMsg",
  				type:"post",
- 				data:{"title":title,"content":msgcount,"messageType":types,"messageMethod":method,"itemOneId":oneItemId,"itemSecondId":twoItemId,"classTypeId":classId,'groupOneId':groupOneId,'groupTwoId':groupTwoId,'email':email,'emailTitle':emailTitle,"phone":phone,"moduleNoId":classId,"isHurry":isHurry},
+ 				data:{"title":title,"content":msgcount,"messageType":types,"messageMethod":method,"itemOneId":oneItemId,"itemSecondId":twoItemId,"classTypeId":classId,'groupOneId':groupOneId,'groupTwoId':groupTwoId,'email':email,'emailTitle':emailTitle,"phone":phone,"moduleNoId":classId,"isHurry":isHurry,"lessonId":lessonId},
  				dataType:"json",
 				beforeSend:function(XMLHttpRequest){
 		              $(".loading").show();
@@ -340,6 +347,15 @@ var msgCount;
     			 $(".btn-view").html(data.count + "人");
     			 $("#sendStu,#useEmailMsg").html(data.count);
     			 $("#useMsg").html(data.count+"条");
+    			 $("#classLesson").empty();
+    			 $.each( data.lessons, function(index, lesson){ 
+ 				    if(index == 0){
+ 				    	$("#classLesson").append("<option  selected = 'selected' value='"+lesson.id+"'>"+lesson.lessonName+"</option>");
+ 				    }else{
+ 				    	$("#classLesson").append("<option  value='"+lesson.id+"'>"+lesson.lessonName+"</option>");
+ 				    }
+						
+ 			 }); 
     		 },
 	   			complete:function(XMLHttpRequest,textStatus){
 	   				$(".loading").hide();

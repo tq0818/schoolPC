@@ -43,6 +43,8 @@ import com.yuxin.wx.vo.course.CourseRemoteVo;
 import com.yuxin.wx.vo.course.CourseVideoMarqueeVo;
 import com.yuxin.wx.vo.course.VideoVo;
 import com.yuxin.wx.vo.system.*;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -69,6 +71,7 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -1914,6 +1917,15 @@ public class ClassModuleController {
 
 		JSONObject json = new JSONObject();
 		json.put("count", count);
+		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(id);
+		List<ClassModuleNo> moduleNos = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(0).getId());
+		List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
+		JSONArray lessonArray = new JSONArray();
+		if(moduleNos.size() == 1){
+			lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
+			lessonArray.addAll(lessons);
+		}
+		json.put("lessons", lessonArray);
 		return json;
 	}
 
@@ -2806,20 +2818,25 @@ public class ClassModuleController {
 		String result;
 		String status;
 		String message;
-		
+		String lessonStr = request.getParameter("lessonId");
+		if(StringUtils.isBlank(lessonStr) || !StringUtils.isNumeric(lessonStr)){
+			return sendcounts;
+		}
+		Integer lessonId = Integer.valueOf(lessonStr);
 		String className = "《"+companyStudentMessage.getClassTypeName()+"》";
 		
 		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(companyStudentMessage.getClassTypeId());
 		
 		List<ClassModuleNo> moduleNos = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(0).getId());
 		
-		List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
+		//List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
 		//获取第一个课次的时间
 			
-		lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
+		//lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
+		ClassModuleLesson lesson = classModuleLessonServiceImpl.findClassModuleLessonById(lessonId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String date  = sdf.format(lessons.get(0).getLessonDate())+"  "+ lessons.get(0).getLessonTimeStart();
+		String date  = sdf.format(lesson.getLessonDate())+"  "+ lesson.getLessonTimeStart();
 		
 		companyStudentMessage.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
 		companyStudentMessageServiceImpl.insert(companyStudentMessage);

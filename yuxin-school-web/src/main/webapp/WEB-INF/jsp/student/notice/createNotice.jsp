@@ -99,7 +99,11 @@
 							class="c-content"> <select id="class"
 							class="js-example-basic-single">
 						</select>
-						</span> <span class="c-title">学员数量：</span> <span class="c-content btn-view">
+						</span> 
+						<span>课次 :</span>
+							<span class="c-content"> <select id="classLesson">
+						</select>
+						<span class="c-title">学员数量：</span> <span class="c-content btn-view">
 						</span>
 					</p>
 					<p class="c sendStuMsg">

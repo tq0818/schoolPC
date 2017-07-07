@@ -342,12 +342,12 @@ var msgCount;
     			beforeSend:function(XMLHttpRequest){
      	              $(".loading").show();
      	              $(".loading-bg").show();
+     	              $("#classLesson").empty();
      	         },
     		 success:function(data){
     			 $(".btn-view").html(data.count + "人");
     			 $("#sendStu,#useEmailMsg").html(data.count);
     			 $("#useMsg").html(data.count+"条");
-    			 $("#classLesson").empty();
     			 $.each( data.lessons, function(index, lesson){ 
  				    if(index == 0){
  				    	$("#classLesson").append("<option  selected = 'selected' value='"+lesson.id+"'>"+lesson.lessonName+"</option>");

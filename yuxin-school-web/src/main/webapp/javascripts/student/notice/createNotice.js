@@ -343,6 +343,7 @@ var msgCount;
      	              $(".loading").show();
      	              $(".loading-bg").show();
      	              $("#classLesson").empty();
+     	             $(".btn-view").empty();
      	         },
     		 success:function(data){
     			 $(".btn-view").html(data.count + "人");

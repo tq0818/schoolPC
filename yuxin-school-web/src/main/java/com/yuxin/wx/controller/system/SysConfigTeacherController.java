@@ -42,6 +42,7 @@ import com.yuxin.wx.api.auth.IAuthUserRoleService;
 import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.classes.IClassModuleService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.system.ISysConfigSchoolService;
 import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
@@ -99,7 +100,8 @@ public class SysConfigTeacherController {
 	private ICompanyFunctionSetService companyFunctionSetServiceImpl;
 	@Autowired
 	private PropertiesUtil properties;
-	
+	@Autowired
+	private ISysConfigDictService sysConfigDictServiceImpl;
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model, SysConfigTeacher search) {
 		if (search == null) {
@@ -542,6 +544,8 @@ public class SysConfigTeacherController {
 		configTeacher.setSchoolId(user.getSchoolId());
 		PageFinder<SysConfigTeacher> pageFinder = sysConfigTeacherServiceImpl.findByCompanyPage(configTeacher);
 		model.addAttribute("pageFinder", pageFinder);
+		List<SysConfigDict> dictList = sysConfigDictServiceImpl.findAll();
+		model.addAttribute("dictList", dictList);
 		return "resource/education/educationAjaxInfo";
 	}
 

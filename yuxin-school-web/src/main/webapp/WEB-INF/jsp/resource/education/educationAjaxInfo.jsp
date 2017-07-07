@@ -69,7 +69,9 @@ transform: translate(-50%,-50%);
 				<p class="c">
 					<span class="c-title">类型</span> <span class="c-content"> <input
 						type="text" class="readonly"
-						value="${wx:dictCode2Name(tc.teacherType)}" readonly>
+						value="<c:forEach items="${dictList}" var="dict"><c:if test="${dict.itemCode== tc.teacherType}">${dict.itemValue }</c:if></c:forEach>"
+<%-- 						${wx:dictCode2Name(tc.teacherType)}"  --%>
+						readonly>
 					</span>
 				</p>
 			</div>
@@ -98,7 +100,8 @@ transform: translate(-50%,-50%);
 					</p>
 					<p class="c">
 						<span class="c-title">性别</span> <span class="c-content"> <input
-							type="text" class="readonly" value="${wx:dictCode2Name(tc.sex)}"
+							type="text" class="readonly" value="<c:forEach items="${dictList}" var="dict"><c:if test="${dict.itemCode== tc.sex}">${dict.itemValue }</c:if></c:forEach>"
+<%-- 							${wx:dictCode2Name(tc.sex)}" --%>
 							readonly>
 						</span>
 					</p>
@@ -124,7 +127,9 @@ transform: translate(-50%,-50%);
 					<p class="c">
 						<span class="c-title">最高学历</span> <span class="c-content">
 							<input type="text" class="readonly"
-							value="${wx:dictCode2Name(tc.educationCode)}" readonly>
+							value="<c:forEach items="${dictList}" var="dict"><c:if test="${dict.itemCode== tc.educationCode}">${dict.itemValue }</c:if></c:forEach>"
+<%-- 							${wx:dictCode2Name(tc.educationCode)}"  --%>
+							readonly>
 						</span>
 					</p>
 					<p class="c">

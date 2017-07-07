@@ -43,6 +43,7 @@ import com.yuxin.wx.api.company.ICompanyVideoConfigService;
 import com.yuxin.wx.api.course.IVideoService;
 import com.yuxin.wx.api.course.IVideoTagService;
 import com.yuxin.wx.api.resource.IResourceListService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.check.Base64;
@@ -67,6 +68,7 @@ import com.yuxin.wx.model.company.CompanyVideoConfig;
 import com.yuxin.wx.model.course.Video;
 import com.yuxin.wx.model.course.VideoTag;
 import com.yuxin.wx.model.resource.ResourceList;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.util.APIServiceFunction;
@@ -130,6 +132,8 @@ public class VideoController {
     private CompanyServiceStaticDayMapper companyServiceStaticDayMapper;
     @Autowired
     private CompanyServiceStaticMapper companyServiceStaticMapper;
+    @Autowired
+    private ISysConfigDictService sysConfigDictServiceImpl;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -938,7 +942,8 @@ public class VideoController {
             model.addAttribute("comService", comService);
             model.addAttribute("userId", WebUtils.getCurrentUserId(request));
             model.addAttribute("companyId", companyId);
-
+            List<SysConfigDict> dictList = sysConfigDictServiceImpl.findAll();
+            model.addAttribute("dictList", dictList);
         } else {
             return "operate/videos/noVideoService";
         }

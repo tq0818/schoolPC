@@ -28,7 +28,7 @@
 		<tr class="deletetr${user.userId }">
 		    <td>${user.username }</td>
 		    <td>${user.realName }</td>
-		    <td>${wx:dictCode2Name(user.sex) }</td>
+			<td><c:forEach items="${dictList}" var="dict"><c:if test="${dict.itemCode== user.sex}">${dict.itemValue}</c:if></c:forEach></td>
 		    <td>${user.mobile }</td>
 		    <td  class="rNameSta"> 
 		      <c:forEach items="${user.arr }" var="role" varStatus="status">

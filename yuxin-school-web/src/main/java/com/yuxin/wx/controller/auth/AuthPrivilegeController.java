@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.model.system.SysConfigDict;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -84,7 +86,8 @@ public class AuthPrivilegeController {
 	private ISysConfigItemService sysConfigItemServiceImpl;
 	@Autowired
 	private ICompanyConfigProxyOrgService companyConfigProxyOrgServiceImpl;
-	
+	@Autowired
+	private ISysConfigDictService sysConfigDictService;
 	/**
 	 * 
 	 * Class Name: AuthPrivilegeController.java
@@ -154,6 +157,8 @@ public class AuthPrivilegeController {
 		PageFinder<UserRolesListVo> pageFinder=authRoleServiceImpl.queryAllUser(search);
 		model.addAttribute("pageFinder", pageFinder);
 		model.addAttribute("userId", userId);
+		List<SysConfigDict> dictList = sysConfigDictService.findAll();
+		model.addAttribute("dictList", dictList);
 		return "system/authPrivilegeAjaxList";
 	}
 	
@@ -318,7 +323,7 @@ public class AuthPrivilegeController {
 	 * @modify-date 2015年5月20日 上午10:49:23
 	 * @version 1.0
 	 * @param user
-	 * @param type
+	 * @param
 	 * @return
 	 * @throws IOException 
 	 */
@@ -397,7 +402,7 @@ public class AuthPrivilegeController {
 	 * @modify-date 2015年5月20日 上午10:49:38
 	 * @version 1.0
 	 * @param user
-	 * @param type
+	 * @param
 	 * @return
 	 */
 	@RequestMapping(value="/updateUser",method=RequestMethod.POST)

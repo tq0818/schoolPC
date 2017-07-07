@@ -2304,6 +2304,9 @@ public class ClassModuleController {
 					}else{
 						sendcounts = sendPhoneLessonMessage(request, companyStudentMessage, content, companyId, schoolId, user,
 								messageCost, sList, sendcounts);
+						if(sendcounts ==0){
+							throw new Exception("sendcounts is zero");
+						}
 					}
 				}catch(Exception e){
 					json.put(JsonMsg.RESULT, "noLesson");

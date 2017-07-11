@@ -156,9 +156,14 @@ public class CompanyLiveStaticDetailServiceImpl extends BaseServiceImpl implemen
 	 */
 	@Override
 	public PageFinder<CompanyLiveStaticDetailVo> queryAllCompanyLiveStaticDetail(CompanyLiveStaticDetailVo companyLiveStaticDetailVo) {
-		List<CompanyLiveStaticDetailVo> data = companyLiveStaticDetailMapper.queryAllCompanyLiveStaticDetail(companyLiveStaticDetailVo);
+		Integer pageSize = companyLiveStaticDetailVo.getPageSize();
 		int rowCount=companyLiveStaticDetailMapper.pageCountQueryAllCompanyLiveStaticDetail(companyLiveStaticDetailVo);
+		if(companyLiveStaticDetailVo.getFirstIndex()+companyLiveStaticDetailVo.getPageSize() > rowCount){
+			companyLiveStaticDetailVo.setPageSize(rowCount - companyLiveStaticDetailVo.getFirstIndex());
+		}
+		List<CompanyLiveStaticDetailVo> data = companyLiveStaticDetailMapper.queryAllCompanyLiveStaticDetail(companyLiveStaticDetailVo);
 		log.info("查询直播上课统计：根据课次查询,总共查询出"+rowCount+"条数据");
+		companyLiveStaticDetailVo.setPageSize(pageSize);
 		PageFinder<CompanyLiveStaticDetailVo> pageFinder = new PageFinder<CompanyLiveStaticDetailVo>(companyLiveStaticDetailVo.getPage(), companyLiveStaticDetailVo.getPageSize(), rowCount, data);
 		return pageFinder;
 		

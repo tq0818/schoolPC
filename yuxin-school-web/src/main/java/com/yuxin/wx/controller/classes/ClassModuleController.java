@@ -2826,7 +2826,7 @@ public class ClassModuleController {
 			return sendcounts;
 		}
 		Integer lessonId = Integer.valueOf(lessonStr);
-		String className = "《"+companyStudentMessage.getClassTypeName()+"》";
+		
 		
 		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(companyStudentMessage.getClassTypeId());
 		
@@ -2837,11 +2837,12 @@ public class ClassModuleController {
 			
 		//lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
 		ClassModuleLesson lesson = classModuleLessonServiceImpl.findClassModuleLessonById(lessonId);
+		String className = "《"+companyStudentMessage.getClassTypeName()+"》之《"+lesson.getLessonName()+"》";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String date  = sdf.format(lesson.getLessonDate())+"  "+ lesson.getLessonTimeStart();
 		
-		companyStudentMessage.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
+		companyStudentMessage.setContent("【成都数字学校】 您报名的"+className+"课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
 		companyStudentMessageServiceImpl.insert(companyStudentMessage);
 		
 		for (List<Student> ssList : sList) {
@@ -2876,7 +2877,7 @@ public class ClassModuleController {
 						CompanyMessageHistory cmh = new CompanyMessageHistory();
 						cmh.setReceiverUserId(""+s.getId());
 						cmh.setReceiverMobile(s.getMobile().trim());
-						cmh.setContent("【成都数字学校】 您报名的《"+className+"》课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
+						cmh.setContent("【成都数字学校】 您报名的"+className+"课程将于"+date+"开始，请您安排还自己的时间准时参与，非常感谢！");
 						cmh.setSendTime(new Date());
 						if(result.equals("发送成功")){
 							cmh.setSendStatus(1);

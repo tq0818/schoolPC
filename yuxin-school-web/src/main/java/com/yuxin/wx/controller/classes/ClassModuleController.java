@@ -1918,12 +1918,21 @@ public class ClassModuleController {
 		JSONObject json = new JSONObject();
 		json.put("count", count);
 		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(id);
-		List<ClassModuleNo> moduleNos = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(0).getId());
-		List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
+		List<ClassModuleNo> moduleNos = new ArrayList<ClassModuleNo>();
+		if(modules !=null && modules.size() > 0){
+			for(int i = 0;i < modules.size();i++){
+				List<ClassModuleNo> temp = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(i).getId());
+				moduleNos.addAll(temp);
+			}
+			
+		}
 		JSONArray lessonArray = new JSONArray();
-		if(moduleNos.size() == 1){
-			lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
-			lessonArray.addAll(lessons);
+		if(moduleNos.size() > 0){
+			for(int j = 0;j < moduleNos.size();j++){
+				List<ClassModuleLesson> temp = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(j).getId());
+				lessonArray.addAll(temp);
+			}
+			
 		}
 		json.put("lessons", lessonArray);
 		return json;

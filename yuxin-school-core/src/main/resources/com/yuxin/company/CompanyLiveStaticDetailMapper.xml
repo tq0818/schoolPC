@@ -163,8 +163,8 @@
 		FROM
 			student_pay_master spm
 		WHERE
-			spm.company_id = 18113
-		AND spm.commodity_id = 13
+			spm.company_id = #{companyId}
+		AND spm.commodity_id = #{classTypeId}
 		AND spm.commodity_type = 'COMMODITY_CLASS'
 		AND (
 			spm.pay_status_code = 'ORDER_PAID'
@@ -221,8 +221,8 @@ FROM
 		FROM
 			student_pay_master spm
 		WHERE
-			spm.company_id = 18113
-		AND spm.commodity_id = 13
+			spm.company_id = #{companyId}
+		AND spm.commodity_id =  #{classTypeId}
 		AND spm.commodity_type = 'COMMODITY_CLASS'
 		AND (
 			spm.pay_status_code = 'ORDER_PAID'

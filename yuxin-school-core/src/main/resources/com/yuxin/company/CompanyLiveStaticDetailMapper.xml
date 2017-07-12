@@ -156,64 +156,116 @@
 	<!-- 查询所有的直播上课统计 -->
 	<select id="queryAllCompanyLiveStaticDetail" resultMap="companyLiveStaticDetailVoResultMap"
 		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
-		select DISTINCT clsr.id,clsr.live_date,clsr.in_time,clsr.out_time,clsr.watch_type,uf.mobile,uf.username,uf.nick_name,s.`name`,e.lesson_name,
-		(SELECT d.`item_value` FROM sys_config_dict d WHERE d.item_code = s.edu_area) AS edu_area,
-		(SELECT d1.`item_value` FROM sys_config_dict d1 WHERE d1.item_code = s.edu_school) AS edu_school,
-		(SELECT d2.`item_value` FROM sys_config_dict d2 WHERE d2.item_code = s.edu_step) AS edu_step,
-		s.edu_year
-		FROM student_pay_master spm
-		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
-		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
-		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
-		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
-		INNER JOIN users_front uf ON uf.id = clsr.user_id
-		<if test="mobile != null and mobile != ''">
-			and (uf.mobile = '${mobile}' or uf.username like '${mobile}%' )
-		</if>
-		INNER JOIN student s on s.user_id = uf.id
-		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+		select DISTINCT clsr.id,clsr.live_date,clsr.in_time,clsr.out_time,clsr.watch_type,uf.mobile,uf.username,uf.nick_name,s.`name`,s.email,e.lesson_name,d.`item_value` as edu_area,d1.`item_value` as edu_school,d2.`item_value` as edu_step,s.edu_year
+		FROM  (
+		SELECT
+			spm.id
+		FROM
+			student_pay_master spm
+		WHERE
+			spm.company_id = 18113
+		AND spm.commodity_id = 13
+		AND spm.commodity_type = 'COMMODITY_CLASS'
+		AND (
+			spm.pay_status_code = 'ORDER_PAID'
+			OR spm.pay_status_code = 'ORDER_PART_PAY'
+			OR spm.pay_status_code = 'ORDER_FINISHED'
+			OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+		)
+		) spm2,
+				(
+					SELECT
+						sps.pay_master_id,
+						sps.resource_id
+					FROM
+						student_pay_slave sps
+					WHERE
+						sps.slave_status_code != 'SUB_ORDER_DELTED'
+					AND (
+						sps.resource_type = 'TEACH_METHOD_LIVE'
+						OR sps.resource_type = 'TEACH_METHOD_FACE'
+					)
+					GROUP BY
+						sps.resource_id
+				) sps2,
+				class_module_no cmn,
+				class_module_lesson e,
+				company_live_static_record clsr,
+				users_front uf,
+				student s LEFT JOIN sys_config_dict d on d.`item_code` = s.`edu_area` LEFT JOIN sys_config_dict d1 on d1.`item_code` = s.`edu_school` LEFT JOIN sys_config_dict d2 on d2.`item_code` = s.`edu_step` 
+			WHERE
+				sps2.pay_master_id = spm2.id
+			AND sps2.resource_id = cmn.id
+			AND cmn.id = e.module_no_id
+			AND e.id = clsr.class_lesson_id
+			AND uf.id = clsr.user_id
+			AND s.user_id = uf.id
+		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
+	 	<if test="mobile != null and mobile != ''">and (uf.mobile = '${mobile}' or uf.username like '%${mobile}%' )</if>
+	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
-		WHERE spm.company_id = #{companyId}
-		and spm.commodity_id =  #{classTypeId}
-		AND spm.commodity_type = 'COMMODITY_CLASS'
-		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
-		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
-		AND sps.slave_status_code!='SUB_ORDER_DELTED'
-		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
-	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<!-- 查询直播上课统计条数 -->
 		<select id="pageCountQueryAllCompanyLiveStaticDetail" resultType="int"
 		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
-		SELECT COUNT(1) FROM
-		(SELECT DISTINCT CLSR.ID,clsr.`user_id`
-			FROM student_pay_master spm
-			INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
-			INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
-			INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
-			INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
-			WHERE spm.company_id = #{companyId}
-			and spm.commodity_id =  #{classTypeId}
-			AND spm.commodity_type = 'COMMODITY_CLASS'
-			AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE')
-			and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE')
-			AND sps.slave_status_code!='SUB_ORDER_DELTED'
-			<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
-			<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
-		  ) t
-			<if test="mobile != null and mobile != ''">
-				INNER JOIN users_front uf ON uf.id = t.user_id
-				and (uf.mobile = '${mobile}' or uf.username like '${mobile}%' )
-			</if>
-			INNER JOIN student s on s.user_id = t.user_id
-			<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
-			<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
-			<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
-			<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
-		</select>
+		SELECT
+	count(clsr.id)
+FROM
+	(
+		SELECT
+			spm.id
+		FROM
+			student_pay_master spm
+		WHERE
+			spm.company_id = 18113
+		AND spm.commodity_id = 13
+		AND spm.commodity_type = 'COMMODITY_CLASS'
+		AND (
+			spm.pay_status_code = 'ORDER_PAID'
+			OR spm.pay_status_code = 'ORDER_PART_PAY'
+			OR spm.pay_status_code = 'ORDER_FINISHED'
+			OR spm.pay_status_code = 'ORDER_PAID_NO_COURSE'
+		)
+	) spm2,
+	(
+		SELECT
+			sps.pay_master_id,
+			sps.resource_id
+		FROM
+			student_pay_slave sps
+		WHERE
+			sps.slave_status_code != 'SUB_ORDER_DELTED'
+		AND (
+			sps.resource_type = 'TEACH_METHOD_LIVE'
+			OR sps.resource_type = 'TEACH_METHOD_FACE'
+		)
+		GROUP BY
+			sps.resource_id
+	) sps2,
+	class_module_no cmn,
+	class_module_lesson e,
+	company_live_static_record clsr,
+	users_front uf,
+	student s
+WHERE
+	sps2.pay_master_id = spm2.id
+AND sps2.resource_id = cmn.id
+AND cmn.id = e.module_no_id
+AND e.id = clsr.class_lesson_id
+AND uf.id = clsr.user_id
+AND s.user_id = uf.id
+		<if test="classLessionId != null and classLessionId != ''">and clsr.class_lesson_id = #{classLessionId}</if>
+	 	<if test="mobile != null and mobile != ''">and (uf.mobile = '${mobile}' or uf.username like '%${mobile}%' )</if>
+	 	<if test="watchType != null">and clsr.watch_type = #{watchType}</if>
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+	</select>
 	
 
 

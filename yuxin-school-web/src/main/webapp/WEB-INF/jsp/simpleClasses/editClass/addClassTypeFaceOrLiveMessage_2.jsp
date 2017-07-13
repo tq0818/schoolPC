@@ -80,7 +80,7 @@
             $selectMenu("course_class_type");
             $chooseMenu("detailCode");
             //	$(".footer").addClass("footer-fixed");
-            var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa" } );
+            var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa",allowedContent: true } );
             editor.config.width="880";
             editor.config.toolbar = [
                 [ 'mode', 'document', 'doctools' ], [ 'Source', '-', 'NewPage' ] ,
@@ -100,9 +100,11 @@
             var desc = "${ct.detailDesc}";
             var desc1 = decodeURI(desc);
             var detailDesc = desc1.replace("\r\n",
-                    "<br>&nbsp;&nbsp;");
+                    "<br>&nbsp;&nbsp;").replace(/<i /g,'<p ').replace(/<\/i>/g,'</p>');
             editor.setData(detailDesc);
             editor.config.customConfig = 'config.js';
+//            editor.config.startupMode ='source';
+//            editor.config.toolbar =[];
 
             $(".pic").on("change","#target", function() {
                 var theImage = new Image();

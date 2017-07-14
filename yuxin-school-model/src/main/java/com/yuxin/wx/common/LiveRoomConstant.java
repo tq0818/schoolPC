@@ -45,7 +45,7 @@ public interface LiveRoomConstant {
 	/**
 	 * 展示互动登陆账号
 	 */
-	public static final String LOGIN_NAME = "admin@winshare-edu.com";
+	public static final String LOGIN_NAME = "admin@winshare-edutest.com";
 	/**
 	 * 展示互动密码
 	 */
@@ -53,7 +53,7 @@ public interface LiveRoomConstant {
 	/**
 	 * 展示互动访问路径
 	 */
-	public static final String DOMIN_NAME = "http://winshare-edu.gensee.com";
+	public static final String DOMIN_NAME = "http://winshare-edutest.gensee.com";
 	/**
 	 * 创建展示互动直播课程
 	 */

@@ -7,6 +7,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class UsersAreaRelation extends BaseEntity{
 
+
 	private Integer userId;			/* 用户id */
 	private String	eduArea;		 /* 区域 */
 	private String	eduSchool;		 /* 类型 */

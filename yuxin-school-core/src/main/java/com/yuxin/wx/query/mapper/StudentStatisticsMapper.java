@@ -1,9 +1,7 @@
 package com.yuxin.wx.query.mapper;
 
-import com.sun.org.glassfish.external.probe.provider.annotations.ProbeParam;
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.statistics.Statistics;
-import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 import java.util.List;

@@ -37,7 +37,7 @@
 		   			</c:otherwise>
 		   		</c:choose>
 			  <c:if test="${allCommdotity.iconLable !=null ||allCommdotity.iconLable.length>0}">
-				  <i class="tips">
+				  <i class="tips zb_date">
 						  ${allCommdotity.iconLable}
 				  </i>
 			  </c:if>

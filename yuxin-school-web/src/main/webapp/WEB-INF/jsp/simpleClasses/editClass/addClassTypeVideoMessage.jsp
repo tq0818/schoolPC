@@ -95,7 +95,7 @@
                 </p>
                 <p class="c">
                     <span class="c-title">封面标签</span>
-                    <span class="c-content"><input type="text" id="iconLable" name="iconLable" value="${classType.iconLable }" maxlength="20"></span>
+                    <span class="c-content"><input type="text" id="iconLable" name="iconLable" value="${classType.iconLable }" maxlength="15"></span>
                 </p>
                 <p class="c">
                     <span class="c-title">课程名称</span>

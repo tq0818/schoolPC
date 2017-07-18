@@ -121,12 +121,16 @@
                     <span class="c-content">
                         <select class="itemTagLists" id="itemTagLists_one" style="width:150px;"></select>
                     </span>
-                </p>
+               </p>
                  <p class="c" id="labeSecondSets">
                     <span class="c-title">二级标签</span>
                     <span class="c-content">
                         <select class="itemTagLists" id="itemTagLists_two" style="width:150px;"></select>
                     </span>
+                </p>
+                <p class="c">
+                    <span class="c-title">封面标签</span>
+                    <span class="c-content"><input type="text" id="iconLable" name="iconLable" value="${classType.iconLable}" maxlength="20"></span>
                 </p>
                 <p class="c">
                     <span class="c-title">课程名称</span>

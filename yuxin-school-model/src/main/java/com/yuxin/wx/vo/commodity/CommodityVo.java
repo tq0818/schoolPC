@@ -80,7 +80,7 @@ public class CommodityVo extends BaseEntity {
     private String comIdStr;//商品id字符串集合
     
     private String orderBy;
-    
+    private String iconLable;
     public CommodityVo() {
 
     }
@@ -612,4 +612,12 @@ public class CommodityVo extends BaseEntity {
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
 	}
+
+    public String getIconLable() {
+        return iconLable;
+    }
+
+    public void setIconLable(String iconLable) {
+        this.iconLable = iconLable;
+    }
 }

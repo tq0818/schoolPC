@@ -69,7 +69,7 @@ public class ClassTypeVo extends BaseEntity {
 	
 	private Integer commodityId;//商品id
 	private Integer subjectClassOrder;//学科课程排序
-	
+	private String  iconLable;
 	public Integer getCommodityId() {
 		return commodityId;
 	}
@@ -439,5 +439,11 @@ public class ClassTypeVo extends BaseEntity {
 	public void setSubjectClassOrder(Integer subjectClassOrder) {
 		this.subjectClassOrder = subjectClassOrder;
 	}
-	
+	public String getIconLable() {
+		return iconLable;
+	}
+
+	public void setIconLable(String iconLable) {
+		this.iconLable = iconLable;
+	}
 }

@@ -12,4 +12,6 @@
 	background: #fff;height: 30px;padding: 5px 0;transition: top .3s ease-in-out;}
 .classes .mainbackground .m-list ul li:hover .list-btn{top: -44px;z-index:99;}
 /*new*/
+.classes .mainbackground .m-list ul li .tips.tips_type{top:127px;
+}
 

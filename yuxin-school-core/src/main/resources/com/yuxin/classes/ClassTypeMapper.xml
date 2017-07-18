@@ -40,6 +40,7 @@
 		<result property="memberFlag" column="member_flag"/>
 		<result property="buyNumMax" column="buy_num_max"/>
 		<result property="protocolId" column="protocol_id"/>
+		<result property="iconLable" column="icon_lable"/>
 	    <result property="subjectClassOrder" column="subject_class_order"/>
 	</resultMap>
 	
@@ -87,6 +88,7 @@
 		<result property="memberFlag" column="member_flag"/>
 		<result property="buyNumMax" column="buy_num_max"/>
 		<result property="protocolId" column="protocol_id"/>
+		<result property="iconLable" column="icon_lable"/>
 		<result property="subjectClassOrder" column="subject_class_order"/>
 	</resultMap>
 	
@@ -129,7 +131,8 @@
 		integral_flag,
 		member_flag,
 		buy_num_max,
-		protocol_id
+		protocol_id,
+		icon_lable
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -170,7 +173,8 @@
 		#{integralFlag},
 		#{memberFlag},
 		#{buyNumMax},
-		#{protocolId}
+		#{protocolId},
+		#{iconLable}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -212,7 +216,8 @@
 		#{item.integralFlag},
 		#{item.memberFlag},
 		#{item.buyNumMax},
-		#{item.protocolId}
+		#{item.protocolId},
+		#{item.iconLable}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -285,6 +290,7 @@
 			<if test="memberFlag != null">member_flag = #{memberFlag},</if>
 			<if test="buyNumMax != null">buy_num_max = #{buyNumMax},</if>
 			<if test="protocolId != null">protocol_id = #{protocolId},</if>
+			<if test="iconLable != null">icon_lable = #{iconLable},</if>
 		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
 		    
 		 </trim>

@@ -20,7 +20,7 @@
 		   <li id="commodityLi${allCommdotity.id }" onmouseover="Form.showSave(${allCommdotity.id})" onmouseout="Form.closeSave(${allCommdotity.id})" publishStatus="${allCommdotity.publishStatus}">
 		   		<c:choose>
 		   			<c:when test="${allCommdotity.publishStatus=='CLASS_STOP_SALE' }">
-		   				<i class="tips" style="background-color: rgba(231,31,26,0.8);color: white;">
+		   				<i class="tips tips_type" style="background-color: rgba(231,31,26,0.8);color: white;">
 		   				<c:choose>
 		   					<c:when test="${allCommdotity.publishStatus=='CLASS_UNPUBLISHED'}">未发布</c:when>
 		   					<c:when test="${allCommdotity.publishStatus=='CLASS_ON_SALE'}">在售</c:when>
@@ -29,13 +29,18 @@
 		   				</i>
 		   			</c:when>
 		   			<c:otherwise>
-		   				<i class="tips"><c:choose>
+		   				<i class="tips tips_type"><c:choose>
 		   					<c:when test="${allCommdotity.publishStatus=='CLASS_UNPUBLISHED'}">未发布</c:when>
 		   					<c:when test="${allCommdotity.publishStatus=='CLASS_ON_SALE'}">在售</c:when>
 		   					<c:otherwise>停售</c:otherwise>
 		   				</c:choose></i>
 		   			</c:otherwise>
 		   		</c:choose>
+			  <c:if test="${allCommdotity.iconLable !=null ||allCommdotity.iconLable.length>0}">
+				  <i class="tips">
+						  ${allCommdotity.iconLable}
+				  </i>
+			  </c:if>
 			     <i class="add-com" id="com${allCommdotity.id}" marks="${allCommdotity.recommendFlag}" style="display: none;" onclick="Form.collectShop(${allCommdotity.id})">${allCommdotity.recommendFlag==1?'取消推荐':'加入推荐' }</i>
 			    <div class="infos-pic">
 			      <a href="javascript:Form.showClassTypeDetail(${allCommdotity.id },'${allCommdotity.typeCode }');">

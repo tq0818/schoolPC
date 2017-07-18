@@ -94,6 +94,10 @@
                     </span>
                 </p>
                 <p class="c">
+                    <span class="c-title">封面标签</span>
+                    <span class="c-content"><input type="text" id="iconLable" name="iconLable" value="${classType.iconLable }" maxlength="20"></span>
+                </p>
+                <p class="c">
                     <span class="c-title">课程名称</span>
                     <span class="c-content"><input type="text" id="classTypeName" name="name" value="${classType.name }"><sb>*</sb></span>
                     <span class="firstspan" style="display: none;margin-left:360px;margin-top:-28px;">该课程名称已存在</span>

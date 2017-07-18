@@ -75,7 +75,9 @@ public class ClassType extends BaseEntity {
     private Integer relationId;
     private Integer protocolId; // 协议id
     private Integer subjectClassOrder;//学科课程排序
-    
+
+    private String iconLable;//封面标签
+
     public Integer getRelationId() {
         return this.relationId;
     }
@@ -537,7 +539,13 @@ public class ClassType extends BaseEntity {
 	public void setSubjectClassOrder(Integer subjectClassOrder) {
 		this.subjectClassOrder = subjectClassOrder;
 	}
-    
+    public String getIconLable() {
+        return iconLable;
+    }
+
+    public void setIconLable(String iconLable) {
+        this.iconLable = iconLable;
+    }
     
 
 }

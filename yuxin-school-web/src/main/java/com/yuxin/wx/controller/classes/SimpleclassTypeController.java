@@ -738,6 +738,9 @@ public class SimpleclassTypeController {
 			classType.setVideoFlag(0);
 			classType.setRemoteFlag(1);
 		}
+		if(classType.getLableType()!=null && classType.getLableType().length()>0){
+			classType.setIconLable(classType.getLableType().trim());
+		}
 		ClassType classTypes=addClassTypeCommMethod(request, classType,lable,courseNum);
 		return classTypes;
 	}

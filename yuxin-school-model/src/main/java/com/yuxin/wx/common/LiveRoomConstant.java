@@ -9,27 +9,27 @@ public interface LiveRoomConstant {
 	 * E课堂修改直播教室接口
 	 */
 	public static final String UPDATE_LIVEROOM = "/openApi/updateLiveRoom";
-	
+
 	public static final String LIVEDETAIL = "/openApi/statistics/total";
-	
+
 	public static final String LIVE_DYNAMICINFO = "/openApi/getLiveDynamicInfo";
-	
+
 	public static final String DELETE_LIVEROOM = "/openApi/deleteLiveRoom";
-	
+
 	/**
 	 * 展示互动--大讲堂
 	 */
 	public static final String LIVE_BIG_CLASS_ROOM = "LIVE_BIG_CLASS_ROOM";
-	
+
 	/**
 	 * 展示互动--小班课
 	 */
 	public static final String LIVE_SMALL_CLASS_ROOM = "LIVE_SMALL_CLASS_ROOM";
-	
+
 	/**
 	 * 进入展示互动老师密钥
 	 */
-	public static final String TEACHER_TOKEN = "zs_t_secret"; 
+	public static final String TEACHER_TOKEN = "zs_t_secret";
 	/**
 	 * 进入展示互动学生密钥（web端）
 	 */
@@ -45,7 +45,7 @@ public interface LiveRoomConstant {
 	/**
 	 * 展示互动登陆账号
 	 */
-	public static final String LOGIN_NAME = "admin@winshare-edutest.com";
+	public static final String LOGIN_NAME = "admin@winshare-edu.com";
 	/**
 	 * 展示互动密码
 	 */
@@ -53,7 +53,7 @@ public interface LiveRoomConstant {
 	/**
 	 * 展示互动访问路径
 	 */
-	public static final String DOMIN_NAME = "http://winshare-edutest.gensee.com";
+	public static final String DOMIN_NAME = "http://winshare-edu.gensee.com";
 	/**
 	 * 创建展示互动直播课程
 	 */

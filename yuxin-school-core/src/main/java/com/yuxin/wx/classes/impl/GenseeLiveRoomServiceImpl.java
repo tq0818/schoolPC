@@ -134,7 +134,9 @@ public class GenseeLiveRoomServiceImpl extends BaseServiceImpl implements ILiveR
 //		param.put("invalidDate", dateFormat.format(cml.getLessonDate()) + " " + cml.getLessonTimeEnd()+":00");
 		param.put("assistantToken", config.getAssistantToken() != null ? config.getAssistantToken() : LiveRoomConstant.ASSISTANT_TOKEN);
 		param.put("domain", config.getDomain() != null ? config.getDomain() : LiveRoomConstant.DOMIN_NAME);
-		
+
+		log.info("数据库配置："+config.getDomain()+config.getLoginName());
+		log.info("java配置："+LiveRoomConstant.DOMIN_NAME + LiveRoomConstant.LOGIN_NAME);
 		//老师介绍
 		SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findSysConfigTeacherById(Integer.parseInt(cml.getTeachers()));
 		if(teacher != null && teacher.getResume() != null){

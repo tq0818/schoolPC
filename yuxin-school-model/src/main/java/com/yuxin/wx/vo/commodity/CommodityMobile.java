@@ -76,7 +76,7 @@ public class CommodityMobile extends BaseEntity {
 	private Integer actualNum;
 	
 	private Integer memberFlag;
-	
+	private String iconLable;
 	public CommodityMobile() {
 
 	}
@@ -535,5 +535,12 @@ public class CommodityMobile extends BaseEntity {
 	public void setMemberFlag(Integer memberFlag) {
 		this.memberFlag = memberFlag;
 	}
-	
+
+	public String getIconLable() {
+		return iconLable;
+	}
+
+	public void setIconLable(String iconLable) {
+		this.iconLable = iconLable;
+	}
 }

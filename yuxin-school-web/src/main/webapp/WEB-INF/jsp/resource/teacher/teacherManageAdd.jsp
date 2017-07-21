@@ -253,6 +253,14 @@ $(function(){
 										</span>
 								</p>
 							</li>
+							<li>
+								<p class="c">
+									<span class="c-title">学校简称<em>*</em></span>
+										<span class="c-content">
+											<input name="schoolShortName" id="schoolShortName" type="text" maxlength="6">
+										</span>
+								</p>
+							</li>
 		                   <li style="width:100%;">
 		                        <p class='c' style="width:100%;">
 		                            <span class="c-title" style="width:15%;">简介</span>

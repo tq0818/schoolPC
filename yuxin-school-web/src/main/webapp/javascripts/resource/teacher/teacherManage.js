@@ -2,7 +2,7 @@ var TimeFn = null;
 var backResult=null;
 var teacherNameResult = null;
 var mobileNum = null;
-var arrMsg = ['登陆账号不能为空', '登陆账号已存在', '登陆账号只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成', '老师名称不能为空', '该老师姓名已存在', '老师姓名由汉字、字母 、数字、下划线组成', '手机号不能为空','该手机号已存在','手机号格式不正确','请输入密码','请输入确认密码','两次密码不一致','老师简介不能超过500个字'];
+var arrMsg = ['登陆账号不能为空', '登陆账号已存在', '登陆账号只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成', '老师名称不能为空', '该老师姓名已存在', '老师姓名由汉字、字母 、数字、下划线组成', '手机号不能为空','该手机号已存在','手机号格式不正确','请输入密码','请输入确认密码','两次密码不一致','老师简介不能超过500个字','学校简称不能为空'];
 $(function() {
 	//给二级学科id赋值
 	var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
@@ -145,6 +145,11 @@ $(function() {
 //					moduleIds += $(this).attr("date-id") + ",";
 //				});
 
+			var schoolShortName = $('#schoolShortName').val();
+			if($.trim(schoolShortName) == ""){
+				alertMsg(arrMsg[13]);
+				return false;
+			}
 			var pwd = $("#pwd").val();
 			var pwdNext = $("#pwdNext").val();
 

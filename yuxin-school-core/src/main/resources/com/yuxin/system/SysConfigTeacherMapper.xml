@@ -45,6 +45,7 @@
 		<result property="teacherArea" column="teacher_area" />
 		<result property="schoolName" column="school_name" />
 		<result property="sortId" column="sort_id" />
+		<result property="schoolShortName" column="school_short_name" />
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -124,7 +125,8 @@
 		teacher_level,
 		teacher_area,
 		school_name,
-		sort_id
+		sort_id,
+		school_short_name
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -166,7 +168,8 @@
 		#{teacherLevel},
 		#{teacherArea},
 		#{schoolName},
-		#{sortId}
+		#{sortId},
+		#{schoolShortName}
 	</sql>
 
 	<!-- 适用于主键自增类型 -->
@@ -253,6 +256,8 @@
 			<if test="teacherLevel != null and teacherLevel !=''">teacher_level = #{teacherLevel},</if>
 			<if test="teacherArea != null and teacherArea !=''">teacher_area = #{teacherArea},</if>
 			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
+			<if test="schoolShortName != null and schoolShortName !=''">school_short_name = #{schoolShortName},</if>
+			
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -299,6 +304,8 @@
 			<if test="teacherLevel != null and teacherLevel !=''">teacher_level = #{teacherLevel},</if>
 			<if test="teacherArea != null and teacherArea !=''">teacher_area = #{teacherArea},</if>
 			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
+			<if test="schoolShortName != null and schoolShortName !=''">school_short_name = #{schoolShortName},</if>
+			
 		</trim>
 		<where>id = #{id}</where>
 	</update>

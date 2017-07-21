@@ -75,8 +75,20 @@ public class SysConfigTeacher extends BaseEntity {
 	
 	private Integer sortId;
 	
+	/**
+	 * 学校简称
+	 */
+	private String schoolShortName;
 	
 	
+	public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
+
 	public String getSchoolName() {
 		return schoolName;
 	}

@@ -201,6 +201,12 @@
                      ${item.resume}
                  </span>
              </p>
+                     <p class="c c-p">
+                 <span class="c-title">学校简称</span>
+                 <span class="c-content">
+                    <input type="text" class="readonly" value="${item.schoolShortName}" readonly>
+                </span>
+             </p>
          </div>
          <div class="r-list-content clear hide">
              <div class="r-list-content-title">

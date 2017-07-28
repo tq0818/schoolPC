@@ -124,11 +124,27 @@
                         <input type="text" maxlength="6" id="totalScore" name="totalScore" placeholder="单位：分" value="${paper.totalScore}" class="number"/>
                     </span>
                 </p>
+                <%--<p class="c">--%>
+                    <%--<span class="c-title">所属区域</span>--%>
+                    <%--<span class="c-content" id="region">--%>
+                   		<%--<select id="prov">--%>
+                   		<%--</select> --%>
+                    <%--</span>--%>
+                <%--</p>--%>
                 <p class="c">
-                    <span class="c-title">所属区域</span>
-                    <span class="c-content" id="region">
-                   		<select id="prov">
-                   		</select> 
+                    <span class="c-title">名师</span>
+                    <span class="c-content">
+                        <select name="teacherId" id="teacherList" style="width:100px;">
+                            <option value="">--选择教师--</option>
+                           <c:forEach items="${teachers }" var="t">
+                               <c:if test="${teacher.id==t.id }">
+                                   <option value="${t.id }" selected="selected">${t.name }</option>
+                               </c:if>
+                               <c:if test="${teacher.id!=t.id }">
+                                   <option value="${t.id }">${t.name }</option>
+                               </c:if>
+                           </c:forEach>
+                        </select>
                     </span>
                 </p>
                  <p class="c">

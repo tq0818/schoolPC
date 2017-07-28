@@ -9,7 +9,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.system.SysConfigTeacher;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +98,9 @@ public class TikuPaperController {
 
     @Autowired
     private ITikuSubjectService tikuSubjectServiceImpl;
+
+    @Autowired
+    private ISysConfigTeacherService sysConfigTeacherServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, TikuPaper search) {
@@ -221,6 +226,10 @@ public class TikuPaperController {
         if (paperId > 0) {
             TikuPaper paper = this.tikuPaperServiceImpl.findTikuPaperById(paperId);
             model.addAttribute("paper", paper);
+            if (paper.getTeacherId() != null) {
+                SysConfigTeacher teacher = this.sysConfigTeacherServiceImpl.findSysConfigTeacherById(paper.getTeacherId());
+                model.addAttribute("teacher", teacher);
+            }
         }
         Integer companyId = WebUtils.getCurrentCompanyId();
         // 查询设置
@@ -248,6 +257,11 @@ public class TikuPaperController {
         model.addAttribute("tikuId", tikuId);
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("exam", exam);
+
+        Map<String, String> teacherMap = new HashMap<String, String>();
+        teacherMap.put("companyId", WebUtils.getCurrentCompanyId() + "");
+        teacherMap.put("schoolId", WebUtils.getCurrentSchoolId() + "");
+        model.addAttribute("teachers", this.sysConfigTeacherServiceImpl.findTeachers(teacherMap));
         return "tiku/paper/paperInfo";
     }
 

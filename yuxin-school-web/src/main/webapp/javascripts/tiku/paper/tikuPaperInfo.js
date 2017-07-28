@@ -61,11 +61,11 @@
 				})
 			}
 			//------
-			//绑定所属区域
-			$("#region").cityselect({
-				url:rootPath + "/javascripts/company/city.min.js",
-			    prov:"北京", //省份 
-			});
+			// //绑定所属区域
+			// $("#region").cityselect({
+			// 	url:rootPath + "/javascripts/company/city.min.js",
+			//     prov:"北京", //省份
+			// });
 			
 			tikuId = $("#tikuId").val();
 			subjectId = $("#subjectId").val();
@@ -85,6 +85,7 @@
 				var region = $("#prov").val();
 				var topicType="";
 				var isChecked = "false";
+				var teacherId = $("#teacherList").val();
 				$(".topicType:checked").each(function(i,item){
 					isChecked = "true";
 						if(i==0){
@@ -97,10 +98,10 @@
 					if(isChecked == "true"){
 						if(paperId){
 							//存在paperId：编辑
-							Forms.updatePaper(paperId, paperName, paperType, examTime, totalScore, region, topicType,thisHtml);
+							Forms.updatePaper(paperId, paperName, paperType, examTime, totalScore, region, topicType,thisHtml,teacherId);
 						}else{
 							//不存在paperId：新增
-							Forms.insertPaper(paperName, paperType, examTime, totalScore, region, topicType,subjectId,tikuId,thisHtml);
+							Forms.insertPaper(paperName, paperType, examTime, totalScore, region, topicType,subjectId,tikuId,thisHtml,teacherId);
 						}
 					}else{
 						$("#error").show(function(){
@@ -116,11 +117,11 @@
 			
 			
 		},
-		insertPaper : function(paperName,paperType,examTime,totalScore,region,topicType,subjectId,tikuId,thisHtml){
+		insertPaper : function(paperName,paperType,examTime,totalScore,region,topicType,subjectId,tikuId,thisHtml,teacherId){
 			$.ajax({
 				url : rootPath+"/tikuPaper/insertAndReturnId",
 				type : "post",
-				data : {"paperName":paperName,"paperType":paperType,"examTime":examTime,"totalScore":totalScore,"region":region,"containTopicType":topicType,"tkuSubjectId":subjectId,"tikuCategoryId":tikuId},
+				data : {"paperName":paperName,"paperType":paperType,"examTime":examTime,"totalScore":totalScore,"region":region,"containTopicType":topicType,"tkuSubjectId":subjectId,"tikuCategoryId":tikuId,"teacherId":teacherId},
 				beforeSend:function(XMLHttpRequest){
 		            $(".loading").show();
 		            $(".loading-bg").show();
@@ -159,11 +160,11 @@
 		        }
 			});
 		},
-		updatePaper : function(id,paperName,paperType,examTime,totalScore,region,topicType,thisHtml){
+		updatePaper : function(id,paperName,paperType,examTime,totalScore,region,topicType,thisHtml,teacherId){
 			$.ajax({
 				url : rootPath+"/tikuPaper/updateAndReturnId",
 				type : "post",
-				data : {"id":id,"paperName":paperName,"paperType":paperType,"examTime":examTime,"totalScore":totalScore,"region":region,"containTopicType":topicType},
+				data : {"id":id,"paperName":paperName,"paperType":paperType,"examTime":examTime,"totalScore":totalScore,"region":region,"containTopicType":topicType,"teacherId":teacherId},
 				beforeSend:function(XMLHttpRequest){
 		            $(".loading").show();
 		            $(".loading-bg").show();

@@ -81,7 +81,18 @@ public class CommodityVo extends BaseEntity {
     
     private String orderBy;
     private String iconLable;
-    public CommodityVo() {
+    
+    private String schoolShortName;//学校简称
+    
+    public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
+
+	public CommodityVo() {
 
     }
     

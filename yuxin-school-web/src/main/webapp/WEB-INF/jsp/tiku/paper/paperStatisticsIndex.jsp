@@ -42,30 +42,64 @@
 	                    <dd>最低分：<em>${statistics.min}分</em></dd>
 	                    <dd>平均分：<em>${statistics.avg}分</em></dd>
 	                </dl>
-	                <div class="bookBut">
-	                    <a id="exportExcle" href="javascript:void(0);" class="btn btn-mini btn-primary">导出数据</a>
-	                </div>
 				</div>
-				<div class="r-list L-r-list-table" id="teacherContent" style="min-height: 350px;position: relative;">
+			<div>
+				<div class="tab-info">
+					<span class="tab-type active" href = ".teacherContent">概括</span>
+					<span class="tab-type" href=".teacherContent2">详情</span>
+					<div class="tab-search teacherContent">
+						<select name="eduArea" id="eduArea">
+							<option value="">请选择区域</option>
+							<c:forEach items="${areas}" var="area" >
+								<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+							</c:forEach>
+						</select>
+
+						<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+							<option value="">请选择学校</option>
+						</select>
+
+						<select name="eduClass" id="eduClass">
+							<option value="">请选择班级</option>
+							<c:forEach begin="1" end="30" varStatus="index">
+								<option value="${index.index}">${index.index}班</option>
+							</c:forEach>
+						</select>
+						<div class="bookBut">
+							<a href="javascript:;" class="btn btn-mini btn-primary searchContents">搜索</a>
+							<a id="exportExcle" href="javascript:void(0);" class="btn btn-mini btn-primary">导出数据</a>
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="content-show">
+				<div class="r-list L-r-list-table teacherContent" id="teacherContent" style="min-height: 350px;position: relative;">
 					<table id="tableList" class="table table-hover table-center table-list L-table">
 						<colgroup>
-						  <col width="20%">
-						  <col width="20%">
-						  <col width="20%">
-						  <col width="20%">
-						  <col width="20%">
+						  <col width="15%">
+						  <col width="10%">
+						  <col width="10%">
+						  <col width="30%">
+						  <col width="15%">
+						  <col width="10%">
+						  <col width="10%">
 						</colgroup>
 						<tr class="top-tr">
+							<td>用户名称</td>
 							<td>学员名称</td>
-							<td>用户名</td>
-							<td>手机号</td>
+							<td>区域</td>
+							<td>学校</td>
+							<td>班级</td>
 							<td>当前试卷分数</td>
 							<td>考试时间</td>
 						</tr>
 						<tr><td colspan="5">暂无数据</td></tr>
 					</table>
+					<div class="pages pagination"></div>
 				</div>
-				<div class="pages pagination"></div>
+				<div class="teacherContent2" style="display: none;">22233334444</div>
+				</div>
+
 			</div>
 		</div>
 	</div>

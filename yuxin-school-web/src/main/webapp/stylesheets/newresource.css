@@ -246,3 +246,20 @@
 .bookTitle dt{margin-right: 80px;}
 .bookTitle dd{margin-right: 40px;}
 .bookBut{float:right;}
+.tab-info .tab-type{display: inline-block;
+    padding: 5px 25px;
+    background: #fff;
+    min-width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    /* margin-right: 0; */
+    float: left;}
+.tab-info{    overflow: hidden;
+    margin-bottom: 20px;}
+.tab-info .bookBut{
+    float: right;}
+.tab-info .tab-type:last-child{border-left:0;}
+.tab-info .tab-type.active{background: #00b7ee;color:#fff;}
+.tab-info .tab-search{display: inline-block;
+     float: right; ;}
+.content-show{clear: both}

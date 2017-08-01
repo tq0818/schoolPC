@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuxin.wx.api.course.ICourseExerciseService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -179,6 +180,8 @@ public class SimpleclassTypeController {
 	private ICompanyService companyServiceImpl;
 	@Autowired
 	private ICoursePotocolBindHistoryService coursePotocolBindHistoryServiceImpl;
+	@Autowired
+	private ICourseExerciseService courseExerciseServiceImpl;
 	/**
 	 * 
 	 * Class Name: ClassTypeController.java

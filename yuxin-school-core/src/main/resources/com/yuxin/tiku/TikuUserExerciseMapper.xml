@@ -335,17 +335,30 @@
 	</select>
 	
 	<select id="findPaperRspdInfo" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultType="java.util.Map">
-			select IFNULL(ue.exercise_score,0) exercise_score,ue.start_time,u.id as userId ,s.name,u.username,u.mobile
+			select IFNULL(ue.exercise_score,0) exercise_score,ue.start_time,u.id as userId ,s.name,u.username,u.mobile,
+              (SELECT item_value FROM sys_config_dict WHERE item_code = s.edu_area) AS eduArea,
+              (SELECT item_value FROM sys_config_dict WHERE item_code = s.edu_school) AS eduSchool,
+              (SELECT item_value FROM sys_config_dict WHERE item_code = s.edu_step) AS eduStep,
+              s.edu_class AS eduClass,
+              s.edu_year AS eduYear
 			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
-			and exercise_id = #{exerciseId} order by start_time desc
+			and exercise_id = #{exerciseId}
+            <if test="eduArea!=null and eduArea!=''">AND s.edu_area = #{eduArea}</if>
+            <if test="eduSchool!=null and eduSchool!=''">AND s.edu_school = #{eduSchool}</if>
+            <if test="eduClass!=null and eduClass!=''">AND s.edu_class = #{eduClass}</if>
+			order by start_time desc
 			limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="findPaperRspdInfoCount" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultType="java.lang.Integer">
 			select count(*)
 			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
-			and exercise_id = #{exerciseId} order by start_time desc
+			and exercise_id = #{exerciseId}
+			<if test="eduArea!=null and eduArea!=''">AND s.edu_area = #{eduArea}</if>
+			<if test="eduSchool!=null and eduSchool!=''">AND s.edu_school = #{eduSchool}</if>
+			<if test="eduClass!=null and eduClass!=''">AND s.edu_class = #{eduClass}</if>
+			order by start_time desc
 	</select>
 	<select id="findAllPaperRspdInfo" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultMap="tikuUserExerciseResultVoMap">
 			select IFNULL(exercise_score,0) exercise_score,ue.start_time,u.id ,s.name,u.username,u.mobile

@@ -2,6 +2,8 @@ package com.yuxin.wx.model.classes;
 
 import java.util.Date;
 
+import com.yuxin.wx.model.course.CourseExercise;
+import com.yuxin.wx.model.tiku.TikuPaper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.yuxin.wx.util.ShortDateSerializer;
@@ -68,9 +70,25 @@ public class ClassModuleLesson extends BaseEntity {
 	private Integer hasHomework;
 	private Integer homeworkId;
 	private Integer homeworkType;
-	
-	
-	
+	private CourseExercise courseExercise;
+	private TikuPaper tikuPaper;
+
+	public TikuPaper getTikuPaper() {
+		return tikuPaper;
+	}
+
+	public void setTikuPaper(TikuPaper tikuPaper) {
+		this.tikuPaper = tikuPaper;
+	}
+
+	public CourseExercise getCourseExercise() {
+		return courseExercise;
+	}
+
+	public void setCourseExercise(CourseExercise courseExercise) {
+		this.courseExercise = courseExercise;
+	}
+
 	public Integer getHomeworkType() {
 		return homeworkType;
 	}

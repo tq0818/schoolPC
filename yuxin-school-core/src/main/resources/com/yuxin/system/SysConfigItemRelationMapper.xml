@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysConfigItemRelationMapper">
+    <resultMap type="com.yuxin.wx.model.system.SysConfigItemRelation" id="sysConfigItemRelationResultMap">
+        <result property="id" column="id" />
+        <result property="itemCode" column="item_code" />
+        <result property="parentCode" column="parent_code" />
+        <result property="parentId" column="parent_id" />
+        <result property="level" column="level" />
+    </resultMap>
+    <sql id="table_columns">
+        id,
+        item_code,
+        parent_code,
+        parent_id,
+        level
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{itemCode},
+        #{parentCode},
+        #{parentId},
+        #{level}
+    </sql>
+    <!-- 适用于主键自增类型 -->
+    <insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigItemRelation"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_config_item_relation(
+        <include refid="table_columns" />
+        )
+        values (
+        <include refid="entity_properties" />
+        )
+    </insert>
+
+    <update id="update" parameterType="com.yuxin.wx.model.system.SysConfigItem">
+        update sys_config_item_relation
+        <trim prefix="set" suffixOverrides=",">
+            <if test="itemCode != null and itemCode != ''">item_code = #{itemCode},</if>
+            <if test="parentCode != null and parentCode != ''">parent_code = #{parentCode},</if>
+            <if test="parentId != null ">parent_id = #{parentId},</if>
+            <if test="level != null ">level = #{level},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+
+
+    <select id="findFirstLevel" resultMap="sysConfigItemRelationResultMap"
+            parameterType="String">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation
+        where level = 1
+    </select>
+    <select id="findRelationByParentId" resultMap="sysConfigItemRelationResultMap"
+            parameterType="Integer">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation
+        where parent_id = #{id}
+    </select>
+    <select id="findRelationByLevel" resultMap="sysConfigItemRelationResultMap"
+            parameterType="Integer">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation
+        where level = #{level}
+    </select>
+    <delete id="deleteById">
+        delete from sys_config_item_relation
+        where id = #{id}
+    </delete>
+</mapper>

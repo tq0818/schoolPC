@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/decorators/import.jsp" %>
+<ul class="subject-box">
+    <li class="sub-tit">名称</li>
+    <li class="sub-tit">编码</li>
+</ul>
 <span class="add-subs" style="display: none;">
-    <input type="text" class="twoName" size="14" maxlength="10">
-    <input type="button" class="btn btn-mini btn-default" name="twoAdd" value="保存" data-pid="${oneItemId }">
+    <input type="text" class="twoName sub-input" size="14" maxlength="10">
+    <input type="text" class="itemCode sub-input" size="14" maxlength="10">
+    <input type="button" class="btn btn-mini btn-default" name="twoAdd" value="保存" data-pid="${oneItemId }" data-pcode="${oneItemCode}">
     <input type="button" class="btn btn-mini btn-default" name="twoCancel" value="取消">
 </span>
 <ul class="eachTwoItem">
@@ -11,12 +16,22 @@
 <li class="ui-state-default" data-id="${two.id}">
 	<span class="r-subs-title">
         <em>
+            <span class="sub-input itemname">
         	<c:if test="${fn:length(two.itemName) > 15}">
         		${fn:substring(two.itemName,0,14) }...
         	</c:if>
         	<c:if test="${fn:length(two.itemName) <= 15}">
         		${two.itemName }
         	</c:if>
+            </span>
+            <span class="sub-input itemcode">
+        	<c:if test="${fn:length(two.itemCode) > 15}">
+                ${fn:substring(two.itemCode,0,14) }...
+            </c:if>
+        	<c:if test="${fn:length(two.itemCode) <= 15}">
+                ${two.itemCode }
+            </c:if>
+            </span>
         </em>
         <span class="b" style="margin-top:-5px">
         <c:if test="${two.relationStatus == 0 }">
@@ -30,6 +45,7 @@
         	<i class="iconfont open btn-switch btn-two" style="height:24px;" title="已启用，点击停用">&#xe642;</i>
         </c:if>
         <input type="hidden" class="pid" value="${two.parentId }"/>
+        <input type="hidden" class="pcode" value="${two.parentCode }"/>
         <input type="hidden" class="twoId" value="${two.id }"/>
         <input type="hidden" class="twoStatus" value="${two.status }"/>
         </span>

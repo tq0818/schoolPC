@@ -185,6 +185,7 @@
 		<mapper resource="com/yuxin/system/SysSchoolItemRelationMapper.xml"/>
 		<mapper resource="com/yuxin/system/SysPageHeadFooterTemplateMapper.xml"/>
 		<mapper resource="com/yuxin/system/SysFileConvertTaskMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigItemRelationMapper.xml"/>
 		<!-- 新手引导 -->
 		<mapper resource="com/yuxin/company/CompanyNewStepMapper.xml"/>
 		<!-- 学员通知 -->

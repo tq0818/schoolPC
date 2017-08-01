@@ -271,5 +271,10 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findItemByIds(list);
 	}
-	
+
+	@Override
+	public List<SysConfigItem> findByParentCode(SysConfigItem item) {
+		return sysConfigItemMapper.findByParentCode(item);
+	}
+
 }

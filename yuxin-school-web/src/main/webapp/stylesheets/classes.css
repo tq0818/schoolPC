@@ -15,3 +15,22 @@
 .classes .mainbackground .m-list ul li .tips.tips_type{top:127px;
 }
 .classes .mainbackground .m-list ul li .tips.zb_date{background: rgba(255,255,255,0.6);color:#000;}
+.subject-main-content .block.active:hover .hidden{width:100%;}
+.subject-main-content .block{width:425px;    height: 340px;}
+.subject-main-content .block .b-title .tt{width:300px;}
+.subject-main-content .block .b-content{ width:90%;   width: calc(100% - 40px);}
+.subject-main-content .subject-box{overflow: hidden}
+.subject-main-content .subject-box .sub-tit{width: 130px;
+	float: left;}
+.subject-main-content .ui-sortable{
+	clear: both;}
+.subject-main-content .sub-input{    width: 100px;
+	display: inline-block;}
+.subject-main-content span.sub-input{width:130px}
+.main-content{overflow: hidden;}
+.subject-main-content .block .b-content{height:170px;overflow-y:auto;}
+.subject-main-content .block:hover .b-content{height: 170px;}
+.subject-main-content .r-subs-title .btn-mini{margin-top: 5px;}
+.subject-main-content .block .b-content ul li span.b{display: block}
+.subject-main-content .block.active .b-content ul li span.b i{display: none;}
+.subject-main-content .block.active:hover .b-content ul li span.b i{display: inline-block}

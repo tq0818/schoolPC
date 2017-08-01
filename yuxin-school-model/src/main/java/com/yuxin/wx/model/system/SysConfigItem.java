@@ -34,6 +34,8 @@ public class SysConfigItem extends BaseEntity {
 
 	private Integer relationStatus;
 	private Integer sort;
+	private String itemCode;
+	private String parentCode;
 	// Constructor
 	public SysConfigItem() {
 	}
@@ -208,6 +210,22 @@ public class SysConfigItem extends BaseEntity {
 
 	public void setItemBackPic(String itemBackPic) {
 		this.itemBackPic = itemBackPic;
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public String getParentCode() {
+		return parentCode;
+	}
+
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
 	}
 
 }

@@ -1,11 +1,7 @@
 package com.yuxin.wx.controller.tiku;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -766,7 +762,7 @@ public class TikuPaperController {
     	// 根据试卷id查询试卷信息
         TikuPaper paper = this.tikuPaperServiceImpl.findTikuPaperById(paperId);
         String topicTypes = paper.getContainTopicType();
-        Map<String,List<TikuTopic>> topicMap = new HashMap<String,List<TikuTopic>>();
+        Map<String,List<TikuTopic>> topicMap = new LinkedHashMap<String,List<TikuTopic>>();
         if(StringUtils.isNotBlank(topicTypes)){
         	String types[] = topicTypes.split(",");
         	for(String type : types){

@@ -1,16 +1,18 @@
 package com.yuxin.wx.controller.tiku.exam;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.tiku.ITikuPaperService;
+import com.yuxin.wx.api.tiku.ITikuTopicOptionService;
+import com.yuxin.wx.api.tiku.ITikuTopicService;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.tiku.TikuTopic;
+import com.yuxin.wx.model.tiku.TikuTopicOption;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -63,6 +65,12 @@ public class TikuExamUserRelationController {
     private ITikuUserExerciseService tikuUserExerciseServiceImpl;
     @Autowired
     private ISysConfigDictService sysConfigDictServiceImpl;
+    @Autowired
+    private ITikuTopicService tikuTopicServiceImpl;
+    @Autowired
+    private ITikuPaperService tikuPaperServiceImpl;
+    @Autowired
+    private ITikuTopicOptionService tikuTopicOptionServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, TikuExamUserRelation search) {
@@ -169,6 +177,43 @@ public class TikuExamUserRelationController {
         areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("areas", areas);
+
+        // 根据试卷id查询试卷信息
+        paper = this.tikuPaperServiceImpl.findTikuPaperById(paper.getId());
+        String topicTypes = paper.getContainTopicType();
+        Map<String,List<TikuTopic>> topicMap = new LinkedHashMap<String,List<TikuTopic>>();
+        if(StringUtils.isNotBlank(topicTypes)){
+            String types[] = topicTypes.split(",");
+            for(String type : types){
+                Map<String, Object> param = new HashMap<String, Object>();
+                param.put("paperId", paper.getId());
+                param.put("topicType", type);
+                List<TikuTopic> topics = this.tikuTopicServiceImpl.findTopicByPaperId(param);
+                if(StringUtils.equals(type, "TOPIC_TYPE_RADIO") || StringUtils.equals(type, "TOPIC_TYPE_MULTIPLE") || StringUtils.equals(type, "TOPIC_TYPE_UNDEFINED")){
+                    List<Integer> idList = new ArrayList<Integer>();
+                    for(TikuTopic topic : topics){
+                        idList.add(topic.getId());
+                    }
+                    if(idList.size() > 0){
+                        List<TikuTopicOption> optionList = tikuTopicOptionServiceImpl.findOptionByListTopicId(idList);
+                        for(TikuTopic topic : topics){
+                            for(int i = 0; i < optionList.size(); i++){
+                                TikuTopicOption option = optionList.get(i);
+                                if(option.getTopicId() == topic.getId()){
+                                    topic.getOptionList().add(option);
+                                    optionList.remove(i);
+                                    i--;
+                                }
+                            }
+                        }
+                    }
+
+                }
+//                tikuTopicOptionServiceImpl.findOptionByTopicId(1);
+                topicMap.put(type, topics);
+            }
+        }
+        model.addAttribute("topicMap", topicMap);
         return "tiku/paper/paperStatisticsIndex";
     }
 

@@ -263,3 +263,16 @@
 .tab-info .tab-search{display: inline-block;
      float: right; ;}
 .content-show{clear: both}
+
+.ques_type {
+    background: #9bbbdb;
+    padding: 3px;
+    color: #fff;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.ques_list .ques,.ques_list .answer-list{margin:15px 0 ;}
+.ques_list .answer-list{}
+.ques_list .answer{color:red;float:right;width: 15%;}
+.ques_list .choice{margin-right:20px}

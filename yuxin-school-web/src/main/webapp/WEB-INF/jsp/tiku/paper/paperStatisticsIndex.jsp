@@ -97,7 +97,61 @@
 					</table>
 					<div class="pages pagination"></div>
 				</div>
-				<div class="teacherContent2" style="display: none;">22233334444</div>
+				<div class="teacherContent2" style="display: none;">
+					<c:forEach var = "tm" items="${topicMap}" varStatus="tmStatus">
+						<div>
+							<c:if test="${tm.key == 'TOPIC_TYPE_RADIO' }">
+								<div class="ques_type">单选题</div>
+							</c:if>
+							<c:if test="${tm.key == 'TOPIC_TYPE_MULTIPLE' }">
+								<div class="ques_type">多选题</div>
+							</c:if>
+							<c:if test="${tm.key == 'TOPIC_TYPE_TRUE_FALSE' }">
+								<div class="ques_type">判断题</div>
+							</c:if>
+							<c:if test="${tm.key == 'TOPIC_TYPE_ANSWER' }">
+								<div class="ques_type">简答题</div>
+							</c:if>
+							<c:if test="${tm.key == 'TOPIC_TYPE_UNDEFINED' }">
+								<div class="ques_type">不定项</div>
+							</c:if>
+							<c:if test="${tm.key == 'TOPIC_TYPE_FILLING' }">
+								<div class="ques_type">填空题</div>
+							</c:if>
+							<c:if test="${tm.key == 'TOPIC_TYPE_CASE' }">
+								<div class="ques_type">材料题</div>
+							</c:if>
+
+							<ul class="ques_list">
+								<c:forEach var="topic" items="${tm.value}" varStatus="topicStatus">
+									<li>
+										<div class="ques-ans">
+											<div class="ques">
+												(${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
+												<c:if test="${topic.optionList==null || topic.optionList.size()==0 }">
+													<div class="answer">正确答案：${topic.answer}</div>
+												</c:if>
+											</div>
+											<div class="answer-list">
+												<c:forEach var="option" items="${topic.optionList }">
+													<c:choose>
+														<c:when test="${topic.answer.indexOf(option.optionNo)!=-1}">
+															<span class="choice" style="color:red">${option.optionNo }  ${option.optionName}</span>
+														</c:when>
+														<c:otherwise>
+															<span class="choice">${option.optionNo }  ${option.optionName}</span>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+											</div>
+										</div>
+
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</c:forEach>
+				</div>
 				</div>
 
 			</div>

@@ -28,9 +28,9 @@
 		
         .ques_list .ques,.ques_list .answer-list{margin:15px 0 ;}
         .ques_list .answer-list{}
-        .ques_list .answer{color:red;float:right;}
+        .ques_list .answer{color:red;float:right;width: 15%;}
         .ques_list .choice{margin-right:20px}
-        .btn-info{float:right;margin:10px 0}
+        .btn-info{float:right;margin:10px 0;width: 25%;}
     </style>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
     <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
@@ -205,13 +205,13 @@
             <li>
                 <div class="ques-ans">
                 <div class="ques">
-                	(${topicStatus.index}) ${topic.topicName }
+                	(${topicStatus.index}+1)&nbsp;&nbsp;&nbsp;${topic.topicName }
                 </div>
                 <div class="answer-list">
                 	<c:forEach var="option" items="${topic.optionList }">
                      <span class="choice">${option.optionNo }  ${option.optionName}</span>
                  	</c:forEach>
-                    <div class="answer">正确答案 ${topic.answer}</div>
+                    <div class="answer">正确答案：${topic.answer}</div>
                 </div>
                 </div>
                

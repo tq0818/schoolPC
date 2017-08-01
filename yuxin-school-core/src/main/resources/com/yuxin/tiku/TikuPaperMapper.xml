@@ -22,6 +22,7 @@
 		<result property="auditTime" column="audit_time" />
 		<result property="auditorName" column="auditor_name" />
 		<result property="creatorName" column="creator_name" />
+        <result property="teacherId" column="teacher_id" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.tiku.TikuExamPaperVo" id="tikuExamPaperResultMapVo">
@@ -86,7 +87,8 @@
 		updator,
 		update_time,
 		auditor,
-		audit_time
+		audit_time,
+		teacher_id
 	</sql>
 	<sql id="table_columns_vo">
 		p.id,
@@ -106,7 +108,8 @@
 		p.updator,
 		p.update_time,
 		p.auditor,
-		p.audit_time
+		p.audit_time,
+		p.teacher_id
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -126,7 +129,8 @@
 		#{updator},
 		#{updateTime},
 		#{auditor},
-		#{auditTime}
+		#{auditTime},
+		#{teacherId}
 	</sql>
 	<sql id="batch_entity_properties">
 		#{item.id},
@@ -146,7 +150,8 @@
 		#{item.updator},
 		#{item.updateTime},
 		#{item.auditor},
-		#{item.auditTime}
+		#{item.auditTime},
+		#{item.teacherId}
 	</sql>
 
 	<!-- 适用于主键自增类型 -->
@@ -210,6 +215,7 @@
 			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
 			<if test="auditor != null and auditor != ''">auditor = #{auditor},</if>
 			<if test="auditTime != null and auditTime != ''">audit_time = #{auditTime},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

@@ -36,6 +36,9 @@
 		<result property="creator" column="creator"/>
 		<result property="barrage" column="barrage"/>
 		<result property="modetype" column="modetype"/>
+		<result property="tikuPaper.id" column="paperId"></result>
+		<result property="tikuPaper.paperName" column="paperName"></result>
+		<result property="courseExercise.id" column="courseExerciseId"></result>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
@@ -284,12 +287,13 @@
 	</select>
 	
 	<select id="findClassModuleLessonByModuleNoId" resultMap="classModuleLessonResultMap" parameterType="Integer">
-		select id,module_no_id,lesson_date,scope,week_type,lesson_name,lesson_time_start,lesson_time_end,lesson_hour,teachers,assistants,
+		select cml.id as id,module_no_id,lesson_date,scope,week_type,lesson_name,lesson_time_start,lesson_time_end,lesson_hour,teachers,assistants,
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.teachers AND sct.del_flag = 0),'该老师被删除') as teachers_name,
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.assistants AND sct.del_flag = 0),'该助教被删除') as assistants_name,
 		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,
-		barrage,modetype
-		from class_module_lesson cml
+		barrage,modetype,ce.class_type_id,ce.id as courseExerciseId, tp.id as paperId, tp.paper_name as paperName
+		from class_module_lesson cml left join course_exercise ce on ce.resource_id = cml.id
+		left join tiku_paper tp on tp.id = ce.paper_id
 		where module_no_id = #{moduleNoId} and del_flag = 0 order by sort asc,lesson_date asc
 	</select>
 	

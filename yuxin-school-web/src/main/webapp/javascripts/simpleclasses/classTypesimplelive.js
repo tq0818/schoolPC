@@ -7,6 +7,97 @@
 			init : function(){
 			var $this=this;
 			$selectMenu("course_class_type");
+
+            //初始化题库
+            $.ajax({
+                url:rootPath+'/tikuCategory/getList',
+                type:'post',
+                dataType:'json',
+                success:function(jsonData){
+                    $("#choose_tiku").find("option").remove();
+                    $("#choose_tiku").append("<option value=''>选择题库</option>");
+                    $("#choose_item").append('<option value="">选择科目</option>');
+                    $.each(jsonData,function(i,data){
+                        $("#choose_tiku").append('<option value="'+data.id+'">'+data.tikuName+'</option>')
+                    })
+                }
+            })
+            $(".w900").on("change","#choose_tiku",function(){
+                //初始化题库下科目
+                $.ajax({
+                    url:rootPath+'/tikuSubject/getList/'+$(this).val(),
+                    type:'post',
+                    dataType:'json',
+                    success:function(jsonData){
+                        $("#choose_item").find("option").remove();
+                        $("#choose_item").append('<option value="">选择科目</option>');
+                        $.each(jsonData,function(i,data){
+                            $("#choose_item").append('<option value="'+data.id+'">'+data.subjectName+'</option>')
+                        })
+                    }
+                })
+            })
+
+            //搜索试卷
+            .on("click.btn.search","#search_paper",function(){
+                $this.searchPapers();
+            })
+
+            //单击行选中试卷
+            .on("click.tr.choose","#data_table_2 tr",function(){
+                var trthis = this;
+                if($(this).hasClass("disable")){
+                    return;
+                }
+                $(this).addClass("disable");
+                var d=$(this).data("paper");
+                var datajson={};
+                datajson.tikuCategoryId=d.tikuCategoryId;
+                datajson.paperId=d.id;
+                datajson.classTypeId=$("#classtypeId").val();
+                datajson.resourceType="TEACH_METHOD_LIVE";
+                datajson.resourceId=$("#resourceId").val();
+                datajson.tikuResourceType="PAPER";
+                datajson.tikuSubjectId=d.tkuSubjectId;
+                if(datajson){
+                    if(datajson.paperId){
+                        datajson.topicNum = null;
+                        datajson.tikuChapterId = null;
+                        datajson.tikuSectionId = null;
+                    }else if(datajson.topicNum && datajson.tikuChapterId && datajson.tikuSectionId){
+                        datajson.paperId = null;
+                    }
+                    datajson.exerciseType='PRACTICE_AFTER_CLASS';
+                    $.ajax({
+                        url: rootPath+"/courseExercise/save",
+                        data: datajson,
+                        type:"post",
+                        dataType:"json",
+                        success:function(result){
+                            if(result == 'success'){
+                                $this.loadData();
+                                $.msg("保存成功");
+                            }else{
+                                $.msg("保存失败");
+                            }
+                        }
+                    })
+                }
+
+                $('.add-layer-bg').fadeOut(200,function(){
+                    $(".w900").fadeOut(200);
+                    $(trthis).removeClass("disable");
+                    $("#resourceId").val("");
+                });
+            })
+
+            //关闭弹层
+            $('.close').click(function(){
+                $('.add-layer-bg').fadeOut(200,function(){
+                    $(".w900").fadeOut(200);
+                    $("#resourceId").val("");
+                });
+            })
 			//初始化日期框
 			$(".date-picker").datetimepicker({
 				format: "yyyy-mm-dd",
@@ -76,7 +167,7 @@
 			$('body').on('click','.addcou',function(){
 				$(this).focus();
 			});
-			
+
 			//添加课程
 			$(".courseliList").on('click','a.savecon',function(){
 				var name=$(this).prev().find("input[type=text]").val();
@@ -117,13 +208,13 @@
 				 })
 			   }
 			});
-			
+
 			//编辑课程
 			 $(".courseliList").on('click','a.editfather',function(){
 				 var $this=$(this);
 				 var mark=$this.attr("mark");
 				 if("edit"==mark){
-					 $this.parent().prev().removeClass("none").prev().addClass("none"); 
+					 $this.parent().prev().removeClass("none").prev().addClass("none");
 					 $this.parent().prev().find("input[type=text]").eq(0).focus();
 				 }
 				 if("del"==mark){
@@ -147,7 +238,7 @@
 					 var num=$this.attr("m");
 					 if(num=="close"){
 						 $this.attr("m","open");
-						 $this.next().removeClass("none"); 
+						 $this.next().removeClass("none");
 					 }else{
 						 $this.attr("m","close");
 						 $this.next().addClass("none");
@@ -196,7 +287,7 @@
 				 $(this).find(".box").hide();
 				 return false;
 			 });
-			 
+
 			//关闭资料弹框
 			$(".btn-cancel").click(function(){
 				$(".class-resource").hide();
@@ -212,7 +303,7 @@
 			$(".btn-ok").on('click',function(){
 				$(".loading-bg").show();
 				var oneItem=$("#itemOneId").val();
-				var twoItem=$("#itemSecondId").val(); 
+				var twoItem=$("#itemSecondId").val();
 				var classid=$("#classtypeId").val();
 				//类型code
 				var resource=$("#classresource").val();
@@ -259,7 +350,7 @@
 						}
 					});
 			});
-			
+
 			//删除课程资料
 			$("#resourceLists").on("click","a.delresource",function(){
 				var $t=$(this);
@@ -272,9 +363,9 @@
 						$t.parent().remove();
 					}
 				});
-			});	
-			
-			
+			});
+
+
 			 //编辑课次
 			 $(".courseliList").on('click','a.editson',function(){
 				 var $this=$(this);
@@ -427,30 +518,30 @@
 					 var num=$this.attr("m");
 					 if(num=="close"){
 						 $this.attr("m","open");
-						 $this.next().removeClass("none"); 
+						 $this.next().removeClass("none");
 					 }else{
 						 $this.attr("m","close");
 						 $this.next().addClass("none");
 					 }
 				 }
-				
+
 			 })
-			 
+
 			//添加课次
 			$(".addclassLesson").on('click',function(){
 				$this.saveclassLesson();
 			});
-			
+
 			//返回
 			$(".cancle").on('click',function(){
 				$("#myForm").attr("action",rootPath+"/simpleClasses/updateClassTypeMessage").submit();
 			});
-			
+
 			//开始招生
 			$(".complete").on('click',function(){
 				$("#myForm").attr("action",rootPath+"/simpleClasses/onSale").submit();
 			})
-			
+
 			//绑定排序事件
 			$(".sortable").sortable({
 				placeholder: "ui-state-highlight",
@@ -484,7 +575,7 @@
 							lession.moduleNoId=father.attr("modulenoid");
 							list.push(lession);
 						});
-						
+
 						if(list.length){
 							$.ajax({
 								url: rootPath+"/simpleClasses/sortLession",
@@ -553,6 +644,62 @@
 				}
 			});
 		},
+        searchPapers: function(page){
+            $this = this;
+            if($("#search_paper").hasClass("disable")){
+                return;
+            }
+            $("#search_paper").addClass("disable");
+            var $tab=$(".w900"),search={};
+            $tab.find("#data_table_2").find("tr").remove();
+            search.tikuCategoryId=$("#choose_tiku").find("option:selected").val();
+            search.tkuSubjectId=$("#choose_item").find("option:selected").val();
+            search.paperName=$("#choose_paper3").val();
+            search.page=page;
+            $.each(search,function(k,v){
+                if(!v){
+                    delete search[k];
+                }
+            })
+            $tab.find(".pagination").html('');
+            $.ajax({
+                url: rootPath+"/tikuPaper/search1",
+                data:search,
+                type:"post",
+                dataType:"json",
+                success:function(jsonData){
+                    if(jsonData.data && jsonData.data.length>0){
+                        $.each(jsonData.data,function(i,data){
+                            $tab.find("#data_table_2").find("tbody")
+                                .append('<tr id="'+data.id+'">'+
+                                    '<td style="width:25%;" title="'+data.paperName+'">'+(data.paperName?data.paperName.length>16?data.paperName.substring(0,16):data.paperName:"")+'</td>'+
+                                    '<td style="width:25%;">'+(data.categoryName?data.categoryName:"")+'</td>'+
+                                    '<td style="width:25%;">'+(data.subjectName?data.subjectName:"")+'</td>'+
+                                    '<td style="width:25%;">'+(data.dictName?data.dictName:"")+'</td>'+
+                                    '</tr>');
+                            $tab.find("#data_table_2").find("tbody").find("tr:last").data("paper",data);
+                        })
+                        $tab.find(".pagination").pagination(jsonData.rowCount, {
+                            next_text : "下一页",
+                            prev_text : "上一页",
+                            current_page : jsonData.pageNo-1,
+                            link_to : "javascript:void(0)",
+                            num_display_entries : 8,
+                            items_per_page : jsonData.pageSize,
+                            num_edge_entries : 1,
+                            callback:function(page,jq){
+                                var pageNo = page + 1;
+                                $this.searchPapers(pageNo);
+                            }
+                        });
+                    }else{
+                        $tab.find("#data_table_2").find("tbody").append('<tr><td>没有查到试卷&nbsp;&nbsp;</td></tr>');
+                    }
+
+                    $("#search_paper").removeClass("disable");
+                }
+            })
+        },
 		loadData : function(){
 			$(".courseliList").html('');
 			 var flag = $("#isFusheng").val();
@@ -573,14 +720,14 @@
 		                     		'<div class="content">'+
 		                     		'<div class="tt">'+
 		                     		'<span class="h3" title='+(lesson.lessonName?lesson.lessonName:"")+'>'+(lesson.lessonName?(lesson.lessonName.length>8?lesson.lessonName.substring(0,8)+"...":lesson.lessonName):"")+'</span><span>共'+(lesson.lessonHour?lesson.lessonHour:"0")+'课时</span>'+
-		                     		'</div>'+	
+		                     		'</div>'+
 		                     		'<div class="info">'+
 		                     		'<span class="time">'+lesson.lessonDate+'  '+(lesson.weekType?lesson.weekType:"")+'  '+(lesson.lessonTimeStart?lesson.lessonTimeStart:'')+'</span>'+
 		                     		'<span></span>'+
 		                     		'<span class="people">'+(lesson.teachers=='del'?'此老师已删除':(lesson.teachersName?lesson.teachersName:""))+'</span>'+
 		                     		'</div>'+
 		                     		/*'<div class="action">'+
-		                     		'<a href="javascript:void(0);" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+	
+		                     		'<a href="javascript:void(0);" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+
 		                     		'<a href="javascript:void(0);" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="del" class="editson"><i class="iconfont">&#xe626;</i></a>'+
 		                     		'<a href="javascript:void(0);" style="text-decoration: none;" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="chose" m="close" class="editson"><i class="iconfont">&#xe623;</i></a>'+
 		                     		'<ul class="box none"><a href="javascript:void(0);" ids="'+lesson.id+' teac='+lesson.teachers+'class="courseresource"><li>课程资料</li></a>'+
@@ -596,21 +743,22 @@
 	                 		'<div class="content">'+
 	                 		'<div class="tt">'+
 	                 		'<span class="h3">'+(module.name?module.name:"")+'</span><span class="sta">未排课</span><span>共'+(module.totalClassHour?module.totalClassHour:"0")+'课时</span>'+
-	                 		'</div>'+	
+	                 		'</div>'+
 	                 		'<div class="tt none">'+
 	                 		'<span class="h3"><input type="text" value="'+(module.name?module.name:'')+'" class="addcou"/></span>'+
 	                 		'<a href="javascript:void(0);"  class="btn btn-default savecon">保存</a>'+
 	                 		'</div>'+
 	                 		'<div class="action">'+
-	                 		'<a href="javascript:void(0);" ids='+module.id+' class="editfather" mark="edit"><i class="iconfont">&#xe625;</i></a>'+	
+	                 		'<a href="javascript:void(0);" ids='+module.id+' class="editfather" mark="edit"><i class="iconfont">&#xe625;</i></a>'+
 	                 		'<a href="javascript:void(0);" ids='+module.id+' class="editfather" mark="del"><i class="iconfont">&#xe626;</i></a>'+
-	                 		'<a href="javascript:void(0);" style="text-decoration: none;" class="editfather chosec" m="close" mark="chose"><i class="iconfont">&#xe623;</i></a>'+	
+	                 		'<a href="javascript:void(0);" style="text-decoration: none;" class="editfather chosec" m="close" mark="chose"><i class="iconfont">&#xe623;</i></a>'+
 	                 		'<ul class="box none"><a href="javascript:void(0);" class="courseresource"><li>课程资料</li></a>'+
 	                 		'<a href="javascript:void(0);" ids="'+module.id+'" class="addlec"><li>添加课次</li></a></ul>'+
 	                 		'</div>'+
 	                 		'</div>'+
 	                 		'</li>';
-							$(".courseliList").append(chapter);
+
+                            $(".courseliList").append(chapter);
 							if(module.classmoudleNo&&module.classmoudleNo!=null){
 								if((module.classmoudleNo.classModuleLessons).length<=0){
 									$("#father"+module.id).find("span.sta").text("未排课");
@@ -626,14 +774,14 @@
 		                     		'<div class="content">'+
 		                     		'<div class="tt">'+
 		                     		'<span class="h3" title='+(lesson.lessonName?lesson.lessonName:"")+'>'+(lesson.lessonName?(lesson.lessonName.length>8?lesson.lessonName.substring(0,8)+"...":lesson.lessonName):"")+'</span><span>共'+(lesson.lessonHour?lesson.lessonHour:"0")+'课时</span>'+
-		                     		'</div>'+	
+		                     		'</div>'+
 		                     		'<div class="info">'+
 		                     		'<span class="time">'+lesson.lessonDate+'  '+(lesson.weekType?lesson.weekType:"")+'  '+(lesson.lessonTimeStart?lesson.lessonTimeStart:'')+'</span>'+
 		                     		'<span></span>'+
 		                     		'<span class="people">'+(lesson.teachers=='del'?'此老师已删除':(lesson.teachersName?lesson.teachersName:""))+'</span>'+
 		                     		'</div>'+ceshi(module.id,lesson.id,lesson.teachers)+
 		                     		/*'<div class="action">'+
-		                     		'<a href="javascript:void(0);" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+	
+		                     		'<a href="javascript:void(0);" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+
 		                     		'<a href="javascript:void(0);" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="del" class="editson"><i class="iconfont">&#xe626;</i></a>'+
 		                     		'<a href="javascript:void(0);" style="text-decoration: none;" pid='+module.id+' oid='+lesson.id+' teac='+lesson.teachers+' mark="chose" m="close" class="editson chosec"><i class="iconfont">&#xe623;</i></a>'+
 		                     		'<ul class="box none"><a href="javascript:void(0);" ids="'+lesson.id+' teac='+lesson.teachers+'" class=""><li>课程资料</li></a>'+
@@ -641,12 +789,55 @@
 		                     		'</div>'+*/
 		                     		'</div></li>';
 									$(".courseliList").append(lec);
+
+                                    //添加试卷
+                                    if(lesson.tikuPaper && lesson.tikuPaper.id){
+                                        var paper='<li class="item item-lession-thr chird" id="'+lesson.courseExercise.id+'" paperId="'+lesson.tikuPaper.id+'" >'+
+                                            '<div class="ball"></div><div class="line"></div>'+
+                                            '<div class="content">'+
+                                            '<div class="tt">'+
+                                            '<span class="h3">课后练习：'+(lesson.tikuPaper.paperName?lesson.tikuPaper.paperName:"")+'</span>'+
+                                            '</div>'+
+                                            '<div class="action">'+
+                                            '<a href="javascript:void(0);" id='+lesson.courseExercise.id+' class="paperDel" mark="del" style="margin-right: 50px"><i class="iconfont">&#xe626;</i></a>'+
+                                            '</div>'+
+                                            '</div>'+
+                                            '</li>';
+                                        $(".courseliList").append(paper);
+                                    }
 								});
 								if(module.classmoudleNo.classModuleLessons.length>0){
 									$("#father"+module.id).removeClass("non-children");
 								}else{
 									$("#father"+module.id).addClass("non-children");
 								}
+
+                                //打开试卷选择框
+                                $(".coursePaper").bind("click",function(){
+                                    var thisDate = this;
+                                    $('.add-layer-bg').fadeIn(200,function(){
+                                        $('.w900').fadeIn(200);
+                                        $("#resourceId").val($(thisDate).attr("ids"));
+                                    })
+                                })
+
+                                $(".paperDel").bind("click", function(){
+                                    var thisDate = this;
+                                    var eid = $(thisDate).attr("id");
+                                    if(eid){
+                                        $.ajax({
+                                            url:rootPath+"/courseExercise/delExercise",
+                                            data:{"eid":eid},
+                                            type:"post",
+                                            dataType:'json',
+                                            success:function(data){
+                                                if(data == 'success'){
+                                                    $(thisDate).parent().parent().parent().remove();
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
 							}
 						}
 					});
@@ -691,7 +882,7 @@
 						$(".nullnum3").removeClass("none");
 						$("#tassitList").addClass("none");
 					}
-					
+
 				}
 			});
 		},
@@ -777,7 +968,7 @@
 				if (diffTime<=30) {
 					$.msg("支持手机端需提前半个小时创建！");
 					return;
-				} 
+				}
 			}
 //			var _b = strToDate(today + ' ' + from + ':00');
 //			var _e = strToDate(today + ' ' + to + ':00');
@@ -838,7 +1029,7 @@
 								$(".addclassLesson").removeClass("disabled");
 								if(data.msg=="success"){
 									$(".onepopuwin").popup("hide");
-									Form.loadData();	
+									Form.loadData();
 								}else{
 									$.msg(data.msg);
 								}
@@ -899,7 +1090,7 @@
 						$(".addclassLesson").removeClass("disabled");
 						if(data.msg=="success"){
 							$(".onepopuwin").popup("hide");
-							Form.loadData();	
+							Form.loadData();
 						}else{
 							$.msg(data.msg);
 						}
@@ -975,7 +1166,7 @@
 							}
 						})
 					}
-					
+
 					if(list.length){
 						$.ajax({
 							url: rootPath+"/simpleClasses/sortLession",
@@ -993,7 +1184,7 @@
 			},
 			queryCorseResoure : function(id){
 				var oneItem=$("#itemOneId").val();
-				var twoItem=$("#itemSecondId").val(); 
+				var twoItem=$("#itemSecondId").val();
 				var classid=$("#classtypeId").val();
 				 $.ajax({
 					 url : rootPath + "/classTypeResource/rourseList",
@@ -1018,34 +1209,35 @@
 							 }
 						 });
 //						 if(id!=""){
-//							 $("#rsourceLists"+id).html("").append(html); 
+//							 $("#rsourceLists"+id).html("").append(html);
 //						 }else{
-//							 $("#rsourceLists"+classid).html("").append(html); 
+//							 $("#rsourceLists"+classid).html("").append(html);
 //						 }
 						 $("#resourceLists").html("").append(html);
 					 }
 				 });
 			}
 		}
-	
+
 	function ceshi(moduleId,lessonId,teachers){
 		var flag = $("#isFusheng").val();
 		var isJigou = $("#isJigou").val();
 		 var isFenxiao = $("#isFenxiao").val();
 		var html = '<div class="action">'+
- 		'<a href="javascript:void(0);" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+	
+ 		'<a href="javascript:void(0);" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+
  		'<a href="javascript:void(0);" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="del" class="editson"><i class="iconfont">&#xe626;</i></a>'+
  		'<a href="javascript:void(0);" style="text-decoration: none;" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="chose" m="close" class="editson chosec"><i class="iconfont">&#xe623;</i></a>'+
  		'<ul class="box none"><a href="javascript:void(0);" ids="'+lessonId+'" teac="'+teachers+'" class="courseresource"><li>课程资料</li></a>'+
+ 		'<a href="javascript:void(0);" ids="'+lessonId+'" teac="'+teachers+'" class="coursePaper"><li>课后练习</li></a>'+
  		'</ul>'+
  		'</div>';
 		var teacherId = $("#teacherId").val();
 		if((isJigou == false || isJigou == 'false')&& (isFenxiao==false || isFenxiao=='false')){
 			if(teacherId!=teachers  && (flag == true || flag == 'true')){
-				return "";	
+				return "";
 				}
 		}
-		
+
 		//if(isJigou == false || isJigou == 'false'&& isFenxiao==false || isFenxiao=='false'){
 		return html;
 	}
@@ -1056,6 +1248,8 @@
 		if((flag == true || flag == 'true')&&!(guanliyuan=='true') ){
 			$(".courseliList").off('click','a.editfather');
 		}
+
 	})
+
 	window.Form=Form;
 })(jQuery)

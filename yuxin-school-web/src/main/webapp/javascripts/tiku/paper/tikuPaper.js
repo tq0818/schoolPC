@@ -117,10 +117,13 @@
 			$.cookie("paperTiku", null, { path: "/"});
 			$.cookie("paperTiku", $("#tikuId").val(), { path: "/"});
 			
-			if(paperId){
+			if(paperId && btn == "audite"){
+				location.href=rootPath+"/tikuPaper/toPageInfoAudit?tikuId="+tikuId+"&subjectId="+subId+"&paperId="+paperId+"&btn="+btn+"&exam=paper";
+			}else if(paperId){
 				location.href=rootPath+"/tikuPaper/toPaperInfo/"+tikuId+"/"+subId+"/"+paperId+"/"+btn+"/paper";
 			}else{
 			}
+			
 		},
 		delPaper : function(obj){
 			var paperId = $(obj).attr("paperId");

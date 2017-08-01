@@ -102,6 +102,8 @@
 		<result property="companyId" column="company_id"/>
 		<result property="sendTime" column="send_time"/>
 		<result property="sender" column="sender"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="senderName" column="sender_name"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.company.CompanyOrgMessageReadVo" id="MessageCenteMap">
@@ -574,13 +576,13 @@ where 1=1
 	
 	<!-- 查询消息列表 -->
 	<select id="queryMessageList" parameterType="com.yuxin.wx.vo.company.CompanyOrgMessageVo" resultMap="messageListVo">
-		select id,message_type,title,content,status,company_id,send_time,sender 
+		select id,message_type,title,content,status,company_id,send_time,sender,sender_name 
 		from company_org_message
 		<where>
 		    <if test="companyId != null and companyId != ''">company_id=#{companyId}</if> 
 			<if test="messageType != null and messageType != ''">and message_type=#{messageType}</if>
 		</where>
-		order by send_time desc
+		order by update_time is null, update_time desc, send_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
@@ -611,8 +613,8 @@ where 1=1
 	
 	<!-- 新增消息 -->
 	<insert id="insertMsg" parameterType="com.yuxin.wx.vo.company.CompanyOrgMessageVo" useGeneratedKeys="true" keyProperty="id">
-		insert into company_org_message(id,message_type,title,content,status,company_id,send_time,sender) 
-values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTime},#{sender})
+		insert into company_org_message(id,message_type,title,content,status,company_id,send_time,sender,sender_name) 
+values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTime},#{sender},#{senderName})
 	</insert>
 	
 	<!-- 修改消息 -->
@@ -626,6 +628,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
 			<if test="sendTime != null and sendTime != ''">send_time = #{sendTime},</if>
 			<if test="sender != null">sender = #{sender},</if>
+			<if test="updateTime != null">update_time = #{updateTime}</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

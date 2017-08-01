@@ -18,6 +18,24 @@ public class CompanyOrgMessageVo extends BaseEntity {
 	
 	private Integer limit;
 	
+	private Date updateTime;
+	
+	private String senderName;
+	
+	
+	
+	public String getSenderName() {
+		return senderName;
+	}
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 	public CompanyOrgMessageVo() {
 		super();
 		// TODO Auto-generated constructor stub

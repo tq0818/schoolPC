@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.model.system.SysConfigDict;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -59,6 +61,8 @@ public class TikuExamUserRelationController {
 
     @Autowired
     private ITikuUserExerciseService tikuUserExerciseServiceImpl;
+    @Autowired
+    private ISysConfigDictService sysConfigDictServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, TikuExamUserRelation search) {
@@ -159,6 +163,12 @@ public class TikuExamUserRelationController {
         model.addAttribute("statistics", this.tikuUserExerciseServiceImpl.statisticRspdByPaper(paper));
         model.addAttribute("paperId", paper.getId());
         model.addAttribute("tikuId", paper.getTikuCategoryId());
+
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
         return "tiku/paper/paperStatisticsIndex";
     }
 

@@ -269,6 +269,14 @@ $(function(){
 					                 </span>
 		                        </p>
 		                    </li>
+							<li style="width:100%;margin-top:115px;">
+								<p class='c' style="width:100%;">
+									<span class="c-title" style="width:15%;">摘要</span>
+									<span class="c-content" style="width:80%;">
+					                     <textarea name="remark" id="remark" rows="8" cols="50" style="width:80%;">${teacher.remark}</textarea>
+									</span>
+								</p>
+							</li>
 		                    
 		                </ul>
 		            </div>

@@ -119,4 +119,12 @@ public interface ITikuTopicOptionService  {
 	 * @param topicId
 	 */
 	void deleteByTopicId(List<Integer> list);
+	
+	
+	/**
+	 * 批量查询试题选项
+	 * @param list
+	 * @return
+	 */
+	List<TikuTopicOption> findOptionByListTopicId(List<Integer> list);
 }

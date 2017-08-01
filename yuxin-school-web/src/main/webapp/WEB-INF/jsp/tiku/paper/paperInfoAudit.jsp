@@ -16,6 +16,21 @@
 		.steps ul li:after {content: "\20";position: absolute;top: 0;right: -30px;width: 30px;height: 30px;background-image: url(../../../../../images/step-after.png);background-repeat: no-repeat;background-position: 0 -64px;z-index: 9}
 		.steps ul li.active:after {content: "\20";position: absolute;top: 0;right: -30px;idth: 30px;height: 30px;background-image: url(../../../../../images/step-after.png);background-repeat: no-repeat;background-position: 0 -32px;z-index: 9}
 		.steps ul li.hover:after {content: "\20";position: absolute;top: 0;right: -30px;width: 30px;height: 30px;background-color: #ddd;background-image: url(../../../../../images/step-after.png);background-repeat: no-repeat;background-position: 0 0;z-index: 9}
+    
+        .ques_type {
+		    background: #9bbbdb;
+		    padding: 3px;
+		    color: #fff;
+		    display: inline-block;
+		    margin-top: 15px;
+		}
+		
+		
+        .ques_list .ques,.ques_list .answer-list{margin:15px 0 ;}
+        .ques_list .answer-list{}
+        .ques_list .answer{color:red;float:right;}
+        .ques_list .choice{margin-right:20px}
+        .btn-info{float:right;margin:10px 0}
     </style>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
     <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
@@ -29,16 +44,7 @@
     <div class="nopadding">
         <div class="steps">
             <div class="line"></div>
-            <ul class="clear">
-                <li class="step3 s1 hover">
-                    <i>01</i>
-                    <em>试卷基本信息</em>
-                </li>
-                <li class="step3 s2">
-                    <i>02</i>
-                    <em>添加试题</em>
-                </li>
-            </ul>
+          
         </div>
     </div>
 </div>
@@ -161,15 +167,67 @@
                     <span id="error" style="display: none;">至少选中一种题型</span>
                 </p>
               <p class="c text-center">
-             	<a href="javascript:void(0)" class="btn btn-primary save">保存并退出</a>
-                <a href="javascript:void(0)" class="btn btn-primary save">保存并继续</a>
-           		<a href="<%=rootPath %>/tikuPaper/toTikuPaper/${tikuId}" class="btn btn-default">取消</a>
+             	
              </p>
             </div>
         </div>
        </form>
+         <div class="heading">
+             <h2 class="h5">试卷题目</h2>
+             <span class="line"></span>
+        </div>
+        <c:forEach var = "tm" items="${topicMap}" varStatus="tmStatus">
+            <div>
+               <c:if test="${tm.key == 'TOPIC_TYPE_RADIO' }">
+            		<div class="ques_type">单选题</div>
+        		</c:if>
+        		<c:if test="${tm.key == 'TOPIC_TYPE_MULTIPLE' }">
+            		<div class="ques_type">多选题</div>
+        		</c:if>
+        		<c:if test="${tm.key == 'TOPIC_TYPE_TRUE_FALSE' }">
+            		<div class="ques_type">判断题</div>
+        		</c:if>
+        		<c:if test="${tm.key == 'TOPIC_TYPE_ANSWER' }">
+            		<div class="ques_type">简答题</div>
+        		</c:if>
+        		<c:if test="${tm.key == 'TOPIC_TYPE_UNDEFINED' }">
+            		<div class="ques_type">不定项</div>
+        		</c:if>
+        		<c:if test="${tm.key == 'TOPIC_TYPE_FILLING' }">
+            		<div class="ques_type">填空题</div>
+        		</c:if>
+        		<c:if test="${tm.key == 'TOPIC_TYPE_CASE' }">
+            		<div class="ques_type">材料题</div>
+        		</c:if>
+        		
+           <ul class="ques_list">
+           <c:forEach var="topic" items="${tm.value}" varStatus="topicStatus">
+            <li>
+                <div class="ques-ans">
+                <div class="ques">
+                	(${topicStatus.index}) ${topic.topicName }
+                </div>
+                <div class="answer-list">
+                	<c:forEach var="option" items="${topic.optionList }">
+                     <span class="choice">${option.optionNo }  ${option.optionName}</span>
+                 	</c:forEach>
+                    <div class="answer">正确答案 ${topic.answer}</div>
+                </div>
+                </div>
+               
+            </li>
+           </c:forEach>
+        </ul>
+            </div>
+        </c:forEach>
     </div>
+    <div class="btn-info fr">
+           <a href="javascript:;" onclick="paperCommit('${paper.id}','publish')" class="btn btn-primary ">审核通过</a>
+           <a href="javascript:;" onclick="paperCommit('${paper.id}','no')" class="btn btn-primary ">审核不通过</a>
+           <a href="<%=rootPath %>/tikuPaper/toTikuPaper/${tikuId}" class="btn btn-default">取消</a>
+	</div>
 </div>
+
 <!-- ajax加载中div开始 -->
 <div class="loading lp-units-loading" style="display:none">
 	<p><i></i>加载中,请稍后...</p>
@@ -189,6 +247,21 @@
 		$(".tiHeader .navspace li>a:eq(1)").addClass("active");
 		$selectMenu('tiku_header');
 	});
+	
+	function paperCommit(paperId,commit){
+		$.ajax({
+			url : "<%=rootPath %>/tikuPaper/commitAudite",
+			type:"post",
+			data:{"paperId":paperId,"commit":commit},
+			dataType:"JSON",
+			success:function(data){
+				$.msg("试卷操作成功",1000,function(){
+					window.location.href="<%=rootPath%>/tikuPaper/toTikuPaper/${tikuId}";
+				});
+				
+			}
+		});
+	}
 </script>
 </body>
 </html>

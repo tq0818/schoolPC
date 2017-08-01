@@ -1,11 +1,12 @@
 package com.yuxin.wx.model.tiku;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import com.yuxin.wx.util.ShortDateSerializer;
 
+import com.yuxin.wx.util.ShortDateSerializer;
 import com.yuxin.wx.common.BaseEntity;
 
 /**
@@ -45,6 +46,17 @@ public class TikuTopic extends BaseEntity {
 	private Integer childFlag;		/* 是否为材料题的子题：1是，0否 */
 	private Integer correctFlag;	/* 标记对错*/
 	private List<TikuTopic> topicList; /* 子题*/
+
+	private List<TikuTopicOption> optionList = new ArrayList<TikuTopicOption>();//单选，多选，判断，不定向试题 的主题 
+	
+	
+	public List<TikuTopicOption> getOptionList() {
+		return optionList;
+	}
+
+	public void setOptionList(List<TikuTopicOption> optionList) {
+		this.optionList = optionList;
+	}
 
 	// Constructor
 	public TikuTopic() {

@@ -38,10 +38,19 @@ public class TikuPaper extends BaseEntity {
 	
 	private String creatorName;
 
+	private Integer teacherId;
 	// Constructor
 	public TikuPaper() {
 	}
-	
+
+	public Integer getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
+	}
+
 	/**
 	 * full Constructor
 	 */

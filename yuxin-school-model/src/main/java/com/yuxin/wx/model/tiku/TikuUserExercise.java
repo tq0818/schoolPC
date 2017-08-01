@@ -31,7 +31,10 @@ public class TikuUserExercise extends BaseEntity {
 	private Integer	subjectId;		 /* 题库科目id */ 
 	private Integer chapterId; 		 /* 章id */ 
 	private Integer	companyId;		
-	
+	private String eduArea;		/* 区域 */
+	private String eduSchool;		/* 学校 */
+	private String eduClass;		/* 班级 */
+
 	//其他
 	private Integer topCount;/*多少到题*/
 	private String useTimes;
@@ -62,7 +65,31 @@ public class TikuUserExercise extends BaseEntity {
 		this.companyId = companyId;
 	}
 
-	// getter && setter
+	public String getEduArea() {
+		return eduArea;
+	}
+
+	public void setEduArea(String eduArea) {
+		this.eduArea = eduArea;
+	}
+
+	public String getEduSchool() {
+		return eduSchool;
+	}
+
+	public void setEduSchool(String eduSchool) {
+		this.eduSchool = eduSchool;
+	}
+
+	public String getEduClass() {
+		return eduClass;
+	}
+
+	public void setEduClass(String eduClass) {
+		this.eduClass = eduClass;
+	}
+
+// getter && setter
 	// 在setter方法最后加上"return this;"并把返回参数改为TikuUserExercise可以实现连缀设置属性
 	
 	public Integer getExerciseId() {

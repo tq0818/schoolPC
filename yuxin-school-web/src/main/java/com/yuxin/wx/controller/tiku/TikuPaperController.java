@@ -8,8 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.system.SysConfigTeacher;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +50,7 @@ import com.yuxin.wx.model.tiku.TikuPaperTopicType;
 import com.yuxin.wx.model.tiku.TikuSet;
 import com.yuxin.wx.model.tiku.TikuSubject;
 import com.yuxin.wx.model.tiku.TikuTopic;
+import com.yuxin.wx.model.tiku.TikuTopicOption;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.tiku.TikuPaperVo;
 
@@ -96,6 +102,9 @@ public class TikuPaperController {
 
     @Autowired
     private ITikuSubjectService tikuSubjectServiceImpl;
+
+    @Autowired
+    private ISysConfigTeacherService sysConfigTeacherServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, TikuPaper search) {
@@ -218,39 +227,13 @@ public class TikuPaperController {
     @RequestMapping(value = "/toPaperInfo/{tikuId}/{subjectId}/{paperId}/{btn}/{exam}")
     public String toPaperInfo(@PathVariable Integer tikuId, @PathVariable Integer subjectId, @PathVariable Integer paperId, @PathVariable String btn,
             @PathVariable String exam, Model model) {
-        if (paperId > 0) {
-            TikuPaper paper = this.tikuPaperServiceImpl.findTikuPaperById(paperId);
-            model.addAttribute("paper", paper);
-        }
-        Integer companyId = WebUtils.getCurrentCompanyId();
-        // 查询设置
-        TikuSet tikuSet = new TikuSet();
-        tikuSet.setCompanyId(companyId);
-        tikuSet = this.tikuSetServiceImpl.findSetByCompanyIdAndCategoryId(tikuSet);
-
-        TikuSubject search = new TikuSubject();
-        search.setDelFlag(0);
-        search.setCategoryId(tikuId);
-        List<TikuSubject> subList = this.subServiceImpl.findTikuSubject(search);
-
-        // 查询权限
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("companyId", companyId);
-        param.put("groupCode", "SERVICE_TIKU_EXAM");
-        SysConfigService scs = this.sysConfigServiceServiceImpl.findByCodeId(param);
-        if (scs != null && scs.getDelFlag().equals(1)) {
-            model.addAttribute("examOk", "examOk");
-        }
-
-        model.addAttribute("tikuSet", tikuSet);
-        model.addAttribute("subList", subList);
-        model.addAttribute("btn", btn);
-        model.addAttribute("tikuId", tikuId);
-        model.addAttribute("subjectId", subjectId);
-        model.addAttribute("exam", exam);
+    	pageInfoProcess(tikuId,subjectId,paperId,btn,exam,model);
         return "tiku/paper/paperInfo";
     }
 
+    
+    
+    
     /**
      *
      * Class Name: TikuPaperController.java
@@ -762,5 +745,105 @@ public class TikuPaperController {
     public List<TikuSubject> getTikuSubjectByCategotyId(Model model, Integer categoryId) {
         List<TikuSubject> result = this.tikuSubjectServiceImpl.findSubByCategoryId(categoryId);
         return result;
+    }
+    
+    
+    /**
+     * 新审核页面
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "toPageInfoAudit")
+    public String toPageInfoAudit(HttpServletRequest request,HttpServletResponse response,Model model) {
+    	Integer tikuId = Integer.valueOf(request.getParameter("tikuId"));
+    	Integer subjectId  = Integer.valueOf(request.getParameter("subjectId"));
+    	Integer paperId = Integer.valueOf(request.getParameter("paperId"));
+    	String exam = request.getParameter("exam");
+    	String btn = request.getParameter("btn");
+    	pageInfoProcess(tikuId,subjectId,paperId,btn,exam,model);
+    	// 根据试卷id查询试卷信息
+        TikuPaper paper = this.tikuPaperServiceImpl.findTikuPaperById(paperId);
+        String topicTypes = paper.getContainTopicType();
+        Map<String,List<TikuTopic>> topicMap = new HashMap<String,List<TikuTopic>>();
+        if(StringUtils.isNotBlank(topicTypes)){
+        	String types[] = topicTypes.split(",");
+        	for(String type : types){
+        		 Map<String, Object> param = new HashMap<String, Object>();
+        	     param.put("paperId", paperId);
+        	     param.put("topicType", type);
+        	     List<TikuTopic> topics = this.tikuTopicServiceImpl.findTopicByPaperId(param);
+        	     if(StringUtils.equals(type, "TOPIC_TYPE_RADIO") || StringUtils.equals(type, "TOPIC_TYPE_MULTIPLE") || StringUtils.equals(type, "TOPIC_TYPE_TRUE_FALSE") || StringUtils.equals(type, "TOPIC_TYPE_UNDEFINED")){
+        	    	 List<Integer> idList = new ArrayList<Integer>();
+        	    	 for(TikuTopic topic : topics){
+        	    		 idList.add(topic.getId());
+        	    	 }
+        	    	 if(idList.size() > 0){
+        	    		 List<TikuTopicOption> optionList = tikuTopicOptionServiceImpl.findOptionByListTopicId(idList);
+        	    	     for(TikuTopic topic : topics){
+        	    	    	 for(int i = 0; i < optionList.size(); i++){
+        	    	    		 TikuTopicOption option = optionList.get(i);
+        	    	    		 if(option.getTopicId() == topic.getId()){
+        	    	    			 topic.getOptionList().add(option);
+        	    	    			 optionList.remove(i);
+        	    	    			 i--;
+        	    	    		 }
+        	    	    	 }
+        	    	     }
+        	    	 }
+        	    	 
+        	     }
+        	     tikuTopicOptionServiceImpl.findOptionByTopicId(1);
+        	     topicMap.put(type, topics);
+        	}
+        }
+        model.addAttribute("topicMap", topicMap);
+        model.addAttribute("paper", paper);
+    	return "tiku/paper/paperInfoAudit";
+    }
+    
+    
+    private void pageInfoProcess(Integer tikuId,Integer subjectId,Integer paperId,String btn,String exam, Model model){
+          
+    	if (paperId > 0) {
+            TikuPaper paper = this.tikuPaperServiceImpl.findTikuPaperById(paperId);
+            model.addAttribute("paper", paper);
+            if (paper.getTeacherId() != null) {
+                SysConfigTeacher teacher = this.sysConfigTeacherServiceImpl.findSysConfigTeacherById(paper.getTeacherId());
+                model.addAttribute("teacher", teacher);
+            }
+        }
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        // 查询设置
+        TikuSet tikuSet = new TikuSet();
+        tikuSet.setCompanyId(companyId);
+        tikuSet = this.tikuSetServiceImpl.findSetByCompanyIdAndCategoryId(tikuSet);
+
+        TikuSubject search = new TikuSubject();
+        search.setDelFlag(0);
+        search.setCategoryId(tikuId);
+        List<TikuSubject> subList = this.subServiceImpl.findTikuSubject(search);
+
+        // 查询权限
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("companyId", companyId);
+        param.put("groupCode", "SERVICE_TIKU_EXAM");
+        SysConfigService scs = this.sysConfigServiceServiceImpl.findByCodeId(param);
+        if (scs != null && scs.getDelFlag().equals(1)) {
+            model.addAttribute("examOk", "examOk");
+        }
+
+        model.addAttribute("tikuSet", tikuSet);
+        model.addAttribute("subList", subList);
+        model.addAttribute("btn", btn);
+        model.addAttribute("tikuId", tikuId);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("exam", exam);
+
+        Map<String, String> teacherMap = new HashMap<String, String>();
+        teacherMap.put("companyId", WebUtils.getCurrentCompanyId() + "");
+        teacherMap.put("schoolId", WebUtils.getCurrentSchoolId() + "");
+        model.addAttribute("teachers", this.sysConfigTeacherServiceImpl.findTeachers(teacherMap));
     }
 }

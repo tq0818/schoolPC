@@ -582,7 +582,7 @@ where 1=1
 		    <if test="companyId != null and companyId != ''">company_id=#{companyId}</if> 
 			<if test="messageType != null and messageType != ''">and message_type=#{messageType}</if>
 		</where>
-		order by send_time desc
+		order by update_time is null, update_time desc, send_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 	

@@ -122,4 +122,14 @@
 				#{item}
 			</foreach>
 	</delete>
+	
+	<select id="findOptionByListTopicId" parameterType="list" resultMap="tikuTopicOptionResultMap">
+		select <include refid="table_columns"/>
+		from tiku_topic_option
+		where topic_id in 
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		order by option_no
+	</select>
 </mapper>

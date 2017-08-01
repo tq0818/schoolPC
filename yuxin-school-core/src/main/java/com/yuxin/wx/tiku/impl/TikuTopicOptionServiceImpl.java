@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.tiku.ITikuTopicOptionService;
 import com.yuxin.wx.model.tiku.TikuTopicOption;
 import com.yuxin.wx.tiku.mapper.TikuTopicOptionMapper;
@@ -141,5 +141,11 @@ public class TikuTopicOptionServiceImpl extends BaseServiceImpl implements ITiku
 	public void deleteByTopicId(List<Integer> list) {
 		// TODO Auto-generated method stub
 		tikuTopicOptionMapper.deleteByTopicId(list);
+	}
+
+	@Override
+	public List<TikuTopicOption> findOptionByListTopicId(List<Integer> list) {
+		List<TikuTopicOption> optionList = tikuTopicOptionMapper.findOptionByListTopicId(list);
+		return optionList;
 	}
 }

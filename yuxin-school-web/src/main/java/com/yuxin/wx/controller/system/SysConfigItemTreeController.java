@@ -3,6 +3,7 @@ package com.yuxin.wx.controller.system;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
+import com.yuxin.wx.controller.task.Ex;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.utils.WebUtils;
@@ -29,7 +30,9 @@ public class SysConfigItemTreeController {
     private ISysConfigItemRelationService sysConfigItemRelationServieImpl;
     @Autowired
     private ISysConfigItemService sysConfigItemServieImpl;
-
+    /**
+     *获取根目录
+     */
     @ResponseBody
     @RequestMapping(value="/ajaxValue")
     public  JSONObject findFirstNodes(Model model,HttpServletRequest request){
@@ -44,9 +47,95 @@ public class SysConfigItemTreeController {
         json.put("type",sysConfigItemServieImpl.findByParentCode(item));
         return json;
     }
+    /**
+     * 添加节点
+     * */
+    @ResponseBody
+    @RequestMapping(value="/insert")
+    public String update(Model model, HttpServletRequest request,Integer level,String parentCode,Integer parentId,String codes,String levelPath){
+        try{
+            SysConfigItemRelation relation = new SysConfigItemRelation();
+            relation.setLevel(level);
+            relation.setParentCode(parentCode);
+            relation.setParentId(parentId);
+            relation.setLevelPath(levelPath);
+            //修改子节点则需要删除原有节点
+            if(relation.getLevel()!=null && relation.getLevel()>0){
+                List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(relation.getParentId());
+                sysConfigItemRelationServieImpl.deleteRelation(oldChildren);
+                SysConfigItemRelation root = new SysConfigItemRelation();
+                root.setId(relation.getParentId());
+                if(codes.length()>0){
+                    root.setIsParent(true);
+                }else{
+                    root.setIsParent(false);
+                }
+                sysConfigItemRelationServieImpl.update(root);
+            }
+            //添加根节点则需要设置父节点和父编码
+            if(relation.getLevel()!=null &&relation.getLevel()==0){
+                relation.setParentCode(null);
+                relation.setParentId(null);
+            }
+            if(codes.length()>0){
+                String[] itemCodes = codes.split(",");
+                for (int n =  0 ; n <itemCodes.length;n++ ) {
+                    relation.setItemCode(itemCodes[n]);
+                    sysConfigItemRelationServieImpl.insert(relation);
+                    relation.setId(null);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+        return "success";
+    }
+    /**
+     * 删除节点 delNodes
+     * **/
+    @ResponseBody
+    @RequestMapping(value="/delNodes")
+    public  String delNodes(Model model,HttpServletRequest request,String id){
+        try {
+            List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id));
+            sysConfigItemRelationServieImpl.deleteRelation(oldChildren);
+            sysConfigItemRelationServieImpl.deleteById(Integer.parseInt(id));
+        }catch(Exception e){
+            e.printStackTrace();
+            return "false";
+        }
+        return "true";
+    }
 
+
+/**
+ * 获取节点
+ * */
+    @ResponseBody
+    @RequestMapping(value="/getNodes")
+    public JSONObject getNodes(Model model, HttpServletRequest request,String parentId,String level){
+        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(parentId));
+        JSONObject json = new JSONObject();
+        json.put("list",list);
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        int le = Integer.parseInt(level)+1;
+        if(le==1){
+            item.setParentCode("GRADE");
+            json.put("name",sysConfigItemServieImpl.findByParentCode(item));
+        }else if(le==2){
+            item.setParentCode("SUBJECT");
+            json.put("name",sysConfigItemServieImpl.findByParentCode(item));
+        }
+        return json;
+    }
+    /**
+     * 初始化页面
+     * */
     @RequestMapping(value="/itemTree")
-
     public String itemTree(Model model, HttpServletRequest request){
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());

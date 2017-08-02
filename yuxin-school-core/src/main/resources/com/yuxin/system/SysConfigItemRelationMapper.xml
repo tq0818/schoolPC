@@ -7,20 +7,26 @@
         <result property="parentCode" column="parent_code" />
         <result property="parentId" column="parent_id" />
         <result property="level" column="level" />
+        <result property="levelPath" column="level_path" />
+        <result property="isParent" column="is_parent" />
     </resultMap>
     <sql id="table_columns">
         id,
         item_code,
         parent_code,
         parent_id,
-        level
+        level,
+        level_path,
+        is_parent
     </sql>
     <sql id="entity_properties">
         #{id},
         #{itemCode},
         #{parentCode},
         #{parentId},
-        #{level}
+        #{level},
+        #{levelPath},
+        #{isParent}
     </sql>
     <!-- 适用于主键自增类型 -->
     <insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigItemRelation"
@@ -33,13 +39,15 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.yuxin.wx.model.system.SysConfigItem">
+    <update id="update" parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
         update sys_config_item_relation
         <trim prefix="set" suffixOverrides=",">
             <if test="itemCode != null and itemCode != ''">item_code = #{itemCode},</if>
             <if test="parentCode != null and parentCode != ''">parent_code = #{parentCode},</if>
             <if test="parentId != null ">parent_id = #{parentId},</if>
             <if test="level != null ">level = #{level},</if>
+            <if test="levelPath != null and levelPath != ''">level_path = #{levelPath}</if>
+            <if test="isParent != null ">is_parent = #{isParent}</if>
         </trim>
         <where>id = #{id}</where>
     </update>
@@ -50,7 +58,7 @@
         select
         <include refid="table_columns" />
         from sys_config_item_relation
-        where level = 1
+        where level = 0
     </select>
     <select id="findRelationByParentId" resultMap="sysConfigItemRelationResultMap"
             parameterType="Integer">
@@ -65,6 +73,16 @@
         <include refid="table_columns" />
         from sys_config_item_relation
         where level = #{level}
+    </select>
+    <select id="findItemByIds" resultMap="sysConfigItemRelationResultMap" parameterType="list">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation
+        where id in
+        <foreach item="item" collection="list" open="(" separator=","
+                 close=")">
+            #{item}
+        </foreach>
     </select>
     <delete id="deleteById">
         delete from sys_config_item_relation

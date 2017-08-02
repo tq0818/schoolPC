@@ -49,15 +49,23 @@
     margin-left: 20px;
     padding-top: 30px;
     font-size: 14px;
+    min-height: 150px;;
 }
 
 .tree_setting div {
     margin: 100px;
     height: 50px;
     line-height: 50px;
-    display: none;
+   
 }
-
+.tree_setting .tree-listtype{ display: none;}
 .tree_setting label {
     margin-right: 20px;
 }
+.tab-sub{}
+.tab-sub .tab-type{display: inline-block;border:1px solid #eee;
+padding:5px 20px;min-width:40px ;background: #fff;float: left;
+}
+.tab-sub .tab-type:last-child{border-left:0;}
+.tab-sub .tab-type.active{background: #76b4f2;color:#fff;}
+.tab-info{clear: both;}

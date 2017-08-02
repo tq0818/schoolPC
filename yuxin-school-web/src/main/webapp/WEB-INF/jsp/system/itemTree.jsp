@@ -16,7 +16,11 @@
 </head>
 
 <body>
-    <div class="cntr">
+  <%--  <div class="tab-sub">
+        <span class="tab-type active" href=".tab1">元数据管理</span>
+        <span class="tab-type" href=".tab2">目录树管理</span>
+    </div>--%>
+    <div class="cntr tab1 tab-info">
 
         <div class="top"><input type="button" value="发布生效"></div>
 
@@ -28,30 +32,40 @@
             </div>
 
             <div class="tree_setting">
-                <div id="courses">
+                <div class="tree-listtype" id="bigType">
+                    <label>大类：</label>
+                    <c:forEach items="${typeList}" var="type">
+                        <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
+                    </c:forEach>
+                </div>
+                <div id="courses" class="tree-listtype">
                     <label>学科：</label>
                     <c:forEach items="${subjectList}" var="subject">
-                        <label>${subject.itemName}<input type="checkbox" value="" name="course"></label>
+                        <label>${subject.itemName}<input type="checkbox" value="${subject.itemCode}" name="course"></label>
                     </c:forEach>
                     <%--<label>语文<input type="checkbox" value="yuwen" name="course"></label>--%>
                     <%--<label>数学<input type="checkbox" value="shuxue" name="course"></label>--%>
                     <%--<label>英语<input type="checkbox" value="yingyu" name="course"></label>--%>
                 </div>
-                <div id="periods">
+                <div id="periods" class="tree-listtype">
                     <label>学段：</label>
                     <c:forEach items="${gradeList}" var="grade">
-                        <label>${grade.itemName}<input type="checkbox" value="" name="period"></label>
+                        <label>${grade.itemName}<input type="checkbox" value="${grade.itemCode}" name="period"></label>
                     </c:forEach>
                 </div>
-                <div id="topic">
+                <div id="topic" class="tree-listtype">
                     <label>知识点：</label>
-                    <input id="newTopicName" type="text">
-                    <input id="addTopic" type="button" value="添加">
+                    <input name="itemCode" type="text">
+                   <%-- <input id="addTopic" type="button" value="添加">--%>
+                </div>
+                <div class="btn-list">
+                    <button class="btn btn-default" id="savabtn">保存</button>
                 </div>
             </div>
         </div>
 
     </div>
+<%--    <div class="tab2 tab-info">11222222222222222222222222</div>--%>
 </body>
 
 </html>

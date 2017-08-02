@@ -11,6 +11,8 @@ public class SysConfigItemRelation extends BaseEntity {
     private String parentCode;
     private Integer level;
     private Integer parentId;
+    private String levelPath;
+    private boolean isParent;
     public String getItemCode() {
         return itemCode;
     }
@@ -41,5 +43,21 @@ public class SysConfigItemRelation extends BaseEntity {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public String getLevelPath() {
+        return levelPath;
+    }
+
+    public void setLevelPath(String levelPath) {
+        this.levelPath = levelPath;
+    }
+
+    public boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(boolean parent) {
+        isParent = parent;
     }
 }

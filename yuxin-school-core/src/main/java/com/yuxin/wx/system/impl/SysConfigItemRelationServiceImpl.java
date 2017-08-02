@@ -36,16 +36,22 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
         deleteRelation(list);
     }
 
-    private void deleteRelation( List<SysConfigItemRelation> list){
+    @Override
+    public void deleteRelation( List<SysConfigItemRelation> list){
             for(int n =  0 ; n<list.size();n++){
                     SysConfigItemRelation relation = list.get(n);
                     List<SysConfigItemRelation> newList =findSysConfigItemRelationById(relation.getId());
                     if(newList.size()>0) {
                         deleteRelation(newList);
-                    }else{
-                        sysConfigItemRelationMapper.deleteById(relation.getId());
                     }
+                sysConfigItemRelationMapper.deleteById(relation.getId());
+
             }
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        sysConfigItemRelationMapper.deleteById(id);
     }
 
     @Override
@@ -65,5 +71,10 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
         list = sysConfigItemRelationMapper.findRelationByLevel(level);
         return list;
+    }
+
+    @Override
+    public List<SysConfigItemRelation> findRelationByIds(List<Integer> ids) {
+        return sysConfigItemRelationMapper.findRelationByIds(ids);
     }
 }

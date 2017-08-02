@@ -50,18 +50,19 @@ public class TikuStatisticsTask{
 	 * @throws Exception
 	 */
 	public void tikuStatistics() throws Exception{
-		List<TikuPaper> tikuPaperList = tikuPaperServiceImpl.queryAll();
-		//查询原始做备份
-		List<Integer> statisticsList = tikuUserExerciseAnswerStatisticsServiceImpl.queryAllData();
-		List<Integer> accuracyList = tikuUserExerciseAnswerAccuracyServiceImpl.queryAllData();
-		for(TikuPaper tikuPaper:tikuPaperList){
-			//统计单选题
-			Map<String, Object> papmMap = new HashMap<String, Object>();
-			papmMap.put("paperId", tikuPaper.getId());
-			List<String> topicType = new ArrayList<String>();
-			papmMap.put("topicType", topicType);
-			List<TikuPaperTopic> tikuPaperTopicList = tikuPaperTopicServiceImpl.findTikuPaperByType(papmMap);
-			long start = System.currentTimeMillis();
+        List<TikuPaper> tikuPaperList = tikuPaperServiceImpl.queryAll();
+        //查询原始做备份
+        List<Integer> statisticsList = tikuUserExerciseAnswerStatisticsServiceImpl.queryAllData();
+        List<Integer> accuracyList = tikuUserExerciseAnswerAccuracyServiceImpl.queryAllData();
+
+        for(TikuPaper tikuPaper:tikuPaperList){
+            //统计单选题
+            Map<String, Object> papmMap = new HashMap<String, Object>();
+            papmMap.put("paperId", tikuPaper.getId());
+            List<String> topicType = new ArrayList<String>();
+            papmMap.put("topicType", topicType);
+            List<TikuPaperTopic> tikuPaperTopicList = tikuPaperTopicServiceImpl.findTikuPaperByType(papmMap);
+            long start = System.currentTimeMillis();
 			for(TikuPaperTopic tikuPaperTopic:tikuPaperTopicList){
 				fixedThreadPool.submit(new RuntimeStatistics(tikuPaperTopic));
 			}
@@ -170,6 +171,7 @@ public class TikuStatisticsTask{
 			statistics.setTopicOptionId(topicOptionId);
 			statistics.setTopicOptionAnswer(topicOptionAnswer);
 			statistics.setTopicOptionAnswerNum(topicOptionAnswerNum);
+            statistics.setCreateDate(new Date());
 			tikuUserExerciseAnswerStatisticsServiceImpl.insert(statistics);
 		}
 
@@ -183,6 +185,7 @@ public class TikuStatisticsTask{
 			accuracy.setTopicType(topicType);
 			accuracy.setAnswerNum(answerNum);
 			accuracy.setAnswerAccuracyNum(answerAccuracyNum);
+			accuracy.setCreateDate(new Date());
 			tikuUserExerciseAnswerAccuracyServiceImpl.insert(accuracy);
 		}
 	}

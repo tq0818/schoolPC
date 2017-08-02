@@ -10,6 +10,7 @@
 		<result property="topicOptionId" column="topic_option_id" />
 		<result property="topicOptionAnswer" column="topic_option_answer" />
 		<result property="topicOptionAnswerNum" column="topic_option_answer_num" />
+		<result property="createDate" column="create_date" />
 	</resultMap>
 
 	<sql id="table_columns">
@@ -20,7 +21,8 @@
 		topic_type,
 		topic_option_id,
 		topic_option_answer,
-  		topic_option_answer_num
+  		topic_option_answer_num,
+  		create_date
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -30,7 +32,8 @@
 		#{topicType},
 		#{topicOptionId},
 		#{topicOptionAnswer},
-		#{topicOptionAnswerNum}
+		#{topicOptionAnswerNum},
+		#{createDate}
 	</sql>
 	<sql id="batch_entity_properties">
 		#{item.id},
@@ -40,7 +43,8 @@
 		#{item.topicType},
 		#{item.topicOptionId},
 		#{item.topicOptionAnswer},
-		#{item.topicOptionAnswerNum}
+		#{item.topicOptionAnswerNum},
+		#{item.createDate}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->

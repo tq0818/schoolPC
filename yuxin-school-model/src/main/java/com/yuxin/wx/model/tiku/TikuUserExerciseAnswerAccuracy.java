@@ -3,6 +3,8 @@ package com.yuxin.wx.model.tiku;
 
 import com.yuxin.wx.common.BaseEntity;
 
+import java.util.Date;
+
 /**
  * POJO:TikuUserExerciseAnswer
  * 
@@ -17,6 +19,7 @@ public class TikuUserExerciseAnswerAccuracy extends BaseEntity {
 	private String topicType;	/*试题类型*/
 	private Integer answerNum;	/*答题人数*/
 	private Integer answerAccuracyNum;	/*正确人数*/
+	private Date createDate;	/*创建时间*/
 	// Constructor
 	public TikuUserExerciseAnswerAccuracy() {
 	}
@@ -25,13 +28,14 @@ public class TikuUserExerciseAnswerAccuracy extends BaseEntity {
 	 * full Constructor
 	 */
 	public TikuUserExerciseAnswerAccuracy(Integer id, String exerciseType, Integer topicId, String topicType,
-                                          Integer answerNum, Integer answerAccuracyNum) {
+                                          Integer answerNum, Integer answerAccuracyNum, Date createDate) {
 		setId(id);
 		this.exerciseType = exerciseType;
 		this.topicId = topicId;
 		this.topicType = topicType;
 		this.answerNum = answerNum;
 		this.answerAccuracyNum = answerAccuracyNum;
+		this.createDate = createDate;
 	}
 
 	// getter && setter
@@ -84,6 +88,14 @@ public class TikuUserExerciseAnswerAccuracy extends BaseEntity {
 
 	public void setAnswerAccuracyNum(Integer answerAccuracyNum) {
 		this.answerAccuracyNum = answerAccuracyNum;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	@Override

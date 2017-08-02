@@ -3,6 +3,8 @@ package com.yuxin.wx.model.tiku;
 
 import com.yuxin.wx.common.BaseEntity;
 
+import java.util.Date;
+
 /**
  * POJO:TikuUserExerciseAnswer
  * 
@@ -18,6 +20,7 @@ public class TikuUserExerciseAnswerStatistics extends BaseEntity {
 	private Integer topicOptionId;	/*试题答案id*/
 	private String topicOptionAnswer;	/*试卷答案*/
 	private Integer topicOptionAnswerNum;	/*试卷答题选择结果*/
+	private Date createDate;	/*创建时间*/
 	// Constructor
 	public TikuUserExerciseAnswerStatistics() {
 	}
@@ -26,7 +29,7 @@ public class TikuUserExerciseAnswerStatistics extends BaseEntity {
 	 * full Constructor
 	 */
 	public TikuUserExerciseAnswerStatistics(Integer id, String exerciseType, Integer topicId, String topicType,
-											Integer topicOptionId, String topicOptionAnswer, Integer topicOptionAnswerNum) {
+											Integer topicOptionId, String topicOptionAnswer, Integer topicOptionAnswerNum, Date createDate) {
 		setId(id);
 		this.exerciseType = exerciseType;
 		this.topicId = topicId;
@@ -34,6 +37,7 @@ public class TikuUserExerciseAnswerStatistics extends BaseEntity {
 		this.topicOptionId = topicOptionId;
 		this.topicOptionAnswer = topicOptionAnswer;
 		this.topicOptionAnswerNum = topicOptionAnswerNum;
+		this.createDate = createDate;
 	}
 
 	// getter && setter
@@ -94,6 +98,14 @@ public class TikuUserExerciseAnswerStatistics extends BaseEntity {
 
 	public void setTopicOptionAnswerNum(Integer topicOptionAnswerNum) {
 		this.topicOptionAnswerNum = topicOptionAnswerNum;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	@Override

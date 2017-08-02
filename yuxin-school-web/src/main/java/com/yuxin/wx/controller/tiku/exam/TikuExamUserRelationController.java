@@ -6,12 +6,9 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
 import com.yuxin.wx.api.system.ISysConfigDictService;
-import com.yuxin.wx.api.tiku.ITikuPaperService;
-import com.yuxin.wx.api.tiku.ITikuTopicOptionService;
-import com.yuxin.wx.api.tiku.ITikuTopicService;
+import com.yuxin.wx.api.tiku.*;
 import com.yuxin.wx.model.system.SysConfigDict;
-import com.yuxin.wx.model.tiku.TikuTopic;
-import com.yuxin.wx.model.tiku.TikuTopicOption;
+import com.yuxin.wx.model.tiku.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -27,15 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yuxin.wx.api.student.IStudentPayMasterService;
 import com.yuxin.wx.api.system.ILongitudinalTableDataService;
-import com.yuxin.wx.api.tiku.ITikuUserExerciseService;
 import com.yuxin.wx.api.tiku.exam.ITikuExamUserRelationService;
 import com.yuxin.wx.common.ExcelSheetEntity;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.student.StudentPayMaster;
 import com.yuxin.wx.model.system.LongitudinalTableData;
-import com.yuxin.wx.model.tiku.TikuPaper;
-import com.yuxin.wx.model.tiku.TikuUserExercise;
 import com.yuxin.wx.model.tiku.exam.TikuExamUserRelation;
 import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.WebUtils;
@@ -71,6 +65,8 @@ public class TikuExamUserRelationController {
     private ITikuPaperService tikuPaperServiceImpl;
     @Autowired
     private ITikuTopicOptionService tikuTopicOptionServiceImpl;
+    @Autowired
+    private ITikuUserExerciseAnswerService tikuUserExerciseAnswerServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, TikuExamUserRelation search) {
@@ -214,6 +210,7 @@ public class TikuExamUserRelationController {
             }
         }
         model.addAttribute("topicMap", topicMap);
+
         return "tiku/paper/paperStatisticsIndex";
     }
 

@@ -1,6 +1,7 @@
 package com.yuxin.wx.api.tiku;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.model.tiku.TikuUserExerciseAnswer;
 
@@ -179,7 +180,6 @@ public interface ITikuUserExerciseAnswerService {
      * @return
      */
     List<TikuUserExerciseAnswer> findByExerId(Integer exerciseId);
-
     /**
      * @Description: 根据userID获取该用户一共做过几个题库
      * @author zx
@@ -191,4 +191,6 @@ public interface ITikuUserExerciseAnswerService {
     Integer findCategoryCountByUserId(Integer userId);
 
     Double findExerciseScore(Integer exerciseId);
+
+    List<TikuUserExerciseAnswer> findTikuUserExerciseAnswer(Map<String, Object> papam);
 }

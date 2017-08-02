@@ -237,4 +237,15 @@
 				</otherwise>
 			</choose>
 	</select>
+
+	<select id="findTikuPaperByType" parameterType="map" resultMap="tikuPaperTopicResultMap">
+		select <include refid="table_columns"/>
+		from tiku_paper_topic
+		where paper_id = #{paperId} and
+		topic_type in
+		<foreach item="item" collection="topicType" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and parent_id = 0
+	</select>
 </mapper>

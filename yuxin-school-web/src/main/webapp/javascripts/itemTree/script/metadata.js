@@ -20,6 +20,7 @@ function getTreeList(list,names){
         }
 
     }
+    return  list;
 }
 
 var setting = {
@@ -32,7 +33,10 @@ var setting = {
         selectedMulti: false
     },
     async: {
-        enable: true
+        enable: true,
+        url: "/itemTree/getNodes",
+        autoParam: ["id", "level"],
+        dataFilter: ajaxDataFilter
     },
    edit: {
         enable: true,
@@ -45,16 +49,34 @@ var setting = {
         beforeRemove: beforeRemove,
         onDblClick: onNodeDblClick,
         onClick: onSelected,
-        onExpand: onExpandClick,
+        // onExpand: onExpandClick,
         onRemove: zTreeOnRemove
     }
 };
+function ajaxDataFilter(treeId, parentNode, responseData){
+    debugger;
+    if(parentNode.children==undefined||(parentNode.children).length<1){
+        var list = responseData.list;
+        var names = responseData.name;
+         return getTreeList(list,names);
 
+        // var newNodes = list;
+        //
+        // ztree.addNodes(treeNode, newNodes);
+    }
+}
 function zTreeOnRemove(event, treeId, treeNode) {
+    var nodes = ztree.getNodesByParam("id", treeNode.parentId, null);
+    var datas = {};
+    if(nodes[0].children.length==0){
+         datas = {"id": treeNode.id,"parentId":treeNode.parentId};
+    }else{
+        datas = {"id": treeNode.id};
+    }
     $.ajax({
         type: "post",
         url: "/itemTree/delNodes",
-        data: {"id": treeNode.id},
+        data: datas,
         success: function (data) {
             alert(data);
         }
@@ -69,7 +91,7 @@ function onExpandClick(event, treeId, treeNode){
         url: "/itemTree/getNodes",
         data: {"level":treeNode.level,"parentId":treeNode.id},
         success: function (data) {
-
+            debugger;
              if(treeNode.children==undefined||(treeNode.children).length<1){
                 var list = data.list;
                 var names = data.name;
@@ -170,13 +192,13 @@ $(document).ready(function() {
         if(selectNode){
             parentCode = selectNode.itemCode;
             parentId = selectNode.id;
-           levelPath = selectNode.id+',';
+           levelPath = selectNode.levelPath+selectNode.id+',';
            level = selectNode.level+1;
         }
         if(input.hasClass("editing")){
             parentCode = selectNode.parentCode;
             parentId = selectNode.parentId;
-            levelPath = selectNode.parentId+',';
+            levelPath = selectNode.levelPath;
             level = selectNode.level-1;
         }
         $.ajax({
@@ -256,5 +278,16 @@ $(document).ready(function() {
         $(this).addClass("active").siblings().removeClass("active");
         $(".tab-info").hide();
         $(href).show();
+    });
+    $("#publishRelation").on("click",function(i,v){
+
+        $.ajax({
+            type: "post",
+            url: "/itemTree/publishRelation",
+            data: {"name":""},
+            success: function (data) {
+
+            }
+        });
     });
 });

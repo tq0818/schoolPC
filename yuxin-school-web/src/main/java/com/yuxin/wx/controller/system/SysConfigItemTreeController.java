@@ -96,11 +96,17 @@ public class SysConfigItemTreeController {
      * **/
     @ResponseBody
     @RequestMapping(value="/delNodes")
-    public  String delNodes(Model model,HttpServletRequest request,String id){
+    public  String delNodes(Model model,HttpServletRequest request,String id,String parentId){
         try {
             List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id));
             sysConfigItemRelationServieImpl.deleteRelation(oldChildren);
             sysConfigItemRelationServieImpl.deleteById(Integer.parseInt(id));
+            if(parentId!=null){
+                SysConfigItemRelation relation = new SysConfigItemRelation();
+                relation.setId(Integer.parseInt(parentId));
+                relation.setIsParent(false);
+                sysConfigItemRelationServieImpl.update(relation);
+            }
         }catch(Exception e){
             e.printStackTrace();
             return "false";
@@ -114,8 +120,8 @@ public class SysConfigItemTreeController {
  * */
     @ResponseBody
     @RequestMapping(value="/getNodes")
-    public JSONObject getNodes(Model model, HttpServletRequest request,String parentId,String level){
-        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(parentId));
+    public JSONObject getNodes(Model model, HttpServletRequest request,String id,String level){
+        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id));
         JSONObject json = new JSONObject();
         json.put("list",list);
         SysConfigItem item = new SysConfigItem();
@@ -132,6 +138,20 @@ public class SysConfigItemTreeController {
         }
         return json;
     }
+    /**
+     * 初始化页面
+     * */
+    @ResponseBody
+    @RequestMapping(value="/publishRelation")
+    public JSONObject publishRelation(Model model, HttpServletRequest request,String name){
+        sysConfigItemRelationServieImpl.publishRelation();
+        JSONObject json = new JSONObject();
+        json.put("result","ok");
+        return json;
+    }
+
+
+
     /**
      * 初始化页面
      * */

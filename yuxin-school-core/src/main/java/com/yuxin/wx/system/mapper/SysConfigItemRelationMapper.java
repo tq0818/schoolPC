@@ -21,4 +21,8 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
     List<SysConfigItemRelation> findRelationByLevel(Integer level);
 
     List<SysConfigItemRelation> findRelationByIds(List<Integer> ids);
+
+    void publish();
+
+    void deleteFront();
 }

@@ -59,4 +59,5 @@ public interface ISysConfigItemRelationService {
     List<SysConfigItemRelation>  findRelationByIds(List<Integer> id);
     void deleteRelation( List<SysConfigItemRelation> list);
     void deleteById(Integer id);
+    void publishRelation();
 }

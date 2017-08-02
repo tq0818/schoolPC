@@ -22,7 +22,7 @@
     </div>--%>
     <div class="cntr tab1 tab-info">
 
-        <div class="top"><input type="button" value="发布生效"></div>
+        <div class="top"><input type="button" value="发布生效" id="publishRelation"></div>
 
         <div class="content">
 

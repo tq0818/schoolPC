@@ -88,4 +88,11 @@
         delete from sys_config_item_relation
         where id = #{id}
     </delete>
+
+    <delete id="deleteFront">
+        delete from sys_config_item_relation_front
+    </delete>
+    <insert id="publish">
+     insert sys_config_item_relation_front  (select * from sys_config_item_relation)
+    </insert>
 </mapper>

@@ -55,6 +55,12 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
+    public void publishRelation() {
+        sysConfigItemRelationMapper.deleteFront();
+        sysConfigItemRelationMapper.publish();
+    }
+
+    @Override
     public List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
         if(id==null){

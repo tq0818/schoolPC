@@ -693,10 +693,10 @@ public class TimerTaskComponent {
 	// }
 
 	/**
-	 * 处理正常流程的office文件转换成pdf文件
+	 * 统计用户答题结果（只针对单选和多选）
 	 *
 	 */
-	 @Scheduled(cron = "0 0 2 * * ?")
+	 @Scheduled(cron = "0 0 1 * * ?")
 	 public void taskTikuUserExerciseAnswer() {
 		 SysTaskLog stl = new SysTaskLog();
 		 try {

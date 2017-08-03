@@ -461,7 +461,9 @@
 			i.updator,
 			i.company_id,
 			i.item_pic,
-		i.item_back_pic
+			i.item_code,
+			i.parent_code,
+			i.item_back_pic
 		from sys_config_item i
 			inner join sys_school_item_relation r
 			on r.item_id = i.id 

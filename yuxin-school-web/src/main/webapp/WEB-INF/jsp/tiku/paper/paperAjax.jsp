@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/decorators/import.jsp"%>
@@ -38,23 +39,25 @@
 	    				<span class="status c9 mt4"><fmt:formatDate value="${paper.auditTime}"/></span>
 	    			</c:if>
 	    			<c:if test="${paper.paperStatus == 'PAPER_STATUS_AUDIT_FAIL' }"><span class="status s4">审核不通过</span></c:if>
-	    			
+
 				</td>
-	    			
+
 				<td rowspan="2" width="60%"><span class="l-title">${paper.paperName}</span>
 				</td>
 				<td width="10%"><span class="c">编辑者</span> <span class="p">${paper.creatorName}</span>
 				</td>
 				<td style="width:170px;" rowspan="2" class="btns">
 					<a href="javascript:;" class="btn btn-mini btn-primary" paperId="${paper.id}" onclick="javascript:Forms.delPaper(this)" style="display:inline-block;">删除</a>
-					<c:if test="${isAudit == 'yes' }">
-						<c:if test="${paper.paperStatus == 'PAPER_STATUS_WAIT_AUDIT' }">
-							<a href="javascript:;" class="btn btn-mini btn-primary" paperId="${paper.id}" btn="audite" onclick="javascript:Forms.editPaper(this)" style="display:inline-block;">审核</a>
+					<shiro:hasAnyRoles name="机构管理员,试卷审核员">
+						<c:if test="${isAudit == 'yes' }">
+							<c:if test="${paper.paperStatus == 'PAPER_STATUS_WAIT_AUDIT' }">
+								<a href="javascript:;" class="btn btn-mini btn-primary" paperId="${paper.id}" btn="audite" onclick="javascript:Forms.editPaper(this)" style="display:inline-block;">审核</a>
+							</c:if>
+							<c:if test="${paper.paperStatus != 'PAPER_STATUS_WAIT_AUDIT'}">
+								<a href="javascript:;" class="btn btn-mini btn-primary disabled" paperId="${paper.id}" btn="audite" onclick="javascript:void(0)" style="display:inline-block;">审核</a>
+							</c:if>
 						</c:if>
-						<c:if test="${paper.paperStatus != 'PAPER_STATUS_WAIT_AUDIT' }">
-							<a href="javascript:;" class="btn btn-mini btn-primary disabled" paperId="${paper.id}" btn="audite" onclick="javascript:void(0)" style="display:inline-block;">审核</a>
-						</c:if>
-					</c:if>
+					</shiro:hasAnyRoles>
 					<a href="javascript:;" class="btn btn-mini btn-primary" paperId="${paper.id}" btn="edit" onclick="javascript:Forms.editPaper(this)" style="display:inline-block;">编辑</a>
  					<a href="javascript:;" class="btn btn-mini btn-primary" paperId="${paper.id}" btn="edit" onclick="javascript:Forms.statistics(this)" style="display:inline-block;">统计</a>
 				</td>

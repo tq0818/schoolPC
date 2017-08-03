@@ -46,7 +46,10 @@ public class Commodity extends BaseEntity {
 	
 	private Integer integralFlag; /* 是否允许使用积分*/
 	private Integer memberFlag;  /* 是否允许使用会员*/
-	
+	private String itemOneCode;
+	private String itemSecondCode;
+	private String itemThirdCode;
+	private String itemFourthCode;
 	
 	public Integer getBaseNum() {
 		return baseNum;
@@ -345,6 +348,38 @@ public class Commodity extends BaseEntity {
 
 	public void setMemberFlag(Integer memberFlag) {
 		this.memberFlag = memberFlag;
+	}
+
+	public String getItemOneCode() {
+		return itemOneCode;
+	}
+
+	public void setItemOneCode(String itemOneCode) {
+		this.itemOneCode = itemOneCode;
+	}
+
+	public String getItemSecondCode() {
+		return itemSecondCode;
+	}
+
+	public void setItemSecondCode(String itemSecondCode) {
+		this.itemSecondCode = itemSecondCode;
+	}
+
+	public String getItemThirdCode() {
+		return itemThirdCode;
+	}
+
+	public void setItemThirdCode(String itemThirdCode) {
+		this.itemThirdCode = itemThirdCode;
+	}
+
+	public String getItemFourthCode() {
+		return itemFourthCode;
+	}
+
+	public void setItemFourthCode(String itemFourthCode) {
+		this.itemFourthCode = itemFourthCode;
 	}
 
 	@Override

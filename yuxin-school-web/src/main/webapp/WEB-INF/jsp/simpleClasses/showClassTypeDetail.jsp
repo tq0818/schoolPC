@@ -28,13 +28,22 @@
             <div class="s-title"><h2 class="h6">基本信息</h2></div>
             <div class="c-content">
                 <p class="c">
-                    <span class="c-title">学科</span>
+                    <span class="c-title">大类</span>
                     <span class="c-content"><input type="text" class="readonly" value="${ct.itemOneName }" readonly></span>
                 </p>
                 <p class="c">
-                    <span class="c-title">学科小类</span>
+                    <span class="c-title">学段</span>
                     <span class="c-content"><input type="text" class="readonly" value="${ct.itemSecondName }" readonly></span>
                 </p>
+                <p class="c">
+                    <span class="c-title">学科</span>
+                    <span class="c-content"><input type="text" class="readonly" value="${ct.itemThirdName }" readonly></span>
+                </p>
+                <p class="c">
+                    <span class="c-title">知识点</span>
+                    <span class="c-content"><input type="text" class="readonly" value="${ct.itemFourthName }" readonly></span>
+                </p>
+
                 <p class="c">
                     <span class="c-title">课程名称</span>
                     <span class="c-content" title="${ct.name }">

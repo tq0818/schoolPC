@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/decorators/import.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -57,8 +56,13 @@
 			<div class="heading">
 	            <h2 class="h5">学科</h2>
 	            <span class="line"></span>
+				<div class="tab-sub-title pos_a">
+					<span class="tab-type active" href=".man_metadata">元数据管理</span>
+					<span class="tab-type" href=".man_directoryTree">目录树管理</span>
+				</div>
 	        </div>
-	        <div id="loadData"></div>
+	        <div id="loadData" class="man_metadata tab-info-content"></div>
+			<div class="man_directoryTree tab-info-content" id="man_directoryTree"></div>
 		</div>
 	</div>
 	
@@ -82,6 +86,24 @@ $(function(){
 });
 </script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery-ui.js"></script>
-
+	<script type="text/javascript">
+		$(".tab-sub-title").delegate(".tab-type","click",function(){
+			$(this).addClass("active").siblings().removeClass("active");
+			var href = $(this).attr("href");
+			$(".tab-info-content").hide();
+			if($("#man_directoryTree").html()==""){
+				$.ajax({
+					type:'post',
+					url:'/itemTree/itemTree',
+					success:function (data) {
+						if(data){
+							$("#man_directoryTree").html(data);
+						}
+					}
+				})
+			}
+			$(href).show();
+		})
+	</script>
 </body>
 </html>

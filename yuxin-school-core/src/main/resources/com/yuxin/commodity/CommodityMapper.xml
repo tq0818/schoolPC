@@ -198,7 +198,7 @@
 			<if test="itemOneCode != null and itemOneCode != ''">item_one_code = #{itemOneCode},</if>
 			<if test="itemSecondCode != null and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
 			<if test="itemThirdCode != null and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
-			<if test="itemFourthCode != null and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
+			item_fourth_code = #{itemFourthCode},
 		</trim>
 		<where>id = #{id}</where>
 	</update>

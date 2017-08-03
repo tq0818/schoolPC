@@ -453,6 +453,10 @@
 		<if test="liveFlag != null and liveFlag != ''">and a.live_flag = ${liveFlag}</if>
 		<if test="videoFlag != null and videoFlag != ''">and a.video_flag = ${videoFlag}</if>
 		<if test="remoteFlag != null and remoteFlag != ''">and a.remote_flag = ${remoteFlag}</if>
+		<if test="itemOneCode != null and itemOneCode != ''">and a.item_one_code = #{itemOneCode}</if>
+		<if test="itemSecondCode != null and itemSecondCode != ''">and a.item_second_code = #{itemSecondCode}</if>
+		<if test="itemThirdCode != null and itemThirdCode != ''">and a.item_third_id = #{itemThirdCode}</if>
+		<if test="itemFourthCode != null and itemFourthCode != ''">and a.item_fourth_id = #{itemFourthCode}</if>
 		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
 		limit #{firstIndex},#{pageSize}
 	</select>
@@ -474,6 +478,10 @@
 		<if test="liveFlag != null and liveFlag != ''">and live_flag = ${liveFlag}</if>
 		<if test="videoFlag != null and videoFlag != ''">and video_flag = ${videoFlag}</if>
 		<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = ${remoteFlag}</if>
+		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code = #{itemOneCode}</if>
+		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
+		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_id = #{itemThirdCode}</if>
+		<if test="itemFourthCode != null and itemFourthCode != ''">and item_fourth_id = #{itemFourthCode}</if>
 	</select>
 	
 	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">

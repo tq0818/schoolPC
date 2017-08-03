@@ -29,4 +29,6 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
     List<SysConfigItemRelation> findFirstLevelFront();
 
     List<SysConfigItemRelation> findChildrenFront(SysConfigItemRelation item);
+
+    List<SysConfigItemRelation> findAllItemFront();
 }

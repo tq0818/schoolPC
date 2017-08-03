@@ -15,6 +15,8 @@
 <body style="position:relative;">
 <input type="hidden" id="one" value="${itemOneId }"/>
 <input type="hidden" id="two" value="${itemSecondId }"/>
+<input type="hidden" id="three" value="${itemOneId }"/>
+<input type="hidden" id="four" value="${itemSecondId }"/>
 <jsp:include page="/WEB-INF/jsp/menu/menu_class.jsp"></jsp:include>
 <!-- 二级导航 -->
 <div class="full-wrap navbar smbar">
@@ -33,53 +35,88 @@
     <div class="mainbackground nopadding">
         <div class="classes-type">
             <p class="c">
-                <span class="t-title">学科</span>
-                <span class="t-content" id="itemOneList">
-                   <c:forEach items="${firstItems }" var="itemOne" varStatus="status">
-	                   <c:if test="${status.count==1 }">
-	                   		 <a href="javascript:Form.queryItemSecond(${itemOne.id });" ids="${itemOne.id }" class="btn btn-mini btn-default btn-success">${itemOne.itemName }</a>
-	                   </c:if>
-	                   <c:if test="${status.count!=1 }">
-	                   		 <a href="javascript:Form.queryItemSecond(${itemOne.id });" ids="${itemOne.id }" class="btn btn-mini btn-default">${itemOne.itemName }</a>
-	                   </c:if>
+                <span class="t-title">大类</span>
+                <span class="t-content" id="itemOneCodeList">
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1,'all');" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
+                   <c:forEach items="${firstItem }" var="type" varStatus="status">
+                           <a href="javascript:Form.queryAllCommdityByItemNew(1,'${type.itemCode }');" data-code="${type.itemCode }" class="btn btn-mini btn-default">${type.itemName }</a>
                    </c:forEach>
                 </span>
             </p>
             <p class="c">
-                <span class="t-title">学科小类</span>
-                <span class="t-content" id="itemSecondList">
-                	
-                </span>
-            </p>
-            <p class="c labeSets none">
-                <span class="t-title">标签</span>
-                <span class="t-content" id="labelLists">
-                	
-                </span>
-            </p>
-             <p class="c labeSecondeSets none">
-                <span class="t-title">二级标签</span>
-                <span class="t-content" id="labelSecondLists">
-                	
+                <span class="t-title">学段</span>
+                <span class="t-content" id="itemSecondCodeList">
+                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all" class="btn btn-mini btn-default btn-success">全部</a>
+                   <c:forEach items="${secondItem }" var="second" varStatus="status">
+                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${second.itemCode }" class="btn btn-mini btn-default">${second.itemName }</a>
+                   </c:forEach>
                 </span>
             </p>
             <p class="c">
+                <span class="t-title">学科</span>
+                <span class="t-content" id="itemThirdCodeList">
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
+                   <c:forEach items="${thirdItem }" var="third" varStatus="status">
+                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${third.itemCode }"  class="btn btn-mini btn-default">${third.itemName }</a>
+                   </c:forEach>
+                </span>
+            </p>
+            <p class="c">
+                <span class="t-title">知识点</span>
+                <span class="t-content" id="itemFourthCodeList">
+                   <c:forEach items="${fourthItem }" var="fourth" varStatus="status">
+                           <a href="javascript:;" data-code="${fourth.itemCode }"  class="btn btn-mini btn-default">${fourth.itemName }</a>
+                   </c:forEach>
+                </span>
+            </p>
+            <%--<p class="c">--%>
+                <%--<span class="t-title">学科</span>--%>
+                <%--<span class="t-content" id="itemOneList">--%>
+                   <%--<c:forEach items="${firstItems }" var="itemOne" varStatus="status">--%>
+	                   <%--<c:if test="${status.count==1 }">--%>
+	                   		 <%--<a href="javascript:Form.queryItemSecond(${itemOne.id });" ids="${itemOne.id }" class="btn btn-mini btn-default btn-success">${itemOne.itemName }</a>--%>
+	                   <%--</c:if>--%>
+	                   <%--<c:if test="${status.count!=1 }">--%>
+	                   		 <%--<a href="javascript:Form.queryItemSecond(${itemOne.id });" ids="${itemOne.id }" class="btn btn-mini btn-default">${itemOne.itemName }</a>--%>
+	                   <%--</c:if>--%>
+                   <%--</c:forEach>--%>
+                <%--</span>--%>
+            <%--</p>--%>
+            <%--<p class="c">--%>
+                <%--<span class="t-title">学科小类</span>--%>
+                <%--<span class="t-content" id="itemSecondList">--%>
+                	<%----%>
+                <%--</span>--%>
+            <%--</p>--%>
+            <%--<p class="c labeSets none">--%>
+                <%--<span class="t-title">标签</span>--%>
+                <%--<span class="t-content" id="labelLists">--%>
+                	<%----%>
+                <%--</span>--%>
+            <%--</p>--%>
+             <%--<p class="c labeSecondeSets none">--%>
+                <%--<span class="t-title">二级标签</span>--%>
+                <%--<span class="t-content" id="labelSecondLists">--%>
+                	<%----%>
+                <%--</span>--%>
+            <%--</p>--%>
+            <p class="c">
                 <span class="t-title">状态</span>
                 <span class="t-content" id="statusList">
-                	<a href="javascript:Form.queryAllCommdityByItem(1,null,null)" class="btn btn-mini btn-default btn-success">全部</a>
-                    <a href="javascript:Form.queryAllCommdityByItem(1,null,null,'CLASS_UNPUBLISHED');" ids="CLASS_UNPUBLISHED" class="btn btn-mini btn-default">未上架</a>
-                    <a href="javascript:Form.queryAllCommdityByItem(1,null,null,'CLASS_ON_SALE');" ids="CLASS_ON_SALE" class="btn btn-mini btn-default">招生中</a>
-                    <a href="javascript:Form.queryAllCommdityByItem(1,null,null,'CLASS_STOP_SALE');" ids="CLASS_STOP_SALE" class="btn btn-mini btn-default">已下架</a>
+                	<a href="javascript:Form.queryAllCommdityByItemNew(1)" ids="all" class="btn btn-mini btn-default btn-success">全部</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="CLASS_UNPUBLISHED" class="btn btn-mini btn-default">未上架</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="CLASS_ON_SALE" class="btn btn-mini btn-default">招生中</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="CLASS_STOP_SALE" class="btn btn-mini btn-default">已下架</a>
                 </span>
             </p>
             <p class="c">
                 <span class="t-title">授课方式</span>
                 <span class="t-content" id="flagList">
-                	<a href="javascript:Form.queryCommdityByFlag(1)" class="btn btn-mini btn-default btn-success">全部</a>
-                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_LIVE" class="btn btn-mini btn-default">直播</a>
-                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_VIDEO" class="btn btn-mini btn-default">录播</a>
-                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_FACE" class="btn btn-mini btn-default">面授</a>
-                    <a href="javascript:Form.queryCommdityByFlag(1,null);" ids="IS_REMOTE" class="btn btn-mini btn-default">其他</a>
+                	<a href="javascript:Form.queryAllCommdityByItemNew(1)" ids="all" class="btn btn-mini btn-default btn-success">全部</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_LIVE" class="btn btn-mini btn-default">直播</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_VIDEO" class="btn btn-mini btn-default">录播</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_FACE" class="btn btn-mini btn-default">面授</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_REMOTE" class="btn btn-mini btn-default">其他</a>
                 </span>
             </p>
         </div>

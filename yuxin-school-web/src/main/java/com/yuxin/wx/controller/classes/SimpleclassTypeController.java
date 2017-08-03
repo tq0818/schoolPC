@@ -190,9 +190,47 @@ public class SimpleclassTypeController {
 	 * @return
 	 */
 	@RequestMapping(value="/showClassTypePage",method=RequestMethod.GET)
-	public String showClassTypePage(Model model){
+	public String showClassTypePage(Model model,HttpServletRequest request){
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
 		model.addAttribute("firstItems", firstItems);
+
+		SysConfigItemRelation relation = new SysConfigItemRelation();
+		relation.setId(null);
+		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront();
+		SysConfigItem item = new SysConfigItem();
+		item.setCompanyId(WebUtils.getCurrentCompanyId());
+		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+		item.setItemType("2");
+		List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+		List<SysConfigItemRelation> firstItem =new ArrayList<SysConfigItemRelation>();
+		List<SysConfigItemRelation> secondItem = new ArrayList<SysConfigItemRelation>();
+		List<SysConfigItemRelation> thirdItem = new ArrayList<SysConfigItemRelation>();
+		List<SysConfigItemRelation> fourthItem = new ArrayList<SysConfigItemRelation>();
+		for(SysConfigItemRelation re : relations){
+			if(re.getLevel()==0){
+				firstItem.add(re);
+			}else if(re.getLevel()==1){
+				secondItem.add(re);
+			}else if(re.getLevel()==2){
+				thirdItem.add(re);
+			}else if(re.getLevel()==3){
+				re.setItemName(re.getItemCode());
+				fourthItem.add(re);
+			}
+			for(SysConfigItem name :names){
+				if(re.getItemCode().equals(name.getItemCode())){
+					re.setItemName(name.getItemName());
+					break;
+				}
+			}
+		}
+
+
+		model.addAttribute("typeItems", relations);
+		model.addAttribute("firstItem", firstItem);
+		model.addAttribute("secondItem", secondItem);
+		model.addAttribute("thirdItem", thirdItem);
+		model.addAttribute("fourthItem", fourthItem);
 		return "simpleClasses/classIndex";
 	}
 	

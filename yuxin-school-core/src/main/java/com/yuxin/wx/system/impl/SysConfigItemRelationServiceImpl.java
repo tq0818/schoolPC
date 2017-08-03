@@ -70,6 +70,11 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
+    public List<SysConfigItemRelation> findAllItemFront() {
+        return sysConfigItemRelationMapper.findAllItemFront();
+    }
+
+    @Override
     public List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
         if(id==null){

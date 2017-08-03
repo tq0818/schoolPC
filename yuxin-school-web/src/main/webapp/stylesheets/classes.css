@@ -34,3 +34,4 @@
 .subject-main-content .block .b-content ul li span.b{display: block}
 .subject-main-content .block.active .b-content ul li span.b i{display: none;}
 .subject-main-content .block.active:hover .b-content ul li span.b i{display: inline-block}
+.man_directoryTree{display:none;}

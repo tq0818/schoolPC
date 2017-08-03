@@ -21,16 +21,12 @@
         <span class="tab-type" href=".tab2">目录树管理</span>
     </div>--%>
     <div class="cntr tab1 tab-info">
-
         <div class="top"><input type="button" value="发布生效" id="publishRelation"></div>
-
         <div class="content">
-
             <div class="tree_cntr">
                 <input id="addCatg" type="button" value="添加类型">
                 <div id="ztree" class="ztree"></div>
             </div>
-
             <div class="tree_setting">
                 <div class="tree-listtype" id="bigType">
                     <label>大类：</label>
@@ -43,9 +39,6 @@
                     <c:forEach items="${subjectList}" var="subject">
                         <label>${subject.itemName}<input type="checkbox" value="${subject.itemCode}" name="course"></label>
                     </c:forEach>
-                    <%--<label>语文<input type="checkbox" value="yuwen" name="course"></label>--%>
-                    <%--<label>数学<input type="checkbox" value="shuxue" name="course"></label>--%>
-                    <%--<label>英语<input type="checkbox" value="yingyu" name="course"></label>--%>
                 </div>
                 <div id="periods" class="tree-listtype">
                     <label>学段：</label>
@@ -56,16 +49,13 @@
                 <div id="topic" class="tree-listtype">
                     <label>知识点：</label>
                     <input name="itemCode" type="text">
-                   <%-- <input id="addTopic" type="button" value="添加">--%>
                 </div>
                 <div class="btn-list">
                     <button class="btn btn-default" id="savabtn">保存</button>
                 </div>
             </div>
         </div>
-
     </div>
-<%--    <div class="tab2 tab-info">11222222222222222222222222</div>--%>
 </body>
 
 </html>

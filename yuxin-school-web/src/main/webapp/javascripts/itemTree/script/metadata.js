@@ -49,7 +49,8 @@ var setting = {
         beforeRemove: beforeRemove,
         onDblClick: onNodeDblClick,
         onClick: onSelected,
-       onExpand: onExpandClick,
+       //onExpand: onExpandClick,
+        onAsyncSuccess: zTreeOnAsyncSuccess,
         onRemove: zTreeOnRemove
     }
 };
@@ -86,10 +87,10 @@ function zTreeOnRemove(event, treeId, treeNode) {
         }
     });
 }
-function showRenameBtn(treeId, treeNode) {
+/*function showRenameBtn(treeId, treeNode) {
     return !treeNode.getParentNode() || treeNode.level == 3;
-}
-function onExpandClick(event, treeId, treeNode){
+}*/
+function zTreeOnAsyncSuccess(event, treeId, treeNode){
     var childrenArr = ztree.transformToArray(treeNode.children);
     console.log(treeNode);
     $(childrenArr).each(function() {

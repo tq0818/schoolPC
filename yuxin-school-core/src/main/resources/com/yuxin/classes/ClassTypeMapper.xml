@@ -458,7 +458,7 @@
 		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and a.item_third_code = #{classType.itemThirdCode}</if>
 		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">and a.item_fourth_code = #{classType.itemFourthCode}</if>
 		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
-		limit #{firstIndex},#{pageSize}
+		limit #{classType.firstIndex},#{classType.pageSize}
 	</select>
 	
 	

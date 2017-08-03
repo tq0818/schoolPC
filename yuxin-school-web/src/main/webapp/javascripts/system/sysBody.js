@@ -81,7 +81,7 @@
 		                    '<div class="themes-content">'+
 		                    '</div>'+
 		                    '<div class="themes-btns">'+
-		                    '<a class="left '+ (sys_templete_count != 6?'use':'useIt')+'" href="javascript:;">应用</a>'+
+		                    '<a class="left '+ ((sys_templete_count != 6  && sys_templete_count != 7)?'use':'useIt')+'" href="javascript:;">应用</a>'+
 		                    '<a class="right '+ ((sys_templete_count != 6 && sys_templete_count != 7)?'config':'fashion')+'" href="javascript:;" '+(sys_templete_count == 7 ?'newECFlag="newECFlag"':'')+'>设计模板</a></div>'+
 		                    '</li>';
 							$(html).appendTo($(".sysmodules").find(".themes-list ul"));
@@ -452,7 +452,7 @@
 				type:"post",
 				dataType:"json",
 				success:function(data){
-					$(".sysmodules").find(".themes-list ul").find("#"+data.templateId).find(".picture").append('<div class="curr">当前使用2</div>');
+					$(".sysmodules").find(".themes-list ul").find("#"+data.templateId).find(".picture").append('<div class="curr">当前使用</div>');
 				}
 			})
 			

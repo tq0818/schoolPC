@@ -15,4 +15,6 @@ public interface SysConfigIndexPageTemplateMapper extends BaseMapper<SysConfigIn
 	List<SysConfigIndexPageTemplate> findBySearch(SysConfigIndexPageTemplate search);
 	
 	
+	List<SysConfigIndexPageTemplate> findBySearchBymoduleType(SysConfigIndexPageTemplate search);
+	
 }

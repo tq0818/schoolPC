@@ -70,7 +70,7 @@
 					//系统模板
 					for(var x = 0; x < sys.length ; x++){
 						data = sys[x];
-						if(sys_templete_count<3 || sys_templete_count==6){
+						if(sys_templete_count<3 || sys_templete_count==6 || sys_templete_count==7){
 							/*****这是系统模板******/
 							var html='<li class="module sysmodule" id="'+data.id+'">'+
 		                    '<div class="picture">'+
@@ -82,7 +82,7 @@
 		                    '</div>'+
 		                    '<div class="themes-btns">'+
 		                    '<a class="left '+ (sys_templete_count != 6?'use':'useIt')+'" href="javascript:;">应用</a>'+
-		                    '<a class="right '+ (sys_templete_count != 6?'config':'fashion')+'" href="javascript:;">设计模板</a></div>'+
+		                    '<a class="right '+ ((sys_templete_count != 6 && sys_templete_count != 7)?'config':'fashion')+'" href="javascript:;" '+(sys_templete_count == 7 ?'newECFlag="newECFlag"':'')+'>设计模板</a></div>'+
 		                    '</li>';
 							$(html).appendTo($(".sysmodules").find(".themes-list ul"));
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".themes-content").html(captions[n]);
@@ -274,7 +274,14 @@
 
 			}).on('click','.fashion',function(){
 				var schoolId = $('.single .sc-type').find('.btn-success').attr('id');
-				var form='<form action="'+rootPath+'/sysConfigIndexPageTemplate/indexPageConfig" method="post"><input type="hidden" id="schoolId" name="schoolId" value="'+ schoolId +'"/></form>';
+				var ecFlag = $(this).attr("newECFlag");
+				var form;
+				if(ecFlag == "newECFlag"){
+					form ='<form action="'+rootPath+'/sysConfigIndexPageTemplate/indexPageConfig?newECFlag=newECFlag" method="post"><input type="hidden" id="schoolId" name="schoolId" value="'+ schoolId +'"/></form>';
+				}else{
+					form ='<form action="'+rootPath+'/sysConfigIndexPageTemplate/indexPageConfig" method="post"><input type="hidden" id="schoolId" name="schoolId" value="'+ schoolId +'"/></form>';
+				}
+				
 				$(form).appendTo('body').submit();
 			});
 		},
@@ -445,7 +452,7 @@
 				type:"post",
 				dataType:"json",
 				success:function(data){
-					$(".sysmodules").find(".themes-list ul").find("#"+data.templateId).find(".picture").append('<div class="curr">当前使用</div>');
+					$(".sysmodules").find(".themes-list ul").find("#"+data.templateId).find(".picture").append('<div class="curr">当前使用2</div>');
 				}
 			})
 			

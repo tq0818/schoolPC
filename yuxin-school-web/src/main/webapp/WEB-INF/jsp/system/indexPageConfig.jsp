@@ -23,7 +23,7 @@
 	    <div class="operate_live_heading" style="display:none">
 	    </div>
 	    <div class="mainbackground schWorkT">
-	        <div class="heading" data-school-id="${schoolId}">
+	        <div class="heading" data-school-id="${schoolId}" data-new-e-c-flag="${newECFlag}">
 	            <h2 class="h5">模板设置</h2>
 	            <span class="line"></span>
 	            <span class="rb">
@@ -389,6 +389,118 @@
 	                            </ul>
 	                        </form>
 	                    </div>
+	                     <!--最近直播-->
+	                    <div class="swConText nowClass" style="display: none;" data-id="11">
+	                        <h3>最近直播</h3>
+	                        <form action="">
+	                            <ul class="swFormList">
+	                                <li class="clear">
+	                                    <h4 class="fl">自定义名称</h4>
+	                                    <p class="fr">
+	                                        <input type="text" name="" class="swText" placeholder="">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <h4 class="fl">直播数量</h4>
+	                                    <p class="fr">
+	                                        <input type="button" data-limit="3" value="3" class="swChioceBut active">
+	                                        <input type="button" data-limit="6" value="6" class="swChioceBut">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <!--<h4 class="fl">上传图片</h4>-->
+	                                    <p class="fr">
+	                                        <input type="button" value="保存" class="swSaveBut">
+	                                    </p>
+	                                </li>
+	                            </ul>
+	                        </form>
+	                    </div>
+	                    
+	                     <!--精品微课-->
+	                    <div class="swConText nowClass" style="display: none;" data-id="12">
+	                        <h3>精品微课</h3>
+	                        <form action="">
+	                            <ul class="swFormList">
+	                                <li class="clear">
+	                                    <h4 class="fl">自定义名称</h4>
+	                                    <p class="fr">
+	                                        <input type="text" name="" class="swText" placeholder="">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <h4 class="fl">微课数量</h4>
+	                                    <p class="fr">
+	                                        <input type="button" data-limit="3" value="3" class="swChioceBut active">
+	                                        <input type="button" data-limit="6" value="6" class="swChioceBut">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <!--<h4 class="fl">上传图片</h4>-->
+	                                    <p class="fr">
+	                                        <input type="button" value="保存" class="swSaveBut">
+	                                    </p>
+	                                </li>
+	                            </ul>
+	                        </form>
+	                    </div>
+	                    
+	                      <!--专题课堂-->
+	                    <div class="swConText nowClass" style="display: none;" data-id="13">
+	                        <h3>专题课堂</h3>
+	                        <form action="">
+	                            <ul class="swFormList">
+	                                <li class="clear">
+	                                    <h4 class="fl">自定义名称</h4>
+	                                    <p class="fr">
+	                                        <input type="text" name="" class="swText" placeholder="">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <h4 class="fl">专题数量</h4>
+	                                    <p class="fr">
+	                                        <input type="button" data-limit="2" value="2" class="swChioceBut active">
+	                                        <input type="button" data-limit="4" value="4" class="swChioceBut">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <!--<h4 class="fl">上传图片</h4>-->
+	                                    <p class="fr">
+	                                        <input type="button" value="保存" class="swSaveBut">
+	                                    </p>
+	                                </li>
+	                            </ul>
+	                        </form>
+	                    </div>
+	                    
+	                      <!--名师推荐-->
+	                    <div class="swConText nowClass" style="display: none;" data-id="14">
+	                        <h3>名师推荐</h3>
+	                        <form action="">
+	                            <ul class="swFormList">
+	                                <li class="clear">
+	                                    <h4 class="fl">自定义名称</h4>
+	                                    <p class="fr">
+	                                        <input type="text" name="" class="swText" placeholder="">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <h4 class="fl">名师数量</h4>
+	                                    <p class="fr">
+	                                        <input type="button" data-limit="4" value="4" class="swChioceBut active">
+	                                        <input type="button" data-limit="8" value="8" class="swChioceBut">
+	                                    </p>
+	                                </li>
+	                                <li class="clear">
+	                                    <!--<h4 class="fl">上传图片</h4>-->
+	                                    <p class="fr">
+	                                        <input type="button" value="保存" class="swSaveBut">
+	                                    </p>
+	                                </li>
+	                            </ul>
+	                        </form>
+	                    </div>
+	                    
 	                </div>
 	            </div>
 	        </div>

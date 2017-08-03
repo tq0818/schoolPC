@@ -137,5 +137,11 @@ public class SysConfigIndexPageTemplateServiceImpl extends BaseServiceImpl imple
 	@Override
 	public List<SysConfigIndexPageTemplate> findBySearch(SysConfigIndexPageTemplate search){
 		return sysConfigIndexPageTemplateMapper.findBySearch(search);
+	}
+
+	@Override
+	public List<SysConfigIndexPageTemplate> findBySearchBymoduleType(SysConfigIndexPageTemplate search){
+		List<SysConfigIndexPageTemplate> list = sysConfigIndexPageTemplateMapper.findBySearchBymoduleType(search);
+		return list;
 	};
 }

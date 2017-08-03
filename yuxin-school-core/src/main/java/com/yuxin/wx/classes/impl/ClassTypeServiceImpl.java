@@ -349,7 +349,7 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 				comm.setRemoteFlag(0);
 			}
 		}
-		int rowCount=classTypeMapper.queryCounts(search);
+		int rowCount=classTypeMapper.queryCounts(map);
 		PageFinder<ClassTypeVo> pageFinder=new PageFinder<ClassTypeVo>(search.getPage(), search.getPageSize(), rowCount, data);
 		return pageFinder;
 		
@@ -490,8 +490,8 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	}
 
 	@Override
-	public int countSubjectClassOrder(Integer itemOneId) {
-		int count = classTypeMapper.countSubjectClassOrder(itemOneId);
+	public int countSubjectClassOrder(String itemOneCode) {
+		int count = classTypeMapper.countSubjectClassOrder(itemOneCode);
 		return count;
 	}
 }

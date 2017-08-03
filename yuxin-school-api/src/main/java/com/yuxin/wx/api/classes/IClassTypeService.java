@@ -439,5 +439,5 @@ public interface IClassTypeService  {
 	 * 获取当前学科课程排序总数
 	 * @return
 	 */
-	int countSubjectClassOrder(Integer itemOenId);
+	int countSubjectClassOrder(String itemOenCode);
 }

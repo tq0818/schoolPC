@@ -26,7 +26,7 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	List<ClassType> findByItem(Map<String, Integer> map);
 	
 	List<ClassTypeVo> queryClassTypesByPage(Map<String,Object> map);
-	int queryCounts(ClassType search);
+	int queryCounts(Map<String, Object> search);
 	List<ClassType> findByRemote(Integer id);
 	List<ClassType> findByModule(Integer id);
 	ClassType queryClassTypeByName(String name);
@@ -121,5 +121,5 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	 */
 	int updateSubjectClassOrder(ClassType cp);
 	
-	int countSubjectClassOrder(Integer itemOenId);
+	int countSubjectClassOrder(String itemOenId);
 }

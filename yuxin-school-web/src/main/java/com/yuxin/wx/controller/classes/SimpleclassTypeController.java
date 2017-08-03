@@ -275,7 +275,7 @@ public class SimpleclassTypeController {
 		}
 		model.addAttribute("pageFinder", pageFinder);
 		model.addAttribute("searchName", search.getName());
-		int orderCount = classTypeServiceImpl.countSubjectClassOrder(search.getItemOneId());
+		int orderCount = classTypeServiceImpl.countSubjectClassOrder(search.getItemOneCode());
 		model.addAttribute("orderCount", orderCount);
 		return "simpleClasses/classIndexAjaxList";
 	} 

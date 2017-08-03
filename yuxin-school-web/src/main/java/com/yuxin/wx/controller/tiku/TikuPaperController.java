@@ -13,6 +13,8 @@ import com.yuxin.wx.model.system.SysConfigTeacher;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -202,6 +204,9 @@ public class TikuPaperController {
             }
 
         }
+        Subject subject = SecurityUtils.getSubject();
+        System.out.println(subject.hasRole("机构管理员"));
+        System.out.println(subject.hasRole("试卷审核员"));
         model.addAttribute("pageFinder", pageFinder);
         return "tiku/paper/paperAjax";
     }

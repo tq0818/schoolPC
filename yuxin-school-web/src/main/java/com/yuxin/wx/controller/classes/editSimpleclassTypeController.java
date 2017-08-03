@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.system.ISysConfigItemRelationService;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -90,7 +92,8 @@ public class editSimpleclassTypeController {
     private ICompanyFunctionSetService companyFunctionSetServiceImpl;
     @Autowired
     private ICoursePotocolBindHistoryService coursePotocolBindHistoryServiceImpl;
-
+    @Autowired
+    private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
     /**
      * 编辑班型(第一步)
      *
@@ -109,6 +112,25 @@ public class editSimpleclassTypeController {
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
+        SysConfigItemRelation relation = new SysConfigItemRelation();
+        relation.setId(null);
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        item.setParentCode("TYPE");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations){
+            for(SysConfigItem name :names){
+                if(re.getItemCode().equals(name.getItemCode())){
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("typeItems", relations);
         boolean flag = this.companyFunctionSetServiceImpl.isCurrentFuSheng(WebUtils.getCurrentCompanyId());
         Subject subject = SecurityUtils.getSubject();
         Users currentUser = WebUtils.getCurrentUser();
@@ -185,7 +207,7 @@ public class editSimpleclassTypeController {
     }
 
     @RequestMapping(value = "/editClassBaseInfo/{id}/{lable}")
-    public String editClassBaseInfo(Model model, @PathVariable Integer id, @PathVariable String lable) {
+    public String editClassBaseInfo( HttpServletRequest request,  Model model, @PathVariable Integer id, @PathVariable String lable) {
         // 根据班型id查询详情
         Map<String, String> map = new HashMap<String, String>();
         map.put("classId", "" + id);
@@ -194,6 +216,25 @@ public class editSimpleclassTypeController {
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
         model.addAttribute("lable", lable);
+        SysConfigItemRelation relation = new SysConfigItemRelation();
+        relation.setId(null);
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        item.setParentCode("TYPE");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations){
+            for(SysConfigItem name :names){
+                if(re.getItemCode().equals(name.getItemCode())){
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("typeItems", relations);
         if (null != classType) {
             if (classType.getLiveFlag() == 1 && classType.getFaceFlag() == 1) {
                 model.addAttribute("ftype", "live,face");
@@ -587,6 +628,10 @@ public class editSimpleclassTypeController {
         commodity.setId(commodityProductRealtion.getComId());
         commodity.setUpdator(WebUtils.getCurrentUserId(request));
         commodity.setUpdateTime(new Date());
+        commodity.setItemOneCode(ct.getItemOneCode());
+        commodity.setItemSecondCode(ct.getItemSecondCode());
+        commodity.setItemThirdCode(ct.getItemThirdCode());
+        commodity.setItemFourthCode(ct.getItemFourthCode());
         commodity.setBaseNum(ct.getBaseNum());
         commodity.setOriginalPrice(ct.getOriginalPrice());
         commodity.setRealPrice(ct.getRealPrice());

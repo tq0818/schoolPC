@@ -42,6 +42,10 @@
 		<result property="protocolId" column="protocol_id"/>
 		<result property="iconLable" column="icon_lable"/>
 	    <result property="subjectClassOrder" column="subject_class_order"/>
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
@@ -54,8 +58,14 @@
 		<result property="schoolsId" column="schools_id" />
 		<result property="itemOneId" column="item_one_id" />
 		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
 		<result property="itemOneName" column="item_one_name" />
 		<result property="itemSecondName" column="item_second_name" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="itemThirdName" column="item_third_name" />
+		<result property="itemFourthName" column="item_fourthd_name" />
 		<result property="description" column="description" />
 		<result property="publishStatus" column="publish_status" />
 		<result property="publishTime" column="publish_time" />
@@ -132,7 +142,11 @@
 		member_flag,
 		buy_num_max,
 		protocol_id,
-		icon_lable
+		icon_lable,
+		item_one_code,
+		item_second_code,
+		item_third_code,
+		item_fourth_code
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -174,7 +188,11 @@
 		#{memberFlag},
 		#{buyNumMax},
 		#{protocolId},
-		#{iconLable}
+		#{iconLable},
+		#{itemOneCode},
+		#{itemSecondCode},
+		#{itemThirdCode},
+		#{itemFourthCode}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -217,7 +235,11 @@
 		#{item.memberFlag},
 		#{item.buyNumMax},
 		#{item.protocolId},
-		#{item.iconLable}
+		#{item.iconLable},
+		#{item.itemOneCode},
+		#{item.itemSecondCode},
+		#{item.itemThirdCode},
+		#{item.itemFourthCode}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -291,6 +313,10 @@
 			<if test="buyNumMax != null">buy_num_max = #{buyNumMax},</if>
 			<if test="protocolId != null">protocol_id = #{protocolId},</if>
 			<if test="iconLable != null">icon_lable = #{iconLable},</if>
+			<if test="itemOneCode != null  and itemOneCode != ''">item_one_code = #{itemOneCode},</if>
+			<if test="itemSecondCode != null  and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
+			<if test="itemThirdCode != null  and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
+			<if test="itemFourthCode != null  and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
 		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
 		    
 		 </trim>
@@ -359,14 +385,15 @@
 		SELECT 
 		  a.*,
 		  b.item_name AS itemOneName,
-		  c.item_name AS itemSecondName 
+		  c.item_name AS itemSecondName,
+		  d.item_name AS itemThirdName,
+		 a.item_fourth_code AS itemFourthName
 		FROM
-		  class_type a,
-		  sys_config_item b,
-		  sys_config_item c 
+		  class_type a
+		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
 		where a.id = #{classId}
-		and a.item_one_id = b.id 
-		and c.id = a.item_second_id
 		limit 1
 	</select>
 	<select id="findListByItem" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >

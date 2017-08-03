@@ -28,7 +28,9 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_class.jsp"></jsp:include>
-<input type="hidden" id="twoSecItemId" value="${itemSecondId }"/>
+<input type="hidden" id="twoSecItemCode" value="${classType.itemSecondCode }"/>
+<input type="hidden" id="itemThirdCode" value="${classType.itemThirdCode }"/>
+<input type="hidden" id="itemFourthCode" value="${classType.itemFourthCode }"/>
 <%@include file="/WEB-INF/jsp/classType/commonTitle.jsp" %>
 <div class="u-wrap company overflow points-use-class">
 	 <%@include file="/WEB-INF/jsp/simpleClasses/commonClass.jsp" %>
@@ -43,54 +45,54 @@
         <div class="c-main">
             <div class="c-content">
                 <p class="c">
-                    <span class="c-title">学科</span>
+                    <span class="c-title">大类</span>
                     <span class="c-content">
-                        <c:choose>
-                    	<c:when test="${!empty firstItems }">
-                    		<select name="itemOneId" id="itemOneList" onchange="Form.queryItemSecond()">
-	                        	<c:forEach items="${firstItems }" var="itemOne" varStatus="status">
-	                        		<c:if test="${itemOne.id==itemOneId }">
-	                        			<option selected="selected" value="${itemOne.id }">${itemOne.itemName }</option>
-	                        		</c:if>
-	                               <c:if test="${itemOne.id!=itemOneId }">
-	                        			<option value="${itemOne.id }">${itemOne.itemName }</option>
-	                        		</c:if>
-	                            </c:forEach>
-	                        </select>
-                    	</c:when>
-                    	<c:otherwise>
-                    		<input type="hidden" class="readonly" id="itemOneName" marks="${classType.itemOneId }" value="${classType.itemOneName }" readonly>
-                    		${classType.itemOneName }
-                    	</c:otherwise>
-                    </c:choose>
+                        <select name="itemOneCode" id="itemOneCodeList" onchange="Form.queryItemSecond()">
+                        	<c:forEach items="${typeItems }" var="type" varStatus="status">
+                                <c:if test="${type.itemCode==classType.itemOneCode }">
+                                    <option selected="selected" value="${type.itemCode }" data-id="${type.id}">${type.itemName }</option>
+                                </c:if>
+                                <c:if test="${type.itemCode!=classType.itemOneCode }">
+                                    <option value="${type.itemCode }" data-id="${type.id}">${type.itemName }</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+                         <c:if test="${empty typeItems }">
+                             <input type="text" class="readonly" id="itemOneName" marks="${classType.itemOneCode }" value="${classType.itemOneName }" readonly>
+                         </c:if>
                     </span>
                 </p>
                 <p class="c">
-                    <span class="c-title">学科小类</span>
+                    <span class="c-title">学段</span>
                     <span class="c-content">
-                        <c:choose>
-                    		<c:when test="${!empty firstItems }">
-                    			<select name="itemSecondId" id="itemSecondList">
-                         
-                        		</select>
-                    		</c:when>
-                    		<c:otherwise>
-                    			<input type="hidden" class="readonly" id="itemSecondName" marks="${classType.itemSecondId }" value="${classType.itemSecondName}" readonly/>
-                    			${classType.itemSecondName}
-                    		</c:otherwise>
-                    	</c:choose>
+                        <select name="itemSecondCode" id="itemSecondCodeList" onchange="Form.queryItemThird()">
+
+                        </select>
+                        <c:if test="${empty typeItems }">
+                            <input type="text" class="readonly" id="itemSecondName" marks="${classType.itemSecondCode }" value="${classType.itemSecondName}" readonly/>
+                        </c:if>
                     </span>
                 </p>
-               <p class="c" id="labeSets">
-                    <span class="c-title">所属标签</span>
+                <p class="c">
+                    <span class="c-title">学科</span>
                     <span class="c-content">
-                        <select class="itemTagLists" id="itemTagLists_one" style="width:150px;"></select>
+                        <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList()">
+
+                        </select>
+                        <c:if test="${empty typeItems }">
+                            <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>
+                        </c:if>
                     </span>
                 </p>
-                 <p class="c" id="labeSecondSets">
-                    <span class="c-title">二级标签</span>
+                <p class="c">
+                    <span class="c-title">知识点</span>
                     <span class="c-content">
-                        <select class="itemTagLists" id="itemTagLists_two" style="width:150px;"></select>
+                        <select name="itemFourthCode" id="itemFourthCodeList" >
+
+                        </select>
+                        <c:if test="${empty typeItems }">
+                            <input type="text" class="readonly" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>
+                        </c:if>
                     </span>
                 </p>
                 <p class="c">

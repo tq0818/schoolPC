@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/31.
@@ -60,18 +62,22 @@ public class SysConfigItemTreeController {
             relation.setParentId(parentId);
             relation.setLevelPath(levelPath);
             //修改子节点则需要删除原有节点
-            if(relation.getLevel()!=null && relation.getLevel()>0){
-                List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(relation.getParentId());
-                sysConfigItemRelationServieImpl.deleteRelation(oldChildren);
-                SysConfigItemRelation root = new SysConfigItemRelation();
-                root.setId(relation.getParentId());
-                if(codes.length()>0){
-                    root.setIsParent(true);
-                }else{
-                    root.setIsParent(false);
-                }
-                sysConfigItemRelationServieImpl.update(root);
-            }
+//            if(relation.getLevel()!=null && relation.getLevel()>0){
+//                List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(relation.getParentId());
+//                sysConfigItemRelationServieImpl.deleteRelation(oldChildren);
+//                SysConfigItemRelation root = new SysConfigItemRelation();
+//                root.setId(relation.getParentId());
+//                if(codes.length()>0){
+//                    root.setIsParent(true);
+//                }else{
+//                    root.setIsParent(false);
+//                }
+//                sysConfigItemRelationServieImpl.update(root);
+//            }
+            SysConfigItemRelation root = new SysConfigItemRelation();
+            root.setId(relation.getParentId());
+            root.setIsParent(true);
+            sysConfigItemRelationServieImpl.update(root);
             //添加根节点则需要设置父节点和父编码
             if(relation.getLevel()!=null &&relation.getLevel()==0){
                 relation.setParentCode(null);
@@ -168,5 +174,33 @@ public class SysConfigItemTreeController {
         item.setParentCode("TYPE");
         model.addAttribute("typeList", sysConfigItemServieImpl.findByParentCode(item));
         return "system/itemTree";
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value="/queryItemSecond",method=RequestMethod.POST)
+    public List<SysConfigItemRelation> findItemTwo(Integer pid,HttpServletRequest request){
+        // return sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_SECOND, pid,WebUtils.getCurrentCompanyId());
+        SysConfigItemRelation relation = new SysConfigItemRelation();
+        relation.setId(pid);
+        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findItemFront(relation);
+        Map<String, Object> param = new HashMap<>();
+        param.put("schoolId",WebUtils.getCurrentUserSchoolId(request));
+        param.put("companyId",WebUtils.getCurrentCompanyId());
+        List<SysConfigItem> names = sysConfigItemServieImpl.findItemBySchoolCompanyId(param);
+        for(SysConfigItemRelation re : list){
+            for(SysConfigItem name :names){
+                if(re.getLevel()==3){
+                    re.setItemName(re.getItemCode());
+                    break;
+                }else{
+                    if(re.getItemCode().equals(name.getItemCode())){
+                        re.setItemName(name.getItemName());
+                        break;
+                    }
+                }
+            }
+        }
+        return list;
     }
 }

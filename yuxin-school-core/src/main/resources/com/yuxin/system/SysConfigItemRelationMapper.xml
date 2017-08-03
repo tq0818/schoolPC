@@ -95,4 +95,19 @@
     <insert id="publish">
      insert sys_config_item_relation_front  (select * from sys_config_item_relation)
     </insert>
+<!--发布后查询SQL-->
+    <select id="findFirstLevelFront" resultMap="sysConfigItemRelationResultMap"
+            parameterType="String">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation_front
+        where level = 0
+    </select>
+    <select id="findChildrenFront" resultMap="sysConfigItemRelationResultMap"
+            parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation_front
+        where parent_id = #{id}
+    </select>
 </mapper>

@@ -25,4 +25,8 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
     void publish();
 
     void deleteFront();
+
+    List<SysConfigItemRelation> findFirstLevelFront();
+
+    List<SysConfigItemRelation> findChildrenFront(SysConfigItemRelation item);
 }

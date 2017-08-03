@@ -26,7 +26,13 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer	itemSecondId;		 /* 二级项目主键 */ 
 	private String	itemOneName;		 /* 一级项目name */ 
 	private String	itemSecondName;		 /* 二级项目name */
-	private String	description;		 /* 班型描述 */ 
+	private String	itemOneCode;		 /* 一级项目code */
+	private String	itemSecondCode;		 /* 二级项目code */
+	private String	itemThirdName;		 /* 三级项目name */
+	private String	itemFourthName;		 /* 四级项目name */
+	private String	itemThirdCode;		 /* 三级项目code */
+	private String	itemFourthCode;		 /* 四级项目code */
+	private String	description;		 /* 班型描述 */
 	private String	publishStatus;		 /* 发布状态（在售；停售；未发布；）字典表数据 */ 
 	private Date	publishTime;		 /* 发布时间 */ 
 	private Integer	isSale;		 /* 是否在线售卖（1：是；0：否） */ 
@@ -445,5 +451,53 @@ public class ClassTypeVo extends BaseEntity {
 
 	public void setIconLable(String iconLable) {
 		this.iconLable = iconLable;
+	}
+
+	public String getItemOneCode() {
+		return itemOneCode;
+	}
+
+	public void setItemOneCode(String itemOneCode) {
+		this.itemOneCode = itemOneCode;
+	}
+
+	public String getItemSecondCode() {
+		return itemSecondCode;
+	}
+
+	public void setItemSecondCode(String itemSecondCode) {
+		this.itemSecondCode = itemSecondCode;
+	}
+
+	public String getItemThirdName() {
+		return itemThirdName;
+	}
+
+	public void setItemThirdName(String itemThirdName) {
+		this.itemThirdName = itemThirdName;
+	}
+
+	public String getItemFourthName() {
+		return itemFourthName;
+	}
+
+	public void setItemFourthName(String itemFourthName) {
+		this.itemFourthName = itemFourthName;
+	}
+
+	public String getItemThirdCode() {
+		return itemThirdCode;
+	}
+
+	public void setItemThirdCode(String itemThirdCode) {
+		this.itemThirdCode = itemThirdCode;
+	}
+
+	public String getItemFourthCode() {
+		return itemFourthCode;
+	}
+
+	public void setItemFourthCode(String itemFourthCode) {
+		this.itemFourthCode = itemFourthCode;
 	}
 }

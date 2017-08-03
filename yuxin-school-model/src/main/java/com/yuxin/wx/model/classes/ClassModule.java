@@ -41,6 +41,10 @@ public class ClassModule extends BaseEntity {
 	private List<ClassModuleNoListVo> classModules;
 	private ClassmNoVo classmoudleNo;
 	private String liveType;
+	private String itemOneCode;
+	private String itemSecondCode;
+	private String itemThirdCode;
+	private String itemFourthCode;
 	
 	public List<ClassModuleNoListVo> getClassModules() {
 		return classModules;
@@ -203,5 +207,37 @@ public class ClassModule extends BaseEntity {
 	}
 	public void setLiveType(String liveType) {
 		this.liveType = liveType;
+	}
+
+	public String getItemOneCode() {
+		return itemOneCode;
+	}
+
+	public void setItemOneCode(String itemOneCode) {
+		this.itemOneCode = itemOneCode;
+	}
+
+	public String getItemSecondCode() {
+		return itemSecondCode;
+	}
+
+	public void setItemSecondCode(String itemSecondCode) {
+		this.itemSecondCode = itemSecondCode;
+	}
+
+	public String getItemThirdCode() {
+		return itemThirdCode;
+	}
+
+	public void setItemThirdCode(String itemThirdCode) {
+		this.itemThirdCode = itemThirdCode;
+	}
+
+	public String getItemFourthCode() {
+		return itemFourthCode;
+	}
+
+	public void setItemFourthCode(String itemFourthCode) {
+		this.itemFourthCode = itemFourthCode;
 	}
 }

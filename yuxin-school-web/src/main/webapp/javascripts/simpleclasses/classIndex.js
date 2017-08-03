@@ -24,7 +24,9 @@
                             itemOneCode =$(this).attr("data-code");
 						}
 				});
-
+                $("#itemFourthCodeList").delegate("a","click",function(){
+                    $(this).toggleClass("btn-success");
+                });
 				//this.queryItemSecond(itemOneCode,itemOneId);
 				
 				//判断是否有上架学科(学科)
@@ -207,7 +209,23 @@
 // 					}
 // 				});
 // 			},
-			queryAllCommdityByItem : function(page,id,itemSecondId,status,lab,labTwo){
+        getietmList: function (dom){
+            var itemCode = [];
+            if(dom.children()){
+                var checkitem = dom.children(".btn-success")
+                $.each(checkitem,function(i,v){
+                    itemCode.push($(v).attr("data-code"));
+                });
+            }
+            return itemCode.join(",");
+        },
+        setietmList:function (list){
+            $.each(list,function(i,v){
+                $("a[data-code="+v+"]",dom).addClass("btn-success");
+            });
+        },
+
+    queryAllCommdityByItem : function(page,id,itemSecondId,status,lab,labTwo){
 				var labSec="";
 				if(id==null){
 					$("#itemOneList").find("a").each(function(i){
@@ -399,6 +417,10 @@
                 });
                 if(itemThirdCode!='all'){
                     datas.itemThirdCode=itemThirdCode;
+                }
+                var itemFourthCode = this.getietmList($("#itemFouthCodeList"));
+                if(itemFourthCode.length>0){
+                    datas.itemFourthCode=itemFourthCode;
                 }
 				if(status==null){
 					$("#statusList").find("a").each(function(i){

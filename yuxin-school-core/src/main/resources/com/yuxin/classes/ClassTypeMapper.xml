@@ -434,29 +434,29 @@
 	</select>
 	
 	<!-- 查询班型并分页 -->
-	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
-		SELECT a.*, c.buy_num as actualNum 
+	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="map">
+		SELECT a.*, c.buy_num as actualNum
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
 		INNER JOIN commodity c ON c.id = pr.com_id 
-		where a.del_flag=0 and a.company_id = #{companyId} and c.type='COMMODITY_CLASS' 
-		<if test="name != null and name != ''">and a.name like '%${name}%'</if>
-		<if test="itemOneId != null and itemOneId != ''">and a.item_one_id = #{itemOneId}</if>
-		<if test="itemSecondId != null and itemSecondId != ''">and a.item_second_id = #{itemSecondId}</if>
-		<if test="publishStatus != null and publishStatus != ''">and a.publish_status = #{publishStatus}</if>
-		<if test="createSchoolId !=null and createSchoolId != ''">and a.create_school_id = #{createSchoolId}</if>
-		<if test="itemTag != null and itemTag != ''">and find_in_set(#{itemTag},a.item_tag)>0</if>
-		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},a.item_tag)>0</if>
-		<if test="teacherId != null and teacherId != ''">and a.teacher_id =${teacherId} </if>
-		<if test="teachersId != null and teachersId != ''">or a.teacher_id in(${teachersId}) </if>
-		<if test="faceFlag != null and faceFlag != ''">and a.face_flag = ${faceFlag}</if>
-		<if test="liveFlag != null and liveFlag != ''">and a.live_flag = ${liveFlag}</if>
-		<if test="videoFlag != null and videoFlag != ''">and a.video_flag = ${videoFlag}</if>
-		<if test="remoteFlag != null and remoteFlag != ''">and a.remote_flag = ${remoteFlag}</if>
-		<if test="itemOneCode != null and itemOneCode != ''">and a.item_one_code = #{itemOneCode}</if>
-		<if test="itemSecondCode != null and itemSecondCode != ''">and a.item_second_code = #{itemSecondCode}</if>
-		<if test="itemThirdCode != null and itemThirdCode != ''">and a.item_third_id = #{itemThirdCode}</if>
-		<if test="itemFourthCode != null and itemFourthCode != ''">and a.item_fourth_id = #{itemFourthCode}</if>
+		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS'
+		<if test="classType.name != null and classType.name != ''">and a.name like '%${classType.name}%'</if>
+		<if test="classType.itemOneId != null and classType.itemOneId != ''">and a.item_one_id = #{classType.itemOneId}</if>
+		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and a.item_second_id = #{classType.itemSecondId}</if>
+		<if test="classType.publishStatus != null and classType.publishStatus != ''">and a.publish_status = #{classType.publishStatus}</if>
+		<if test="classType.createSchoolId !=null and classType.createSchoolId != ''">and a.create_school_id = #{classType.createSchoolId}</if>
+		<if test="classType.itemTag != null and classType.itemTag != ''">and find_in_set(#{classType.itemTag},a.item_tag)>0</if>
+		<if test="classType.itemTag2 != null and classType.itemTag2 != ''">and find_in_set(#{classType.itemTag2},a.item_tag)>0</if>
+		<if test="classType.teacherId != null and classType.teacherId != ''">and a.teacher_id =${classType.teacherId} </if>
+		<if test="classType.teachersId != null and classType.teachersId != ''">or a.teacher_id in(${classType.teachersId}) </if>
+		<if test="classType.faceFlag != null and classType.faceFlag != ''">and a.face_flag = ${classType.faceFlag}</if>
+		<if test="classType.liveFlag != null and classType.liveFlag != ''">and a.live_flag = ${classType.liveFlag}</if>
+		<if test="classType.videoFlag != null and classType.videoFlag != ''">and a.video_flag = ${classType.videoFlag}</if>
+		<if test="classType.remoteFlag != null and classType.remoteFlag != ''">and a.remote_flag = ${classType.remoteFlag}</if>
+		<if test="classType.itemOneCode != null and classType.itemOneCode != ''">and a.item_one_code = #{classType.itemOneCode}</if>
+		<if test="classType.itemSecondCode != null and classType.itemSecondCode != ''">and a.item_second_code = #{classType.itemSecondCode}</if>
+		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and a.item_third_code = #{classType.itemThirdCode}</if>
+		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">and a.item_fourth_code = #{classType.itemFourthCode}</if>
 		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
 		limit #{firstIndex},#{pageSize}
 	</select>
@@ -480,8 +480,8 @@
 		<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = ${remoteFlag}</if>
 		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code = #{itemOneCode}</if>
 		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
-		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_id = #{itemThirdCode}</if>
-		<if test="itemFourthCode != null and itemFourthCode != ''">and item_fourth_id = #{itemFourthCode}</if>
+		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code = #{itemThirdCode}</if>
+		<if test="itemFourthCode != null and itemFourthCode != ''">and item_fourth_code = #{itemFourthCode}</if>
 	</select>
 	
 	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">

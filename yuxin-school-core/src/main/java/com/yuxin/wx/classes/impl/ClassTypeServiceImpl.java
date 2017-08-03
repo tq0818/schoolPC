@@ -319,9 +319,15 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	@Override
 	public PageFinder<ClassTypeVo> findClassTypesByPage(ClassType search) {
 		System.out.println(search.getPage());
-		
-		
-		List<ClassTypeVo> data=classTypeMapper.queryClassTypesByPage(search);
+		String []codes = new String [1];
+		List<ClassTypeVo> data = new ArrayList<ClassTypeVo>();
+		if (search.getItemFourthCode()!=null && search.getItemFourthCode().length()>0){
+			codes = search.getItemFourthCode().split(",");
+		}
+		Map<String,Object> map  = new HashMap<>();
+		map.put("classType",search);
+		map.put("codes",codes);
+		data=classTypeMapper.queryClassTypesByPage(map);
 		
 	
 			for(ClassTypeVo comm:data)

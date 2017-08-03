@@ -25,7 +25,7 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	ClassType findClassTypeByStuId(Map<String, Object> map);
 	List<ClassType> findByItem(Map<String, Integer> map);
 	
-	List<ClassTypeVo> queryClassTypesByPage(ClassType search);
+	List<ClassTypeVo> queryClassTypesByPage(Map<String,Object> map);
 	int queryCounts(ClassType search);
 	List<ClassType> findByRemote(Integer id);
 	List<ClassType> findByModule(Integer id);

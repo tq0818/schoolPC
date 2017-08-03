@@ -456,7 +456,10 @@
 		<if test="classType.itemOneCode != null and classType.itemOneCode != ''">and a.item_one_code = #{classType.itemOneCode}</if>
 		<if test="classType.itemSecondCode != null and classType.itemSecondCode != ''">and a.item_second_code = #{classType.itemSecondCode}</if>
 		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and a.item_third_code = #{classType.itemThirdCode}</if>
-		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">and a.item_fourth_code = #{classType.itemFourthCode}</if>
+		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">
+            and a.item_fourth_code in
+            <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
+        </if>
 		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
 		limit #{classType.firstIndex},#{classType.pageSize}
 	</select>

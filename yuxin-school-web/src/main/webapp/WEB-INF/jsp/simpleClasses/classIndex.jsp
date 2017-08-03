@@ -65,7 +65,7 @@
                 <span class="t-title">知识点</span>
                 <span class="t-content" id="itemFourthCodeList">
                    <c:forEach items="${fourthItem }" var="fourth" varStatus="status">
-                           <a href="javascript:;" data-code="${fourth.itemCode }"  class="btn btn-mini btn-default">${fourth.itemName }</a>
+                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }"  class="btn btn-mini btn-default">${fourth.itemName }</a>
                    </c:forEach>
                 </span>
             </p>

@@ -24,7 +24,7 @@
                             itemOneCode =$(this).attr("data-code");
 						}
 				});
-                $("#itemFourthCodeList").delegate("a","click",function(){
+                $("#itemFourthCodeList").off().delegate("a","click",function(){
                     $(this).toggleClass("btn-success");
                 });
 				//this.queryItemSecond(itemOneCode,itemOneId);
@@ -418,7 +418,7 @@
                 if(itemThirdCode!='all'){
                     datas.itemThirdCode=itemThirdCode;
                 }
-                var itemFourthCode = this.getietmList($("#itemFouthCodeList"));
+                itemFourthCode = this.getietmList($("#itemFourthCodeList"));
                 if(itemFourthCode.length>0){
                     datas.itemFourthCode=itemFourthCode;
                 }

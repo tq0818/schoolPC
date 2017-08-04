@@ -81,10 +81,9 @@ public class CommodityVo extends BaseEntity {
     
     private String orderBy;
     private String iconLable;
-    private String schoolShortName;
-    
-    
-    
+
+    private String schoolShortName;//学校简称
+
     public String getSchoolShortName() {
 		return schoolShortName;
 	}

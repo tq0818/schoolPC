@@ -77,26 +77,35 @@ public class CommodityMobile extends BaseEntity {
 	
 	private Integer memberFlag;
 	private String iconLable;
+	private String schoolShortName;
+
 	public CommodityMobile() {
 
 	}
 
-	
+	public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
+
 	public CommodityMobile(String name, String typeCode, Double originalPrice,
-			Double realPrice, Integer itemOneId,
-			Integer itemSecondId, String description, String publishStatus,
-			Date publishTime, Integer isSale, String cover, String subTitle,
-			String detailDesc, Date createTime, Integer creator,
-			Date updateTime, Integer updator, Integer delFlag,
-			Integer companyId, Integer baseNum, String lableType,
-			String teacherId, String teacherName, Integer faceFlag,
-			Integer liveFlag, Integer videoFlag, Integer remoteFlag,
-			Integer recommendFlag, Integer createSchoolId, String itemOneName,
-			String itemSecondName, Integer validityDay, Date validityDate,
-			Integer videoWatchCount, Integer liveWatchCount, Integer itemTag,
-			String tagName, Integer paymasterId, Integer stuId,
-			Integer campusId, Integer classTypeHour, String payStatusCode,
-			Double totalAmount, Integer buyflag) {
+						   Double realPrice, Integer itemOneId,
+						   Integer itemSecondId, String description, String publishStatus,
+						   Date publishTime, Integer isSale, String cover, String subTitle,
+						   String detailDesc, Date createTime, Integer creator,
+						   Date updateTime, Integer updator, Integer delFlag,
+						   Integer companyId, Integer baseNum, String lableType,
+						   String teacherId, String teacherName, Integer faceFlag,
+						   Integer liveFlag, Integer videoFlag, Integer remoteFlag,
+						   Integer recommendFlag, Integer createSchoolId, String itemOneName,
+						   String itemSecondName, Integer validityDay, Date validityDate,
+						   Integer videoWatchCount, Integer liveWatchCount, Integer itemTag,
+						   String tagName, Integer paymasterId, Integer stuId,
+						   Integer campusId, Integer classTypeHour, String payStatusCode,
+						   Double totalAmount, Integer buyflag) {
 		this.name = name;
 		this.typeCode = typeCode;
 		this.originalPrice = originalPrice;

@@ -84,6 +84,8 @@ public class ClassType extends BaseEntity {
     private String itemThirdName;
     private String itemFourthName;
 
+    private String isMicroClass;//是否微课
+
     public Integer getRelationId() {
         return this.relationId;
     }
@@ -599,5 +601,13 @@ public class ClassType extends BaseEntity {
 
     public void setItemFourthName(String itemFourthName) {
         this.itemFourthName = itemFourthName;
+    }
+
+    public String getIsMicroClass() {
+        return isMicroClass;
+    }
+
+    public void setIsMicroClass(String isMicroClass) {
+        this.isMicroClass = isMicroClass;
     }
 }

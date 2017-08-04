@@ -100,6 +100,7 @@
 		<result property="protocolId" column="protocol_id"/>
 		<result property="iconLable" column="icon_lable"/>
 		<result property="subjectClassOrder" column="subject_class_order"/>
+		<result property="isMicroClass" column="is_micro_class"/>
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -146,7 +147,8 @@
 		item_one_code,
 		item_second_code,
 		item_third_code,
-		item_fourth_code
+		item_fourth_code,
+		is_micro_class
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -192,7 +194,8 @@
 		#{itemOneCode},
 		#{itemSecondCode},
 		#{itemThirdCode},
-		#{itemFourthCode}
+		#{itemFourthCode},
+		#{isMicroClass}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -239,7 +242,8 @@
 		#{item.itemOneCode},
 		#{item.itemSecondCode},
 		#{item.itemThirdCode},
-		#{item.itemFourthCode}
+		#{item.itemFourthCode},
+		#{item.isMicroClass}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -318,7 +322,8 @@
 			<if test="itemThirdCode != null  and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
 			<if test="itemFourthCode != null  and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
 		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
-		    
+		    <if test="isMicroClass != null">is_micro_class = #{isMicroClass}</if>
+
 		 </trim>
 		<where>id = #{id}</where>
 	</update>

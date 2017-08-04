@@ -76,6 +76,7 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer commodityId;//商品id
 	private Integer subjectClassOrder;//学科课程排序
 	private String  iconLable;
+	private Integer isMicroClass;	//是否微课
 	public Integer getCommodityId() {
 		return commodityId;
 	}
@@ -499,5 +500,13 @@ public class ClassTypeVo extends BaseEntity {
 
 	public void setItemFourthCode(String itemFourthCode) {
 		this.itemFourthCode = itemFourthCode;
+	}
+
+	public Integer getIsMicroClass() {
+		return isMicroClass;
+	}
+
+	public void setIsMicroClass(Integer isMicroClass) {
+		this.isMicroClass = isMicroClass;
 	}
 }

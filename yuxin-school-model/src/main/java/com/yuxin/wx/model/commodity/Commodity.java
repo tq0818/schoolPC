@@ -50,7 +50,7 @@ public class Commodity extends BaseEntity {
 	private String itemSecondCode;
 	private String itemThirdCode;
 	private String itemFourthCode;
-	
+
 	public Integer getBaseNum() {
 		return baseNum;
 	}

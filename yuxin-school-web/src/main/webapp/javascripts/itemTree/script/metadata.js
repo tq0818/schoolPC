@@ -92,9 +92,7 @@ function zTreeOnRemove(event, treeId, treeNode) {
 }*/
 function zTreeOnAsyncSuccess(event, treeId, treeNode){
     var childrenArr = ztree.transformToArray(treeNode.children);
-    console.log(treeNode);
     $(childrenArr).each(function() {
-
         $('.tree-listtype:visible input[value=' + this.itemCode+ ']').prop('checked', true).attr("disabled","disabled");
     });
 }
@@ -115,6 +113,7 @@ function onSelected(event, treeId, treeNode) {
     $('.tree_setting .tree-listtype').hide();
     $('input:checkbox').prop('checked', false);
     $('#newTopicName').val('');
+    $(".btn-list").show();
     switch (treeNode.level) {
         case 0:
             $('#periods').show();
@@ -126,15 +125,16 @@ function onSelected(event, treeId, treeNode) {
             $('#topic').show().find("input").val("").removeClass("editing");
             break;
         case 3:
-            $('#topic').show().find("input").val(treeNode.itemCode).addClass("editing");
+            $(".btn-list").hide();
+           // $('#topic').show().find("input").val(treeNode.itemCode).addClass("editing");
 
             break;
     }
+    $('.tree-listtype:visible input').removeAttr("disabled");
     var childrenArr = ztree.transformToArray(treeNode.children);
-    console.log(treeNode);
-    $(childrenArr).each(function() {
-
-        $('.tree-listtype:visible input[value=' + this.itemCode+ ']').prop('checked', true).attr("disabled","disabled");
+    $(childrenArr).each(function(i,v) {
+        var ckinput = $('.tree-listtype:visible input[value=' + v.itemCode+ ']');
+        ckinput.prop('checked', true).attr("disabled","disabled");
     });
 }
 
@@ -164,17 +164,22 @@ $(document).ready(function() {
     //新建根节点
     $('#addCatg').on('click', function() {
         $('.tree_setting .tree-listtype').hide();
-        ztree.cancelSelectedNode();
-        var ztreeList = ztree.getNodes();
         $('#bigType').show();
-        $.each(ztreeList,function (i,v) {
-            $(".tree-listtype:visible input[value="+v.itemCode+"]").prop('checked', true).attr("disabled","disabled");
-        });
+        if($("#ztree").html()!=""){
+            ztree.cancelSelectedNode();
+            var ztreeList = ztree.getNodes();
+            $.each(ztreeList,function (i,v) {
+                $(".tree-listtype:visible input[value="+v.itemCode+"]").prop('checked', true).attr("disabled","disabled");
+            });
+        }
+
+
+
     });
     $("#savabtn").on('click', function() {
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
-            var checkIds = [],editCode = '';
+            var checkIds = [],hasitemCode = [],editCode = '';
         //on checkbox
         if(input.attr("type")!='text'){
             var inputList = $(".tree-listtype:visible input:checked:not('[disabled]')");//勾选且没有disabled 属性的
@@ -184,27 +189,35 @@ $(document).ready(function() {
             }else{
                 hasitem = ztree.getNodes();//根节点
             }
-            if(inputList.length>0) {
-                var addTrue = true;
+            var equalCode = [];
+            if(inputList.length>0 ) {
                 $.each(inputList, function (i, v) {
-                    if (addTrue) {
-                        $.each(hasitem, function (j, k) {
-                            if ($(v).val() == k.itemCode) {
-                                addTrue = false;
-                                return false;
-                            }
-                        });
-                        checkIds.push($(v).val());
-                    } else {
-                        return false;
-                    }
+                    checkIds.push($(v).val());
                 });
+                if(hasitem!=undefined && hasitem.length>0){
+                    $.each(hasitem, function (j, k) {
+                        hasitemCode.push(k.itemCode);
+                    });
+                    for(var s in checkIds){
+                        for(var x in hasitemCode){
+                            if(checkIds[s]==hasitemCode[x]){
+                                equalCode.push(checkIds[s]);
+                            }
+                        }
+                    }
+                }
 
+            }else{
+                alert("请先选择节点。");return false;
             }
-            if (!addTrue) {
+            if (equalCode.length>0) {
                 alert("包含已存在节点，不能保存。");return false;
             }
         }else{
+            if(input.val().trim()==""){
+                alert("请输入知识点！");
+                return false;
+            }
             //如果是修改，就去选中父节点
             if(input.hasClass("editing")){
                 editCode = selectNode.itemCode;//当前修改的code
@@ -213,13 +226,13 @@ $(document).ready(function() {
                 selectNode = ztree.getSelectedNodes()[0];
             }
                 checkIds.push(input.val());
-            if(selectNode.children && selectNode.children.length>0){
+       /*     if(selectNode.children && selectNode.children.length>0){
                     $.each(selectNode.children,function (i,v) {
                         if(editCode!=v.itemCode){//当前修改的code,,不再传入ids
                             checkIds.push(v.itemCode);
                         }
                     });
-            }
+            }*/
 
         }
 //获取所有新增id 后，，如果树节点有对应id,则阻止保存，
@@ -243,7 +256,9 @@ $(document).ready(function() {
             url:"/itemTree/insert",
             data:{'level':level,"codes":checkIds.join(","),"parentCode":parentCode,"parentId":parentId,"levelPath":levelPath},
             success:function(data){
-                input.removeClass("editing").val("");
+                if(input.attr("type")=="text"){
+                    input.removeClass("editing").val("");
+                }
                 if(selectNode){
                     if(checkIds.length>0){
                         selectNode.isParent = true;
@@ -289,7 +304,7 @@ $(document).ready(function() {
             url: "/itemTree/publishRelation",
             data: {"name":""},
             success: function (data) {
-
+                alert("发布成功");
             }
         });
     });

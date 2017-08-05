@@ -50,7 +50,7 @@
                     <label>知识点：</label>
                     <input name="itemCode" type="text">
                 </div>
-                <div class="btn-list">
+                <div class="btn-list" style="display: none;">
                     <button class="btn btn-default" id="savabtn">保存</button>
                 </div>
             </div>

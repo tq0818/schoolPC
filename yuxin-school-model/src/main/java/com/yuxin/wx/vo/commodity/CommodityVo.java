@@ -86,7 +86,11 @@ public class CommodityVo extends BaseEntity {
     private String itemSecondCode;
     private String itemThirdCode;
     private String itemFourthCode;
-    
+
+    private String lessonDate;
+    private String lessonTimeStart;
+    private String lessonTimeEnd;
+    private String lessonName;
     
     public String getSchoolShortName() {
 		return schoolShortName;
@@ -634,5 +638,69 @@ public class CommodityVo extends BaseEntity {
 
     public void setIconLable(String iconLable) {
         this.iconLable = iconLable;
+    }
+
+    public String getItemOneCode() {
+        return itemOneCode;
+    }
+
+    public void setItemOneCode(String itemOneCode) {
+        this.itemOneCode = itemOneCode;
+    }
+
+    public String getItemSecondCode() {
+        return itemSecondCode;
+    }
+
+    public void setItemSecondCode(String itemSecondCode) {
+        this.itemSecondCode = itemSecondCode;
+    }
+
+    public String getItemThirdCode() {
+        return itemThirdCode;
+    }
+
+    public void setItemThirdCode(String itemThirdCode) {
+        this.itemThirdCode = itemThirdCode;
+    }
+
+    public String getItemFourthCode() {
+        return itemFourthCode;
+    }
+
+    public void setItemFourthCode(String itemFourthCode) {
+        this.itemFourthCode = itemFourthCode;
+    }
+
+    public String getLessonDate() {
+        return lessonDate;
+    }
+
+    public void setLessonDate(String lessonDate) {
+        this.lessonDate = lessonDate;
+    }
+
+    public String getLessonTimeStart() {
+        return lessonTimeStart;
+    }
+
+    public void setLessonTimeStart(String lessonTimeStart) {
+        this.lessonTimeStart = lessonTimeStart;
+    }
+
+    public String getLessonTimeEnd() {
+        return lessonTimeEnd;
+    }
+
+    public void setLessonTimeEnd(String lessonTimeEnd) {
+        this.lessonTimeEnd = lessonTimeEnd;
+    }
+
+    public String getLessonName() {
+        return lessonName;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
     }
 }

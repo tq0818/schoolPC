@@ -893,6 +893,7 @@ public class SimpleclassTypeController {
 			}
 			commodity.setIntegralFlag(classType.getIntegralFlag());
 			commodity.setMemberFlag(classType.getMemberFlag());
+			commodity.setIsMicroClass(classType.getIsMicroClass());
 			commodityServiceImpl.insert(commodity);
 
 			CommodityProductRealtion commodityProductRealtion = new CommodityProductRealtion();

@@ -645,6 +645,7 @@ public class editSimpleclassTypeController {
         }
         commodity.setIntegralFlag(ct.getIntegralFlag());
         commodity.setMemberFlag(ct.getMemberFlag());
+        commodity.setIsMicroClass(ct.getIsMicroClass());
         this.commodityServiceImpl.update(commodity);
         return "success";
     }

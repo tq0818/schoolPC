@@ -34,7 +34,7 @@
 				<div class="new-set" onclick="location.href='<%=rootPath%>/tikuPaper/toTikuPaper/${tikuId}'">返回</div>
 			</div>
 			<div class="r-list L-r-list">
-				<div class="sc-select searchBook clear"">
+				<div class="sc-select searchBook clear">
 					<dl class="bookTitle">
 	                    <dt>试卷名称：<span>${statistics.paperName}</span></dt>
 	                    <dd>试卷作答人数：<span>${statistics.total}人</span></dd>
@@ -125,25 +125,36 @@
 							<ul class="ques_list">
 								<c:forEach var="topic" items="${tm.value}" varStatus="topicStatus">
 									<li>
-										<div class="ques-ans">
-											<div class="ques">
-												(${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
-												<c:if test="${topic.optionList==null || topic.optionList.size()==0 }">
-													<div class="answer">正确答案：${topic.answer}</div>
-												</c:if>
+										<div class="ques-ans  paperstatistics-list">
+											<div class="ques" topicId="${topic.id}">
+												<span class="topic-tit">(${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }</span>
+												<div class="topic-count fr">
+													<select id="topic_${topic.id}">
+														<option>统计</option>
+													</select>
+												</div>
+												<i class="solid-title"></i>
 											</div>
+											<c:if test="${topic.optionList==null || topic.optionList.size()==0 }">
+												<div class="answer">正确答案：${topic.answer}</div>
+											</c:if>
 											<div class="answer-list">
 												<c:forEach var="option" items="${topic.optionList }">
 													<c:choose>
 														<c:when test="${topic.answer.indexOf(option.optionNo)!=-1}">
-															<span class="choice" style="color:red">${option.optionNo }  ${option.optionName}</span>
+															<p class="choice-list">
+																<span class="choice fl" style="color:red" title="option.optionName">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
+															</p>
 														</c:when>
 														<c:otherwise>
-															<span class="choice">${option.optionNo }  ${option.optionName}</span>
+													<p class="choice-list">
+															<span class="choice fl">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
+													</p>
 														</c:otherwise>
 													</c:choose>
 												</c:forEach>
 											</div>
+
 										</div>
 
 									</li>

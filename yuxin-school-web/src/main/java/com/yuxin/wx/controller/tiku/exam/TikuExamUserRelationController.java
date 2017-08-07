@@ -362,4 +362,13 @@ public class TikuExamUserRelationController {
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/getExamAccuracy")
+    public Map<String, Object> getExamAccuracy(TikuUserExerciseAnswerAccuracy tueaa, Model model) {
+        Map<String, Object> resultMap = tikuUserExerciseServiceImpl.findExamAccuracyByParam(tueaa);
+
+        return resultMap;
+    }
 }

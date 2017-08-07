@@ -201,8 +201,8 @@
 			<if test="itemOneCode != null and itemOneCode != ''">item_one_code = #{itemOneCode},</if>
 			<if test="itemSecondCode != null and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
 			<if test="itemThirdCode != null and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
-			<if test="isMicroClass != null and isMicroClass != ''">is_micro_class = #{isMicroClass},</if>
-			item_fourth_code = #{itemFourthCode},
+			<if test="itemFourthCode != null and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
+			<if test="isMicroClass != null">is_micro_class = #{isMicroClass},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

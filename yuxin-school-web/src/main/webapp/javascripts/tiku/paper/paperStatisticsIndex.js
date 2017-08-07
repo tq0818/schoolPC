@@ -1,4 +1,4 @@
-(function($) {;
+(function($) {
 	$(document).ready(function(){
 		init();
         $(".tab-info").delegate(".tab-type","click",function () {
@@ -7,7 +7,9 @@
             $(".content-show").children().hide();
             $(".tab-search").hide();
             $(href).show();
-        })
+        });
+
+		initStatsitcs();
 	});
 	
 	function init(){
@@ -49,7 +51,35 @@
             loadDetailAjaxInfo(1,paperId);
         });
 	}
-	
+
+	function initStatsitcs(){
+		var paperId = $("#paperId").val();
+		$(".teacherContent2").find(".ques").each(function(){
+			var topicId = $(this).attr("topicId");
+			$.ajax({
+				url: rootPath + "/tikuExamUserRelation/getExamAccuracy",
+				data:{"paperId":paperId, "topicId":topicId},
+				type:"post",
+				success:function(result){
+					if(result!=null){
+						$("#topic_"+topicId).append("<option>总计答题人数："+result.answerNum+"</option><option>正确人数："+result.answerAccuracyNum+"</option><option>正确率："+GetPercent(result.answerAccuracyNum, result.answerNum)+"</option>");
+					}
+				},
+				error:function(e){}
+			});
+		});
+	}
+
+	///计算两个整数的百分比值
+	function GetPercent(num, total) {
+		num = parseFloat(num);
+		total = parseFloat(total);
+		if (isNaN(num) || isNaN(total)) {
+			return "-";
+		}
+		return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00 + "%");
+	}
+
 	function loadDetailAjaxInfo(pageNo,paperId,status,mobile,examId,start,end){
 		var param = "";
 		param+="&pageSize=10&page="+pageNo;

@@ -29,7 +29,7 @@
     padding:10px 5px;
 }
 #teacherContent .L-table{
-	background-color:#fff;
+    background-color:#fff;
 }
 .L-r-list .L-table td{
     /*background:#fff;*/
@@ -261,7 +261,7 @@
 .tab-info .tab-type:last-child{border-left:0;}
 .tab-info .tab-type.active{background: #00b7ee;color:#fff;}
 .tab-info .tab-search{display: inline-block;
-     float: right; ;}
+    float: right; ;}
 .content-show{clear: both}
 
 .ques_type {
@@ -276,3 +276,25 @@
 .ques_list .answer-list{}
 .ques_list .answer{color:red;float:right;width: 15%;}
 .ques_list .choice{margin-right:20px}
+
+.paperstatistics-list .choice{display: block;    margin: 10px 0;font-size: 14px;}
+.paperstatistics-list .ques{   height: 30px;line-height: 30px;font-size: 14px;position: relative;}
+.paperstatistics-list .answer{display: block;font-size: 14px;
+    width: 100%;}
+.paperstatistics-list .ques p{display: inline-block;}
+.paperstatistics-list .choice-person{margin: 10px 0 10px 30px;color:#9bbbdb;}
+.paperstatistics-list .choice-list{    overflow: hidden;}
+.paperstatistics-list .choice-list .choice{
+    text-overflow: ellipsis;
+    width: 350px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.paperstatistics-list .ques .solid-title{border-bottom: 1px dashed #777;height:1px;width:100%;
+    position: absolute;top:15px;left:0;}
+.paperstatistics-list .topic-count,.paperstatistics-list .topic-tit{    position: relative;
+    z-index: 99; background: #f6f6f6;}
+.paperstatistics-list .topic-tit{padding-right: 10px;
+   }
+.paperstatistics-list .topic-count{padding-left: 10px;}
+.paperstatistics-list{overflow: hidden}

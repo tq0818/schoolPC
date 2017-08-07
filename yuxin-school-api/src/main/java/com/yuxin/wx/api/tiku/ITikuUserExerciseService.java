@@ -6,6 +6,7 @@ import java.util.Map;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.tiku.TikuPaper;
 import com.yuxin.wx.model.tiku.TikuUserExercise;
+import com.yuxin.wx.model.tiku.TikuUserExerciseAnswerAccuracy;
 import com.yuxin.wx.model.tiku.TikuUserWrong;
 import com.yuxin.wx.vo.tiku.TikuUserExerVo;
 import com.yuxin.wx.vo.tiku.TikuUserExerciseVo;
@@ -244,4 +245,6 @@ public interface ITikuUserExerciseService {
      * @return
      */
     PageFinder<TikuUserExerciseVo> findAllPaperRspdInfo(TikuUserExercise exercise);
+
+    Map<String,Object> findExamAccuracyByParam(TikuUserExerciseAnswerAccuracy tueaa);
 }

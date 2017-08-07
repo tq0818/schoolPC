@@ -17,6 +17,7 @@ public class TikuTopicOption extends BaseEntity {
 	private String	optionNo;		 /* 选项编号：选型A、选型B */ 
 	private String	optionName;		 /* 选项名称，存选择题的选项 */ 
 	private Integer	correctFlag;		 /* 是否正确答案（1：是；0：否） */ 
+	private Integer	topicOptionAnswerNum;		 /* 答题数量 */
 
 	// Constructor
 	public TikuTopicOption() {
@@ -25,12 +26,13 @@ public class TikuTopicOption extends BaseEntity {
 	/**
 	 * full Constructor
 	 */
-	public TikuTopicOption(Integer id, Integer topicId, String optionNo, String optionName, Integer correctFlag) {
+	public TikuTopicOption(Integer id, Integer topicId, String optionNo, String optionName, Integer correctFlag, Integer topicOptionAnswerNum) {
 		setId(id);
 		this.topicId = topicId;
 		this.optionNo = optionNo;
 		this.optionName = optionName;
 		this.correctFlag = correctFlag;
+		this.topicOptionAnswerNum = topicOptionAnswerNum;
 	}
 
 	// getter && setter
@@ -74,9 +76,17 @@ public class TikuTopicOption extends BaseEntity {
 		this.correctFlag = correctFlag;
 		return this;
 	}
-	
+
+	public Integer getTopicOptionAnswerNum() {
+		return topicOptionAnswerNum;
+	}
+
+	public void setTopicOptionAnswerNum(Integer topicOptionAnswerNum) {
+		this.topicOptionAnswerNum = topicOptionAnswerNum;
+	}
+
 	@Override
 	public String toString() {
-		return "TikuTopicOption [" + "id=" + getId() + ", topicId=" + topicId + ", optionNo=" + optionNo + ", optionName=" + optionName + ", correctFlag=" + correctFlag +  "]";
+		return "TikuTopicOption [" + "id=" + getId() + ", topicId=" + topicId + ", optionNo=" + optionNo + ", optionName=" + optionName + ", correctFlag=" + correctFlag + ", topicOptionAnswerNum=" + topicOptionAnswerNum +  "]";
 	}
 }

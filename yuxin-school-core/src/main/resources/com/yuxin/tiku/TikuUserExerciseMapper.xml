@@ -366,4 +366,14 @@
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
 			and exercise_id = #{exerciseId} order by start_time asc
 	</select>
+
+	<select id="findExamAccuracyByParam" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswerAccuracy" resultType="Map">
+			select id as id, paper_id as paperId, exercise_type as exerciseType ,topic_id as topicId,topic_type as topicType,
+			answer_num as answerNum,answer_accuracy_num as answerAccuracyNum,create_date as createDate
+			from tiku_user_exercise_answer_accuracy
+			where paper_id = #{paperId}
+			<if test="exerciseType!=null and exerciseType!=''">and exercise_type = #{exerciseType}</if>
+			<if test="topicId!=null">and topic_id = #{topicId}</if>
+			<if test="topicType!=null and topicType!=''">and topic_type = #{topicType}</if>
+	</select>
 </mapper>

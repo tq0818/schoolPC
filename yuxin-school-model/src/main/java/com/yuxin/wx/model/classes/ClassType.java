@@ -27,6 +27,7 @@ public class ClassType extends BaseEntity {
     private Integer itemOneId; /* 一级项目主键 */
     private Integer itemSecondId; /* 二级项目主键 */
     private String description; /* 班型描述 */
+    private String paperDescription; /* 试卷描述 */
     private String publishStatus; /*
                                    * 发布状态（在售；停售；未发布；） 字典表数据
                                    */
@@ -609,5 +610,13 @@ public class ClassType extends BaseEntity {
 
     public void setIsMicroClass(Integer isMicroClass) {
         this.isMicroClass = isMicroClass;
+    }
+
+    public String getPaperDescription() {
+        return paperDescription;
+    }
+
+    public void setPaperDescription(String paperDescription) {
+        this.paperDescription = paperDescription;
     }
 }

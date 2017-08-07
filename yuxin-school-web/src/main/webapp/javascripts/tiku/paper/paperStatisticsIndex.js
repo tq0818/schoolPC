@@ -109,6 +109,7 @@
         param+="&eduArea="+$("#eduArea").val();
         param+="&eduSchool="+$("#eduSchool").val();
         param+="&eduClass="+$("#eduClass").val();
+        param+="&eduYear="+$("#eduYear").val();
 		$("#tableList").find("tr:gt(0)").remove();
 		$.ajax({
 			url : rootPath + "/tikuExamUserRelation/getPaperRspdInfo",

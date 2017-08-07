@@ -34,6 +34,7 @@ public class TikuUserExercise extends BaseEntity {
 	private String eduArea;		/* 区域 */
 	private String eduSchool;		/* 学校 */
 	private String eduClass;		/* 班级 */
+	private String eduYear;		/* 入学年份 */
 
 	//其他
 	private Integer topCount;/*多少到题*/
@@ -258,5 +259,13 @@ public class TikuUserExercise extends BaseEntity {
 
 	public void setUseTimes(String useTimes) {
 		this.useTimes = useTimes;
+	}
+
+	public String getEduYear() {
+		return eduYear;
+	}
+
+	public void setEduYear(String eduYear) {
+		this.eduYear = eduYear;
 	}
 }

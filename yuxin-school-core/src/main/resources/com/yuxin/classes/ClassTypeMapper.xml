@@ -46,6 +46,7 @@
 		<result property="itemSecondCode" column="item_second_code" />
 		<result property="itemThirdCode" column="item_third_code" />
 		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="paperDescription" column="paper_description" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
@@ -148,7 +149,8 @@
 		item_second_code,
 		item_third_code,
 		item_fourth_code,
-		is_micro_class
+		is_micro_class,
+		paper_description
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -195,7 +197,8 @@
 		#{itemSecondCode},
 		#{itemThirdCode},
 		#{itemFourthCode},
-		#{isMicroClass}
+		#{isMicroClass},
+		#{paperDescription}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -243,7 +246,8 @@
 		#{item.itemSecondCode},
 		#{item.itemThirdCode},
 		#{item.itemFourthCode},
-		#{item.isMicroClass}
+		#{item.isMicroClass},
+		#{item.paperDescription}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -323,6 +327,7 @@
 			<if test="itemFourthCode != null  and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
 		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
 		    <if test="isMicroClass != null">is_micro_class = #{isMicroClass}</if>
+		    <if test="paperDescription != null and paperDescription!=''">paper_description = #{paperDescription}</if>
 
 		 </trim>
 		<where>id = #{id}</where>

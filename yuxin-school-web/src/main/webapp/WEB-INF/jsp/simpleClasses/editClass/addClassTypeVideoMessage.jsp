@@ -96,6 +96,15 @@
                     </span>
                 </p>
                 <p class="c">
+                    <span class="c-title">课程属性</span>
+                    <span class="c-content">
+                        <select name="isMicroClass" id="isMicroClass" >
+                            <option value="0" <c:if test='${classType.isMicroClass != 1}'>selected="selected"</c:if>>回放课程</option>
+                            <option value="1" <c:if test='${classType.isMicroClass == 1}'>selected="selected"</c:if>>微课</option>
+                        </select>
+                    </span>
+                </p>
+                <p class="c">
                     <span class="c-title">封面标签</span>
                     <span class="c-content"><input type="text" id="iconLable" name="iconLable" value="${classType.iconLable }" maxlength="18"></span>
                 </p>
@@ -163,23 +172,23 @@
                         </c:if>
                     </span>
                </p>
-                <p class="c">
-                    <span class="c-title">是否为微课</span>
-                    <span class="c-content" style="color:black;">
-                     	<c:if test="${classType.isMicroClass==1 }">
-                            <input type="radio" checked="checked" value="1" name="isMicroClass">是
-                            <input type="radio" value="0" name="isMicroClass">否
-                        </c:if>
-                       <c:if test="${classType.isMicroClass==0 }">
-                           <input type="radio" value="1" name="isMicroClass">是
-                           <input type="radio" checked="checked" value="0" name="isMicroClass">否
-                       </c:if>
-                        <c:if test="${empty classType.isMicroClass }">
-                            <input type="radio" value="1" name="isMicroClass">是
-                            <input type="radio" checked="checked" value="0" name="isMicroClass">否
-                        </c:if>
-                    </span>
-                </p>
+                <%--<p class="c">--%>
+                    <%--<span class="c-title">是否为微课</span>--%>
+                    <%--<span class="c-content" style="color:black;">--%>
+                     	<%--<c:if test="${classType.isMicroClass==1 }">--%>
+                            <%--<input type="radio" checked="checked" value="1" name="isMicroClass">是--%>
+                            <%--<input type="radio" value="0" name="isMicroClass">否--%>
+                        <%--</c:if>--%>
+                       <%--<c:if test="${classType.isMicroClass==0 }">--%>
+                           <%--<input type="radio" value="1" name="isMicroClass">是--%>
+                           <%--<input type="radio" checked="checked" value="0" name="isMicroClass">否--%>
+                       <%--</c:if>--%>
+                        <%--<c:if test="${empty classType.isMicroClass }">--%>
+                            <%--<input type="radio" value="1" name="isMicroClass">是--%>
+                            <%--<input type="radio" checked="checked" value="0" name="isMicroClass">否--%>
+                        <%--</c:if>--%>
+                    <%--</span>--%>
+                <%--</p>--%>
               <p class="c text-center operator">
                 <a href="javascript:Form.addFormOne('save')" class="btn btn-primary ">保存</a>
            		<a href="<%=rootPath %>/simpleClasses/showClassTypePage" class="btn btn-default">取消</a>

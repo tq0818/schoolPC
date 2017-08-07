@@ -210,7 +210,13 @@ public class TikuExamUserRelationController {
             }
         }
         model.addAttribute("topicMap", topicMap);
-
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
         return "tiku/paper/paperStatisticsIndex";
     }
 
@@ -342,7 +348,7 @@ public class TikuExamUserRelationController {
         }
         PageFinder<TikuUserExerciseVo> pageFinder = this.tikuUserExerciseServiceImpl.findAllPaperRspdInfo(exercise);
         al = pageFinder.getData();
-        String title = "学员名称:name,用户名:userName,手机号:mobile,当前试卷分数:exerciseScore,考试时间:startTime";
+        String title = "用户名称:userName,学员名称:name,区域:eduArea,学校:eduSchool,学段:eduStep,入学年份:eduYear,班级:eduClass,当前试卷分数:exerciseScore,考试时间:startTime";
 
         ViewFiles excel = new ViewFiles();
         Map<String, Object> map = new HashMap<String, Object>();

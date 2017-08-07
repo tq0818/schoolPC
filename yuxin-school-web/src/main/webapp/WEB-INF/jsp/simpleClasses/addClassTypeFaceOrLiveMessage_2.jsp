@@ -125,8 +125,17 @@ input+span{
 			CKupdate();
 			var value = $("#newsContents").val();
 			var desc = $("#description").val();
+			var pDesc = $("#paperDescription").val();
 			var teacherId = $("#teacherList").val();
 			var picUrl = $("#commdotityPic").attr("realPath");
+			if (picUrl.length < 0 || picUrl == "") {
+				alert("课程封面不能为空!");
+				return;
+			}
+			if (teacherId.length < 0 || teacherId == "") {
+				alert("名师不能为空!");
+				return;
+			}
 			if (desc.length < 0 || desc == "") {
 				alert("课程描述不能为空!");
 				return;
@@ -135,7 +144,15 @@ input+span{
 				alert("课程描述最多不能超过100个字符！");
 				return;
 			}
+			if(pDesc.length>100){
+				alert("试卷描述最多不能超过100个字符！");
+				return;
+			}
 			value = encodeURI(value);
+			if (value.length < 0 || value == "") {
+				alert("课程详情不能为空!");
+				return;
+			}
 			$.ajax({
 						url : rootPath
 								+ "/simpleClasses/addClassSuccess",
@@ -144,6 +161,7 @@ input+span{
 							"cId" : '${cId}',
 							"cover" : picUrl,
 							"description" : desc,
+							"paperDescription" : pDesc,
 							"teacherId" : teacherId,
 							"detailDesc" : value
 						},
@@ -262,7 +280,7 @@ input+span{
         <div class="c-main">
             <div class="c-content">
                 <p class="c">
-                    <span class="c-title top">课程封面</span>
+                    <span class="c-title top">课程封面 <i class="require-txt">*</i></span>
                     <span class="c-content">
                      <c:if test="${ct.cover=='' }">
                       	 <span class="view">
@@ -279,7 +297,7 @@ input+span{
                     </span>
                 </p>
                  <p class="c">
-                    <span class="c-title">名师</span>
+                    <span class="c-title">名师 <i class="require-txt">*</i></span>
                     <span class="c-content">
                         <select name="teacherId" id="teacherList" style="width:100px;">
                         <c:if test="${isFuShengPaikeTeac == null || !isFuShengPaikeTeac }">
@@ -300,13 +318,19 @@ input+span{
                     </span>
                 </p>
                 <p class="c">
-                    <span class="c-title">描述</span>
+                    <span class="c-title">描述 <i class="require-txt">*</i></span>
                     <span class="c-content">
                         <textarea name="description" id="description" placeholder="输入课程描述">${ct.description}</textarea>
                     </span>
                 </p>
+                <p class="c">
+                    <span class="c-title">试卷描述</span>
+                    <span class="c-content">
+                        <textarea name="paperDescription" id="paperDescription" placeholder="输入试卷描述">${ct.paperDescription}</textarea>
+                    </span>
+                </p>
                 <p class="c clear">
-                    <span class="c-title">课程详情</span>
+                    <span class="c-title">课程详情 <i class="require-txt">*</i></span>
                       <div class="about-edit">
 		                <textarea class="ckeditor form-control" id="newsContents" name="content" rows="6" data-error-container="#editor2_error"></textarea>
 		              </div>

@@ -58,7 +58,12 @@
 						<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 							<option value="">请选择学校</option>
 						</select>
-
+						<select id="eduYear" name="eduYear" style="width:150px;">
+							<option value="">请选择入学年份</option>
+							<c:forEach items="${years}" var="year">
+								<option value="${year}">${year}</option>
+							</c:forEach>
+						</select>
 						<select name="eduClass" id="eduClass">
 							<option value="">请选择班级</option>
 							<c:forEach begin="1" end="30" varStatus="index">

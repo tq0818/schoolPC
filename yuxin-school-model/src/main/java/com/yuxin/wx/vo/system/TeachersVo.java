@@ -37,6 +37,8 @@ public class TeachersVo extends BaseEntity {
 	private String schoolName;
 	private String teacherLevel;
 	private String teacherArea;
+	private String schoolShortName;
+	private Integer utId;
 
 	public String getTeacherLevel() {
 		return teacherLevel;
@@ -218,4 +220,19 @@ public class TeachersVo extends BaseEntity {
 		this.schoolsId = schoolsId;
 	}
 
+	public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
+
+	public Integer getUtId() {
+		return utId;
+	}
+
+	public void setUtId(Integer utId) {
+		this.utId = utId;
+	}
 }

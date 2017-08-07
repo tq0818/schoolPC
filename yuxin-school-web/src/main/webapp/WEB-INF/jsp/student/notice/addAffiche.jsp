@@ -36,7 +36,7 @@
           <form id="addAffiche" action="<%=rootPath %>/student/addAffiche" method="post">
           	<div class="tips-info">
           		 <div class="heading">
-		            <h2 class="h5">学员通知</h2>
+		            <h2 class="h5">公告</h2>
 		            <span class="line"></span>
 		        </div>     
 	            <textarea id="content" name="content" maxlength="200" class="tips-area"  <c:if test="${not empty msg.content}"> readonly="readonly" </c:if> >${msg.content}</textarea>	

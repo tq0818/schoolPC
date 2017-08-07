@@ -1,8 +1,8 @@
 @font-face {font-family: 'iconfont';
     src: url('fonts/iconfont.eot'); /* IE9*/
     src: url('fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('fonts/iconfont.woff') format('woff'), /* chrome¡¢firefox */
-    url('fonts/iconfont.ttf') format('truetype'), /* chrome¡¢firefox¡¢opera¡¢Safari, Android, iOS 4.2+*/
+    url('fonts/iconfont.woff') format('woff'), /* chromeï¿½ï¿½firefox */
+    url('fonts/iconfont.ttf') format('truetype'), /* chromeï¿½ï¿½firefoxï¿½ï¿½operaï¿½ï¿½Safari, Android, iOS 4.2+*/
     url('fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 .iconfont{
@@ -64,8 +64,8 @@ ul, ol {
 
 p {
     line-height: 1.7;
-    font-size: 14px;
-    font-size: 1.4rem
+    font-size: 12px;
+    font-size: 1.2rem
 }
 
 img {

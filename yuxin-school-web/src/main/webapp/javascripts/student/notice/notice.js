@@ -68,6 +68,7 @@ $(function(){
     			$("a.btn-success").removeClass("btn-success");
     			$("#affiche").removeClass();
     			$("#affiche").attr("class","btn btn-mini btn-notice btn-success");
+    			affiche = "";
     		}
     		messageType = $.trim($(".btn-notice.btn-success").attr("data-type"));
     		var url = rootPath + "/classModuleLesson/noticeDetail";

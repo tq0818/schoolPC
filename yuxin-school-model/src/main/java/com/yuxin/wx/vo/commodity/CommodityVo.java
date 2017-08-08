@@ -92,7 +92,7 @@ public class CommodityVo extends BaseEntity {
     private String lessonTimeStart;
     private String lessonTimeEnd;
     private String lessonName;
-    
+    private String  paperDescription;
     public String getSchoolShortName() {
 		return schoolShortName;
 	}
@@ -711,5 +711,13 @@ public class CommodityVo extends BaseEntity {
 
     public void setIsMicroClass(Integer isMicroClass) {
         this.isMicroClass = isMicroClass;
+    }
+
+    public String getPaperDescription() {
+        return paperDescription;
+    }
+
+    public void setPaperDescription(String paperDescription) {
+        this.paperDescription = paperDescription;
     }
 }

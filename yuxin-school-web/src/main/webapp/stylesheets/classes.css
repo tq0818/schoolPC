@@ -35,3 +35,15 @@
 .subject-main-content .block.active .b-content ul li span.b i{display: none;}
 .subject-main-content .block.active:hover .b-content ul li span.b i{display: inline-block}
 .man_directoryTree{display:none;}
+.main-content .project-addbtn.active .b-btns .btn-addss{
+	line-height: 80px;
+}
+.main-content .project-addbtn .b-btns{    margin-left: -40px;
+	margin-top: -40px;
+	top: 50%;
+	left: 50%;
+	width: auto;
+	height: auto;
+	bottom: auto;}
+.hide-ico{display: none;}
+

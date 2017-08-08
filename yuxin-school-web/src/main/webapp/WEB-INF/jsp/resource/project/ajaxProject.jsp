@@ -147,8 +147,8 @@
 	</div>
 </c:forEach>
 </div>
-	<div class="block active" id="addOneItem">
-		<div class="b-btns" style="margin-left:-150px;margin-bottom:120px;">
+	<div class="block active project-addbtn" id="addOneItem">
+		<div class="b-btns">
 			<div class="btn-addss btn-pro" id="createPro" title="添加分类"><i class="iconfont"  style="font-size:80px">&#xe61c;</i></div>
 		</div>
 	</div>

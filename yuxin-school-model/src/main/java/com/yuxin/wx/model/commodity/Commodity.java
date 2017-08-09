@@ -50,7 +50,7 @@ public class Commodity extends BaseEntity {
 	private String itemSecondCode;
 	private String itemThirdCode;
 	private String itemFourthCode;
-
+	private Integer isMicroClass; /* 是否属于微课标签，1:是；0：否 */
 	public Integer getBaseNum() {
 		return baseNum;
 	}
@@ -380,6 +380,14 @@ public class Commodity extends BaseEntity {
 
 	public void setItemFourthCode(String itemFourthCode) {
 		this.itemFourthCode = itemFourthCode;
+	}
+
+	public Integer getIsMicroClass() {
+		return isMicroClass;
+	}
+
+	public void setIsMicroClass(Integer isMicroClass) {
+		this.isMicroClass = isMicroClass;
 	}
 
 	@Override

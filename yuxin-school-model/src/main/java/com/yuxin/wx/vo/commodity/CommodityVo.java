@@ -41,6 +41,7 @@ public class CommodityVo extends BaseEntity {
     private Integer liveFlag; /* 是否属于直播标签，1:是；0：否 */
     private Integer videoFlag; /* 是否属于视频标签，1:是；0：否 */
     private Integer remoteFlag; /* 是否属于远程标签，1:是；0：否 */
+    private Integer isMicroClass; /* 是否属于微课标签，1:是；0：否 */
     private String cusorder;
     private String cuslimit;
     private String isCollect;/* 判断该商品是否被用户收藏 */
@@ -702,5 +703,13 @@ public class CommodityVo extends BaseEntity {
 
     public void setLessonName(String lessonName) {
         this.lessonName = lessonName;
+    }
+
+    public Integer getIsMicroClass() {
+        return isMicroClass;
+    }
+
+    public void setIsMicroClass(Integer isMicroClass) {
+        this.isMicroClass = isMicroClass;
     }
 }

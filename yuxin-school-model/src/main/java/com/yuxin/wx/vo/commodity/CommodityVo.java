@@ -93,6 +93,9 @@ public class CommodityVo extends BaseEntity {
     private String lessonTimeEnd;
     private String lessonName;
     private String  paperDescription;
+    private Integer isToday;
+    private Integer isTomorry;
+
     public String getSchoolShortName() {
 		return schoolShortName;
 	}
@@ -719,5 +722,21 @@ public class CommodityVo extends BaseEntity {
 
     public void setPaperDescription(String paperDescription) {
         this.paperDescription = paperDescription;
+    }
+
+    public Integer getIsToday() {
+        return isToday;
+    }
+
+    public void setIsToday(Integer isToday) {
+        this.isToday = isToday;
+    }
+
+    public Integer getIsTomorry() {
+        return isTomorry;
+    }
+
+    public void setIsTomorry(Integer isTomorry) {
+        this.isTomorry = isTomorry;
     }
 }

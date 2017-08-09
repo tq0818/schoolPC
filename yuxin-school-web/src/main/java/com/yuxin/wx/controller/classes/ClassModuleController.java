@@ -185,6 +185,8 @@ public class ClassModuleController {
 	private ISysTeacherPersonalStatusPicService sysTeacherPersonalStatusPicImpl;
 	@Autowired
 	private IUsersService usersServiceImpl;
+	@Autowired
+	private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
 	DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 
@@ -1840,8 +1842,37 @@ public class ClassModuleController {
 	public JSONObject selItem(HttpServletRequest request,Integer oneItem){
 		//根据一级项目id 查询 二级 项目
 		List<SysConfigItem> item = sysConfigItemServiceImpl.findSysConfigItemByPid("2", oneItem, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request));
+
+
+
 		JSONObject json = new JSONObject();
 		json.put("two", item);
+		return json;
+	}
+	@ResponseBody
+	@RequestMapping("/selItemRelationByPid")
+	public JSONObject selTwoItemRelation(HttpServletRequest request,Integer pid){
+		//根据一级项目id 查询 二级 项目
+//		List<SysConfigItem> item = sysConfigItemServiceImpl.findSysConfigItemByPid("2", oneItem, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request));
+		SysConfigItemRelation relation = new SysConfigItemRelation();
+		relation.setId(pid);
+		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
+		SysConfigItem item = new SysConfigItem();
+		item.setCompanyId(WebUtils.getCurrentCompanyId());
+		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+		item.setItemType("2");
+		List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+		for(SysConfigItemRelation re : relations) {
+			for (SysConfigItem name : names) {
+				if (re.getItemCode().equals(name.getItemCode())) {
+					re.setItemName(name.getItemName());
+					break;
+				}
+			}
+		}
+
+		JSONObject json = new JSONObject();
+		json.put("two", relations);
 		return json;
 	}
 
@@ -1860,7 +1891,10 @@ public class ClassModuleController {
 	@RequestMapping("/selClassType")
 	public JSONObject selClassType(HttpServletRequest request,ClassType classType){
 		//查询 班型
-		List<ClassType> types = classTypeServiceImpl.findClassByItem(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request), classType.getItemOneId(), classType.getItemSecondId());
+//		List<ClassType> types = classTypeServiceImpl.findClassByItem(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request), classType.getItemOneId(), classType.getItemSecondId());
+
+		List<ClassType> types = classTypeServiceImpl.findClassByItemRelation(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request), classType.getItemOneCode(), classType.getItemSecondCode(),classType.getItemThirdCode());
+
 		JSONObject json = new JSONObject();
 		json.put("types", types);
 		return json;

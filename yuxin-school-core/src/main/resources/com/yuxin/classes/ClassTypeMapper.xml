@@ -540,6 +540,17 @@
 		and del_flag=0
 		order by id desc
 	</select>
+	<select id="findClassByItemRelation" parameterType="map" resultMap="classTypeResultMap">
+		select id,name
+		from class_type where
+		company_id=#{companyId}
+		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code = #{itemOneCode}</if>
+		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
+		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code = #{itemThirdCode}</if>
+		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
+		and del_flag=0
+		order by id desc
+	</select>
 	<select id="findByRemote" parameterType="String" resultMap="classTypeResultMap">
 		select a.* from
 		course_remote a,

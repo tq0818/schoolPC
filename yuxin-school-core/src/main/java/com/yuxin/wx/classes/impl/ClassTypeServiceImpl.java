@@ -422,6 +422,20 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		map.put("createSchoolId", schoolId);
 		return classTypeMapper.findClassByItem(map);
 	}
+	@Override
+	public List<ClassType> findClassByItemRelation(Integer conpanyId, Integer schoolId,
+												   String itemOneCode, String itemSecondCode, String itemThridCode) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyId", conpanyId);
+		map.put("itemOneCode", itemOneCode);
+		map.put("itemSecondCode", itemSecondCode);
+		map.put("itemThridCode", itemThridCode);
+		map.put("createSchoolId", schoolId);
+		return classTypeMapper.findClassByItemRelation(map);
+	}
+
+
 
 	@Override
 	public List<ClassType> findClassTypeBycompanyId(Integer companyId) {

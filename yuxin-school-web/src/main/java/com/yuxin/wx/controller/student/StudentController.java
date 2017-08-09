@@ -159,7 +159,8 @@ public class StudentController {
     private IClassPackageCategoryService classPackageCategoryServiceImpl;
     @Autowired
     private ISysConfigTeacherService sysConfigTeacherServiceImpl;
-
+    @Autowired
+    private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
     
     private static Logger log = Logger.getLogger(StudentController.class);
     
@@ -2408,7 +2409,25 @@ public class StudentController {
         Integer status = studentServiceImpl.findClassMore(param);
 
         model.addAttribute("classMoreStatus", status);
-        List<SysConfigItem> item = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+
+
+
+//        List<SysConfigItem> item = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
 
         // 查询 公司服务
 
@@ -2419,7 +2438,7 @@ public class StudentController {
         Integer emailCount = (cms.getEmailTotal() + cms.getGiveEmail() - css.getEmailSend());
         model.addAttribute("count", msgCount);
         model.addAttribute("emailCount", emailCount);
-        model.addAttribute("oneItem", item);
+        model.addAttribute("oneItem", relations);
         String afficheFlag = request.getParameter("addAffiche");
         if(StringUtils.equals(afficheFlag, "addAffiche")){
         	String afficheId = request.getParameter("afficheId");

@@ -605,15 +605,15 @@
 			},
 			showClassTypeDetail : function(id,typeCode){
 				var itemOneId="";
-				$("#itemOneList").find("a").each(function(i){
-					if($(this).hasClass('btn-success')){
-						itemOneId=$(this).attr("ids");
-					}
-				});
-				if(itemOneId==""){
-					alert("请先设置学科!");
-					return;
-				}
+				// $("#itemOneList").find("a").each(function(i){
+				// 	if($(this).hasClass('btn-success')){
+				// 		itemOneId=$(this).attr("ids");
+				// 	}
+				// });
+				// if(itemOneId==""){
+				// 	alert("请先设置学科!");
+				// 	return;
+				// }
 				$("#classTypeId").val(id);
 				$("#typeCode").val(typeCode);
 				$("#myForm").attr("action",rootPath+"/simpleClasses/showClassTypeDetail").submit();
@@ -631,10 +631,10 @@
 					lab+=$(this).attr("mark")+",";
 				});
 				//console.log(lab);
-				if(itemOneId==""){
-					alert("请先设置学科!");
-					return;
-				}
+				// if(itemOneId==""){
+				// 	alert("请先设置学科!");
+				// 	return;
+				// }
 				$("#classTypeId").val(id);
 				$("#lab").val(lab);
 				$("#myForm").attr("action",rootPath+"/editSimpleCourse/editClassTypeMessage").submit();
@@ -687,20 +687,20 @@
 						$("#twoId").val($(this).attr("ids"));
 					}
 				});
-				if(itemOneId==""){
-					alert("请先设置学科!");
-					return;
-				}
+				// if(itemOneId==""){
+				// 	alert("请先设置学科!");
+				// 	return;
+				// }
 				var count=0;
 				$("#itemSecondList").find("a.btn").each(function(i){
 					if($(this).hasClass("btn-default")){
 						count++;
 					}
 				});
-				if(count<=0){
-					alert("请先设置学科小类!");
-					return;
-				}
+				// if(count<=0){
+				// 	alert("请先设置学科小类!");
+				// 	return;
+				// }
 				$("#myForm").attr("action",rootPath+"/simpleClasses/addClassType").submit();
 			}
 			

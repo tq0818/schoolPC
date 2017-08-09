@@ -19,8 +19,8 @@
     	  if($.trim(content) ==""){
     		  alert("公告内容不能为空");
     		  return;
-    	  }else if(content.length > 200){
-    		  alert("公告内容大于200个字符");
+    	  }else if(content.length > 119){
+    		  alert("公告内容大于119个字符");
     		  return;
     	  }
     	  $('#addAffiche').submit();

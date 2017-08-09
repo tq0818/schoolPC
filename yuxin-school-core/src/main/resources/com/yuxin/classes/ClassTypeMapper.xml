@@ -746,7 +746,7 @@
 	</select>
 	
 	<update id="updateSubjectClassOrder" parameterType="com.yuxin.wx.model.classes.ClassType">
-	     update class_type set subject_class_order = #{subjectClassOrder} where  del_flag = 0 and publish_status = 'CLASS_ON_SALE' and id = #{id} and (select ct2.num from (select count(ct.id) num  from class_type ct where ct.publish_status = 'CLASS_ON_SALE' and  ct.subject_class_order > 0 and ct.item_one_id = #{itemOneId} and ct.id !=#{id}) ct2)  &lt;  8
+	     update class_type set subject_class_order = #{subjectClassOrder} where  del_flag = 0 and publish_status = 'CLASS_ON_SALE' and id = #{id}
 	</update>
 	
 	<select id="countSubjectClassOrder" resultType="Integer" parameterType="String">

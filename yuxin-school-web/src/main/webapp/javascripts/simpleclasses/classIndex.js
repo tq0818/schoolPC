@@ -245,7 +245,7 @@
 				}else{
 					
 				}
-				Form.querylablesList(null,null,"change");
+				// Form.querylablesList(null,null,"change");
 				if(status==null){
 					$("#statusList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){
@@ -328,7 +328,7 @@
 				}else{
 
 				}
-				Form.querylablesList(null,null,"change");
+				// Form.querylablesList(null,null,"change");
 				if(status==null){
 					$("#statusList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){

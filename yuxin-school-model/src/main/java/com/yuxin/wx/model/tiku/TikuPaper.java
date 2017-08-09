@@ -39,6 +39,8 @@ public class TikuPaper extends BaseEntity {
 	private String creatorName;
 
 	private Integer teacherId;
+
+	private Integer doExam;
 	// Constructor
 	public TikuPaper() {
 	}
@@ -266,5 +268,13 @@ public class TikuPaper extends BaseEntity {
 
 	public void setCreatorName(String creatorName) {
 		this.creatorName = creatorName;
+	}
+
+	public Integer getDoExam() {
+		return doExam;
+	}
+
+	public void setDoExam(Integer doExam) {
+		this.doExam = doExam;
 	}
 }

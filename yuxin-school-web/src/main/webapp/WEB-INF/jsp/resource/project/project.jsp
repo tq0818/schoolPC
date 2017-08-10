@@ -7,6 +7,10 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/stylesheets/classes.css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/resource.css" />
 <link rel="stylesheet" href="<%=rootPath%>/stylesheets/TagManagement.css">
+	<link rel="stylesheet" href="<%=rootPath %>/javascripts/itemTree/script/ztree/metroStyle.css">
+	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery-ui.js"></script>
+	<script src="<%=rootPath %>/javascripts/itemTree/script/ztree/jquery.ztree.all.min.js"></script>
+
 	<style type="text/css">
 		img{cursor: pointer;}
 		.main-content .block .b-title .tt .h3 b {
@@ -85,7 +89,7 @@ margin-left: 25px;
 		project.queryOneItem();
 	});
 </script>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery-ui.js"></script>
+
 <script type="text/javascript">
 	$(".tab-sub-title").delegate(".tab-type","click",function(){
 		$(this).addClass("active").siblings().removeClass("active");

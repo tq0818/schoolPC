@@ -109,6 +109,7 @@ function beforeRemove(treeId, treeNode, newName, isCancel) {
 
 //控制右侧显示内容
 function onSelected(event, treeId, treeNode) {
+    debugger
     ztree.expandNode(treeNode, true, true, true);
     $('.tree_setting .tree-listtype').hide();
     $('input:checkbox').prop('checked', false);
@@ -163,8 +164,9 @@ $(document).ready(function() {
     });*/
     //新建根节点
     $('#addCatg').on('click', function() {
+
         $('.tree_setting .tree-listtype').hide();
-        $('#bigType').show();
+        $('#bigType,.btn-list').show();
         if($("#ztree").html()!=""){
             ztree.cancelSelectedNode();
             var ztreeList = ztree.getNodes();

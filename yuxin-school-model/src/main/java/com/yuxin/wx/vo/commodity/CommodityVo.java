@@ -96,7 +96,19 @@ public class CommodityVo extends BaseEntity {
     private Integer isToday;
     private Integer isTomorry;
 
-    public String getSchoolShortName() {
+    private Date previewDate;//预览时间
+    
+    
+    
+    public Date getPreviewDate() {
+		return previewDate;
+	}
+
+	public void setPreviewDate(Date previewDate) {
+		this.previewDate = previewDate;
+	}
+
+	public String getSchoolShortName() {
 		return schoolShortName;
 	}
 

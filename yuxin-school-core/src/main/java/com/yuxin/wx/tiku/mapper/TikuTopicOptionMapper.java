@@ -1,6 +1,7 @@
 package com.yuxin.wx.tiku.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.tiku.TikuTopicOption;
@@ -34,4 +35,11 @@ public interface TikuTopicOptionMapper extends BaseMapper<TikuTopicOption> {
 	 * @param topicId
 	 */
 	void deleteByTopicId(List<Integer> list);
+	
+	/**
+	 * 批量查询试题选项
+	 * @param list
+	 * @return
+	 */
+	List<TikuTopicOption> findOptionByListTopicId(Map<String, Object> param);
 }

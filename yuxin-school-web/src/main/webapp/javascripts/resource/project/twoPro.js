@@ -114,29 +114,32 @@ $(function(){
 		//添加学科小类
 		$(".add-subs").find("input[name='twoAdd']").each(function(){
 			$(this).unbind('click').click(function(){
-				var className = $(this).prev().val();
+				var className = $(this).prev().prev().val();
+                var itemCode = $(this).prev().val();
 				var parentId = $(this).attr("data-pid");
+                var parentCode = $(this).attr("data-pcode");
 				//验证学科名称唯一性
 				$.ajax({
 					url : rootPath + "/sysConfigItem/checkName",
 					type:"post",
-					data:{"itemName": className,"status":"add","parentId":parentId,"itemType":2},
+					data:{"itemName": className,"status":"add","parentId":parentId,"itemType":2,"parentCode":parentCode,"itemCode":itemCode},
 					dataType:"text",
 					beforeSend:function(XMLHttpRequest){
 			              $(".loading").show();
 			              $(".loading-bg").show();
 			         },
 					success:function(data){
+						debugger;
 						if(data == "false"){
      						$(".loading").hide();
      			            $(".loading-bg").hide();
-     			            $.msg("当前学科小类名称已存在！",1000);
+     			            $.msg("当前子类名称或编码已存在！",1000);
 						}else{
 							//添加
 							$.ajax({
 								url:rootPath + "/sysConfigItem/addPro",
 								type:"post",
-								data:{"itemName":className,"itemType":2,"parentId":parentId},
+								data:{"itemName":className,"itemType":2,"parentId":parentId,"parentCode":parentCode,"itemCode":itemCode},
 								dataType:"text",
 								beforeSend:function(XMLHttpRequest){
 						              $(".loading").show();
@@ -146,7 +149,7 @@ $(function(){
 		        					if(data == "true"){
  										location.reload();
 		        					}else{
-		        						$.msg("添加学科时出错！",1000);
+		        						$.msg("添加子类时出错！",1000);
 		        						$(".loading").hide();
 		        			            $(".loading-bg").hide();
 		        					}
@@ -159,7 +162,8 @@ $(function(){
 		});
 		$(".r-subs-title").each(function(){
 			var parent = $(this);
-			var itemName = $.trim($(this).find("em").text());
+			var itemName = $.trim($(this).find("em .itemname").text());
+            var itemCode = $.trim($(this).find("em .itemcode").text());
     		//删除
 			$(this).find(".btn-del-two").unbind('click').click(function(){
 				var twoId = $(this).parent().find(".twoId").val();
@@ -277,18 +281,20 @@ $(function(){
 			$(document).on("click",".twoItemName",function(){
 				$(this).focus();
 			});
-			
 			$(this).find(".btn-edit-two").unbind('click').click(function(){
-				parent.find("em").html("<input type='text' class='twoItemName' value='" + itemName + "' maxlength='10'/>");
+				parent.find("em").html("<input type='text' class='twoItemName sub-input' value='" + itemName + "' maxlength='10'/> <input type='text' class='twoItemCode sub-input' value='" + itemCode + "' maxlength='10'/>");
 				var p = $(this);
 				p.hide();
 				parent.find(".btn-two").hide();
 				parent.find(".btn-del-two").hide();
-				$(this).after("<a href='javascript:;' class='btn btn-mini btn-link btn-two-cancel'>&nbsp;&nbsp;取消</a>");
-				parent.find(".btn-two-cancel").before("<a href='javascript:;' class='btn btn-mini btn-link btn-ok-two'>保存</a>");
+				$(this).after("<input type='button' class='btn btn-mini btn-default btn-two-cancel' value='取消' />");
+				parent.find(".btn-two-cancel").before(" <input type='button' class='btn btn-mini btn-default btn-ok-two' value='保存'/>");
 				//取消
 				parent.find(".btn-two-cancel").unbind('click').click(function(){
-					parent.find("em").html(itemName);
+					var name_code = '<span class="sub-input itemname">'+itemName+'</span>'+
+                    '<span class="sub-input itemcode">'+itemCode+'</span>';
+					parent.find("em").html(name_code);
+                    parent.find("em .itemcode").html(itemCode);
 					parent.find(".btn-two").show();
 					parent.find(".btn-del-two").show();
 					p.show();
@@ -300,11 +306,13 @@ $(function(){
 					var parentId = parent.find(".pid").val();
 					var twoItemId = parent.find(".twoId").val();
 					var itemName = $.trim(parent.find(".twoItemName").val());
+                    var itemCode = $.trim(parent.find(".twoItemCode").val());
+                    var parentCode =parent.find(".pcode").val();
 					//验证学科名称唯一性
 					$.ajax({
 						url : rootPath + "/sysConfigItem/checkName",
 						type:"post",
-						data:{"id":twoItemId,"itemName": itemName,"parentId":parentId,"status":"update","itemType":2},
+						data:{"id":twoItemId,"itemName": itemName,"parentId":parentId,"status":"update","itemType":2,"parentCode":parentCode,"itemCode":itemCode},
 						dataType:"text",
 						beforeSend:function(XMLHttpRequest){
 				              $(".loading").show();
@@ -315,13 +323,13 @@ $(function(){
 							if(data == "false"){
 	     						$(".loading").hide();
 	     			            $(".loading-bg").hide();
-	     			            $.msg("当前学科小类名称已存在！",1000);
+	     			            $.msg("当前子类名称或编码已存在！",1000);
 							}else{
 								//添加
 								$.ajax({
 									url:rootPath + "/sysConfigItem/update",
 									type:"post",
-									data:{"id":twoItemId,"itemName":itemName,"itemType":2,"parentId":parentId},
+									data:{"id":twoItemId,"itemName":itemName,"itemType":2,"parentId":parentId,"parentCode":parentCode,"itemCode":itemCode},
 									dataType:"text",
 									success:function(data){
 			        					if(data == "true"){
@@ -329,7 +337,7 @@ $(function(){
 									        $(".loading").show();
 										    $(".loading-bg").show();
 			        					}else{
-			        						$.msg("修改学科时出错！",1000);
+			        						$.msg("修改子类时出错！",1000);
 									        $(".loading").hide();
 										    $(".loading-bg").hide();
 			        					}

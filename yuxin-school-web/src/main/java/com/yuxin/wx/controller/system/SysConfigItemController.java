@@ -487,7 +487,7 @@ public class SysConfigItemController extends BaseWebController {
      * @author 周文斌
      * @date 2015-5-4 上午11:36:48
      * @version 1.0
-     * @param model
+     * @param
      * @return
      */
     @RequestMapping("/project")
@@ -605,7 +605,7 @@ public class SysConfigItemController extends BaseWebController {
      * @return
      */
     @RequestMapping("/twoProListAjax")
-    public String twoProListAjax(Model model, Integer oneItemId, HttpServletRequest request) {
+    public String twoProListAjax(Model model, Integer oneItemId,String oneItemCode, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
         Integer schoolId = WebUtils.getCurrentUserSchoolId(request);
         SysConfigItem item = new SysConfigItem();
@@ -613,7 +613,7 @@ public class SysConfigItemController extends BaseWebController {
         item.setSchoolId(schoolId);
         item.setItemType("2");
         item.setParentId(oneItemId);
-
+        item.setParentCode(oneItemCode);
         List<SysConfigItem> list = sysConfigItemServiceImpl.findStatus(item);
         // 二级项目id
         List<Integer> twoIds = new ArrayList<Integer>();
@@ -640,6 +640,7 @@ public class SysConfigItemController extends BaseWebController {
         model.addAttribute("onerel", oneRel);
         model.addAttribute("twoProList", list);
         model.addAttribute("oneItemId", oneItemId);
+        model.addAttribute("oneItemCode", oneItemCode);
         model.addAttribute("newTowProList", newTwoProList);
         return "resource/project/towProjectList";
     }
@@ -699,7 +700,7 @@ public class SysConfigItemController extends BaseWebController {
      * @author 周文斌
      * @date 2015-5-12 下午9:12:07
      * @version 1.0
-     * @param model
+     * @param
      * @param oneItemId
      * @return
      */
@@ -932,7 +933,7 @@ public class SysConfigItemController extends BaseWebController {
                 sysConfigItemCourseServiceImpl.insert(scic);
             }
         } catch (Exception e) {
-            log.error("新增项目出错！", e);
+            log.error("新增分类出错！", e);
             e.printStackTrace();
             return "false";
         }
@@ -947,18 +948,19 @@ public class SysConfigItemController extends BaseWebController {
      * @author 周文斌
      * @date 2015-5-7 下午4:45:02
      * @version 1.0
-     * @param search
+     * @param
      * @param request
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/checkName", method = RequestMethod.POST)
-    public String checkName(Integer id, String itemName, HttpServletRequest request, Integer parentId, String status, Integer itemType) {
+    public String checkName(Integer id,String itemCode, String itemName, HttpServletRequest request, Integer parentId, String status, Integer itemType) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("id", id);
         param.put("itemName", itemName);
         param.put("companyId", WebUtils.getCurrentCompanyId());
         param.put("itemType", itemType);
+        param.put("itemCode", itemCode);
         param.put("schoolId", WebUtils.getCurrentUserSchoolId(request));
         if (parentId != null) {
             param.put("parentId", parentId);
@@ -1036,7 +1038,7 @@ public class SysConfigItemController extends BaseWebController {
      * @modifier
      * @modify-date 2015年4月8日 下午3:37:12
      * @version 1.0
-     * @param itemType
+     * @param
      * @param model
      * @return
      */
@@ -1067,6 +1069,8 @@ public class SysConfigItemController extends BaseWebController {
         json.put("id", item.getId());
         json.put("name", item.getItemName());
         json.put("remark", item.getRemark());
+        json.put("pic", item.getItemPic());
+        json.put("itemCode", item.getItemCode());
         return json;
     }
 

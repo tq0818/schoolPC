@@ -201,12 +201,18 @@
                      ${item.resume}
                  </span>
              </p>
-                     <p class="c c-p">
-                 <span class="c-title">学校简称</span>
-                 <span class="c-content">
+            <p class="c">
+                <span class="c-title">学校简称</span>
+                <span class="c-content">
                     <input type="text" class="readonly" value="${item.schoolShortName}" readonly>
                 </span>
-             </p>
+            </p>
+            <p class="c c-p">
+                <span class="c-title">摘要</span>
+                <span class="c-content" style="width: 480px;word-wrap:break-word">
+                        ${item.remark}
+                </span>
+            </p>
          </div>
          <div class="r-list-content clear hide">
              <div class="r-list-content-title">

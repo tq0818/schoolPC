@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.api.course.IVideoService;
 import com.yuxin.wx.api.system.ISysTaskLogService;
+import com.yuxin.wx.api.tiku.ITikuUserExerciseAnswerService;
 import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.company.mapper.CompanyPayConfigMapper;
 import com.yuxin.wx.company.mapper.CompanyServiceStaticDayMapper;
@@ -76,6 +77,8 @@ public class TimerTaskComponent {
 
 	@Autowired
 	private ZSCoursewareTask zscStatisticsTask;
+	@Autowired
+	private TikuStatisticsTask tikuStatisticsTask;
 
 	@Autowired
 	private PropertiesUtil properties;
@@ -688,4 +691,35 @@ public class TimerTaskComponent {
 	// sysFileConvertTaskImpl.update(job);
 	// }
 	// }
+
+	/**
+	 * 统计用户答题结果（只针对单选和多选）
+	 *
+	 */
+	 @Scheduled(cron = "0 0 1 * * ?")
+	 public void taskTikuUserExerciseAnswer() {
+		 SysTaskLog stl = new SysTaskLog();
+		 try {
+			 stl.setExecuteDate(new Date());
+			 stl.setStartTime(new Date());
+			 stl.setTaskName("用户课后练习试卷统计");
+			 stl.setOperator(0);
+			 stl.setOperateTime(new Date());
+			 log.info("用户课后练习试卷统计任务-----执行时间：" + new Date());
+			 tikuStatisticsTask.tikuStatistics();
+			 log.info("用户课后练习试卷统计任务-----处理：完成");
+			 stl.setEndTime(new Date());
+			 stl.setResult("统计成功");
+			 stl.setErrorLog("无错误");
+		 } catch (Exception e) {
+			 // TODO: handle exception
+			 e.printStackTrace();
+			 log.info("用户课后练习试卷统计-----异常：" + e.getMessage());
+			 stl.setEndTime(new Date());
+			 stl.setResult("统计中出错");
+			 stl.setErrorLog(e.getMessage());
+		 } finally {
+			 sysTaskLogServiceImpl.insert(stl);
+		 }
+	 }
 }

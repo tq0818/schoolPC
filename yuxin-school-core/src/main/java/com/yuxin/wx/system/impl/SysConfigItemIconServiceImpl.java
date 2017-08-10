@@ -36,4 +36,7 @@ public class SysConfigItemIconServiceImpl extends BaseServiceImpl implements ISy
 		return sysConfigItemIconMapper.findUrlById(id);
 	}
 
+	public SysConfigItemIconMapper getSysConfigItemIconMapper() {
+		return sysConfigItemIconMapper;
+	}
 }

@@ -17,6 +17,8 @@
 		<result property="itemPic" column="item_pic" />
 		<result property="relationStatus" column="relation_status"/>
 		<result property="itemBackPic" column="item_back_pic" />
+		<result property="itemCode" column="item_code" />
+		<result property="parentCode" column="parent_code" />
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.system.SysSchoolItemRelation" id="sysSchoolItemRelationResultMap">
@@ -45,7 +47,9 @@
 		updator,
 		company_id,
 		item_pic,
-		item_back_pic
+		item_back_pic,
+		item_code,
+		parent_code
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -61,7 +65,9 @@
 		#{updator},
 		#{companyId},
 		#{itemPic},
-		#{itemBackPic}
+		#{itemBackPic},
+		#{itemCode},
+		#{parentCode}
 	</sql>
 
 	<!-- 适用于主键自增类型 -->
@@ -119,6 +125,8 @@
 			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
 			<if test="updator != null and updator != ''">updator = #{updator},</if>
 			<if test="itemPic != null and itemPic != ''">item_pic = #{itemPic},</if>
+			<if test="itemCode != null and itemCode != ''">item_code = #{itemCode},</if>
+			<if test="parentCode != null and parentCode != ''">parent_code = #{parentCode},</if>
 			<if test="itemBackPic != null and itemBackPic != ''">item_back_pic = #{itemBackPic},</if>
 			<if test="sort != null and sort != ''">sort = #{sort},</if>
 		</trim>
@@ -131,6 +139,24 @@
 		<include refid="table_columns" />
 		from sys_config_item
 		where id = #{id}
+	</select>
+	<select id="findByParentCode" resultMap="sysConfigItemResultMap"
+			parameterType="hashmap">
+		select
+		i.id,
+		i.item_name,
+		i.item_type,
+		i.parent_id,
+		i.status,
+		i.del_flag,
+		i.company_id,
+		i.item_code,
+		i.parent_code
+		from
+		sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.item_type=2  and
+		i.company_id=#{companyId} and r.school_id=#{schoolId} and r.del_flag=0 and i.status = 1
+		<if test="parentCode != null and parentCode != ''">and i.parent_code=#{parentCode}</if>
 	</select>
 <select id="findByItemTwo" resultMap="sysConfigItemResultMap"
 		parameterType="hashmap">
@@ -368,15 +394,18 @@
 		left join sys_school_item_relation r
 			on r.item_id = i.id 
 		where  
-			i.item_name = #{itemName} and 
+		(i.item_name = #{itemName} or i.item_code = #{itemCode}) and
 			i.company_id = #{companyId} and
 			i.item_type = #{itemType} and 
 			i.status = 1  and 
 			r.school_id = #{schoolId} and 
 			r.true_del_flag = 0
-			<if test="parentId != null">
-				and parent_id = #{parentId}
-			</if>
+			<!--<if test="parentId != null">-->
+				<!--and parent_id = #{parentId}-->
+			<!--</if>-->
+		<!--<if test="parentCode != null">-->
+			<!--and parent_code = #{parentCode}-->
+		<!--</if>-->
 			limit 1
 	</select>
 	
@@ -388,16 +417,16 @@
 		left join sys_school_item_relation r
 			on r.item_id = i.id 
 		where  
-			i.item_name = #{itemName} and 
+		(i.item_name = #{itemName} or i.item_code = #{itemCode}) and
 			i.company_id = #{companyId} and
 			i.item_type = #{itemType} and 
 			i.status = 1  and 
 			r.school_id = #{schoolId} and 
 			r.true_del_flag = 0
 			<if test="id != null">and i.id not in (#{id})</if>
-			<if test="parentId != null">
-				and i.parent_id = #{parentId}
-			</if>
+			<!--<if test="parentId != null">-->
+				<!--and i.parent_id = #{parentId}-->
+			<!--</if>-->
 			limit 1
 	</select>
 	<select id="findOneItemByCompanyId" resultMap="sysConfigItemResultMap" parameterType="Integer">
@@ -432,7 +461,9 @@
 			i.updator,
 			i.company_id,
 			i.item_pic,
-		i.item_back_pic
+			i.item_code,
+			i.parent_code,
+			i.item_back_pic
 		from sys_config_item i
 			inner join sys_school_item_relation r
 			on r.item_id = i.id 
@@ -465,8 +496,10 @@
 			i.update_time,
 			i.updator,
 			i.company_id,
-			i.item_pic, 
-			r.del_flag relation_status,
+			i.item_pic,
+			i.item_code,
+			i.parent_code,
+		r.del_flag relation_status,
 			i.item_back_pic
 		from sys_config_item i
 			inner join sys_school_item_relation r
@@ -479,6 +512,9 @@
 			<if test="parentId != null and parentId != ''">
 				and i.parent_id = #{parentId}
 			</if>
+		<if test="parentCode != null and parentCode != ''">
+			and i.parent_code = #{parentCode}
+		</if>
 			<if test="delFlag!= null">
 				and r.del_flag = #{delFlag}
 			</if>
@@ -512,7 +548,8 @@
 	<select id="findDelNullByName" parameterType="com.yuxin.wx.model.system.SysConfigItem" resultMap="sysConfigItemResultMap">
 		select <include refid="table_columns"/>
 		from sys_config_item
-		where item_name = #{itemName} and 
+		where item_name = #{itemName} and
+			item_code = #{itemCode} and
 			company_id = #{companyId} and 
 			status = 1 and 
 			item_type = #{itemType} 

@@ -26,6 +26,27 @@ public class SysConfigIndexPageTemplate extends BaseEntity {
 	private Integer	schoolId;		
 	private Integer	displaySeq;		 /* 显示顺序 */ 
 
+	private Integer startModuleType;//支持模块段查询
+	
+	private Integer endModuleType;//支持模块段查询
+	
+	
+	public Integer getStartModuleType() {
+		return startModuleType;
+	}
+
+	public void setStartModuleType(Integer startModuleType) {
+		this.startModuleType = startModuleType;
+	}
+
+	public Integer getEndModuleType() {
+		return endModuleType;
+	}
+
+	public void setEndModuleType(Integer endModuleType) {
+		this.endModuleType = endModuleType;
+	}
+
 	// Constructor
 	public SysConfigIndexPageTemplate() {
 	}
@@ -186,4 +207,6 @@ public class SysConfigIndexPageTemplate extends BaseEntity {
 	public String toString() {
 		return "SysConfigIndexPageTemplate [" + "id=" + getId() + ", moduleName=" + moduleName + ", customName=" + customName + ", status=" + status + ", moduleType=" + moduleType + ", widthSetting=" + widthSetting + ", link=" + link + ", picPath=" + picPath + ", itemOneIdList=" + itemOneIdList + ", dataSortBy=" + dataSortBy + ", dataLimitNum=" + dataLimitNum + ", companyId=" + companyId + ", schoolId=" + schoolId + ", displaySeq=" + displaySeq +  "]";
 	}
+	
+	
 }

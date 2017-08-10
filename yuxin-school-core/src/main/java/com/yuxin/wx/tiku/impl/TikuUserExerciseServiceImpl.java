@@ -3,6 +3,7 @@ package com.yuxin.wx.tiku.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.tiku.TikuUserExerciseAnswerAccuracy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
@@ -202,6 +203,11 @@ public class TikuUserExerciseServiceImpl extends BaseServiceImpl implements ITik
         Integer count = this.tikuUserExerciseMapper.findPaperRspdInfoCount(exercise);
         PageFinder<TikuUserExerciseVo> pageFinder = new PageFinder<TikuUserExerciseVo>(exercise.getPage(), exercise.getPageSize(), count, list);
         return pageFinder;
+    }
+
+    @Override
+    public Map<String, Object> findExamAccuracyByParam(TikuUserExerciseAnswerAccuracy tueaa) {
+        return tikuUserExerciseMapper.findExamAccuracyByParam(tueaa);
     }
 
 }

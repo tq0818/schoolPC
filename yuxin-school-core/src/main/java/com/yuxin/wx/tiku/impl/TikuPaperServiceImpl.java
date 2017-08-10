@@ -166,6 +166,11 @@ public class TikuPaperServiceImpl extends BaseServiceImpl implements ITikuPaperS
 	}
 
 	@Override
+	public List<TikuPaper> queryAll() {
+		return tikuPaperMapper.queryAll();
+	}
+
+	@Override
 	public PageFinder<TikuPaper> findTikuUserByPage(TikuPaper search) {
 		// TODO Auto-generated method stub
 		List<TikuPaper> list = tikuPaperMapper.page(search);

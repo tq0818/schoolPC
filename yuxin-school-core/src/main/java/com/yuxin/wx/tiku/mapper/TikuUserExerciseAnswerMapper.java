@@ -1,6 +1,7 @@
 package com.yuxin.wx.tiku.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -41,4 +42,7 @@ public interface TikuUserExerciseAnswerMapper extends BaseMapper<TikuUserExercis
     Integer findCategoryCountByUserId(Integer userId);
 
     Double findExerciseScore(Integer exerciseId);
+
+    List<TikuUserExerciseAnswer> findTikuUserExerciseAnswer(Map<String, Object> papam);
+
 }

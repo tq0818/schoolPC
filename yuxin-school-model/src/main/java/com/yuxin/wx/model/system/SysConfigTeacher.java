@@ -74,6 +74,8 @@ public class SysConfigTeacher extends BaseEntity {
 	private String teacherArea;
 	
 	private Integer sortId;
+
+	private String remark;		//摘要
 	
 	/**
 	 * 学校简称
@@ -473,5 +475,12 @@ public class SysConfigTeacher extends BaseEntity {
 	public void setSortId(Integer sortId) {
 		this.sortId = sortId;
 	}
-	
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 }

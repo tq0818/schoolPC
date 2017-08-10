@@ -1,14 +1,15 @@
 package com.yuxin.wx.controller.tiku.exam;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.tiku.*;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.tiku.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -23,15 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yuxin.wx.api.student.IStudentPayMasterService;
 import com.yuxin.wx.api.system.ILongitudinalTableDataService;
-import com.yuxin.wx.api.tiku.ITikuUserExerciseService;
 import com.yuxin.wx.api.tiku.exam.ITikuExamUserRelationService;
 import com.yuxin.wx.common.ExcelSheetEntity;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.student.StudentPayMaster;
 import com.yuxin.wx.model.system.LongitudinalTableData;
-import com.yuxin.wx.model.tiku.TikuPaper;
-import com.yuxin.wx.model.tiku.TikuUserExercise;
 import com.yuxin.wx.model.tiku.exam.TikuExamUserRelation;
 import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.WebUtils;
@@ -59,6 +57,16 @@ public class TikuExamUserRelationController {
 
     @Autowired
     private ITikuUserExerciseService tikuUserExerciseServiceImpl;
+    @Autowired
+    private ISysConfigDictService sysConfigDictServiceImpl;
+    @Autowired
+    private ITikuTopicService tikuTopicServiceImpl;
+    @Autowired
+    private ITikuPaperService tikuPaperServiceImpl;
+    @Autowired
+    private ITikuTopicOptionService tikuTopicOptionServiceImpl;
+    @Autowired
+    private ITikuUserExerciseAnswerService tikuUserExerciseAnswerServiceImpl;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, TikuExamUserRelation search) {
@@ -159,6 +167,57 @@ public class TikuExamUserRelationController {
         model.addAttribute("statistics", this.tikuUserExerciseServiceImpl.statisticRspdByPaper(paper));
         model.addAttribute("paperId", paper.getId());
         model.addAttribute("tikuId", paper.getTikuCategoryId());
+
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
+
+        // 根据试卷id查询试卷信息
+        paper = this.tikuPaperServiceImpl.findTikuPaperById(paper.getId());
+        String topicTypes = paper.getContainTopicType();
+        Map<String,List<TikuTopic>> topicMap = new LinkedHashMap<String,List<TikuTopic>>();
+        if(StringUtils.isNotBlank(topicTypes)){
+            String types[] = topicTypes.split(",");
+            for(String type : types){
+                Map<String, Object> param = new HashMap<String, Object>();
+                param.put("paperId", paper.getId());
+                param.put("topicType", type);
+                List<TikuTopic> topics = this.tikuTopicServiceImpl.findTopicByPaperId(param);
+                if(StringUtils.equals(type, "TOPIC_TYPE_RADIO") || StringUtils.equals(type, "TOPIC_TYPE_MULTIPLE") || StringUtils.equals(type, "TOPIC_TYPE_UNDEFINED")){
+                    List<Integer> idList = new ArrayList<Integer>();
+                    for(TikuTopic topic : topics){
+                        idList.add(topic.getId());
+                    }
+                    if(idList.size() > 0){
+                        param.put("idList", idList);
+                        List<TikuTopicOption> optionList = tikuTopicOptionServiceImpl.findOptionByListTopicId(param);
+                        for(TikuTopic topic : topics){
+                            for(int i = 0; i < optionList.size(); i++){
+                                TikuTopicOption option = optionList.get(i);
+                                if(option.getTopicId() == topic.getId()){
+                                    topic.getOptionList().add(option);
+                                    optionList.remove(i);
+                                    i--;
+                                }
+                            }
+                        }
+                    }
+
+                }
+//                tikuTopicOptionServiceImpl.findOptionByTopicId(1);
+                topicMap.put(type, topics);
+            }
+        }
+        model.addAttribute("topicMap", topicMap);
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
         return "tiku/paper/paperStatisticsIndex";
     }
 
@@ -290,7 +349,7 @@ public class TikuExamUserRelationController {
         }
         PageFinder<TikuUserExerciseVo> pageFinder = this.tikuUserExerciseServiceImpl.findAllPaperRspdInfo(exercise);
         al = pageFinder.getData();
-        String title = "学员名称:name,用户名:userName,手机号:mobile,当前试卷分数:exerciseScore,考试时间:startTime";
+        String title = "用户名称:userName,学员名称:name,区域:eduArea,学校:eduSchool,学段:eduStep,入学年份:eduYear,班级:eduClass,当前试卷分数:exerciseScore,考试时间:startTime";
 
         ViewFiles excel = new ViewFiles();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -309,5 +368,14 @@ public class TikuExamUserRelationController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/getExamAccuracy")
+    public Map<String, Object> getExamAccuracy(TikuUserExerciseAnswerAccuracy tueaa, Model model) {
+        Map<String, Object> resultMap = tikuUserExerciseServiceImpl.findExamAccuracyByParam(tueaa);
+
+        return resultMap;
     }
 }

@@ -42,6 +42,11 @@
 		<result property="protocolId" column="protocol_id"/>
 		<result property="iconLable" column="icon_lable"/>
 	    <result property="subjectClassOrder" column="subject_class_order"/>
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="paperDescription" column="paper_description" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
@@ -54,8 +59,14 @@
 		<result property="schoolsId" column="schools_id" />
 		<result property="itemOneId" column="item_one_id" />
 		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
 		<result property="itemOneName" column="item_one_name" />
 		<result property="itemSecondName" column="item_second_name" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="itemThirdName" column="item_third_name" />
+		<result property="itemFourthName" column="item_fourthd_name" />
 		<result property="description" column="description" />
 		<result property="publishStatus" column="publish_status" />
 		<result property="publishTime" column="publish_time" />
@@ -90,6 +101,7 @@
 		<result property="protocolId" column="protocol_id"/>
 		<result property="iconLable" column="icon_lable"/>
 		<result property="subjectClassOrder" column="subject_class_order"/>
+		<result property="isMicroClass" column="is_micro_class"/>
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -132,7 +144,13 @@
 		member_flag,
 		buy_num_max,
 		protocol_id,
-		icon_lable
+		icon_lable,
+		item_one_code,
+		item_second_code,
+		item_third_code,
+		item_fourth_code,
+		is_micro_class,
+		paper_description
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -174,7 +192,13 @@
 		#{memberFlag},
 		#{buyNumMax},
 		#{protocolId},
-		#{iconLable}
+		#{iconLable},
+		#{itemOneCode},
+		#{itemSecondCode},
+		#{itemThirdCode},
+		#{itemFourthCode},
+		#{isMicroClass},
+		#{paperDescription}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -217,7 +241,13 @@
 		#{item.memberFlag},
 		#{item.buyNumMax},
 		#{item.protocolId},
-		#{item.iconLable}
+		#{item.iconLable},
+		#{item.itemOneCode},
+		#{item.itemSecondCode},
+		#{item.itemThirdCode},
+		#{item.itemFourthCode},
+		#{item.isMicroClass},
+		#{item.paperDescription}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -291,8 +321,14 @@
 			<if test="buyNumMax != null">buy_num_max = #{buyNumMax},</if>
 			<if test="protocolId != null">protocol_id = #{protocolId},</if>
 			<if test="iconLable != null">icon_lable = #{iconLable},</if>
+			<if test="itemOneCode != null  and itemOneCode != ''">item_one_code = #{itemOneCode},</if>
+			<if test="itemSecondCode != null  and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
+			<if test="itemThirdCode != null  and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
+			<if test="itemFourthCode != null  and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
 		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
-		    
+		    <if test="isMicroClass != null">is_micro_class = #{isMicroClass}</if>
+		    <if test="paperDescription != null and paperDescription!=''">paper_description = #{paperDescription}</if>
+
 		 </trim>
 		<where>id = #{id}</where>
 	</update>
@@ -359,14 +395,15 @@
 		SELECT 
 		  a.*,
 		  b.item_name AS itemOneName,
-		  c.item_name AS itemSecondName 
+		  c.item_name AS itemSecondName,
+		  d.item_name AS itemThirdName,
+		 a.item_fourth_code AS itemFourthName
 		FROM
-		  class_type a,
-		  sys_config_item b,
-		  sys_config_item c 
+		  class_type a
+		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
 		where a.id = #{classId}
-		and a.item_one_id = b.id 
-		and c.id = a.item_second_id
 		limit 1
 	</select>
 	<select id="findListByItem" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
@@ -407,46 +444,60 @@
 	</select>
 	
 	<!-- 查询班型并分页 -->
-	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
-		SELECT a.*, c.buy_num as actualNum 
+	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="map">
+		SELECT a.*, c.buy_num as actualNum
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
 		INNER JOIN commodity c ON c.id = pr.com_id 
-		where a.del_flag=0 and a.company_id = #{companyId} and c.type='COMMODITY_CLASS' 
-		<if test="name != null and name != ''">and a.name like '%${name}%'</if>
-		<if test="itemOneId != null and itemOneId != ''">and a.item_one_id = #{itemOneId}</if>
-		<if test="itemSecondId != null and itemSecondId != ''">and a.item_second_id = #{itemSecondId}</if>
-		<if test="publishStatus != null and publishStatus != ''">and a.publish_status = #{publishStatus}</if>
-		<if test="createSchoolId !=null and createSchoolId != ''">and a.create_school_id = #{createSchoolId}</if>
-		<if test="itemTag != null and itemTag != ''">and find_in_set(#{itemTag},a.item_tag)>0</if>
-		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},a.item_tag)>0</if>
-		<if test="teacherId != null and teacherId != ''">and a.teacher_id =${teacherId} </if>
-		<if test="teachersId != null and teachersId != ''">or a.teacher_id in(${teachersId}) </if>
-		<if test="faceFlag != null and faceFlag != ''">and a.face_flag = ${faceFlag}</if>
-		<if test="liveFlag != null and liveFlag != ''">and a.live_flag = ${liveFlag}</if>
-		<if test="videoFlag != null and videoFlag != ''">and a.video_flag = ${videoFlag}</if>
-		<if test="remoteFlag != null and remoteFlag != ''">and a.remote_flag = ${remoteFlag}</if>
+		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS'
+		<if test="classType.name != null and classType.name != ''">and a.name like '%${classType.name}%'</if>
+		<if test="classType.itemOneId != null and classType.itemOneId != ''">and a.item_one_id = #{classType.itemOneId}</if>
+		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and a.item_second_id = #{classType.itemSecondId}</if>
+		<if test="classType.publishStatus != null and classType.publishStatus != ''">and a.publish_status = #{classType.publishStatus}</if>
+		<if test="classType.createSchoolId !=null and classType.createSchoolId != ''">and a.create_school_id = #{classType.createSchoolId}</if>
+		<if test="classType.itemTag != null and classType.itemTag != ''">and find_in_set(#{classType.itemTag},a.item_tag)>0</if>
+		<if test="classType.itemTag2 != null and classType.itemTag2 != ''">and find_in_set(#{classType.itemTag2},a.item_tag)>0</if>
+		<if test="classType.teacherId != null and classType.teacherId != ''">and a.teacher_id =${classType.teacherId} </if>
+		<if test="classType.teachersId != null and classType.teachersId != ''">or a.teacher_id in(${classType.teachersId}) </if>
+		<if test="classType.faceFlag != null and classType.faceFlag != ''">and a.face_flag = ${classType.faceFlag}</if>
+		<if test="classType.liveFlag != null and classType.liveFlag != ''">and a.live_flag = ${classType.liveFlag}</if>
+		<if test="classType.videoFlag != null and classType.videoFlag != ''">and a.video_flag = ${classType.videoFlag}</if>
+		<if test="classType.remoteFlag != null and classType.remoteFlag != ''">and a.remote_flag = ${classType.remoteFlag}</if>
+		<if test="classType.itemOneCode != null and classType.itemOneCode != ''">and a.item_one_code = #{classType.itemOneCode}</if>
+		<if test="classType.itemSecondCode != null and classType.itemSecondCode != ''">and a.item_second_code = #{classType.itemSecondCode}</if>
+		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and a.item_third_code = #{classType.itemThirdCode}</if>
+		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">
+            and a.item_fourth_code in
+            <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
+        </if>
 		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
-		limit #{firstIndex},#{pageSize}
+		limit #{classType.firstIndex},#{classType.pageSize}
 	</select>
 	
 	
-	<select id="queryCounts" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassType">
+	<select id="queryCounts" resultType="int" parameterType="map">
 		SELECT count(id) FROM class_type
-		where del_flag=0 and company_id = #{companyId}
-		<if test="name != null and name != ''">and name like '%${name}%'</if>
-		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
-		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
-		<if test="publishStatus != null and publishStatus != ''">and publish_status = #{publishStatus}</if>
-		<if test="createSchoolId !=null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
-		<if test="itemTag != null and itemTag != ''">and find_in_set(#{itemTag},item_tag)>0</if>
-		<if test="itemTag2 != null and itemTag2 != ''">and find_in_set(#{itemTag2},item_tag)>0</if>
-		<if test="teacherId != null and teacherId != ''">and teacher_id =${teacherId} </if>
-		<if test="teachersId != null and teachersId != ''">or teacher_id in(${teachersId}) </if>
-		<if test="faceFlag != null and faceFlag != ''">and face_flag = ${faceFlag}</if>
-		<if test="liveFlag != null and liveFlag != ''">and live_flag = ${liveFlag}</if>
-		<if test="videoFlag != null and videoFlag != ''">and video_flag = ${videoFlag}</if>
-		<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = ${remoteFlag}</if>
+		where del_flag=0 and company_id = #{classType.companyId}
+		<if test="classType.name != null and classType.name != ''">and name like '%${classType.name}%'</if>
+		<if test="classType.itemOneId != null and classType.itemOneId != ''">and item_one_id = #{classType.itemOneId}</if>
+		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and item_second_id = #{classType.itemSecondId}</if>
+		<if test="classType.publishStatus != null and classType.publishStatus != ''">and publish_status = #{classType.publishStatus}</if>
+		<if test="classType.createSchoolId !=null and classType.createSchoolId != ''">and create_school_id = #{classType.createSchoolId}</if>
+		<if test="classType.itemTag != null and classType.itemTag != ''">and find_in_set(#{classType.itemTag},item_tag)>0</if>
+		<if test="classType.itemTag2 != null and classType.itemTag2 != ''">and find_in_set(#{classType.itemTag2},item_tag)>0</if>
+		<if test="classType.teacherId != null and classType.teacherId != ''">and teacher_id =${classType.teacherId} </if>
+		<if test="classType.teachersId != null and classType.teachersId != ''">or teacher_id in(${classType.teachersId}) </if>
+		<if test="classType.faceFlag != null and classType.faceFlag != ''">and face_flag = ${classType.faceFlag}</if>
+		<if test="classType.liveFlag != null and classType.liveFlag != ''">and live_flag = ${classType.liveFlag}</if>
+		<if test="classType.videoFlag != null and classType.videoFlag != ''">and video_flag = ${classType.videoFlag}</if>
+		<if test="classType.remoteFlag != null and classType.remoteFlag != ''">and remote_flag = ${classType.remoteFlag}</if>
+		<if test="classType.itemOneCode != null and classType.itemOneCode != ''">and item_one_code = #{classType.itemOneCode}</if>
+		<if test="classType.itemSecondCode != null and classType.itemSecondCode != ''">and item_second_code = #{classType.itemSecondCode}</if>
+		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and item_third_code = #{classType.itemThirdCode}</if>
+		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">
+            and a.item_fourth_code in
+            <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
+        </if>
 	</select>
 	
 	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">
@@ -485,6 +536,17 @@
 		 company_id=#{companyId}
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemTwoId != null and itemTwoId != ''">and item_second_id = #{itemTwoId}</if>
+		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
+		and del_flag=0
+		order by id desc
+	</select>
+	<select id="findClassByItemRelation" parameterType="map" resultMap="classTypeResultMap">
+		select id,name
+		from class_type where
+		company_id=#{companyId}
+		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code = #{itemOneCode}</if>
+		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
+		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code = #{itemThirdCode}</if>
 		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
 		and del_flag=0
 		order by id desc
@@ -684,10 +746,10 @@
 	</select>
 	
 	<update id="updateSubjectClassOrder" parameterType="com.yuxin.wx.model.classes.ClassType">
-	     update class_type set subject_class_order = #{subjectClassOrder} where  del_flag = 0 and publish_status = 'CLASS_ON_SALE' and id = #{id} and (select ct2.num from (select count(ct.id) num  from class_type ct where ct.publish_status = 'CLASS_ON_SALE' and  ct.subject_class_order > 0 and ct.item_one_id = #{itemOneId} and ct.id !=#{id}) ct2)  &lt;  8
+	     update class_type set subject_class_order = #{subjectClassOrder} where  del_flag = 0 and publish_status = 'CLASS_ON_SALE' and id = #{id}
 	</update>
 	
-	<select id="countSubjectClassOrder" resultType="Integer" parameterType="Integer">
-	     select count(id) from class_type  where  item_one_id = #{itemOneId}  and del_flag = 0  and publish_status = 'CLASS_ON_SALE' and  subject_class_order > 0
+	<select id="countSubjectClassOrder" resultType="Integer" parameterType="String">
+	     select count(id) from class_type  where  item_one_code = #{itemOneCode}  and del_flag = 0  and publish_status = 'CLASS_ON_SALE' and  subject_class_order > 0
 	</select>
 </mapper>

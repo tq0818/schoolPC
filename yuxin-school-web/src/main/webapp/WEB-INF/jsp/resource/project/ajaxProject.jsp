@@ -13,13 +13,14 @@
 		padding-left:7px;
 	}
 </style>	
-<div class="main-content" >
+<div class="main-content subject-main-content" >
 <div id="sortTable">
 <c:forEach var="one" items="${newOneList }">
 <c:if test="${one.relationStatus == 1 && one.status != 0}">
 	<div class="block ui-state-default" data-type="stop" style="background:#EEEEEE" data-id="${one.id}">
 		<div class="hidden">
 	<input type="hidden" class="oneId" value="${one.id }" />
+			<input type="hidden" class="parentCode" value="${one.itemCode }" />
 <input type="hidden" class="oneStatus" value="${one.relationStatus }" />
 		<div class="b-title">
 			<div class="icon"><i class="iconfont"><img src="http://${ImagePath }/${one.itemBackPic }"/></i></div>
@@ -47,7 +48,7 @@
     		</div>
 <div class="b-btns">
     			<i class="iconfont left btn-ok btn-switch" style="color:red;" title="已停用，点击启用" name="oneStatus">&#xe635;</i>
-    			<i class="iconfont right add-sub" title="添加学科小类" name="twoToCreate">&#xe6c2;</i>
+    			<i class="iconfont right add-sub" title="添加子类" name="twoToCreate">&#xe6c2;</i>
     			<%-- <c:if test="${tagShow==1 }">
     			<div class="tag-manage tagBtn" itemOneId="${one.id }">
 			        <i class="iconfont">&#xe6c4;</i>
@@ -60,7 +61,7 @@
 </c:if>
 <c:if test="${one.relationStatus == 0 }">
 	<div class="block active ui-state-default" data-type="start" data-id="${one.id}">
-	<div class="hidden">
+	<input type="hidden" class="oneCode" value="${one.itemCode}"/>
 	<input type="hidden" class="oneId" value="${one.id }" />
 <input type="hidden" class="oneStatus" value="${one.relationStatus }" />
 		<div class="b-title">
@@ -79,7 +80,7 @@
 						<span title="${one.remark }">${fn:substring(one.remark,0,21) }......</span>
 					</c:if>
 					<c:if test="${fn:length(one.remark) <= 21 }">
-						<span>${one.remark }</span>
+						<span>${one.remark }${one.itemCode}</span>
 					</c:if>
     				</div>
     			</div>
@@ -93,15 +94,15 @@
     			<c:if test="${tag3Show==1 || tag4Show==1 }">
     				<input type="button" class="btn btn-default btn-primary tagBtn" itemOneId="${one.id }"  value="标签管理"/> 
     			</c:if> --%>
-    			<i class="iconfont right add-sub" title="添加学科小类" name="twoToCreate">&#xe6c2;</i>
-    			<c:if test="${tag3Show==1 || tag4Show==1 }">
-    			<div class="tag-manage tagBtn" itemOneId="${one.id }">
-			        <i class="iconfont" title="添加标签">&#xe6c4;</i>
-			    </div>
-			    </c:if>
+    			<i class="iconfont right add-sub" title="添加子类" name="twoToCreate">&#xe6c2;</i>
+    			<%--<c:if test="${tag3Show==1 || tag4Show==1 }">--%>
+    			<%--<div class="tag-manage tagBtn" itemOneId="${one.id }">--%>
+			        <%--<i class="iconfont" title="添加标签">&#xe6c4;</i>--%>
+			    <%--</div>--%>
+			    <%--</c:if>--%>
     			<!-- <div class="btn-add" name="twoToCreate" title="添加学科小类">+</div> -->
     		</div>
-    		</div>
+    		</input>
     	</div>
     </c:if>
 </c:forEach>
@@ -135,7 +136,7 @@
     		</div>
 <div class="b-btns b-btns-new">
     			<i class="iconfont left btn-ok btn-switch" style="color:red;" title="已停用，点击启用" name="oneStatus">&#xe635;</i>
-    			<i class="iconfont right add-sub" title="添加学科小类" name="twoToCreate">&#xe6c2;</i>
+    			<i class="iconfont right add-sub" title="添加子类" name="twoToCreate">&#xe6c2;</i>
     			<%-- <c:if test="${tagShow==1 }">
     			<div class="tag-manage tagBtn" itemOneId="${one.id }">
 			        <i class="iconfont">&#xe6c4;</i>
@@ -147,8 +148,8 @@
 </c:forEach>
 </div>
 	<div class="block active" id="addOneItem">
-		<div class="b-btns" style="margin-left:-100px;margin-bottom:120px;">
-			<div class="btn-addss btn-pro" id="createPro" title="添加一级学科"><i class="iconfont"  style="font-size:80px">&#xe61c;</i></div>
+		<div class="b-btns" style="margin-left:-150px;margin-bottom:120px;">
+			<div class="btn-addss btn-pro" id="createPro" title="添加分类"><i class="iconfont"  style="font-size:80px">&#xe61c;</i></div>
 		</div>
 	</div>
 </div>
@@ -159,18 +160,18 @@
 <input type="hidden" value="" id="addOrUpdateItemid"/>
 <input type="hidden" id="status"/>
     <p class="c">
-        <span class="l-title">学科名称：</span>
+        <span class="l-title">分类名称：</span>
         <span class="l-content"><input type="text" id="oneItemName" size="30" maxlength="14"></span>
     </p>
     <p class="c">
-        <span class="l-title">学科描述：</span>
+        <span class="l-title">分类编码：</span>
         <span class="l-content">
-        	<textarea rows="6" cols="38" id="remark" style="resize: none;" onkeyup="javascript:check();"></textarea>
+        	  <span class="l-content"><input type="text" id="itemCode" size="30" maxlength="14"></span>
         </span>
         <span style="color:red;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已输入<span id="remarkHint" >0</span>个字，不多于128个字</span>
     </p>
     <p class="c">
-        <span class="l-title">学科图标：</span>
+        <span class="l-title">分类图标：</span>
         <span class="l-content itemiconone">
 			<c:forEach var="i" items="${iconList }" varStatus="status">
 			<c:if test="${status.index <= 3 }">

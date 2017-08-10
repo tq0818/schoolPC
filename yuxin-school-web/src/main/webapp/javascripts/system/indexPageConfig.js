@@ -353,6 +353,50 @@
                         }
                     });
                 }
+                //最近直播
+                if(scipt.moduleType == 11){
+                	$div.find('.swText').val(scipt.customName || scipt.moduleName);
+                    $div.find('li').eq(1).find('p input').each(function(index, el) {
+                    	if($(this).data('limit') == scipt.dataLimitNum){
+                            $(this).addClass('active').siblings().removeClass('active');
+                            return;
+                        }
+                    });
+                }
+                
+                //精品微课
+                if(scipt.moduleType == 11){
+                	$div.find('.swText').val(scipt.customName || scipt.moduleName);
+                    $div.find('li').eq(1).find('p input').each(function(index, el) {
+                    	if($(this).data('limit') == scipt.dataLimitNum){
+                            $(this).addClass('active').siblings().removeClass('active');
+                            return;
+                        }
+                    });
+                }
+                
+                //专题课堂
+                if(scipt.moduleType == 11){
+                	$div.find('.swText').val(scipt.customName || scipt.moduleName);
+                    $div.find('li').eq(1).find('p input').each(function(index, el) {
+                    	if($(this).data('limit') == scipt.dataLimitNum){
+                            $(this).addClass('active').siblings().removeClass('active');
+                            return;
+                        }
+                    });
+                }
+                
+                //名师推荐
+                if(scipt.moduleType == 11){
+                	$div.find('.swText').val(scipt.customName || scipt.moduleName);
+                    $div.find('li').eq(1).find('p input').each(function(index, el) {
+                    	if($(this).data('limit') == scipt.dataLimitNum){
+                            $(this).addClass('active').siblings().removeClass('active');
+                            return;
+                        }
+                    });
+                }
+                
                 //绑定数据
                 $div.find('ul').data(scipt).find('.swSaveBut').data('uuid',_uuid);
             },
@@ -458,7 +502,32 @@
                     if(_order)
                         scipt.dataSortBy = _order;
                 }
-
+                //最近直播 
+                if(scipt.moduleType == 11){
+                	_limit = $div.find('li').eq(1).find('.active').data('limit');
+                    if(_limit)
+                        scipt.dataLimitNum = _limit;
+                }
+                
+                //精品微课
+                if(scipt.moduleType == 12){
+                	_limit = $div.find('li').eq(1).find('.active').data('limit');
+                    if(_limit)
+                        scipt.dataLimitNum = _limit;
+                }
+                
+                //专题课堂 
+                if(scipt.moduleType == 13){
+                	_limit = $div.find('li').eq(1).find('.active').data('limit');
+                    if(_limit)
+                        scipt.dataLimitNum = _limit;
+                }
+                //名师推荐
+                if(scipt.moduleType == 14){
+                	_limit = $div.find('li').eq(1).find('.active').data('limit');
+                    if(_limit)
+                        scipt.dataLimitNum = _limit;
+                }
                 return scipt;
             },
             beforeSave : function(){

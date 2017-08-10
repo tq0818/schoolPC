@@ -162,7 +162,26 @@
 	<!-- 其他自定义SQL -->
 	<select id="findBySearch" resultMap="sysConfigIndexPageTemplateResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate">
 		select * from sys_config_index_page_template
-		where company_id = #{companyId}
+		where module_type between 0 and 10 and  company_id = #{companyId}
+		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="moduleName != null and moduleName != ''">and module_name = #{moduleName}</if>
+		<if test="customName != null and customName != ''">and custom_name = #{customName}</if>
+		<if test="status != null and status != ''">and status = #{status}</if>
+		<if test="moduleType != null and moduleType != ''">and module_type = #{moduleType}</if>
+		<if test="widthSetting != null and widthSetting != ''">and width_setting = #{widthSetting}</if>
+		<if test="link != null and link != ''">and link = #{link}</if>
+		<if test="picPath != null and picPath != ''">and pic_path = #{picPath}</if>
+		<if test="itemOneIdList != null and itemOneIdList != ''">and item_one_id_list = #{itemOneIdList}</if>
+		<if test="dataSortBy != null and dataSortBy != ''">and data_sort_by = #{dataSortBy}</if>
+		<if test="dataLimitNum != null and dataLimitNum != ''">and data_limit_num = #{dataLimitNum}</if>
+		<if test="displaySeq != null and displaySeq != ''">and display_seq = #{displaySeq}</if>
+		order by status desc,display_seq,id desc;
+	</select>
+	
+	
+	<select id="findBySearchBymoduleType" resultMap="sysConfigIndexPageTemplateResultMap" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate">
+		select * from sys_config_index_page_template
+		where module_type between #{startModuleType} and #{endModuleType} and  company_id = #{companyId}
 		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
 		<if test="moduleName != null and moduleName != ''">and module_name = #{moduleName}</if>
 		<if test="customName != null and customName != ''">and custom_name = #{customName}</if>

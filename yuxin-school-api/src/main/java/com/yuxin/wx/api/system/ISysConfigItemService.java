@@ -301,5 +301,5 @@ public interface ISysConfigItemService  {
 	void update(List<SysConfigItem> sysConfigItems);
 
 	List<SysConfigItem> findItemByIds(List<Integer> list);
-	
+	List<SysConfigItem>  findByParentCode(SysConfigItem item);
 }

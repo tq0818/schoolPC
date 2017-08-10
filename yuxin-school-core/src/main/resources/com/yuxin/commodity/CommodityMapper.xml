@@ -29,6 +29,11 @@
 		<result property="itemTag" column="item_tag"/>
 		<result property="integralFlag" column="integral_flag"/>
 		<result property="memberFlag" column="member_flag"/>
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="isMicroClass" column="is_micro_class" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.commodity.CommodityVo" id="commodityVoResultMap">
@@ -60,6 +65,10 @@
 		<result property="itemTag" column="item_tag"/>
 		<result property="integralFlag" column="integral_flag"/>
 		<result property="memberFlag" column="member_flag"/>
+		<!--<result property="itemOneCode" column="item_one_code" />-->
+		<!--<result property="itemSecondCode" column="item_second_code" />-->
+		<!--<result property="itemThirdCode" column="item_third_code" />-->
+		<!--<result property="itemFourthCode" column="item_fourth_code" />-->
 	</resultMap>
 	<sql id="table_columns">
 		id,
@@ -88,7 +97,12 @@
 		buy_num,
 		item_tag,
 		integral_flag,
-		member_flag
+		member_flag,
+		item_one_code,
+		item_second_code,
+		item_third_code,
+		item_fourth_code,
+		is_micro_class
   </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -117,7 +131,12 @@
 		#{buyNum},
 		#{itemTag},
 		#{integralFlag},
-		#{memberFlag}
+		#{memberFlag},
+		#{itemOneCode},
+		#{itemSecondCode},
+		#{itemThirdCode},
+		#{itemFourthCode},
+		#{isMicroClass}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -179,6 +198,11 @@
 			<if test="itemTag != null and itemTag != ''">item_tag = #{itemTag},</if>
 			<if test="integralFlag != null">integral_flag = #{integralFlag},</if>
 			<if test="memberFlag != null">member_flag = #{memberFlag},</if>
+			<if test="itemOneCode != null and itemOneCode != ''">item_one_code = #{itemOneCode},</if>
+			<if test="itemSecondCode != null and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
+			<if test="itemThirdCode != null and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
+			<if test="itemFourthCode != null and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
+			<if test="isMicroClass != null">is_micro_class = #{isMicroClass},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

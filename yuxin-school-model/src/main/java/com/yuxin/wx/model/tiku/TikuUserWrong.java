@@ -26,7 +26,7 @@ public class TikuUserWrong extends BaseEntity {
 	private Integer	subjectId;		
 	private Integer	companyId;
 	private Integer parentId; 	/* 题目的父ID */
-
+	private Integer doExam;
 	// Constructor
 	public TikuUserWrong() {
 	}
@@ -145,5 +145,13 @@ public class TikuUserWrong extends BaseEntity {
 
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
+	}
+
+	public Integer getDoExam() {
+		return doExam;
+	}
+
+	public void setDoExam(Integer doExam) {
+		this.doExam = doExam;
 	}
 }

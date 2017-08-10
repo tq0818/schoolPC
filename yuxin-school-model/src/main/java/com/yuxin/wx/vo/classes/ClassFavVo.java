@@ -25,6 +25,8 @@ public class ClassFavVo extends BaseEntity {
 	private Integer videoFlag; /* 是否属于视频 */
 	private Integer remoteFlag; /* 是否属于远程 */
 	private String commodityType;/*商品类型*/
+	private String subjectCode;/*学科*/
+	private Date today;/*当天*/
 	public Integer getStuId() {
 		return stuId;
 	}
@@ -67,5 +69,20 @@ public class ClassFavVo extends BaseEntity {
 	public void setCommodityType(String commodityType) {
 		this.commodityType = commodityType;
 	}
-	
+
+	public String getSubjectCode() {
+		return subjectCode;
+	}
+
+	public void setSubjectCode(String subjectCode) {
+		this.subjectCode = subjectCode;
+	}
+
+	public Date getToday() {
+		return today;
+	}
+
+	public void setToday(Date today) {
+		this.today = today;
+	}
 }

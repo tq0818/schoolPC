@@ -1,6 +1,7 @@
 package com.yuxin.wx.tiku.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -175,10 +176,15 @@ public class TikuUserExerciseAnswerServiceImpl extends BaseServiceImpl implement
     @Override
     public Integer findCategoryCountByUserId(Integer userId) {
         return this.tikuUserExerciseAnswerMapper.findCategoryCountByUserId(userId);
-    };
+    }
 
     @Override
     public Double findExerciseScore(Integer exerciseId) {
         return this.tikuUserExerciseAnswerMapper.findExerciseScore(exerciseId);
+    }
+
+    @Override
+    public List<TikuUserExerciseAnswer> findTikuUserExerciseAnswer(Map<String, Object> papam) {
+        return this.tikuUserExerciseAnswerMapper.findTikuUserExerciseAnswer(papam);
     }
 }

@@ -1,5 +1,6 @@
 package com.yuxin.wx.tiku.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -185,5 +186,10 @@ public class TikuPaperTopicServiceImpl extends BaseServiceImpl implements ITikuP
     @Override
     public Double findSumScore(Map<String, Object> param) {
         return this.tikuPaperTopicMapper.findSumScore(param);
+    }
+
+    @Override
+    public List<TikuPaperTopic> findTikuPaperByType(Map<String, Object> param) {
+        return this.tikuPaperTopicMapper.findTikuPaperByType(param);
     }
 }

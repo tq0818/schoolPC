@@ -232,4 +232,10 @@ public interface ITikuPaperTopicService {
      */
     Double findSumScore(Map<String, Object> param);
 
+    /**
+     * 通过类型和试卷id查询出对应的题关系数据
+     * @param param
+     * @return
+     */
+    List<TikuPaperTopic> findTikuPaperByType(Map<String, Object> param);
 }

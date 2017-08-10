@@ -463,7 +463,7 @@
          <pattern>/tikuPaper/addTopic</pattern>
          <pattern>/tikuExam/toTikuExamIndex</pattern>
          <pattern>/tikuExamPaperRelation/toStatisticsIndex/*</pattern>
-         
+         <pattern>/tikuPaper/toPageInfoAudit</pattern>
          <!-- Q&A -->
          <pattern>/Question/questionIndex</pattern>
          <pattern>/Question/comQuestionIndex</pattern>

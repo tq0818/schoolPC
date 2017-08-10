@@ -64,13 +64,24 @@ $(function(){
 		}
     	//加载详细信息
     	function selDetail(pageNo){
+    		if(affiche =="goAffiche"){
+    			$("a.btn-success").removeClass("btn-success");
+    			$("#affiche").removeClass();
+    			$("#affiche").attr("class","btn btn-mini btn-notice btn-success");
+    			affiche = "";
+    		}
     		messageType = $.trim($(".btn-notice.btn-success").attr("data-type"));
+    		var url = rootPath + "/classModuleLesson/noticeDetail";
+    		if(messageType == "STUDENT_MESSAGE_AFFICHE"){
+    			url = rootPath +"/student/goAffichePage";
+    			
+    		}
     		itemOneId = $.trim($(".btn-one.btn-success").attr("data-id"));
     		itemSecondId = $.trim($(".btn-two.btn-success").attr("data-id"));
 	   		messageMethod = 	$.trim($(".btn-method.btn-success").attr("data-type"));
 	   		pageSize = 	$.trim($("#pageSize").val());
 	   		$.ajax({
-	   			url : rootPath + "/classModuleLesson/noticeDetail",
+	   			url : url,
 	   			type:"post",
 	   			data:{"page":pageNo,"itemOneId":itemOneId,"itemSecondId":itemSecondId,"messageType":messageType,"messageMethod":messageMethod,"pageSize":pageSize},
 	   			dataType:"html",
@@ -86,4 +97,32 @@ $(function(){
 	   	            $(".loading-bg").hide();
 	   	        }
    			});
+    	}
+    	
+    	function goAffiche(){
+    		  $.ajax({
+    	 			url : rootPath +"/student/goAffichePage",
+    	 			type:"post",
+    	 			data:{},
+    	 			dataType:"html",
+    	 			beforeSend:function(XMLHttpRequest){
+    	 	              $(".loading").show();
+    	 	              $(".loading-bg").show();
+    	 	         },
+    	 			success:function(data){
+    	 				$(".notice-list").html(data);
+    	 			},
+    	 			complete:function(XMLHttpRequest,textStatus){
+    	 				$(".loading").hide();
+    	 	            $(".loading-bg").hide();
+    	 	        }
+    				});
+    	  }
+    	
+    	function goAddPage(){
+    		if(messageType == "STUDENT_MESSAGE_AFFICHE"){
+    			window.location = rootPath +"/student/createNotice?addAffiche=addAffiche";
+    		}else{
+    			window.location = rootPath +"/student/createNotice";
+    		}
     	}

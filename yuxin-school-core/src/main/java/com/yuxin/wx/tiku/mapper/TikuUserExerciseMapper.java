@@ -3,6 +3,7 @@ package com.yuxin.wx.tiku.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.tiku.TikuUserExerciseAnswerAccuracy;
 import org.apache.ibatis.annotations.Param;
 
 import com.yuxin.wx.common.BaseMapper;
@@ -133,4 +134,6 @@ public interface TikuUserExerciseMapper extends BaseMapper<TikuUserExercise> {
      * @return
      */
     List<TikuUserExerciseVo> findAllPaperRspdInfo(TikuUserExercise exercise);
+
+    Map<String,Object> findExamAccuracyByParam(TikuUserExerciseAnswerAccuracy tueaa);
 }

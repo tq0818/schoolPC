@@ -185,6 +185,7 @@
 		<mapper resource="com/yuxin/system/SysSchoolItemRelationMapper.xml"/>
 		<mapper resource="com/yuxin/system/SysPageHeadFooterTemplateMapper.xml"/>
 		<mapper resource="com/yuxin/system/SysFileConvertTaskMapper.xml"/>
+		<mapper resource="com/yuxin/system/SysConfigItemRelationMapper.xml"/>
 		<!-- 新手引导 -->
 		<mapper resource="com/yuxin/company/CompanyNewStepMapper.xml"/>
 		<!-- 学员通知 -->
@@ -211,6 +212,8 @@
 		<mapper resource="com/yuxin/tiku/TikuUserCollectMapper.xml"/>
 		<mapper resource="com/yuxin/tiku/TikuUserExerciseAnswerMapper.xml"/>
 		<mapper resource="com/yuxin/tiku/TikuUserWrongMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserExerciseAnswerAccuracyMapper.xml"/>
+		<mapper resource="com/yuxin/tiku/TikuUserExerciseAnswerStatisticsMapper.xml"/>
 		
 		<!-- 考试 -->
 		<mapper resource="com/yuxin/tiku/exam/TikuExamMapper.xml"/>

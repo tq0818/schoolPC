@@ -16,25 +16,40 @@
 					}
 				});
 				var itemOneId="";
-				$("#itemOneList").find("a").each(function(){
+                var itemOneCode="";
+				$("#itemOneCodeList").find("a").each(function(){
 					var st=$(this).hasClass("btn-success");
 					if(st){
-						if($("#one").val()!=""){
-							itemOneId=$("#one").val();
-						}else{
 							itemOneId=$(this).attr("ids");
+                            itemOneCode =$(this).attr("data-code");
 						}
-						
-					}
 				});
-				this.queryItemSecond(itemOneId);
+                $("#itemFourthCodeList").off().delegate("a","click",function(){
+                    $(this).toggleClass("btn-success");
+                });
+				//this.queryItemSecond(itemOneCode,itemOneId);
 				
 				//判断是否有上架学科(学科)
-	    		$("#itemOneList").find("a").each(function(){
-    				if($(this).attr("ids")==$("#one").val()){
+	    		$("#itemOneCodeList").find("a").each(function(){
+    				if($(this).attr("data-code")==$("#one").val()){
     					$(this).addClass("btn-success").siblings('a').removeClass('btn-success');
     				}
     			});
+                $("#itemSecondCodeList").find("a").each(function(){
+                    if($(this).attr("data-code")==$("#tow").val()){
+                        $(this).addClass("btn-success").siblings('a').removeClass('btn-success');
+                    }
+                });
+                $("#itemThirdCodeList").find("a").each(function(){
+                    if($(this).attr("data-code")==$("#three").val()){
+                        $(this).addClass("btn-success").siblings('a').removeClass('btn-success');
+                    }
+                });
+                $("#itemFouthCodeList").find("a").each(function(){
+                    if($(this).attr("data-code")==$("#four").val()){
+                        $(this).addClass("btn-success").siblings('a').removeClass('btn-success');
+                    }
+                });
 	    		$(".upload-layer").on("click","li",function(){
 	    			if($(this).hasClass('b1')){
 	    				$this.addClassType('live');
@@ -52,116 +67,165 @@
 	    				$this.addClassType('other');
 	    			}
 	    		})
+                this.queryAllCommdityByItemNew(1);
 	    		//判断是否显示三级标签
-	    		$.ajax({
-					url : rootPath + "/serviceGroup/lableSetting",
-					type : "post",
-					success : function(result) {
-						if(result==""||result.status==0){
-							$(".labeSets").addClass("none");
-						}else{
-							$(".labeSets").removeClass("none");
-						}
-					}
-				});
-	    		$.ajax({
-					url : rootPath + "/serviceGroup/lableSeondSetting",
-					type : "post",
-					success : function(result) {
-						if(result==""||result.status==0){
-							$(".labeSecondeSets").addClass("none");
-						}else{
-							$(".labeSecondeSets").removeClass("none");
-						}
-					}
-				});
+	    		// $.ajax({
+					// url : rootPath + "/serviceGroup/lableSetting",
+					// type : "post",
+					// success : function(result) {
+					// 	if(result==""||result.status==0){
+					// 		$(".labeSets").addClass("none");
+					// 	}else{
+					// 		$(".labeSets").removeClass("none");
+					// 	}
+					// }
+                // });
+                // $.ajax({
+					// url : rootPath + "/serviceGroup/lableSeondSetting",
+					// type : "post",
+					// success : function(result) {
+					// 	if(result==""||result.status==0){
+					// 		$(".labeSecondeSets").addClass("none");
+					// 	}else{
+					// 		$(".labeSecondeSets").removeClass("none");
+					// 	}
+					// }
+                // });
 			},
-			queryItemSecond : function (id){
-				$("#itemSecondList").html('');
-				$.ajax({
-					url : rootPath + "/exam/queryItemSecond",
-					type : "post",
-					data : {pid:id},
-					dataType : "json",
-					success : function(result) {
-						$.each(result,function(i,item){
-							if(i==0){
-								$("#itemSecondList").append("<a href='javascript:Form.queryAllCommdityByItem(1,"+id+");' class='btn btn-mini btn-default btn-success'>全部</a>");
-							}
-							$("#itemSecondList").append("<a href='javascript:Form.queryAllCommdityByItem(1,"+id+","+item.id+");' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.itemName+"</a>");
-						});
+			queryItemSecond : function (code,id){
+				if(id==null){
+                    $("#itemOneCodeList").find("a").each(function(){
+                        var st=$(this).hasClass("btn-success");
+                        if(st){
+                            id=$(this).attr("data-id");
+                            code=$(this).attr("value");
+                        }
+                    });
+                }
+                $("#itemSecondCodeList").html('');
+                $("#itemSecondCodeList").append("<a href='javascript:Form.queryAllCommdityByItem(1,"+code+");' value='all' class='btn btn-mini btn-default btn-success'>全部</a>");
+                $.ajax({
+                    url : rootPath + "/itemTree/queryItemSecond",
+                    type : "post",
+                    data : {pid:id},
+                    dataType : "json",
+                	success : function(result) {
+                        $.each(result,function(i,item){
+                                $("#itemSecondCodeList").append("<a href='javascript:Form.queryAllCommdityByItem(1,"+code+","+item.itemCode+");' data-code='"+item.itemCode+"' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.itemName+"</a>");
+                        });
 						//判断是否有上架学科(学科)
-						$("#itemSecondList").find("a").each(function(){
-		    				if($(this).attr("ids")==$("#two").val()){
+						$("#itemSecondCodeList").find("a").each(function(){
+		    				if($(this).attr("data-code")==$("#two").val()){
 		    					$(this).addClass("btn-success").siblings('a').removeClass('btn-success');
 		    				}
 		    			});
-						window.Form.queryAllCommdityByItemNew(1,id);
-						
-						window.Form.querylablesList(id);
+                       // this.queryItemThird();
+						// window.Form.queryAllCommdityByItemNew(1,code);
+
+						// window.Form.querylablesList(id);
 					}
 				});
 			},
-			querylablesList : function(itemOneId,itemSecondId,change){
-				if(itemOneId==null){
-					$("#itemOneList").find("a.btn").each(function(){
-						if($(this).hasClass("btn-success")){
-							itemOneId=$(this).attr("ids");
-						}
-					});
-				}
-				if(itemSecondId==null){
-					$("#itemSecondList").find("a.btn").each(function(){
-						if($(this).hasClass("btn-success")){
-							itemSecondId=$(this).attr("ids");
-						}
-					});
-				}
-				$("#labelLists").html('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
-				$("#labelSecondLists").html('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
-				if(!itemSecondId){
-					return;
-				}
-				
-				$.ajax({
-					url : rootPath + "/sysConfigItemTag/queryTags",
-					type : "post",
-					dataType : "json",
-					data:{"itemOneId":itemOneId,"itemSecondId":itemSecondId,"level":1},
-					success : function(result) {
-						$("#labelLists").html('');
-						$("#labelLists").append('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
-						$.each(result,function(i,item){
-							$("#labelLists").append("<a href='javascript:Form.queryAllCommdityByItemNew(1,null,null,null,"+item.id+");' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.tagName+"</a>");
-						});
-//						if(change){
-//							
-//						}else{
-//							window.Form.queryAllCommdityByItemNew(1,itemOneId);
-//						}
-					}
-				});
-				
-				$.ajax({
-					url : rootPath + "/sysConfigItemTag/queryTags",
-					type : "post",
-					dataType : "json",
-					data:{"itemOneId":itemOneId,"itemSecondId":itemSecondId,"level":2},
-					success : function(result) {
-						$("#labelSecondLists").html('');
-						$("#labelSecondLists").append('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
-						$.each(result,function(i,item){
-							$("#labelSecondLists").append("<a href='javascript:Form.queryAllCommdityByItemNew(1,null,null,null,null,"+item.id+");' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.tagName+"</a>");
-						});
-						if(change){
-							
-						}else{
-							window.Form.queryAllCommdityByItemNew(1,itemOneId);
-						}
-					}
-				});
-			},
-			queryAllCommdityByItem : function(page,id,itemSecondId,status,lab,labTwo){
+        // queryItemThird : function (code,id){
+        //     $("#itemThirdCodeList").html('');
+        //     $.ajax({
+        //         url : rootPath + "/itemTree/queryItemSecond",
+        //         type : "post",
+        //         data : {pid:id},
+        //         dataType : "json",
+        //         success : function(result) {
+        //             $("#itemThirdCodeList").append("<a href='javascript:Form.queryAllCommdityByItem(1,"+code+");' class='btn btn-mini btn-default btn-success'>全部</a>");
+        //             $.each(result,function(i,item){
+        //                 $("#itemThirdCodeList").append("<a href='javascript:Form.queryAllCommdityByItem(1,"+code+","+item.itemCode+");' data-code='"+item.itemCode+"' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.itemName+"</a>");
+        //             });
+        //             //判断是否有上架学科(学科)
+        //             $("#itemThirdCodeList").find("a").each(function(){
+        //                 if($(this).attr("data-code")==$("#two").val()){
+        //                     $(this).addClass("btn-success").siblings('a').removeClass('btn-success');
+        //                 }
+        //             });
+        //             window.Form.queryAllCommdityByItemNew(1,code);
+        //
+        //             // window.Form.querylablesList(id);
+        //         }
+        //     });
+        // },
+// 			querylablesList : function(itemOneId,itemSecondId,change){
+// 				if(itemOneId==null){
+// 					$("#itemOneList").find("a.btn").each(function(){
+// 						if($(this).hasClass("btn-success")){
+// 							itemOneId=$(this).attr("ids");
+// 						}
+// 					});
+// 				}
+// 				if(itemSecondId==null){
+// 					$("#itemSecondList").find("a.btn").each(function(){
+// 						if($(this).hasClass("btn-success")){
+// 							itemSecondId=$(this).attr("ids");
+// 						}
+// 					});
+// 				}
+// 				$("#labelLists").html('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
+// 				$("#labelSecondLists").html('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
+// 				if(!itemSecondId){
+// 					return;
+// 				}
+//
+// 				$.ajax({
+// 					url : rootPath + "/sysConfigItemTag/queryTags",
+// 					type : "post",
+// 					dataType : "json",
+// 					data:{"itemOneId":itemOneId,"itemSecondId":itemSecondId,"level":1},
+// 					success : function(result) {
+// 						$("#labelLists").html('');
+// 						$("#labelLists").append('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
+// 						$.each(result,function(i,item){
+// 							$("#labelLists").append("<a href='javascript:Form.queryAllCommdityByItemNew(1,null,null,null,"+item.id+");' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.tagName+"</a>");
+// 						});
+// //						if(change){
+// //
+// //						}else{
+// //							window.Form.queryAllCommdityByItemNew(1,itemOneId);
+// //						}
+// 					}
+// 				});
+//
+// 				$.ajax({
+// 					url : rootPath + "/sysConfigItemTag/queryTags",
+// 					type : "post",
+// 					dataType : "json",
+// 					data:{"itemOneId":itemOneId,"itemSecondId":itemSecondId,"level":2},
+// 					success : function(result) {
+// 						$("#labelSecondLists").html('');
+// 						$("#labelSecondLists").append('<a href="javascript:Form.queryAllCommdityByItemNew(1,null,null);" class="btn btn-mini btn-default btn-success">全部</a>');
+// 						$.each(result,function(i,item){
+// 							$("#labelSecondLists").append("<a href='javascript:Form.queryAllCommdityByItemNew(1,null,null,null,null,"+item.id+");' ids='"+item.id+"' class='btn btn-mini btn-default'>"+item.tagName+"</a>");
+// 						});
+// 						if(change){
+//
+// 						}else{
+// 							window.Form.queryAllCommdityByItemNew(1,itemOneId);
+// 						}
+// 					}
+// 				});
+// 			},
+        getietmList: function (dom){
+            var itemCode = [];
+            if(dom.children()){
+                var checkitem = dom.children(".btn-success")
+                $.each(checkitem,function(i,v){
+                    itemCode.push($(v).attr("data-code"));
+                });
+            }
+            return itemCode.join(",");
+        },
+        setietmList:function (list){
+            $.each(list,function(i,v){
+                $("a[data-code="+v+"]",dom).addClass("btn-success");
+            });
+        },
+
+    queryAllCommdityByItem : function(page,id,itemSecondId,status,lab,labTwo){
 				var labSec="";
 				if(id==null){
 					$("#itemOneList").find("a").each(function(i){
@@ -181,7 +245,7 @@
 				}else{
 					
 				}
-				Form.querylablesList(null,null,"change");
+				// Form.querylablesList(null,null,"change");
 				if(status==null){
 					$("#statusList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){
@@ -264,7 +328,7 @@
 				}else{
 
 				}
-				Form.querylablesList(null,null,"change");
+				// Form.querylablesList(null,null,"change");
 				if(status==null){
 					$("#statusList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){
@@ -326,24 +390,38 @@
 					}
 				});
 			},
-			queryAllCommdityByItemNew : function(page,id,itemSecondId,status,lab,labTwo){
+			queryAllCommdityByItemNew : function(page){
 				var labSec="";
-				if(id==null){
-					$("#itemOneList").find("a").each(function(i){
+                var datas = {"page":page};
+				var itemOneCode,itemSecondCode,itemThirdCode,itemFourthCode,status;
+					$("#itemOneCodeList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){
-							var cid=$(this).attr("ids");
-							id=cid;
+                            itemOneCode=$(this).attr("data-code");
 						}
 					});
-				}
-				if(itemSecondId==null){
-					$("#itemSecondList").find("a").each(function(i){
+					if(itemOneCode!='all'){
+                        datas.itemOneCode=itemOneCode;
+					}
+					$("#itemSecondCodeList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){
-							var cid=$(this).attr("ids");
-							itemSecondId=cid;
+                            itemSecondCode=$(this).attr("data-code");
 						}
 					});
-				}
+                if(itemSecondCode!='all'){
+                    datas.itemSecondCode=itemSecondCode;
+                }
+                $("#itemThirdCodeList").find("a").each(function(i){
+                    if($(this).hasClass('btn-success')){
+                        itemThirdCode=$(this).attr("data-code");
+                    }
+                });
+                if(itemThirdCode!='all'){
+                    datas.itemThirdCode=itemThirdCode;
+                }
+                itemFourthCode = this.getietmList($("#itemFourthCodeList"));
+                if(itemFourthCode.length>0){
+                    datas.itemFourthCode=itemFourthCode;
+                }
 				if(status==null){
 					$("#statusList").find("a").each(function(i){
 						if($(this).hasClass('btn-success')){
@@ -352,34 +430,39 @@
 						}
 					});
 				}
-				if(lab==null){
-					$("#labelLists").find("a").each(function(i){
-						if($(this).hasClass('btn-success')){
-							var cid=$(this).attr("ids");
-							lab=cid;
-						}
-					});
-				}else{
-					
-				}
-				if(labTwo && labTwo!=null){
-					labSec=labTwo;
-				}else{
-					$("#labelSecondLists").find("a").each(function(i){
-						if($(this).hasClass('btn-success')){
-							var cid=$(this).attr("ids");
-							labSec=cid;
-						}
-					});
-				}
+                if(status!='all'){
+                    datas.publishStatus=status;
+                }
+
+                // if(lab==null){
+				// 	$("#labelLists").find("a").each(function(i){
+				// 		if($(this).hasClass('btn-success')){
+				// 			var cid=$(this).attr("ids");
+				// 			lab=cid;
+				// 		}
+				// 	});
+				// }else{
+				//
+				// }
+				// if(labTwo && labTwo!=null){
+				// 	labSec=labTwo;
+				// }else{
+				// 	$("#labelSecondLists").find("a").each(function(i){
+				// 		if($(this).hasClass('btn-success')){
+				// 			var cid=$(this).attr("ids");
+				// 			labSec=cid;
+				// 		}
+				// 	});
+				// }
 				var faceFlag = 0;
 				var liveFlag = 0;
 				var videoFlag = 0;
 				var remoteFlag = 0;
+				var flag;
 				$("#flagList").find("a").each(function(i){
 					if($(this).hasClass('btn-success')){
-						var cid=$(this).attr("ids");
-						switch(cid){
+						flag=$(this).attr("ids");
+						switch(flag){
 							case "IS_LIVE":liveFlag = 1;break;
 							case "IS_VIDEO":videoFlag = 1;break;
 							case "IS_FACE":faceFlag = 1;break;
@@ -388,11 +471,19 @@
 						}
 					}
 				});
+                    if(flag!='all'){
+                        datas.liveFlag = liveFlag;
+                        datas.videoFlag = videoFlag;
+                        datas.faceFlag = faceFlag;
+                        datas.remoteFlag = remoteFlag;
+                }
+
 				$.ajax({
 					url : rootPath + "/simpleClasses/showAllclassType",
 					type : "post",
-					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
-						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
+					data:datas,
+					// data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
+					// 	"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
 					beforeSend:function(XMLHttpRequest){
 			            $(".loading").show();
 			            $(".loading-bg").show();
@@ -514,15 +605,15 @@
 			},
 			showClassTypeDetail : function(id,typeCode){
 				var itemOneId="";
-				$("#itemOneList").find("a").each(function(i){
-					if($(this).hasClass('btn-success')){
-						itemOneId=$(this).attr("ids");
-					}
-				});
-				if(itemOneId==""){
-					alert("请先设置学科!");
-					return;
-				}
+				// $("#itemOneList").find("a").each(function(i){
+				// 	if($(this).hasClass('btn-success')){
+				// 		itemOneId=$(this).attr("ids");
+				// 	}
+				// });
+				// if(itemOneId==""){
+				// 	alert("请先设置学科!");
+				// 	return;
+				// }
 				$("#classTypeId").val(id);
 				$("#typeCode").val(typeCode);
 				$("#myForm").attr("action",rootPath+"/simpleClasses/showClassTypeDetail").submit();
@@ -540,10 +631,10 @@
 					lab+=$(this).attr("mark")+",";
 				});
 				//console.log(lab);
-				if(itemOneId==""){
-					alert("请先设置学科!");
-					return;
-				}
+				// if(itemOneId==""){
+				// 	alert("请先设置学科!");
+				// 	return;
+				// }
 				$("#classTypeId").val(id);
 				$("#lab").val(lab);
 				$("#myForm").attr("action",rootPath+"/editSimpleCourse/editClassTypeMessage").submit();
@@ -596,20 +687,20 @@
 						$("#twoId").val($(this).attr("ids"));
 					}
 				});
-				if(itemOneId==""){
-					alert("请先设置学科!");
-					return;
-				}
+				// if(itemOneId==""){
+				// 	alert("请先设置学科!");
+				// 	return;
+				// }
 				var count=0;
 				$("#itemSecondList").find("a.btn").each(function(i){
 					if($(this).hasClass("btn-default")){
 						count++;
 					}
 				});
-				if(count<=0){
-					alert("请先设置学科小类!");
-					return;
-				}
+				// if(count<=0){
+				// 	alert("请先设置学科小类!");
+				// 	return;
+				// }
 				$("#myForm").attr("action",rootPath+"/simpleClasses/addClassType").submit();
 			}
 			

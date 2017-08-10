@@ -95,6 +95,7 @@ public class CommodityVo extends BaseEntity {
     private String  paperDescription;
     private Integer isToday;
     private Integer isTomorry;
+    private Integer userId;
 
     private Date previewDate;//预览时间
     
@@ -750,5 +751,13 @@ public class CommodityVo extends BaseEntity {
 
     public void setIsTomorry(Integer isTomorry) {
         this.isTomorry = isTomorry;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

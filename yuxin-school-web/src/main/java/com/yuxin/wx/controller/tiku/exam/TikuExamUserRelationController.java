@@ -191,7 +191,8 @@ public class TikuExamUserRelationController {
                         idList.add(topic.getId());
                     }
                     if(idList.size() > 0){
-                        List<TikuTopicOption> optionList = tikuTopicOptionServiceImpl.findOptionByListTopicId(idList);
+                        param.put("idList", idList);
+                        List<TikuTopicOption> optionList = tikuTopicOptionServiceImpl.findOptionByListTopicId(param);
                         for(TikuTopic topic : topics){
                             for(int i = 0; i < optionList.size(); i++){
                                 TikuTopicOption option = optionList.get(i);

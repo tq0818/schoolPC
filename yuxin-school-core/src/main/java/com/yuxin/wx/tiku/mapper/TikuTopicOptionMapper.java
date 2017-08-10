@@ -1,6 +1,7 @@
 package com.yuxin.wx.tiku.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.tiku.TikuTopicOption;
@@ -40,5 +41,5 @@ public interface TikuTopicOptionMapper extends BaseMapper<TikuTopicOption> {
 	 * @param list
 	 * @return
 	 */
-	List<TikuTopicOption> findOptionByListTopicId(List<Integer> list);
+	List<TikuTopicOption> findOptionByListTopicId(Map<String, Object> param);
 }

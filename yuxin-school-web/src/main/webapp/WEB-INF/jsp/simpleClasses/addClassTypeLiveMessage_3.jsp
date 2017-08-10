@@ -70,6 +70,7 @@
             	 	<input type="hidden" id="itemSecondId" value="${ct.itemSecondId }"/>
             	 	<input type="hidden" id="moduleId" value=""/>
             	 	<input type="hidden" id="moduleNoId" value=""/>
+					 <input type="hidden" id="resourceId" />
 	                  <a href="javascript:;" class="btn btn-primary btn-addlink addCourse"><em class="iconfont">&#xe606;</em>新增课程单元</a>
 <!-- 	                <a href="javascript:;" class="btn btn-primary btn-addlink addcourseDetail"><em class="iconfont">&#xe606;</em>新增课次</a> -->
 	            </div>
@@ -350,6 +351,55 @@
 	</p>
 </div>
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
+<div class="q-box">
+	<div class="add-layer-bg none" style="z-index:1000;"></div>
+	<div class="add-layer w900 none" style="z-index:1001;">
+		<h3 class="add-layer-tit ">选择试卷</h3>
+		<i class="iconfont close q-close"></i>
+		<div class="layer-content q-layer-content">
+			<div class="term">
+				<span class="term-title q-term-title">题库</span> <span class="term-title">
+					<select name="" id="choose_tiku" style="" class="q-select">
+					</select>
+					</span> <span class="term-title q-term-title">科目</span> <span class="term-title">
+						<select name="" id="choose_item" class="q-select">
+					</select>
+					</span> <span class="term-title q-term-title">试卷名称</span> <span class="term-title">
+						<input type="text" id="choose_paper3" class="q-select"/>
+					</span>
+				<span class="btn btn-sm btn-default q-btn-primary q-btn-primary2" id="search_paper"> 搜索
+					</span>
+			</div>
+
+			<div class="term-list q-term-list">
+				<table class="table table-center table-head">
+					<tbody>
+					<colgroup>
+						<col width="25%">
+						<col width="25%">
+						<col width="25%">
+						<col width="25%">
+					</colgroup>
+					<tr >
+						<th >试卷名称</th>
+						<th >所属题库</th>
+						<th >所属科目</th>
+						<th >试卷类型</th>
+					</tr>
+					</tbody>
+				</table>
+				<div class="table-list">
+					<table id="data_table_2" class="table table-center table-tbody">
+						<tbody>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+			<div class="pages pagination"></div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	function docChange(){
 		$("#dochint").html("<span style='color:red;' >正在上传</span>");

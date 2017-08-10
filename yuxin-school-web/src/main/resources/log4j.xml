@@ -77,7 +77,7 @@
 		<level value="DEBUG" />
 	</logger>
 	<logger name="java.sql.ResultSet" additivity="true">
-		<level value="TRACE" />
+		<level value="INFO" />
 	</logger>
 	<!-- end mybatis 日志 -->
 

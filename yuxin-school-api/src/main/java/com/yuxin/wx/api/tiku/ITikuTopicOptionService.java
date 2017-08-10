@@ -1,6 +1,7 @@
 package com.yuxin.wx.api.tiku;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.model.tiku.TikuTopicOption;
 /**
@@ -126,5 +127,5 @@ public interface ITikuTopicOptionService  {
 	 * @param list
 	 * @return
 	 */
-	List<TikuTopicOption> findOptionByListTopicId(List<Integer> list);
+	List<TikuTopicOption> findOptionByListTopicId(Map<String, Object> param);
 }

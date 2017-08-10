@@ -155,7 +155,7 @@
 		    	 if($("#searchName").val()){
 		    		 Form.queryCommodityByName(pageNo); 
 		    	 }else{
-		    		 Form.queryAllCommdityByItem(pageNo,'${itemOneId }');
+		    		 Form.queryAllCommdityByItemNew(pageNo);
 		    	 }
 	    	 }
 	   });
@@ -220,10 +220,10 @@
 	  	});
 	  	$(".course-sort").delegate(".sortbtn-gou","click",function(e){
 	  		var isOrder = $(this).prev().attr("isOrder");
-	  		if(isOrder !=1 && orderCount >= 8 ){
-	  			$.msg("排序总数不能超过8个.");
-	  			return false;
-	  		}
+//	  		if(isOrder !=1 && orderCount >= 8 ){
+//	  			$.msg("排序总数不能超过8个.");
+//	  			return false;
+//	  		}
 	  		var publishStatus = $(this).parent().parent("li[id^='commodityLi']").attr("publishStatus"); 
 	  		if(publishStatus !="CLASS_ON_SALE"){
 	  			$.msg("课程未发布,不能排序.");
@@ -240,25 +240,25 @@
 	  		$("[name=sortInput]").removeClass("editing");
 	  		$(e.delegateTarget).find('.sortbtn').hide();
 	  		var id;
-	        var itemOneId;
-	        $("#itemOneList").find("a").each(function(i){
-				if($(this).hasClass('btn-success')){
-					var cid=$(this).attr("ids");
-					itemOneId=cid;
-					return false;
-				}
-			});
+//	        var itemOneId;
+//	        $("#itemOneList").find("a").each(function(i){
+//				if($(this).hasClass('btn-success')){
+//					var cid=$(this).attr("ids");
+//					itemOneId=cid;
+//					return false;
+//				}
+//			});
 	  	    id = $(this).parent().parent("li[id^='commodityLi']").attr("id"); 
 	  		id = id.replace("commodityLi","");
 		    $.ajax({
 				type:'GET',
-				data:{'id':id,'order':_input,'itemOneId':itemOneId},
+				data:{'id':id,'order':_input},
 				url:"<%=rootPath%>/simpleClasses/updateSubjectClassOrder",
 				dataType : "json",
 				success:function(data){
 					if(data=='success'){
 						$.msg("修改排序成功");
-						Form.queryAllCommdityByItem(1);
+						Form.queryAllCommdityByItemNew(1);
 					}else{
 						$.msg("修改排序失败");
 					}

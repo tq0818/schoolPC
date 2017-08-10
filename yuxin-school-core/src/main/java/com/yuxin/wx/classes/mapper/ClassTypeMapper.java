@@ -122,4 +122,6 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	int updateSubjectClassOrder(ClassType cp);
 	
 	int countSubjectClassOrder(String itemOenId);
+
+    List<ClassType> findClassByItemRelation(Map<String, Object> map);
 }

@@ -110,7 +110,7 @@
     width: 800px
 }
 div.c span.l-content{
-	display:inline-block;s
+	display:inline-block;
 	max-width:890px;
     vertical-align: top;
 }
@@ -1129,3 +1129,4 @@ div.c span.l-content .msg-content{
     height: 150px;
     margin: 10px 0;}
 .tips-info .tips-btn{text-align: right;}
+.new-student.student .notice-main span.c-title {text-align: right;}

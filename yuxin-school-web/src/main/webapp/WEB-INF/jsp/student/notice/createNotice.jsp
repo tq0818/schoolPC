@@ -37,7 +37,7 @@
 <body>
 	<jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp" />
 	<input type="hidden" value="${count }" id="msgCount" />
-	<div class="u-wrap student">
+	<div class="u-wrap student new-student">
 		<div class="mainbackground">
 			<div class="heading">
 				<h2 class="h5">新建学员通知</h2>
@@ -83,16 +83,21 @@
 					
 					<!-- 课程或者班号 -->
 					<p class="c sendStuMsg">
-						<span class="c-title">学科：</span> <span class="c-content"> <select
-							id="one">
+						<span class="c-title">大类：</span> <span class="c-content"> <select
+							id="one" style="width: 100px;">
 								<c:forEach var="o" items="${oneItem }">
-									<option value="${o.id }">${o.itemName }</option>
+									<option value="${o.id }" data-code="${o.itemCode}">${o.itemName }</option>
 								</c:forEach>
 						</select>
-						</span> <span class="c-title">学科小类：</span> <span class="c-content">
-							<select id="two">
+						</span> <span class="c-title">学段：</span> <span class="c-content">
+							<select id="two" style="width: 100px;">
 						</select>
 						</span>
+						<span class="c-title">学科：</span> <span class="c-content">
+							<select id="three" style="width: 100px;">
+						</select>
+						</span>
+
 					</p>
 					<p class="c sendStuMsg">
 						<span class="c-title" id="classTitle">课程：</span> <span

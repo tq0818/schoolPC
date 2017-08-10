@@ -2209,8 +2209,8 @@ public class SimpleclassTypeController {
 			ClassType ct = new ClassType();
 			String orderStr  = request.getParameter("order");
 			String idStr = request.getParameter("id");
-			String itemOneIdStr = request.getParameter("itemOneId");
-			if(StringUtils.isNotBlank(idStr) && StringUtils.isNotBlank(itemOneIdStr)){
+//			String itemOneIdStr = request.getParameter("itemOneId");
+			if(StringUtils.isNotBlank(idStr)){
 				if(StringUtils.isBlank(orderStr)){
 					ct.setSubjectClassOrder(null);
 				}else{
@@ -2221,9 +2221,9 @@ public class SimpleclassTypeController {
 					ct.setSubjectClassOrder(order);
 				}
 				int id = Integer.parseInt(idStr);
-				int itemOneId = Integer.parseInt(itemOneIdStr);
+//				int itemOneId = Integer.parseInt(itemOneIdStr);
 		        ct.setId(id);
-				ct.setItemOneId(itemOneId);
+//				ct.setItemOneId(itemOneId);
 				int row = classTypeServiceImpl.updateSubjectClassOrder(ct);
 				if(row ==1){
 					result = "success";

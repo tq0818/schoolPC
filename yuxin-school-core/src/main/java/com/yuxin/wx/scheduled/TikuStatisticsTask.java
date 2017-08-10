@@ -71,7 +71,7 @@ public class TikuStatisticsTask{
 		}
 		//所有任务处理完成后，清空之前数据
 		while(true){
-			System.out.println(getExcutorPoolActiveCount(fixedThreadPool));
+//			System.out.println(getExcutorPoolActiveCount(fixedThreadPool));
 			if(getExcutorPoolActiveCount(fixedThreadPool) == 0){
 				if(statisticsList.size()>0){
 					Integer[] a = new Integer[statisticsList.size()];

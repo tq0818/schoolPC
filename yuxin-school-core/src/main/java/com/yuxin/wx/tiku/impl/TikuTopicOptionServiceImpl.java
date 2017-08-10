@@ -1,6 +1,7 @@
 package com.yuxin.wx.tiku.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -144,8 +145,8 @@ public class TikuTopicOptionServiceImpl extends BaseServiceImpl implements ITiku
 	}
 
 	@Override
-	public List<TikuTopicOption> findOptionByListTopicId(List<Integer> list) {
-		List<TikuTopicOption> optionList = tikuTopicOptionMapper.findOptionByListTopicId(list);
+	public List<TikuTopicOption> findOptionByListTopicId(Map<String, Object> param) {
+		List<TikuTopicOption> optionList = tikuTopicOptionMapper.findOptionByListTopicId(param);
 		return optionList;
 	}
 }

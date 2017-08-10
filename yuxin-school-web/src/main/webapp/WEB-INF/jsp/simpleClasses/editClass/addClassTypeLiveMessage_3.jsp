@@ -59,7 +59,7 @@
             	 <div class="teacher-btns" style="float:right;">
             	   <input type="hidden" id="className" value="${ct.name }"/>
             	 	<input type="hidden" id="classtypeId" value="${ct.id }"/>
-					 <input type="hidden" id="resourceId" />
+                     <input type="hidden" id="resourceId" />
             	 	<input type="hidden" id="itemOneId" value="${ct.itemOneId }"/>
             	 	<input type="hidden" id="itemSecondId" value="${ct.itemSecondId }"/>
             	 	<input type="hidden" id="moduleId" value=""/>

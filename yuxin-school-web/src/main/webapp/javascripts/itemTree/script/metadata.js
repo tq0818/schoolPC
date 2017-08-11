@@ -178,6 +178,7 @@ $(document).ready(function() {
 
 
     });
+    var saveflag = true;
     $("#savabtn").on('click', function() {
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
@@ -253,6 +254,7 @@ $(document).ready(function() {
             levelPath = selectNode.levelPath;
             level = selectNode.level-1;
         }*/
+        $(this).attr("disabled","disabled");
         $.ajax({
             type:"post",
             url:"/itemTree/insert",
@@ -277,7 +279,10 @@ $(document).ready(function() {
                         ztree = $.fn.zTree.init($("#ztree"), setting, zNodes);
                     });
                 }
-
+                debugger;
+                $(this).attr("disabled",false);
+            },error:function (e) {
+                $(this).attr("disabled",false);
             }
         });
 

@@ -81,7 +81,8 @@ function zTreeOnRemove(event, treeId, treeNode) {
         success: function (data) {
             // if(data=="true"){
             //     $.msg("删除成功");
-                $('.tree_setting .tree-listtype').hide();
+                $('.tree_setting .tree-listtype,.btn-list').hide();
+
             // }
 
         }
@@ -109,7 +110,6 @@ function beforeRemove(treeId, treeNode, newName, isCancel) {
 
 //控制右侧显示内容
 function onSelected(event, treeId, treeNode) {
-    debugger
     ztree.expandNode(treeNode, true, true, true);
     $('.tree_setting .tree-listtype').hide();
     $('input:checkbox').prop('checked', false);
@@ -178,10 +178,12 @@ $(document).ready(function() {
 
 
     });
+    var saveflag = true;
     $("#savabtn").on('click', function() {
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
-            var checkIds = [],hasitemCode = [],editCode = '';
+            var checkIds = [],hasitemCode = [],editCode = '',
+                $savebtn = $(this);
         //on checkbox
         if(input.attr("type")!='text'){
             var inputList = $(".tree-listtype:visible input:checked:not('[disabled]')");//勾选且没有disabled 属性的
@@ -253,6 +255,7 @@ $(document).ready(function() {
             levelPath = selectNode.levelPath;
             level = selectNode.level-1;
         }*/
+        $savebtn.attr("disabled","disabled");
         $.ajax({
             type:"post",
             url:"/itemTree/insert",
@@ -277,7 +280,9 @@ $(document).ready(function() {
                         ztree = $.fn.zTree.init($("#ztree"), setting, zNodes);
                     });
                 }
-
+                $savebtn.attr("disabled",false);
+            },error:function (e) {
+                $savebtn.attr("disabled",false);
             }
         });
 

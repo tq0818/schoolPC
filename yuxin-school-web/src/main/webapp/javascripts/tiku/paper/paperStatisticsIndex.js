@@ -61,8 +61,10 @@
 				data:{"paperId":paperId, "topicId":topicId},
 				type:"post",
 				success:function(result){
-					if(result!=null){
+					if(result!=null && result!=""){
 						$("#topic_"+topicId).append("<option>总计答题人数："+result.answerNum+"</option><option>正确人数："+result.answerAccuracyNum+"</option><option>正确率："+GetPercent(result.answerAccuracyNum, result.answerNum)+"</option>");
+					}else{
+                        $("#topic_"+topicId).append("<option>总计答题人数："+0+"</option><option>正确人数："+0+"</option><option>正确率："+GetPercent(result.answerAccuracyNum, result.answerNum)+"</option>");
 					}
 				},
 				error:function(e){}

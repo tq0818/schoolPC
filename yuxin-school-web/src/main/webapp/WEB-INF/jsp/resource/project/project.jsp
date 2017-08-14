@@ -58,7 +58,7 @@ margin-left: 25px;
 <div class="u-wrap resource">
 	<div class="mainbackground nopadding">
 		<div class="heading">
-			<h2 class="h5">学科</h2>
+			<h2 class="h5">结构管理</h2>
 			<span class="line"></span>
 			<div class="tab-sub-title pos_a">
 				<span class="tab-type active" href=".man_metadata">元数据管理</span>

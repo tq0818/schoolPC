@@ -93,12 +93,11 @@ public class CommodityVo extends BaseEntity {
     private String lessonTimeEnd;
     private String lessonName;
     private String  paperDescription;
-    private Integer isToday;
-    private Integer isTomorry;
     private Integer userId;
 
     private Date previewDate;//预览时间
-    
+    private String range;//范围
+
     
     
     public Date getPreviewDate() {
@@ -737,27 +736,19 @@ public class CommodityVo extends BaseEntity {
         this.paperDescription = paperDescription;
     }
 
-    public Integer getIsToday() {
-        return isToday;
-    }
-
-    public void setIsToday(Integer isToday) {
-        this.isToday = isToday;
-    }
-
-    public Integer getIsTomorry() {
-        return isTomorry;
-    }
-
-    public void setIsTomorry(Integer isTomorry) {
-        this.isTomorry = isTomorry;
-    }
-
     public Integer getUserId() {
         return userId;
     }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
     }
 }

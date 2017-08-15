@@ -157,20 +157,11 @@ $(document).ready(function() {
             ztree = $.fn.zTree.init($("#ztree"), setting, zNodes);
         }
     });
-    var count = 0; //新节点编号
-
-//新建根节点
-/*    $('#addCatg').on('click', function() {
-        var nodeName = '新节点_' + count++;
-        ztree.addNodes(null, [{ name: nodeName }]);
-        var newNode = ztree.getNodesByParam('name', nodeName);
-        ztree.editName(newNode[0]);
-    });*/
     //新建根节点
     $('#addCatg').on('click', function() {
-
         $('.tree_setting .tree-listtype').hide();
         $('#bigType,.btn-list').show();
+        $(".tree-listtype:visible input").prop('checked', false).removeAttr("disabled");
         if($("#ztree").html()!=""){
             ztree.cancelSelectedNode();
             var ztreeList = ztree.getNodes();
@@ -178,15 +169,12 @@ $(document).ready(function() {
                 $(".tree-listtype:visible input[value="+v.itemCode+"]").prop('checked', true).attr("disabled","disabled");
             });
         }
-
-
-
     });
 
-    $("#savabtn").on('click', function() {
+    $("#savabtn").on('click', function() {debugger;
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
-            var checkIds = [],hasitemCode = [],editCode = '',
+            var checkIds = [],hasitemCode = [],
                 $savebtn = $(this);
         //on checkbox
         if(input.attr("type")!='text'){
@@ -226,45 +214,33 @@ $(document).ready(function() {
                 alert("请输入知识点！");
                 return false;
             }
-            //如果是修改，就去选中父节点
-         /*   if(input.hasClass("editing")){
-                editCode = selectNode.itemCode;//当前修改的code
-                var Pnode = ztree.getNodeByParam("id",selectNode.parentId);
-                ztree.selectNode(Pnode);
-                selectNode = ztree.getSelectedNodes()[0];
-            }*/
                 checkIds.push(input.val());
-       /*     if(selectNode.children && selectNode.children.length>0){
-                    $.each(selectNode.children,function (i,v) {
-                        if(editCode!=v.itemCode){//当前修改的code,,不再传入ids
-                            checkIds.push(v.itemCode);
-                        }
-                    });
-            }*/
-
         }
 //获取所有新增id 后，，如果树节点有对应id,则阻止保存，
+        //如果是修改，就去选中父节点
+         if(input.hasClass("editing")){
+             var Pnode = ztree.getNodeByParam("id",selectNode.parentId);
+             ztree.selectNode(Pnode);
+             selectNode = ztree.getSelectedNodes()[0];
+         }else{
+             var parentCode,parentId,levelPath=null;
+             var level=0;
+             if(selectNode){
+                 parentCode = selectNode.itemCode;
+                 parentId = selectNode.id;
+                 levelPath = selectNode.levelPath+selectNode.id+',';
+                 level = selectNode.level+1;
+             }
+         }
 
-        var parentCode,parentId,levelPath=null;
-        var level=0;
-        if(selectNode){
-            parentCode = selectNode.itemCode;
-            parentId = selectNode.id;
-           levelPath = selectNode.levelPath+selectNode.id+',';
-           level = selectNode.level+1;
-        }
- /*       if(input.hasClass("editing")){
-            parentCode = selectNode.parentCode;
-            parentId = selectNode.parentId;
-            levelPath = selectNode.levelPath;
-            level = selectNode.level-1;
-        }*/
         $savebtn.attr("disabled","disabled");
-        var url = "/itemTree/insert",data = {'level':level,"codes":checkIds.join(","),"parentCode":parentCode,"parentId":parentId,"levelPath":levelPath};
-        if(input.hasClass("editing")){
-            url = '/itemTree/update';
-            data = {"id":input.attr("ids"),"itemCode":checkIds.join(",")}
-        }
+
+            var   url = '/itemTree/update',
+            data = {"id":input.attr("ids"),"itemCode":checkIds.join(",")};
+            if(! input.hasClass("editing")){
+                url = "/itemTree/insert";
+                data = {'level':level,"codes":checkIds.join(","),"parentCode":parentCode,"parentId":parentId,"levelPath":levelPath};
+            }
         $.ajax({
             type:"post",
             url:url,
@@ -282,6 +258,7 @@ $(document).ready(function() {
                     ztree.reAsyncChildNodes(selectNode, "refresh", false);
                 }else{
                     //ztree.reAsyncChildNodes(null, "refresh", false);
+                    //根节点重置树，
                    $.get("/itemTree/ajaxValue",function(data,status){
                         var list = data.list;
                         var names = data.type;
@@ -289,6 +266,11 @@ $(document).ready(function() {
                         zNodes = list;
                         ztree = $.fn.zTree.init($("#ztree"), setting, zNodes);
                     });
+                    // 重置根节点类型
+                    $.each(checkIds,function (i,v) {
+                        $('.tree-listtype:visible input[value=' + v+ ']').prop('checked', true).attr("disabled","disabled");
+                    });
+
                 }
                 $savebtn.attr("disabled",false);
             },error:function (e) {

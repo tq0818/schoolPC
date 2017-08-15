@@ -66,11 +66,14 @@
 		var newsStatus=0;
 		var id=$("#nId").val();
 		var newsTitle=$("#titles").val();
+        var secondTitle=$("#secondTitle").val();
+        var author=$("#author").val();
+        var keyWord=$("#keyWord1").val()+","+$("#keyWord2").val()+","+$("#keyWord3").val()+","+$("#keyWord4").val()+","+$("#keyWord5").val();
 		var schoolId=$("#scId").val();
 		var newsType="";
 		newsType=$("#typeList option:selected").attr("marks");
 		var recommendFlag=$("input[type=radio]:checked").val();
-		var summary=$("#summarys").val();
+		var readBaseIndex=$("#readBaseIndex").val();
 		var value =$("#newsContents").val();
 		var newsContent=encodeURI(value);
 		
@@ -113,12 +116,15 @@
 				data : {"id" : id,
 					"newsTitle" : newsTitle, 
 					"newsType" : newsType,
-					"summary" : summary,
+					"readBaseIndex" : readBaseIndex,
 					"newsStatus" : newsStatus,
 					"newsContent" : newsContent,
 					"newsPic" : pic,
 					"schoolId" : schoolId,
-					"recommendFlag":recommendFlag
+					"recommendFlag":recommendFlag,
+                    "secondTitle":secondTitle,
+                    "author":author,
+                    "keyWord":keyWord
 					},
 					success : function(data) {
 						$.msg("修改公告成功!");
@@ -134,12 +140,15 @@
 				data : {
 					"newsTitle" : newsTitle,
 					"newsType" : newsType,
-					"summary" : summary,
+                    "readBaseIndex" : readBaseIndex,
 					"newsStatus" : newsStatus,
 					"newsContent" : newsContent,
 					"newsPic" : $("#imgObject").attr("ids"),
 					"schoolId" : schoolId,
-					"recommendFlag":recommendFlag
+					"recommendFlag":recommendFlag,
+                    "secondTitle":secondTitle,
+                    "author":author,
+                    "keyWord":keyWord
 					},
 				success : function(data) {
 					$.msg("添加公告成功!");
@@ -173,6 +182,28 @@
                      <input type="text" class="long-title" id="titles" name="newsTitle" maxlength="40" value="${sysNews.newsTitle }">
                 </span>
             </p>
+              <p class="c">
+                  <span class="c-title">副标题</span>
+                  <span class="c-content">
+                     <input type="text" class="long-title" id="secondTitle" name="secondTitle" maxlength="40" value="${sysNews.secondTitle }">
+                </span>
+              </p>
+              <p class="c">
+                  <span class="c-title">作者</span>
+                  <span class="c-content">
+                     <input type="text" class="long-title" id="author" name="author" maxlength="40" value="${sysNews.author }">
+                </span>
+              </p>
+              <p class="c">
+                  <span class="c-title">关键词</span>
+                  <span class="c-content">
+                      <input type="text" class="long-title" id="keyWord1" name="keyWord1" maxlength="40" value="${sysNews.keyWord1 }">
+                      <input type="text" class="long-title" id="keyWord2" name="keyWord2" maxlength="40" value="${sysNews.keyWord2 }">
+                      <input type="text" class="long-title" id="keyWord3" name="keyWord3" maxlength="40" value="${sysNews.keyWord3 }">
+                      <input type="text" class="long-title" id="keyWord4" name="keyWord4" maxlength="40" value="${sysNews.keyWord4 }">
+                      <input type="text" class="long-title" id="keyWord5" name="keyWord5" maxlength="40" value="${sysNews.keyWord5 }">
+                </span>
+              </p>
             <p class="c">
                 <span class="c-title">分类</span>
                 	<c:choose>
@@ -261,9 +292,9 @@
                     </span>
             </p>
             <p class="c">
-                <span class="c-title">概述</span>
+                <span class="c-title">阅读基数</span>
                 <span class="c-content">
-                   <textarea id="summarys" name="summary" rows="3" maxlength="200">${sysNews.summary }</textarea>
+                   <input type="number" class="long-title" id="readBaseIndex" name="readBaseIndex" value="${sysNews.readBaseIndex }"/>
                 </span>
             </p>
            </div>

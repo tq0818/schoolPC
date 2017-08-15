@@ -19,6 +19,10 @@
 		<result property="createName" column="createName"/>
 		<result property="summary" column="summary"/>
 		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="secondTitle" column="second_title"/>
+		<result property="keyWord" column="key_word"/>
+		<result property="author" column="author"/>
+		<result property="readBaseIndex" column="read_base_index"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.system.SysNewsVo" id="sysNewsResultMapVo">
@@ -41,6 +45,10 @@
 		<result property="summary" column="summary"/>
 		<result property="recommendFlag" column="recommend_flag"/>
 		<result property="newsTypeName" column="newsTypeName"/>
+		<result property="secondTitle" column="second_title"/>
+		<result property="keyWord" column="key_word"/>
+		<result property="author" column="author"/>
+		<result property="readBaseIndex" column="read_base_index"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.company.CompanyFunctionSetVo" id="companyFunctionSetMap">
@@ -70,7 +78,11 @@
 		update_time,
 		company_id,
 		school_id,
-		recommend_flag
+		second_title,
+		key_word,
+		recommend_flag,
+		author,
+		read_base_index
     </sql>
 	
 	<sql id="entity_properties">
@@ -89,7 +101,11 @@
 		#{updateTime},
 		#{companyId},
 		#{schoolId},
-		#{recommendFlag}
+		#{recommendFlag},
+		#{secondTitle},
+		#{keyWord},
+		#{author},
+		#{readBaseIndex}
 	</sql>
 	
 	<sql id="entity_propertiesMark">
@@ -109,12 +125,16 @@
 		#{companyId},
 		#{schoolId},
 		#{recommendFlag},
-		#{delFlag}
+		#{delFlag},
+		#{secondTitle},
+		#{keyWord},
+		#{author},
+		#{readBaseIndex}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
 	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysNews" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_news(id,news_title,summary,news_status,news_content,news_type,news_pic,publish_time,publish_user,creator,create_time,update_time,updator,company_id,school_id,recommend_flag,del_flag ) 
+		insert into sys_news(id,news_title,summary,news_status,news_content,news_type,news_pic,publish_time,publish_user,creator,create_time,update_time,updator,company_id,school_id,recommend_flag,del_flag,second_title,key_word,author,read_base_index )
 		values ( <include refid="entity_propertiesMark" /> )
 	</insert>
 	
@@ -161,6 +181,10 @@
 			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
 			<if test="recommendFlag != null">recommend_flag = #{recommendFlag},</if>
 			<if test="delFlag != null">del_flag = #{delFlag},</if>
+			<if test="secondTitle != null">second_title = #{secondTitle},</if>
+			<if test="keyWord != null">key_word = #{keyWord},</if>
+			<if test="author != null">author = #{author},</if>
+			<if test="readBaseIndex != null">read_base_index = #{readBaseIndex}</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -192,6 +216,10 @@
 			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
 			<if test="companyId != null and companyId != ''">and a.company_id = #{companyId}</if>
 			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+			<if test="secondTitle != null">and second_title = #{secondTitle}</if>
+			<if test="keyWord != null">and key_word = #{keyWord}</if>
+			<if test="author != null">and author = #{author}</if>
+			<if test="readBaseIndex != null">and read_base_index = #{readBaseIndex}</if>
 		</trim>
 	</sql>
 	
@@ -208,6 +236,10 @@
 			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
 			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
 			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+			<if test="secondTitle != null">and second_title = #{secondTitle}</if>
+			<if test="keyWord != null">and key_word = #{keyWord}</if>
+			<if test="author != null">and author = #{author}</if>
+			<if test="readBaseIndex != null">and read_base_index = #{readBaseIndex}</if>
 		order by id desc
 		limit #{firstIndex},#{pageSize}
 	</select>
@@ -226,6 +258,10 @@
 			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
 			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
 			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+			<if test="secondTitle != null">and second_title = #{secondTitle}</if>
+			<if test="keyWord != null">and key_word = #{keyWord}</if>
+			<if test="author != null">and author = #{author}</if>
+			<if test="readBaseIndex != null">and read_base_index = #{readBaseIndex}</if>
 		order by id desc
 		limit #{firstIndex},#{pageSize}
 	</select>
@@ -243,6 +279,10 @@
 			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
 			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
 			<if test="delFlag != null ">and a.del_flag = #{delFlag}</if>
+			<if test="secondTitle != null">and second_title = #{secondTitle}</if>
+			<if test="keyWord != null">and key_word = #{keyWord}</if>
+			<if test="author != null">and author = #{author}</if>
+			<if test="readBaseIndex != null">and read_base_index = #{readBaseIndex}</if>
 	</select>
 	
 	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.system.SysNewsVo">

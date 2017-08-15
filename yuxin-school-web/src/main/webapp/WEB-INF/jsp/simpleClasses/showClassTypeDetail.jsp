@@ -28,7 +28,7 @@
             <div class="s-title"><h2 class="h6">基本信息</h2></div>
             <div class="c-content">
                 <p class="c">
-                    <span class="c-title">大类</span>
+                    <span class="c-title">分类</span>
                     <span class="c-content"><input type="text" class="readonly" value="${ct.itemOneName }" readonly></span>
                 </p>
                 <p class="c">

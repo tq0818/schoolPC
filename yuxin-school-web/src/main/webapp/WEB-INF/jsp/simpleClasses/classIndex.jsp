@@ -35,7 +35,7 @@
     <div class="mainbackground nopadding">
         <div class="classes-type">
             <p class="c">
-                <span class="t-title">大类</span>
+                <span class="t-title">分类</span>
                 <span class="t-content" id="itemOneCodeList">
                     <a href="javascript:Form.queryAllCommdityByItemNew(1,'all');" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
                    <c:forEach items="${firstItem }" var="type" varStatus="status">

@@ -24,12 +24,12 @@
         <div class="top"><input type="button" value="发布生效" id="publishRelation"></div>
         <div class="content">
             <div class="tree_cntr">
-                <input id="addCatg" type="button" value="添加类型">
+                <input id="addCatg" type="button" value="添加分类">
                 <div id="ztree" class="ztree"></div>
             </div>
             <div class="tree_setting">
                 <div class="tree-listtype" id="bigType">
-                    <label>大类：</label>
+                    <label>分类：</label>
                     <c:forEach items="${typeList}" var="type">
                         <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
                     </c:forEach>

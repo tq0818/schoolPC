@@ -45,7 +45,7 @@
         <div class="c-main">
             <div class="c-content">
                 <p class="c">
-                <span class="c-title">大类</span>
+                <span class="c-title">分类</span>
                 <span class="c-content">
                         <select name="itemOneCode" id="itemOneCodeList" onchange="Form.queryItemSecond()">
                         	<c:forEach items="${typeItems }" var="type" varStatus="status">

@@ -142,15 +142,15 @@
 					min: jQuery.validator.format("请输入一个最小为{0} 的值"),
 					isMobile : "不是有效的手机号"
 				});
-				var itemOneId="";
-				$("#itemOneCodeList").find("option").each(function(i){
-					if($(this).is(':selected')){
-						var cid=$(this).attr("data-id");
-						itemOneId=cid;
-					}
-				});
-				this.queryItemSecond(itemOneId);
-				
+				// var itemOneId="";
+				// $("#itemOneCodeList").find("option").each(function(i){
+				// 	if($(this).is(':selected')){
+				// 		var cid=$(this).attr("data-id");
+				// 		itemOneId=cid;
+				// 	}
+				// });
+				// this.queryItemSecond(itemOneId);
+
 				//选择授课方式
 				$("#ltype").on('click','a.btn',function(){
 					if($(this).hasClass("btn-success")){
@@ -159,19 +159,19 @@
 						$(this).addClass("btn-success");
 					}
 				});
-				
+
 				$(".prices").bind("keyup",function(event){
-	    			//先把非数字的都替换掉，除了数字和. 
+	    			//先把非数字的都替换掉，除了数字和.
 	    			$(this).val($(this).val().replace(/[^\d.]/g,""));
-	    	        //必须保证第一个为数字而不是. 
+	    	        //必须保证第一个为数字而不是.
 	    	        $(this).val($(this).val().replace(/^\./g,"0."));
-	    	        //保证只有出现一个.而没有多个. 
+	    	        //保证只有出现一个.而没有多个.
 	    	        $(this).val($(this).val().replace(/\.{2,}/g,"."));
 	    	        //保证.只出现一次，而不能出现两次以上
 	    	        $(this).val($(this).val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));
 	    		})
 	    		$(".prices").bind("blur",function(event){
-	    			//先把非数字的都替换掉，除了数字和. 
+	    			//先把非数字的都替换掉，除了数字和.
 	    			$(this).val($(this).val().replace(/[^\d.]/g,""));
 	    			var value=$(this).val();
 	     	        var is=false;
@@ -183,12 +183,12 @@
 	     	        }
 	     	        if(value!=null||value!=""){
 	     	        	if(!is){
-	     	        		$(this).val($(this).val()+".00");	
+	     	        		$(this).val($(this).val()+".00");
 	     	        	}
-	     	        } 
-	    	        //必须保证第一个为数字而不是. 
+	     	        }
+	    	        //必须保证第一个为数字而不是.
 	    	        $(this).val($(this).val().replace(/^\./g,"0."));
-	    	        //保证只有出现一个.而没有多个. 
+	    	        //保证只有出现一个.而没有多个.
 	    	        $(this).val($(this).val().replace(/\.{2,}/g,"."));
 	    	        //保证.只出现一次，而不能出现两次以上
 	    	        $(this).val($(this).val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));
@@ -196,14 +196,14 @@
 	    	        $(this).val($(this).val().substring(0,$(this).val().indexOf(".")+3));
 	    		})
 	    		//课程设置框只能输入数字
-				$(".settingcount").keyup(function(){     
-			        var tmptxt=$(this).val();     
-			        $(this).val(tmptxt.replace(/\D/g,''));     
-			    }).bind("paste",function(){     
-			        var tmptxt=$(this).val();     
-			        $(this).val(tmptxt.replace(/\D/g,''));     
-			    }).css("ime-mode", "disabled"); 
-	    		
+				$(".settingcount").keyup(function(){
+			        var tmptxt=$(this).val();
+			        $(this).val(tmptxt.replace(/\D/g,''));
+			    }).bind("paste",function(){
+			        var tmptxt=$(this).val();
+			        $(this).val(tmptxt.replace(/\D/g,''));
+			    }).css("ime-mode", "disabled");
+
 	    		Form.queryCourseSetting();
 	    		this.queryCourseProtocolConfig();
 			},
@@ -230,7 +230,7 @@
 							selected = protocolId == courseProtocol.id;
 							optionHtml += '<option value="'+courseProtocol.id+'" '+ (selected?'selected':'') +'>'+ courseProtocol.name +'</option>';
 						}
-						
+
 						pHtml = '<p class="c">'+
 				                    '<span class="c-title">课程协议</span>'+
 				                    '<span class="c-content">'+
@@ -238,7 +238,7 @@
 				                    '</span>'+
 				                '</p>';
 						$('#lableType').parents('p').before(pHtml);
-						
+
 						if(callback){
 							callback();
 						}
@@ -255,6 +255,11 @@
 					});
 				}
 				$("#itemSecondCodeList").html('');
+                $("#itemSecondCodeList").append('<option  value="" data-id="">请选择</option>');
+                if(id ==null || id.length==0){
+                    Form.queryItemThird();
+                    return;
+				}
 				$.ajax({
 					url : rootPath + "/itemTree/queryItemSecond",
 					type : "post",
@@ -287,6 +292,11 @@
                     });
                 }
                 $("#itemThirdCodeList").html('');
+                $("#itemThirdCodeList").append('<option  value="" data-id="">请选择</option>');
+                if(id ==null || id.length==0){
+                    Form.queryTagsList();
+                    return;
+                }
                 $.ajax({
                     url : rootPath + "/itemTree/queryItemSecond",
                     type : "post",
@@ -303,7 +313,7 @@
                                 }
                             });
                         }else{
-                            $("#itemThirdCodeList").css("display","none");
+                            // $("#itemThirdCodeList").css("display","none");
                         }
                         Form.queryTagsList();
                     }
@@ -319,6 +329,8 @@
                     });
                 }
                 $("#itemFourthCodeList").html('');
+                $("#itemFourthCodeList").append('<option  value="" data-id="">请选择</option>');
+                if(id !=null && id.length>0)
                 $.ajax({
                     url : rootPath + "/itemTree/queryItemSecond",
                     type : "post",
@@ -335,7 +347,7 @@
                                 }
                             });
                         }else{
-                            $("#itemFourthCodeList").css("display","none");
+                            // $("#itemFourthCodeList").css("display","none");
                         }
                     }
                 });
@@ -381,7 +393,7 @@
 						$.msg("请设置会员等级");
 						return;
 					}
-				}	
+				}
 			    if(type=="update"){
 			    	$(".firstspan").html('');
 					$("#addFormOne").validate(rule1);
@@ -409,6 +421,12 @@
 			    		$(".loading-bg").hide();
 			    	}
 			    }else{
+                    var tId=$("#itemOneCodeList").val();
+                    if(tId==""||tId==null){
+                        $.msg("请选择分类");
+                        return;
+                    }
+
 			    	var tId=$("#itemSecondCodeList").val();
 			    	if(tId==""||tId==null){
 			    		$.msg("请选择学段");

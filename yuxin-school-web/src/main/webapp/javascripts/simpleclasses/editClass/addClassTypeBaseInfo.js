@@ -149,8 +149,9 @@
 						itemOneId=cid;
 					}
 				});
-				this.queryItemSecond(itemOneId);
-				
+				if(itemOneId !=null &&itemOneId.length>0)
+				this.queryItemSecond(itemOneId,1);
+
 				//选择授课方式
 				$("#ltype").on('click','a.btn',function(){
 					if($(this).hasClass("btn-success")){
@@ -159,19 +160,19 @@
 						$(this).addClass("btn-success");
 					}
 				});
-				
+
 				$(".prices").bind("keyup",function(event){
-	    			//先把非数字的都替换掉，除了数字和. 
+	    			//先把非数字的都替换掉，除了数字和.
 	    			$(this).val($(this).val().replace(/[^\d.]/g,""));
-	    	        //必须保证第一个为数字而不是. 
+	    	        //必须保证第一个为数字而不是.
 	    	        $(this).val($(this).val().replace(/^\./g,"0."));
-	    	        //保证只有出现一个.而没有多个. 
+	    	        //保证只有出现一个.而没有多个.
 	    	        $(this).val($(this).val().replace(/\.{2,}/g,"."));
 	    	        //保证.只出现一次，而不能出现两次以上
 	    	        $(this).val($(this).val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));
 	    		})
 	    		$(".prices").bind("blur",function(event){
-	    			//先把非数字的都替换掉，除了数字和. 
+	    			//先把非数字的都替换掉，除了数字和.
 	    			$(this).val($(this).val().replace(/[^\d.]/g,""));
 	    			var value=$(this).val();
 	     	        var is=false;
@@ -183,12 +184,12 @@
 	     	        }
 	     	        if(value!=null||value!=""){
 	     	        	if(!is){
-	     	        		$(this).val($(this).val()+".00");	
+	     	        		$(this).val($(this).val()+".00");
 	     	        	}
-	     	        } 
-	    	        //必须保证第一个为数字而不是. 
+	     	        }
+	    	        //必须保证第一个为数字而不是.
 	    	        $(this).val($(this).val().replace(/^\./g,"0."));
-	    	        //保证只有出现一个.而没有多个. 
+	    	        //保证只有出现一个.而没有多个.
 	    	        $(this).val($(this).val().replace(/\.{2,}/g,"."));
 	    	        //保证.只出现一次，而不能出现两次以上
 	    	        $(this).val($(this).val().replace(".","$#$").replace(/\./g,"").replace("$#$","."));
@@ -196,14 +197,14 @@
 	    	        $(this).val($(this).val().substring(0,$(this).val().indexOf(".")+3));
 	    		})
 	    		//课程设置框只能输入数字
-				$(".settingcount").keyup(function(){     
-			        var tmptxt=$(this).val();     
-			        $(this).val(tmptxt.replace(/\D/g,''));     
-			    }).bind("paste",function(){     
-			        var tmptxt=$(this).val();     
-			        $(this).val(tmptxt.replace(/\D/g,''));     
-			    }).css("ime-mode", "disabled"); 
-	    		
+				$(".settingcount").keyup(function(){
+			        var tmptxt=$(this).val();
+			        $(this).val(tmptxt.replace(/\D/g,''));
+			    }).bind("paste",function(){
+			        var tmptxt=$(this).val();
+			        $(this).val(tmptxt.replace(/\D/g,''));
+			    }).css("ime-mode", "disabled");
+
 	    		Form.queryCourseSetting();
 	    		//判断是否显示三级标签
 	    		$.ajax({
@@ -230,7 +231,7 @@
 				});
 	    		this.queryCourseProtocolConfig();
 			},
-        queryItemSecond : function (id){
+        queryItemSecond : function (id,index){
             if(id==null){
                 $("#itemOneCodeList").find("option").each(function(i){
                     if($(this).is(':selected')){
@@ -240,6 +241,11 @@
                 });
             }
             $("#itemSecondCodeList").html('');
+            $("#itemSecondCodeList").append('<option  value="" data-id="">请选择</option>');
+            if(id ==null || id.length==0){
+                Form.queryItemThird();
+                return;
+            }
             $.ajax({
                 url : rootPath + "/itemTree/queryItemSecond",
                 type : "post",
@@ -249,20 +255,25 @@
                     if(result.length>0){
                         $("#itemSecondCodeList").css("display","block");
                         $.each(result,function(i,item){
-                            if(item.itemCode==$("#twoSecItemCode").val()){
-                                $("#itemSecondCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
-                            }else{
+                        	if(index>0){
+                                if(item.itemCode==$("#twoSecItemCode").val()){
+                                    $("#itemSecondCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }else{
+                                    $("#itemSecondCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }
+							}
+                          else{
                                 $("#itemSecondCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
                             }
                         });
                     }else{
                         $("#itemSecondCodeList").css("display","none");
                     }
-                    Form.queryItemThird();
+                    Form.queryItemThird(null,index);
                 }
             });
         },
-        queryItemThird:function(id){
+        queryItemThird:function(id,index){
             if(id==null){
                 $("#itemSecondCodeList").find("option").each(function(i){
                     if($(this).is(':selected')){
@@ -272,6 +283,11 @@
                 });
             }
             $("#itemThirdCodeList").html('');
+            $("#itemThirdCodeList").append('<option  value="" data-id="">请选择</option>');
+            if(id ==null || id.length==0){
+                Form.queryTagsList();
+                return;
+            }
             $.ajax({
                 url : rootPath + "/itemTree/queryItemSecond",
                 type : "post",
@@ -281,16 +297,21 @@
                     if(result.length>0){
                         $("#itemThirdCodeList").css("display","block");
                         $.each(result,function(i,item){
-                            if(item.itemCode==$("#itemThirdCode").val()){
-                                $("#itemThirdCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
-                            }else{
+                            if(index>0){
+                                if(item.itemCode==$("#itemThirdCode").val()){
+                                    $("#itemThirdCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }else{
+                                    $("#itemThirdCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }
+                            }
+                           else{
                                 $("#itemThirdCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
                             }
                         });
                     }else{
-                        $("#itemThirdCodeList").css("display","none");
+                        // $("#itemThirdCodeList").css("display","none");
                     }
-                    Form.queryTagsList();
+                    Form.queryTagsList(null,index);
                 }
             });
         },
@@ -304,6 +325,8 @@
                 });
             }
             $("#itemFourthCodeList").html('');
+            $("#itemFourthCodeList").append('<option  value="" data-id="">请选择</option>');
+            if(id !=null && id.length>0)
             $.ajax({
                 url : rootPath + "/itemTree/queryItemSecond",
                 type : "post",
@@ -313,14 +336,19 @@
                     if(result.length>0){
                         $("#itemFourthCodeList").css("display","block");
                         $.each(result,function(i,item){
-                            if(item.itemCode==$("#itemFourthCode").val()){
-                                $("#itemFourthCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
-                            }else{
+                        	if(index>0){
+                                if(item.itemCode==$("#itemFourthCode").val()){
+                                    $("#itemFourthCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }else{
+                                    $("#itemFourthCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }
+							}
+                          else{
                                 $("#itemFourthCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
                             }
                         });
                     }else{
-                        $("#itemFourthCodeList").css("display","none");
+                        // $("#itemFourthCodeList").css("display","none");
                     }
                 }
             });
@@ -362,7 +390,7 @@
 							selected = protocolId == courseProtocol.id;
 							optionHtml += '<option value="'+courseProtocol.id+'" '+ (selected?'selected':'') +'>'+ courseProtocol.name +'</option>';
 						}
-						
+
 						pHtml = '<p class="c">'+
 				                    '<span class="c-title">课程协议</span>'+
 				                    '<span class="c-content">'+
@@ -370,7 +398,7 @@
 				                    '</span>'+
 				                '</p>';
 						$('#lableType').parents('p').before(pHtml);
-						
+
 						if(callback){
 							callback();
 						}
@@ -378,6 +406,22 @@
 				});
 			},
 			addFormOne : function(mark){
+                var tId=$("#itemOneCodeList").val();
+                if(tId==""||tId==null){
+                    $.msg("请选择分类");
+                    return;
+                }
+
+                var tId=$("#itemSecondCodeList").val();
+                if(tId==""||tId==null){
+                    $.msg("请选择学段");
+                    return;
+                }
+                var thId=$("#itemThirdCodeList").val();
+                if(thId==""||thId==null){
+                    $.msg("请选择学科");
+                    return;
+                }
 				$("#mark").val(mark);
 				var type=$("#type1").val();
 				$("#lable").val($("#lableType").attr("ids"));

@@ -54,7 +54,7 @@ public class SysConfigItemTreeController {
      * */
     @ResponseBody
     @RequestMapping(value="/insert")
-    public String update(Model model, HttpServletRequest request,Integer level,String parentCode,Integer parentId,String codes,String levelPath){
+    public String insert(Model model, HttpServletRequest request,Integer level,String parentCode,Integer parentId,String codes,String levelPath){
         try{
             SysConfigItemRelation relation = new SysConfigItemRelation();
             relation.setLevel(level);
@@ -91,6 +91,25 @@ public class SysConfigItemTreeController {
                     relation.setId(null);
                 }
             }
+        }catch(Exception e){
+            e.printStackTrace();
+            return "fail";
+        }
+        return "success";
+    }
+
+
+    /**
+     * 添加节点
+     * */
+    @ResponseBody
+    @RequestMapping(value="/update")
+    public String update(Model model, HttpServletRequest request,Integer id,String itemCode){
+        try{
+            SysConfigItemRelation relation = new SysConfigItemRelation();
+            relation.setId(id);
+            relation.setItemCode(itemCode);
+            sysConfigItemRelationServieImpl.update(relation);
         }catch(Exception e){
             e.printStackTrace();
             return "fail";

@@ -39,6 +39,10 @@ var setting = {
         dataFilter: ajaxDataFilter
     },
    edit: {
+       drag: {
+           isCopy: false,
+           isMove: false
+       },
         enable: true,
        showRenameBtn: false,
        showRemoveBtn: true
@@ -47,7 +51,7 @@ var setting = {
     callback: {
         // beforeEditName: beforeEditName,
         beforeRemove: beforeRemove,
-        onDblClick: onNodeDblClick,
+        // onDblClick: onNodeDblClick,
         onClick: onSelected,
        //onExpand: onExpandClick,
         onAsyncSuccess: zTreeOnAsyncSuccess,
@@ -126,8 +130,8 @@ function onSelected(event, treeId, treeNode) {
             $('#topic').show().find("input").val("").removeClass("editing");
             break;
         case 3:
-            $(".btn-list").hide();
-           // $('#topic').show().find("input").val(treeNode.itemCode).addClass("editing");
+           // $(".btn-list").hide();
+            $('#topic').show().find("input").val(treeNode.itemCode).addClass("editing").attr("ids",treeNode.id);
 
             break;
     }
@@ -178,7 +182,7 @@ $(document).ready(function() {
 
 
     });
-    var saveflag = true;
+
     $("#savabtn").on('click', function() {
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
@@ -223,12 +227,12 @@ $(document).ready(function() {
                 return false;
             }
             //如果是修改，就去选中父节点
-            if(input.hasClass("editing")){
+         /*   if(input.hasClass("editing")){
                 editCode = selectNode.itemCode;//当前修改的code
                 var Pnode = ztree.getNodeByParam("id",selectNode.parentId);
                 ztree.selectNode(Pnode);
                 selectNode = ztree.getSelectedNodes()[0];
-            }
+            }*/
                 checkIds.push(input.val());
        /*     if(selectNode.children && selectNode.children.length>0){
                     $.each(selectNode.children,function (i,v) {
@@ -256,10 +260,15 @@ $(document).ready(function() {
             level = selectNode.level-1;
         }*/
         $savebtn.attr("disabled","disabled");
+        var url = "/itemTree/insert",data = {'level':level,"codes":checkIds.join(","),"parentCode":parentCode,"parentId":parentId,"levelPath":levelPath};
+        if(input.hasClass("editing")){
+            url = '/itemTree/update';
+            data = {"id":input.attr("ids"),"itemCode":checkIds.join(",")}
+        }
         $.ajax({
             type:"post",
-            url:"/itemTree/insert",
-            data:{'level':level,"codes":checkIds.join(","),"parentCode":parentCode,"parentId":parentId,"levelPath":levelPath},
+            url:url,
+            data:data,
             success:function(data){
                 if(input.attr("type")=="text"){
                     input.removeClass("editing").val("");
@@ -272,7 +281,8 @@ $(document).ready(function() {
                     }
                     ztree.reAsyncChildNodes(selectNode, "refresh", false);
                 }else{
-                    $.get("/itemTree/ajaxValue",function(data,status){
+                    //ztree.reAsyncChildNodes(null, "refresh", false);
+                   $.get("/itemTree/ajaxValue",function(data,status){
                         var list = data.list;
                         var names = data.type;
                         getTreeList(list,names);

@@ -29,25 +29,31 @@
             </div>
             <div class="tree_setting">
                 <div class="tree-listtype" id="bigType">
-                    <label>大类：</label>
-                    <c:forEach items="${typeList}" var="type">
-                        <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
-                    </c:forEach>
+                    <label class="tit-type fl">大类：</label>
+                    <div class="tit-list fl">
+                        <c:forEach items="${typeList}" var="type">
+                            <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
+                        </c:forEach>
+                    </div>
                 </div>
                 <div id="courses" class="tree-listtype">
-                    <label>学科：</label>
-                    <c:forEach items="${subjectList}" var="subject">
-                        <label>${subject.itemName}<input type="checkbox" value="${subject.itemCode}" name="course"></label>
-                    </c:forEach>
+                    <label class="tit-type fl">学科：</label>
+                    <div class="tit-list fl">
+                        <c:forEach items="${subjectList}" var="subject">
+                            <label>${subject.itemName}<input type="checkbox" value="${subject.itemCode}" name="course"></label>
+                        </c:forEach>
+                    </div>
                 </div>
                 <div id="periods" class="tree-listtype">
-                    <label>学段：</label>
-                    <c:forEach items="${gradeList}" var="grade">
-                        <label>${grade.itemName}<input type="checkbox" value="${grade.itemCode}" name="period"></label>
-                    </c:forEach>
+                    <label class="tit-type fl">学段：</label>
+                    <div class="tit-list fl">
+                        <c:forEach items="${gradeList}" var="grade">
+                            <label>${grade.itemName}<input type="checkbox" value="${grade.itemCode}" name="period"></label>
+                        </c:forEach>
+                    </div>
                 </div>
                 <div id="topic" class="tree-listtype">
-                    <label>知识点：</label>
+                    <label class="tit-type fl">知识点：</label>
                     <input name="itemCode" type="text">
                 </div>
                 <div class="btn-list" style="display: none;">

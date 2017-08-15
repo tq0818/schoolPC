@@ -52,17 +52,18 @@
     min-height: 150px;;
 }
 
-.tree_setting div {
+.tree_setting .tree-listtype {
     margin: 100px;
-    height: 50px;
-    line-height: 50px;
+    height: auto;
+    overflow: hidden;
    
 }
 .tree_setting .tree-listtype{ display: none;}
-.tree_setting label {
-    margin-right: 20px;    display: inline-block;
-}
-.tab-sub{}
+
+.tree_setting .tit-list label,.tree_setting .tit-type{ margin-right: 20px;    display: inline-block;}
+.tree_setting .btn-list{text-align: center}
+.tree_setting .tit-list{display: inline-block;width:80%;}
+.tree_setting .tit-list input[type=checkbox]{vertical-align: middle}
 .tab-sub .tab-type{display: inline-block;border:1px solid #eee;
 padding:5px 20px;min-width:40px ;background: #fff;float: left;
 }

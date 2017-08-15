@@ -1,6 +1,8 @@
 package com.yuxin.wx.model.system;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -34,6 +36,43 @@ public class SysConfigItem extends BaseEntity {
 
 	private Integer relationStatus;
 	private Integer sort;
+	private String itemCode;
+	private String parentCode;
+	
+	private Integer level;
+	
+	private String levelPath;
+	
+
+	private List<SysConfigItem> childrenList = new ArrayList<SysConfigItem>();
+	
+	public String getLevelPath() {
+		return levelPath;
+	}
+
+	public void setLevelPath(String levelPath) {
+		this.levelPath = levelPath;
+	}
+
+	
+	
+	
+	public List<SysConfigItem> getChildrenList() {
+		return childrenList;
+	}
+
+	public void setChildrenList(List<SysConfigItem> childrenList) {
+		this.childrenList = childrenList;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 	// Constructor
 	public SysConfigItem() {
 	}
@@ -208,6 +247,22 @@ public class SysConfigItem extends BaseEntity {
 
 	public void setItemBackPic(String itemBackPic) {
 		this.itemBackPic = itemBackPic;
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public String getParentCode() {
+		return parentCode;
+	}
+
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
 	}
 
 }

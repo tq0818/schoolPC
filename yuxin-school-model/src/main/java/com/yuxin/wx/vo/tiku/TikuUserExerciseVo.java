@@ -26,6 +26,11 @@ public class TikuUserExerciseVo extends BaseEntity {
     private String userName;// 用户名
     private String mobile;
     private Integer exerciseScore;
+    private String eduArea;
+    private String eduSchool;
+    private String eduStep;
+    private String eduYear;
+    private String eduClass;
 
     // Constructor
     public TikuUserExerciseVo() {
@@ -138,5 +143,45 @@ public class TikuUserExerciseVo extends BaseEntity {
 
     public void setExerciseScore(Integer exerciseScore) {
         this.exerciseScore = exerciseScore;
+    }
+
+    public String getEduArea() {
+        return eduArea;
+    }
+
+    public void setEduArea(String eduArea) {
+        this.eduArea = eduArea;
+    }
+
+    public String getEduSchool() {
+        return eduSchool;
+    }
+
+    public void setEduSchool(String eduSchool) {
+        this.eduSchool = eduSchool;
+    }
+
+    public String getEduStep() {
+        return eduStep;
+    }
+
+    public void setEduStep(String eduStep) {
+        this.eduStep = eduStep;
+    }
+
+    public String getEduYear() {
+        return eduYear;
+    }
+
+    public void setEduYear(String eduYear) {
+        this.eduYear = eduYear;
+    }
+
+    public String getEduClass() {
+        return eduClass;
+    }
+
+    public void setEduClass(String eduClass) {
+        this.eduClass = eduClass;
     }
 }

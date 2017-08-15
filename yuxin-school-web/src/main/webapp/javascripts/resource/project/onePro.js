@@ -10,8 +10,8 @@ $(function(){
 	$(".useicon").hide();
 	imgclick();
 	//div高度
-	var cheng = $(".block").length % 3 == 0 ? ($(".block").length / 3) : (($(".block").length / 3) + 1);
-	$(".main-content").attr("style","height:" + (parseInt(cheng) * 360) + "px");
+	//var cheng = $(".block").length % 3 == 0 ? ($(".block").length / 3) : (($(".block").length / 3) + 1);
+	//$(".main-content").attr("style","height:" + (parseInt(cheng) * 360) + "px");
 	
 	$(".block").each(function(){
 		var dat = $(this).find(".b-content");
@@ -27,10 +27,11 @@ $(function(){
 			});
 		}
 		if(parent.find(".oneId").val() != null && parent.find(".oneId").val() != ""){
+		    debugger;
 			$.ajax({
 				url: rootPath + "/sysConfigItem/twoProListAjax",
 				type:"post",
-				data:{"oneItemId":parent.find(".oneId").val()},
+				data:{"oneItemId":parent.find(".oneId").val(),"oneItemCode":parent.find(".oneCode").val()},
 				dataType:"html",
 				success:function(data){
 					dat.html(data);
@@ -39,10 +40,10 @@ $(function(){
 	    				parent.find("em").attr("class","disabled");
 	    				parent.find(".r-subs-title a").html("");
 	    			}
-					dat.find("li:gt(4)").attr("style","display:none");
+					//dat.find("li:gt(4)").attr("style","display:none");
 					
 	    			//伸展
-	    			if(parent.find(".b-content").find("li").length > 5){
+	    		/*	if(parent.find(".b-content").find("li").length > 5){
 	    		        parent.on("mouseenter",".hidden",function(){
 	    		        	dat.find("li:gt(4)").removeAttr("style");
 	    		        	$(this).animate({"height":"500px"},200);
@@ -51,7 +52,7 @@ $(function(){
 	    		        	dat.find("li:gt(4)").attr("style","display:none");
 	    		        	$(this).animate({"height":"100%"},200);
 	    		        });
-	    			}
+	    			}*/
 					//$(".add-subs").hide();
 					parent.find("i[name='twoToCreate']").off('click').on("click",function(){
 						if(parent.attr("data-type") == "stop"){
@@ -59,6 +60,7 @@ $(function(){
 						}
 							parent.find(".add-subs").show();
 							parent.find(".add-subs").attr("data-parentId",parent.find(".oneId").val());
+							parent.find(".add-subs").attr("data-parentCode",parent.find(".parentCode").val());
 						});
 					parent.find("input[name='twoCancel']").off('click').on("click",function(){
 							parent.find(".twoName").val("");
@@ -269,6 +271,7 @@ $(function(){
 		    			$("#addPro").show();
 		    			$("#addOrUpdateItemid").val(data.id);
 		    			$("#oneItemName").val(data.name);
+                        $("#itemCode").val(data.itemCode);
 		    			$("#itemPic").val(data.pic);
 		    			$("#remark").val(data.remark);
 		    			$("#remarkHint").html((data.remark).length);
@@ -332,22 +335,25 @@ $(function(){
 					return false;
        			}
        			
-       			if(($("#remark").val()).length >128){
-    				$("#remark").focus();
-    				$("#remark").select();
-       				return false;
-       			}
+       			// if(($("#remark").val()).length >128){
+    				// $("#remark").focus();
+    				// $("#remark").select();
+       			// 	return false;
+       			// }
    				if($.trim($("#oneItemName").val()) == '' || $.trim($("#oneItemName").val()) == null){
-   					$.msg("学科名称不能为空！",1000);
+   					$.msg("分类名称不能为空！",1000);
 					return false;
    				}
-       			
+                if($.trim($("#itemCode").val()) == '' || $.trim($("#itemCode").val()) == null){
+                    $.msg("分类编码不能为空！",1000);
+                    return false;
+                }
        			if(itemId == ""){
            			if(checkNameOk){
             			$.ajax({
             				url:rootPath + "/sysConfigItem/checkName",
             				type:"post",
-            				data:{"id":itemId,"itemName":$("#oneItemName").val(),"status":$("#status").val()},
+            				data:{"id":itemId,"itemName":$("#oneItemName").val(),"status":$("#status").val(),"itemCode":$("#itemCode").val()},
             				dataType:"text",
             				success:function(data){
             					if(data == "true"){
@@ -355,7 +361,7 @@ $(function(){
         	           				$.ajax({
         		        				url:rootPath + "/sysConfigItem/addPro",
         		        				type:"post",
-        		        				data:{"itemName":$("#oneItemName").val(),"itemType":1,"itemPic":oldpic,"itemBackPic":pic,"remark":$("#remark").val()},
+        		        				data:{"itemName":$("#oneItemName").val(),"itemType":1,"itemPic":oldpic,"itemBackPic":pic,"remark":$("#remark").val(),"itemCode":$("#itemCode").val()},
         		        				dataType:"text",
         		        				beforeSend:function(XMLHttpRequest){
         		        					$("#addPro").hide();
@@ -363,6 +369,7 @@ $(function(){
         		      		              	$(".loading-bg").show();
         		        				},
         		        				success:function(data){
+        		        					debugger;
         		        					if(data == "true"){
         		        						location.href = rootPath + "/sysConfigItem/project";
         	    		      		            $(".loading").show();
@@ -390,7 +397,7 @@ $(function(){
     	           				$.ajax({
     	            				url:rootPath + "/sysConfigItem/update",
     	            				type:"post",
-    	            				data:{"id":itemId,"itemName":$("#oneItemName").val(),"itemType":1,"itemPic":oldpic,"itemBackPic":pic,"remark":$("#remark").val()},
+    	            				data:{"id":itemId,"itemName":$("#oneItemName").val(),"itemType":1,"itemPic":oldpic,"itemBackPic":pic,"remark":$("#remark").val(),"itemCode":$("#itemCode").val()},
     	            				dataType:"text",
     	            				beforeSend:function(XMLHttpRequest){
     	          		              $(".loading").show();

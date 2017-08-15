@@ -319,9 +319,15 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	@Override
 	public PageFinder<ClassTypeVo> findClassTypesByPage(ClassType search) {
 		System.out.println(search.getPage());
-		
-		
-		List<ClassTypeVo> data=classTypeMapper.queryClassTypesByPage(search);
+		String []codes = new String [1];
+		List<ClassTypeVo> data = new ArrayList<ClassTypeVo>();
+		if (search.getItemFourthCode()!=null && search.getItemFourthCode().length()>0){
+			codes = search.getItemFourthCode().split(",");
+		}
+		Map<String,Object> map  = new HashMap<>();
+		map.put("classType",search);
+		map.put("codes",codes);
+		data=classTypeMapper.queryClassTypesByPage(map);
 		
 	
 			for(ClassTypeVo comm:data)
@@ -343,7 +349,7 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 				comm.setRemoteFlag(0);
 			}
 		}
-		int rowCount=classTypeMapper.queryCounts(search);
+		int rowCount=classTypeMapper.queryCounts(map);
 		PageFinder<ClassTypeVo> pageFinder=new PageFinder<ClassTypeVo>(search.getPage(), search.getPageSize(), rowCount, data);
 		return pageFinder;
 		
@@ -416,6 +422,20 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		map.put("createSchoolId", schoolId);
 		return classTypeMapper.findClassByItem(map);
 	}
+	@Override
+	public List<ClassType> findClassByItemRelation(Integer conpanyId, Integer schoolId,
+												   String itemOneCode, String itemSecondCode, String itemThridCode) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyId", conpanyId);
+		map.put("itemOneCode", itemOneCode);
+		map.put("itemSecondCode", itemSecondCode);
+		map.put("itemThridCode", itemThridCode);
+		map.put("createSchoolId", schoolId);
+		return classTypeMapper.findClassByItemRelation(map);
+	}
+
+
 
 	@Override
 	public List<ClassType> findClassTypeBycompanyId(Integer companyId) {
@@ -484,8 +504,8 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	}
 
 	@Override
-	public int countSubjectClassOrder(Integer itemOneId) {
-		int count = classTypeMapper.countSubjectClassOrder(itemOneId);
+	public int countSubjectClassOrder(String itemOneCode) {
+		int count = classTypeMapper.countSubjectClassOrder(itemOneCode);
 		return count;
 	}
 }

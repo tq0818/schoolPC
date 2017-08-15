@@ -155,4 +155,11 @@ public interface TikuPaperTopicMapper extends BaseMapper<TikuPaperTopic> {
      */
     Double findSumScore(Map<String, Object> param);
 
+    /**
+     * 通过类型和试卷id查询对应的试卷和题的关系
+     * @param param
+     * @return
+     */
+    List<TikuPaperTopic> findTikuPaperByType(Map<String, Object> param);
+
 }

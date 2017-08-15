@@ -98,4 +98,6 @@ public interface ISysConfigIndexPageTemplateService  {
 	List<SysConfigIndexPageTemplate> findSysConfigIndexPageTemplateByPage(SysConfigIndexPageTemplate search);
 
 	List<SysConfigIndexPageTemplate> findBySearch(SysConfigIndexPageTemplate search);
+	
+	List<SysConfigIndexPageTemplate> findBySearchBymoduleType(SysConfigIndexPageTemplate search);
 }

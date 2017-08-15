@@ -329,8 +329,11 @@ public interface IClassTypeService  {
 	 * @return
 	 */
 	List<ClassType> findClassByItem(Integer conpanyId,Integer schoolId,Integer itemOneId,Integer itemTwoId);
-	
-	/**
+
+    List<ClassType> findClassByItemRelation(Integer conpanyId, Integer schoolId,
+                                            String itemOneCode, String itemSecondCode, String itemThridCode);
+
+    /**
 	 * 
 	 * Class Name: IClassTypeService.java
 	 * @Description: 根据公司id查询班型信息
@@ -439,5 +442,5 @@ public interface IClassTypeService  {
 	 * 获取当前学科课程排序总数
 	 * @return
 	 */
-	int countSubjectClassOrder(Integer itemOenId);
+	int countSubjectClassOrder(String itemOenCode);
 }

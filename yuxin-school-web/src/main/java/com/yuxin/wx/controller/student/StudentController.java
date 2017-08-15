@@ -23,12 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yuxin.wx.api.system.*;
 import com.yuxin.wx.common.*;
+import com.yuxin.wx.controller.user.RegisterController;
 import com.yuxin.wx.model.system.*;
 import com.yuxin.wx.utils.*;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -74,6 +78,7 @@ import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
+import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.student.StudentFeeRefund;
 import com.yuxin.wx.model.student.StudentFeeStage;
@@ -81,6 +86,7 @@ import com.yuxin.wx.model.student.StudentGroup;
 import com.yuxin.wx.model.student.StudentPayMaster;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
+import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
 import com.yuxin.wx.vo.student.StudentListDataVo;
@@ -153,7 +159,13 @@ public class StudentController {
     private IClassPackageCategoryService classPackageCategoryServiceImpl;
     @Autowired
     private ISysConfigTeacherService sysConfigTeacherServiceImpl;
-
+    @Autowired
+    private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+    
+    private static Logger log = Logger.getLogger(StudentController.class);
+    
+    public static final String AFFICHE_TYPE = "AFFICHE";
+    
     // 跳转到学员列表页面
     @RequestMapping(value = "/studentList")
     public String forwardStudentList(Model model) {
@@ -2374,6 +2386,10 @@ public class StudentController {
         List<SysConfigItem> oneItem = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
 
         model.addAttribute("oneItem", oneItem);
+        String goAffiche = request.getParameter("goAffiche");
+        if(StringUtils.isNotBlank(goAffiche)){
+        	model.addAttribute("goAffiche", goAffiche);
+        }
         return "student/notice/notice";
     }
 
@@ -2393,7 +2409,25 @@ public class StudentController {
         Integer status = studentServiceImpl.findClassMore(param);
 
         model.addAttribute("classMoreStatus", status);
-        List<SysConfigItem> item = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+
+
+
+//        List<SysConfigItem> item = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
 
         // 查询 公司服务
 
@@ -2404,8 +2438,19 @@ public class StudentController {
         Integer emailCount = (cms.getEmailTotal() + cms.getGiveEmail() - css.getEmailSend());
         model.addAttribute("count", msgCount);
         model.addAttribute("emailCount", emailCount);
-        model.addAttribute("oneItem", item);
-        return "student/notice/createNotice";
+        model.addAttribute("oneItem", relations);
+        String afficheFlag = request.getParameter("addAffiche");
+        if(StringUtils.equals(afficheFlag, "addAffiche")){
+        	String afficheId = request.getParameter("afficheId");
+        	if(StringUtils.isNotBlank(afficheId)){
+        		CompanyOrgMessageVo msg = companyServiceImpl.queryMessageById(Integer.parseInt(afficheId));
+        		model.addAttribute("msg", msg);
+            }
+        	return "student/notice/addAffiche";// 学员公告添加页面
+        }else{
+        	return "student/notice/createNotice";
+        }
+        
     }
 
     /**
@@ -3964,4 +4009,94 @@ if(s.getEduIdentity()!=null){
         return payMasterList;
     }
 
+    /**
+     * 学员公告列表页面
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
+    @RequestMapping("goAffichePage")
+    public String goAffichePage(HttpServletRequest request,HttpServletResponse response,ModelMap model){
+    	int pageNum = 1;
+    	String pageNumStr = request.getParameter("page");
+    	if(StringUtils.isNotBlank(pageNumStr)){
+    		pageNum = Integer.parseInt(pageNumStr);
+    	}
+    	CompanyOrgMessageVo search = new CompanyOrgMessageVo();
+    	search.setPage(pageNum);
+    	search.setPageSize(5);
+    	search.setMessageType(AFFICHE_TYPE);
+    	PageFinder<CompanyOrgMessageVo> msgPage = companyServiceImpl.findMessageList(search);
+		model.addAttribute("msgPage", msgPage);
+    	return "student/notice/affiche";
+    }
+    
+    /**
+     * 添加公告
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
+    @RequestMapping("addAffiche")
+    public String addAffiche(HttpServletRequest request,HttpServletResponse response,ModelMap model){
+    	String url = "redirect:/student/notice?goAffiche=goAffiche";
+    	try{
+    		Users user = WebUtils.getCurrentUser(request);
+        	CompanyOrgMessageVo message = new CompanyOrgMessageVo();
+        	String content = request.getParameter("content");
+        	if(StringUtils.isBlank(content) || content.length() >200){
+        	   return url;
+        	}
+        	message.setContent(content);
+        	message.setSender(String.valueOf(user.getId()));
+        	message.setSenderName(user.getUsername());
+        	message.setMessageType("AFFICHE");
+        	message.setCompanyId(user.getCompanyId());
+        	message.setSendTime(new Date());
+        	message.setStatus(0);//0:下架，1上架
+        	companyServiceImpl.insertMsg(message);
+    	}catch(Exception e){
+    		log.error("add affiche is error :", e);
+    	}
+        return url;
+    }
+    
+    /**
+     * 返回公告页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("goBackAffiche")
+    public String goBackAffiche(HttpServletRequest request,HttpServletResponse response){
+    	 return "redirect:/student/notice?goAffiche=goAffiche";
+    }
+    
+    /**
+     * 公告上下架
+     * @param request
+     * @param response
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("afficheShelving")
+    public String afficheShelving(HttpServletRequest request,HttpServletResponse response){
+    	String result = "failed";
+    	try{
+    		int id = Integer.parseInt(request.getParameter("id"));
+    		int status = Integer.parseInt(request.getParameter("status"));
+    		CompanyOrgMessageVo msg = new CompanyOrgMessageVo();
+    		msg.setId(id);
+    		msg.setStatus(status);
+    		msg.setUpdateTime(new Date());
+    		companyServiceImpl.updateMsg(msg);
+    		result = "success";
+    	}catch(Exception e){
+    		log.error("afficheShelving is error :", e);
+    	}
+    	return result;
+    }
+    
 }

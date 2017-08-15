@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.tiku.mapper.TikuUserExerciseAnswerStatisticsMapper">
+	<resultMap type="com.yuxin.wx.model.tiku.TikuUserExerciseAnswerStatistics" id="tikuUserExerciseAnswerStatisticsResultMap">
+		<result property="id" column="id" />
+		<result property="paperId" column="paper_id" />
+		<result property="exerciseType" column="exercise_type" />
+		<result property="topicId" column="topic_id" />
+		<result property="topicType" column="topic_type" />
+		<result property="topicOptionId" column="topic_option_id" />
+		<result property="topicOptionAnswer" column="topic_option_answer" />
+		<result property="topicOptionAnswerNum" column="topic_option_answer_num" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+
+	<sql id="table_columns">
+		id,
+		paper_id,
+		exercise_type,
+		topic_id,
+		topic_type,
+		topic_option_id,
+		topic_option_answer,
+  		topic_option_answer_num,
+  		create_date
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{paperId},
+		#{exerciseType},
+		#{topicId},
+		#{topicType},
+		#{topicOptionId},
+		#{topicOptionAnswer},
+		#{topicOptionAnswerNum},
+		#{createDate}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.paperId},
+		#{item.exerciseType},
+		#{item.topicId},
+		#{item.topicType},
+		#{item.topicOptionId},
+		#{item.topicOptionAnswer},
+		#{item.topicOptionAnswerNum},
+		#{item.createDate}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert" parameterType="com.yuxin.wx.model.tiku.TikuUserExerciseAnswerStatistics" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_user_exercise_answer_statistics( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
+	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+		insert into tiku_user_exercise_answer_statistics( <include refid="table_columns" /> )
+		values 
+		<foreach item="item" collection="list" separator="," >
+			( <include refid="entity_properties" /> )
+		</foreach>
+	</insert>
+	
+	<!--根据主键删除 -->
+	<delete id="deleteById">
+		delete from tiku_user_exercise_answer_statistics
+		where id = #{id}
+	</delete>
+	
+	<!-- 根据ID批量删除 -->
+	<delete id="deleteByIds">
+		delete from tiku_user_exercise_answer_statistics
+		where id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="findById" resultMap="tikuUserExerciseAnswerStatisticsResultMap" parameterType="String" >
+		select <include refid="table_columns" />
+		from tiku_user_exercise_answer_statistics
+		where id = #{id}
+	</select>
+
+	<select id="queryAllData" resultType="Integer">
+		select id
+		from tiku_user_exercise_answer_statistics
+	</select>
+</mapper>

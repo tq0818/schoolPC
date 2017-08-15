@@ -27,6 +27,7 @@ public class ClassType extends BaseEntity {
     private Integer itemOneId; /* 一级项目主键 */
     private Integer itemSecondId; /* 二级项目主键 */
     private String description; /* 班型描述 */
+    private String paperDescription; /* 试卷描述 */
     private String publishStatus; /*
                                    * 发布状态（在售；停售；未发布；） 字典表数据
                                    */
@@ -77,6 +78,14 @@ public class ClassType extends BaseEntity {
     private Integer subjectClassOrder;//学科课程排序
 
     private String iconLable;//封面标签
+    private String itemOneCode;
+    private String itemSecondCode;
+    private String itemThirdCode;
+    private String itemFourthCode;
+    private String itemThirdName;
+    private String itemFourthName;
+
+    private Integer isMicroClass;//是否微课
 
     public Integer getRelationId() {
         return this.relationId;
@@ -546,6 +555,68 @@ public class ClassType extends BaseEntity {
     public void setIconLable(String iconLable) {
         this.iconLable = iconLable;
     }
-    
 
+    public String getItemOneCode() {
+        return itemOneCode;
+    }
+
+    public void setItemOneCode(String itemOneCode) {
+        this.itemOneCode = itemOneCode;
+    }
+
+    public String getItemSecondCode() {
+        return itemSecondCode;
+    }
+
+    public void setItemSecondCode(String itemSecondCode) {
+        this.itemSecondCode = itemSecondCode;
+    }
+
+    public String getItemThirdCode() {
+        return itemThirdCode;
+    }
+
+    public void setItemThirdCode(String itemThirdCode) {
+        this.itemThirdCode = itemThirdCode;
+    }
+
+    public String getItemFourthCode() {
+        return itemFourthCode;
+    }
+
+    public void setItemFourthCode(String itemFourthCode) {
+        this.itemFourthCode = itemFourthCode;
+    }
+
+    public String getItemThirdName() {
+        return itemThirdName;
+    }
+
+    public void setItemThirdName(String itemThirdName) {
+        this.itemThirdName = itemThirdName;
+    }
+
+    public String getItemFourthName() {
+        return itemFourthName;
+    }
+
+    public void setItemFourthName(String itemFourthName) {
+        this.itemFourthName = itemFourthName;
+    }
+
+    public Integer getIsMicroClass() {
+        return isMicroClass;
+    }
+
+    public void setIsMicroClass(Integer isMicroClass) {
+        this.isMicroClass = isMicroClass;
+    }
+
+    public String getPaperDescription() {
+        return paperDescription;
+    }
+
+    public void setPaperDescription(String paperDescription) {
+        this.paperDescription = paperDescription;
+    }
 }

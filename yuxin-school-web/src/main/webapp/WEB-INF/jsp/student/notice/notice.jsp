@@ -5,11 +5,17 @@
 <head>
 <title>学员通知</title>
     <%@include file="/decorators/import.jsp" %>
-     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
-     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/student.css"/> 
-     <script type="text/javascript" src="<%=rootPath%>/javascripts/student.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/javascripts/student/notice/notice.js"></script>
+   
+<script type="text/javascript">
+var affiche = '${goAffiche}';
+
+function test(){
+	$("a.btn-success").removeClass("btn-success");
+	$("#affiche").removeClass();
+	$("#affiche").attr("class","btn btn-mini btn-notice btn-success");
+}
+
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp"/>
@@ -28,6 +34,7 @@
                         </c:if>
                         <a href="javascript:;" class="btn btn-mini btn-notice btn-link" data-type="STUDENT_MESSAGE_SPECIAL">指定通知</a>
                         <a href="javascript:;" class="btn btn-mini btn-notice btn-link" data-type="STUDENT_MESSAGE_GROUP">分组通知</a>
+                        <a id="affiche" href="javascript:;" class="btn btn-notice btn-link" data-type="STUDENT_MESSAGE_AFFICHE">公告</a>
                     </span>
                 </p>
                 <p class="c">
@@ -62,7 +69,7 @@
         <div class="heading">
             <h2 class="h5">学员通知</h2>
             <div class="user-infos">
-                <a href="<%=rootPath %>/student/createNotice" class="btn btn-mini btn-priamry" style="background-color: #237fd5;color: #fff;"><em class="iconfont">&#xe606;</em>新建学员通知</a>
+                <a href="javascript:goAddPage()" class="btn btn-mini btn-priamry" style="background-color: #237fd5;color: #fff;"><em class="iconfont">&#xe606;</em>新建学员通知</a>
             </div>
             <span class="line"></span>
         </div>
@@ -85,5 +92,10 @@
     </div>
     <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
+  <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
+     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/student.css"/> 
+     <script type="text/javascript" src="<%=rootPath%>/javascripts/student.js"></script>
+    <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
+    <script type="text/javascript" src="<%=rootPath %>/javascripts/student/notice/notice.js"></script>
 </body>
 </html>

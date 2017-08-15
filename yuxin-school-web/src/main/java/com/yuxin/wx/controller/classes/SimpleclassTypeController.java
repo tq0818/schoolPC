@@ -17,6 +17,9 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuxin.wx.api.course.ICourseExerciseService;
+import com.yuxin.wx.api.system.*;
+import com.yuxin.wx.model.system.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,11 +75,6 @@ import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.api.course.ICoursePotocolBindHistoryService;
 import com.yuxin.wx.api.course.ICourseRemoteService;
 import com.yuxin.wx.api.course.ICourseVideoChapterService;
-import com.yuxin.wx.api.system.ISysConfigCampusService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
-import com.yuxin.wx.api.system.ISysConfigItemTagService;
-import com.yuxin.wx.api.system.ISysConfigSchoolService;
-import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.CCLiveInterface;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.SysConfigConstant;
@@ -97,11 +95,6 @@ import com.yuxin.wx.model.course.CoursePotocolBindHistory;
 import com.yuxin.wx.model.course.CourseRemote;
 import com.yuxin.wx.model.course.CourseVideoChapter;
 import com.yuxin.wx.model.course.CourseVideoLecture;
-import com.yuxin.wx.model.system.SysConfigCampus;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigItemTag;
-import com.yuxin.wx.model.system.SysConfigSchool;
-import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.util.APIServiceFunction;
 import com.yuxin.wx.util.HttpPostRequest;
@@ -179,6 +172,11 @@ public class SimpleclassTypeController {
 	private ICompanyService companyServiceImpl;
 	@Autowired
 	private ICoursePotocolBindHistoryService coursePotocolBindHistoryServiceImpl;
+	@Autowired
+	private ICourseExerciseService courseExerciseServiceImpl;
+	@Autowired
+	private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+
 	/**
 	 * 
 	 * Class Name: ClassTypeController.java
@@ -192,9 +190,47 @@ public class SimpleclassTypeController {
 	 * @return
 	 */
 	@RequestMapping(value="/showClassTypePage",method=RequestMethod.GET)
-	public String showClassTypePage(Model model){
+	public String showClassTypePage(Model model,HttpServletRequest request){
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
 		model.addAttribute("firstItems", firstItems);
+
+		SysConfigItemRelation relation = new SysConfigItemRelation();
+		relation.setId(null);
+		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront();
+		SysConfigItem item = new SysConfigItem();
+		item.setCompanyId(WebUtils.getCurrentCompanyId());
+		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+		item.setItemType("2");
+		List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+		List<SysConfigItemRelation> firstItem =new ArrayList<SysConfigItemRelation>();
+		List<SysConfigItemRelation> secondItem = new ArrayList<SysConfigItemRelation>();
+		List<SysConfigItemRelation> thirdItem = new ArrayList<SysConfigItemRelation>();
+		List<SysConfigItemRelation> fourthItem = new ArrayList<SysConfigItemRelation>();
+		for(SysConfigItemRelation re : relations){
+			if(re.getLevel()==0){
+				firstItem.add(re);
+			}else if(re.getLevel()==1){
+				secondItem.add(re);
+			}else if(re.getLevel()==2){
+				thirdItem.add(re);
+			}else if(re.getLevel()==3){
+				re.setItemName(re.getItemCode());
+				fourthItem.add(re);
+			}
+			for(SysConfigItem name :names){
+				if(re.getItemCode().equals(name.getItemCode())){
+					re.setItemName(name.getItemName());
+					break;
+				}
+			}
+		}
+
+
+		model.addAttribute("typeItems", relations);
+		model.addAttribute("firstItem", firstItem);
+		model.addAttribute("secondItem", secondItem);
+		model.addAttribute("thirdItem", thirdItem);
+		model.addAttribute("fourthItem", fourthItem);
 		return "simpleClasses/classIndex";
 	}
 	
@@ -239,7 +275,7 @@ public class SimpleclassTypeController {
 		}
 		model.addAttribute("pageFinder", pageFinder);
 		model.addAttribute("searchName", search.getName());
-		int orderCount = classTypeServiceImpl.countSubjectClassOrder(search.getItemOneId());
+		int orderCount = classTypeServiceImpl.countSubjectClassOrder(search.getItemOneCode());
 		model.addAttribute("orderCount", orderCount);
 		return "simpleClasses/classIndexAjaxList";
 	} 
@@ -258,11 +294,36 @@ public class SimpleclassTypeController {
 	 * @return
 	 */
 	@RequestMapping(value="/addClassType",method=RequestMethod.POST)
-	public String addClassTypeMessage(Model model,ClassType classType,String lable){
+	public String addClassTypeMessage(Model model,ClassType classType,String lable,HttpServletRequest request){
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
+		SysConfigItemRelation relation = new SysConfigItemRelation();
+		relation.setId(null);
+		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
+		SysConfigItem item = new SysConfigItem();
+		item.setCompanyId(WebUtils.getCurrentCompanyId());
+		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+		item.setItemType("2");
+		item.setParentCode("TYPE");
+		List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+		for(SysConfigItemRelation re : relations){
+			for(SysConfigItem name :names){
+				if(re.getItemCode().equals(name.getItemCode())){
+					re.setItemName(name.getItemName());
+					break;
+				}
+			}
+		}
+
+		model.addAttribute("typeItems", relations);
 		model.addAttribute("firstItems", firstItems);
 		model.addAttribute("itemOneId", classType.getItemOneId());
+		model.addAttribute("itemOneCode", classType.getItemOneCode());
 		model.addAttribute("itemSecondId", classType.getItemSecondId());
+		model.addAttribute("itemSecondCode", classType.getItemSecondCode());
+		model.addAttribute("itemSecondId", classType.getItemSecondId());
+		model.addAttribute("itemSecondCode", classType.getItemSecondCode());
+		model.addAttribute("itemThirdCode", classType.getItemThirdCode());
+		model.addAttribute("itemFourthCode", classType.getItemFourthCode());
 		model.addAttribute("lable", lable);
 		//面授和直播
 		if("face".equals(lable)||"live".equals(lable)){
@@ -805,6 +866,10 @@ public class SimpleclassTypeController {
 			commodity.setCompanyId(WebUtils.getCurrentCompanyId());
 			commodity.setItemOneId(classType.getItemOneId());
 			commodity.setItemSecondId(classType.getItemSecondId());
+			commodity.setItemOneCode(classType.getItemOneCode());
+			commodity.setItemSecondCode(classType.getItemSecondCode());
+			commodity.setItemThirdCode(classType.getItemThirdCode());
+			commodity.setItemFourthCode(classType.getItemFourthCode());
 			commodity.setType("COMMODITY_CLASS");
 			commodity.setUpdator(WebUtils.getCurrentUserId(request));
 			commodity.setSchoolId(WebUtils.getCurrentSchoolId());
@@ -828,6 +893,7 @@ public class SimpleclassTypeController {
 			}
 			commodity.setIntegralFlag(classType.getIntegralFlag());
 			commodity.setMemberFlag(classType.getMemberFlag());
+			commodity.setIsMicroClass(classType.getIsMicroClass());
 			commodityServiceImpl.insert(commodity);
 
 			CommodityProductRealtion commodityProductRealtion = new CommodityProductRealtion();
@@ -848,6 +914,10 @@ public class SimpleclassTypeController {
 				module.setCreator(WebUtils.getCurrentUserId(request));
 				module.setItemOneId(classType.getItemOneId());
 				module.setItemSecondId(classType.getItemSecondId());
+				module.setItemOneCode(classType.getItemOneCode());
+				module.setItemSecondCode(classType.getItemSecondCode());
+				module.setItemThirdCode(classType.getItemThirdCode());
+				module.setItemFourthCode(classType.getItemFourthCode());
 				module.setTotalClassHour(courseNum);
 				module.setDelFlag(0);
 				module.setSchoolId(WebUtils.getCurrentSchoolId());
@@ -878,7 +948,6 @@ public class SimpleclassTypeController {
 	 * @modify-date 2015年5月5日 下午9:23:50
 	 * @version 1.0
 	 * @param model
-	 * @param classType
 	 * @return
 	 */
 	@RequestMapping(value="/classTypeOnsal",method=RequestMethod.POST)
@@ -1111,7 +1180,6 @@ public class SimpleclassTypeController {
 	 * @modify-date 2015年9月8日 下午9:28:58
 	 * @version 1.0
 	 * @param request
-	 * @param ltype
 	 * @return
 	 */
 	@RequestMapping(value="/addliveOrface/{classtypeId}")
@@ -1699,7 +1767,6 @@ public class SimpleclassTypeController {
 	 * @modifier
 	 * @modify-date 2015年5月5日 下午2:00:14
 	 * @version 1.0
-	 * @param classtype
 	 * @return
 	 */
 	@ResponseBody
@@ -2142,8 +2209,8 @@ public class SimpleclassTypeController {
 			ClassType ct = new ClassType();
 			String orderStr  = request.getParameter("order");
 			String idStr = request.getParameter("id");
-			String itemOneIdStr = request.getParameter("itemOneId");
-			if(StringUtils.isNotBlank(idStr) && StringUtils.isNotBlank(itemOneIdStr)){
+//			String itemOneIdStr = request.getParameter("itemOneId");
+			if(StringUtils.isNotBlank(idStr)){
 				if(StringUtils.isBlank(orderStr)){
 					ct.setSubjectClassOrder(null);
 				}else{
@@ -2154,9 +2221,9 @@ public class SimpleclassTypeController {
 					ct.setSubjectClassOrder(order);
 				}
 				int id = Integer.parseInt(idStr);
-				int itemOneId = Integer.parseInt(itemOneIdStr);
+//				int itemOneId = Integer.parseInt(itemOneIdStr);
 		        ct.setId(id);
-				ct.setItemOneId(itemOneId);
+//				ct.setItemOneId(itemOneId);
 				int row = classTypeServiceImpl.updateSubjectClassOrder(ct);
 				if(row ==1){
 					result = "success";

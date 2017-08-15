@@ -1,0 +1,71 @@
+.cntr {
+    height: 600px;
+    background: #e4edf5;
+}
+
+.top {
+    height: 50px;
+    border-bottom: 1px solid #999;
+    margin: 0 40px;
+}
+
+.top input {
+    float: right;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.content {
+    margin: 0 40px;
+}
+
+.tree_cntr {
+    min-width: 200px;
+    width: 30%;
+    height: 400px;
+    overflow-x: auto;
+    overflow-y: scroll;
+    float: left;
+    padding-top: 30px;
+}
+
+#addCatg {
+    float: right;
+    margin-right: 20px;
+}
+
+#ztree {
+    clear: both;
+}
+
+.ztree li a.curSelectedNode {
+    background-color: #fff;
+}
+
+.tree_setting {
+    min-width: 600px;
+    width: 60%;
+    float: left;
+    margin-left: 20px;
+    padding-top: 30px;
+    font-size: 14px;
+    min-height: 150px;;
+}
+
+.tree_setting div {
+    margin: 100px;
+    height: 50px;
+    line-height: 50px;
+   
+}
+.tree_setting .tree-listtype{ display: none;}
+.tree_setting label {
+    margin-right: 20px;    display: inline-block;
+}
+.tab-sub{}
+.tab-sub .tab-type{display: inline-block;border:1px solid #eee;
+padding:5px 20px;min-width:40px ;background: #fff;float: left;
+}
+.tab-sub .tab-type:last-child{border-left:0;}
+.tab-sub .tab-type.active{background: #76b4f2;color:#fff;}
+.tab-info{clear: both;}

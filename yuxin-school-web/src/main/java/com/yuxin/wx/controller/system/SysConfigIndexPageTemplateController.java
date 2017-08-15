@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,9 +90,10 @@ public class SysConfigIndexPageTemplateController {
 	
 	
 	@RequestMapping(value="/indexPageConfig")
-	public String indexPageConfig(Model model,SysConfigIndexPageTemplate search) {
+	public String indexPageConfig(Model model,SysConfigIndexPageTemplate search,HttpServletRequest request) {
 		Integer companyId = WebUtils.getCurrentCompanyId();
 		Integer schoolId = search.getSchoolId();
+		String newECFlag = request.getParameter("newECFlag");
 		if(schoolId == null) {
 			return "404";
 		}
@@ -110,22 +113,33 @@ public class SysConfigIndexPageTemplateController {
 		}
 		
 		model.addAttribute("schoolId", schoolId);
+		if(StringUtils.isNotBlank(newECFlag)){
+			model.addAttribute("newECFlag", newECFlag);
+		}
 		return "system/indexPageConfig";
 	}
 	
 	
 	@ResponseBody
 	@RequestMapping(value="/getJosnData")
-	public Object getJosnData(SysConfigIndexPageTemplate search){
+	public Object getJosnData(SysConfigIndexPageTemplate search,HttpServletRequest request){
 		Map<String,Object> result = new HashMap<String,Object>();
 		Integer companyId = WebUtils.getCurrentCompanyId();
 		SysConfigService scs = new SysConfigService();
 		scs.setCompanyId(companyId);
 		scs.setDelFlag(1);
 		List<SysConfigService> scses = sysConfigServiceImpl.findSysConfigServiceByCompany(scs);
-		
 		search.setCompanyId(companyId);
-		List<SysConfigIndexPageTemplate> list = sysConfigIndexPageTemplateServiceImpl.findBySearch(search);
+		List<SysConfigIndexPageTemplate> list = null;
+		String ecFlag = request.getParameter("newECFlag");
+		if(StringUtils.equals(ecFlag, "newECFlag")){
+			search.setStartModuleType(11);
+			search.setEndModuleType(14);
+			list = sysConfigIndexPageTemplateServiceImpl.findBySearchBymoduleType(search);
+		}else{
+			list = sysConfigIndexPageTemplateServiceImpl.findBySearch(search);
+		}
+		
 		result.put("scses", scses);
 		result.put("scpts", list);
 		
@@ -201,4 +215,15 @@ public class SysConfigIndexPageTemplateController {
 		return "system/indexPreview";
 	}
 	
+	/**
+	 * 新电商模版
+	 * @param request
+	 * @param reponse
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("indexECPageConfig")
+	public String indexECPageConfig(HttpServletRequest request,HttpServletResponse reponse,ModelMap model){
+		return "";
+	}
 }

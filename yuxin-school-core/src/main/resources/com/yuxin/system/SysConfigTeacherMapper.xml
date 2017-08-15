@@ -46,6 +46,7 @@
 		<result property="schoolName" column="school_name" />
 		<result property="sortId" column="sort_id" />
 		<result property="schoolShortName" column="school_short_name" />
+		<result property="remark" column="remark" />
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -126,7 +127,8 @@
 		teacher_area,
 		school_name,
 		sort_id,
-		school_short_name
+		school_short_name,
+		remark
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -169,7 +171,8 @@
 		#{teacherArea},
 		#{schoolName},
 		#{sortId},
-		#{schoolShortName}
+		#{schoolShortName},
+		#{remark}
 	</sql>
 
 	<!-- 适用于主键自增类型 -->
@@ -257,7 +260,7 @@
 			<if test="teacherArea != null and teacherArea !=''">teacher_area = #{teacherArea},</if>
 			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
 			<if test="schoolShortName != null and schoolShortName !=''">school_short_name = #{schoolShortName},</if>
-			
+			<if test="remark != null ">remark = #{remark},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -612,7 +615,8 @@
 		sct.emergency_contact_phone,
 		sct.resume,
 		sct.sort_id,
-		sct.is_distinguished
+		sct.is_distinguished,
+		sct.remark
 		FROM
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =

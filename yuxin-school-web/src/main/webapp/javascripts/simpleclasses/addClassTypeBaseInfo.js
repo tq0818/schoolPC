@@ -143,9 +143,9 @@
 					isMobile : "不是有效的手机号"
 				});
 				var itemOneId="";
-				$("#itemOneList").find("option").each(function(i){
+				$("#itemOneCodeList").find("option").each(function(i){
 					if($(this).is(':selected')){
-						var cid=$(this).attr("value");
+						var cid=$(this).attr("data-id");
 						itemOneId=cid;
 					}
 				});
@@ -205,29 +205,6 @@
 			    }).css("ime-mode", "disabled"); 
 	    		
 	    		Form.queryCourseSetting();
-	    		//判断是否显示三级标签
-	    		$.ajax({
-					url : rootPath + "/serviceGroup/lableSetting",
-					type : "post",
-					success : function(result) {
-						if(result==""||result.status==0){
-							$("#labeSets").addClass("none");
-						}else{
-							$("#labeSets").removeClass("none");
-						}
-					}
-				});
-	    		$.ajax({
-					url : rootPath + "/serviceGroup/lableSeondSetting",
-					type : "post",
-					success : function(result) {
-						if(result==""||result.status==0){
-							$("#labeSecondSets").addClass("none");
-						}else{
-							$("#labeSecondSets").removeClass("none");
-						}
-					}
-				});
 	    		this.queryCourseProtocolConfig();
 			},
 			/**
@@ -270,96 +247,98 @@
 			},
 			queryItemSecond : function (id){
 				if(id==null){
-					$("#itemOneList").find("option").each(function(i){
+					$("#itemOneCodeList").find("option").each(function(i){
 						if($(this).is(':selected')){
-							var cid=$(this).attr("value");
+							var cid=$(this).attr("data-id");
 							id=cid;
 						}
 					});
 				}
-				$("#itemSecondList").html('');
+				$("#itemSecondCodeList").html('');
 				$.ajax({
-					url : rootPath + "/exam/queryItemSecond",
+					url : rootPath + "/itemTree/queryItemSecond",
 					type : "post",
 					data : {pid:id},
 					dataType : "json",
 					success : function(result) {
 						if(result.length>0){
-							$("#itemSecondList").css("display","block");
+							$("#itemSecondCodeList").css("display","block");
 							$.each(result,function(i,item){
-								if(item.id==$("#twoSecItemId").val()){
-									$("#itemSecondList").append("<option selected='selected' value='"+item.id+"'>"+item.itemName+"</option>");
+								if(item.id==$("#twoSecItemCode").val()){
+									$("#itemSecondCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
 								}else{
-									$("#itemSecondList").append("<option value='"+item.id+"'>"+item.itemName+"</option>");
+									$("#itemSecondCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
 								}
 							});
 						}else{
-							$("#itemSecondList").css("display","none");
+							$("#itemSecondCodeList").css("display","none");
 						}
-						Form.queryTagsList();
+						Form.queryItemThird();
 					}
 				});
 			},
-			queryTagsList : function(){
-				var id=$("#itemOneList").val();
-				var twoId=$("#itemSecondList").val();
-				var type=$("#type1").val();
-				if(type=="update"){
-					id=$("#itemOneName").attr("marks");
-					twoId=$("#itemSecondName").attr("marks");
-				}
-				$(".itemTagLists").html("");
-				//初始化标签库
-				$.ajax({
-					url: rootPath+"/sysConfigItemTag/queryTags",
-					type: "post",
-					dataType : "json",
-					data:{"itemOneId":id,"itemSecondId":twoId,"level":1},
-					success: function(jsonData){
-						var html="";
-						//标签数据
-			    		var lbName=$("#course_lable_tag").val();
-			    		var str=lbName.split(",");
-						$.each(jsonData,function(i,data){
-		    				if(str[0] && str[0]!="" && str[0]!=null && str[0]!="null"){
-		    					if(data.id==str[0]){
-		    						html+='<option selected="selected" value='+data.id+'>'+(data.tagName?data.tagName:"")+'</option>';
-		    					}else{
-		    						html+='<option value='+data.id+'>'+(data.tagName?data.tagName:"")+'</option>';
-		    					}
-		    				}else{
-		    					html+='<option value='+data.id+'>'+(data.tagName?data.tagName:"")+'</option>';
-		    				}
-						});
-						$("#itemTagLists_one").html(html);
-						$("#itemTagLists_one").select2();
-					}
-				});
-				//初始化标签库
-				$.ajax({
-					url: rootPath+"/sysConfigItemTag/queryTags",
-					type: "post",
-					dataType : "json",
-					data:{"itemOneId":id,"itemSecondId":twoId,"level":2},
-					success: function(jsonData){
-						var html1="";
-						var lbName=$("#course_lable_tag").val();
-						var str=lbName.split(",");
-						$.each(jsonData,function(i,data){
-		    				if(str[1] && str[1]!="" && str[1]!=null && str[1]!="null"){
-		    					if(data.id==str[1]){
-		    						html1+='<option selected="selected" value='+data.id+'>'+(data.tagName?data.tagName:"")+'</option>';
-		    					}else{
-		    						html1+='<option value='+data.id+'>'+(data.tagName?data.tagName:"")+'</option>';
-		    					}
-		    				}else{
-		    					html1+='<option value='+data.id+'>'+(data.tagName?data.tagName:"")+'</option>';
-		    				}
-						});
-						$("#itemTagLists_two").html(html1);
-						$("#itemTagLists_two").select2();
-					}
-				})
+        	queryItemThird:function(id){
+                if(id==null){
+                    $("#itemSecondCodeList").find("option").each(function(i){
+                        if($(this).is(':selected')){
+                            var cid=$(this).attr("data-id");
+                            id=cid;
+                        }
+                    });
+                }
+                $("#itemThirdCodeList").html('');
+                $.ajax({
+                    url : rootPath + "/itemTree/queryItemSecond",
+                    type : "post",
+                    data : {pid:id},
+                    dataType : "json",
+                    success : function(result) {
+                        if(result.length>0){
+                            $("#itemThirdCodeList").css("display","block");
+                            $.each(result,function(i,item){
+                                if(item.id==$("#itemThirdCode").val()){
+                                    $("#itemThirdCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }else{
+                                    $("#itemThirdCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }
+                            });
+                        }else{
+                            $("#itemThirdCodeList").css("display","none");
+                        }
+                        Form.queryTagsList();
+                    }
+                });
+			},
+			queryTagsList : function(id){
+                if(id==null){
+                    $("#itemThirdCodeList").find("option").each(function(i){
+                        if($(this).is(':selected')){
+                            var cid=$(this).attr("data-id");
+                            id=cid;
+                        }
+                    });
+                }
+                $("#itemFourthCodeList").html('');
+                $.ajax({
+                    url : rootPath + "/itemTree/queryItemSecond",
+                    type : "post",
+                    data : {pid:id},
+                    dataType : "json",
+                    success : function(result) {
+                        if(result.length>0){
+                            $("#itemFourthCodeList").css("display","block");
+                            $.each(result,function(i,item){
+                                if(item.id==$("#itemFourthCode").val()){
+                                    $("#itemFourthCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }else{
+                                    $("#itemFourthCodeList").append("<option value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
+                                }
+                            });
+                        }else{
+                            $("#itemFourthCodeList").css("display","none");
+                        }
+                    }
+                });
 			},
 			queryCourseSetting : function(){
 				//判断公司课程设置开关
@@ -386,15 +365,15 @@
 					return;
 				}
 				//标签数据
-				var str="",str1=$("#itemTagLists_one").val(),str2=$("#itemTagLists_two").val();
-				if(str1 && str2){
-					str=str1+","+str2;
-				}else if(str1 && !str2){
-					str=str1;
-				}else if(!str1 && str2){
-					str=null+","+str2;
-				}
-				$("#course_lable_tag").val(str);
+				// var str="",str1=$("#itemTagLists_one").val(),str2=$("#itemTagLists_two").val();
+				// if(str1 && str2){
+				// 	str=str1+","+str2;
+				// }else if(str1 && !str2){
+				// 	str=str1;
+				// }else if(!str1 && str2){
+				// 	str=null+","+str2;
+				// }
+				// $("#course_lable_tag").val(str);
 				var flag=$(".member_settings").find("input[name=memberFlag]:checked").val();
 				if(flag && flag==1 && !$(".member_settings").hasClass("none")){
 					var len=$("#level_member_list").find("input[type=checkbox]:checked").length;
@@ -430,11 +409,16 @@
 			    		$(".loading-bg").hide();
 			    	}
 			    }else{
-			    	var tId=$("#itemSecondList").val();
+			    	var tId=$("#itemSecondCodeList").val();
 			    	if(tId==""||tId==null){
-			    		$.msg("请选择学科小类");
+			    		$.msg("请选择学段");
 			    		return;
 			    	}
+                    var thId=$("#itemThirdCodeList").val();
+                    if(thId==""||thId==null){
+                        $.msg("请选择学科");
+                        return;
+                    }
 			    	$("#addFormOne").validate(rules);
 			    	if($("#addFormOne").valid()){
 			    		$.ajax({

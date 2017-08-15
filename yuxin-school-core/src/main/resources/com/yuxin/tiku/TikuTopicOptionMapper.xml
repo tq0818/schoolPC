@@ -7,6 +7,7 @@
 		<result property="optionNo" column="option_no" />
 		<result property="optionName" column="option_name" />
 		<result property="correctFlag" column="correct_flag" />
+		<result property="topicOptionAnswerNum" column="topic_option_answer_num" />
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -122,4 +123,23 @@
 				#{item}
 			</foreach>
 	</delete>
+	
+	<select id="findOptionByListTopicId" parameterType="list" resultMap="tikuTopicOptionResultMap">
+		select
+		tp.id,
+		tp.topic_id,
+		tp.option_no,
+		tp.option_name,
+		tp.correct_flag,
+		ts.topic_option_answer_num
+		from tiku_topic_option tp
+		left join tiku_user_exercise_answer_statistics ts
+		on tp.id = ts.topic_option_id
+		where tp.topic_id in
+		<foreach collection="idList" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		<if test="paperId != null">and ts.paper_id = #{paperId}</if>
+		order by option_no
+	</select>
 </mapper>

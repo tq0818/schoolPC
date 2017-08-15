@@ -41,6 +41,7 @@ public class CommodityVo extends BaseEntity {
     private Integer liveFlag; /* 是否属于直播标签，1:是；0：否 */
     private Integer videoFlag; /* 是否属于视频标签，1:是；0：否 */
     private Integer remoteFlag; /* 是否属于远程标签，1:是；0：否 */
+    private Integer isMicroClass; /* 是否属于微课标签，1:是；0：否 */
     private String cusorder;
     private String cuslimit;
     private String isCollect;/* 判断该商品是否被用户收藏 */
@@ -81,10 +82,33 @@ public class CommodityVo extends BaseEntity {
     
     private String orderBy;
     private String iconLable;
+    private String schoolShortName;
+    private String itemOneCode;
+    private String itemSecondCode;
+    private String itemThirdCode;
+    private String itemFourthCode;
+
+    private String lessonDate;
+    private String lessonTimeStart;
+    private String lessonTimeEnd;
+    private String lessonName;
+    private String  paperDescription;
+    private Integer userId;
+
+    private Date previewDate;//预览时间
+    private String range;//范围
+
     
-    private String schoolShortName;//学校简称
     
-    public String getSchoolShortName() {
+    public Date getPreviewDate() {
+		return previewDate;
+	}
+
+	public void setPreviewDate(Date previewDate) {
+		this.previewDate = previewDate;
+	}
+
+	public String getSchoolShortName() {
 		return schoolShortName;
 	}
 
@@ -630,5 +654,101 @@ public class CommodityVo extends BaseEntity {
 
     public void setIconLable(String iconLable) {
         this.iconLable = iconLable;
+    }
+
+    public String getItemOneCode() {
+        return itemOneCode;
+    }
+
+    public void setItemOneCode(String itemOneCode) {
+        this.itemOneCode = itemOneCode;
+    }
+
+    public String getItemSecondCode() {
+        return itemSecondCode;
+    }
+
+    public void setItemSecondCode(String itemSecondCode) {
+        this.itemSecondCode = itemSecondCode;
+    }
+
+    public String getItemThirdCode() {
+        return itemThirdCode;
+    }
+
+    public void setItemThirdCode(String itemThirdCode) {
+        this.itemThirdCode = itemThirdCode;
+    }
+
+    public String getItemFourthCode() {
+        return itemFourthCode;
+    }
+
+    public void setItemFourthCode(String itemFourthCode) {
+        this.itemFourthCode = itemFourthCode;
+    }
+
+    public String getLessonDate() {
+        return lessonDate;
+    }
+
+    public void setLessonDate(String lessonDate) {
+        this.lessonDate = lessonDate;
+    }
+
+    public String getLessonTimeStart() {
+        return lessonTimeStart;
+    }
+
+    public void setLessonTimeStart(String lessonTimeStart) {
+        this.lessonTimeStart = lessonTimeStart;
+    }
+
+    public String getLessonTimeEnd() {
+        return lessonTimeEnd;
+    }
+
+    public void setLessonTimeEnd(String lessonTimeEnd) {
+        this.lessonTimeEnd = lessonTimeEnd;
+    }
+
+    public String getLessonName() {
+        return lessonName;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
+    }
+
+    public Integer getIsMicroClass() {
+        return isMicroClass;
+    }
+
+    public void setIsMicroClass(Integer isMicroClass) {
+        this.isMicroClass = isMicroClass;
+    }
+
+    public String getPaperDescription() {
+        return paperDescription;
+    }
+
+    public void setPaperDescription(String paperDescription) {
+        this.paperDescription = paperDescription;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
     }
 }

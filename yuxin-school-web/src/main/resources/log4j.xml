@@ -15,94 +15,94 @@
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH\:mm\:ss} [%-5p] [%c] %m%n" />
 		</layout>
 	</appender>
-	
+
 	<appender name="error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/data/applogs/schoolmanage/school_error.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH\:mm\:ss} [%-5p] [%c] %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="LevelMin" value="ERROR"/>
-            <param name="LevelMax" value="ERROR"/>
-        </filter>
+			<param name="LevelMin" value="ERROR"/>
+			<param name="LevelMax" value="ERROR"/>
+		</filter>
 	</appender>
-	
+
 	<appender name="payFile_Info" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/data/applogs/schoolmanage/school_pay.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH\:mm\:ss} [%-5p] [%c] %m%n" />
 		</layout>
 	</appender>
-	
+
 	<appender name="payFile_Error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/data/applogs/schoolmanage/school_pay_error.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH\:mm\:ss} [%-5p] [%c] %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="LevelMin" value="ERROR"/>
-            <param name="LevelMax" value="ERROR"/>
-        </filter>
+			<param name="LevelMin" value="ERROR"/>
+			<param name="LevelMax" value="ERROR"/>
+		</filter>
 	</appender>
-	
+
 	<appender name="studentFile_Info" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/data/applogs/schoolmanage/school_student.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH\:mm\:ss} [%-5p] [%c] %m%n" />
 		</layout>
 	</appender>
-	
+
 	<appender name="studentFile_Error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="/data/applogs/schoolmanage/school_student_error.log" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH\:mm\:ss} [%-5p] [%c] %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="LevelMin" value="ERROR"/>
-            <param name="LevelMax" value="ERROR"/>
-        </filter>
+			<param name="LevelMin" value="ERROR"/>
+			<param name="LevelMax" value="ERROR"/>
+		</filter>
 	</appender>
-	
+
 	<!-- begin mybatis 日志-->
-	 <logger name="com.ibatis" additivity="true"> 
-	  <level value="DEBUG" /> 
-	 </logger> 
-	 <logger name="java.sql.Connection" additivity="true"> 
-	  <level value="DEBUG" /> 
-	 </logger> 
-	 <logger name="java.sql.Statement" additivity="true"> 
-	  <level value="DEBUG" /> 
-	 </logger> 
-	 <logger name="java.sql.PreparedStatement" additivity="true"> 
-	  <level value="DEBUG" /> 
-	 </logger> 
-	 <logger name="java.sql.ResultSet" additivity="true"> 
-	  <level value="TRACE" /> 
-	 </logger>
+	<logger name="com.ibatis" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="java.sql.Connection" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="java.sql.Statement" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" additivity="true">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="java.sql.ResultSet" additivity="true">
+		<level value="INFO" />
+	</logger>
 	<!-- end mybatis 日志 -->
-	
+
 	<logger name="com.yuxin.tools">
 		<level value="INFO" />
 	</logger>
-	
+
 	<logger name="pay">
 		<level value="info" />
 		<appender-ref ref="payFile_Info" />
 		<appender-ref ref="payFile_Error" />
 	</logger>
-	
+
 	<logger name="student">
 		<level value="info" />
 		<appender-ref ref="studentFile_Info" />
 		<appender-ref ref="studentFile_Error" />
 	</logger>
-	
+
 	<root>
 		<level value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="log" />
 		<appender-ref ref="error" />
-		
+
 	</root>
 
 </log4j:configuration>

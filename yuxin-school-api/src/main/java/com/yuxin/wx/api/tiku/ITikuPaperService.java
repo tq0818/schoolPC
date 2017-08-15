@@ -150,4 +150,6 @@ public interface ITikuPaperService  {
 
 	PageFinder2<TikuPaperVo> containhw(TikuPaper search);
 
+	List<TikuPaper> queryAll();
+
 }

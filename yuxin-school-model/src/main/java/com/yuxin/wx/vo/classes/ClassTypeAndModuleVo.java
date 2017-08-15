@@ -1,8 +1,14 @@
 package com.yuxin.wx.vo.classes;
 
+import java.io.Serializable;
 
-public class ClassTypeAndModuleVo {
 
+public class ClassTypeAndModuleVo implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9047775752596360415L;
 	public String moduleName;
 	public String teachMethod;
 	public Integer totalClassHour;

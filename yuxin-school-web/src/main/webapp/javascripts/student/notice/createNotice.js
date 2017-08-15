@@ -14,16 +14,23 @@ var msgCount;
  		});
  		$("#two").change(function(){
  	    	var messageType = $(".btn-type.btn-primary").attr("data-type");
- 	    	var oneItem = $("#one").val();
- 			 if(messageType == "STUDENT_MESSAGE_CLASSTYPE"){
- 				 url = rootPath + "/classModule/selClassType";
- 				 $("#classTitle").html("课程：");
- 			 }else if(messageType == "STUDENT_MESSAGE_MODULENO"){
- 				 url = rootPath + "/classModule/selModuleNo";
- 				 $("#classTitle").html("班号：");
- 			 }
- 	    	selClassOrModule(url,oneItem,$("#two").val());
+ 	    	var twoItem = $("#two").val();
+            selThreeItem(messageType,twoItem);
+ 	    	// selClassOrModule(url,oneItem,$("#two").val());
  		});
+         $("#three").change(function(){
+             var messageType = $(".btn-type.btn-primary").attr("data-type");
+             var oneItem = $("#one option:selected").attr("data-code");
+             var twoItem = $("#two option:selected").attr("data-code");
+             if(messageType == "STUDENT_MESSAGE_CLASSTYPE"){
+                 url = rootPath + "/classModule/selClassType";
+                 $("#classTitle").html("课程：");
+             }else if(messageType == "STUDENT_MESSAGE_MODULENO"){
+                 url = rootPath + "/classModule/selModuleNo";
+                 $("#classTitle").html("班号：");
+             }
+             selClassOrModule(url,oneItem,twoItem,$("#three option:selected").attr("data-code"));
+         });
  		if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE' && $(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
 			$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 			$(".notice-main").css({'margin':'100px auto 100px'});
@@ -281,9 +288,10 @@ var msgCount;
      
      function selTwoItem(messageType,oneItem){
     	 $.ajax({
-    		 url:rootPath + "/classModule/selTwoItem",
+             url:rootPath + "/classModule/selItemRelationByPid",
+    		 // url:rootPath + "/classModule/selTwoItem",
     		 type:"post",
-    		 data:{"oneItem":oneItem},
+    		 data:{"pid":oneItem},
     		 dataType:"json",
    			beforeSend:function(XMLHttpRequest){
    	              $(".loading").show();
@@ -292,26 +300,51 @@ var msgCount;
     		 success:function(data){
     			 $("#two").empty();
     			 $.each(data.two,function(index,item){
-    				 $("#two").append("<option value='" + item.id + "'>" + item.itemName + "</option>");
+    				 $("#two").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
     			 });
-    			 var url = "";
-    			 if(messageType == "STUDENT_MESSAGE_CLASSTYPE"){
-    				 url = rootPath + "/classModule/selClassType";
-    				 $("#classTitle").html("课程：");
-    			 }else if(messageType == "STUDENT_MESSAGE_MODULENO"){
-    				 url = rootPath + "/classModule/selModuleNo";
-    				 $("#classTitle").html("班号：");
-    			 }
-    			 selClassOrModule(url,oneItem,$("#two").val());
+                 selThreeItem(messageType,$("#two").val());
     		 }
     	 });
      }
+
+		function selThreeItem(messageType,twoItem){
+			$.ajax({
+				url:rootPath + "/classModule/selItemRelationByPid",
+				// url:rootPath + "/classModule/selTwoItem",
+				type:"post",
+				data:{"pid":twoItem},
+				dataType:"json",
+				beforeSend:function(XMLHttpRequest){
+					$(".loading").show();
+					$(".loading-bg").show();
+				},
+				success:function(data){
+					$("#three").empty();
+					$.each(data.two,function(index,item){
+						$("#three").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
+					});
+					var url = "";
+					if(messageType == "STUDENT_MESSAGE_CLASSTYPE"){
+						url = rootPath + "/classModule/selClassType";
+						$("#classTitle").html("课程：");
+					}else if(messageType == "STUDENT_MESSAGE_MODULENO"){
+						url = rootPath + "/classModule/selModuleNo";
+						$("#classTitle").html("班号：");
+					}
+                    var oneItem = $("#one option:selected").attr("data-code");
+                    var twoItem = $("#two option:selected").attr("data-code");
+					selClassOrModule(url,oneItem,twoItem,$("#three option:selected").attr("data-code"));
+				}
+			});
+}
      
-     function selClassOrModule(url,oneItem,twoItem){
+     function selClassOrModule(url,oneItem,twoItem,threeItem){
+
 		 $.ajax({
 			 url:url,
 			 type:"post",
-			 data:{"itemOneId":oneItem,"itemSecondId":twoItem},
+             data:{"itemOneCode":oneItem,"itemSecondCode":twoItem,"itemThridCode":threeItem},
+			 // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
 			 dataType:"json",
 	   			beforeSend:function(XMLHttpRequest){
 	   	              $(".loading").show();

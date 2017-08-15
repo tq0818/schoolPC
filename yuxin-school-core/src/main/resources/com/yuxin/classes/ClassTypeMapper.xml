@@ -495,7 +495,7 @@
 		<if test="classType.itemSecondCode != null and classType.itemSecondCode != ''">and item_second_code = #{classType.itemSecondCode}</if>
 		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and item_third_code = #{classType.itemThirdCode}</if>
 		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">
-            and a.item_fourth_code in
+            and item_fourth_code in
             <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
         </if>
 	</select>

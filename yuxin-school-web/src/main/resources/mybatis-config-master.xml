@@ -92,6 +92,8 @@
 		<mapper resource="com/yuxin/system/SysConfigVideoPriceMapper.xml"/>
 		<mapper resource="com/yuxin/commodity/CommodityMapper.xml" />
 		<mapper resource="com/yuxin/commodity/CommodityProductRealtionMapper.xml" />
+		<mapper resource="com/yuxin/commodity/CommoditySpeacialMapper.xml" />
+		
 		<mapper resource="com/yuxin/system/SysConfigItemIconMapper.xml"/>
 		<mapper resource="com/yuxin/system/SysConfigIndexNewsMapper.xml"/>
 		<mapper resource="com/yuxin/system/SysCcAccountMapper.xml"/>

@@ -448,6 +448,9 @@
         <pattern>/companyStudyCard/gotoStudyCardsManage</pattern>
         <pattern>/companyStudyCard/gotoCreateStudyCard</pattern>
         <pattern>/companyStudyCard/gotoStudyCardLibDetails</pattern>
+        <!-- 专题 -->
+        <pattern>/commodity/toSpecialPage</pattern>
+         <pattern>/commodity/toAddSpecialPage</pattern>
     </decorator>
     
     <decorator name="tiku" page="decorator_tiku.jsp">

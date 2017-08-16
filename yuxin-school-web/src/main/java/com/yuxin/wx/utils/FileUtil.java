@@ -55,7 +55,7 @@ public class FileUtil {
 	static Log log=LogFactory.getLog("log");
 
 	private static Resource resource = new ClassPathResource("config.properties");
-	private static Properties props=null ;
+	public static Properties props=null ;
 	private static OSSClient client=null;
 	private static String BUCKET;
 
@@ -121,6 +121,10 @@ public class FileUtil {
 		 */
 		String SWF="swf";
 
+		/**
+		 * 专题
+		 */
+		String SPECIAL="special";
 	}
 
 	private static void init(){
@@ -132,7 +136,7 @@ public class FileUtil {
 	 * @param company
 	 * @return
 	 */
-	private static String getPath(String module,String company,String fileName){
+	public static String getPath(String module,String company,String fileName){
 		String folder="temp";
 		if(StringUtils.isNotBlank(module)){
 			if(Module.COMPANY.equals(module)
@@ -145,6 +149,7 @@ public class FileUtil {
 					||Module.COURSEFILE.equals(module)
 					||Module.TEACHER.equals(module)
 					||Module.SCORM.equals(module)
+					||Module.SPECIAL.equals(module)
 					){
 				folder=module;
 			}

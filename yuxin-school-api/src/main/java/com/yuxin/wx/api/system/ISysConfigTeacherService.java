@@ -443,4 +443,6 @@ public interface ISysConfigTeacherService {
 	int updateSortId(SysConfigTeacher search);
 
 	int checkSortCount();
+	
+	List<SysConfigTeacher> findTeacherBySubject(SysConfigTeacher search);
 }

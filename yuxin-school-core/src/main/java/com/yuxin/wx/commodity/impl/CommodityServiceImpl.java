@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.commodity.ICommodityService;
 import com.yuxin.wx.commodity.mapper.CommodityMapper;
 import com.yuxin.wx.common.PageFinder;
@@ -212,4 +212,10 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
         // TODO Auto-generated method stub
         return commodityMapper.findCommodityName(id);
     }
+
+	@Override
+	public List<CommodityVo> queryCourseByTeacherIds(Map<String, Object> map) {
+		List<CommodityVo> list = commodityMapper.queryCourseByTeacherIds(map);
+		return list;
+	}
 }

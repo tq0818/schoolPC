@@ -19,9 +19,11 @@
     	
     	function loadSpecialList(pageNum){
     		var url = "<%=rootPath%>/commodity/findSpecialByapge";
-    		var data = {"pageNum":pageNum}
+    		var data = {"pageNum":pageNum,"pageSize":12}
     		$('#specialList').load(url,data)
     	}
+    	
+    
     </script>
 </head>
 

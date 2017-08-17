@@ -16,4 +16,6 @@ public interface CommoditySpecialMapper extends BaseMapper<CommoditySpecial> {
 	public CommoditySpecial findSpecialById(CommoditySpecial special);
 	
 	public int findSpecialByPageCount();
+	
+	public int updateSpecial(CommoditySpecial special);
 }

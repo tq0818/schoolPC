@@ -74,6 +74,16 @@ public class CommoditySpecial extends BaseEntity implements Serializable{
 	 */
 	private Integer status;
 	
+	/**
+	 * 修改时间
+	 */
+	private Date updateTime;
+	
+	/**
+	 * 选中学科
+	 */
+	private Integer subjectId;
+	
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -170,6 +180,22 @@ public class CommoditySpecial extends BaseEntity implements Serializable{
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Integer getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(Integer subjectId) {
+		this.subjectId = subjectId;
 	}
 	
 }

@@ -12,11 +12,15 @@
   <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.min.js"></script>
   <script type="text/javascript" src="<%=rootPath %>/javascripts/special/special.js"></script>
   <script type="text/javascript">
+        var subjectId = "${special.subjectId}";//表示更新操作
+        var teacherIds = "${special.teacherIds}";
+        var commodityIds = "${special.commodityIds}";
         function findTeacher(){
         	var subjectId = $('#subjectSelect').val();
         	$.ajax({
 				url: "<%=rootPath%>/commodity/getTeachersBySubject",
 				data:{"itemOneId":subjectId},
+				async:false,
 				success: function(jsonData){
 					$('#teachers').empty();
 					$.each(jsonData.teacherList,function(i,data){
@@ -32,6 +36,7 @@
         	$.ajax({
 				url: "<%=rootPath%>/commodity/getCourseByTeacher",
 				data:{"teacherIds":teacherIds},
+				async:false,
 				success: function(jsonData){
 				    var url = jsonData.url;
 					$.each(jsonData.commodityList,function(i,data){
@@ -90,8 +95,11 @@
              	teacherIds = teacherIds.substring(0,teacherIds.length-1);
             }
         	commoditylis.each(function(i,v){
-        		var id = $(v).attr("commondityId");
-        		commodityIds = commodityIds + id +","
+        		if($(v).find("input[type='checkbox']:checked").length > 0){
+        			var id = $(v).attr("commondityId");
+            		commodityIds = commodityIds + id +","
+        		}
+        		
                
             });
         	if($.trim(commodityIds) !=""){
@@ -119,16 +127,29 @@
         		return;
         	}
         	if(commodityIds.length <=0){
-        		$.msg("老师不能为空");
+        		$.msg("课程不能为空");
         		return;
         	}
         	if(teacherIds.length <=0){
-        		$.msg("课程不能为空");
+        		$.msg("老师不能为空");
         		return;
         	}
         	$('#commodityIds').attr("value",commodityIds);
         	$('#teacherIds').attr("value",teacherIds);
             $('#specialForm').submit();
+        }
+        
+        function test(){
+        	var commoditylis = $("#courseList").children("li");
+        	var commodityIds = "";
+        	commoditylis.each(function(i,v){
+        		if($(v).find("input[type='checkbox']:checked").length > 0){
+        			var id = $(v).attr("commondityId");
+            		commodityIds = commodityIds + id +","
+        		}
+               
+            });
+        	alert(commodityIds);
         }
         
         function PreviewImage(fileObj,imgPreviewId,divPreviewId){
@@ -187,6 +208,40 @@
             }
         }
         
+        
+        $(document).ready(function(){
+               findTeacher();
+        	   if(teacherIds.length > 0){
+        		   findCourse(teacherIds);
+        		   var lis = $("#teachers").children("li");
+        		   var teacherIdArray = teacherIds.split(",");
+        		   lis.each(function(i,v){
+               		var teacherId = $(v).attr("data-id");
+               	        for(i = 0; i < teacherIdArray.length;i++){
+               	        	if(teacherIdArray[i] == teacherId ){
+               	        		$(".choose-item").append($(v));
+               	        	}
+               	        }
+                      
+                   });
+        	   }
+        	  if(commodityIds.length > 0){
+        		  var commodityIdArray = commodityIds.split(",");
+        		  var commoditylis = $("#courseList").children("li");
+              	  commoditylis.each(function(i,v){
+              		for(i = 0; i < commodityIdArray.length;i++){
+              			console.log($(v).attr("commondityId"))
+              			if($(v).attr("commondityId")==commodityIdArray[i]){
+              				$(v).find("input[type='checkbox']:first").attr("checked","true");
+              			}
+              		}  
+              		                     
+                  });
+        	  } 
+        });
+        
+       
+        
   </script>
   
 </head>
@@ -198,28 +253,28 @@
             <h2 class="h5">专题模块</h2>
             <span class="line"></span>
         </div>
-       <form id="specialForm" action="<%=rootPath%>/commodity/addSpecial" method="post" enctype="multipart/form-data">
+       <form id="specialForm" action="<%=rootPath%>/commodity/addOrUpdateSpecial" method="post" enctype="multipart/form-data">
         <div class="form-conten">
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>专题标题</label>
-                <input type="text" class="input-text fl" id="title" name="title" maxlength="8">
+                <input type="text" class="input-text fl" id="title" name="title" maxlength="8" value="${special.title }">
              
             </div>
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>专题标签</label>
-                <input type="text" class="input-text fl" id="label" name="label" maxlength="20">
+                <input type="text" class="input-text fl" id="label" name="label" maxlength="20" value="${special.label }">
             </div>
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
                 <div id="divPreviewCoverPic" class="img-box fl">
-                    <img id="imgCoverPic" src="" alt="" class="upload-img">
+                    <img id="imgCoverPic" src="${baseUrl}${special.coverPicUrl}" alt="" class="upload-img">
                     <input onchange="PreviewImage(this,'imgCoverPic','divPreviewCoverPic')" type="file" class="file-btn" id="uploadImg" name="coverPic">
                     <label class="btn btn-default btn-upload" for="uploadImg">点击上传</label>
                 </div>
             </div>
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>专题介绍</label>
-                <textarea class="class-textarea fl" id="descript" name="descript" maxlength="100"></textarea> 
+                <textarea class="class-textarea fl" id="descript" name="descript" maxlength="100">${special.descript}</textarea> 
             </div>
         </div>
         <div class="heading">
@@ -229,25 +284,25 @@
         <div class="form-conten">
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>标题</label>
-                <input type="text" class="input-text fl" id="detailTitle" name="detailTitle" maxlength="30">
+                <input type="text" class="input-text fl" id="detailTitle" name="detailTitle" maxlength="30" value="${special.detailTitle }">
             </div>
              <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
                 <div id="divPreviewDetailCoverPic" class="img-box fl">
-                    <img id="imgDetailCoverPic" src="" alt="" class="upload-img">
+                    <img id="imgDetailCoverPic" src="${baseUrl}${special.detailCoverPicUrl}" alt="" class="upload-img">
                     <input onchange="PreviewImage(this,'imgDetailCoverPic','divPreviewDetailCoverPic')"  type="file" class="file-btn" id="uploadDetailImg" name="detailCoverPic">
                     <label class="btn btn-default btn-upload" for="uploadDetailImg">点击上传</label>
                 </div>
             </div>
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>正文</label>
-                <textarea class="class-textarea fl" id="detailText" name="detailText" maxlength="500"></textarea> 
+                <textarea class="class-textarea fl" id="detailText" name="detailText" maxlength="500">${special.detailText }</textarea> 
             </div>
             <div class="row">
                 <label for="" class="label-text fl"><em class="class-requied">*</em>学科</label>
-                <select id="subjectSelect" class="select-box" onchange="findTeacher()">
+                <select id="subjectSelect" name="subjectSelect" class="select-box" onchange="findTeacher()">
                     <c:forEach items="${subjectList}" var="subject">
-                    <option  value="${subject.id}">${subject.itemName}</option>
+                    <option   <c:if test="${special.subjectId == subject.id}"> selected="selected"</c:if>  value="${subject.id}">${subject.itemName}</option>
                     </c:forEach>       
                 </select>
             </div>
@@ -276,11 +331,12 @@
                     </ul>
                 </div>
                  <input type="hidden" id="commodityIds" name="commodityIds">
+                 <input type="hidden" id="specialId" name="specialId" value="${special.id}">
             </div>
                </form> 
             <div class="text-center">
                 <a href ="javascript:void(0)" class="btn btn-primary " onclick="formSubmit()">保存</a>
-                <a href ="javascript:void(0)" class="btn btn-default">取消</a>
+                <a href ="javascript:void(0)" class="btn btn-default" onclick="test()">取消</a>
              </div>
 
         </div>

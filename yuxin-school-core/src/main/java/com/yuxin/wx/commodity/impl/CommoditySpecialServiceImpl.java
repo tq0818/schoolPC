@@ -40,5 +40,11 @@ public class CommoditySpecialServiceImpl extends BaseServiceImpl implements ICom
 		return count;
 	}
 
+	@Override
+	public int updateSpecial(CommoditySpecial special) {
+	    int row = commoditySpecialMapper.updateSpecial(special);
+		return row;
+	}
+
      
 }

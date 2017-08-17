@@ -41,4 +41,11 @@ public interface ICommoditySpecialService  {
 	 * @return
 	 */
 	public int findSpecialByPageCount();
+	
+	/**
+	 * 修改专题
+	 * @param special
+	 * @return
+	 */
+	public int updateSpecial(CommoditySpecial special);
 }

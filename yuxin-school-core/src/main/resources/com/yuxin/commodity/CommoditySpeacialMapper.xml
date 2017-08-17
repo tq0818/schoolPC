@@ -5,7 +5,7 @@
 		<result property="id" column="id" />
 		<result property="title" column="title" />
 		<result property="label" column="label" />
-		<result property="coverPicUrl" column="cover_picUrl" />
+		<result property="coverPicUrl" column="cover_pic_url" />
 		<result property="descript" column="descript" />
 		<result property="detailTitle" column="detail_title" />
 		<result property="detailCoverPicUrl" column="detail_cover_pic_url" />
@@ -16,16 +16,17 @@
 		<result property="orderFlag" column="order_flag" />
 		<result property="status" column="status" />
 		<result property="updateTime" column="update_time" />
+		<result property="subjectId" column="subject_id" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" useGeneratedKeys="true" keyProperty="id">
-	   insert into commodity_special(title,label,cover_pic_url,descript,detail_title,detail_cover_pic_url,detail_text,teacher_ids,commodity_ids,create_time,order_flag,status,update_time)
-	   values(#{title},#{label},#{coverPicUrl},#{descript},#{detailTitle},#{detailCoverPicUrl},#{detailText},#{teacherIds},#{commodityIds},#{createTime},#{orderFlag},#{status},#{updateTime})
+	   insert into commodity_special(title,label,cover_pic_url,descript,detail_title,detail_cover_pic_url,detail_text,teacher_ids,commodity_ids,create_time,order_flag,status,update_time,subject_id)
+	   values(#{title},#{label},#{coverPicUrl},#{descript},#{detailTitle},#{detailCoverPicUrl},#{detailText},#{teacherIds},#{commodityIds},#{createTime},#{orderFlag},#{status},#{updateTime},${subjectId})
 	</insert>
 
     <select id="findSpecialByPage" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" resultMap="commoditySpecialMap">
         select 
-        id,title,label from commodity_special order by status desc, update_time desc limit #{firstIndex},#{pageSize}
+        id,title,label,order_flag,status from commodity_special order by status desc, update_time desc limit #{firstIndex},#{pageSize}
     </select>
 
     <select id="findSpecialByPageCount"  resultType="int">
@@ -36,9 +37,27 @@
     <select id="findSpecialById" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" resultMap="commoditySpecialMap">
         select 
         id,
-        title,label,cover_pic_url,descript,detail_title,detail_cover_pic_url,detail_text,teacher_ids,commodity_ids,create_time,order_flag,status,update_time from commodity_special where id = #{id}
+        title,label,cover_pic_url,descript,detail_title,detail_cover_pic_url,detail_text,teacher_ids,commodity_ids,create_time,order_flag,status,update_time,subject_id from commodity_special where id = #{id}
     </select>
     
-    
+    <update id="updateSpecial" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" >
+        update commodity_special
+        <set>
+          <if test="title != null and title !=''">title = #{title},</if>
+          <if test="label != null and label !=''">label = #{label},</if>
+          <if test="coverPicUrl != null and coverPicUrl !=''">cover_pic_url = #{coverPicUrl},</if>
+          <if test="descript != null and descript !=''">descript = #{descript},</if>
+          <if test="detailTitle != null and detailTitle !=''">detail_title = #{detailTitle},</if>
+          <if test="detailCoverPicUrl != null and detailCoverPicUrl !=''">detail_cover_pic_url = #{detailCoverPicUrl},</if>
+          <if test="detailText != null and detailText !=''">detail_text = #{detailText},</if>
+          <if test="teacherIds != null and teacherIds !=''">teacher_ids = #{teacherIds},</if>
+          <if test="commodityIds != null and commodityIds !=''">commodity_ids = #{commodityIds},</if>
+          <if test="orderFlag != null">order_flag = #{orderFlag},</if>
+          <if test="status != null ">status = #{status},</if>
+          <if test="updateTime != null and updateTime !=''">update_time = #{updateTime},</if>
+          <if test="subjectId != null">subject_id = #{subjectId}</if>
+        </set>
+        where id = #{id}
+    </update>
    
 </mapper>

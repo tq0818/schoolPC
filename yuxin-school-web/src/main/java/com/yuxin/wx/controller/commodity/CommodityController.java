@@ -211,14 +211,19 @@ public class CommodityController {
 	public String findSpecialByapge(HttpServletRequest request,HttpServletResponse response,ModelMap model){
 		try{
 			String pageNum = request.getParameter("pageNum");
+			String pageSize = request.getParameter("pageSize");
 			CommoditySpecial special = new CommoditySpecial();
 			if(StringUtils.isNotBlank(pageNum)){
 				special.setPage(Integer.parseInt(pageNum));
+			}
+			if(StringUtils.isNotBlank(pageSize)){
+				special.setPageSize(Integer.parseInt(pageSize));
 			}
 			List<CommoditySpecial> specialList = commoditySpecialServiceImpl.findSpecialByPage(special);
 			int count = commoditySpecialServiceImpl.findSpecialByPageCount();
 			model.addAttribute("specialList", specialList);
 			model.addAttribute("count", count);
+			model.addAttribute("pageNum", pageNum);
 		}catch(Exception e){
 			log.error("findSpecialByapge is error", e);
 		}
@@ -243,6 +248,15 @@ public class CommodityController {
 			search.setCompanyId(user.getCompanyId());
 			search.setSchoolId(user.getSchoolId());
 			subjectList = sysConfigItemServiceImpl.findItem(search);
+			String id = request.getParameter("id");
+			if(StringUtils.isNotBlank(id)){
+				CommoditySpecial cs = new CommoditySpecial();
+				cs.setId(Integer.valueOf(id));
+				CommoditySpecial special = commoditySpecialServiceImpl.findSpecialById(cs);
+				model.addAttribute("special", special);
+				String baseUrl = "http://" + FileUtil.props.getProperty("yunduoketang.oss.imagedomain") ;
+				model.addAttribute("baseUrl", baseUrl);
+			}
 		}catch(Exception e){
 			log.error("toAddSpecialPage is error :", e);
 		}
@@ -259,13 +273,14 @@ public class CommodityController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping("addSpecial")
+	@RequestMapping("addOrUpdateSpecial")
 	public String addSpecial(HttpServletRequest request,HttpServletResponse response,MultipartRequest multiPartRquest){
 		String result = "redirect:/commodity/toSpecialPage";
 		CommoditySpecial special = new CommoditySpecial();
 		try{
 			String title = request.getParameter("title");
 			String label = request.getParameter("label");
+			String detailTitle = request.getParameter("detailTitle");
 			String realPath[] = uploadImg(multiPartRquest);
 			String coverPicUrl = realPath[0];
 			String descript = request.getParameter("descript");
@@ -273,14 +288,18 @@ public class CommodityController {
 			String detailText = request.getParameter("detailText");
 			String teacherIds = request.getParameter("teacherIds");
 			String commodityIds = request.getParameter("commodityIds");
-			if(StringUtils.isBlank(title) || StringUtils.isBlank(label) || StringUtils.isBlank(coverPicUrl)
-			|| StringUtils.isBlank(descript) || StringUtils.isBlank(detailCoverPicUrl) 
-			||StringUtils.isBlank(detailCoverPicUrl)  || StringUtils.isBlank(detailText) 
-			|| StringUtils.isBlank(teacherIds) || StringUtils.isBlank(commodityIds)){
+			String subjectSelect = request.getParameter("subjectSelect");
+			String specialId = request.getParameter("specialId");
+			if(StringUtils.isBlank(title) || StringUtils.isBlank(label) 
+			|| StringUtils.isBlank(descript) || (StringUtils.isBlank(specialId) &&  (StringUtils.isBlank(coverPicUrl) || StringUtils.isBlank(detailCoverPicUrl)))
+			|| StringUtils.isBlank(detailText) || StringUtils.isBlank(subjectSelect)
+			|| StringUtils.isBlank(teacherIds) || StringUtils.isBlank(commodityIds) ){
 				return result;
 			}
 		    special.setTitle(title);
 		    special.setLabel(label);
+		    special.setSubjectId(Integer.valueOf(subjectSelect));
+		    special.setDetailTitle(detailTitle);
 			special.setCoverPicUrl(coverPicUrl);
 			special.setDescript(descript);
 			special.setDetailCoverPicUrl(detailCoverPicUrl);
@@ -288,8 +307,15 @@ public class CommodityController {
 			special.setTeacherIds(teacherIds);
 			special.setCommodityIds(commodityIds);
 			special.setCreateTime(new Date());
-			special.setStatus(0);
-			commoditySpecialServiceImpl.insert(special);
+			if(StringUtils.isBlank(specialId)){
+				special.setStatus(0);
+				commoditySpecialServiceImpl.insert(special);
+			}else{
+				special.setId(Integer.valueOf(specialId));
+				special.setUpdateTime(new Date());
+				int row = commoditySpecialServiceImpl.updateSpecial(special);
+			}
+			
 		}catch(Exception e){
 			log.error("addSpecial is error :", e);
 		}
@@ -352,25 +378,64 @@ public class CommodityController {
 		return json;
 	}
 	
+	/**
+	 * 专题上下架，修改排序
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("updateStatusOrder")
+	public String updateStatus(HttpServletRequest request,HttpServletResponse response){
+		String result = "failed";
+		try{
+			CommoditySpecial special = new CommoditySpecial();
+			String status = request.getParameter("status");
+			String orderFlag = request.getParameter("orderFlag");
+			int specialId = Integer.valueOf(request.getParameter("specialId"));
+			special.setId(specialId);
+			if(StringUtils.isNotBlank(status)){
+				special.setStatus(Integer.valueOf(status));
+			}
+			if(StringUtils.isNotBlank(orderFlag)){
+				special.setOrderFlag(Integer.valueOf(orderFlag));
+			}
+			int row = commoditySpecialServiceImpl.updateSpecial(special);
+			if(row > 0){
+				result = "success";
+			}
+		}catch(Exception e){
+			log.error("updateStatus is error :",e);
+		}
+		return result;
+	}
+	
+	
 	private String[] uploadImg(MultipartRequest multiPartRquest) throws Exception{
 		InputStream coverPicIS = null;
 		InputStream detailCoverPicIS = null;
-		String realPath[] = new String[2];
+		String relativePath[] = new String[2];
 		try{
 			MultipartFile	coverPic = multiPartRquest.getFile("coverPic");
 			MultipartFile	detailCoverPic = multiPartRquest.getFile("detailCoverPic");
-			//String baseUrl = "http://" + FileUtil.props.getProperty("yunduoketang.oss.imagedomain") + "/";
-			String path = FileUtil.props.getProperty("imageServiceRealPath");
-			String coverPicPath = path + FileUtil.getPath("special", String.valueOf(WebUtils.getCurrentCompanyId()), coverPic.getOriginalFilename());
-			String detailCoverPicPath =path + FileUtil.getPath("special", String.valueOf(WebUtils.getCurrentCompanyId()), detailCoverPic.getOriginalFilename());
-			File coverPicFile = new File(coverPicPath);
-			File detailCoverPicFile= new File(detailCoverPicPath);
-			coverPicIS = coverPic.getInputStream();
-			detailCoverPicIS = detailCoverPic.getInputStream();
-			FileUtils.copyInputStreamToFile(coverPicIS, coverPicFile);
-			FileUtils.copyInputStreamToFile(detailCoverPicIS, detailCoverPicFile);
-			realPath[0] = coverPicPath;
-			realPath[1] = detailCoverPicPath;
+		    String path = FileUtil.props.getProperty("imageServiceRealPath");
+		    if(coverPic.getSize() > 0){
+			    String coverRelativePath = FileUtil.getPath("special", String.valueOf(WebUtils.getCurrentCompanyId()), coverPic.getOriginalFilename());
+			    String coverPicPath = path + coverRelativePath;
+			    coverPicIS = coverPic.getInputStream();
+			    File coverPicFile = new File(coverPicPath);
+			    FileUtils.copyInputStreamToFile(coverPicIS, coverPicFile);
+				relativePath[0] = coverRelativePath;
+		    }
+		    if(detailCoverPic.getSize() > 0){
+		    	String detailCoverRelativePath =  FileUtil.getPath("special", String.valueOf(WebUtils.getCurrentCompanyId()), detailCoverPic.getOriginalFilename());
+		    	String detailCoverPicPath =path + detailCoverRelativePath;
+				File detailCoverPicFile= new File(detailCoverPicPath);
+				detailCoverPicIS = detailCoverPic.getInputStream();
+				FileUtils.copyInputStreamToFile(detailCoverPicIS, detailCoverPicFile);
+			    relativePath[1] = detailCoverRelativePath;
+		    }
+			
 		}finally{
 			if(coverPicIS != null){
 				IOUtils.close(coverPicIS);
@@ -379,6 +444,6 @@ public class CommodityController {
 				IOUtils.close(detailCoverPicIS);
 			}
 		}
-		return realPath;
+		return relativePath;
 	}
 }

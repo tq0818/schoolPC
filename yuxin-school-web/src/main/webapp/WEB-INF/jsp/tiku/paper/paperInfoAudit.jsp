@@ -205,7 +205,7 @@
             <li>
                 <div class="ques-ans">
                 <div class="ques">
-                	(${topicStatus.index}+1)&nbsp;&nbsp;&nbsp;${topic.topicName }
+                	(${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
                 </div>
                 <div class="answer-list">
                 	<c:forEach var="option" items="${topic.optionList }">

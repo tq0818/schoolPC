@@ -532,6 +532,10 @@ public class TikuPaperController {
                 json.put(JsonMsg.MSG, "score");
                 return json;
             }
+            if (sum < paper.getTotalScore()) {
+                json.put(JsonMsg.MSG, "less");
+                return json;
+            }
 
             if (commit.equals("commit")) {
                 paper.setUpdateTime(new Date());

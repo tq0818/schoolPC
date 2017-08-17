@@ -28,13 +28,16 @@ $(document).ready(function(){
 	});
 	
 	searchVideos();
-	//初始化日期框
-	$(".date-picker").datetimepicker({
+	if($(".date-picker").length>1){
+		//初始化日期框
+		$(".date-picker").datetimepicker({
 			format: "yyyy-mm-dd",
 			minView:2,
 			autoclose: true,
 			language: "zh-CN"
 		});
+	}
+
 	
 	//初始化标签库
 	$.ajax({
@@ -78,7 +81,7 @@ $(document).ready(function(){
 			var url="";
 			if($(this).attr("webVideoDomain")=="v.youku.com"){
 				url='http://player.youku.com/player.php/sid/'+ $(this).attr("webVideoId") + '==/v.swf';
-				$("#cke_FlashPreviewBox62").html("").append("<object width='100%' height='100%'>"
+				$("#cke_FlashPreviewBox62,#cke_FlashPreviewBox64").html("").append("<object width='100%' height='100%'>"
 						 + "<param name='movie' value='http://player.youku.com/player.php/sid/" 
 						 + $(this).attr("webVideoId") + "==/v.swf'></param>"
 						 + "<param name='allowFullScreen' value='true'></param>"
@@ -89,7 +92,7 @@ $(document).ready(function(){
 					     + "</object>");
 			}else if($(this).attr("webVideoDomain")=="www.tudou.com"){
 				url='http://www.tudou.com/'+ $(this).attr("webVideoId") + '/&vip=1';
-				$("#cke_FlashPreviewBox62").html("").append("<object width='100%' height='100%'>"
+				$("#cke_FlashPreviewBox62,#cke_FlashPreviewBox64").html("").append("<object width='100%' height='100%'>"
 						 + "<param name='movie' value='http://www.tudou.com/" 
 						 + $(this).attr("webVideoId") + "/&vip=1'></param>"
 						 + "<param name='allowFullScreen' value='true'></param>"
@@ -100,7 +103,7 @@ $(document).ready(function(){
 						 + "</object>");
 			}else{
 				url='http://p.bokecc.com/flash/player.swf?vid='+ccId+'&siteid='+$(this).attr("ids")+'&amp;playerid=25CCD0665D668BCE&amp;playertype=1&amp;autoStart=true';
-				$("#cke_FlashPreviewBox62").html("").append("<div style='width: 100%; height: 100%;' id='cc_video_"
+				$("#cke_FlashPreviewBox62,#cke_FlashPreviewBox64").html("").append("<div style='width: 100%; height: 100%;' id='cc_video_"
 						+ ccId
 						+ "_2507439'><object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0' id=cc_"
 						+ ccId
@@ -112,14 +115,15 @@ $(document).ready(function(){
 						+ ccId
 						+ "' wmode='transparent' allowfullscreen='true' allowscriptaccess='always' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' height='100%' width='100%'></object></div>");
 			}
-			$("#cke_67_textInput").val(url);
+			$("input.cke_dialog_ui_input_text:visible").first().val(url);//用id  太不固定了。。音频一起。id 会变。
+			//$("#cke_67_textInput,#cke_69_textInput").val(url);
 			$('.w800').fadeOut(200,function(){
               $('.add-layer-bg').fadeOut(200);
           });
 		});
 		$(".t-c-l").find(".dis").eq(0).trigger("click.li.left");
 		
-		$(".videotabs").on('click','span',function(){
+		$(".w800 .videotabs").on('click','span',function(){
 			$("div.layer-content").hide();
 			$("div.tab"+($(this).index()+1)).show();
 			$(this).siblings().removeClass("active");
@@ -391,12 +395,12 @@ $(document).ready(function(){
 	function  searchVideos(page){
 		var $this=this;
 		var search={};
-		var $tab=$("div.tab1");
+		var $tab=$(".w800 .tab1");
 		//获取当前视频类型
-		$(".videotabs").find("span").each(function(){
+		$(".w800 .videotabs").find("span").each(function(){
 			if($(this).hasClass("active")){
 				search.flag=$(this).attr("ids");
-				$tab=$("div.tab"+($(this).index()+1));
+				$tab=$(".w800 .tab"+($(this).index()+1));
 			}
 		});
 		

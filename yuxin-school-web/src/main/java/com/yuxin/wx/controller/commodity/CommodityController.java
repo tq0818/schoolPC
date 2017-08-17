@@ -254,7 +254,7 @@ public class CommodityController {
 				cs.setId(Integer.valueOf(id));
 				CommoditySpecial special = commoditySpecialServiceImpl.findSpecialById(cs);
 				model.addAttribute("special", special);
-				String baseUrl = "http://" + FileUtil.props.getProperty("yunduoketang.oss.imagedomain") ;
+				String baseUrl = "http://" + FileUtil.props.getProperty("yunduoketang.oss.imagedomain") +"/";
 				model.addAttribute("baseUrl", baseUrl);
 			}
 		}catch(Exception e){

@@ -461,12 +461,8 @@
         </div>
     </div>
 </div>
-<div class="add-layer showAudio none" style="z-index:10120;width:800px;height:500px;margin-top:-280px;">
+<div class="add-layer showAudio none" style="z-index:10120;width:800px;height:500px;margin-top:-280px;padding-top:30px;">
     <i class="iconfont close">&#xe610;</i>
-    <div class="tabs66 tabs videotabs">
-        <span class="tab1 active" ids="neibu">内部音频</span>
-        <span class="tab2" ids="outside">外部音频</span>
-    </div>
     <div class="layer-content tab1">
         <div class="term">
             <span class="term-title">学科</span>
@@ -483,6 +479,7 @@
             	<input type="text" id="tj" value="" placeholder="查询条件">
               <input type="button" class="btn btn-sm btn-default" value="搜索">
             </span>
+            <span><a href="/video/toVideo?searchType=audio" target="_blank" style="color:blue;text-decoration:underline;">现在去上传音频</a></span>
         </div>
         <div class="term-list">
             <table class="table table-center table-head">
@@ -506,107 +503,7 @@
         <div class="pages videopagination">
         </div>
     </div>
-    <div class="layer-content tab2 none">
-        <div class="default-div">
-            <div class="term">
-                <span class="term-title">学科</span>
-                <span class="term-title">
-	                <select name="" id="choose_itemOne" class="itemOne">
-	                </select>
-	            </span>
-                <span class="term-title">学科小类</span>
-                <span class="term-title">
-	                <select name="" id="choose_itemSecond" class="itemSecond">
-	                </select>
-	            </span>
-                <span>
-	            	<input type="text" id="tj" value="" placeholder="查询条件">
-	              <input type="button" class="btn btn-sm btn-default" value="搜索">
-	            </span>
-                <a class="add-video-link" href="javascript:;" style="text-decoration: underline;color: blue;margin-left:50px;">新增视频</a>
-            </div>
-            <div class="term-list">
-                <table class="table table-center table-head">
-                    <tbody>
-                    <tr class="head">
-                        <th style="width:30%;">文件名</th>
-                        <th style="width:10%;">大小</th>
-                        <th style="width:30%;">标签</th>
-                        <th style="width:10%;">上传人</th>
-                        <th style="width:20%;">上传时间</th>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="table-list">
-                    <table id="data_table" class="table table-center table-tbody">
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="pages videopagination2">
-                </div>
-            </div>
-        </div>
-        <div class="add-div none">
-            <div class="row">
-                <div class="col">
-                    <div class="tt">学科</div>
-                    <div class="ct">
-                        <select class="itemOne">
 
-                        </select>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="tt">学科小类</div>
-                    <div class="ct">
-                        <select class="itemSecond">
-
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="tt">标签</div>
-                    <div class="ct"><input type="hidden" class="tag"/></div>
-                </div>
-                <div class="col">
-                    <div class="tt">视频时长</div>
-                    <div class="ct">
-                        <input type="text" class="datetime-picker hour"/>
-                        时
-                        <input type="text" class="datetime-picker minute"/>
-                        分
-                        <input type="text" class="datetime-picker second"/>
-                        秒
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="tt">网址</div>
-                    <div class="ct">
-                        <input type="text" id="videourl" class="input-left-radius url" placeholder="支持优酷、土豆，腾讯视频，将视频页面网址复制到这里点击增加即可"/><a href="javascript:;" class="btn btn-default2 input-right-radius btn-add-url">增加</a>
-                    </div>
-                    <span class="tips">tip：视频会增加到您的视频库，不会丢失哦~    所以为了便于您选择，建议您给视频增加标签</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="tt">视频名称</div>
-                    <div class="ct">
-                        <input type="text" class="input-left-all video-name"/>
-                    </div>
-                </div>
-            </div>
-            <div class="btns">
-                <a href="javascript:;" class="btn btn-mini btn-primary btn-s">保存</a>
-                <a href="javascript:;" class="btn btn-mini btn-default btn-c">取消</a>
-            </div>
-        </div>
-    </div>
 </div>
 
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>

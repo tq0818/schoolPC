@@ -3,23 +3,19 @@ $(document).ready(function(){
 		$(".add-layer").hide();
 	});
 	searchAudios();
-	$(".showAudio .videotabs").on('click','span',function(){
+/*	$(".showAudio .videotabs").on('click','span',function(){
 		$(".showAudio div.layer-content").hide();
 		$(".showAudio div.tab"+($(this).index()+1)).show();
 		$(this).siblings().removeClass("active");
 		$(this).addClass("active");
 		searchAudios();
-	});
+	});*/
 		//选择视频
-		$(".showAudio").on("click.row.model",".term-list tr[has-data]",function(){
-			$(".showAudio").find(".term-list tr").removeClass("active");
-			$(this).addClass("active");
-		})
-		.on("click.btn.choose",":button",function(){
+	$(".showAudio .videotabs").on("click.btn.choose",":button",function(){
 			searchAudios();
 		});
 		$(".showAudio").on("click.row.model",".term-list tr[has-data]",function(){
-			
+			$(this).addClass("active").siblings().removeClass("active");
 			var videoData = $(this).data();
 	/*		var flag=$(this).attr("flag");
 			var ccId=$(this).attr("videoCcId");*/
@@ -49,14 +45,14 @@ $(document).ready(function(){
 	function  searchAudios(page){
 		var $this=this;
 		var search={};
-		var $tab=$(".showAudio .tab1");
+		var $tab=$(".showAudio .layer-content.tab1");
 		//获取当前视频类型
-		$(".showAudio .videotabs").find("span").each(function(){
+	/*	$(".showAudio .videotabs").find("span").each(function(){
 			if($(this).hasClass("active")){
 				search.flag=$(this).attr("ids");
 				$tab=$(".showAudio .tab"+($(this).index()+1));
 			}
-		});
+		});*/
 		
 		if($tab.find("#choose_itemOne").val()){
 			search.itemOneId=$tab.find("#choose_itemOne").val();

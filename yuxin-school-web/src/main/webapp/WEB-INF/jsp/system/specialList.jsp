@@ -10,6 +10,7 @@
   <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/special/special-news-manage.css">
   <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.min.js"></script>
   <script type="text/javascript" src="<%=rootPath %>/javascripts/special/special.js"></script>
+    <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
   <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
   
 <script type="text/javascript">
@@ -31,7 +32,7 @@
    			success: function(data){
    				
    				if(data == "success"){
-   					alert("操作成功");
+   					 $.msg("操作成功");
    				
    					if(status == 1){
    					    $('#status'+specialId).html("下架");
@@ -47,7 +48,12 @@
    	  }
        
        function updateOrder(specialId){
-    	   var orderFlag =  $('#orderFlag'+specialId).val();
+    	   var orderFlag =  $('#orderFlag'+specialId).val(),
+               regu = /^[1-9]\d*$/;
+           if(!regu.test(orderFlag)){
+               $.msg("请输入非零正整数！");
+               return false;
+           }
     	   $.ajax({
       			url: "<%=rootPath%>/commodity/updateStatusOrder",
       			data:{"specialId":specialId,"orderFlag":orderFlag},
@@ -55,7 +61,7 @@
       			success: function(data){
       				
       				if(data == "success"){
-      					alert("操作成功");
+      					 $.msg("操作成功");
       				
       				}
       			}

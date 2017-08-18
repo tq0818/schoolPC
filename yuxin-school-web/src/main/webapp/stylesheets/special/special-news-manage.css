@@ -53,6 +53,9 @@ i{font-style: normal;}
 .form-conten .form-tit{padding-bottom: 15px;
     font-size: 16px;
     color: #77a3ce;}
+.form-conten .people .icon{    vertical-align: middle;
+    font-size: 20px;
+    margin-right: 5px;}
 .form-conten .teacher-list,.form-conten .choose-item{    width: 120px;display: inline-block;cursor: pointer;
     height: 156px;overflow: auto;background: #fff;
     border: 1px solid #ddd;}

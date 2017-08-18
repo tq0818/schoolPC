@@ -854,4 +854,15 @@ where com.status=1 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct
 	<select id="checkSortCount" resultType="Integer">
 		select count(sort_id) from sys_config_teacher
 	</select>
+	
+	
+	<select id="findTeacherBySubject" resultMap="sysConfigTeacherResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		select
+		sct.id,sct.name
+		from sys_config_teacher sct,sys_config_item sci,sys_config_teacher_lesson sctl
+		where sci.id = #{itemOneId} and sci.id = sctl.item_one_id and sci.status = 1 and sci.del_flag = 0 and sctl.teacher_id = sct.id and sct.teacher_type ='PERSON_TEACHER' and sct.status_code = 'TEACHER_USERD' and sct.del_flag = 0
+        group by sct.id
+		
+	</select>
 </mapper>

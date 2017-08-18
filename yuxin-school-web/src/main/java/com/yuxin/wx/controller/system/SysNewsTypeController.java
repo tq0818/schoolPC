@@ -111,14 +111,14 @@ public class SysNewsTypeController {
 		}
 		try {
 			sysNewsTypeServiceImpl.update(sysNewsType);
-//			SysNews sysNews=new SysNews();
-//			sysNews.setNewsType(sysNewsType.getId().toString());
-//			if("0".equals(sysNewsType.getDelFlag())){
-//				sysNews.setDelFlag(0);
-//			}else if ("1".equals(sysNewsType.getDelFlag())) {
-//				sysNews.setDelFlag(1);
-//			}
-//			sysNewsServiceImpl.updateDelFlag(sysNews);
+			SysNews sysNews=new SysNews();
+			sysNews.setNewsType(sysNewsType.getId().toString());
+			if("0".equals(sysNewsType.getDelFlag())){
+				sysNews.setDelFlag(0);
+			}else if ("1".equals(sysNewsType.getDelFlag())) {
+				sysNews.setDelFlag(1);
+			}
+			sysNewsServiceImpl.updateDelFlag(sysNews);
 			
 		} catch (Exception e) {
 			json.put("flag", "error");

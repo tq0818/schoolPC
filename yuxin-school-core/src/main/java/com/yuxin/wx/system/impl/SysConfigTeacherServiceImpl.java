@@ -563,4 +563,10 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 		return sysConfigTeacherMapper.checkSortCount();
 	}
 
+	@Override
+	public List<SysConfigTeacher> findTeacherBySubject(SysConfigTeacher search) {
+		List<SysConfigTeacher> list = sysConfigTeacherMapper.findTeacherBySubject(search);
+		return list;
+	}
+
 }

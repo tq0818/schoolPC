@@ -1238,6 +1238,66 @@ public class VideoController {
         return videos;
     }
 
+
+    /**
+     *
+     * Class Name: VideoController.java
+     *
+     * @Description: 异步加载视频信息
+     * @author ycl
+     * @date 2015-5-9 下午5:56:07
+     * @modifier
+     * @modify-date 2015-5-9 下午5:56:07
+     * @version 1.0
+     * @param model
+     * @param search
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/searchAudio")
+    public JSONObject searchAudio(Model model, HttpServletRequest request, VideoVo search) {
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        CompanyPayConfig companyPayConfig = this.companyPayConfigService.findByCompanyId(companyId);
+        search.setCompanyId(companyId);
+        search.setPageSize(8);
+        search.setSearchType("audio");
+        PageFinder<VideoVo> pageFinder = this.videoServiceImpl.findSourceByPage(search);
+        if (pageFinder.getPageNo() > pageFinder.getPageCount()) {
+            search.setPage(pageFinder.getPageCount());
+            pageFinder = this.videoServiceImpl.findSourceByPage(search);
+        }
+        // 图片服务器地址
+        model.addAttribute("ccUserId", companyPayConfig.getCcUserId());
+        model.addAttribute("imageServeUrl", this.propertiesUtil.getImageServicePath());
+        List<SysConfigDict> dictList = sysConfigDictServiceImpl.findAll();
+        // 查询 ccuserid
+        CompanyPayConfig payConfig = this.companyPayConfigService.findByCompanyId(companyId);
+        model.addAttribute("dictList", dictList);
+        for (VideoVo videoVo : pageFinder.getData()) {
+            videoVo.setCcuserId(payConfig.getCcUserId());
+            if (videoVo.getCreator() != null) {
+                Users user = this.usersService.findUsersById(videoVo.getCreator());
+                if (user != null) {
+                    videoVo.setCreatorName(user.getUsername() == null ? "" : user.getUsername());
+                } else {
+                    videoVo.setCreatorName("");
+                }
+
+            } else {
+                videoVo.setCreatorName("");
+            }
+            if (pageFinder.getData() != null) {
+                model.addAttribute("pageFinder", pageFinder);
+            }
+        }
+        JSONObject json  = new JSONObject();
+        json.put("pageFinder",pageFinder);
+        json.put("imageServeUrl",this.propertiesUtil.getImageServicePath());
+        return json;
+    }
+
+
+
     public static void main(String[] args) {
         /*
          * Map<String, String> queryMap = new HashMap<String, String>();

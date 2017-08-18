@@ -284,22 +284,25 @@ $(function(){
 			$(this).find(".btn-edit-two").unbind('click').click(function(){
 				parent.find("em").html("<input type='text' class='twoItemName sub-input' value='" + itemName + "' maxlength='10'/> <input type='text' class='twoItemCode sub-input' value='" + itemCode + "' maxlength='10'/>");
 				var p = $(this);
-				p.hide();
-				parent.find(".btn-two").hide();
-				parent.find(".btn-del-two").hide();
-				$(this).after("<input type='button' class='btn btn-mini btn-default btn-two-cancel' value='取消' />");
-				parent.find(".btn-two-cancel").before(" <input type='button' class='btn btn-mini btn-default btn-ok-two' value='保存'/>");
+				// p.hide();
+				// parent.find(".btn-two").hide();
+				// parent.find(".btn-del-two").hide();
+				parent.find("span.b").hide();
+				var spanB = $(this).closest("span.b");
+/*				$(this).after("<input type='button' class='btn btn-mini btn-default btn-two-cancel' value='取消' />");*/
+				spanB.after("<span class='showbtn'><input type='button' class='btn btn-mini btn-default btn-ok-two' value='保存'/><input type='button' class='btn btn-mini btn-default btn-two-cancel' value='取消' /></span>");
 				//取消
 				parent.find(".btn-two-cancel").unbind('click').click(function(){
 					var name_code = '<span class="sub-input itemname">'+itemName+'</span>'+
                     '<span class="sub-input itemcode">'+itemCode+'</span>';
 					parent.find("em").html(name_code);
                     parent.find("em .itemcode").html(itemCode);
-					parent.find(".btn-two").show();
-					parent.find(".btn-del-two").show();
-					p.show();
-					parent.find(".btn-ok-two").remove();
-					parent.find(".btn-two-cancel").remove();
+					// parent.find(".btn-two").removeClass("hide-ico");
+					// parent.find(".btn-del-two").removeClass("hide-ico");
+					// p.removeClass("hide-ico");
+					parent.find("span.b").show();
+					parent.find(".showbtn").remove();
+					/*parent.find(".btn-two-cancel").remove();*/
 				});
 				//修改
 				parent.find(".btn-ok-two").unbind('click').click(function(){

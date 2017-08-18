@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -194,6 +195,26 @@ import com.yuxin.wx.vo.system.SysNewsVo;
 				else
 				sysNews.setNewsPic("");
 			}
+			if(sysNews !=null){
+				String keyWord = sysNews.getKeyWord();
+				if(keyWord != null  && !keyWord.trim().equals("")){
+					//String [] keyWords =keyWord.split(",");
+					List<String> keyWords = Arrays.asList(keyWord.split(","));
+					keyWords = new ArrayList(keyWords);
+					if(keyWords.size()<=5){
+						for( int n  =keyWords.size() ; n <5 ; n++ ){
+							keyWords.add("");
+						}
+
+					}
+					sysNews.setKeyWord1(keyWords.get(0));
+					sysNews.setKeyWord2(keyWords.get(1));
+					sysNews.setKeyWord3(keyWords.get(2));
+					sysNews.setKeyWord4(keyWords.get(3));
+					sysNews.setKeyWord5(keyWords.get(4));
+				}
+			}
+
 			SysNewsType sysNewsType=new SysNewsType();
 			sysNewsType.setCompanyId(WebUtils.getCurrentCompanyId().toString());
 			sysNewsType.setSchoolId(schoolId.toString());

@@ -83,7 +83,7 @@
 					
 					<!-- 课程或者班号 -->
 					<p class="c sendStuMsg">
-						<span class="c-title">大类：</span> <span class="c-content"> <select
+						<span class="c-title">分类：</span> <span class="c-content"> <select
 							id="one" style="width: 100px;">
 								<c:forEach var="o" items="${oneItem }">
 									<option value="${o.id }" data-code="${o.itemCode}">${o.itemName }</option>

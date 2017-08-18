@@ -65,6 +65,9 @@
 		<result property="itemTag" column="item_tag"/>
 		<result property="integralFlag" column="integral_flag"/>
 		<result property="memberFlag" column="member_flag"/>
+		<result property="teacherName" column="teacher_name"/>
+		<result property="schoolShortName" column="school_short_name"/>
+		<result property="teacherId" column="teacher_id"/>
 		<!--<result property="itemOneCode" column="item_one_code" />-->
 		<!--<result property="itemSecondCode" column="item_second_code" />-->
 		<!--<result property="itemThirdCode" column="item_third_code" />-->
@@ -354,5 +357,16 @@
 	
 	<select id="findCommodityName" parameterType="Integer" resultType="String">
 		select name from commodity where id = #{id}
+	</select>
+	
+	
+	<select id="queryCourseByTeacherIds" parameterType="map" resultMap="commodityVoResultMap">
+		select temp.*,sct.school_short_name,sct.name teacher_name from (select com.*,(com.base_num + com.buy_num) as actualNum, ct.teacher_id from commodity com inner join commodity_product_realtion pr on com.id=pr.com_id inner JOIN class_type ct on ct.id=pr.product_id 
+		where com.status=1 and ct.is_sale = 1 and ct.teacher_id  in
+		<foreach collection="teacherIds" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		 and com.company_id=#{companyId} and com.school_id=#{schoolId}
+		ORDER BY com.id DESC)temp LEFT JOIN sys_config_teacher sct ON sct.id = temp.teacher_id
 	</select>
 </mapper>

@@ -59,4 +59,6 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
 	Integer findCommodityIdByClassTypeId(Integer classTypeId);
 	
 	String findCommodityName(@Param("id") Integer id);
+	
+	List<CommodityVo> queryCourseByTeacherIds(Map<String,Object> map);
 }

@@ -1,0 +1,198 @@
+/* autor:wqj ;
+*date:2017-08-14;
+* 专题，新闻样式
+*/
+i{font-style: normal;}
+.fl{float: left;}
+.fr{float: right;}
+
+
+.form-conten{    margin: 50px 40px;}
+.form-conten .row{width: 100%;    overflow: hidden;
+    margin: 15px 0;}
+.form-conten .label-text{    width: 100px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px;}
+.form-conten .input-text{    width: 280px;}
+.form-conten .error-text,.form-conten .class-requied{color: #ff2504;}
+
+.mainbackground .heading .line {
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+    left: 0;
+    height: 0;
+    border-bottom: 2px solid #ddd;
+}
+.mainbackground .heading {    margin: 15px 0;
+    padding: 3px 8px;}
+
+.form-conten .img-box{width: auto;
+    display: inline-block;
+    position: relative;
+    min-width: 450px;}
+.form-conten .upload-img{    width: 300px;
+    height: 180px;
+    border: 1px solid #eee;    background: #fff;
+    display: inline-block;}
+.form-conten .btn-upload{    position: absolute;
+    bottom: 0;
+    z-index: 9;
+    right: 50px;}
+.form-conten .file-btn{width: 88px;
+    height: 30px;
+    position: absolute;
+    bottom: 3px;
+    right: 50px;}
+
+.form-conten .class-textarea{width: 60%;
+    height: 100px;}
+.form-conten .select-box{    min-width: 120px;}
+.form-conten .choose-teacher{width:auto;display: inline-block;}
+.form-conten .form-tit{padding-bottom: 15px;
+    font-size: 16px;
+    color: #77a3ce;}
+.form-conten .people .icon{    vertical-align: middle;
+    font-size: 20px;
+    margin-right: 5px;}
+.form-conten .teacher-list,.form-conten .choose-item{    width: 120px;display: inline-block;cursor: pointer;
+    height: 156px;overflow: auto;background: #fff;
+    border: 1px solid #ddd;}
+.form-conten .choose-item{}
+.form-conten .item-btn{    display: inline-block;    width: 30px;
+    height: 150px;
+    position: relative;}
+.form-conten .teacher-list li,.form-conten .choose-item li{    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    border-bottom: 1px solid #ddd;}
+.form-conten .teacher-list li:last-child,.form-conten .choose-item li:last-child{border-bottom: 0;}
+.form-conten .item-btn .btn-next,.form-conten .item-btn .btn-prev{    position: absolute;
+    left: 8px;
+    font-size: 20px;cursor: pointer;
+    top: 10px;}
+.form-conten .item-btn .btn-prev{top: auto;
+    bottom: 10px;
+    left: 2px;}
+.form-conten .teacher-list li.active,.form-conten .choose-item li.active,
+.form-conten .teacher-list li:hover,.form-conten .choose-item li:hover{
+    background: #619ce4;
+    color: #fff;
+}
+.newindex-list li {
+    margin: 0px 25px 15px 0px;
+    position: relative;
+    border-radius: 3px;
+    height: 220px;
+    width: 280px;float: left;
+    background: #fff;
+    box-shadow: 0 0 8px 0 rgba(221, 221, 221, .7);
+}
+.newindex-list .parcel-box{border-radius: 4px;}
+.newindex-list li .picture {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 150px;
+    cursor: pointer;
+    position: relative;overflow: hidden;
+}
+.newindex-list .parcel-box .input-checkbox, .newindex-list .parcel-box .people {
+    position: absolute;
+    top: 10px;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 15px;
+    background: rgba(220, 238, 242, 0.64);
+    color: #413f3f;
+    min-width: 40px;
+}
+.newindex-list .parcel-box .people {right: 0;}
+.newindex-list .stageMove {
+    position: absolute;
+    top: 150px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    background: #fff;
+    background-repeat: no-repeat;
+    background-position: -1px top;
+    background-size: 110% auto;
+    transition: top .3s ease-in-out;
+    cursor: pointer;
+}
+.newindex-list .stage-school-teacher {
+    position: absolute;
+    font-size: 14px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    height: 30px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.newindex-list .stageMove .title {
+    line-height: 40px;
+    font-size: 14px;
+    width: 83%;
+    color: #413f3f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    max-height: 41px;
+    transition: all .2s linear;
+    -webkit-transition: all .2s linear;
+    -moz-transition: all .2s linear;
+    -ms-transition: all .2s linear;
+}
+.newindex-list .stageMove .rmb {
+    font-size: 14px;
+    line-height: 40px;
+}
+.newindex-list .stageMove .free {
+
+    color: #1eb8ec;
+}
+.newindex-list .school-name {
+    color: #00b2ea;
+}
+.newindex-list .teacher-name {
+    color: #ff5d0e;
+}
+.newindex-list .parcel-box .input-checkbox{width: 30px;
+    height: 18px;    top: 7px;
+    min-width: auto;}
+.newindex-list li:last-child{margin-right: 0;}
+.newindex-list {width: auto;
+    display: inline-block;
+    max-width: 1000px;}
+.specialTab .sort-info{display: inline-block;}
+.specialTab .sortnume{    width: 60px;}
+.specialTab .btn-ico{    width: 20px;
+    height: 20px;cursor: pointer;
+    background: #16d874;
+    display: inline-block;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    margin-left: 5px;}
+.specialTab .btn-ico.btn-cha{    background: #e45200;}
+.specialTab{margin: 50px 10px;}
+div.specialTab .heading{height: 25px;margin-bottom: 30px;}
+
+
+
+
+
+
+
+

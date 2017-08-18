@@ -245,4 +245,6 @@ public interface ICommodityService  {
 	Integer findCommodityIdByClassTypeId(Integer classTypeId);
 	
 	String findCommodityName(Integer id);
+	
+	List<CommodityVo> queryCourseByTeacherIds(Map<String,Object> map);
 }

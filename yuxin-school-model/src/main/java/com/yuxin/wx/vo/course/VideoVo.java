@@ -47,7 +47,7 @@ public class VideoVo extends BaseEntity {
 	private String searchType;
 	private Integer convertType;	/* 资源处理情况*/
 	private String excep;			/* 错误描述*/
-
+	private String filePath;
 	// 简称
 	private String sortName;
 
@@ -311,4 +311,11 @@ public class VideoVo extends BaseEntity {
 		this.excep = excep;
 	}
 
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 }

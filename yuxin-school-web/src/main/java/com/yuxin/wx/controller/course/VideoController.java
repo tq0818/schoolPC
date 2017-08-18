@@ -1255,7 +1255,7 @@ public class VideoController {
      */
     @ResponseBody
     @RequestMapping(value = "/searchAudio")
-    public PageFinder<VideoVo> searchAudio(Model model, HttpServletRequest request, VideoVo search) {
+    public JSONObject searchAudio(Model model, HttpServletRequest request, VideoVo search) {
         Integer companyId = WebUtils.getCurrentCompanyId();
         CompanyPayConfig companyPayConfig = this.companyPayConfigService.findByCompanyId(companyId);
         search.setCompanyId(companyId);
@@ -1290,7 +1290,10 @@ public class VideoController {
                 model.addAttribute("pageFinder", pageFinder);
             }
         }
-        return pageFinder;
+        JSONObject json  = new JSONObject();
+        json.put("pageFinder",pageFinder);
+        json.put("imageServeUrl",this.propertiesUtil.getImageServicePath());
+        return json;
     }
 
 

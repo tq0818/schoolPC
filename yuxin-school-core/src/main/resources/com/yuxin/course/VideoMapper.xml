@@ -73,6 +73,7 @@
         <result property="resourceType" column="resourceType"/>
         <result property="convertType" column="convertType"/>
         <result property="excep" column="excep"/>
+		<result property="filePath" column="filePath"/>
     </resultMap>
 	<sql id="table_columns">
 		id,

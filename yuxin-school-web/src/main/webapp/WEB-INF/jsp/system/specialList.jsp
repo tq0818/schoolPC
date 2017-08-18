@@ -91,7 +91,7 @@
 </script>
 </head>
 <body>
-    <div class="specialTab mainbackground">
+    <div class="specialTab">
   
         <table class="table table-center">
             

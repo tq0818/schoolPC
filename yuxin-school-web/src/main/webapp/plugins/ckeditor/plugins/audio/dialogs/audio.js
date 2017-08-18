@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add( 'audio', function ( editor ){;
+CKEDITOR.dialog.add( 'audio', function ( editor ){
 
 	function commitValue( videoNode, extraStyles ){
 		var value = this.getValue();
@@ -15,7 +15,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){;
 		video[id] = this.getValue();
 	}
 
-	function loadValue( videoNode ){;
+	function loadValue( videoNode ){debugger;
 		if ( videoNode ){
 			if(this.id == 'loop'){
 				if(!videoNode.getAttribute( this.id )){
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){;
 			}
 		}
 	}
-	function loadSrc( videoNode, videos ){;
+	function loadSrc( videoNode, videos ){debugger;
 		var match = this.id.match(/(\w+)(\d)/),
 			id = match[1],
 			number = parseInt(match[2], 10);
@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){;
 		if (!video)
 			return;
 		this.setValue( video[ id ] );
-	};
+	}debugger;
 	return {
 		title : '音频属性',
 		minWidth : 400,
@@ -88,7 +88,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){;
 
 			var extraStyles = {}, videos = [];
 			this.commitContent( videoNode, extraStyles, videos );
-			
+
 			if(videoNode){
 				if(!videoNode.getAttribute('loop')){//属性值为空删除此标签
 							videoNode.removeAttribute('loop');
@@ -106,11 +106,10 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){;
 					continue;
 				//innerHtml +='<cke:source src="'+video.src+ '" type="'+video.type + '"/>';
 				innerHtml += '<cke:source src="' +  video.src+ '" type="' + video.type + '" />';
-				
+
 				links += link.replace('%src%', video.src).replace('%type%', video.type);
 			}
 			//videoNode.setHtml( innerHtml );
-			;
 			videoNode.setHtml( innerHtml + fallbackTemplate.replace( '%links%', links ) );
 			// Refresh the fake image.
 			var newFakeImage = editor.createFakeElement( videoNode, 'cke_audio', 'audio', false );

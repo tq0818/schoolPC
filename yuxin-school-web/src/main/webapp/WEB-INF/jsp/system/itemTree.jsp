@@ -29,16 +29,12 @@
             </div>
             <div class="tree_setting">
                 <div class="tree-listtype" id="bigType">
-                    <label class="tit-type fl">大类：</label>
+                    <label class="tit-type fl">分类：</label>
                     <div class="tit-list fl">
                         <c:forEach items="${typeList}" var="type">
                             <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
                         </c:forEach>
                     </div>
-                    <label>分类：</label>
-                    <c:forEach items="${typeList}" var="type">
-                        <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
-                    </c:forEach>
                 </div>
                 <div id="courses" class="tree-listtype">
                     <label class="tit-type fl">学科：</label>

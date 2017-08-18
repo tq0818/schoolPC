@@ -56,7 +56,11 @@
 							}
 	                        li = li + '</div>';
 							li = li + '<div class="stage-school-teacher">';
-							li = li + '<span class="school-name fl">'+data.schoolShortName+'</span>';
+                        if(data.schoolShortName != null){
+                            li = li + '<span class="school-name fl">'+data.schoolShortName+'</span>';
+                        }else{
+                            li = li + '<span class="school-name fl"></span>';
+                        }
 							li = li + ' <span class="teacher-name fr">'+data.teacherName+'</span>';
 	                        li = li + '</div>';
 	                        li = li + '</div>';
@@ -120,7 +124,7 @@
         		return;
         	}
         	if($('#detailTitle').val().length <=0){
-        		$.msg("专题卡片标题不能为空");
+        		$.msg("专题详情标题不能为空");
         		return;
         	}
         	if($('#detailText').val().length <=0){
@@ -258,7 +262,7 @@
        <form id="specialForm" action="<%=rootPath%>/commodity/addOrUpdateSpecial" method="post" enctype="multipart/form-data">
 
             <div class="form-conten">
-                <div class="form-tit">专题模块</div>
+                <div class="form-tit">专题卡片</div>
                 <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>专题标题</label>
                     <input type="text" class="input-text fl" id="title" name="title" maxlength="8" value="${special.title }">
@@ -283,7 +287,7 @@
             </div>
 
             <div class="form-conten">
-                <div class="form-tit">专题卡片</div>
+                <div class="form-tit">专题详情</div>
                 <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>标题</label>
                     <input type="text" class="input-text fl" id="detailTitle" name="detailTitle" maxlength="30" value="${special.detailTitle }">

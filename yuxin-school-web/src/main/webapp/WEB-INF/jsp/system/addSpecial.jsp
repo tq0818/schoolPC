@@ -8,6 +8,7 @@
   <title>新增专题</title>
   <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/vip.css">
   <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css">
+  <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/teacher.css"/>
   <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/special/special-news-manage.css">
   <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.min.js"></script>
   <script type="text/javascript" src="<%=rootPath %>/javascripts/special/special.js"></script>
@@ -44,7 +45,7 @@
 							li = li + '<div class="parcel-box">';
 							li = li + '<div class="picture" style="background-image:url('+url+data.coverUrl+')" onclick="openClassDetail()"></div>';
 						    li = li + ' <input type="checkbox" class="input-checkbox" name="course">';
-							li = li + '<span class="people fr"><i class="icon iconfont"></i><em>1</em></span>';
+							li = li + '<span class="people fr"><i class="icon iconfont">&#xe6e7;</i><em>1</em></span>';
 	                        li = li + '<div>' ;
 							li = li + '<div class="stageMove">';
 							li = li + '<h5 class="fl title">'+data.name+'</h5>'
@@ -55,7 +56,11 @@
 							}
 	                        li = li + '</div>';
 							li = li + '<div class="stage-school-teacher">';
-							li = li + '<span class="school-name fl">'+data.schoolShortName+'</span>';
+                        if(data.schoolShortName != null){
+                            li = li + '<span class="school-name fl">'+data.schoolShortName+'</span>';
+                        }else{
+                            li = li + '<span class="school-name fl"></span>';
+                        }
 							li = li + ' <span class="teacher-name fr">'+data.teacherName+'</span>';
 	                        li = li + '</div>';
 	                        li = li + '</div>';
@@ -119,7 +124,7 @@
         		return;
         	}
         	if($('#detailTitle').val().length <=0){
-        		$.msg("专题卡片标题不能为空");
+        		$.msg("专题详情标题不能为空");
         		return;
         	}
         	if($('#detailText').val().length <=0){
@@ -210,6 +215,7 @@
         
         
         $(document).ready(function(){
+            $selectSubMenu('special_topic');
                findTeacher();
         	   if(teacherIds.length > 0){
         		   findCourse(teacherIds);
@@ -247,94 +253,95 @@
 </head>
 <body>
  <jsp:include page="/WEB-INF/jsp/menu/menu_operate.jsp"></jsp:include>
-
-    <div class="mainbackground nopadding">
-         <div class="heading">
-            <h2 class="h5">专题模块</h2>
-            <span class="line"></span>
-        </div>
+<div class="Y_wrap">
+ <div class="Y_background">
+     <div class="Y_head Y_clear">
+         <h2 class="h5 fl">新增专题</h2>
+         <span class="line"></span>
+     </div>
        <form id="specialForm" action="<%=rootPath%>/commodity/addOrUpdateSpecial" method="post" enctype="multipart/form-data">
-        <div class="form-conten">
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>专题标题</label>
-                <input type="text" class="input-text fl" id="title" name="title" maxlength="8" value="${special.title }">
-             
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>专题标签</label>
-                <input type="text" class="input-text fl" id="label" name="label" maxlength="20" value="${special.label }">
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
-                <div id="divPreviewCoverPic" class="img-box fl">
-                    <img id="imgCoverPic" src="${baseUrl}${special.coverPicUrl}" alt="" class="upload-img">
-                    <input onchange="PreviewImage(this,'imgCoverPic','divPreviewCoverPic')" type="file" class="file-btn" id="uploadImg" name="coverPic">
-                    <label class="btn btn-default btn-upload" for="uploadImg">点击上传</label>
+
+            <div class="form-conten">
+                <div class="form-tit">专题卡片</div>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>专题标题</label>
+                    <input type="text" class="input-text fl" id="title" name="title" maxlength="8" value="${special.title }">
+
                 </div>
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>专题介绍</label>
-                <textarea class="class-textarea fl" id="descript" name="descript" maxlength="100">${special.descript}</textarea> 
-            </div>
-        </div>
-        <div class="heading">
-            <h2 class="h5">专题卡片</h2>
-            <span class="line"></span>
-        </div>
-        <div class="form-conten">
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>标题</label>
-                <input type="text" class="input-text fl" id="detailTitle" name="detailTitle" maxlength="30" value="${special.detailTitle }">
-            </div>
-             <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
-                <div id="divPreviewDetailCoverPic" class="img-box fl">
-                    <img id="imgDetailCoverPic" src="${baseUrl}${special.detailCoverPicUrl}" alt="" class="upload-img">
-                    <input onchange="PreviewImage(this,'imgDetailCoverPic','divPreviewDetailCoverPic')"  type="file" class="file-btn" id="uploadDetailImg" name="detailCoverPic">
-                    <label class="btn btn-default btn-upload" for="uploadDetailImg">点击上传</label>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>专题标签</label>
+                    <input type="text" class="input-text fl" id="label" name="label" maxlength="20" value="${special.label }">
                 </div>
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>正文</label>
-                <textarea class="class-textarea fl" id="detailText" name="detailText" maxlength="500">${special.detailText }</textarea> 
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>学科</label>
-                <select id="subjectSelect" name="subjectSelect" class="select-box" onchange="findTeacher()">
-                    <c:forEach items="${subjectList}" var="subject">
-                    <option   <c:if test="${special.subjectId == subject.id}"> selected="selected"</c:if>  value="${subject.id}">${subject.itemName}</option>
-                    </c:forEach>       
-                </select>
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>老师</label>
-                <div class="choose-teacher fl">
-                    <ul class="teacher-list fl" id="teachers">
-                       
-                        
-                    </ul>
-                    <div class="item-btn fl">
-                        <i class="btn-next">》</i>
-                        <i class="btn-prev">《</i>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
+                    <div id="divPreviewCoverPic" class="img-box fl">
+                        <img id="imgCoverPic" src="${baseUrl}${special.coverPicUrl}" alt="" class="upload-img">
+                        <input onchange="PreviewImage(this,'imgCoverPic','divPreviewCoverPic')" type="file" class="file-btn" id="uploadImg" name="coverPic">
+                        <label class="btn btn-default btn-upload" for="uploadImg">点击上传</label>
                     </div>
-                    <ul class="choose-item fl">
-                    </ul>
                 </div>
-                <input type="hidden" id="teacherIds" name="teacherIds">
-            </div>
-            <div class="row">
-                <label for="" class="label-text fl"><em class="class-requied">*</em>课程</label>
-                <div class="newindex-list">
-                    <ul id="courseList" class="clear">
-                       
-                      
-                    </ul>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>专题介绍</label>
+                    <textarea class="class-textarea fl" id="descript" name="descript" maxlength="100">${special.descript}</textarea>
                 </div>
-                 <input type="hidden" id="commodityIds" name="commodityIds">
-                 <input type="hidden" id="specialId" name="specialId" value="${special.id}">
             </div>
-               </form> 
-            <div class="text-center">
+
+            <div class="form-conten">
+                <div class="form-tit">专题详情</div>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>标题</label>
+                    <input type="text" class="input-text fl" id="detailTitle" name="detailTitle" maxlength="30" value="${special.detailTitle }">
+                </div>
+                 <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
+                    <div id="divPreviewDetailCoverPic" class="img-box fl">
+                        <img id="imgDetailCoverPic" src="${baseUrl}${special.detailCoverPicUrl}" alt="" class="upload-img">
+                        <input onchange="PreviewImage(this,'imgDetailCoverPic','divPreviewDetailCoverPic')"  type="file" class="file-btn" id="uploadDetailImg" name="detailCoverPic">
+                        <label class="btn btn-default btn-upload" for="uploadDetailImg">点击上传</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>正文</label>
+                    <textarea class="class-textarea fl" id="detailText" name="detailText" maxlength="500">${special.detailText }</textarea>
+                </div>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>学科</label>
+                    <select id="subjectSelect" name="subjectSelect" class="select-box" onchange="findTeacher()">
+                        <c:forEach items="${subjectList}" var="subject">
+                        <option   <c:if test="${special.subjectId == subject.id}"> selected="selected"</c:if>  value="${subject.id}">${subject.itemName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>老师</label>
+                    <div class="choose-teacher fl">
+                        <ul class="teacher-list fl" id="teachers">
+
+
+                        </ul>
+                        <div class="item-btn fl">
+                            <i class="btn-next">》</i>
+                            <i class="btn-prev">《</i>
+                        </div>
+                        <ul class="choose-item fl">
+                        </ul>
+                    </div>
+                    <input type="hidden" id="teacherIds" name="teacherIds">
+                </div>
+                <div class="row">
+                    <label for="" class="label-text fl"><em class="class-requied">*</em>课程</label>
+                    <div class="newindex-list">
+                        <ul id="courseList" class="clear">
+
+
+                        </ul>
+                    </div>
+                     <input type="hidden" id="commodityIds" name="commodityIds">
+                     <input type="hidden" id="specialId" name="specialId" value="${special.id}">
+                </div>
+            </div>
+       </form>
+       <div class="text-center">
                 <a href ="javascript:void(0)" class="btn btn-primary " onclick="formSubmit()">保存</a>
                 <a href ="javascript:void(0)" class="btn btn-default" onclick="test()">取消</a>
              </div>
@@ -342,7 +349,6 @@
         </div>
    
     </div>
-     
 
 </body>
 </html>

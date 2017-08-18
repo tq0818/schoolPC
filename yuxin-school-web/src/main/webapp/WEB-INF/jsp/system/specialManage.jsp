@@ -6,7 +6,7 @@
 <head>
  <%@include file="/decorators/import.jsp" %>
     <title>专题模块</title>
-    <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
+    <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/teacher.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
@@ -31,17 +31,14 @@
 <jsp:include page="/WEB-INF/jsp/menu/menu_operate.jsp"></jsp:include>
 
 <div class="u-wrap set-system">
-    <div class="mainbackground nopadding">
-        <div class="heading">
-            <h2 class="h5">专题模块</h2>
+    <div class="Y_background">
+        <div class="Y_head Y_clear">
+            <h2 class="h5 fl">专题模块</h2>
             <span class="line"></span>
-            <span class="rb">
-                <a href="<%=rootPath %>/commodity/toAddSpecialPage"  class="btn btn-mini btn-primary">添加专题</a>
-            	
+            <span class="rb fr">
+                    <a href="<%=rootPath %>/commodity/toAddSpecialPage"  class="btn btn-mini btn-primary">添加专题</a>
             </span>
         </div>
-     
-      
         <div id="specialList">
         
         </div>

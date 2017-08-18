@@ -34,7 +34,8 @@ i{font-style: normal;}
     min-width: 450px;}
 .form-conten .upload-img{    width: 300px;
     height: 180px;
-    border: 1px solid #fff;}
+    border: 1px solid #eee;    background: #fff;
+    display: inline-block;}
 .form-conten .btn-upload{    position: absolute;
     bottom: 0;
     z-index: 9;
@@ -49,8 +50,14 @@ i{font-style: normal;}
     height: 100px;}
 .form-conten .select-box{    min-width: 120px;}
 .form-conten .choose-teacher{width:auto;display: inline-block;}
+.form-conten .form-tit{padding-bottom: 15px;
+    font-size: 16px;
+    color: #77a3ce;}
+.form-conten .people .icon{    vertical-align: middle;
+    font-size: 20px;
+    margin-right: 5px;}
 .form-conten .teacher-list,.form-conten .choose-item{    width: 120px;display: inline-block;cursor: pointer;
-    height: 156px;overflow: auto;
+    height: 156px;overflow: auto;background: #fff;
     border: 1px solid #ddd;}
 .form-conten .choose-item{}
 .form-conten .item-btn{    display: inline-block;    width: 30px;
@@ -179,7 +186,7 @@ i{font-style: normal;}
     color: #fff;
     margin-left: 5px;}
 .specialTab .btn-ico.btn-cha{    background: #e45200;}
-.specialTab{margin: 30px;}
+.specialTab{margin: 50px 10px;}
 div.specialTab .heading{height: 25px;margin-bottom: 30px;}
 
 

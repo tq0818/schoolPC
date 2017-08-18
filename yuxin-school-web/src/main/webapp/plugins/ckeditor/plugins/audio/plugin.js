@@ -16,8 +16,11 @@ CKEDITOR.plugins.add( 'audio',{
 
 	onLoad : function(){
 		// v4
-		if (CKEDITOR.addCss)
+		if (CKEDITOR.addCss){
+			//CKEDITOR.addCss("img.cke_audio{background-image: url(" + CKEDITOR.getUrl(this.path + "images/placeholder.png") + ");background-position: center center;background-repeat: no-repeat;border: 1px solid #a9a9a9;width: 80px;height: 80px;}")
 			CKEDITOR.addCss( this.getPlaceholderCss() );
+		}
+
 	},
 
 	init : function(editor){

@@ -15,7 +15,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 		video[id] = this.getValue();
 	}
 
-	function loadValue( videoNode ){debugger;
+	function loadValue( videoNode ){;
 		if ( videoNode ){
 			if(this.id == 'loop'){
 				if(!videoNode.getAttribute( this.id )){
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 			}
 		}
 	}
-	function loadSrc( videoNode, videos ){debugger;
+	function loadSrc( videoNode, videos ){;
 		var match = this.id.match(/(\w+)(\d)/),
 			id = match[1],
 			number = parseInt(match[2], 10);
@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 		if (!video)
 			return;
 		this.setValue( video[ id ] );
-	}debugger;
+	};
 	return {
 		title : '音频属性',
 		minWidth : 400,

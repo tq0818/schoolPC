@@ -14,7 +14,7 @@
     <script type="text/javascript">
 	$(function(){
 		$selectSubMenu('netschool_news');
-		var editor=CKEDITOR.replace('newsContents',{ extraPlugins: 'video,audio',uiColor: "#fafafa" });
+		var editor=CKEDITOR.replace('newsContents',{ extraPlugins: 'video,audio',uiColor: "#fafafa",allowedContent: true });
 		editor.config.toolbar=[
 				[ 'mode', 'document', 'doctools' ], [ 'Source', '-', 'NewPage' ] ,
 				[ 'basicstyles', 'cleanup' ],

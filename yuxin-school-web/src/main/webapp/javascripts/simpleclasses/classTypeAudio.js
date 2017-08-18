@@ -3,7 +3,13 @@ $(document).ready(function(){
 		$(".add-layer").hide();
 	});
 	searchAudios();
-
+	$(".showAudio .videotabs").on('click','span',function(){
+		$(".showAudio div.layer-content").hide();
+		$(".showAudio div.tab"+($(this).index()+1)).show();
+		$(this).siblings().removeClass("active");
+		$(this).addClass("active");
+		searchAudios();
+	});
 		//选择视频
 		$(".showAudio").on("click.row.model",".term-list tr[has-data]",function(){
 			$(".showAudio").find(".term-list tr").removeClass("active");
@@ -11,20 +17,25 @@ $(document).ready(function(){
 		})
 		.on("click.btn.choose",":button",function(){
 			searchAudios();
-		})
+		});
 		$(".showAudio").on("click.row.model",".term-list tr[has-data]",function(){
-			var flag=$(this).attr("flag");
-			var ccId=$(this).attr("videoCcId");
-			//根据标记判断拼视频路径
-			var url="";
-			if($(this).attr("webVideoDomain")=="v.youku.com"){
-				url='http://player.youku.com/player.php/sid/'+ $(this).attr("webVideoId") + '==/v.swf';
-			}else if($(this).attr("webVideoDomain")=="www.tudou.com"){
-				url='http://www.tudou.com/'+ $(this).attr("webVideoId") + '/&vip=1';
-			}else{
-				url = 'http://dx.sc.chinaz.com/Files/DownLoad/sound1/201708/9067.mp3';
-				//url='http://p.bokecc.com/flash/player.swf?vid='+ccId+'&siteid='+$(this).attr("ids")+'&amp;playerid=25CCD0665D668BCE&amp;playertype=1&amp;autoStart=true';
+			
+			var videoData = $(this).data();
+	/*		var flag=$(this).attr("flag");
+			var ccId=$(this).attr("videoCcId");*/
+			//根据标记判断拼音频路径
+			var url='';
+			// if($(this).attr("webVideoDomain")=="v.youku.com"){
+			// 	url='http://player.youku.com/player.php/sid/'+ $(this).attr("webVideoId") + '==/v.swf';
+			// }else if($(this).attr("webVideoDomain")=="www.tudou.com"){
+			// 	url='http://www.tudou.com/'+ $(this).attr("webVideoId") + '/&vip=1';
+			// }else{
+			if(!videoData.imgrootPath && !videoData.filePath){
+				return false;
 			}
+				url = videoData.imgrootPath + videoData.filePath;
+				//url='http://p.bokecc.com/flash/player.swf?vid='+ccId+'&siteid='+$(this).attr("ids")+'&amp;playerid=25CCD0665D668BCE&amp;playertype=1&amp;autoStart=true';
+		/*	}*/
 			$("input.cke_dialog_ui_input_text:visible").val(url);
 			$('.showAudio').fadeOut(200,function(){
               $('.add-layer-bg').fadeOut(200);
@@ -85,17 +96,22 @@ $(document).ready(function(){
 			async: false,
 			dataType:"json",
 			success: function(jsonData){
-				if(jsonData.data && jsonData.data.length>0){
-					$.each(jsonData.data,function(i,data){
-						$tab.find("#data_table").find("tbody")
-						.append('<tr id="'+data.id+'" videoCcId="'+data.videoCcId+'" webVideoDomain="'+data.webVideoDomain+'" ids="'+data.ccuserId+'" flag="'+data.storageType+'" has-data="true" webVideoId="'+data.webVideoId+'" videoStatus="'+data.videoStatus+'">'+
-			                    '<td style="width:30%;">'+(data.videoName?data.videoName:"")+'</td>'+
-			                    '<td style="width:10%;">'+(data.vodeoSize?data.vodeoSize:0)+'M</td>'+
-			                    '<td style="width:30%;">'+(data.videoTag?data.videoTag:"")+'</td>'+
-			                    '<td style="width:10%;">'+data.creatorName+'</td>'+
-			                    '<td style="width:20%;">'+(data.createTime?data.createTime:"")+'</td>'+
-			                '</tr>');
-					})
+				var rootPaths = jsonData.imageServeUrl,
+					jData = jsonData.pageFinder.data;
+
+				if(jData && jData.length>0){
+					$.each(jData,function(i,data){
+						var $tr =$('<tr id="'+data.id+'" has-data="true">"'+
+							'<td style="width:30%;">'+(data.videoName?data.videoName:"")+'</td>'+
+							'<td style="width:10%;">'+(data.vodeoSize?data.vodeoSize:0)+'M</td>'+
+							'<td style="width:30%;">'+(data.videoTag?data.videoTag:"")+'</td>'+
+							'<td style="width:10%;">'+data.creatorName+'</td>'+
+							'<td style="width:20%;">'+(data.createTime?data.createTime:"")+'</td>'+
+							'</tr>');
+						//把地址配置到tr 的data()中。
+						$tr.data($.extend(data,{"imgrootPath":rootPaths}));
+						$tab.find("#data_table").find("tbody").append($tr);
+					});
 					$tab.find(".videopagination").pagination(jsonData.rowCount, {
 				    	 next_text : "下一页",
 				    	 prev_text : "上一页",

@@ -124,12 +124,12 @@ $(document).ready(function(){
 		$(".t-c-l").find(".dis").eq(0).trigger("click.li.left");
 		
 		$(".w800 .videotabs").on('click','span',function(){
-			$("div.layer-content").hide();
-			$("div.tab"+($(this).index()+1)).show();
+			$(".w800 div.layer-content").hide();
+			$(".w800 div.tab"+($(this).index()+1)).show();
 			$(this).siblings().removeClass("active");
 			$(this).addClass("active");
 			searchVideos();
-		})
+		});
 
 		$(".add-video-link").on("click",function(){
 			$(".add-div").show();
@@ -395,12 +395,12 @@ $(document).ready(function(){
 	function  searchVideos(page){
 		var $this=this;
 		var search={};
-		var $tab=$(".w800 .tab1");
+		var $tab=$(".w800 .layer-content.tab1");
 		//获取当前视频类型
 		$(".w800 .videotabs").find("span").each(function(){
 			if($(this).hasClass("active")){
 				search.flag=$(this).attr("ids");
-				$tab=$(".w800 .tab"+($(this).index()+1));
+				$tab=$(".w800 .layer-content.tab"+($(this).index()+1));
 			}
 		});
 		

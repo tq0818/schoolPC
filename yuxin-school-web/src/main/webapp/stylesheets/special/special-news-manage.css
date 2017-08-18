@@ -43,7 +43,7 @@ i{font-style: normal;}
 .form-conten .file-btn{width: 88px;
     height: 30px;
     position: absolute;
-    bottom: 0;
+    bottom: 3px;
     right: 50px;}
 
 .form-conten .class-textarea{width: 60%;

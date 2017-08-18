@@ -144,17 +144,8 @@
             $('#specialForm').submit();
         }
         
-        function test(){
-        	var commoditylis = $("#courseList").children("li");
-        	var commodityIds = "";
-        	commoditylis.each(function(i,v){
-        		if($(v).find("input[type='checkbox']:checked").length > 0){
-        			var id = $(v).attr("commondityId");
-            		commodityIds = commodityIds + id +","
-        		}
-               
-            });
-        	alert(commodityIds);
+        function cancel(){
+        	window.location = "<%=rootPath%>/commodity/toSpecialPage";
         }
         
         function PreviewImage(fileObj,imgPreviewId,divPreviewId){
@@ -343,7 +334,7 @@
        </form>
        <div class="text-center">
                 <a href ="javascript:void(0)" class="btn btn-primary " onclick="formSubmit()">保存</a>
-                <a href ="javascript:void(0)" class="btn btn-default" onclick="test()">取消</a>
+                <a href ="javascript:void(0)" class="btn btn-default" onclick="cancel()">取消</a>
              </div>
 
         </div>

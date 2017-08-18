@@ -117,7 +117,7 @@
                         <a href="javascript:void(0)" onclick="updateSpecial('${special.id}')" class="btn btn-mini btn-primary">编辑</a>
                         <a id="status${special.id}" status="${special.status}" href="javascript:void(0)" onclick="updateStatus('${special.id}')"  class="btn btn-mini btn-default"><c:if test="${special.status == 0}">上架</c:if> <c:if test="${special.status == 1}">下架</c:if></a>
                         <div class="sort-info">
-                            <input id="orderFlag${special.id}" type="text" class="sortnume"> 
+                            <input id="orderFlag${special.id}" type="text" value="${special.orderFlag}" class="sortnume"> 
                             <i onclick="updateOrder('${special.id}')" class="btn-ico btn-gou">√</i>
                             <i onclick="clearOrder('${special.id}')" class="btn-ico btn-cha">X</i>
                         </div>

@@ -1,5 +1,6 @@
 package com.yuxin.wx.model.commodity;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -84,6 +85,31 @@ public class CommoditySpecial extends BaseEntity implements Serializable{
 	 */
 	private Integer subjectId;
 	
+	/**
+	 * 非执久化属性
+	 */
+    private Integer userId;
+	
+	/**
+	 * 非执久化属性
+	 */
+	private String commodityType;
+	
+	/**
+	 * user_collect ID
+	 */
+	private Integer ucId;
+	
+	
+	
+	public Integer getUcId() {
+		return ucId;
+	}
+
+	public void setUcId(Integer ucId) {
+		this.ucId = ucId;
+	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -196,6 +222,24 @@ public class CommoditySpecial extends BaseEntity implements Serializable{
 
 	public void setSubjectId(Integer subjectId) {
 		this.subjectId = subjectId;
+	}
+
+	@Transient
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+    
+	@Transient
+	public String getCommodityType() {
+		return commodityType;
+	}
+
+	public void setCommodityType(String commodityType) {
+		this.commodityType = commodityType;
 	}
 	
 }

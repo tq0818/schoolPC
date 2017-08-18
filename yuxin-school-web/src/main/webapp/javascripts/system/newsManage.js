@@ -57,7 +57,7 @@ function queryNewsType(schoolId,callback){
 		  success: function(data){
 			  var html='<a href="javascript:void(0);" marks="" class="btn btn-mini btn-default btn-primary">全部</a>';
 			  $.each(data,function(index,a){
-				  html+='<a href="javascript:void(0);" marks="'+a.id+'" class="btn btn-mini btn-default">'+a.name+'</a>';
+				  html+='&nbsp;<a href="javascript:void(0);" marks="'+a.id+'" class="btn btn-mini btn-default">'+a.name+'</a>';
 			  });
 			  $("#typeList").html(html);
 			  if(callback){

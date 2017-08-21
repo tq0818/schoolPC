@@ -78,7 +78,7 @@
                     <span class="c-title">学科</span>
                     <span class="c-content">
                         <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList()">
-
+                            <option  value="" data-id="">请选择</option>
                         </select>
                         <c:if test="${empty typeItems }">
                             <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>

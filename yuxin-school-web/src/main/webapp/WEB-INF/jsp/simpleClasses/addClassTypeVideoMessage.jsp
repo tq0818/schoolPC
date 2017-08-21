@@ -21,7 +21,7 @@
     		$selectMenu("course_class_type");
     		var iss=document.getElementById("itemOneCodeList").value;
 			if(iss==''){
-				$("#itemOneCodeList").css("display","none");
+//				$("#itemOneCodeList").css("display","none");
 			}
     	});
     </script>
@@ -64,7 +64,8 @@
                 <span class="c-title">分类</span>
                 <span class="c-content">
                         <select name="itemOneCode" id="itemOneCodeList" onchange="Form.queryItemSecond()">
-                        	<c:forEach items="${typeItems }" var="type" varStatus="status">
+                        	<option  value="" data-id="">请选择</option>
+                            <c:forEach items="${typeItems }" var="type" varStatus="status">
                                 <c:if test="${type.itemCode==itemOneCode }">
                                     <option selected="selected" value="${type.itemCode }" data-id="${type.id}">${type.itemName }</option>
                                 </c:if>
@@ -82,7 +83,7 @@
                     <span class="c-title">学段</span>
                     <span class="c-content">
                         <select name="itemSecondCode" id="itemSecondCodeList" onchange="Form.queryItemThird()">
-
+                            <option  value="" data-id="">请选择</option>
                         </select>
                         <c:if test="${empty typeItems }">
                             <input type="text" class="readonly" id="itemSecondName" marks="${classType.itemSecondCode }" value="${classType.itemSecondName}" readonly/>
@@ -93,7 +94,7 @@
                     <span class="c-title">学科</span>
                     <span class="c-content">
                         <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList()">
-
+                            <option  value="" data-id="">请选择</option>
                         </select>
                         <c:if test="${empty typeItems }">
                             <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>
@@ -104,7 +105,7 @@
                     <span class="c-title">知识点</span>
                     <span class="c-content">
                         <select name="itemFourthCode" id="itemFourthCodeList" >
-
+                            <option  value="" data-id="">请选择</option>
                         </select>
                         <c:if test="${empty typeItems }">
                             <input type="text" class="readonly" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>

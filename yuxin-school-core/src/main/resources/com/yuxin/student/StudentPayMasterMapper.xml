@@ -842,8 +842,8 @@ LEFT JOIN class_module d on c.module_id=d.id where b.commodity_id= #{classTypeId
 		and
 			a.company_id=#{companyId}
 			 and (a.pay_status_code='ORDER_PAID' or a.pay_status_code='ORDER_PART_PAY' or a.pay_status_code='ORDER_FINISHED' or a.pay_status_code='ORDER_PAID_NO_COURSE' or commodity_type='COMMODITY_CLASS')
-		<if test="itemOneId != null">and a.item_one_id = #{itemOneId}</if>
-		<if test="itemSecondId != null">and a.item_second_id=#{itemSecondId}</if>
+		<!--<if test="itemOneId != null">and a.item_one_id = #{itemOneId}</if>-->
+		<!--<if test="itemSecondId != null">and a.item_second_id=#{itemSecondId}</if>-->
 		<if test="commodityId != null">and a.commodity_id=#{commodityId}</if>
 		<if test="schoolId != null">and a.school_id=#{schoolId}</if>
 		group by a.stu_id

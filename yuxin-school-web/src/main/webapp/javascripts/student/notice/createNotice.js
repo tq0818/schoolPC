@@ -367,35 +367,46 @@ var msgCount;
     	 var classTypeId = $("#class").val();
     	 var itemOneId = $("#one").val();
     	 var itemSecondId = $("#two").val();
-    	 $.ajax({
-    		 url:rootPath + "/classModule/selPerson",
-    		 type:"post",
-    		 data:{"messageType":messageType,"id":classTypeId,"itemOneId":itemOneId,"itemSecondId":itemSecondId},
-    		 dataType:"json",
-    			beforeSend:function(XMLHttpRequest){
-     	              $(".loading").show();
-     	              $(".loading-bg").show();
-     	              $("#classLesson").empty();
-     	             $(".btn-view").empty();
-     	         },
-    		 success:function(data){
-    			 $(".btn-view").html(data.count + "人");
-    			 $("#sendStu,#useEmailMsg").html(data.count);
-    			 $("#useMsg").html(data.count+"条");
-    			 $.each( data.lessons, function(index, lesson){ 
- 				    if(index == 0){
- 				    	$("#classLesson").append("<option  selected = 'selected' value='"+lesson.id+"'>"+lesson.lessonName+"</option>");
- 				    }else{
- 				    	$("#classLesson").append("<option  value='"+lesson.id+"'>"+lesson.lessonName+"</option>");
- 				    }
-						
- 			 }); 
-    		 },
-	   			complete:function(XMLHttpRequest,textStatus){
-	   				$(".loading").hide();
-	   	            $(".loading-bg").hide();
-	   	        }
-    	 });
+    	 if(classTypeId !=null  && classTypeId.length > 0){
+             $.ajax({
+                 url:rootPath + "/classModule/selPerson",
+                 type:"post",
+                 data:{"messageType":messageType,"id":classTypeId,"itemOneCode":itemOneId,"itemSecondCode":itemSecondId},
+                 dataType:"json",
+                 beforeSend:function(XMLHttpRequest){
+                     $(".loading").show();
+                     $(".loading-bg").show();
+                     $("#classLesson").empty();
+                     $(".btn-view").empty();
+                 },
+                 success:function(data){
+                     $(".btn-view").html(data.count + "人");
+                     $("#sendStu,#useEmailMsg").html(data.count);
+                     $("#useMsg").html(data.count+"条");
+                     $.each( data.lessons, function(index, lesson){
+                         if(index == 0){
+                             $("#classLesson").append("<option  selected = 'selected' value='"+lesson.id+"'>"+lesson.lessonName+"</option>");
+                         }else{
+                             $("#classLesson").append("<option  value='"+lesson.id+"'>"+lesson.lessonName+"</option>");
+                         }
+
+                     });
+                 },
+                 complete:function(XMLHttpRequest,textStatus){
+
+                     $(".loading").hide();
+                     $(".loading-bg").hide();
+                 }
+             });
+		 }else{
+             $("#classLesson").empty();
+             $(".btn-view").html(0 + "人");
+             $("#sendStu,#useEmailMsg").html(0);
+             $("#useMsg").html(0+"条");
+             $(".loading").hide();
+             $(".loading-bg").hide();
+		 }
+
      }
      function valida(){
     	 var method = $.trim($(".btn-method.btn-primary").attr("data-type"));

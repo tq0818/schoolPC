@@ -9,6 +9,7 @@
         <result property="level" column="level" />
         <result property="levelPath" column="level_path" />
         <result property="isParent" column="is_parent" />
+        <result property="itemName" column="item_name" />
     </resultMap>
     <sql id="table_columns">
         id,
@@ -111,6 +112,14 @@
         where parent_id = #{id}
     </select>
     <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap">
-        select DISTINCT(item_code) as item_code ,level from sys_config_item_relation_front
+        SELECT DISTINCT
+        (rf.item_code) AS item_code,sci.item_name,
+        LEVEL,sci.sort
+          FROM
+        sys_config_item_relation_front rf
+        LEFT JOIN sys_config_item sci ON rf.item_code = sci.item_code
+        where sci.item_name is not null
+        ORDER BY
+	    sci.sort ASC
     </select>
 </mapper>

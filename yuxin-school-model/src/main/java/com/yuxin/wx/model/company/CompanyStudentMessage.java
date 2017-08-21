@@ -46,7 +46,9 @@ public class CompanyStudentMessage extends BaseEntity {
 	
 	private String groupOneName;
 	private String groupTwoName;
-
+	private String	itemOneCode;
+	private String	itemSecondCode;
+	private String	itemThirdCode;
 	// Constructor
 	public CompanyStudentMessage() {
 	}
@@ -341,5 +343,29 @@ public class CompanyStudentMessage extends BaseEntity {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getItemOneCode() {
+		return itemOneCode;
+	}
+
+	public void setItemOneCode(String itemOneCode) {
+		this.itemOneCode = itemOneCode;
+	}
+
+	public String getItemSecondCode() {
+		return itemSecondCode;
+	}
+
+	public void setItemSecondCode(String itemSecondCode) {
+		this.itemSecondCode = itemSecondCode;
+	}
+
+	public String getItemThirdCode() {
+		return itemThirdCode;
+	}
+
+	public void setItemThirdCode(String itemThirdCode) {
+		this.itemThirdCode = itemThirdCode;
 	}
 }

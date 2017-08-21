@@ -201,6 +201,9 @@ var msgCount;
  			if(types == 'STUDENT_MESSAGE_CLASSTYPE' || types == 'STUDENT_MESSAGE_MODULENO'){
  				oneItemId = $.trim($("#one").val());
  				twoItemId = $.trim($("#two").val());
+                oneItemCode = $("#one option:selected").attr("data-code");
+                twoItemCode = $("#two option:selected").attr("data-code");
+                threeItemCode = $("#three option:selected").attr("data-code");
  				classId = $.trim($("#class").val());
  			}
  			if(types == 'STUDENT_MESSAGE_GROUP'){
@@ -245,7 +248,7 @@ var msgCount;
  			$.ajax({
  				url:rootPath + "/classModule/sendMsg",
  				type:"post",
- 				data:{"title":title,"content":msgcount,"messageType":types,"messageMethod":method,"itemOneId":oneItemId,"itemSecondId":twoItemId,"classTypeId":classId,'groupOneId':groupOneId,'groupTwoId':groupTwoId,'email':email,'emailTitle':emailTitle,"phone":phone,"moduleNoId":classId,"isHurry":isHurry,"lessonId":lessonId},
+ 				data:{"title":title,"content":msgcount,"messageType":types,"messageMethod":method,"itemOneCode":oneItemCode,"itemSecondCode":twoItemCode,"itemThirdCode":threeItemCode,"classTypeId":classId,'groupOneId':groupOneId,'groupTwoId':groupTwoId,'email':email,'emailTitle':emailTitle,"phone":phone,"moduleNoId":classId,"isHurry":isHurry,"lessonId":lessonId},
  				dataType:"json",
 				beforeSend:function(XMLHttpRequest){
 		              $(".loading").show();

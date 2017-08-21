@@ -25,6 +25,9 @@
 		<result property="groupOneId" column="group_one_id" />
 		<result property="groupTwoId" column="group_two_id" />
 		<result property="emailTitle" column="email_title" />
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
 		<association property="creatorName" column="creator"
 			javaType="String" select="findCreatorName"></association>
 		<association property="mobile" column="creator"
@@ -67,7 +70,10 @@
 		company_id,
 		group_one_id,
 		group_two_id,
-		email_title
+		email_title,
+		item_one_code,
+		item_second_code,
+		item_third_code
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -91,7 +97,10 @@
 		#{companyId},
 		#{groupOneId},
 		#{groupTwoId},
-		#{emailTitle}
+		#{emailTitle},
+		#{itemOneCode},
+		#{itemSecondCode},
+		#{itemThirdCode}
 	</sql>
 	<sql id="batch_entity_properties">
 		#{item.id},
@@ -276,11 +285,14 @@
 		and
 		school_id = #{schoolId} and 
 		message_type != 'STUDENT_MESSAGE_OTHER' 
-		<if test="itemOneId != null and itemOneId != 0">
-			and item_one_id = #{itemOneId}
+		<if test="itemOneCode != null and itemOneCode != ''">
+			and item_one_code = #{itemOneCode}
 		</if>
-		<if test="itemSecondId != null">
-			and item_second_id = #{itemSecondId}
+		<if test="itemSecondCode != null and itemSecondCode !=''">
+			and item_second_code = #{itemSecondCode}
+		</if>
+		<if test="itemThirdCode != null and  itemThirdCode !=''">
+			and item_second_code = #{itemThirdCode}
 		</if>
 		<if test="messageType != null and messageType != '' and messageType != 'all'">
 			and message_type = #{messageType}
@@ -302,9 +314,15 @@ messageMethod != 'all'">
 		where company_id =
 		#{companyId}
 		and school_id = #{schoolId} and 
-		message_type != 'STUDENT_MESSAGE_OTHER' 
-		<if test="itemOneId != null and itemOneId != 0">
-			and item_one_id = #{itemOneId}
+		message_type != 'STUDENT_MESSAGE_OTHER'
+		<if test="itemOneCode != null and itemOneCode != ''">
+			and item_one_code = #{itemOneCode}
+		</if>
+		<if test="itemSecondCode != null and itemSecondCode !=''">
+			and item_second_code = #{itemSecondCode}
+		</if>
+		<if test="itemThirdCode != null and  itemThirdCode !=''">
+			and item_second_code = #{itemThirdCode}
 		</if>
 		<if test="itemSecondId != null">
 			and item_second_id = #{itemSecondId}

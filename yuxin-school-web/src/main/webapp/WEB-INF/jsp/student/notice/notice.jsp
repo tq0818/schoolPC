@@ -28,36 +28,49 @@ function test(){
                     <span class="t-title">通知类型</span>
                     <span class="t-content">
                     	<a href="javascript:;" class="btn btn-mini btn-notice btn-success" data-type="all">全部</a>
-                        <a href="javascript:;" class="btn btn-mini btn-notice btn-link" data-type="STUDENT_MESSAGE_CLASSTYPE">课程通知</a>
+                        <a href="javascript:;" class="btn btn-mini btn-notice" data-type="STUDENT_MESSAGE_CLASSTYPE">课程通知</a>
                         <c:if test="${classMoreStatus == 1 }">
-                        	<a href="javascript:;" class="btn btn-mini btn-notice btn-link" data-type="STUDENT_MESSAGE_MODULENO">班号通知</a>
+                        	<a href="javascript:;" class="btn btn-mini btn-notice" data-type="STUDENT_MESSAGE_MODULENO">班号通知</a>
                         </c:if>
-                        <a href="javascript:;" class="btn btn-mini btn-notice btn-link" data-type="STUDENT_MESSAGE_SPECIAL">指定通知</a>
-                        <a href="javascript:;" class="btn btn-mini btn-notice btn-link" data-type="STUDENT_MESSAGE_GROUP">分组通知</a>
-                        <a id="affiche" href="javascript:;" class="btn btn-notice btn-link" data-type="STUDENT_MESSAGE_AFFICHE">公告</a>
+                        <a href="javascript:;" class="btn btn-mini btn-notice" data-type="STUDENT_MESSAGE_SPECIAL">指定通知</a>
+                        <a href="javascript:;" class="btn btn-mini btn-notice" data-type="STUDENT_MESSAGE_GROUP">分组通知</a>
+                        <a id="affiche" href="javascript:;" class="btn btn-notice" data-type="STUDENT_MESSAGE_AFFICHE">公告</a>
                     </span>
                 </p>
                 <p class="c">
-                    <span class="t-title">学科</span>
-                    <span class="t-content">
-                    	<a href="javascript:;" class="btn btn-mini btn-one btn-link" data-id="0">全部</a>
+                    <span class="t-title">分类</span>
+                    <span class="t-content" id="one">
+                        <a href="javascript:;" class="btn btn-mini btn-one btn-success" data-id="">全部</a>
                     	<c:forEach var="o" items="${oneItem }">
-                        	<a href="javascript:;" class="btn btn-mini btn-one btn-link" data-id="${o.id }">${o.itemName }</a>
+                            <a href="javascript:;" class="btn btn-mini btn-one" data-id="${o.itemCode }">${o.itemName }</a>
+                        </c:forEach>
+                    </span>
+                </p>
+                <p class="c">
+                    <span class="t-title">学段</span>
+                    <span class="t-content" id="two">
+                    	<a href="javascript:;" class="btn btn-mini btn-two btn-success" data-id="">全部</a>
+                    	<c:forEach var="o" items="${twoItem }">
+                        	<a href="javascript:;" class="btn btn-mini btn-two btn-method " data-id="${o.itemCode }">${o.itemName }</a>
                     	</c:forEach>
                     </span>
                 </p>
                 <p class="c">
-                    <span class="t-title">学科小类</span>
-                    <span class="t-content" id="two">
+                    <span class="t-title">学科</span>
+                    <span class="t-content" id="three">
+                        <a href="javascript:;" class="btn btn-mini btn-three btn-success" data-id="">全部</a>
+                    	<c:forEach var="o" items="${threeItem }">
+                            <a href="javascript:;" class="btn btn-mini  btn-method " data-id="${o.itemCode }">${o.itemName }</a>
+                        </c:forEach>
                     </span>
                 </p>
                 <p class="c">
                     <span class="t-title">通知方式</span>
                     <span class="t-content">
                         <a href="javascript:;" class="btn btn-mini btn-method btn-success" data-type="all">全部</a>
-                        <a href="javascript:;" class="btn btn-mini btn-method btn-link" data-type="STUDENT_MESSAGE_MOBILE">短信</a>
-                        <a href="javascript:;" class="btn btn-mini btn-method btn-link" data-type="STUDENT_MESSAGE_WEB">站内信</a>
-                        <a href="javascript:;" class="btn btn-mini btn-method btn-link" data-type="STUDENT_MESSAGE_EMAIL">邮件</a>
+                        <a href="javascript:;" class="btn btn-mini btn-method" data-type="STUDENT_MESSAGE_MOBILE">短信</a>
+                        <a href="javascript:;" class="btn btn-mini btn-method" data-type="STUDENT_MESSAGE_WEB">站内信</a>
+                        <a href="javascript:;" class="btn btn-mini btn-method" data-type="STUDENT_MESSAGE_EMAIL">邮件</a>
                     </span>
                 </p>
             </div>

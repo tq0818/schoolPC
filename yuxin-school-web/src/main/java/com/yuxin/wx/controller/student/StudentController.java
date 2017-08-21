@@ -2383,9 +2383,25 @@ public class StudentController {
 
         model.addAttribute("classMoreStatus", status);
         // 根据公司id 和学校id 查询 一级项目
-        List<SysConfigItem> oneItem = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
-
+        //List<SysConfigItem> oneItem = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+        List<SysConfigItemRelation> allItem = sysConfigItemRelationServiceImpl.findAllItemFront();
+        List<SysConfigItemRelation> oneItem = new ArrayList<>();
+        List<SysConfigItemRelation> twoItem = new ArrayList<>();
+        List<SysConfigItemRelation> threeItem = new ArrayList<>();
+        for(SysConfigItemRelation relation :allItem){
+            if(relation.getLevel()==0){
+                oneItem.add(relation);
+            }else
+            if(relation.getLevel()==1){
+                twoItem.add(relation);
+            }else
+            if(relation.getLevel()==2){
+                threeItem.add(relation);
+            }
+        }
         model.addAttribute("oneItem", oneItem);
+        model.addAttribute("twoItem", twoItem);
+        model.addAttribute("threeItem", threeItem);
         String goAffiche = request.getParameter("goAffiche");
         if(StringUtils.isNotBlank(goAffiche)){
         	model.addAttribute("goAffiche", goAffiche);
@@ -2456,7 +2472,7 @@ public class StudentController {
     /**
      *
      * Class Name: StudentController.java
-     *
+     **
      * @Description: 添加学员
      * @author 杨延博
      * @date 2015-10-8 下午5:40:18

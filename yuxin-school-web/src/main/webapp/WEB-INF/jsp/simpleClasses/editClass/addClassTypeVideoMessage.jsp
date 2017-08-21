@@ -77,7 +77,7 @@
                 <p class="c">
                     <span class="c-title">学科</span>
                     <span class="c-content">
-                        <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList()">
+                        <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList(null,1)">
                             <option  value="" data-id="">请选择</option>
                         </select>
                         <c:if test="${empty typeItems }">

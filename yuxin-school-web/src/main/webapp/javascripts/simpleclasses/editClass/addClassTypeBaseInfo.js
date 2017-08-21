@@ -255,7 +255,7 @@
                     if(result.length>0){
                         $("#itemSecondCodeList").css("display","block");
                         $.each(result,function(i,item){
-                        	if(index>0){
+                        	 if(index>0){
                                 if(item.itemCode==$("#twoSecItemCode").val()){
                                     $("#itemSecondCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
                                 }else{
@@ -315,7 +315,7 @@
                 }
             });
         },
-        queryTagsList : function(id){
+        queryTagsList : function(id,index){
             if(id==null){
                 $("#itemThirdCodeList").find("option").each(function(i){
                     if($(this).is(':selected')){

@@ -218,4 +218,11 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
 		List<CommodityVo> list = commodityMapper.queryCourseByTeacherIds(map);
 		return list;
 	}
+
+	@Override
+	public int updateSpecialOrder(CommodityVo commodity) {
+		int row = commodityMapper.updateSpecialOrder(commodity);
+		return row;
+	}
+	
 }

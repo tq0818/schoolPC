@@ -40,7 +40,8 @@ public class TeachersVo extends BaseEntity {
 	private String schoolShortName;
 	private Integer utId;
 	private String isCollect;
-
+    private String remark;//老师摘要
+	
 	public String getTeacherLevel() {
 		return teacherLevel;
 	}
@@ -242,5 +243,13 @@ public class TeachersVo extends BaseEntity {
 
 	public void setIsCollect(String isCollect) {
 		this.isCollect = isCollect;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

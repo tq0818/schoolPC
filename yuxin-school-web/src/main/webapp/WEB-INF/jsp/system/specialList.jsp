@@ -62,14 +62,26 @@
       				
       				if(data == "success"){
       					 $.msg("操作成功");
-      				
+      					 window.location.reload();
       				}
       			}
       		});
+    	  
        }
        
       function  clearOrder(specialId){
-    	  $('#orderFlag'+specialId).val("");
+    	  $.ajax({
+    			url: "<%=rootPath%>/commodity/delSpecialOrder",
+    			data:{"specialId":specialId},
+    			dataType:"text",
+    			success: function(data){
+    				
+    				if(data == "success"){
+    					 $.msg("操作成功");
+    					 window.location.reload();
+    				}
+    			}
+    		});
       }
        
       function findSpecialByapge(pageNum){

@@ -68,6 +68,8 @@
 		<result property="teacherName" column="teacher_name"/>
 		<result property="schoolShortName" column="school_short_name"/>
 		<result property="teacherId" column="teacher_id"/>
+		<result property="specialOrder" column="special_order"/>
+		
 		<!--<result property="itemOneCode" column="item_one_code" />-->
 		<!--<result property="itemSecondCode" column="item_second_code" />-->
 		<!--<result property="itemThirdCode" column="item_third_code" />-->
@@ -369,4 +371,8 @@
 		 and com.company_id=#{companyId} and com.school_id=#{schoolId}
 		ORDER BY com.id DESC)temp LEFT JOIN sys_config_teacher sct ON sct.id = temp.teacher_id
 	</select>
+	
+	<update id="updateSpecialOrder" parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
+	    update commodity set special_order = #{specialOrder} where id = #{id}
+	</update>
 </mapper>

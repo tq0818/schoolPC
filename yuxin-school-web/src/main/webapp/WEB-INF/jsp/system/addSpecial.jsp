@@ -43,9 +43,9 @@
 					$.each(jsonData.commodityList,function(i,data){
 		                    var li = '<li commondityId = "'+data.id+'"  teacherId ="'+data.teacherId+'">';
 							li = li + '<div class="parcel-box">';
-							li = li + '<div class="picture" style="background-image:url('+url+data.coverUrl+')" onclick="openClassDetail()"></div>';
+							li = li + '<div class="picture" style="background-image:url('+url+data.coverUrl+')" ></div>';
 						    li = li + ' <input type="checkbox" class="input-checkbox" name="course">';
-							li = li + '<span class="people fr"><i class="icon iconfont">&#xe6e7;</i><em>1</em></span>';
+							li = li + '<span class="people fr"><i class="icon iconfont">&#xe6e7;</i><em>'+data.actualNum+'</em></span>';
 	                        li = li + '<div>' ;
 							li = li + '<div class="stageMove">';
 							li = li + '<h5 class="fl title">'+data.name+'</h5>'
@@ -54,6 +54,7 @@
 							}else{
 							   li = li + '<span class="rmb free fr">免费</span>';
 							}
+							
 	                        li = li + '</div>';
 							li = li + '<div class="stage-school-teacher">';
                         if(data.schoolShortName != null){
@@ -62,7 +63,11 @@
                             li = li + '<span class="school-name fl"></span>';
                         }
 							li = li + ' <span class="teacher-name fr">'+data.teacherName+'</span>';
-	                        li = li + '</div>';
+							 li = li + '</div>';
+							li = li + '<div class="sort-info"><span class="fl sort-label">课程排序:</span><input class="sort-input" type="text"  value="'+data.specialOrder+'"  id="order'+data.id+'">';
+							
+							li = li + '<span class="sort-btn"> <i class="btn-ico btn-gou">√</i><i class="btn-ico btn-cha">X</i></span></div>';
+	                       
 	                        li = li + '</div>';
 	                        li = li + '</div>';
 	                        li = li + '</li>';
@@ -72,7 +77,25 @@
 				}
 			});
         }
-        
+        function sortInfo(){
+        	$("#courseList").delegate(".btn-gou","click",function(){
+        		var $li = $(this).closest("li");
+        		var comId = $li.attr("commondityid");
+        		var specialOrder =$li.find(".sort-input").val();
+        		  
+          	   regu = /^[1-9]\d*$/;
+          	   if(!regu.test(specialOrder)){
+                     $.msg("请输入非零正整数！");
+                     return false;
+                 }
+        		updateCommodityOrder(comId,specialOrder);
+        	});
+        	$("#courseList").delegate(".btn-cha","click",function(){
+        		var comId = $(this).closest("li").attr("commondityid");
+        		$(this).closest("li").find(".sort-input").val("");
+        		updateCommodityOrder(comId,"");
+        	});
+        }
         function clearCourse(cancelItem){
         	var lis = $("#courseList").children("li");
         	lis.each(function(i,v){
@@ -91,6 +114,7 @@
         	var commoditylis = $("#courseList").children("li");
         	var teacherIds = "";
         	var commodityIds = "";
+        
         	teacherlis.each(function(i,v){
         		var id = $(v).attr("data-id");
         		teacherIds = teacherIds + id +","
@@ -137,6 +161,14 @@
         	}
         	if(teacherIds.length <=0){
         		$.msg("老师不能为空");
+        		return;
+        	}
+        	if($.trim($('#uploadImg').val()) ==""){
+        		$.msg("专题封面不能为空");
+        		return;
+        	}
+        	if($.trim($('#uploadDetailImg').val()) ==""){
+        		$.msg("专题详情封面不能为空");
         		return;
         	}
         	$('#commodityIds').attr("value",commodityIds);
@@ -210,6 +242,7 @@
                findTeacher();
         	   if(teacherIds.length > 0){
         		   findCourse(teacherIds);
+        		   sortInfo();
         		   var lis = $("#teachers").children("li");
         		   var teacherIdArray = teacherIds.split(",");
         		   lis.each(function(i,v){
@@ -237,8 +270,19 @@
         	  } 
         });
         
+       function updateCommodityOrder(comId,specialOrder){
+    	
+     	   $.ajax({
+ 				url: "<%=rootPath%>/commodity/updateSpecialOrder",
+ 				data:{"comId":comId,"specialOrder":specialOrder},
+ 				async:false,
+ 				success: function(jsonData){
+ 					$.msg("操作成功");
+ 				}
+ 			});
+       }
        
-        
+      
   </script>
   
 </head>
@@ -321,7 +365,7 @@
                 </div>
                 <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>课程</label>
-                    <div class="newindex-list">
+                    <div class="newindex-list special-newlist">
                         <ul id="courseList" class="clear">
 
 

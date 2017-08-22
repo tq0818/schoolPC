@@ -247,4 +247,6 @@ public interface ICommodityService  {
 	String findCommodityName(Integer id);
 	
 	List<CommodityVo> queryCourseByTeacherIds(Map<String,Object> map);
+	
+	int updateSpecialOrder(CommodityVo commodity);
 }

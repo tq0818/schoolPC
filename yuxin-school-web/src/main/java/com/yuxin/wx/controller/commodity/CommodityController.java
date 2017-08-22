@@ -410,6 +410,28 @@ public class CommodityController {
 		return result;
 	}
 	
+	/**
+	 * 清空指定专题 排序
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("delSpecialOrder")
+	public String delSpecialOrder(HttpServletRequest request,HttpServletResponse response){
+		String result = "failed";
+		try{
+			Integer specialId = Integer.valueOf(request.getParameter("specialId"));
+			int row = commoditySpecialServiceImpl.deleteSpecialOrder(specialId);
+			if(row > 0){
+				result =  "success";
+			}
+		}catch(Exception e){
+			log.error("delSpecialOrder is error :",e);
+		}
+		return result;
+	}
+	
 	
 	private String[] uploadImg(MultipartRequest multiPartRquest) throws Exception{
 		InputStream coverPicIS = null;
@@ -445,5 +467,27 @@ public class CommodityController {
 			}
 		}
 		return relativePath;
+	}
+	
+	@ResponseBody
+	@RequestMapping("updateSpecialOrder")
+	public String updateSpecialOrder(HttpServletRequest request,HttpServletResponse response){
+		String result = "failed";
+		try{
+			CommodityVo com = new CommodityVo();
+			Integer comId = Integer.valueOf(request.getParameter("comId"));
+			String specialOrder = request.getParameter("specialOrder");
+			if(StringUtils.isNotBlank(specialOrder)){
+				com.setSpecialOrder(Integer.parseInt(specialOrder));
+			}
+			com.setId(comId);
+			int row = commodityServiceImpl.updateSpecialOrder(com);
+			if(row > 0){
+				result = "success";
+			}
+		}catch(Exception e){
+			log.error("updateSpecialOrder is error :", e);
+		}
+		return result;
 	}
 }

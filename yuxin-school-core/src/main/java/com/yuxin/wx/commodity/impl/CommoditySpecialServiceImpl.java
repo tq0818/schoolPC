@@ -46,5 +46,11 @@ public class CommoditySpecialServiceImpl extends BaseServiceImpl implements ICom
 		return row;
 	}
 
+	@Override
+	public int deleteSpecialOrder(Integer specialId) {
+		int row  = commoditySpecialMapper.deleteSpecialOrder(specialId);
+		return row;
+	}
+
      
 }

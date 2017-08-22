@@ -1,6 +1,6 @@
 /* autor:wqj ;
 *date:2017-08-14;
-* 专题，新闻样式
+* 涓撻锛屾柊闂绘牱寮�
 */
 i{font-style: normal;}
 .fl{float: left;}
@@ -189,8 +189,29 @@ i{font-style: normal;}
 .specialTab{margin: 50px 10px;}
 div.specialTab .heading{height: 25px;margin-bottom: 30px;}
 
+.special-newlist li{height:245px;}
+.special-newlist .stage-school-teacher{    bottom: auto;
+    top: 185px;}
+.special-newlist .sort-info{    position: absolute;
 
-
+    left: 0;
+        bottom: 10px;
+    padding: 0 12px;}
+.special-newlist .sort-label{    height: 25px;
+    line-height: 25px;
+    margin-right: 10px;}
+.special-newlist .sort-input{ border:1px solid #eee;   width: 100px;}
+.special-newlist .sort-input.editing{border:1px solid #eee;}
+.special-newlist .sort-btn .btn-ico{    height: 20px;
+    width: 20px;
+    background: #3ad83a;
+    display: inline-block;cursor: pointer;
+    margin-right: 5px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    line-height: 20px;}
+.special-newlist .sort-btn .btn-ico.btn-cha{background:#ff4343;}
 
 
 

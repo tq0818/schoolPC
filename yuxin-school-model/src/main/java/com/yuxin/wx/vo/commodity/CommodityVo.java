@@ -98,7 +98,7 @@ public class CommodityVo extends BaseEntity {
     private Date previewDate;//预览时间
     private String range;//范围
 
-    
+    private Integer specialOrder;//针对专题详情课程排序
     
     public Date getPreviewDate() {
 		return previewDate;
@@ -751,4 +751,14 @@ public class CommodityVo extends BaseEntity {
     public void setRange(String range) {
         this.range = range;
     }
+
+	public Integer getSpecialOrder() {
+		return specialOrder;
+	}
+
+	public void setSpecialOrder(Integer specialOrder) {
+		this.specialOrder = specialOrder;
+	}
+    
+    
 }

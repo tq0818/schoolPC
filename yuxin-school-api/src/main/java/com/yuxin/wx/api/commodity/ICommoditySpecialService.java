@@ -48,4 +48,11 @@ public interface ICommoditySpecialService  {
 	 * @return
 	 */
 	public int updateSpecial(CommoditySpecial special);
+	
+	/**
+	 * 清空专题排序
+	 * @param specialId
+	 * @return
+	 */
+	public int deleteSpecialOrder(Integer specialId);
 }

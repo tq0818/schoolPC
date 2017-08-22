@@ -5,7 +5,7 @@
 <html lang="zh-cn">
 <head>
     <%@include file="/decorators/import.jsp" %>
-    <title>${type=='save'?'新增公告':'编辑公告' }</title>
+    <title>${type=='save'?'新增新闻':'编辑新闻' }</title>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/classes.css"/>
@@ -89,7 +89,7 @@
 		
 		//表单验证
 		if(!newsTitle){
-			alert("公告标题不能为空！");
+			alert("新闻标题不能为空！");
 			$("#titles").val('');
 			$("#titles").focus();
 			$(this).attr('disabled',false)
@@ -129,7 +129,7 @@
                     "keyWord":keyWord
 					},
 					success : function(data) {
-						$.msg("修改公告成功!");
+						$.msg("修改新闻成功!");
 						location.href=rootPath+"/sysConfigNews/showNews";
 						$(this).attr('disabled',false);
 					}
@@ -153,7 +153,7 @@
                     "keyWord":keyWord
 					},
 				success : function(data) {
-					$.msg("添加公告成功!");
+					$.msg("添加新闻成功!");
 					location.href=rootPath+"/sysConfigNews/showNews";
 					$(this).attr('disabled',false);
 				}

@@ -281,11 +281,12 @@
 							data : {"id":cvId},
 							success : function(data){
 								if(data){
-									$.confirm("该题库下存在试题信息,是否删除？",function(result){
-										if(result){
-											Forms.delTiku(cvId);
-										}
-									})
+									$.msg("该题库下存在试题信息暂不能删除");
+									// $.confirm("该题库下存在试题信息,是否删除？",function(result){
+									// 	if(result){
+									// 		Forms.delTiku(cvId);
+									// 	}
+									// })
 								}else{
 									$.confirm("是否删除该题库？",function(result){
 										if(result){

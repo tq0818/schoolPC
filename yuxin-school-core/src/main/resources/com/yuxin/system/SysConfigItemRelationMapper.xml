@@ -118,8 +118,7 @@
           FROM
         sys_config_item_relation_front rf
         LEFT JOIN sys_config_item sci ON rf.item_code = sci.item_code
-        where sci.item_name is not null
         ORDER BY
-	    sci.sort ASC
+	    sci.sort is not null desc, sci.sort ASC
     </select>
 </mapper>

@@ -171,11 +171,12 @@ $(document).ready(function() {
         }
     });
 
-    $("#savabtn").on('click', function() {debugger;
+    $("#savabtn").on('click', function() {
+        var $savebtn = $(this);
+        $savebtn.attr("disabled","disabled");
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
-            var checkIds = [],hasitemCode = [],
-                $savebtn = $(this);
+            var checkIds = [],hasitemCode = [];
         //on checkbox
         if(input.attr("type")!='text'){
             var inputList = $(".tree-listtype:visible input:checked:not('[disabled]')");//勾选且没有disabled 属性的
@@ -204,14 +205,19 @@ $(document).ready(function() {
                 }
 
             }else{
-                alert("请先选择节点。");return false;
+                alert("请先选择节点。");
+                $savebtn.attr("disabled",false);
+                return false;
             }
             if (equalCode.length>0) {
-                alert("包含已存在节点，不能保存。");return false;
+                alert("包含已存在节点，不能保存。");
+                $savebtn.attr("disabled",false);
+                return false;
             }
         }else{
             if(input.val().trim()==""){
                 alert("请输入知识点！");
+                $savebtn.attr("disabled",false);
                 return false;
             }
                 checkIds.push(input.val());
@@ -233,7 +239,7 @@ $(document).ready(function() {
              }
          }
 
-        $savebtn.attr("disabled","disabled");
+        // $savebtn.attr("disabled","disabled");
 
             var   url = '/itemTree/update',
             data = {"id":input.attr("ids"),"itemCode":checkIds.join(",")};

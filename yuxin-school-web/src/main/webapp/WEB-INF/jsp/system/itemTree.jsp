@@ -57,7 +57,7 @@
                     <input name="itemCode" type="text">
                 </div>
                 <div class="btn-list" style="display: none;">
-                    <button class="btn btn-default" id="savabtn">保存</button>
+                    <button class="btn btn-default"  id="savabtn">保存</button>
                 </div>
             </div>
         </div>

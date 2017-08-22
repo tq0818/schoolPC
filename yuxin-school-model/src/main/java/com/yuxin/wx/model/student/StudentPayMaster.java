@@ -86,7 +86,15 @@ public class StudentPayMaster extends BaseEntity {
     private Integer memberLength;/* 会员购买时长 */
     private Double couponInstead;
     private String couponCode;
-
+     
+    private Date someDayBegin;//和someDayEnd配合使用，一个时间段查询
+    
+    private Date someDayEnd;//和someDayBegin配合使用，一个时间段查询
+    
+    private Date earlyDay;//someDayEnd更早以前时间
+    
+    private int startIndex;//特殊使用，分页启始偏移量
+        
     // private Student student;
     // Constructor
     public StudentPayMaster() {
@@ -619,4 +627,39 @@ public class StudentPayMaster extends BaseEntity {
     public void setCouponCode(String couponCode) {
         this.couponCode = couponCode;
     }
+
+	public Date getSomeDayBegin() {
+		return someDayBegin;
+	}
+
+	public void setSomeDayBegin(Date someDayBegin) {
+		this.someDayBegin = someDayBegin;
+	}
+
+	public Date getSomeDayEnd() {
+		return someDayEnd;
+	}
+
+	public void setSomeDayEnd(Date someDayEnd) {
+		this.someDayEnd = someDayEnd;
+	}
+
+	public Date getEarlyDay() {
+		return earlyDay;
+	}
+
+	public void setEarlyDay(Date earlyDay) {
+		this.earlyDay = earlyDay;
+	}
+
+	
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+    
+    
 }

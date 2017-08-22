@@ -68,9 +68,27 @@
 		var newsStatus=0;
 		var id=$("#nId").val();
 		var newsTitle=$("#titles").val();
+		if(newsTitle ==null || newsTitle.trim().length==0){
+		    $.msg("新闻标题不能为空！");
+		    return;
+        }
         var secondTitle=$("#secondTitle").val();
+        if(secondTitle ==null || secondTitle.trim().length==0){
+            $.msg("新闻副标题不能为空！");
+            return;
+        }
         var author=$("#author").val();
+        if(author ==null || author.trim().length==0){
+            $.msg("作者不能为空！");
+            return;
+        }
+
         var keyWord=$("#keyWord1").val()+","+$("#keyWord2").val()+","+$("#keyWord3").val()+","+$("#keyWord4").val()+","+$("#keyWord5").val();
+        var str =""+$("#keyWord1").val()+$("#keyWord2").val()+$("#keyWord3").val()+$("#keyWord4").val()+$("#keyWord5").val();
+        if(str ==null || str.trim().length==0){
+            $.msg("关键词不能为空！");
+            return;
+        }
 		var schoolId=$("#scId").val();
 		var newsType="";
 		newsType=$("#typeList option:selected").attr("marks");

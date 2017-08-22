@@ -144,8 +144,9 @@
 											</c:if>
 											<div class="answer-list">
 												<c:forEach var="option" items="${topic.optionList }">
+													<c:set var="optionNo" value="${option.optionNo}"/>
 													<c:choose>
-														<c:when test="${topic.answer.indexOf(option.optionNo)!=-1}">
+														<c:when test="${fn:indexOf(topic.answer,option.optionNo)!=-1}">
 															<p class="choice-list">
 																<span class="choice fl" style="color:red" title="option.optionName">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
 															</p>

@@ -113,12 +113,9 @@
     </select>
     <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap">
         SELECT DISTINCT
-        (rf.item_code) AS item_code,sci.item_name,
-        LEVEL,sci.sort
+        (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code)as item_name,
+        LEVEL
           FROM
         sys_config_item_relation_front rf
-        LEFT JOIN sys_config_item sci ON rf.item_code = sci.item_code
-        ORDER BY
-	    sci.sort is not null desc, sci.sort ASC
     </select>
 </mapper>

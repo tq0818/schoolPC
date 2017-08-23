@@ -86,8 +86,8 @@ $(function(){
                     </li>
                     <li>
                     	<div style="width: 130px;margin-left: 80px;">
-			                <img id='choiceHead' width='130' height='130'/>
-			                <a href="javascript:;" class="btn btn-sm btn-default addPic" style="display: block;text-align: center;">选择头像</a>
+			                <img id='choiceHead' width='150' height='85'/>
+			                <a href="javascript:;" class="btn btn-sm btn-default addPic" style="display: block;text-align: center;width:115px;">选择头像</a>
 			            </div>
                     </li>
                     <li>

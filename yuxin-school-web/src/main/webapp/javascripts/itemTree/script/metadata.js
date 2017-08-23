@@ -101,11 +101,11 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode){
         $('.tree-listtype:visible input[value=' + this.itemCode+ ']').prop('checked', true).attr("disabled","disabled");
     });
 }
-function onNodeDblClick(event, treeId, treeNode) {
+/*function onNodeDblClick(event, treeId, treeNode) {
     if (!treeNode.getParentNode() || treeNode.level == 3) {
         ztree.editName(treeNode);
     }
-}
+}*/
 
 function beforeRemove(treeId, treeNode, newName, isCancel) {
     ztree.selectNode(treeNode);
@@ -114,7 +114,12 @@ function beforeRemove(treeId, treeNode, newName, isCancel) {
 
 //控制右侧显示内容
 function onSelected(event, treeId, treeNode) {
-    ztree.expandNode(treeNode, true, true, true);
+    //展开就收起。
+   if(treeNode.open==true){
+       ztree.expandNode(treeNode, false, false, true);
+       return;
+   }
+    ztree.expandNode(treeNode, true, false, true);
     $('.tree_setting .tree-listtype').hide();
     $('input:checkbox').prop('checked', false);
     $('#newTopicName').val('');
@@ -170,10 +175,14 @@ $(document).ready(function() {
             });
         }
     });
-
+var timer = null;
     $("#savabtn").on('click', function() {
         var $savebtn = $(this);
         $savebtn.attr("disabled","disabled");
+        clearTimeout(timer);
+
+        //如果键盘敲击速度太快，小于100毫秒的话就不会向后台发请求，但是最后总会进行一次请求的。
+     timer = setTimeout(function() {
         var input = $(".tree-listtype:visible input");
             var selectNode = ztree.getSelectedNodes()[0];
             var checkIds = [],hasitemCode = [];
@@ -247,10 +256,13 @@ $(document).ready(function() {
                 url = "/itemTree/insert";
                 data = {'level':level,"codes":checkIds.join(","),"parentCode":parentCode,"parentId":parentId,"levelPath":levelPath};
             }
-        $.ajax({
+            $.ajax({
             type:"post",
             url:url,
             data:data,
+            beforeSend : function(XMLHttpRequest) {
+                    $(".loading,.loading-bg").show();
+            },
             success:function(data){
                 if(input.attr("type")=="text"){
                     input.removeClass("editing").val("");
@@ -281,9 +293,12 @@ $(document).ready(function() {
                 $savebtn.attr("disabled",false);
             },error:function (e) {
                 $savebtn.attr("disabled",false);
+            },
+            complete : function(XMLHttpRequest, textStatus) {
+                    $(".loading,.loading-bg").hide();
             }
         });
-
+     },500);
     });
 
 

@@ -5,7 +5,7 @@
 <html lang="zh-cn">
 <head>
  <%@include file="/decorators/import.jsp" %>
-    <title>新闻公告</title>
+    <title>新闻资讯</title>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
@@ -28,7 +28,7 @@
 <div class="u-wrap set-system">
     <div class="mainbackground nopadding">
         <div class="heading">
-            <h2 class="h5">新闻公告</h2>
+            <h2 class="h5">新闻资讯</h2>
             <span class="line"></span>
             <span class="rb">
                 <a href="javascript:;" onclick="editNews('1')" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em>添加新闻</a>

@@ -39,7 +39,7 @@
 		            <h2 class="h5">公告</h2>
 		            <span class="line"></span>
 		        </div>     
-	            <textarea id="content" name="content" maxlength="200" class="tips-area"  <c:if test="${not empty msg.content}"> readonly="readonly" </c:if> >${msg.content}</textarea>	
+	            <textarea id="content" name="content" maxlength="119" class="tips-area"  <c:if test="${not empty msg.content}"> readonly="readonly" </c:if> >${msg.content}</textarea>
 	            <div class="tips-btn">
 	            <c:if test="${empty msg.content}">
 	            	<input type="button" class="btn btn-primary " onclick="addAffiche()" value="发布公告"> 

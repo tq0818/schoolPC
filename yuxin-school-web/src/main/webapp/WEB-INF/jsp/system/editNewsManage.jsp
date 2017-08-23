@@ -118,8 +118,9 @@
 		}
 		//var pic2 = $('#imgObject').attr('ids');
 		var src = $('#imgObject').attr('src');
-		if(recommendFlag=="1" && !src){
-			$.msg('推荐新闻请上传封面图片！');
+	/*	if(recommendFlag=="1" && !src){*/
+        if(!src){
+			$.msg('请上传封面图片！');
 			return;
 		}
 		var typeMark=$("#typeMark").val();
@@ -195,27 +196,27 @@
             <span class="line"></span>
         </div>
         <div class="add-news">
-          <div class="add-infos">
+          <div class="">
             <p class="c">
-                <span class="c-title">标题</span>
+                <span class="c-title"><i class="txt-required">*</i>标题</span>
                 <span class="c-content">
                      <input type="text" class="long-title" id="titles" name="newsTitle" maxlength="40" value="${sysNews.newsTitle }">
                 </span>
             </p>
               <p class="c">
-                  <span class="c-title">副标题</span>
+                  <span class="c-title"><i class="txt-required">*</i>副标题</span>
                   <span class="c-content">
                      <input type="text" class="long-title" id="secondTitle" name="secondTitle" maxlength="40" value="${sysNews.secondTitle }">
                 </span>
               </p>
               <p class="c">
-                  <span class="c-title">作者</span>
+                  <span class="c-title"><i class="txt-required">*</i>作者</span>
                   <span class="c-content">
                      <input type="text" class="long-title" id="author" name="author" maxlength="40" value="${sysNews.author }">
                 </span>
               </p>
               <p class="c">
-                  <span class="c-title">关键词</span>
+                  <span class="c-title"><i class="txt-required">*</i>关键词</span>
                   <span class="c-content">
                       <input type="text" style="width: 83px;min-width: auto;" class="long-title" id="keyWord1" name="keyWord1" maxlength="40" value="${sysNews.keyWord1 }">
                       <input type="text" style="width: 83px;min-width: auto;" class="long-title" id="keyWord2" name="keyWord2" maxlength="40" value="${sysNews.keyWord2 }">
@@ -225,7 +226,7 @@
                 </span>
               </p>
             <p class="c">
-                <span class="c-title">分类</span>
+                <span class="c-title"><i class="txt-required">*</i>分类</span>
                 	<c:choose>
                 		<c:when test="${type=='2'}">
 		                	<select id="typeList">
@@ -271,7 +272,7 @@
                 
             </p>
             <p class="c">
-            	<span class="c-title">是否推荐</span>
+            	<span class="c-title"><i class="txt-required">*</i>是否推荐</span>
             	<span class="c-content">
             	 <c:choose>
                   		<c:when test="${type=='2' }">
@@ -292,7 +293,7 @@
             	</span>
             </p>
             <p class="c">
-                <span class="c-title">封面图片</span>
+                <span class="c-title"><i class="txt-required">*</i>封面图片</span>
                     <span class="c-content">
                         <span class="view">
 							  <c:choose>
@@ -314,7 +315,7 @@
             <p class="c">
                 <span class="c-title">阅读基数</span>
                 <span class="c-content">
-                   <input type="number" class="long-title" id="readBaseIndex" name="readBaseIndex" value="${sysNews.readBaseIndex }"/>
+                   <input type="number" style="width:83px;min-width: auto;" class="long-title" id="readBaseIndex" name="readBaseIndex" value="${sysNews.readBaseIndex }"/>
                 </span>
             </p>
            </div>

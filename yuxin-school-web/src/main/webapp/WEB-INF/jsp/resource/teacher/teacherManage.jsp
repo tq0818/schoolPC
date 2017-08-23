@@ -101,9 +101,9 @@ $(function(){
 		                		<img id='choiceHead' src="${imgUrl}${teacher.headpicUrl}" width='130' height='130'/>
 		                	</c:if>
 		                	<c:if test="${empty teacher.headpicUrl }">
-		                		<img id='choiceHead' width='130' height='130'/>
+		                		<img id='choiceHead' width='130' height='85'/>
 		                	</c:if>
-			                <a href="javascript:;" class="btn btn-sm btn-default addPic" style="display: block;text-align: center;">选择头像</a>
+			                <a href="javascript:;" class="btn btn-sm btn-default addPic" style="display: block;text-align: center;width:115px;">选择头像</a>
 			            </div>
                     </li>
                     <li>

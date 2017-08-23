@@ -18,11 +18,11 @@
 			ysize = $pcnt.height();
 			ysize2 = $pcnt2.height();
 			ysize3 = $pcnt3.height();
-			minHeight = 150;
-			maxHeight = 300;
-			minWidth = 150;
+			minHeight = 110;
+			maxHeight = 165;
+			minWidth = 200;
 			maxWidth = 300;
-			$scale = 1;
+			$scale = 1.8;
 			sourceWidth=initW;
 			sourceHeight=initH;
 			var initSize=resizePic();
@@ -55,7 +55,7 @@
 				var size = resizePic();
 				if (scale > $scale) {
 //					jcrop_api.setSelect([75,75,150,150]);
-					jcrop_api.setSelect([75,0,225,150]);
+					jcrop_api.setSelect([30,0,225,150]);
 				} else {
 //					jcrop_api.setSelect([70,70,150,150]);
 					jcrop_api.setSelect([0,75,150,225]);
@@ -75,7 +75,7 @@
 				
 				$pimg.css({
 					width : Math.round(rx * boundx) + 'px',
-					height : Math.round(ry * boundy) + 'px',
+					height : Math.round(ry * boundy ) + 'px',
 					marginLeft : '-' + Math.round(rx * c.x) + 'px',
 					marginTop : '-' + Math.round(ry * c.y) + 'px'
 				});

@@ -5,7 +5,7 @@
 <html lang="zh-cn">
 <head>
     <%@include file="/decorators/import.jsp" %>
-    <title>${type=='save'?'新增新闻':'编辑新闻' }</title>
+    <title>${type==1?'新增新闻':'编辑新闻' }</title>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/classes.css"/>
@@ -192,7 +192,7 @@
 <div class="u-wrap set-system">
     <div class="mainbackground nopadding">
         <div class="heading">
-            <h2 class="h5">${type=='save'?'新增新闻公告':'编辑新闻公告' }</h2>
+            <h2 class="h5">${type==1?'新增新闻':'编辑新闻' }</h2>
             <span class="line"></span>
         </div>
         <div class="add-news">

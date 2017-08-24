@@ -36,7 +36,7 @@
             <h2 class="h5 fl">专题模块</h2>
             <span class="line"></span>
             <span class="rb fr">
-                    <a href="<%=rootPath %>/commodity/toAddSpecialPage"  class="btn btn-mini btn-primary">添加专题</a>
+                    <a href="<%=rootPath %>/commodity/toAddSpecialPage"  class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em>新增专题</a>
             </span>
         </div>
         <div id="specialList">

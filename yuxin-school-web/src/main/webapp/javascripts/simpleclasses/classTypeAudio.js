@@ -29,7 +29,7 @@ $(document).ready(function(){
 			if(!videoData.imgrootPath && !videoData.filePath){
 				return false;
 			}
-				url = videoData.imgrootPath + videoData.filePath;
+				url = videoData.imgrootPath+"/" + videoData.filePath;
 				//url='http://p.bokecc.com/flash/player.swf?vid='+ccId+'&siteid='+$(this).attr("ids")+'&amp;playerid=25CCD0665D668BCE&amp;playertype=1&amp;autoStart=true';
 		/*	}*/
 			$("input.cke_dialog_ui_input_text:visible").val(url);

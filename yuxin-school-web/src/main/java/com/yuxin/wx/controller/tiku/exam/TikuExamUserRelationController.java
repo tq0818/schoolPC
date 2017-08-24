@@ -9,6 +9,7 @@ import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.tiku.*;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.tiku.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -185,8 +186,8 @@ public class TikuExamUserRelationController {
                 param.put("paperId", paper.getId());
                 param.put("topicType", type);
                 List<TikuTopic> topics = this.tikuTopicServiceImpl.findTopicByPaperId(param);
+                List<Integer> idList = new ArrayList<Integer>();
                 if(StringUtils.equals(type, "TOPIC_TYPE_RADIO") || StringUtils.equals(type, "TOPIC_TYPE_MULTIPLE") || StringUtils.equals(type, "TOPIC_TYPE_UNDEFINED")){
-                    List<Integer> idList = new ArrayList<Integer>();
                     for(TikuTopic topic : topics){
                         idList.add(topic.getId());
                     }
@@ -205,7 +206,38 @@ public class TikuExamUserRelationController {
                         }
                     }
 
-                }
+                }else if(StringUtils.equals(type, "TOPIC_TYPE_CASE")){//材料题包含子题
+       	    	 Map<String,TikuTopic> tMap = new HashMap<String,TikuTopic>();
+       	    	 for(TikuTopic topic : topics){//获取所有材料题
+        	    		 idList.add(topic.getId());
+        	    		 tMap.put(String.valueOf(topic.getId()), topic);
+        	    	 }
+       	    	 List<Integer> idChildList = new ArrayList<Integer>();
+       	    	 List<TikuTopic> childList =  this.tikuTopicServiceImpl.findChildTopicByParentIds(idList);
+       	    	 for(TikuTopic childTopic : childList){//获取所有材料题 下面的子题
+       	    		 idChildList.add(childTopic.getId());
+       	    		 TikuTopic parentTopic =  tMap.get(String.valueOf(childTopic.getParentId().intValue()));
+       	    		 if(parentTopic !=null){
+       	    			 List<TikuTopic> topicList = parentTopic.getTopicList();
+       	    			 topicList.add(childTopic);
+       	    		 }
+       	    		 
+       	    	 }
+       	    	 if(idChildList.size() > 0){
+                        param.put("idList", idChildList);
+       	    		 List<TikuTopicOption> optionList = tikuTopicOptionServiceImpl.findOptionByListTopicId(param);
+       	    	     for(TikuTopic topic : childList){
+       	    	    	 for(int i = 0; i < optionList.size(); i++){
+       	    	    		 TikuTopicOption option = optionList.get(i);
+       	    	    		 if(option.getTopicId().intValue() == topic.getId().intValue()){
+       	    	    			 topic.getOptionList().add(option);
+       	    	    			 optionList.remove(i);
+       	    	    			 i--;
+       	    	    		 }
+       	    	    	 }
+       	    	     }
+       	    	 }
+       	     }
 //                tikuTopicOptionServiceImpl.findOptionByTopicId(1);
                 topicMap.put(type, topics);
             }

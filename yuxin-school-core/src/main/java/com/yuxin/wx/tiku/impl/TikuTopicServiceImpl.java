@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.tiku.ITikuTopicService;
 import com.yuxin.wx.model.tiku.TikuPaperTopic;
 import com.yuxin.wx.model.tiku.TikuTopic;
@@ -327,4 +327,10 @@ public class TikuTopicServiceImpl extends BaseServiceImpl implements ITikuTopicS
         }
         return topicid;
     }
+
+	@Override
+	public List<TikuTopic> findChildTopicByParentIds(List<Integer> list) {
+		List<TikuTopic> tikuList = tikuTopicMapper.findChildTopicByParentIds(list);
+		return tikuList;
+	}
 }

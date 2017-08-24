@@ -163,4 +163,5 @@ public interface TikuTopicMapper extends BaseMapper<TikuTopic> {
 
     Integer insertTopic(TikuTopic topic, List<TikuTopicOption> optionList, TikuTopicExampoint point, Integer paperId, Float topicScore);
 
+    public List<TikuTopic> findChildTopicByParentIds(List<Integer> list);
 }

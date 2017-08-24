@@ -45,7 +45,7 @@ public class TikuTopic extends BaseEntity {
 	private Integer paperFlag;		/* 是否属于试卷标记，针对在试卷里增加材料子题，1是，0否 */
 	private Integer childFlag;		/* 是否为材料题的子题：1是，0否 */
 	private Integer correctFlag;	/* 标记对错*/
-	private List<TikuTopic> topicList; /* 子题*/
+	private List<TikuTopic> topicList = new ArrayList<TikuTopic>(); /* 子题*/
 
 	private List<TikuTopicOption> optionList = new ArrayList<TikuTopicOption>();//单选，多选，判断，不定向试题 的主题 
 	

@@ -297,3 +297,8 @@
    }
 .paperstatistics-list .topic-count{padding-left: 10px;}
 .paperstatistics-list{overflow: hidden}
+.ques-child{     margin-left: 30px;
+    width: 80%;
+    float: left;}
+.ques-childlist{overflow:hidden;}
+.ques-childlist .answer p{display: inline-block;}

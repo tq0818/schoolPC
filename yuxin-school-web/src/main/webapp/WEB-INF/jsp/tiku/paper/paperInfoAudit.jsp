@@ -31,6 +31,11 @@
         .ques_list .answer{color:red;float:right;width: 15%;}
         .ques_list .choice{margin-right:20px}
         .btn-info{float:right;margin:10px 0;width: 25%;}
+        .ques-child{     margin-left: 30px;
+    width: 80%;
+    float: left;}
+.ques-childlist{overflow:hidden;}
+.ques-childlist .answer p{display: inline-block;}
     </style>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
     <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
@@ -202,20 +207,44 @@
         		
            <ul class="ques_list">
            <c:forEach var="topic" items="${tm.value}" varStatus="topicStatus">
-            <li>
-                <div class="ques-ans">
-                <div class="ques">
-                	(${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
-                </div>
-                <div class="answer-list">
-                	<c:forEach var="option" items="${topic.optionList }">
-                     <span class="choice">${option.optionNo }  ${option.optionName}</span>
-                 	</c:forEach>
-                    <div class="answer">正确答案：${topic.answer}</div>
-                </div>
-                </div>
-               
-            </li>
+            <c:if test="${tm.key eq 'TOPIC_TYPE_CASE' }">
+             <div class="ques">
+	               (${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
+	            </div>
+               <c:forEach var="childTopic" items="${topic.topicList}" varStatus="childTopicStatus">
+                   <li>
+	                <div class="ques-childlist">
+	                <div class="ques-child">
+	                	(${childTopicStatus.index+1})&nbsp;&nbsp;&nbsp;${childTopic.topicName }
+	                </div>
+	             
+	                	<c:forEach var="childOption" items="${childTopic.optionList }">
+	                     <span class="choice">${childOption.optionNo }  ${childOption.optionName}</span>
+	                 	</c:forEach>
+	                    <div class="answer">正确答案：${childTopic.answer}</div>
+	               
+	                </div>
+	               
+	            </li>
+               </c:forEach>
+            </c:if>
+            <c:if test="${tm.key ne 'TOPIC_TYPE_CASE' }">
+	            <li>
+	                <div class="ques-ans">
+	                <div class="ques">
+	                	(${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
+	                </div>
+	                <div class="answer-list">
+	                	<c:forEach var="option" items="${topic.optionList }">
+	                     <span class="choice">${option.optionNo }  ${option.optionName}</span>
+	                 	</c:forEach>
+	                    <div class="answer">正确答案：${topic.answer}</div>
+	                </div>
+	                </div>
+	               
+	            </li>
+            </c:if>
+            
            </c:forEach>
         </ul>
             </div>

@@ -134,12 +134,12 @@
 		ts.topic_option_answer_num
 		from tiku_topic_option tp
 		left join tiku_user_exercise_answer_statistics ts
-		on tp.id = ts.topic_option_id
+		on tp.id = ts.topic_option_id <if test="paperId != null">and ts.paper_id = #{paperId}</if>
 		where tp.topic_id in
 		<foreach collection="idList" item="item" open="(" separator="," close=")">
 				#{item}
 			</foreach>
-		<if test="paperId != null">and ts.paper_id = #{paperId}</if>
+		
 		order by option_no
 	</select>
 </mapper>

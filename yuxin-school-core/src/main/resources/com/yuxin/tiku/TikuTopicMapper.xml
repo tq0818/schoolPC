@@ -404,6 +404,17 @@
 		</foreach>
 		order by id desc
 	</select>
+	
+	<select id="findChildTopicByParentIds" parameterType="list"
+		resultMap="tikuTopicResultMap">
+		select t.id,t.parent_id,t.topic_type,topic_name,answer from tiku_topic t where
+		child_flag = 1 and t.parent_id in
+		<foreach collection="list" item="item" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+		order by id desc
+	</select>
 
 	<!-- 获得子题id -->
 	<select id="findSubjectByParentId" parameterType="Integer" resultType="Integer">

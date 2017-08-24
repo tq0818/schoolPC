@@ -80,13 +80,13 @@
 				<div class="r-list L-r-list-table teacherContent" id="teacherContent" style="min-height: 350px;position: relative;">
 					<table id="tableList" class="table table-hover table-center table-list L-table">
 						<colgroup>
-						  <col width="15%">
+						  <col width="10%">
 						  <col width="10%">
 						  <col width="10%">
 						  <col width="30%">
 						  <col width="15%">
 						  <col width="10%">
-						  <col width="10%">
+						  <col width="15%">
 						</colgroup>
 						<tr class="top-tr">
 							<td>用户名称</td>

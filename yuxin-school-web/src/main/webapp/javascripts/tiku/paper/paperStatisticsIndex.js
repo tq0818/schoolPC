@@ -135,7 +135,7 @@
 						if(isEmpty(time)){
 							return "";
 						}else{
-							return new Date(time).toLocaleDateString();
+							return new Date(time).toLocaleString();
 						}
 					}
 				});

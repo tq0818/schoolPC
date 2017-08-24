@@ -403,6 +403,11 @@ $(function(){
 				$(this).remove();
 			});
 			return false;
+		}else if(topicName.indexOf("[[]]") >= 0){
+			$('<div class="c-fa">题干中不能包含空答案 </div>').appendTo('body').fadeIn(100).delay(1000).fadeOut(200,function(){
+				$(this).remove();
+			});
+			return false;
 		}else{
 			return true;
 		}

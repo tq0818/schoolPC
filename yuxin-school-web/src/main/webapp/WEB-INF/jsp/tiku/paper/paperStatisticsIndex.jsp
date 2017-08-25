@@ -37,7 +37,7 @@
 				<div class="sc-select searchBook clear">
 					<dl class="bookTitle">
 	                    <dt>试卷名称：<span>${statistics.paperName}</span></dt>
-	                    <dd>试卷作答人数：<span>${statistics.total}人</span></dd>
+	                    <dd>试卷作答人次：<span>${statistics.total}人</span></dd>
 	                    <dd>最高分：<span>${statistics.max}分</span></dd>
 	                    <dd>最低分：<em>${statistics.min}分</em></dd>
 	                    <dd>平均分：<em>${statistics.avg}分</em></dd>

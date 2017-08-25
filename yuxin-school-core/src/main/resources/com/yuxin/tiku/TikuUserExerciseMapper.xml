@@ -330,7 +330,7 @@
 	<!-- 根据试卷id统计 -->
 	<select id="statisticRspdByPaper" parameterType="com.yuxin.wx.model.tiku.TikuPaper" resultType="java.util.Map">
 	SELECT
-		COUNT(distinct(userId)) total,max(exercise_score) max,MIN(exercise_score) min,cast(avg(exercise_score) as dec(3,1)) avg,(select paper_name from tiku_paper where id = #{id}) paperName
+		COUNT((userId)) total,max(exercise_score) max,MIN(exercise_score) min,cast(avg(exercise_score) as dec(3,1)) avg,(select paper_name from tiku_paper where id = #{id}) paperName
 		FROM(
 			select IFNULL(exercise_score,0) exercise_score,u.id as userId ,u.username,u.mobile
 			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id

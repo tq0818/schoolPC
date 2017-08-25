@@ -115,10 +115,10 @@ function beforeRemove(treeId, treeNode, newName, isCancel) {
 //控制右侧显示内容
 function onSelected(event, treeId, treeNode) {
     //展开就收起。
-   if(treeNode.open==true){
+  /* if(treeNode.open==true){
        ztree.expandNode(treeNode, false, false, true);
        return;
-   }
+   }*/
     ztree.expandNode(treeNode, true, false, true);
     $('.tree_setting .tree-listtype').hide();
     $('input:checkbox').prop('checked', false);

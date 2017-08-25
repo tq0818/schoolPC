@@ -116,6 +116,7 @@
                 $(".tiHeader .navspace li>a:eq(3)").addClass("active");
             }
             $selectMenu('tiku_header');
+            $selectSubMenu('tiku_subject');
         });
     </script>
 </div>

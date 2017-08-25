@@ -166,6 +166,7 @@ a:hover {
 	$(function(){
 		$(".tiHeader .navspace li>a:eq(1)").addClass("active");
 		$selectMenu('tiku_header');
+        $selectSubMenu('tiku_paper');
 	});
 </script> 
 </body>

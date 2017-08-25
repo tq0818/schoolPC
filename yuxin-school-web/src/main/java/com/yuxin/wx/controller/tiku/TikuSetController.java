@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -121,7 +123,6 @@ public class TikuSetController {
      * @date 2015年7月15日 下午3:05:02
      * @version 1.0isExSet
      * @param model
-     * @param tikuId
      * @return
      */
     @RequestMapping(value = "/toSet/{types}")
@@ -166,6 +167,31 @@ public class TikuSetController {
         } else {
             return false;
         }
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/isExSetNew")
+    public String isExSetNew() {
+        String result = "fail";
+        TikuSet set = new TikuSet();
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        set.setCompanyId(companyId);
+        TikuSet findSet = this.tikuSetServiceImpl.findSetByCompanyIdAndCategoryId(set);
+        if (findSet != null) {
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.isPermitted("tiku_topic")){
+                result = "topic";
+            }else if(subject.isPermitted("tiku_paper")){
+                result = "paper";
+            }else if(subject.isPermitted("tiku_exampoint")){
+                result = "exampoint";
+            }else if(subject.isPermitted("tiku_subject")){
+                result = "subject";
+            }
+        }
+
+        return result;
     }
 
     /**

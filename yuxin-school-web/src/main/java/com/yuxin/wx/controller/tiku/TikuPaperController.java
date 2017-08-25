@@ -10,6 +10,7 @@ import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 
+import com.yuxin.wx.model.user.Users;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -188,10 +189,20 @@ public class TikuPaperController {
      * @return
      */
     @RequestMapping(value = "/loadAjaxInfo")
-    public String loadAjaxInfo(TikuPaper paper, Model model) {
+    public String loadAjaxInfo(HttpServletRequest request, TikuPaper paper, Model model) {
         paper.setPageSize(6);
         Integer companyId = WebUtils.getCurrentCompanyId();
         paper.setCompanyId(companyId);
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("直播老师")){
+            Integer userId = WebUtils.getCurrentUserId(request);
+            if(null != userId){
+                SysConfigTeacher sysConfigTeacher = sysConfigTeacherServiceImpl.findByUserId(userId);
+                if(null!=sysConfigTeacher && sysConfigTeacher.getId()!=null){
+                    paper.setTeacherId(sysConfigTeacher.getId());
+                }
+            }
+        }
         PageFinder<TikuPaper> pageFinder = this.tikuPaperServiceImpl.findTikuUserByPage(paper);
         TikuSet tiku = new TikuSet();
         tiku.setCompanyId(companyId);
@@ -204,9 +215,6 @@ public class TikuPaperController {
             }
 
         }
-        Subject subject = SecurityUtils.getSubject();
-        System.out.println(subject.hasRole("机构管理员"));
-        System.out.println(subject.hasRole("试卷审核员"));
         model.addAttribute("pageFinder", pageFinder);
         return "tiku/paper/paperAjax";
     }

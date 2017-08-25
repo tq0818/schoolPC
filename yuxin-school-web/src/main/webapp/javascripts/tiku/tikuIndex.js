@@ -214,7 +214,7 @@
 					$(".glTiku").click(function(){
 						var cvid = $(this).attr("cvid");
 						$.ajax({
-							url : rootPath+"/tikuSet/isExSet",
+							url : rootPath+"/tikuSet/isExSetNew",
 							type : "post",
 							data : {"cvId":cvid},
 							beforeSend:function(XMLHttpRequest){
@@ -223,9 +223,9 @@
 					        },
 							success : function(data){
 								console.log(data);
-								if(data){
+								if(data == 'fail'){
 									location.href=rootPath+"/tikuSet/toSet";
-								}else{
+								}else if(data == 'topic'){
 									var objform = document.createElement("form");
 									document.body.appendChild(objform);
 									objform.action = rootPath + "/question/show";
@@ -237,6 +237,27 @@
 									cateId.value = cvid;
 									cateId.name = "categoryId";
 									
+									objform.submit();
+								}else if(data == 'paper'){
+									var objform = document.createElement("form");
+									document.body.appendChild(objform);
+									objform.action = rootPath + "/tikuPaper/toTikuPaper/"+cvid;
+									objform.method = "post";
+
+									objform.submit();
+								}else if(data == 'exampoint'){
+									var objform = document.createElement("form");
+									document.body.appendChild(objform);
+									objform.action = rootPath + "/tikuChapter/toChapter/" + cvid;
+									objform.method = "post";
+
+									objform.submit();
+								}else if(data == 'subject'){
+									var objform = document.createElement("form");
+									document.body.appendChild(objform);
+									objform.action = rootPath + "/tikuSet/toTikuSubManage/" + cvid;
+									objform.method = "post";
+
 									objform.submit();
 								}
 							},

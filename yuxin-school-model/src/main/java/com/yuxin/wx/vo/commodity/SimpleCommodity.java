@@ -80,6 +80,7 @@ public class SimpleCommodity extends BaseEntity {
 	private Integer actualNum;
 	private Integer buyNumMax;
 	private Integer buyNum;
+	private String isCollect;
 
 	public String getTeacherId() {
 		return teacherId;
@@ -574,5 +575,12 @@ public class SimpleCommodity extends BaseEntity {
 	public void setBuyNum(Integer buyNum) {
 		this.buyNum = buyNum;
 	}
-	
+
+	public String getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(String isCollect) {
+		this.isCollect = isCollect;
+	}
 }

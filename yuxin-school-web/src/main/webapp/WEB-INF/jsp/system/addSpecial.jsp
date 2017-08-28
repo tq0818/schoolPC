@@ -63,7 +63,10 @@
                             li = li + '<span class="school-name fl"></span>';
                         }
 							li = li + ' <span class="teacher-name fr">'+data.teacherName+'</span>';
-							 li = li + '</div>';
+							li = li + '</div>';
+							if(data.specialOrder == null){
+								data.specialOrder = "";
+							}
 							li = li + '<div class="sort-info"><span class="fl sort-label">课程排序:</span><input class="sort-input" type="text"  value="'+data.specialOrder+'"  id="order'+data.id+'">';
 							
 							li = li + '<span class="sort-btn"> <i class="btn-ico btn-gou">√</i><i class="btn-ico btn-cha">X</i></span></div>';

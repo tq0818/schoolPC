@@ -86,7 +86,8 @@ public class StudentPayMaster extends BaseEntity {
     private Integer memberLength;/* 会员购买时长 */
     private Double couponInstead;
     private String couponCode;
-
+    private String itemSecondCode;
+    private String itemThirdCode;
     // private Student student;
     // Constructor
     public StudentPayMaster() {
@@ -618,5 +619,21 @@ public class StudentPayMaster extends BaseEntity {
 
     public void setCouponCode(String couponCode) {
         this.couponCode = couponCode;
+    }
+
+    public String getItemSecondCode() {
+        return itemSecondCode;
+    }
+
+    public void setItemSecondCode(String itemSecondCode) {
+        this.itemSecondCode = itemSecondCode;
+    }
+
+    public String getItemThirdCode() {
+        return itemThirdCode;
+    }
+
+    public void setItemThirdCode(String itemThirdCode) {
+        this.itemThirdCode = itemThirdCode;
     }
 }

@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.qiniu.util.Json;
 import com.yuxin.wx.api.system.*;
 import com.yuxin.wx.common.*;
 import com.yuxin.wx.controller.user.RegisterController;
@@ -787,7 +788,7 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = "/showSignUp", method = RequestMethod.POST)
-    public String showSignUp(Model model, Student student) {
+    public String showSignUp(Model model, Student student,HttpServletRequest request) {
         student.setCompanyId(WebUtils.getCurrentCompanyId());
         // student.setSchoolId(WebUtils.getCurrentSchoolId());
         // Student st=studentServiceImpl.findByMobile(student);
@@ -825,6 +826,21 @@ public class StudentController {
         if (companyFunctionSetList != null && companyFunctionSetList.size() > 0) {
             model.addAttribute("sgOpen", companyFunctionSetList.get(0).getStatus());
         }
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+        model.addAttribute("relations", relations);
         return "student/student-signup";
     }
 
@@ -836,7 +852,7 @@ public class StudentController {
      * @description :批量报名页面跳转
      */
     @RequestMapping(value = "/showSignUpMany", method = RequestMethod.POST)
-    public String showSignUpMany(Model model, String list) {
+    public String showSignUpMany(Model model, String list,HttpServletRequest request) {
 
         String[] mobileList;
         if (list != null && !"".equals(list)) {
@@ -862,8 +878,46 @@ public class StudentController {
                 resultList.add(student);
             }
         }
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+        model.addAttribute("relations", relations);
         model.addAttribute("student", resultList);
         return "student/student-signupMany";
+    }
+    @ResponseBody
+    @RequestMapping(value = "/findItem", method = RequestMethod.POST)
+    public JSONObject findItem(Model model, Integer id, HttpServletRequest request) {
+        JSONObject jsObject = new JSONObject();
+        SysConfigItemRelation relation = new SysConfigItemRelation();
+        relation.setId(id);
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+        jsObject.put("data",relations);
+        return jsObject;
     }
 
     /**

@@ -374,6 +374,10 @@
 			<if test="videoFlag != null and videoFlag != ''">and video_flag = #{videoFlag}</if>
 			<if test="remoteFlag != null and remoteFlag != ''">and remote_flag = #{remoteFlag}</if>
 			<if test="protocolId != null and protocolId != ''">and protocol_id = #{protocolId}</if>
+			<if test="itemOneCode != null and itemOneCode != ''">and item_one_code = #{itemOneCode}</if>
+			<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
+			<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code = #{itemThirdCode}</if>
+			<if test="itemFourthCode != null and itemFourthCode != ''">and item_fourth_code = #{itemFourthCode}</if>
 		</trim>
 	</sql>
 	

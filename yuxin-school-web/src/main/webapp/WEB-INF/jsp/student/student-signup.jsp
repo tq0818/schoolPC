@@ -409,8 +409,20 @@
 			<ul class="list-infos clear">
 				<li>
 					<p class='c'>
-						<span class="c-title">学科</span> <span class="c-content">
+						<span class="c-title">分类</span> <span class="c-content">
 							<select name="" class="itemOne">
+								<option value="null">请选择</option>
+								<c:forEach items="${relations}" var="relation">
+									<option value="${relation.itemCode}" dataId="${relation.id}">${relation.itemName}</option>
+								</c:forEach>
+							</select>
+						</span>
+					</p>
+				</li>
+				<li>
+					<p class='c'>
+						<span class="c-title">学段</span> <span class="c-content">
+							<select name="" class="itemSecond">
 							<option value="null">请选择</option>
 						</select>
 						</span>
@@ -418,8 +430,8 @@
 				</li>
 				<li>
 					<p class='c'>
-						<span class="c-title">学科小类</span> <span class="c-content">
-							<select name="" class="itemSecond">
+						<span class="c-title">学科</span> <span class="c-content">
+							<select name="" class="itemThird">
 							<option value="null">请选择</option>
 						</select>
 						</span>

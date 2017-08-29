@@ -538,7 +538,7 @@
 			$this.options.slaves=[];
 
 			//初始化下拉框
-			$(".itemOne").getSysItem();
+			//(".itemOne").getSysItem();
 			//是否代报考
 			$(".isAgent").off("click").on("click",function(){
 				if($(this).hasClass("open")){
@@ -562,27 +562,67 @@
 				
 			})
 			$(".year").find("option[value='"+(new Date()).getFullYear()+"']").attr("selected","selected");
-			$(".itemOne").off("change").on("change",function(){
-				$(".itemSecond").html('').getSysItem($(this).val(),function(){
-//					$(".itemSecond").find("option[value='"+$this.options.payMaster.itemSecondId+"']").attr("selected","selected");
-//					$(".itemSecond").trigger("change");
-				});
-				//初始化考期
-				$this.queryData("/sysConfigTerm/dict?itemOneId="+$(this).val(),function(data){
-					if(data.examtermName){
-						var year=data.examtermName.substring(0,4);
-						var month=data.examtermName.substring(5);
-						$(".year").find("option[value='"+year+"']").attr("selected","selected");
-						$(".month").find("options[value='"+month+"']").attr("selected","selected");
-					}
-					
-				})
-			})
-			$(".itemSecond").off("change").on("change",function(){
+            $(".itemOne").off("change").on("change",function(){
+                var id = this.selectedOptions[0].getAttribute("dataId");
+                $.ajax({
+                    type:"post",
+                    url:rootPath+"/student/findItem",
+                    data:{'id':id},
+                    success:function (obj) {
+                        console.log(obj);
+                        if(obj.data){
+                            $(".itemSecond").empty();
+                            $(".itemSecond").append("<option value='null'>请选择</option>");
+                            if(id!=null){
+                                $.each(obj.data,function (n,item) {
+                                    $(".itemSecond").append("<option value='"+item.itemCode+"' dataId='"+item.id+"'>"+item.itemName+"</option>");
+                                });
+                            }
+                        }
+                        $(".itemThird").empty().html("<option value='null'>请选择</option>")
+                    }
+                });
+
+                // $(".itemSecond").html('').getSysItem($(this).val(),function(){
+                // 	$(".itemSecond").find("option[value='"+$this.options.payMaster.itemSecondId+"']").attr("selected","selected");
+                // 	$(".itemSecond").trigger("change");
+                // });
+                //初始化考期
+                // $this.queryData("/sysConfigTerm/dict?itemOneId="+$(this).val(),function(data){
+                // 	if(data.examtermName){
+                // 		var year=data.examtermName.substring(0,4);
+                // 		var month=data.examtermName.substring(5);
+                // 		$(".year").find("option[value='"+year+"']").attr("selected","selected");
+                // 		$(".month").find("options[value='"+month+"']").attr("selected","selected");
+                // 	}
+                //
+                // })
+            });
+            $(".itemSecond").off("change").on("change",function() {
+                var id = this.selectedOptions[0].getAttribute("dataId");
+                $.ajax({
+                    type: "post",
+                    url: rootPath + "/student/findItem",
+                    data: {'id': id},
+                    success: function (obj) {
+                        console.log(obj);
+                        if (obj.data) {
+                            $(".itemThird").empty();
+                            $(".itemThird").append("<option value='null'>请选择</option>");
+                            if (id != null) {
+                                $.each(obj.data, function (n, item) {
+                                    $(".itemThird").append("<option value='" + item.itemCode + "' dataId='" + item.id + "'>" + item.itemName + "</option>");
+                                });
+                            }
+                        }
+                    }
+                });
+            })
+			$(".itemThird").off("change").on("change",function(){
 				$("select.classType").html(''); 
 				//加载班型
 				$.ajax({
-					url: rootPath+"/classType/findList?itemOneId="+$(".itemOne").val()+"&itemSecondId="+$(".itemSecond").val(),
+                    url: rootPath+"/classType/findList?itemOneCode="+$(".itemOne").val()+"&itemSecondCode="+$(".itemSecond").val()+"&itemThirdCode="+$(".itemThird").val(),
 					type: 'post',
 					datatype: 'json',
 					success: function(jsonData){
@@ -937,18 +977,18 @@
 		//存订单
 		save2: function(successBack,errorBack){
 			var $this=this,payMaster={},slave={};
-			payMaster.itemOneId=$(".itemOne").val();
-			if(!payMaster.itemOneId){
-				$.msg("请选择学科");
-				return false;
-			}
-			payMaster.itemOneName=$(".itemOne").find("option:selected").text();
-			payMaster.itemSecondId=$(".itemSecond").val();
-			if(!payMaster.itemSecondId){
-				$.msg("请选择学科小类");
-				return false;
-			}
-			payMaster.itemSecondName=$(".itemSecond").find("option:selected").text();
+			// payMaster.itemOneName=$(".itemOne").val();
+			// if(!payMaster.itemOneId){
+			// 	$.msg("请选择学科");
+			// 	return false;
+			// }
+			// payMaster.itemOneName=$(".itemOne").find("option:selected").text();
+			// payMaster.itemSecondId=$(".itemSecond").val();
+			// if(!payMaster.itemSecondId){
+			// 	$.msg("请选择学科小类");
+			// 	return false;
+			// }
+			// payMaster.itemSecondName=$(".itemSecond").find("option:selected").text();
 			payMaster.commodityId=$("select.classType").val();
 			if(!payMaster.commodityId){
 				$.msg("请选择课程");
@@ -1130,7 +1170,7 @@
 			if(!$("select.classType").val() || $("select.classType").val()=='null' ){
 				//没有选班型
 				msg.flag=false;
-				msg.message="没有选班型";
+				msg.message="没有选课程";
 				return msg;
 			}
 //			if(!$(".term").find("option:selected").val() || $(".term").val()=='null'){

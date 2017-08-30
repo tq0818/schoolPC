@@ -239,7 +239,7 @@ div.c span.l-content .msg-content{
 }
 
 .student .mainbackground .classes-type p.c {
-    margin-top: 10px
+    margin-top: 10px;  overflow: hidden;
 }
 
 .student .mainbackground .classes-type p:first-child {
@@ -251,11 +251,12 @@ div.c span.l-content .msg-content{
 }
 
 .student .mainbackground .classes-type span.t-title {
-    width: 80px;
+    width: 80px;    float: left;
     margin-right: 15px;
     text-align: right
 }
-
+.student .mainbackground .classes-type span.t-content{    max-width: 90%;
+    float: left;}
 .student .mainbackground .classes-type a.btn {
     margin-right: 10px;
     text-decoration: none

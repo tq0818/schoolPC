@@ -26,14 +26,15 @@
 		}
 		
 		
-        .ques_list .ques,.ques_list .answer-list{margin:15px 0 ;}
-        .ques_list .answer-list{}
+        .ques_list .ques,.ques_list .answer-list{margin:15px 0 ;    min-height: 20px;
+            line-height: 20px;}
+        .ques_list .answer-list{overflow: hidden;}
         .ques_list .answer{color:red;float:right;width: 15%;}
         .ques_list .choice{margin-right:20px}
         .btn-info{float:right;margin:10px 0;width: 25%;}
-        .ques-child{     margin-left: 30px;  }
-.ques-childlist{    clear: both;
-    margin-left: 30px;;}
+        .ques-childlist .ques-child{     margin-left: 30px;  }
+.ques-childlist{    clear: both;    overflow: hidden;
+}
 .ques-childlist .answer p,.ques-infocon p,.answer-list.answer-tkt p{display: inline-block;}
 
 .ques-ans{overflow: hidden}
@@ -216,13 +217,13 @@
            <ul class="ques_list">
            <c:forEach var="topic" items="${tm.value}" varStatus="topicStatus">
             <c:if test="${tm.key eq 'TOPIC_TYPE_CASE' }">
-             <div class="ques ques-infocon">
+             <div class="ques ">
 	               (${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
 	            </div>
                <c:forEach var="childTopic" items="${topic.topicList}" varStatus="childTopicStatus">
                    <li>
 	                <div class="ques-childlist">
-                        <div class="ques ques-child">
+                        <div class="ques ques-child ques-infocon">
                             (${childTopicStatus.index+1})&nbsp;&nbsp;&nbsp;${childTopic.topicName }
                         </div>
                         <div class="answer-list">

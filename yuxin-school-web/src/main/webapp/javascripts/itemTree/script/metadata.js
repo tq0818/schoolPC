@@ -112,6 +112,7 @@ function beforeRemove(treeId, treeNode, newName, isCancel) {
     return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
 }
 
+
 //控制右侧显示内容
 function onSelected(event, treeId, treeNode) {
     //展开就收起。

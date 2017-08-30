@@ -52,9 +52,10 @@ CKEDITOR.plugins.add( 'audio',{
 			elements : {
 				$ : function( realElement )
 				{
-						if ( realElement.name == 'audio' )
+						if ( realElement.name == 'audio' || realElement.name =='aside')
 						{
-							realElement.name = 'cke:audio';
+                            realElement.name== 'audio'?realElement.name = 'cke:audio':realElement.name = 'cke:aside';
+							//realElement.name = 'cke:audio';
 							for( var i=0; i < realElement.children.length; i++)
 							{
 								if ( realElement.children[ i ].name == 'source' )

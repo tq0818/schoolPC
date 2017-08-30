@@ -301,4 +301,4 @@
     width: 80%;
     float: left;}
 .ques-childlist{overflow:hidden;}
-.ques-childlist .answer p{display: inline-block;}
+.ques-childlist .answer p,.ques-ans .answer p{display: inline-block;}

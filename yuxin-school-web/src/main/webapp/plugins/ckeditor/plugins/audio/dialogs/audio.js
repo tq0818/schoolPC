@@ -15,7 +15,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 		video[id] = this.getValue();
 	}
 
-	function loadValue( videoNode ){;
+	function loadValue( videoNode ){
 		if ( videoNode ){
 			if(this.id == 'loop'){
 				if(!videoNode.getAttribute( this.id )){
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 			}
 		}
 	}
-	function loadSrc( videoNode, videos ){;
+	function loadSrc( videoNode, videos ){
 		var match = this.id.match(/(\w+)(\d)/),
 			id = match[1],
 			number = parseInt(match[2], 10);
@@ -77,7 +77,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 		onOk : function(){
 			var videoNode = null;
 			if ( !this.fakeImage ){
-				videoNode = CKEDITOR.dom.element.createFromHtml( '<cke:audio></cke:audio>', editor.document );
+				videoNode = CKEDITOR.dom.element.createFromHtml( '<cke:aside id="freestyleAudio" class="aplayer freestyle-aplayer"></cke:aside>', editor.document );
 				videoNode.setAttributes(
 					{
 						controls : 'controls'
@@ -97,7 +97,7 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 					videoNode.removeAttribute('autoplay');
 				}
 			}
-			var innerHtml = '', links = '',
+			var innerHtml = '', links = '',srcStr = '',
 				link =  ''||'<a href="%src%">下载音频</a> ' ,
 				fallbackTemplate =  ''||'您的浏览器不支持此播放插件.<br>请点击下载: %links%' ;
 			for(var i = 0; i < videos.length; i++){
@@ -105,12 +105,15 @@ CKEDITOR.dialog.add( 'audio', function ( editor ){
 				if ( !video || !video.src )
 					continue;
 				//innerHtml +='<cke:source src="'+video.src+ '" type="'+video.type + '"/>';
-				innerHtml += '<cke:source src="' +  video.src+ '" type="' + video.type + '" />';
-
-				links += link.replace('%src%', video.src).replace('%type%', video.type);
+				//innerHtml += '<cke:source src="' +  video.src+ '" type="' + video.type + '" />';
+				//srcStr += '<cke:source type="' + video.type + '" src="' +  video.src+ '"></cke:source>';
+                videoNode.setAttribute("src",video.src);
+                videoNode.setAttribute("type",video.type);
+                links += link.replace('%src%', video.src).replace('%type%', video.type);
 			}
-			//videoNode.setHtml( innerHtml );
-			videoNode.setHtml( innerHtml + fallbackTemplate.replace( '%links%', links ) );
+			//videoNode.setHtml( srcStr );
+
+			//videoNode.setHtml( innerHtml + fallbackTemplate.replace( '%links%', links ) );
 			// Refresh the fake image.
 			var newFakeImage = editor.createFakeElement( videoNode, 'cke_audio', 'audio', false );
 			newFakeImage.setStyles( extraStyles );

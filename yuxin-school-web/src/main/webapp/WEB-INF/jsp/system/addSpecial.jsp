@@ -251,17 +251,17 @@
         	   if(teacherIds.length > 0){
         		   findCourse(teacherIds);
         		   sortInfo();
-        		   var lis = $("#teachers").children("li");
-        		   var teacherIdArray = teacherIds.split(",");
-        		   lis.each(function(i,v){
-               		var teacherId = $(v).attr("data-id");
-               	        for(i = 0; i < teacherIdArray.length;i++){
-               	        	if(teacherIdArray[i] == teacherId ){
-               	        		$(".choose-item").append($(v));
-               	        	}
-               	        }
-                      
-                   });
+//        		   var lis = $("#teachers").children("li");
+//        		   var teacherIdArray = teacherIds.split(",");
+//        		   lis.each(function(i,v){
+//               		var teacherId = $(v).attr("data-id");
+//               	        for(i = 0; i < teacherIdArray.length;i++){
+//               	        	if(teacherIdArray[i] == teacherId ){
+//               	        		$(".choose-item").append($(v));
+//               	        	}
+//               	        }
+//
+//                   });
         	   }
         	  if(commodityIds.length > 0){
         		  var commodityIdArray = commodityIds.split(",");
@@ -367,6 +367,9 @@
                             <i class="btn-prev">《</i>
                         </div>
                         <ul class="choose-item fl">
+                            <c:forEach var="teacher" items="${teacherList}">
+                                <li data-id="${teacher.id}">${teacher.name}</li>
+                            </c:forEach>
                         </ul>
                     </div>
                     <input type="hidden" id="teacherIds" name="teacherIds">

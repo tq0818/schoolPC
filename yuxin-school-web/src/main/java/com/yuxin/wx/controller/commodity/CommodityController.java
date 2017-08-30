@@ -256,6 +256,12 @@ public class CommodityController {
 				model.addAttribute("special", special);
 				String baseUrl = "http://" + FileUtil.props.getProperty("yunduoketang.oss.imagedomain") +"/";
 				model.addAttribute("baseUrl", baseUrl);
+
+				if(special!=null && StringUtils.isNotBlank(special.getTeacherIds())){
+					String[] ids = special.getTeacherIds().split(",");
+					List<SysConfigTeacher> teacherList = sysConfigTeacherServiceImpl.findByIds(ids);
+					model.addAttribute("teacherList", teacherList);
+				}
 			}
 		}catch(Exception e){
 			log.error("toAddSpecialPage is error :", e);

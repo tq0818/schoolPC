@@ -145,4 +145,6 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
 	int checkSortCount();
 	
 	List<SysConfigTeacher> findTeacherBySubject(SysConfigTeacher search);
+
+    List<SysConfigTeacher> findByIds(String[] ids);
 }

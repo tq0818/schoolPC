@@ -381,6 +381,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
     }
 
     @Override
+    public List<SysConfigTeacher> findByIds(String[] ids) {
+        // TODO Auto-generated method stub
+        return sysConfigTeacherMapper.findByIds(ids);
+    }
+
+    @Override
     public List<SysConfigTeacher> findSysConfigTeacherByName(Map<String, String> map) {
         // TODO Auto-generated method stub
         return sysConfigTeacherMapper.findSysConfigTeacherByName(map);

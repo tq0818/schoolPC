@@ -112,6 +112,9 @@ public interface ISysConfigTeacherService {
      */
     List<SysConfigTeacher> findSysConfigTeacherByParam(SysConfigTeacher teacher);
 
+
+    List<SysConfigTeacher> findByIds(String[] ids);
+
     /**
      * @Description:(根据模块Id和学校Id以及老师类型 ，查询对应的老师 ： 不关联老师授课表)
      * @author wang.zx

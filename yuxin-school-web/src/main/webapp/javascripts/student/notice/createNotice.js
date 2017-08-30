@@ -346,7 +346,7 @@ var msgCount;
 		 $.ajax({
 			 url:url,
 			 type:"post",
-             data:{"itemOneCode":oneItem,"itemSecondCode":twoItem,"itemThridCode":threeItem},
+             data:{"itemOneCode":oneItem,"itemSecondCode":twoItem,"itemThirdCode":threeItem},
 			 // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
 			 dataType:"json",
 	   			beforeSend:function(XMLHttpRequest){
@@ -374,7 +374,7 @@ var msgCount;
              $.ajax({
                  url:rootPath + "/classModule/selPerson",
                  type:"post",
-                 data:{"messageType":messageType,"id":classTypeId,"itemOneCode":itemOneId,"itemSecondCode":itemSecondId},
+                 data:{"messageType":messageType,"id":classTypeId},
                  dataType:"json",
                  beforeSend:function(XMLHttpRequest){
                      $(".loading").show();

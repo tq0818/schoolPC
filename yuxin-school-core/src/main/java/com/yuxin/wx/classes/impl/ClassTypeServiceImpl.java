@@ -430,7 +430,7 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		map.put("companyId", conpanyId);
 		map.put("itemOneCode", itemOneCode);
 		map.put("itemSecondCode", itemSecondCode);
-		map.put("itemThridCode", itemThridCode);
+		map.put("itemThirdCode", itemThridCode);
 		map.put("createSchoolId", schoolId);
 		return classTypeMapper.findClassByItemRelation(map);
 	}

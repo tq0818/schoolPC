@@ -535,35 +535,35 @@
 						</if>
 						<if test="status == 0 and statuss == 4 ">
 							and l.lesson_date = #{lessonDate} and 
-							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
-							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+							#{currentTime} > l.lesson_time_start and
+							l.lesson_time_end > #{currentTime}
 						</if>
 						<if test="status == 0 and statuss == 5 ">
 							and ((l.lesson_date = #{lessonDate} and 
-							str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							l.lesson_time_start > #{currentTime )
 							or l.lesson_date > #{lessonDate})
 						</if>
 						<if test="status == 0 and statuss == 6 ">
 							and ((#{lessonDate} = l.lesson_date and 
-							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{currentTime} > l.lesson_time_end) or
 							#{lessonDate} > l.lesson_date)
 						</if>
 						<if test="status != 0 and statuss == 4 ">
-							and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
-							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+							and  #{currentTime} > l.lesson_time_start and
+							l.lesson_time_end > #{currentTime}
 						</if>
 						<if test="status != 0 and statuss == 5 ">
-							and ((str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							and (l.lesson_time_start > #{currentTime})
 							or l.lesson_date > #{lessonDate})
 						</if>
 						<if test="status != 0 and statuss == 6 ">
-							and ((str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							and (#{currentTime} > l.lesson_time_end) or
 							#{lessonDate} > l.lesson_date)
 						</if>
 						<!-- 今天未开始的直播 -->
 						<if test="status == 4">
 							and l.lesson_date = #{lessonDate} 
-							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+							and l.lesson_time_start > #{currentTime}
 						</if>
 						<!-- 七天内的直播 -->
 						<if test="status == 5">
@@ -628,35 +628,35 @@
 						</if>
 						<if test="status == 0 and statuss == 4 ">
 							and l.lesson_date = #{lessonDate} and 
-							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
-							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+							#{currentTime} > l.lesson_time_start and
+							l.lesson_time_end > s#{currentTime}
 						</if>
 						<if test="status == 0 and statuss == 5 ">
 							and ((l.lesson_date = #{lessonDate} and 
-							str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							l.lesson_time_start > #{currentTime})
 							or l.lesson_date > #{lessonDate})
 						</if>
 						<if test="status == 0 and statuss == 6 ">
 							and ((#{lessonDate} = l.lesson_date and 
-							str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							#{currentTime} > l.lesson_time_end) or
 							#{lessonDate} > l.lesson_date)
 						</if>
 						<if test="status != 0 and statuss == 4 ">
-							and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and
-							str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+							and #{currentTime} > l.lesson_time_start and
+							l.lesson_time_end > #{currentTime}
 						</if>
 						<if test="status != 0 and statuss == 5 ">
-							and ((str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))
+							and ((l.lesson_time_start > #{currentTime})
 							or l.lesson_date > #{lessonDate})
 						</if>
 						<if test="status != 0 and statuss == 6 ">
-							and ((str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_end,'%H:%i')) or
+							and ((#{currentTime} > l.lesson_time_end) or
 							#{lessonDate} > l.lesson_date)
 						</if>
 						<!-- 今天未开始的直播 -->
 						<if test="status == 4">
 							and l.lesson_date = #{lessonDate} 
-							and str_to_date(l.lesson_time_start,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+							and l.lesson_time_start > #{currentTime}
 						</if>
 						<!-- 七天内的直播 -->
 						<if test="status == 5">
@@ -731,36 +731,36 @@
 					<if test="status == 0 and statuss == 5 ">
 						and 
 						((loc.start_open_data = #{lessonDate} and
-						str_to_date(loc.start_time,'%H:%i') >
-						str_to_date(#{currentTime},'%H:%i'))
+						loc.start_time >
+						#{currentTime})
 						or loc.start_open_data > #{lessonDate})
 					</if>
 					<if test="status == 0 and statuss == 6 ">
 						and ((#{lessonDate} = loc.end_open_data and
-						str_to_date(#{currentTime},'%H:%i') >
-						str_to_date(loc.end_time,'%H:%i')) or
+						#{currentTime} >
+						loc.end_time) or
 						#{lessonDate} > loc.end_open_data)
 					</if>
 					<if test="status != 0 and statuss == 4 ">
-						and str_to_date(#{currentTime},'%H:%i') >
-						str_to_date(loc.start_time,'%H:%i') and
-						str_to_date(loc.end_time,'%H:%i') >
-						str_to_date(#{currentTime},'%H:%i')
+						and #{currentTime} >
+						loc.start_time and
+						loc.end_time >
+						#{currentTime}
 					</if>
 					<if test="status != 0 and statuss == 5 ">
-						and ((str_to_date(loc.start_time,'%H:%i') >
-						str_to_date(#{currentTime},'%H:%i'))
+						and ((loc.start_time >
+						#{currentTime})
 						or loc.start_open_data > #{lessonDate})
 					</if>
 					<if test="status != 0 and statuss == 6 ">
-						and ((str_to_date(#{currentTime},'%H:%i') >
-						str_to_date(loc.end_time,'%H:%i')) or
+						and ((#{currentTime} >
+						loc.end_time) or
 						#{lessonDate} > loc.end_open_data)
 					</if>
 					<!-- 今天未开始的直播 -->
 					<if test="status == 4">
 						and loc.end_open_data = #{lessonDate} 
-						and str_to_date(loc.start_time,'%H:%i') > str_to_date(#{currentTime},'%H:%i')
+						and loc.start_time > #{currentTime}
 					</if>
 					<!-- 七天内的直播 -->
 					<if test="status == 5">

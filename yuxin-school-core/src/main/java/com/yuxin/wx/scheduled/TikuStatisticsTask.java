@@ -59,8 +59,6 @@ public class TikuStatisticsTask{
             //统计单选题
             Map<String, Object> papmMap = new HashMap<String, Object>();
             papmMap.put("paperId", tikuPaper.getId());
-            List<String> topicType = new ArrayList<String>();
-            papmMap.put("topicType", topicType);
             List<TikuPaperTopic> tikuPaperTopicList = tikuPaperTopicServiceImpl.findTikuPaperByType(papmMap);
             long start = System.currentTimeMillis();
 			for(TikuPaperTopic tikuPaperTopic:tikuPaperTopicList){

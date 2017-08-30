@@ -242,6 +242,5 @@
 		select <include refid="table_columns"/>
 		from tiku_paper_topic
 		where paper_id = #{paperId}
-		and parent_id = 0
 	</select>
 </mapper>

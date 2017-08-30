@@ -215,7 +215,9 @@ public class TikuExamUserRelationController {
        	    	 List<Integer> idChildList = new ArrayList<Integer>();
        	    	 List<TikuTopic> childList =  this.tikuTopicServiceImpl.findChildTopicByParentIds(idList);
        	    	 for(TikuTopic childTopic : childList){//获取所有材料题 下面的子题
-       	    		 idChildList.add(childTopic.getId());
+                     if(StringUtils.equals(childTopic.getTopicType(), "TOPIC_TYPE_RADIO") || StringUtils.equals(childTopic.getTopicType(), "TOPIC_TYPE_MULTIPLE") || StringUtils.equals(childTopic.getTopicType(), "TOPIC_TYPE_UNDEFINED")){
+                         idChildList.add(childTopic.getId());
+                     }
        	    		 TikuTopic parentTopic =  tMap.get(String.valueOf(childTopic.getParentId().intValue()));
        	    		 if(parentTopic !=null){
        	    			 List<TikuTopic> topicList = parentTopic.getTopicList();

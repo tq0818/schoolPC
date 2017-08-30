@@ -131,7 +131,7 @@
 							<c:forEach var="topic" items="${tm.value}" varStatus="topicStatus">
 							  <c:if test="${tm.key eq 'TOPIC_TYPE_CASE' }">
 						             <div class="ques">
-							               (${topicStatus.index+1})&nbsp;&nbsp;&nbsp;${topic.topicName }
+							               ${topicStatus.index+1}、${topic.topicName }
 							            </div>
 						               <c:forEach var="childTopic" items="${topic.topicList}" varStatus="childTopicStatus">
 						                   
@@ -159,9 +159,9 @@
 															</p>
 														</c:when>
 														<c:otherwise>
-													<p class="choice-list">
-															<span class="choice fl">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
-													</p>
+															<p class="choice-list">
+																	<span class="choice fl">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
+															</p>
 														</c:otherwise>
 													</c:choose>
 												</c:forEach>
@@ -199,9 +199,9 @@
 															</p>
 														</c:when>
 														<c:otherwise>
-													<p class="choice-list">
-															<span class="choice fl">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
-													</p>
+															<p class="choice-list">
+																	<span class="choice fl">${option.optionNo }  ${option.optionName}</span><span class="choice-person fl">选此答题人数：${option.topicOptionAnswerNum}</span>
+															</p>
 														</c:otherwise>
 													</c:choose>
 												</c:forEach>

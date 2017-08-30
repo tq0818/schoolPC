@@ -166,11 +166,11 @@
         		$.msg("老师不能为空");
         		return;
         	}
-        	if($.trim($('#uploadImg').val()) ==""){
+        	if($.trim($('#imgCoverPic').attr("picurl")) ==""){
         		$.msg("专题封面不能为空");
         		return;
         	}
-        	if($.trim($('#uploadDetailImg').val()) ==""){
+        	if($.trim($('#imgDetailCoverPic').attr("picurl")) ==""){
         		$.msg("专题详情封面不能为空");
         		return;
         	}
@@ -193,6 +193,7 @@
                         var reader = new FileReader(); 
                         reader.onload = function(e){
                             document.getElementById(imgPreviewId).setAttribute("src",e.target.result);
+                            document.getElementById(imgPreviewId).setAttribute("picurl",e.target.result);
                         }  
                         reader.readAsDataURL(fileObj.files[0]);
                     }else if(browserVersion.indexOf("SAFARI")>-1){
@@ -201,6 +202,7 @@
                 }else if (browserVersion.indexOf("MSIE")>-1){
                     if(browserVersion.indexOf("MSIE 6")>-1){//ie6
                         document.getElementById(imgPreviewId).setAttribute("src",fileObj.value);
+                        document.getElementById(imgPreviewId).setAttribute("picurl",fileObj.value);
                     }else{//ie[7-9]
                         fileObj.select();
                         if(browserVersion.indexOf("MSIE 9")>-1)
@@ -222,11 +224,14 @@
                     var firefoxVersion= parseFloat(browserVersion.toLowerCase().match(/firefox\/([\d.]+)/)[1]);
                     if(firefoxVersion<7){//firefox7以下版本
                         document.getElementById(imgPreviewId).setAttribute("src",fileObj.files[0].getAsDataURL());
+                        document.getElementById(imgPreviewId).setAttribute("picurl",fileObj.files[0].getAsDataURL());
                     }else{//firefox7.0+                    
                         document.getElementById(imgPreviewId).setAttribute("src",window.URL.createObjectURL(fileObj.files[0]));
+                        document.getElementById(imgPreviewId).setAttribute("picurl",window.URL.createObjectURL(fileObj.files[0]));
                     }
                 }else{
                     document.getElementById(imgPreviewId).setAttribute("src",fileObj.value);
+                    document.getElementById(imgPreviewId).setAttribute("picurl",fileObj.value);
                 }         
             }else{
                 alert("仅支持"+allowExtention+"为后缀名的文件!");
@@ -313,7 +318,7 @@
                 <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
                     <div id="divPreviewCoverPic" class="img-box fl">
-                        <img id="imgCoverPic" src="${baseUrl}${special.coverPicUrl}" alt="" class="upload-img">
+                        <img id="imgCoverPic" picurl="${special.coverPicUrl}" src="${baseUrl}${special.coverPicUrl}" alt="" class="upload-img">
                         <input onchange="PreviewImage(this,'imgCoverPic','divPreviewCoverPic')" type="file" class="file-btn" id="uploadImg" name="coverPic">
                         <label class="btn btn-default btn-upload" for="uploadImg">点击上传</label>
                     </div>
@@ -333,7 +338,7 @@
                  <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>专题封面</label>
                     <div id="divPreviewDetailCoverPic" class="img-box fl">
-                        <img id="imgDetailCoverPic" src="${baseUrl}${special.detailCoverPicUrl}" alt="" class="upload-img">
+                        <img id="imgDetailCoverPic" picurl="${special.detailCoverPicUrl}" src="${baseUrl}${special.detailCoverPicUrl}" alt="" class="upload-img">
                         <input onchange="PreviewImage(this,'imgDetailCoverPic','divPreviewDetailCoverPic')"  type="file" class="file-btn" id="uploadDetailImg" name="detailCoverPic">
                         <label class="btn btn-default btn-upload" for="uploadDetailImg">点击上传</label>
                     </div>

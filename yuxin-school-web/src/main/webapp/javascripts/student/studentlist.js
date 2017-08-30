@@ -1202,13 +1202,38 @@
                             }else{
                             	Form.confirm("添加成功！学员账号初始密码为手机号后六位");
                             }
+                            $(".addStudentPopup").popup("hide");
+                            $(".addStudentPopup1").hide();
+                            Form.clearData();
+                        }else {
+                            if(jsonData=="0101"){
+                                $.msg("手机号为空，请添加！");
+                                return;
+                            }else if(jsonData=="0102"){
+                                $.msg("手机号格式不正确，请修改！");
+                                return;
+                            }else if(jsonData=="0302"){
+                                $.msg("身份证号格式不正确，请修改！");
+                                return;
+                            }else if(jsonData=="0303"){
+                                $.msg("身份证号已存在，请修改！");
+                                return;
+                            }else if(jsonData=="0201" || jsonData=="0202"){
+                                $.msg("姓名不正确，请修改！");
+                                return;
+                            }else if(jsonData=="0402" ){
+                                $.msg("邮箱不正确，请修改！");
+                                return;
+                            }else if(jsonData=="0602" ){
+                                $.msg("紧急联系人不正确，请修改！");
+                                return;
+                            }else if(jsonData=="0702" ){
+                                $.msg("紧急联系人电话不正确，请修改！");
+                                return;
+                            }else{
+                                $.msg("格式错误，请重新修改");
+                            }
                         }
-                        else {
-                            $.msg("格式错误，请重新添加");
-                        }
-                        $(".addStudentPopup").popup("hide");
-                        $(".addStudentPopup1").hide();
-                        Form.clearData();
                     },
                     complete: function ( XMLHttpRequest, textStatus ) {
                     	$(".addStudentOk").removeAttr("disabled");

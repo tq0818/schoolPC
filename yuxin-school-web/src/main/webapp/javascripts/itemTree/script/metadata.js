@@ -309,7 +309,7 @@ var timer = null;
     });
 
     function ztreeResize() {
-        $('.tree_cntr').height($(window).height() - 100);
+        $('.tree_cntr').height($(window).height() - 100 - 52);
     }
     ztreeResize();
     $(".tab-sub").delegate(".tab-type","click",function(i,v){

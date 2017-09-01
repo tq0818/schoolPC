@@ -32,7 +32,7 @@
                     <label class="tit-type fl">分类：</label>
                     <div class="tit-list fl">
                         <c:forEach items="${typeList}" var="type">
-                            <label>${type.itemName}<input type="checkbox" value="${type.itemCode}" name="bigtype"></label>
+                            <label><input type="checkbox" value="${type.itemCode}" name="bigtype">${type.itemName}</label>
                         </c:forEach>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <label class="tit-type fl">学科：</label>
                     <div class="tit-list fl">
                         <c:forEach items="${subjectList}" var="subject">
-                            <label>${subject.itemName}<input type="checkbox" value="${subject.itemCode}" name="course"></label>
+                            <label><input type="checkbox" value="${subject.itemCode}" name="course">${subject.itemName}</label>
                         </c:forEach>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <label class="tit-type fl">学段：</label>
                     <div class="tit-list fl">
                         <c:forEach items="${gradeList}" var="grade">
-                            <label>${grade.itemName}<input type="checkbox" value="${grade.itemCode}" name="period"></label>
+                            <label><input type="checkbox" value="${grade.itemCode}" name="period">${grade.itemName}</label>
                         </c:forEach>
                     </div>
                 </div>

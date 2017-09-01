@@ -44,7 +44,7 @@
 
 .tree_setting {
     min-width: 600px;
-    width: 60%;
+    width: 68%;
     float: left;
     margin-left: 20px;
     padding-top: 30px;
@@ -62,11 +62,16 @@
 
 .tree_setting .tit-list label,.tree_setting .tit-type{ margin-right: 20px;    display: inline-block;}
 .tree_setting .btn-list{text-align: center}
-.tree_setting .tit-list{display: inline-block;width:80%;}
-.tree_setting .tit-list input[type=checkbox]{vertical-align: middle}
+.tree_setting .tit-list{display: inline-block;width:90%;}
+.tree_setting .tit-list input[type=checkbox]{vertical-align: middle;    margin-right: 5px;}
 .tab-sub .tab-type{display: inline-block;border:1px solid #eee;
 padding:5px 20px;min-width:40px ;background: #fff;float: left;
 }
+.tree_setting .tit-list label{white-space: nowrap;
+    overflow: hidden;
+    width: 120px;    margin-right: 10px;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;}
 .tab-sub .tab-type:last-child{border-left:0;}
 .tab-sub .tab-type.active{background: #76b4f2;color:#fff;}
 .tab-info{clear: both;}

@@ -30,7 +30,8 @@ public class ClassModuleLesson extends BaseEntity {
 	private String	teachers;		 /* 老师，存老师的id，可以有多个老师，之间用逗号分隔 */ 
 	private String	assistants;		 /* 助教，存助教的id，可以有多个助教，之间用逗号分隔 */ 
 	private String	masters;		 /* 班主任，存班主任的id，可以有多个班主任，之间用逗号分隔 */ 
-	private String	teachersName;		 /* 老师，存老师的名字，可以有多个老师，之间用逗号分隔 */ 
+	private String	teachersName;		 /* 老师，存老师的名字，可以有多个老师，之间用逗号分隔 */
+	private String	schoolShortName;		 /* 机构简称，存老师机构的名字，可以有多个老师，之间用逗号分隔 */
 	private String	assistantsName;		 /* 助教，存助教的名字，可以有多个助教，之间用逗号分隔 */ 
 	private String	mastersName;		 /* 班主任，存班主任的名字，可以有多个班主任，之间用逗号分隔 */ 
 	private Integer	classroomId;		 /* 教室id */ 
@@ -530,4 +531,11 @@ public class ClassModuleLesson extends BaseEntity {
 		this.homeworkId = homeworkId;
 	}
 
+	public String getSchoolShortName() {
+		return schoolShortName;
+	}
+
+	public void setSchoolShortName(String schoolShortName) {
+		this.schoolShortName = schoolShortName;
+	}
 }

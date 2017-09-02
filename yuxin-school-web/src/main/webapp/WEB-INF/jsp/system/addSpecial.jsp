@@ -17,10 +17,20 @@
         var teacherIds = "${special.teacherIds}";
         var commodityIds = "${special.commodityIds}";
         function findTeacher(){
+            var teacherlis = $(".choose-item").children("li");
+            var ids = "";
+            teacherlis.each(function(i,v){
+                var id = $(v).attr("data-id");
+                ids = ids + id +","
+
+            });
+            if($.trim(ids) !=""){
+                ids = ids.substring(0,ids.length-1);
+            }
         	var subjectId = $('#subjectSelect').val();
         	$.ajax({
 				url: "<%=rootPath%>/commodity/getTeachersBySubject",
-				data:{"itemOneId":subjectId},
+				data:{"itemOneId":subjectId,"teacherIds":ids},
 				async:false,
 				success: function(jsonData){
 					$('#teachers').empty();

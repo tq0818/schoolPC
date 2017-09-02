@@ -447,5 +447,5 @@ public interface ISysConfigTeacherService {
 
 	int checkSortCount();
 	
-	List<SysConfigTeacher> findTeacherBySubject(SysConfigTeacher search);
+	List<SysConfigTeacher> findTeacherBySubject(Map<String, Object> map);
 }

@@ -338,11 +338,16 @@ public class CommodityController {
 	@RequestMapping("getTeachersBySubject")
 	public JSONObject getTeachersBySubject(HttpServletRequest request,HttpServletResponse response){
 		JSONObject json = new JSONObject();
+		Map<String, Object> map = new HashMap<String, Object>();
 		SysConfigTeacher teacher = new SysConfigTeacher();
 		try{
 			int itemOneId = Integer.parseInt(request.getParameter("itemOneId"));
+			String teacherIds = request.getParameter("teacherIds");
+			String[] teacherid = teacherIds.split(",");
 			teacher.setItemOneId(itemOneId);
-			List<SysConfigTeacher> teacherList = sysConfigTeacherServiceImpl.findTeacherBySubject(teacher);
+			map.put("teacher", teacher);
+			map.put("teacherIds", teacherid);
+			List<SysConfigTeacher> teacherList = sysConfigTeacherServiceImpl.findTeacherBySubject(map);
 			json.put("teacherList", teacherList);
 		}catch(Exception e){
 			log.error("getTeachersBySubject is error :", e);

@@ -570,8 +570,8 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 	}
 
 	@Override
-	public List<SysConfigTeacher> findTeacherBySubject(SysConfigTeacher search) {
-		List<SysConfigTeacher> list = sysConfigTeacherMapper.findTeacherBySubject(search);
+	public List<SysConfigTeacher> findTeacherBySubject(Map<String, Object> map) {
+		List<SysConfigTeacher> list = sysConfigTeacherMapper.findTeacherBySubject(map);
 		return list;
 	}
 

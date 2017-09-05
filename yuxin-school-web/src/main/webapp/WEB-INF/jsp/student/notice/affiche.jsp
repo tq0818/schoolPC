@@ -31,7 +31,7 @@
 	                    <input id="affiche${m.id }" type="button" <c:if test="${m.status ==0}"> value="公告上架"  status="1" </c:if>  <c:if test="${m.status ==1}"> value="公告下架" status="0"</c:if> onclick="afficheShelving(${m.id})" >
 	                   </td>
 	                     <td>
-	                    <a href="<%=rootPath %>/student/createNotice?addAffiche=addAffiche&afficheId=${m.id}"  >查看公告结果</a>
+	                    <a href="<%=rootPath %>/student/createNotice?addAffiche=addAffiche&afficheId=${m.id}"  >查看通知结果</a>
 	                   </td>
 	               </tr>
 	              

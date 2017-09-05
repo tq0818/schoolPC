@@ -607,7 +607,7 @@ where 1=1
 	
 	<!-- 根据id查询消息 -->
 	<select id="queryMessageById" parameterType="com.yuxin.wx.vo.company.CompanyOrgMessageVo" resultMap="messageListVo">
-		select id,message_type,title,content,status,company_id,send_time,sender 
+		select id,message_type,title,content,status,company_id,send_time,sender,sender_name
 		from company_org_message where id=#{id}
 	</select>
 	

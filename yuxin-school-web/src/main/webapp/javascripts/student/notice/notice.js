@@ -80,7 +80,11 @@ $(function(){
     		var url = rootPath + "/classModuleLesson/noticeDetail";
     		if(messageType == "STUDENT_MESSAGE_AFFICHE"){
     			url = rootPath +"/student/goAffichePage";
-    			
+    			$('#studentNotice').html("公告通知");
+    			$('#addStudentNotice').html("新增公告通知");
+    		}else{
+    			$('#studentNotice').html("学员通知");
+    			$('#addStudentNotice').html("新建学员通知");
     		}
     		itemOneId = $.trim($(".btn-one.btn-success").attr("data-id"));
     		itemSecondId = $.trim($(".btn-two.btn-success").attr("data-id"));

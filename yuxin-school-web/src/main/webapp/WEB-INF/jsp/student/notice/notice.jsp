@@ -80,9 +80,9 @@ function test(){
 <div class="u-wrap student">
     <div class="mainbackground">
         <div class="heading">
-            <h2 class="h5">学员通知</h2>
+            <h2 id="studentNotice" class="h5">学员通知</h2>
             <div class="user-infos">
-                <a href="javascript:goAddPage()" class="btn btn-mini btn-priamry" style="background-color: #237fd5;color: #fff;"><em class="iconfont">&#xe606;</em>新建学员通知</a>
+                <a id="addStudentNotice" href="javascript:goAddPage()" class="btn btn-mini btn-priamry" style="background-color: #237fd5;color: #fff;"><em class="iconfont">&#xe606;</em>新建学员通知</a>
             </div>
             <span class="line"></span>
         </div>

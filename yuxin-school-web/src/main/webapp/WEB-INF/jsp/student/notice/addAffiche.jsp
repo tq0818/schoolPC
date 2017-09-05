@@ -36,7 +36,12 @@
           <form id="addAffiche" action="<%=rootPath %>/student/addAffiche" method="post">
           	<div class="tips-info">
           		 <div class="heading">
-		            <h2 class="h5">公告</h2>
+		            <h2 class="h5">新增公告通知</h2>
+		           <c:if test="${not empty msg}">
+		              <label style="display: inline-block;margin-right: 20px;">发行时间 : <fmt:formatDate value="${msg.sendTime }" pattern="yyyy-MM-dd HH:mm:ss"/></label> 
+		              <label style="display: inline-block;margin-right: 20px;">发布人 : ${msg.senderName }</label> 
+		              <label style="display: inline-block;margin-right: 20px;">通知状态 : 已执行</label>
+		           </c:if>
 		            <span class="line"></span>
 		        </div>     
 	            <textarea id="content" name="content" maxlength="119" class="tips-area"  <c:if test="${not empty msg.content}"> readonly="readonly" </c:if> >${msg.content}</textarea>

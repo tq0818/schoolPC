@@ -209,7 +209,7 @@
             </p>
             <p class="c c-p">
                 <span class="c-title">摘要</span>
-                <span class="c-content" style="width: 480px;word-wrap:break-word">
+                <span class="c-content c-introduction" style="width: 480px;word-wrap:break-word">
                         ${item.remark}
                 </span>
             </p>

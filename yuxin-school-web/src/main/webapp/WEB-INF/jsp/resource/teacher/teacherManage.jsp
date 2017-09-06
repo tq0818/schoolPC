@@ -278,7 +278,7 @@ $(function(){
 										</span>
 								</p>
 							</li>
-		                    <li style="width:100%;">
+		                    <li style="width:100%;height: auto;">
 		                        <p class='c' style="width:100%;">
 		                            <span class="c-title" style="width:15%;">简介</span>
 					                 <span class="c-content" style="width:80%;">
@@ -287,7 +287,7 @@ $(function(){
 		                        </p>
 		                    </li>
 
-							<li style="width:100%;margin-top:115px;">
+							<li style="width:100%;margin-top:15px;height: auto;">
 								<p class='c' style="width:100%;">
 									<span class="c-title" style="width:15%;">摘要</span>
 									<span class="c-content" style="width:80%;">

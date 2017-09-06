@@ -458,7 +458,7 @@ $(function(){
                 </div>
 		        
                 <div class="upload-div pic" >
-					<img id="target" src="" style="height: 300px; width: 300px;" />
+				    <img id="target"   <c:if test="${!empty teacher.headpicUrl }"> src="${imgUrl}${teacher.headpicUrl}"</c:if>  <c:if test="${empty teacher.headpicUrl }"> src="<%=rootPath%>/images/headpic.png"</c:if>style="height: 300px; width: 300px;" />
                 </div>
             </div>
             <div class="attributes none">

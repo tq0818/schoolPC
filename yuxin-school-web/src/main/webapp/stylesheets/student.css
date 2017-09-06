@@ -1131,3 +1131,22 @@ div.c span.l-content .msg-content{
     margin: 10px 0;}
 .tips-info .tips-btn{text-align: right;}
 .new-student.student .notice-main span.c-title {text-align: right;}
+
+.tips-info .tips-head{    background: #fff;
+    padding: 20px;
+    margin-top: 10px;
+    font-size: 14px;}
+.tips-info .tips-head .title{width:15%;}
+.tips-info .tips-head .label,.tips-info .tip-con .label{display: inline-block;width:25%;}
+.tips-info .tips-head .label.btn-sm{    width: auto;    float: right;}
+
+.tips-info .tip-con,.tips-info .tips-textarea{
+	font-size: 14px; width: 80%;    display: block;
+    margin: 0 auto;
+   
+}
+.tips-info .tip-con{    border-bottom: 1px solid #ccc;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    }
+.tips-info input:disabled,.tips-info textarea:disabled{color:#c1bdbd;}

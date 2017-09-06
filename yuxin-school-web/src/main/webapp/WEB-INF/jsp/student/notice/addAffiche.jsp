@@ -33,23 +33,40 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp" />
+	 <c:if test="${not empty msg}">
+	<div class="tips-info">
+        <div class="tips-head">
+            
+             	<span class="title label">公告通知</span>
+              <label class="label">发送时间 : <fmt:formatDate value="${msg.sendTime }" pattern="yyyy-MM-dd HH:mm:ss"/></label> 
+              <label  class="label">操作人 : ${msg.senderName }</label> 
+              <input  type="button" value="返回" class="btn btn-sm label" onclick="goBackAffiche()">
+          
+		</div> 
+	</div>  
+	 </c:if> 
           <form id="addAffiche" action="<%=rootPath %>/student/addAffiche" method="post">
           	<div class="tips-info">
           		 <div class="heading">
 		            <h2 class="h5"> <c:if test="${empty msg}">新增公告通知</c:if>  <c:if test="${not empty msg}">通知结果</c:if></h2>
-		           <c:if test="${not empty msg}">
-		              <label style="display: inline-block;margin-right: 20px;">发行时间 : <fmt:formatDate value="${msg.sendTime }" pattern="yyyy-MM-dd HH:mm:ss"/></label> 
-		              <label style="display: inline-block;margin-right: 20px;">发布人 : ${msg.senderName }</label> 
-		              <label style="display: inline-block;margin-right: 20px;">通知状态 : 已执行</label>
-		           </c:if>
 		            <span class="line"></span>
-		        </div>     
-	            <textarea id="content" name="content" maxlength="119" class="tips-area"  <c:if test="${not empty msg.content}"> readonly="readonly" </c:if> >${msg.content}</textarea>
+		        </div>
+		         <c:if test="${not empty msg}">  
+		        <div class="tip-con">
+		        	
+		              <label class="label">发送时间 : <fmt:formatDate value="${msg.sendTime }" pattern="yyyy-MM-dd HH:mm:ss"/></label> 
+		              <label class="label">发布人 : ${msg.senderName }</label> 
+		              <label class="label">通知状态 : 已执行</label>
+		          
+		        </div>
+		         </c:if>   
+	            <textarea id="content" name="content" maxlength="119" class="tips-area <c:if test="${not empty msg.content}">tips-textarea</c:if>"  <c:if test="${not empty msg.content}"> disabled="disabled" </c:if> >${msg.content}</textarea>
 	            <div class="tips-btn">
 	            <c:if test="${empty msg.content}">
 	            	<input type="button" class="btn btn-primary " onclick="addAffiche()" value="发布公告"> 
+          	        <input  type="button" value="返回" class="btn btn-sm label" onclick="goBackAffiche()">
           	    </c:if>
-          	    <input type="button" value="返回" class="btn btn-sm" onclick="goBackAffiche()">
+          	   
           	    
 	            </div>  
           	</div>

@@ -341,7 +341,7 @@
 			<if test="topicType != null and topicType != ''">
 				and t.topic_type = #{topicType}
 			</if>
-		order by create_time desc
+		order by tpt.id asc
 	</select>
 
 	<select id="findExistTopic" parameterType="map" resultMap="tikuTopicResultMap">

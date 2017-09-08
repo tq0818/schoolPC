@@ -430,13 +430,6 @@ public class TikuPaperController {
         param.put("paperId", paperId);
         param.put("topicType", topicType);
         List<TikuTopic> topic = this.tikuTopicServiceImpl.findTopicByPaperId(param);
-        Collections.sort(topic, new Comparator<TikuTopic>() {
-            @Override
-            public int compare(TikuTopic t1, TikuTopic t2) {
-                int i = t1.getId() - t2.getId();
-                return i;
-            }
-        });
         // 查询分数
         Double score = this.tikuPaperTopicTypeServiceImpl.findScoreByPaperid(param);
         if (score != null) {
@@ -792,13 +785,6 @@ public class TikuPaperController {
         	     param.put("paperId", paperId);
         	     param.put("topicType", type);
         	     List<TikuTopic> topics = this.tikuTopicServiceImpl.findTopicByPaperId(param);
-                 Collections.sort(topics, new Comparator<TikuTopic>() {
-                     @Override
-                     public int compare(TikuTopic t1, TikuTopic t2) {
-                         int i = t1.getId() - t2.getId();
-                         return i;
-                     }
-                });
                 List<Integer> idList = new ArrayList<Integer>();
         	     if(StringUtils.equals(type, "TOPIC_TYPE_RADIO") || StringUtils.equals(type, "TOPIC_TYPE_MULTIPLE") || StringUtils.equals(type, "TOPIC_TYPE_TRUE_FALSE") || StringUtils.equals(type, "TOPIC_TYPE_UNDEFINED")){
         	         for(TikuTopic topic : topics){

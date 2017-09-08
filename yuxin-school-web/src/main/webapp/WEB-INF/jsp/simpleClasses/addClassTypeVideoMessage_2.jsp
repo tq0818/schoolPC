@@ -67,7 +67,7 @@ input+span{
             $(".loading-bg").show();
 			$selectMenu("course_class_type");
 			$(".footer").addClass("footer-fixed");
-			var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa" } );
+			var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa" ,allowedContent: true} );
 			editor.config.width="920";
 			editor.config.toolbar = [
 				[ 'mode', 'document', 'doctools' ], [ 'Source', '-', 'NewPage' ] ,

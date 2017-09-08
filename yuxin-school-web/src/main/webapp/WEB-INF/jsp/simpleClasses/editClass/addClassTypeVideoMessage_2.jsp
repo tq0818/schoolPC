@@ -77,7 +77,7 @@ input+span{
 			$selectMenu("course_class_type");
 			$chooseMenu("detailCode");
 			//$(".footer").addClass("footer-fixed");
-			var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa" } );
+			var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa" ,allowedContent: true } );
 			editor.config.width="880";
 			editor.config.toolbar = [
 				[ 'mode', 'document', 'doctools' ], [ 'Source', '-', 'NewPage' ] ,

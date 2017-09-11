@@ -256,6 +256,9 @@ public class SimpleclassTypeController {
 		search.setPageSize(7);
 		search.setCreateSchoolId(WebUtils.getCurrentSchoolId());
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
+		if(search.getPublishStatus()!=null && search.getPublishStatus().equals("all")){
+			search.setPublishStatus(null);
+		}
 		PageFinder<ClassTypeVo> pageFinder = null;
 		String commodityPicUrl="http://"+propertiesUtil.getProjectImageUrl()+"/";
 		model.addAttribute("commodityPicUrl", commodityPicUrl);

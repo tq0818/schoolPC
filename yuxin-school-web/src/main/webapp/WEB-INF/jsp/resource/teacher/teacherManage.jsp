@@ -181,6 +181,7 @@ $(function(){
 											<option value="MIDDLE_ONE" ${teacher.teacherLevel=='MIDDLE_ONE'?'selected':''}>中学一级</option>
 											<option value="MIDDLE_TWO"  ${teacher.teacherLevel=='MIDDLE_TWO'?'selected':''}>中学二级</option>
 											<option value="MIDDLE_HIGH" ${teacher.teacherLevel=='MIDDLE_HIGH'?'selected':''}>中学高级</option>
+											<option value="MIDDLE_SUPER" ${teacher.teacherLevel=='MIDDLE_SUPER'?'selected':''}>特级教师</option>
 										</select>
 									</span>
 								</p>
@@ -201,6 +202,12 @@ $(function(){
 											<option value="cheng_hua" ${teacher.teacherArea=='cheng_hua'?'selected':''}>成华区</option>
 											<option value="long_quan_yi" ${teacher.teacherArea=='long_quan_yi'?'selected':''}>龙泉驿区</option>
 											<option value="shuang_liu" ${teacher.teacherArea=='shuang_liu'?'selected':''}>双流区</option>
+											<option value="wen_jiang" ${teacher.teacherArea=='wen_jiang'?'selected':''}>温江区</option>
+											<option value="xin_du" ${teacher.teacherArea=='xin_du'?'selected':''}>新都区</option>
+											<option value="du_jiang_yan" ${teacher.teacherArea=='du_jiang_yan'?'selected':''}>都江堰市</option>
+											<option value="pi_du" ${teacher.teacherArea=='pi_du'?'selected':''}>郫都区</option>
+											<option value="qing_bai_jiang" ${teacher.teacherArea=='qing_bai_jiang'?'selected':''}>青白江区</option>
+											<option value="jin_tang_xian" ${teacher.teacherArea=='jin_tang_xian'?'selected':''}>金堂县</option>
 										</select>
 		                            </span>
 								</p>

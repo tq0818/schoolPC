@@ -148,6 +148,7 @@ $(function(){
 											<option value="MIDDLE_ONE">中学一级</option>
 											<option value="MIDDLE_TWO" >中学二级</option>
 											<option value="MIDDLE_HIGH">中学高级</option>
+											<option value="MIDDLE_SUPER">特级教师</option>
 										</select>
 									</span>
 								</p>
@@ -168,6 +169,12 @@ $(function(){
 											<option value="cheng_hua">成华区</option>
 											<option value="long_quan_yi">龙泉驿区</option>
 											<option value="shuang_liu">双流区</option>
+											<option value="wen_jiang">温江区</option>
+											<option value="xin_du">新都区</option>
+											<option value="du_jiang_yan">都江堰市</option>
+											<option value="pi_du">郫都区</option>
+											<option value="qing_bai_jiang">青白江区</option>
+											<option value="jin_tang_xian">金堂县</option>
 										</select>
 		                            </span>
 								</p>

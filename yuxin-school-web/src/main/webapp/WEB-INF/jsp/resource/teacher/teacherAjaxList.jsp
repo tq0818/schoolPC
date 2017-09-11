@@ -128,6 +128,7 @@
                                              <c:when test="${item.teacherLevel=='MIDDLE_ONE'}"><c:set var="teacherLevel" value="中学一级"></c:set></c:when>
                                              <c:when test="${item.teacherLevel=='MIDDLE_TWO'}"><c:set var="teacherLevel" value="中学二级"></c:set></c:when>
                                              <c:when test="${item.teacherLevel=='MIDDLE_HIGH'}"><c:set var="teacherLevel" value="中学高级"></c:set></c:when>
+                                             <c:when test="${item.teacherLevel=='MIDDLE_SUPER'}"><c:set var="teacherLevel" value="特级教师"></c:set></c:when>
                                          </c:choose>
                                         <input type="text" class="readonly" value="${teacherLevel}" readonly>
 
@@ -147,6 +148,12 @@
                     <c:when test="${item.teacherArea=='cheng_hua'}"><c:set var="teacherArea" value="成华区"></c:set></c:when>
                     <c:when test="${item.teacherArea=='long_quan_yi'}"><c:set var="teacherArea" value="龙泉驿区"></c:set></c:when>
                     <c:when test="${item.teacherArea=='shuang_liu'}"><c:set var="teacherArea" value="双流区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='wen_jiang'}"><c:set var="teacherArea" value="温江区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='xin_du'}"><c:set var="teacherArea" value="新都区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='du_jiang_yan'}"><c:set var="teacherArea" value="都江堰市"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='pi_du'}"><c:set var="teacherArea" value="郫都区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='qing_bai_jiang'}"><c:set var="teacherArea" value="青白江区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='jin_tang_xian'}"><c:set var="teacherArea" value="金堂县"></c:set></c:when>
                 </c:choose>
                 <input type="text" class="readonly" value="${teacherArea}" readonly>
             </span>

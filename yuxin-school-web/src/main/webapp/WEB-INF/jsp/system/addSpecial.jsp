@@ -258,9 +258,10 @@
         $(document).ready(function(){
             $selectSubMenu('special_topic');
                findTeacher();
+               sortInfo();
         	   if(teacherIds.length > 0){
         		   findCourse(teacherIds);
-        		   sortInfo();
+        		   
 //        		   var lis = $("#teachers").children("li");
 //        		   var teacherIdArray = teacherIds.split(",");
 //        		   lis.each(function(i,v){
@@ -355,7 +356,7 @@
                 </div>
                 <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>正文</label>
-                    <textarea class="class-textarea fl" id="detailText" name="detailText" maxlength="500">${special.detailText }</textarea>
+                    <textarea class="class-textarea fl" id="detailText" name="detailText" maxlength="800">${special.detailText }</textarea>
                 </div>
                 <div class="row">
                     <label for="" class="label-text fl"><em class="class-requied">*</em>学科</label>

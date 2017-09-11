@@ -1644,9 +1644,8 @@ public class SimpleclassTypeController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/saveCutPic")
-	public CompanyPicsVo saveCutPic(HttpServletRequest request){
+	public CompanyPicsVo saveCutPic(HttpServletRequest request,Integer itemOneid, String path,double x,double y,double w,double h){
 		log.info("初始化截图开始：");
-		int itemOneid=Integer.parseInt(request.getParameter("itemOneid"));
 		Resource resource = new ClassPathResource("config.properties");
 		Properties props=null;
 		try{
@@ -1655,7 +1654,6 @@ public class SimpleclassTypeController {
 			log.error(e,e);
 			e.printStackTrace();
 		}
-		String path=request.getParameter("path");
 		String fileName=path.substring(path.lastIndexOf("/")+1);
 		String tempPath=props.getProperty("server.imageupload.tempPath")+"/source/"+fileName;
 		String target=props.getProperty("server.imageupload.tempPath")+"/target/"+fileName;
@@ -1665,10 +1663,6 @@ public class SimpleclassTypeController {
 		System.out.println("oss临时文件路径["+path+"]=====本地磁盘临时文件路径["+tempPath+"]======切图后临时文件路径["+target+"]");
 		FileUtil.download("temp", path,tempPath);
 		//选中尺寸
-		double x=Double.parseDouble(request.getParameter("x"));
-		double y=Double.parseDouble(request.getParameter("y"));
-		double w=Double.parseDouble(request.getParameter("w"));
-		double h=Double.parseDouble(request.getParameter("h"));
 		BufferedImage img =null;
 		try{
 			 img = ImageIO.read(new File(tempPath));

@@ -85,7 +85,7 @@ $(function() {
 
 	//ajax请求添加老师的名称是否存在
 	$("#teacherName").blur(function(){
-		ajaxCheckTeacherName();
+		// ajaxCheckTeacherName();
 		checkTeacherName();
 	});
 
@@ -184,7 +184,8 @@ $(function() {
 					$("#pwd").removeAttr("name");
 				}
 			}
-			ajaxCheckTeacherName();
+			// ajaxCheckTeacherName();
+			teacherNameResult = 'true';
 			var tName = checkTeacherName();
 			if(!tName){
 				return false;

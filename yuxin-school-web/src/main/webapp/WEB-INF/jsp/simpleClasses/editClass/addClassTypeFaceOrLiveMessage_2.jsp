@@ -143,7 +143,8 @@
             var pDesc = $("#paperDescription").val();
             var teacherId = $("#teacherList").val();
             var picUrl = $("#commdotityPic").attr("realPath");
-            if (picUrl.length < 0 || picUrl == "") {
+            var classTypePic = $("#classTypePic").attr("realPath");
+            if ((picUrl.length < 0 || picUrl == "") && (classTypePic.length < 0 || classTypePic == "")) {
                 alert("课程封面不能为空!");
                 return;
             }
@@ -252,7 +253,8 @@
                      </c:if>
                       <c:if test="${ct.cover!='' }">
                          <span class="view">
-                            <img id="commdotityPic" src="${ct.cover }" realPath="${ct.cover }" alt="课程图片">
+                            <img id="commdotityPic" src="${ct.cover }" realPath="" alt="课程图片">
+                             <input id="classTypePic" type="hidden" realPath="${ct.cover }">
                         </span>
                           <span class="btns"><a href="javascript:;" class="btn btn-default btn-upload">更换封面</a></span>
                       </c:if>

@@ -37,6 +37,16 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.9</version>
 		</dependency>
+	    <dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tika</groupId>
+		    <artifactId>tika-app</artifactId>
+		    <version>1.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -468,6 +468,8 @@ public class StudentPayMasterController {
             student.setUserId(u.getId());
             this.studentServiceImpl.update(student);
         }
+        Commodity comm = commodityServiceImpl.findCommodityById(payMaster.getCommodityId());
+        sendWXTemplate(comm, student,u);//发送短信模版
         this.log_student.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
                 + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否需要发短信 = " + needSendSms + ", sms = " + sms);
@@ -2055,13 +2057,14 @@ public class StudentPayMasterController {
     }
     
     
-    private void sendWXTemplate(String openId,Commodity comm,Users  user){
+    private void sendWXTemplate(Commodity comm,Student stu,UsersFront uf){
 		try{
+		    String openId = uf.getWxOpenId();
 			ClassType classType = classTypeServiceImpl.findClassTypeByCommodity(comm.getId());
 			String token = weiXinServiceImpl.wxGetToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
 			String template = FileUtil.props.getProperty("signUpResultTemplateMsg");//报名结果通知
 			com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
-			paramsJson.put("first", "尊敬的"+user.getUsername()+":您好");
+			paramsJson.put("first", "尊敬的"+stu.getUsername()+":您好");
 			paramsJson.put("class", comm.getName());
 			paramsJson.put("add", "http://www.cdds365.com");
 			paramsJson.put("remark", "请准时上课");

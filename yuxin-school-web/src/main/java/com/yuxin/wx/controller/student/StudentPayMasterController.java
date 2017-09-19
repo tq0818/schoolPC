@@ -178,9 +178,9 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentPayMasterController.java
      *
-     * @Description: 提交表单的方式获取学员信息
+     * @Description: 提交表单的方式获取学员信�?
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:58
+     * @date 2014�?12�?12�? 下午3:33:58
      * @version 1.0
      * @param model
      * @param search
@@ -201,9 +201,9 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentPayMasterController.java
      *
-     * @Description: 提交表单的方式获取学员信息
+     * @Description: 提交表单的方式获取学员信�?
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:58
+     * @date 2014�?12�?12�? 下午3:33:58
      * @version 1.0
      * @param model
      * @param search
@@ -225,7 +225,7 @@ public class StudentPayMasterController {
      *
      * @Description: 查询学员未缴费的订单
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:58
+     * @date 2014�?12�?12�? 下午3:33:58
      * @version 1.0
      * @param model
      * @param search
@@ -246,7 +246,7 @@ public class StudentPayMasterController {
      *
      * @Description: ajax方式加载学员信息列表
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -270,7 +270,7 @@ public class StudentPayMasterController {
      *
      * @Description: 报名，添加订单主逻辑
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -291,9 +291,9 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentPayMasterController.java
      *
-     * @Description: 检查学员是否重复报名班型
+     * @Description: �?查学员是否重复报名班�?
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -317,7 +317,7 @@ public class StudentPayMasterController {
      *
      * @Description: 报名，添加订单主逻辑
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -333,7 +333,7 @@ public class StudentPayMasterController {
         payMaster.setSchoolId(WebUtils.getCurrentSchoolId());
         Student student = JSONObject.parseObject(request.getParameter("student"), Student.class);
 
-        // 报考材料
+        // 报�?�材�?
         List<StudentAgentMaterial> materials = JSONObject.parseArray(request.getParameter("materials"), com.yuxin.wx.model.student.StudentAgentMaterial.class);
         // 分期
         List<StudentFeeStage> stages = JSONObject.parseArray(request.getParameter("stage"), com.yuxin.wx.model.student.StudentFeeStage.class);
@@ -343,8 +343,8 @@ public class StudentPayMasterController {
         // 建立订单
         Boolean exists = this.studentPayMasterServiceImpl.savePayMaster(payMaster, user, materials, stages);
         if (!exists) {
-            payMaster.setMessage("该课程没有班号，请先建立班号再报名。");
-            this.log_student.error(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+            payMaster.setMessage("该课程没有班号，请先建立班号再报名�??");
+            this.log_student.error(">>> [报名] " + "状�?�：success" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                     + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
                     + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName());
             return payMaster;
@@ -352,11 +352,11 @@ public class StudentPayMasterController {
         // 查询学员是否购买过此课程
         List<StudentPayMaster> list = this.studentPayMasterServiceImpl.findByClassTypeAndStu(payMaster);
         if (list != null && list.size() <= 1) {
-            // 更新商品表购买人数
+            // 更新商品表购买人�?
             CommodityProductRealtion cpr = this.commodityProductRealtionServiceImpl.findByClassTypeId("" + payMaster.getCommodityId());
             this.commodityServiceImpl.updateBuyNumById(cpr.getComId());
         }
-        // 更新前台用户表
+        // 更新前台用户�?
         UsersFront userfront = new UsersFront();
         userfront.setCompanyId(WebUtils.getCurrentCompanyId());
         userfront.setEmail(student.getEmail());
@@ -386,7 +386,7 @@ public class StudentPayMasterController {
         // u=usersFrontServiceImpl.findUsersFrontByMobile(userfront);
         // }
 
-        // 检查报名完成是否要发短信
+        // �?查报名完成是否要发短�?
         CompanyFunctionSet cfs = new CompanyFunctionSet();
         cfs.setStatus("1");
         cfs.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -401,7 +401,7 @@ public class StudentPayMasterController {
                 if ("1".equals(s.getStatus())) {
                     needSendSms = true;
                     if (StringUtils.isNotBlank(s.getContent())) {
-                        sms = s.getContent().replace("【coursename】", payMaster.getClassTypeName()) + "【在线网校】";
+                        sms = s.getContent().replace("【coursename�?", payMaster.getClassTypeName()) + "【在线网校�??";
                     }
                 }
             }
@@ -419,15 +419,15 @@ public class StudentPayMasterController {
         if (needSendSms && companyMessageCount) {
             try {
                 if (null != student && null != student.getMobile() && !"".equals(student.getMobile())) {// 2016/7/7
-                                                                                                        // 无手机号则不发送短信
-                    // 发送用户配置的短信内容
+                                                                                                        // 无手机号则不发�?�短�?
+                    // 发�?�用户配置的短信内容
                     // String send = SmsClientSend.sendSms(student.getMobile(),
                     // sms);
                     String send = SmsClientSend.sendSmsTwo(request, student.getMobile(), sms, student.getUserId(), "sys-notice");
                     int returnstatusSIndex = send.indexOf("<returnstatus>");
                     int returnstatusEIndex = send.indexOf("</returnstatus>");
                     String sendMessageStatus = send.substring((returnstatusSIndex + 14), returnstatusEIndex);
-                    // 记录短信发送历史
+                    // 记录短信发�?�历�?
                     CompanyMessageHistory history = new CompanyMessageHistory();
                     history.setCompanyId(WebUtils.getCurrentCompanyId());
 
@@ -448,9 +448,9 @@ public class StudentPayMasterController {
                     this.companyMessageHistoryServiceImpl.insert(history);
                 }
             } catch (Exception e) {
-                this.log_student.error(">>> [报名] " + "状态：短信发送失败" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                this.log_student.error(">>> [报名] " + "状�?�：短信发�?�失�?" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                         + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
-                        + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否需要发短信 = " + needSendSms + ", sms = " + sms, e);
+                        + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否�?要发短信 = " + needSendSms + ", sms = " + sms, e);
                 e.printStackTrace();
             }
         }
@@ -469,10 +469,10 @@ public class StudentPayMasterController {
             this.studentServiceImpl.update(student);
         }
         Commodity comm = commodityServiceImpl.findCommodityById(payMaster.getCommodityId());
-        sendWXTemplate(comm, student,u);//发送短信模版
-        this.log_student.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+        sendWXTemplate(comm, student,u);//发�?�短信模�?
+        this.log_student.info(">>> [报名] " + "状�?�：success" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
-                + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否需要发短信 = " + needSendSms + ", sms = " + sms);
+                + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否�?要发短信 = " + needSendSms + ", sms = " + sms);
         return payMaster;
     }
 
@@ -482,7 +482,7 @@ public class StudentPayMasterController {
      *
      * @Description: 报名，添加订单主逻辑
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -515,7 +515,7 @@ public class StudentPayMasterController {
         }
         List<StudentAgentMaterial> materials = JSONObject.parseArray(request.getParameter("materials"), com.yuxin.wx.model.student.StudentAgentMaterial.class);
         StudentPayMaster payMaster2 = this.studentPayMasterServiceImpl.findStudentPayMasterById(payMaster.getId());
-        // 检查是否已经有记录了
+        // �?查是否已经有记录�?
         List<StudentAgentMaterial> ms = this.studentAgentMaterialServiceImpl.findStudentAgentMaterialByStuId(payMaster2.getStuId(), payMaster2.getId());
         if (ms.size() > 0) {
             if (materials != null) {
@@ -535,7 +535,7 @@ public class StudentPayMasterController {
             payMaster2.setAgentRemark(payMaster.getAgentRemark());
             this.studentPayMasterServiceImpl.update(payMaster2);
         } else {
-            // 没有则新增
+            // 没有则新�?
             if (materials != null) {
                 for (StudentAgentMaterial m : materials) {
                     m.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -554,7 +554,7 @@ public class StudentPayMasterController {
             payMaster2.setAgentRemark(payMaster.getAgentRemark());
             this.studentPayMasterServiceImpl.update(payMaster2);
         }
-        this.log_student.info(">>> [报名-复杂版] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+        this.log_student.info(">>> [报名-复杂版] " + "状�?�：success" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + payMaster.getStuId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
                 + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName());
         return payMaster;
@@ -563,8 +563,8 @@ public class StudentPayMasterController {
     /**
      *
      * @fileName : StudentPayMasterController.java
-     * @date : 2015年10月20日 下午2:25:22
-     * @author : 杨延博
+     * @date : 2015�?10�?20�? 下午2:25:22
+     * @author : 杨延�?
      * @description :
      */
     @ResponseBody
@@ -609,15 +609,15 @@ public class StudentPayMasterController {
                 json.put("wantList", studentNames);
                 json.put("allNum", count);
 
-                this.log_student.error(">>> [批量报名] " + "状态：error" + ", 问题：可招生学员超上限" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                this.log_student.error(">>> [批量报名] " + "状�?�：error" + ", 问题：可招生学员超上�?" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                         + WebUtils.getCurrentUserId(request) + ", 课程ClassTypeID = " + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName()
-                        + ", 报名人数 = " + studentlist.size() + ", 报名List = " + studentlist + ", 新增报名数(未报过名) = " + countTemp + ", 新增报名人(未报过名) = " + studentNames
-                        + ", 剩余报名数 = " + count);
+                        + ", 报名人数 = " + studentlist.size() + ", 报名List = " + studentlist + ", 新增报名�?(未报过名) = " + countTemp + ", 新增报名�?(未报过名) = " + studentNames
+                        + ", 剩余报名�? = " + count);
                 return json;
             }
         }
         for (Student student : studentlist) {
-            // 报考材料
+            // 报�?�材�?
             List<StudentAgentMaterial> materials = JSONObject.parseArray(request.getParameter("materials"),
                     com.yuxin.wx.model.student.StudentAgentMaterial.class);
             if (materials != null) {
@@ -640,21 +640,21 @@ public class StudentPayMasterController {
             // 建立订单
             Boolean exists = this.studentPayMasterServiceImpl.savePayMaster(payMaster, user, materials, stages);
             if (!exists) {
-                this.log_student.error(">>> [批量报名] " + "状态：error" + ", 问题：该课程没有班号，请先建立班号再报名。" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                this.log_student.error(">>> [批量报名] " + "状�?�：error" + ", 问题：该课程没有班号，请先建立班号再报名�?" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                         + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
                         + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName());
                 json.put("status", "error");
-                json.put("result", "该课程没有班号，请先建立班号再报名。");
+                json.put("result", "该课程没有班号，请先建立班号再报名�??");
                 return json;
             }
             List<StudentPayMaster> list = this.studentPayMasterServiceImpl.findByClassTypeAndStu(payMaster);
             if (list != null && list.size() <= 1) {
-                // 更新商品表购买人数
+                // 更新商品表购买人�?
                 CommodityProductRealtion cpr = this.commodityProductRealtionServiceImpl.findByClassTypeId("" + payMaster.getCommodityId());
                 this.commodityServiceImpl.updateBuyNumById(cpr.getComId());
             }
 
-            // 更新前台用户表
+            // 更新前台用户�?
             UsersFront userfront = new UsersFront();
             userfront.setCompanyId(WebUtils.getCurrentCompanyId());
             userfront.setEmail(student.getEmail());
@@ -683,7 +683,7 @@ public class StudentPayMasterController {
             // }else{
             // u=usersFrontServiceImpl.findUsersFrontByMobile(userfront);
             // }
-            // 检查报名完成是否要发短信
+            // �?查报名完成是否要发短�?
             CompanyFunctionSet cfs = new CompanyFunctionSet();
             cfs.setStatus("1");
             cfs.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -698,7 +698,7 @@ public class StudentPayMasterController {
                     if ("1".equals(s.getStatus())) {
                         needSendSms = true;
                         if (StringUtils.isNotBlank(s.getContent())) {
-                            sms = s.getContent().replace("【coursename】", payMaster.getClassTypeName()) + "【在线网校】";
+                            sms = s.getContent().replace("【coursename�?", payMaster.getClassTypeName()) + "【在线网校�??";
                         }
                     }
                 }
@@ -716,15 +716,15 @@ public class StudentPayMasterController {
             if (needSendSms && companyMessageCount) {
                 try {
                     if (null != student && null != student.getMobile() && !"".equals(student.getMobile())) {// 2016/7/7
-                                                                                                            // 无手机号则不发送短信
-                        // 发送用户配置的短信内容
+                                                                                                            // 无手机号则不发�?�短�?
+                        // 发�?�用户配置的短信内容
                         // String send =
                         // SmsClientSend.sendSms(student.getMobile(), sms);
                         String send = SmsClientSend.sendSmsTwo(request, student.getMobile(), sms, student.getUserId(), "sys-notice");
                         int returnstatusSIndex = send.indexOf("<returnstatus>");
                         int returnstatusEIndex = send.indexOf("</returnstatus>");
                         String sendMessageStatus = send.substring((returnstatusSIndex + 14), returnstatusEIndex);
-                        // 记录短信发送历史
+                        // 记录短信发�?�历�?
                         CompanyMessageHistory history = new CompanyMessageHistory();
                         history.setCompanyId(WebUtils.getCurrentCompanyId());
 
@@ -745,9 +745,9 @@ public class StudentPayMasterController {
                         this.companyMessageHistoryServiceImpl.insert(history);
                     }
                 } catch (Exception e) {
-                    this.log_student.error(">>> [批量报名] " + "状态：短信发送失败" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                    this.log_student.error(">>> [批量报名] " + "状�?�：短信发�?�失�?" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                             + WebUtils.getCurrentUserId(request) + ", 课程ClassTypeID = " + payMaster.getCommodityId() + ", 课程名称 = "
-                            + payMaster.getClassTypeName() + ", 报名人 = " + student.getId() + ", sms = " + sms, e);
+                            + payMaster.getClassTypeName() + ", 报名�? = " + student.getId() + ", sms = " + sms, e);
                     e.printStackTrace();
                 }
             }
@@ -766,7 +766,7 @@ public class StudentPayMasterController {
                 this.studentServiceImpl.update(student);
             }
         }
-        this.log_student.info(">>> [批量报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+        this.log_student.info(">>> [批量报名] " + "状�?�：success" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 课程ClassTypeID = " + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName()
                 + ", 报名人数 = " + studentlist.size() + ", 报名List = " + studentlist);
         json.put("status", "success");
@@ -777,9 +777,9 @@ public class StudentPayMasterController {
     /**
      *
      * @fileName : StudentPayMasterController.java
-     * @date : 2015年10月21日 下午4:41:20
-     * @author : 杨延博
-     * @description :批量报名复杂版
+     * @date : 2015�?10�?21�? 下午4:41:20
+     * @author : 杨延�?
+     * @description :批量报名复杂�?
      */
     @ResponseBody
     @RequestMapping(value = "/full/savePayMasterMany", method = RequestMethod.POST)
@@ -822,10 +822,10 @@ public class StudentPayMasterController {
                 json.put("wantList", studentNames);
                 json.put("allNum", count);
 
-                this.log_student.error(">>> [批量报名-复杂版] " + "状态：error" + ", 问题：可招生学员超上限" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                this.log_student.error(">>> [批量报名-复杂版] " + "状�?�：error" + ", 问题：可招生学员超上�?" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                         + WebUtils.getCurrentUserId(request) + ", 课程ClassTypeID = " + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName()
-                        + ", 报名人数 = " + studentList.size() + ", 报名List = " + studentList + ", 新增报名数(未报过名) = " + countTemp + ", 新增报名人(未报过名) = " + studentNames
-                        + ", 剩余报名数 = " + count);
+                        + ", 报名人数 = " + studentList.size() + ", 报名List = " + studentList + ", 新增报名�?(未报过名) = " + countTemp + ", 新增报名�?(未报过名) = " + studentNames
+                        + ", 剩余报名�? = " + count);
                 return json;
             }
         }
@@ -884,7 +884,7 @@ public class StudentPayMasterController {
             for (StudentFeeStage stage : stages) {
                 StudentFeeStage s = this.studentFeeStageServiceImpl.findStudentFeeStageById(stage.getId());
                 stage.setPayMasterId(payMaster.getId());
-                if (stage.getStageDate() == null) {// 没有分期日期就说明是当期付款，所以当前日期=支付日期
+                if (stage.getStageDate() == null) {// 没有分期日期就说明是当期付款，所以当前日�?=支付日期
                     stage.setPayDate(new Date());
                 }
                 stage.setCreateTime(new Date());
@@ -903,7 +903,7 @@ public class StudentPayMasterController {
             List<StudentAgentMaterial> materials = JSONObject.parseArray(request.getParameter("materials"),
                     com.yuxin.wx.model.student.StudentAgentMaterial.class);
             StudentPayMaster payMaster2 = this.studentPayMasterServiceImpl.findStudentPayMasterById(payMaster.getId());
-            // 检查是否已经有记录了
+            // �?查是否已经有记录�?
             List<StudentAgentMaterial> ms = this.studentAgentMaterialServiceImpl.findStudentAgentMaterialByStuId(payMaster2.getStuId(), payMaster2.getId());
             if (ms.size() > 0) {
                 if (materials != null) {
@@ -929,7 +929,7 @@ public class StudentPayMasterController {
 
                 this.studentPayMasterServiceImpl.update(payMaster2);
             } else {
-                // 没有则新增
+                // 没有则新�?
                 if (materials != null) {
                     for (StudentAgentMaterial m : materials) {
                         m.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -959,7 +959,7 @@ public class StudentPayMasterController {
                 CommodityProductRealtion cpr = this.commodityProductRealtionServiceImpl.findByClassTypeId("" + payMaster2.getCommodityId());
                 this.commodityServiceImpl.updateBuyNumById(cpr.getComId());
             }
-            // 更新前台用户表
+            // 更新前台用户�?
             UsersFront userfront = new UsersFront();
             userfront.setCompanyId(WebUtils.getCurrentCompanyId());
             userfront.setEmail(student.getEmail());
@@ -988,7 +988,7 @@ public class StudentPayMasterController {
             // }else{
             // u=usersFrontServiceImpl.findUsersFrontByMobile(userfront);
             // }
-            // 检查报名完成是否要发短信
+            // �?查报名完成是否要发短�?
             CompanyFunctionSet search1 = new CompanyFunctionSet();
             search1.setStatus("1");
             search1.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1003,7 +1003,7 @@ public class StudentPayMasterController {
                     if ("1".equals(s.getStatus())) {
                         needSendSms = true;
                         if (StringUtils.isNotBlank(s.getContent())) {
-                            sms = s.getContent().replace("【coursename】", payMaster2.getClassTypeName()) + "【在线网校】";
+                            sms = s.getContent().replace("【coursename�?", payMaster2.getClassTypeName()) + "【在线网校�??";
                         }
                     }
                 }
@@ -1021,15 +1021,15 @@ public class StudentPayMasterController {
             if (needSendSms && companyMessageCount) {
                 try {
                     if (null != student && null != student.getMobile() && !"".equals(student.getMobile())) {// 2016/7/7
-                                                                                                            // 无手机号则不发送短信
-                        // 发送用户配置的短信内容
+                                                                                                            // 无手机号则不发�?�短�?
+                        // 发�?�用户配置的短信内容
                         // String send =
                         // SmsClientSend.sendSms(student.getMobile(), sms);
                         String send = SmsClientSend.sendSmsTwo(request, student.getMobile(), sms, student.getUserId(), "sys-notice");
                         int returnstatusSIndex = send.indexOf("<returnstatus>");
                         int returnstatusEIndex = send.indexOf("</returnstatus>");
                         String sendMessageStatus = send.substring((returnstatusSIndex + 14), returnstatusEIndex);
-                        // 记录短信发送历史
+                        // 记录短信发�?�历�?
                         CompanyMessageHistory history = new CompanyMessageHistory();
                         history.setCompanyId(WebUtils.getCurrentCompanyId());
 
@@ -1050,9 +1050,9 @@ public class StudentPayMasterController {
                         this.companyMessageHistoryServiceImpl.insert(history);
                     }
                 } catch (Exception e) {
-                    this.log_student.error(">>> [批量报名] " + "状态：短信发送失败" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                    this.log_student.error(">>> [批量报名] " + "状�?�：短信发�?�失�?" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                             + WebUtils.getCurrentUserId(request) + ", 课程ClassTypeID = " + payMaster.getCommodityId() + ", 课程名称 = "
-                            + payMaster.getClassTypeName() + ", 报名人 = " + student.getId() + ", sms = " + sms, e);
+                            + payMaster.getClassTypeName() + ", 报名�? = " + student.getId() + ", sms = " + sms, e);
                     e.printStackTrace();
                 }
             }
@@ -1072,7 +1072,7 @@ public class StudentPayMasterController {
             }
 
         }
-        this.log_student.info(">>> [批量报名-复杂版] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+        this.log_student.info(">>> [批量报名-复杂版] " + "状�?�：success" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 课程ClassTypeID = " + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName()
                 + ", 报名人数 = " + studentList.size() + ", 报名List = " + studentList);
         json.put("status", "success");
@@ -1100,11 +1100,11 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentAgentMaterialController.java
      *
-     * @Description: 保存代报考
+     * @Description: 保存代报�?
      * @author zhang.zx
-     * @date 2015年4月25日 下午6:36:10
+     * @date 2015�?4�?25�? 下午6:36:10
      * @modifier
-     * @modify-date 2015年4月25日 下午6:36:10
+     * @modify-date 2015�?4�?25�? 下午6:36:10
      * @version 1.0
      * @param request
      * @return
@@ -1114,7 +1114,7 @@ public class StudentPayMasterController {
     public List<StudentAgentMaterial> addStuMaterial(HttpServletRequest request, StudentPayMaster payMaster) {
         List<StudentAgentMaterial> materials = JSONObject.parseArray(request.getParameter("materials"), com.yuxin.wx.model.student.StudentAgentMaterial.class);
         StudentPayMaster payMaster2 = this.studentPayMasterServiceImpl.findStudentPayMasterById(payMaster.getId());
-        // 检查是否已经有记录了
+        // �?查是否已经有记录�?
         List<StudentAgentMaterial> ms = this.studentAgentMaterialServiceImpl.findStudentAgentMaterialByStuId(payMaster2.getStuId(), payMaster2.getId());
         if (ms.size() > 0) {
             if (materials != null) {
@@ -1134,7 +1134,7 @@ public class StudentPayMasterController {
             payMaster2.setAgentRemark(payMaster.getAgentRemark());
             this.studentPayMasterServiceImpl.update(payMaster2);
         } else {
-            // 没有则新增
+            // 没有则新�?
             if (materials != null) {
                 for (StudentAgentMaterial m : materials) {
                     m.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1160,9 +1160,9 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentPayMasterController.java
      *
-     * @Description: 报名，添加订单分期
+     * @Description: 报名，添加订单分�?
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1182,7 +1182,7 @@ public class StudentPayMasterController {
         for (StudentFeeStage stage : stages) {
             StudentFeeStage s = this.studentFeeStageServiceImpl.findStudentFeeStageById(stage.getId());
             stage.setPayMasterId(payMaster.getId());
-            if (stage.getStageDate() == null) {// 没有分期日期就说明是当期付款，所以当前日期=支付日期
+            if (stage.getStageDate() == null) {// 没有分期日期就说明是当期付款，所以当前日�?=支付日期
                 stage.setPayDate(new Date());
             }
             stage.setCreateTime(new Date());
@@ -1196,7 +1196,7 @@ public class StudentPayMasterController {
             } else {
                 this.studentFeeStageServiceImpl.insert(stage);
             }
-            // 更新公司流水表
+            // 更新公司流水�?
             try {
                 CompanyCashFlow t = new CompanyCashFlow();
                 Student st = this.studentServiceImpl.findStudentById(payMaster.getStuId());
@@ -1206,7 +1206,7 @@ public class StudentPayMasterController {
                 t.setStuId(payMaster.getStuId());
                 t.setCompanyId(user.getCompanyId());
                 t.setTradeAmount(stage.getStageFee());
-                if (stage.getStageDate() == null) {// 没有分期日期就说明是当期付款，所以当前日期=支付日期
+                if (stage.getStageDate() == null) {// 没有分期日期就说明是当期付款，所以当前日�?=支付日期
                     t.setTradeDate(new Date());
                 } else {
                     t.setTradeDate(stage.getStageDate());
@@ -1226,7 +1226,7 @@ public class StudentPayMasterController {
                 t.setPayMasterId(payMaster.getId());
                 this.companyCashFlowServiceImpl.insert(t);
             } catch (Exception e) {
-                this.log.error("添加公司流水表失败", e);
+                this.log.error("添加公司流水表失�?", e);
                 e.printStackTrace();
             }
         }
@@ -1246,7 +1246,7 @@ public class StudentPayMasterController {
         payMaster2.setTotalAmount(payMaster.getTotalAmount());
 
         ClassType ct = this.classTypeServiceImpl.findClassTypeById(payMaster.getCommodityId());
-        /* 存子订单表 */
+        /* 存子订单�? */
         StudentPaySlave slave = new StudentPaySlave();
         // slave.setCompanyId(user.getCompanyId());
         // slave.setStuId(payMaster.getStuId());
@@ -1259,7 +1259,7 @@ public class StudentPayMasterController {
             this.studentPaySlaveServiceImpl.updateStatus(map);
         }
 
-        // 补订单pay_order表
+        // 补订单pay_order�?
         PayOrder payOrder = new PayOrder();
         StringBuffer orderIdBuffer = new StringBuffer(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
         String orderNum = orderIdBuffer.append(RandomUtils.nextInt(1000)).toString();
@@ -1284,11 +1284,11 @@ public class StudentPayMasterController {
         // 查询学员是否购买过此课程
         List<StudentPayMaster> list = this.studentPayMasterServiceImpl.findByClassTypeAndStu(payMaster2);
         if (list != null && list.size() <= 1) {
-            // 更新商品表购买人数
+            // 更新商品表购买人�?
             CommodityProductRealtion cpr = this.commodityProductRealtionServiceImpl.findByClassTypeId("" + payMaster2.getCommodityId());
             this.commodityServiceImpl.updateBuyNumById(cpr.getComId());
         }
-        // 更新前台用户表
+        // 更新前台用户�?
         UsersFront userfront = new UsersFront();
         userfront.setCompanyId(WebUtils.getCurrentCompanyId());
         userfront.setEmail(student.getEmail());
@@ -1318,7 +1318,7 @@ public class StudentPayMasterController {
         // }else{
         // u=usersFrontServiceImpl.findUsersFrontByMobile(userfront);
         // }
-        // 检查报名完成是否要发短信
+        // �?查报名完成是否要发短�?
         CompanyFunctionSet search = new CompanyFunctionSet();
         search.setStatus("1");
         search.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1333,12 +1333,12 @@ public class StudentPayMasterController {
                 if ("1".equals(s.getStatus())) {
                     needSendSms = true;
                     if (StringUtils.isNotBlank(s.getContent())) {
-                        sms = s.getContent().replace("【coursename】", payMaster2.getClassTypeName()) + "【在线网校】";
+                        sms = s.getContent().replace("【coursename�?", payMaster2.getClassTypeName()) + "【在线网校�??";
                     }
                 }
             }
         }
-        this.log.info("****************报名已完成*****************");
+        this.log.info("****************报名已完�?*****************");
         this.log.info(sms);
         if (needSendSms) {
             CompanyMemberService cms = this.companyMemberServiceServiceImpl.findByCompanyId(WebUtils.getCurrentCompanyId());
@@ -1354,15 +1354,15 @@ public class StudentPayMasterController {
         if (needSendSms && companyMessageCount) {
             try {
                 if (null != student && null != student.getMobile() && !"".equals(student.getMobile())) {// 2016/7/7
-                                                                                                        // 无手机号则不发送短信
-                    // 发送用户配置的短信内容
+                                                                                                        // 无手机号则不发�?�短�?
+                    // 发�?�用户配置的短信内容
                     // String send = SmsClientSend.sendSms(student.getMobile(),
                     // sms);
                     String send = SmsClientSend.sendSmsTwo(request, student.getMobile(), sms, student.getUserId(), "sys-notice");
                     int returnstatusSIndex = send.indexOf("<returnstatus>");
                     int returnstatusEIndex = send.indexOf("</returnstatus>");
                     String sendMessageStatus = send.substring((returnstatusSIndex + 14), returnstatusEIndex);
-                    // 记录短信发送历史
+                    // 记录短信发�?�历�?
                     CompanyMessageHistory history = new CompanyMessageHistory();
                     history.setCompanyId(WebUtils.getCurrentCompanyId());
 
@@ -1383,7 +1383,7 @@ public class StudentPayMasterController {
                     this.companyMessageHistoryServiceImpl.insert(history);
                 }
             } catch (Exception e) {
-                this.log.error("短信发送失败", e);
+                this.log.error("短信发�?�失�?", e);
                 e.printStackTrace();
             }
         }
@@ -1410,7 +1410,7 @@ public class StudentPayMasterController {
      *
      * @Description: 跳转转班页面
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1430,9 +1430,9 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentPayMasterController.java
      *
-     * @Description: 计算原订单各种费用
+     * @Description: 计算原订单各种费�?
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1476,7 +1476,7 @@ public class StudentPayMasterController {
      *
      * @Description: 转班
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1495,7 +1495,7 @@ public class StudentPayMasterController {
         List<StudentFeeStage> stages = JSONObject.parseArray(request.getParameter("stage"), com.yuxin.wx.model.student.StudentFeeStage.class);
 
         StudentFeeRefund refund = JSONObject.parseObject(request.getParameter("refund"), StudentFeeRefund.class);
-        this.log_student.info(">>> [转班-复杂版]" + "状态：success " + ", Step：1 " + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+        this.log_student.info(">>> [转班-复杂版]" + "状�?�：success " + ", Step�?1 " + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + payMaster.getStuId());
         this.studentPayMasterServiceImpl.fullChangeClass(payMaster, oMasterId, user, slaves, materials, stages, refund);
         Student student = this.studentServiceImpl.findStudentById(payMaster.getStuId());
@@ -1509,7 +1509,7 @@ public class StudentPayMasterController {
      *
      * @Description: 转班
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1526,7 +1526,7 @@ public class StudentPayMasterController {
         List<StudentFeeStage> stages = JSONObject.parseArray(request.getParameter("stage"), com.yuxin.wx.model.student.StudentFeeStage.class);
 
         StudentFeeRefund refund = JSONObject.parseObject(request.getParameter("refund"), StudentFeeRefund.class);
-        this.log_student.info(">>> [转班]" + "状态：success " + ", Step：1 " + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+        this.log_student.info(">>> [转班]" + "状�?�：success " + ", Step�?1 " + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + payMaster.getStuId());
         this.studentPayMasterServiceImpl.changeClass(payMaster, oMasterId, user, materials, stages, refund);
         Student student = this.studentServiceImpl.findStudentById(payMaster.getStuId());
@@ -1540,7 +1540,7 @@ public class StudentPayMasterController {
      *
      * @Description: 跳转转人页面
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1560,8 +1560,8 @@ public class StudentPayMasterController {
      * Class Name: StudentPayMasterController.java
      *
      * @Description: 转人
-     * @author 权飞虎
-     * @date 2014年12月12日 下午3:33:04
+     * @author 权飞�?
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1613,8 +1613,8 @@ public class StudentPayMasterController {
             student = this.studentServiceImpl.findStudentById(studentId);
         }
         Users user = WebUtils.getCurrentUser(request);
-        this.log_student.info(">>> [转人] " + "状态：success" + ", Step：1" + ", 信息：" + "公司ID：" + WebUtils.getCurrentCompanyId() + ", 操作人ID："
-                + WebUtils.getCurrentUserId(request) + ", 学生ID：" + student.getId());
+        this.log_student.info(">>> [转人] " + "状�?�：success" + ", Step�?1" + ", 信息�?" + "公司ID�?" + WebUtils.getCurrentCompanyId() + ", 操作人ID�?"
+                + WebUtils.getCurrentUserId(request) + ", 学生ID�?" + student.getId());
         return this.studentPayMasterServiceImpl.changeStudent(user, student, changeInfo, mid);
     }
 
@@ -1631,7 +1631,7 @@ public class StudentPayMasterController {
      *
      * @Description: 跳转解约页面
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1652,7 +1652,7 @@ public class StudentPayMasterController {
      *
      * @Description: 解约
      * @author Chopin
-     * @date 2014年12月12日 下午3:33:04
+     * @date 2014�?12�?12�? 下午3:33:04
      * @version 1.0
      * @param search
      * @return
@@ -1714,11 +1714,11 @@ public class StudentPayMasterController {
      *
      * Class Name: StudentPayMasterController.java
      *
-     * @Description: 跳转到课程安排页面
-     * @author 权飞虎
-     * @date 2015年5月16日 上午11:15:34
+     * @Description: 跳转到课程安排页�?
+     * @author 权飞�?
+     * @date 2015�?5�?16�? 上午11:15:34
      * @modifier
-     * @modify-date 2015年5月16日 上午11:15:34
+     * @modify-date 2015�?5�?16�? 上午11:15:34
      * @version 1.0
      * @param id
      * @return
@@ -1778,9 +1778,9 @@ public class StudentPayMasterController {
      *
      * @Description: 条件查询订单信息
      * @author zhang.zx
-     * @date 2015年6月4日 下午12:00:24
+     * @date 2015�?6�?4�? 下午12:00:24
      * @modifier
-     * @modify-date 2015年6月4日 下午12:00:24
+     * @modify-date 2015�?6�?4�? 下午12:00:24
      * @version 1.0
      * @param search
      * @return
@@ -1839,7 +1839,7 @@ public class StudentPayMasterController {
         return str;
     }
 
-    // 查询订单折线图
+    // 查询订单折线�?
     @ResponseBody
     @RequestMapping(value = "/queryChart")
     public List<Map> orderChart(StuPayMasterVo search) {
@@ -1866,7 +1866,7 @@ public class StudentPayMasterController {
         return this.studentPayMasterServiceImpl.countOrderByDate(search);
     }
 
-    // 查询订单折线图
+    // 查询订单折线�?
     @ResponseBody
     @RequestMapping(value = "/queryChartBySeven")
     public List<Map> orderChart2() {
@@ -1874,7 +1874,7 @@ public class StudentPayMasterController {
         search.setTimeLen(7);
         search.setCompanyId(WebUtils.getCurrentCompanyId());
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole("机构管理员")) {
+        if (!subject.hasRole("机构管理�?")) {
             search.setSchoolId(WebUtils.getCurrentSchoolId());
         }
         return this.studentPayMasterServiceImpl.countOrderByDate(search);
@@ -1887,7 +1887,7 @@ public class StudentPayMasterController {
         this.log_student.info("===");
         if (stuId == null) {
             this.log_student.error(
-                    ">>> [取消报名] " + "状态：error" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = " + WebUtils.getCurrentUser().getId());
+                    ">>> [取消报名] " + "状�?�：error" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = " + WebUtils.getCurrentUser().getId());
             return false;
         }
         // 课程
@@ -1895,7 +1895,7 @@ public class StudentPayMasterController {
         map.put("commodityType", "COMMODITY_CLASS");
         map.put("stuId", stuId);
         List<StudentPayMaster> arr = this.studentPayMasterServiceImpl.findpayIdByStudentsId(map);
-        // 课程包
+        // 课程�?
         Map<String, Object> map1 = new HashMap<String, Object>();
         map1.put("commodityType", "COMMODITY_PACKAGE");
         map1.put("stuId", stuId);
@@ -1971,7 +1971,7 @@ public class StudentPayMasterController {
             }
         }
         // 删除作业记录
-        // 删除作业记录：开始
+        // 删除作业记录：开�?
         Map<String, Object> homeworkMap = null;
         if (null != arr && arr.size() > 0) {
             for (StudentPayMaster paymaster : arr) {
@@ -1998,13 +1998,13 @@ public class StudentPayMasterController {
                 }
             }
         }
-        // 删除作业记录：结束
-        this.log_student.info(">>> [取消报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
-                + WebUtils.getCurrentUser().getId() + ", 学生ID = " + stuId + ", 订单List = num：" + paymasterIdList.size() + " list：" + paymasterIdList);
+        // 删除作业记录：结�?
+        this.log_student.info(">>> [取消报名] " + "状�?�：success" + ", 信息�?" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
+                + WebUtils.getCurrentUser().getId() + ", 学生ID = " + stuId + ", 订单List = num�?" + paymasterIdList.size() + " list�?" + paymasterIdList);
         return true;
     }
 
-    // 使用中
+    // 使用�?
     @ResponseBody
     @RequestMapping(value = "/isDisabled")
     public Boolean isDisabled(String code) {
@@ -2060,23 +2060,27 @@ public class StudentPayMasterController {
     private void sendWXTemplate(Commodity comm,Student stu,UsersFront uf){
 		try{
 		    String openId = uf.getWxOpenId();
+		    if(StringUtils.isBlank(openId)){
+		    	log.info("sendWXTemplate openId is null by user :"+uf.getId());
+		        return;
+		    }
 			ClassType classType = classTypeServiceImpl.findClassTypeByCommodity(comm.getId());
 			String token = weiXinServiceImpl.wxGetToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
 			String template = FileUtil.props.getProperty("signUpResultTemplateMsg");//报名结果通知
 			com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
-			paramsJson.put("first", "尊敬的"+stu.getUsername()+":您好");
+			paramsJson.put("first", "尊敬�?"+stu.getUsername()+":您好");
 			paramsJson.put("class", comm.getName());
 			paramsJson.put("add", "http://www.cdds365.com");
-			paramsJson.put("remark", "请准时上课");
+			paramsJson.put("remark", "请准时上�?");
 			List<ClassModuleLesson> cmlList = new ArrayList<ClassModuleLesson>();
 			List<ClassModule> modulesVoList=classModuleServiceImpl.findModulesByClassTypeId(classType.getId());
 			for(ClassModule module:modulesVoList){
 				if(StringUtils.equals(module.getTeachMethod(),"TEACH_METHOD_LIVE")){
-					//查询模块对应的班号
+					//查询模块对应的班�?
 					List<ClassModuleNo> list=classModuleNoServiceImpl.findByCmId(module.getId(),classType.getId());
 					if(!list.isEmpty()&&list.size()>0){
 						ClassModuleNo mNo=list.get(0);
-						//查询班号对应的课次
+						//查询班号对应的课�?
 						List<ClassModuleLesson> lessonList=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(mNo.getId());
 						if(cmlList.size() > 0){
 							cmlList.addAll(lessonList);

@@ -95,11 +95,11 @@ var msgCount;
  				$(".emailHint").show();
  				$(".sendStuMsg,.phoneHint,.stuGroup,.lj-tops").hide();
  			}
- 			if(notice_type == 'STUDENT_MESSAGE_CLASSTYPE' || notice_type == 'STUDENT_MESSAGE_MODULENO' || notice_type == 'STUDENT_MESSAGE_WEIXIN'){
+ 			if(notice_type == 'STUDENT_MESSAGE_CLASSTYPE' || notice_type == 'STUDENT_MESSAGE_MODULENO'){
  				selItem();
  				$('.sendStuMsg,.lj-tops').show();
  				$('.phoneHint,.emailHint,.stuGroup').hide();
- 				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE' || notice_type == 'STUDENT_MESSAGE_WEIXIN'){
+ 				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
 					$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 					$(".notice-main").css({'margin':'100px auto 100px'});
 				}
@@ -109,6 +109,14 @@ var msgCount;
  				$('.stuGroup').show();
  				$('.phoneHint,.emailHint,.sendStuMsg,.lj-tops').hide();
  			}
+ 			if(notice_type == 'STUDENT_MESSAGE_WEIXIN'){
+				$(".btn-type").hide();
+				$(".btn-type").last().show().addClass('btn-primary');
+				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup,.lj-tops").hide();
+				$(".con-tzbt,.con-fsnr,.tips-txt").hide();
+				$(".notice-main").css({'margin':'100px auto 100px'});
+				$(".sendStuMsg").show();
+			}
  			valida();
  		});
  		
@@ -339,7 +347,7 @@ var msgCount;
 						$("#three").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
 					});
 					var url = "";
-					if(messageType == "STUDENT_MESSAGE_CLASSTYPE" || messageType == "STUDENT_MESSAGE_WEIXIN"){
+					if(messageType == "STUDENT_MESSAGE_CLASSTYPE"){
 						url = rootPath + "/classModule/selClassType";
 						$("#classTitle").html("课程：");
 					}else if(messageType == "STUDENT_MESSAGE_MODULENO"){

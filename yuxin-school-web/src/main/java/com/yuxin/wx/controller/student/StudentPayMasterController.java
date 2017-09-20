@@ -58,10 +58,12 @@ import com.yuxin.wx.api.system.ISysConfigServiceService;
 import com.yuxin.wx.api.system.ISysConfigTermService;
 import com.yuxin.wx.api.user.IUserLessonTimeService;
 import com.yuxin.wx.api.user.IUsersFrontService;
+import com.yuxin.wx.api.weixin.IWeiXinService;
 import com.yuxin.wx.common.Constant;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModule;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.commodity.Commodity;
@@ -82,14 +84,17 @@ import com.yuxin.wx.model.student.StudentPayChangeInfo;
 import com.yuxin.wx.model.student.StudentPayMaster;
 import com.yuxin.wx.model.student.StudentPaySlave;
 import com.yuxin.wx.model.system.SysConfigService;
+import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.system.SysConfigTerm;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.pay.mapper.PayOrderMapper;
 import com.yuxin.wx.util.DateUtil;
 import com.yuxin.wx.utils.EntityUtil;
+import com.yuxin.wx.utils.FileUtil;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.utils.smsClient.interfacej.SmsClientSend;
+import com.yuxin.wx.vo.classes.ClassmNoVo;
 import com.yuxin.wx.vo.student.StuPayMasterVo;
 import com.yuxin.wx.vo.student.StudentPaySlaveVo;
 
@@ -166,7 +171,9 @@ public class StudentPayMasterController {
     private IClassPackageService classPackageServiceImpl;
     @Autowired
     private IClassModuleLessonService classModuleLessonServiceImpl;
-
+    @Autowired
+    private IWeiXinService weiXinServiceImpl;
+    
     /**
      *
      * Class Name: StudentPayMasterController.java
@@ -461,6 +468,8 @@ public class StudentPayMasterController {
             student.setUserId(u.getId());
             this.studentServiceImpl.update(student);
         }
+        Commodity comm = commodityServiceImpl.findCommodityById(payMaster.getCommodityId());
+        sendWXTemplate(comm, student,u);//发送短信模版
         this.log_student.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
                 + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否需要发短信 = " + needSendSms + ", sms = " + sms);
@@ -2046,4 +2055,50 @@ public class StudentPayMasterController {
         }
         return "success";
     }
+    
+    
+    private void sendWXTemplate(Commodity comm,Student stu,UsersFront uf){
+		try{
+		    String openId = uf.getWxOpenId();
+		    if(StringUtils.isBlank(openId)){
+		    	log.info("sendWXTemplate openId is null by user :"+uf.getId());
+		        return;
+		    }
+			ClassType classType = classTypeServiceImpl.findClassTypeByCommodity(comm.getId());
+			String token = weiXinServiceImpl.wxGetToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
+			String template = FileUtil.props.getProperty("signUpResultTemplateMsg");//报名结果通知
+			com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
+			paramsJson.put("first", "尊敬的"+stu.getUsername()+":您好");
+			paramsJson.put("class", comm.getName());
+			paramsJson.put("add", "http://www.cdds365.com");
+			paramsJson.put("remark", "请准时上课");
+			List<ClassModuleLesson> cmlList = new ArrayList<ClassModuleLesson>();
+			List<ClassModule> modulesVoList=classModuleServiceImpl.findModulesByClassTypeId(classType.getId());
+			for(ClassModule module:modulesVoList){
+				if(StringUtils.equals(module.getTeachMethod(),"TEACH_METHOD_LIVE")){
+					//查询模块对应的班号
+					List<ClassModuleNo> list=classModuleNoServiceImpl.findByCmId(module.getId(),classType.getId());
+					if(!list.isEmpty()&&list.size()>0){
+						ClassModuleNo mNo=list.get(0);
+						//查询班号对应的课次
+						List<ClassModuleLesson> lessonList=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(mNo.getId());
+						if(cmlList.size() > 0){
+							cmlList.addAll(lessonList);
+						}
+					
+					}
+					
+				}
+			}
+			if(cmlList.size() > 0){
+				String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cmlList.get(0).getLessonDate());
+				paramsJson.put("time", time);//获取课次上课时间
+			}
+			weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, FileUtil.props.getProperty("wxBaseUrl"));
+		}catch(Exception e){
+			log.error("sendWXTemplate is error :", e);
+		}
+		
+    }
+
 }

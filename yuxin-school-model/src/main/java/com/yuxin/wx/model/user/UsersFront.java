@@ -48,7 +48,7 @@ public class UsersFront extends BaseEntity {
     private String qq;
     private String weibo;
     private String inviteCode;
-
+    private String wxOpenId;
     private double recharge;
 
     public UsersFront() {
@@ -368,6 +368,14 @@ public class UsersFront extends BaseEntity {
 
     public void setRecharge(double recharge) {
         this.recharge = recharge;
+    }
+
+    public String getWxOpenId() {
+        return wxOpenId;
+    }
+
+    public void setWxOpenId(String wxOpenId) {
+        this.wxOpenId = wxOpenId;
     }
 
     @Override

@@ -91,6 +91,7 @@ public class UsersFrontVo extends BaseEntity {
     private String eduSchool;//机构
 
     private Integer isStu; //是否学生,1是。0不是
+    private String wxOpenId;
 
     public Integer getIsStu() {
         return isStu;
@@ -114,6 +115,14 @@ public class UsersFrontVo extends BaseEntity {
 
     public void setEduSchool(String eduSchool) {
         this.eduSchool = eduSchool;
+    }
+
+    public String getWxOpenId() {
+        return wxOpenId;
+    }
+
+    public void setWxOpenId(String wxOpenId) {
+        this.wxOpenId = wxOpenId;
     }
 
     public UsersFrontVo() {

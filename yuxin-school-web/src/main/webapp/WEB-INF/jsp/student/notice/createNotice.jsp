@@ -59,7 +59,9 @@
 							href="javascript:;" class="btn btn-mini btn-method btn-default"
 							data-type="STUDENT_MESSAGE_WEB">站内信通知</a><a
 							href="javascript:;" class="btn btn-mini btn-method btn-default"
-							data-type="STUDENT_MESSAGE_EMAIL">邮件通知</a>
+							data-type="STUDENT_MESSAGE_EMAIL">邮件通知</a><a
+							href="javascript:;" class="btn btn-mini btn-method btn-default"
+							data-type="STUDENT_MESSAGE_WEIXIN">微信通知</a>
 						</span>
 					</p>
 					<p class="c">
@@ -78,6 +80,9 @@
 							<a
 							href="javascript:;" class="btn btn-mini btn-type btn-default"
 							data-type="STUDENT_MESSAGE_GROUP">学员分组通知</a>
+							<a
+							href="javascript:;" class="btn btn-mini btn-type btn-default"
+							data-type="STUDENT_MESSAGE_WEIXIN">微信指定通知</a>
 						</span>
 					</p>
 					

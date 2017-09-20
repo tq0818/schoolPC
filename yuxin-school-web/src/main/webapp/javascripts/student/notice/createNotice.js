@@ -45,7 +45,8 @@ var msgCount;
 			$(".btn-type:first").addClass('btn-primary').removeClass('btn-default').siblings().removeClass('btn-primary').addClass('btn-default');//第二行默认选中第一个
 			selItem();
 			if(type == 'STUDENT_MESSAGE_MOBILE'){
-				$(".btn-type").last().prev().show();
+				$(".btn-type").show();
+				$(".btn-type").last().hide();
 				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup,.lj-tops").hide();
 				$(".sendStuMsg,.zhan,#messageContent").show();
 				if($(".btn-type.btn-primary").attr("data-type")=='STUDENT_MESSAGE_CLASSTYPE'){
@@ -55,15 +56,26 @@ var msgCount;
 				}
 			}
 			if(type == "STUDENT_MESSAGE_WEB"){
+				$(".btn-type").show();
+				$(".btn-type").last().hide();
 				$(".btn-type").last().prev().hide();
 				$("#messageContent,.zhan,.phoneHint,.emailHint,.emailTitle,#email_ckecktor,#use_email,.stuGroup,.use_email,.lj-tops").hide();
 				$("#ckecktor,.sendStuMsg").show();
  				
 			}
 			if(type == 'STUDENT_MESSAGE_EMAIL'){
-				$(".btn-type").last().prev().show();
+				$(".btn-type").show();
+				$(".btn-type").last().hide();
 				$(".phoneHint,.emailHint,#ckecktor,#messageContent,.zhan,.lj-tops").hide();
 				$(".sendStuMsg,.emailTitle,#email_ckecktor,.use_email").show();
+			}
+			if(type == 'STUDENT_MESSAGE_WEIXIN'){
+				$(".btn-type").hide();
+				$(".btn-type").last().show().addClass('btn-primary');
+				$(".phoneHint,.emailHint,.emailTitle,#ckecktor,#email_ckecktor,.use_email,.stuGroup,.lj-tops").hide();
+				$(".con-tzbt,.con-fsnr,.tips-txt").hide();
+				$(".notice-main").css({'margin':'100px auto 100px'});
+				$(".sendStuMsg").show();
 			}
  		});
  		$('.btn-type').on('click',function(){
@@ -83,11 +95,11 @@ var msgCount;
  				$(".emailHint").show();
  				$(".sendStuMsg,.phoneHint,.stuGroup,.lj-tops").hide();
  			}
- 			if(notice_type == 'STUDENT_MESSAGE_CLASSTYPE' || notice_type == 'STUDENT_MESSAGE_MODULENO'){
+ 			if(notice_type == 'STUDENT_MESSAGE_CLASSTYPE' || notice_type == 'STUDENT_MESSAGE_MODULENO' || notice_type == 'STUDENT_MESSAGE_WEIXIN'){
  				selItem();
  				$('.sendStuMsg,.lj-tops').show();
  				$('.phoneHint,.emailHint,.stuGroup').hide();
- 				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE'){
+ 				if($(".btn-method.btn-primary").attr("data-type")=='STUDENT_MESSAGE_MOBILE' || notice_type == 'STUDENT_MESSAGE_WEIXIN'){
 					$(".con-tzbt,.con-fsnr,.tips-txt").hide();
 					$(".notice-main").css({'margin':'100px auto 100px'});
 				}
@@ -327,7 +339,7 @@ var msgCount;
 						$("#three").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
 					});
 					var url = "";
-					if(messageType == "STUDENT_MESSAGE_CLASSTYPE"){
+					if(messageType == "STUDENT_MESSAGE_CLASSTYPE" || messageType == "STUDENT_MESSAGE_WEIXIN"){
 						url = rootPath + "/classModule/selClassType";
 						$("#classTitle").html("课程：");
 					}else if(messageType == "STUDENT_MESSAGE_MODULENO"){

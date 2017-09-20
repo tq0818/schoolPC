@@ -60,11 +60,12 @@ public class WeiXinServiceImpl implements IWeiXinService{
 		Iterator it = dataJson.keySet().iterator();
 		while(it.hasNext()){
 			 String key = it.next().toString();
+			 JSONObject json = dataJson.getJSONObject(key);
 			 String value = paramsJson.getString(key);
-			 dataJson.put(key, value);
+			 json.put("value", value);
 			 
 		}
-		String msg = new String(msgJson.toString().getBytes(),"iso-8859-1");
+		String msg = new String(msgJson.toString().getBytes("UTF-8"),"iso-8859-1");
 		log.info("weixin send template msg content  iso-8859-1:"+msg);
 		String json =  new RestTemplate().postForObject(url,msg,String.class);
 	    if(StringUtils.isNotBlank(json)){

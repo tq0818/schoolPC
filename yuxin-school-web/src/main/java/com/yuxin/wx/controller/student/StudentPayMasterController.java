@@ -2091,7 +2091,8 @@ public class StudentPayMasterController {
 				}
 			}
 			if(cmlList.size() > 0){
-				paramsJson.put("time", cmlList.get(0).getLessonDate());//获取课次上课时间
+				String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cmlList.get(0).getLessonDate());
+				paramsJson.put("time", time);//获取课次上课时间
 			}
 			weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, FileUtil.props.getProperty("wxBaseUrl"));
 		}catch(Exception e){

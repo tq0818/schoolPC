@@ -1,18 +1,11 @@
 package com.yuxin.wx.scheduled;
 
-import com.yuxin.wx.api.company.ICompanyEmailHistoryService;
-import com.yuxin.wx.api.company.ICompanyService;
-import com.yuxin.wx.api.company.ICompanyServiceStaticDayService;
-import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.api.tiku.*;
-import com.yuxin.wx.model.company.CompanyEmailHistory;
-import com.yuxin.wx.model.company.CompanyServiceStatic;
-import com.yuxin.wx.model.company.CompanyServiceStaticDay;
 import com.yuxin.wx.model.tiku.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -132,10 +125,12 @@ public class TikuStatisticsTask{
 				}
 			}else if("TOPIC_TYPE_MULTIPLE".equals(tikuPaperTopic.getTopicType()) || "TOPIC_TYPE_UNDEFINED".equals(tikuPaperTopic.getTopicType())){//多选或不定项
 				for(TikuUserExerciseAnswer tikuUserExerciseAnswer:tikuUserExerciseAnswerList){
-					char[] uc = tikuUserExerciseAnswer.getUserAnswer().toCharArray();
-					for(int i=0; i<uc.length; i++){
-						if(map.containsKey(String.valueOf(uc[i]))){
-							map.put(String.valueOf(uc[i]), map.get(String.valueOf(uc[i]))+1);
+					if(StringUtils.isNotBlank(tikuUserExerciseAnswer.getUserAnswer())){
+						char[] uc = tikuUserExerciseAnswer.getUserAnswer().toCharArray();
+						for(int i=0; i<uc.length; i++){
+							if(map.containsKey(String.valueOf(uc[i]))){
+								map.put(String.valueOf(uc[i]), map.get(String.valueOf(uc[i]))+1);
+							}
 						}
 					}
 					if(Integer.valueOf(1).equals(tikuUserExerciseAnswer.getCorrectFlag())){

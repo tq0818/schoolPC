@@ -2523,6 +2523,43 @@ public class StudentController {
         
     }
 
+    @RequestMapping("/createWeixin")
+    public String createWeixin(Model model, HttpServletRequest request) {
+        // 根据公司 和 学校 查询 一级项目
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        Integer schoolId = WebUtils.getCurrentUserSchoolId(request);
+
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("companyId", companyId);
+        param.put("schoolId", schoolId);
+        param.put("itemType", 1);
+        param.put("functionCode", "COMPANY_FUNCTION_COURSE");
+
+        // 查询多课程支持
+        Integer status = studentServiceImpl.findClassMore(param);
+
+        model.addAttribute("classMoreStatus", status);
+
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("oneItem", relations);
+        return "student/notice/createWeixin";
+
+    }
+
     /**
      *
      * Class Name: StudentController.java

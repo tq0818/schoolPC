@@ -2131,7 +2131,7 @@ public class StudentPayMasterController {
 		
     }
 
-    private static Date getLessonDateTime(ClassModuleLesson lesson) throws Exception{
+    public static Date getLessonDateTime(ClassModuleLesson lesson) throws Exception{
 		Date date = null;
 		try{
 			SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

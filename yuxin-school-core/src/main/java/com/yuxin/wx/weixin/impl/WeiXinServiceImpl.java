@@ -55,6 +55,9 @@ public class WeiXinServiceImpl implements IWeiXinService{
 		String result = "failed";
 		String url = weixinBaseUrl +"/message/template/send?access_token="+token;
 		JSONObject msgJson = JSONObject.parseObject(template);
+		String redirectUrl = paramsJson.getString("url");
+		paramsJson.remove("url");
+		msgJson.put("url", redirectUrl);
 		msgJson.put("touser", openId);
 		JSONObject dataJson = msgJson.getJSONObject("data");
 		Iterator it = dataJson.keySet().iterator();
@@ -62,8 +65,10 @@ public class WeiXinServiceImpl implements IWeiXinService{
 			 String key = it.next().toString();
 			 JSONObject json = dataJson.getJSONObject(key);
 			 String value = paramsJson.getString(key);
-			 json.put("value", value);
-			 
+			 if(StringUtils.isNotBlank(value)){
+				 json.put("value", value); 
+			 }
+						 
 		}
 		String msg = new String(msgJson.toString().getBytes("UTF-8"),"iso-8859-1");
 		log.info("weixin send template msg content  iso-8859-1:"+msg);

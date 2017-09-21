@@ -2,6 +2,8 @@ package com.yuxin.wx.controller.student;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -173,7 +175,8 @@ public class StudentPayMasterController {
     private IClassModuleLessonService classModuleLessonServiceImpl;
     @Autowired
     private IWeiXinService weiXinServiceImpl;
-    
+    @Autowired
+    private ICompanyService companyServiceImpl;
     /**
      *
      * Class Name: StudentPayMasterController.java
@@ -469,7 +472,7 @@ public class StudentPayMasterController {
             this.studentServiceImpl.update(student);
         }
         Commodity comm = commodityServiceImpl.findCommodityById(payMaster.getCommodityId());
-        sendWXTemplate(comm, student,u);//发送短信模版
+        sendWXTemplate(comm, student,u);//发送微信模版
         this.log_student.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUserId(request) + ", 学生ID = " + student.getId() + ", 订单ID = " + payMaster.getId() + ", 课程ClassTypeID = "
                 + payMaster.getCommodityId() + ", 课程名称 = " + payMaster.getClassTypeName() + ", 是否需要发短信 = " + needSendSms + ", sms = " + sms);
@@ -2059,6 +2062,7 @@ public class StudentPayMasterController {
     
     private void sendWXTemplate(Commodity comm,Student stu,UsersFront uf){
 		try{
+			Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
 		    String openId = uf.getWxOpenId();
 		    if(StringUtils.isBlank(openId)){
 		    	log.info("sendWXTemplate openId is null by user :"+uf.getId());
@@ -2068,21 +2072,24 @@ public class StudentPayMasterController {
 			String token = weiXinServiceImpl.wxGetToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
 			String template = FileUtil.props.getProperty("signUpResultTemplateMsg");//报名结果通知
 			com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
-			paramsJson.put("first", "尊敬的"+stu.getUsername()+":您好");
+			paramsJson.put("first", "尊敬的"+stu.getUsername()+":您好!");
 			paramsJson.put("class", comm.getName());
-			paramsJson.put("add", "http://www.cdds365.com");
-			paramsJson.put("remark", "请准时上课");
+			if(comm.getLiveFlag() != null && comm.getLiveFlag().intValue() == 1){
+				paramsJson.put("url", "http://"+company.getDomain()+"/wx?urlNew="+company.getDomain()+"/html/starcube/index/details-live.html?invite="+comm.getId());
+			}else if(comm.getVideoFlag() != null && comm.getVideoFlag().intValue() == 1){
+				paramsJson.put("url", "http://"+company.getDomain()+"/html/starcube/index/details-huifang.html?invite="+comm.getId());
+			}
 			List<ClassModuleLesson> cmlList = new ArrayList<ClassModuleLesson>();
 			List<ClassModule> modulesVoList=classModuleServiceImpl.findModulesByClassTypeId(classType.getId());
 			for(ClassModule module:modulesVoList){
 				if(StringUtils.equals(module.getTeachMethod(),"TEACH_METHOD_LIVE")){
 					//查询模块对应的班号
-					List<ClassModuleNo> list=classModuleNoServiceImpl.findByCmId(module.getId(),classType.getId());
-					if(!list.isEmpty()&&list.size()>0){
+					List<ClassModuleNo> list = classModuleNoServiceImpl.findByCmId(module.getId(),classType.getId());
+					if(list.size() > 0){
 						ClassModuleNo mNo=list.get(0);
 						//查询班号对应的课次
 						List<ClassModuleLesson> lessonList=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(mNo.getId());
-						if(cmlList.size() > 0){
+						if(lessonList.size() > 0){
 							cmlList.addAll(lessonList);
 						}
 					
@@ -2091,7 +2098,30 @@ public class StudentPayMasterController {
 				}
 			}
 			if(cmlList.size() > 0){
-				String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cmlList.get(0).getLessonDate());
+				Collections.sort(cmlList,new Comparator<ClassModuleLesson>(){
+  				  public int compare(ClassModuleLesson l1,ClassModuleLesson l2) {
+						Date d1 = null;
+						Date d2 = null;
+						try{
+						   d1 = getLessonDateTime(l1);
+						   d2 = getLessonDateTime(l2);
+						}catch(Exception e){
+							log.error("compare is error", e);
+						}
+						return d1.compareTo(d2);
+					}  
+                });
+            	ClassModuleLesson cml = null;
+            	for(ClassModuleLesson lesson : cmlList){
+            		if(lesson.getLessonDateTime().getTime() >= new Date().getTime()){
+            			cml = lesson;
+            			break;
+            		}
+            	}
+            	if(cml == null){
+            		cml = cmlList.get(cmlList.size()-1);
+            	}
+				String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cml.getLessonDateTime());
 				paramsJson.put("time", time);//获取课次上课时间
 			}
 			weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, FileUtil.props.getProperty("wxBaseUrl"));
@@ -2101,4 +2131,18 @@ public class StudentPayMasterController {
 		
     }
 
+    private static Date getLessonDateTime(ClassModuleLesson lesson) throws Exception{
+		Date date = null;
+		try{
+			SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat df =  new SimpleDateFormat("yyyy-MM-dd");
+			String lessonDateStr = df.format(lesson.getLessonDate());
+			date = dateFormat.parse(lessonDateStr+ " "+lesson.getLessonTimeStart()+":00");
+			lesson.setLessonDateTime(date);
+			return date;
+		}catch(Exception e){
+			throw new Exception(e);
+		}
+		
+    }
 }

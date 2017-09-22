@@ -18,34 +18,34 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.weixin.IWeiXinService;
 import com.yuxin.wx.common.SignUtils;
+import com.yuxin.wx.util.JedisUtil;
+import com.yuxin.wx.vo.weichat.WeichatAccessToken;
 
 @Service("weiXinService")
 public class WeiXinServiceImpl implements IWeiXinService{
 
 	private Log log = LogFactory.getLog("WeiXinServiceImpl");
 
-	public static long expiresTime = 0l;
 	
-	public static String accessToken;
 	
 	@Override
 	public String wxGetToken(String weixinBaseUrl,String weixinAppId,String weixinSecret) {
-		    String token = "";
-		    String url = weixinBaseUrl + "/token";
+		 String url = weixinBaseUrl + "/token";
 		 	String grantType = "client_credential";
-		    if(StringUtils.isNotBlank(accessToken) && new Date().getTime() < expiresTime){
-		    	token = accessToken;
+		 	String token = "";
+		 	String redisToken = JedisUtil.getString("weChatAccessToken");
+		    if(StringUtils.isNotBlank(redisToken) && StringUtils.isNotBlank(JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token())){
+		    	token = JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token();
 		    }else{
 		    	MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
 				param.add("grant_type", grantType);
 				param.add("appid", weixinAppId);
 				param.add("secret", weixinSecret);
 				String json =  new RestTemplate().postForObject(url,param,String.class);
-	            JSONObject resultJson = JSONObject.parseObject(json);
-	            accessToken = resultJson.getString("access_token");
-	            expiresTime  = new Date().getTime() + ((Integer.parseInt(resultJson.getString("expires_in")) - 200) * 1000);
-	            token = accessToken;
+				WeichatAccessToken accessToken = JSONObject.parseObject(json,WeichatAccessToken.class);
+	            JedisUtil.put("weChatAccessToken", JSONObject.toJSONString(accessToken),3600);
 		    }
+		    log.info("weixin request token :"+token);
 			return token;
 	}
 

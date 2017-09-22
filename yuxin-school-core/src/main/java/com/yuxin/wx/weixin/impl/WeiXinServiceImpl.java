@@ -30,23 +30,24 @@ public class WeiXinServiceImpl implements IWeiXinService{
 	
 	@Override
 	public String wxGetToken(String weixinBaseUrl,String weixinAppId,String weixinSecret) {
-		 String url = weixinBaseUrl + "/token";
-		 	String grantType = "client_credential";
-		 	String token = "";
-		 	String redisToken = JedisUtil.getString("weChatAccessToken");
-		    if(StringUtils.isNotBlank(redisToken) && StringUtils.isNotBlank(JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token())){
-		    	token = JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token();
-		    }else{
-		    	MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
-				param.add("grant_type", grantType);
-				param.add("appid", weixinAppId);
-				param.add("secret", weixinSecret);
-				String json =  new RestTemplate().postForObject(url,param,String.class);
-				WeichatAccessToken accessToken = JSONObject.parseObject(json,WeichatAccessToken.class);
-	            JedisUtil.put("weChatAccessToken", JSONObject.toJSONString(accessToken),3600);
-		    }
-		    log.info("weixin request token :"+token);
-			return token;
+		String url = weixinBaseUrl + "/token";
+		String grantType = "client_credential";
+		String token = "";
+		String redisToken = JedisUtil.getString("weChatAccessToken");
+		if(StringUtils.isNotBlank(redisToken) && StringUtils.isNotBlank(JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token())){
+			token = JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token();
+		}else{
+			MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
+			param.add("grant_type", grantType);
+			param.add("appid", weixinAppId);
+			param.add("secret", weixinSecret);
+			String json =  new RestTemplate().postForObject(url,param,String.class);
+			WeichatAccessToken accessToken = JSONObject.parseObject(json,WeichatAccessToken.class);
+			JedisUtil.put("weChatAccessToken", JSONObject.toJSONString(accessToken),3600);
+			token = accessToken.getAccess_token();
+		}
+		log.info("weixin request token :"+token);
+		return token;
 	}
 
 	@Override

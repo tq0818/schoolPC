@@ -2942,8 +2942,36 @@ public class ClassModuleController {
 		}
 		return sendcounts;
 	}
-	
-	
+
+
+	/**
+	 * 学员通知发送微信
+	 * @author licong
+	 * @date 2016年10月25日 下午5:00:19
+	 * @param
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/sendWeixinMsg")
+	public JSONObject sendWeixinMsg(Integer classId,String stepItemCode,String yearItemCode, HttpServletRequest request) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(JsonMsg.RESULT,"flag");
+		//微信数据找寻
+		Student search = new Student();
+		search.setEduStep(stepItemCode);
+		search.setEduYear(yearItemCode);
+		List<UsersFrontVo> usersFrontVoList = usersFrontService.findUserFrontAndStudent(search);
+		ClassType classType = classTypeServiceImpl.findClassTypeById(classId);
+		Integer commodityId = commodityService.findCommodityIdByClassTypeId(classId);
+		if(commodityId != null){
+			Commodity comm = commodityService.findCommodityById(commodityId);
+			sendWXTemplate(comm, classType, usersFrontVoList, request);//发送微信模版
+			jsonObject.put(JsonMsg.RESULT,"success");
+		}
+		return jsonObject;
+	}
+
+
 	/**
 	 * 学员应急发送短信
 	 * @author licong
@@ -2966,19 +2994,19 @@ public class ClassModuleController {
 		String result;
 		String status;
 		String message;
-		
+
 		String className = "《"+companyStudentMessage.getClassTypeName()+"》";
-		
+
 		List<ClassModule> modules  =  classModuleServiceImpl.findByClassTypeId(companyStudentMessage.getClassTypeId());
-		
+
 		List<ClassModuleNo> moduleNos = classModuleNoServiceImpl.queryClassModuleNoById(modules.get(0).getId());
-		
+
 		List<ClassModuleLesson> lessons = new ArrayList<ClassModuleLesson>();
 		//获取第一个课次的时间
-			
+
 		lessons = classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(moduleNos.get(0).getId());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		String date  = sdf.format(moduleNos.get(0).getStartDate())+"  "+ lessons.get(0).getLessonTimeStart();
 		content ="";
 		if(isFlag==1){
@@ -3002,8 +3030,8 @@ public class ClassModuleController {
 			}
 			//if(null!=s && null!=s.getMobile() && !"".equals(s.getMobile())){//2016/7/7  手机为空则不发短信
 				result = SMSUtil.sendHurryNotice(request, num, className, LiveRoomConstant.STUDENT_TOKEN_CLINT,isFlag);
-				
-				
+
+
 //				result = SmsClientSend.sendSmsTwo(request
 //						,s.getMobile().trim(), content + "【在线网校】"
 //						,user.getId(),"stu-notice");
@@ -3039,8 +3067,7 @@ public class ClassModuleController {
 		}
 		return sendcounts;
 	}
-	
-	
+
 	//添加模块
 	@ResponseBody
 	@RequestMapping(value="/saveModules",method=RequestMethod.POST)
@@ -3057,35 +3084,11 @@ public class ClassModuleController {
 		return classModuleServiceImpl.findClassModuleById(module.getId());
 	}
 
-	/**
-	 * 学员通知发送微信
-	 * @author licong
-	 * @date 2016年10月25日 下午5:00:19
-	 * @param
-	 * @return
-	 */
-	@RequestMapping("/sendWeixinMsg")
-	@ResponseBody
-	public JSONObject sendWeixinMsg(Integer classId,String stepItemCode,String yearItemCode) {
-		JSONObject jsonObject = new JSONObject();
-        jsonObject.put(JsonMsg.RESULT,"flag");
-		//微信数据找寻
-        Student search = new Student();
-        search.setEduStep(stepItemCode);
-        search.setEduYear(yearItemCode);
-		List<UsersFrontVo> usersFrontVoList = usersFrontService.findUserFrontAndStudent(search);
-        ClassType classType = classTypeServiceImpl.findClassTypeById(classId);
-        Integer commodityId = commodityService.findCommodityIdByClassTypeId(classId);
-        if(commodityId != null){
-            Commodity comm = commodityService.findCommodityById(commodityId);
-            sendWXTemplate(comm, classType, usersFrontVoList);//发送微信模版
-            jsonObject.put(JsonMsg.RESULT,"success");
-        }
-		return jsonObject;
-	}
 
-
-    private void sendWXTemplate(Commodity comm, ClassType classType, List<UsersFrontVo> usersFrontVoList){
+    private void sendWXTemplate(Commodity comm, ClassType classType, List<UsersFrontVo> usersFrontVoList, HttpServletRequest request){
+		Integer sendNum = 0;
+		Integer failNum = 0;
+		ClassModuleLesson cml = null;
         for(UsersFrontVo ufv:usersFrontVoList){
             try{
                 Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
@@ -3095,10 +3098,10 @@ public class ClassModuleController {
                     return;
                 }
                 String token = weiXinServiceImpl.wxGetToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
-                String template = FileUtil.props.getProperty("attendClassTemplateMsg");//报名结果通知
+                String template = FileUtil.props.getProperty("subscribeClassRemindTemplateMsg");//订阅结果通知
                 com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
-                paramsJson.put("userName", "尊敬的"+ufv.getName()+":您好!");
-                paramsJson.put("courseName", comm.getName());
+                paramsJson.put("first", "尊敬的"+ufv.getName()+":您好!");
+                paramsJson.put("keyword1", comm.getName());//课程标题
                 if(comm.getLiveFlag() != null && comm.getLiveFlag().intValue() == 1){
                     paramsJson.put("url", "http://"+company.getDomain()+"/wx?urlNew="+company.getDomain()+"/html/starcube/index/details-live.html?invite="+comm.getId());
                 }else if(comm.getVideoFlag() != null && comm.getVideoFlag().intValue() == 1){
@@ -3125,11 +3128,12 @@ public class ClassModuleController {
 
                     }
                 }
-                if(cmlList.size() > 0){
-					ClassModuleLesson cml = null;
+                Integer cmlNum = 0;
+				if(cmlList.size() > 0){
 					if(cmlList.size() <= 1){
 						cml = cmlList.get(0);
 						getLessonDateTime(cml);
+						cmlNum++;
 					}else{
 						Collections.sort(cmlList,new Comparator<ClassModuleLesson>(){
 							public int compare(ClassModuleLesson l1,ClassModuleLesson l2) {
@@ -3145,6 +3149,7 @@ public class ClassModuleController {
 							}
 						});
 						for(ClassModuleLesson lesson : cmlList){
+							cmlNum++;
 							if(lesson.getLessonDateTime().getTime() >= new Date().getTime()){
 								cml = lesson;
 								break;
@@ -3152,20 +3157,48 @@ public class ClassModuleController {
 						}
 					}
                     if(cml == null){
+						cmlNum = cmlList.size();
                         cml = cmlList.get(cmlList.size()-1);
                     }
-                    String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cml.getLessonDateTime());
-                    paramsJson.put("date", time);//获取课次上课时间
-                }
-                weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, FileUtil.props.getProperty("wxBaseUrl"));
-				this.log.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId()
-						+ ", 学生ID = " + ufv.getId() + ", 课程ClassTypeID = "
-						+ comm.getId() + ", 课程名称 = " + comm.getName());
-
+                    String time = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(cml.getLessonDateTime());
+					paramsJson.put("keyword2", "第"+cmlNum+"节："+cml.getLessonName());//课程内容
+					paramsJson.put("keyword3", cml.getTeachersName());//主讲教师
+					paramsJson.put("keyword4", time);//获取课次上课时间
+				}
+                String result = weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, FileUtil.props.getProperty("wxBaseUrl"));
+				if("success".equals(result)){
+					this.log.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId()
+							+ ", 学生ID = " + ufv.getId() + ", 课程ClassTypeID = "
+							+ comm.getId() + ", 课程名称 = " + comm.getName());
+					sendNum++;
+				}else{
+					failNum++;
+				}
             }catch(Exception e){
+				failNum++;
                 log.error("sendWXTemplate is error :", e);
             }
         }
+		CompanyStudentMessage companyStudentMessage = new CompanyStudentMessage();
+		companyStudentMessage.setTitle("微信指定通知");
+		companyStudentMessage.setContent("订阅课程["+classType.getName()+"]今天开课");
+		companyStudentMessage.setMessageType("STUDENT_MESSAGE_WEIXIN");
+		companyStudentMessage.setMessageMethod("STUDENT_MESSAGE_MOBILE");
+		companyStudentMessage.setClassTypeId(classType.getId());
+		companyStudentMessage.setClassTypeName(classType.getName());
+		companyStudentMessage.setModuleNoId(cml!=null ? cml.getModuleNoId():null);
+		companyStudentMessage.setModuleNoName(cml!=null ? cml.getModuleNoName():null);
+		companyStudentMessage.setCreator(WebUtils.getCurrentUserId(request));
+		companyStudentMessage.setCreateTime(new Date());
+		companyStudentMessage.setSendNum(sendNum);
+		companyStudentMessage.setFailNum(failNum);
+		companyStudentMessage.setMessageStatus("STUDENT_MESSAGE_FINISH");
+		companyStudentMessage.setSchoolId(WebUtils.getCurrentSchoolId());
+		companyStudentMessage.setCompanyId(WebUtils.getCurrentCompanyId());
+		companyStudentMessage.setItemOneCode(classType.getItemOneCode());
+		companyStudentMessage.setItemSecondCode(classType.getItemSecondCode());
+		companyStudentMessage.setItemThirdCode(classType.getItemThirdCode());
+		companyStudentMessageServiceImpl.insert(companyStudentMessage);
     }
 
 	public static Date getLessonDateTime(ClassModuleLesson lesson) throws Exception{

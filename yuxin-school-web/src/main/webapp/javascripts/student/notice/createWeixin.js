@@ -15,7 +15,7 @@
              var messageType = $(".btn-type.btn-primary").attr("data-type");
              var oneItem = $("#one option:selected").attr("data-code");
              var twoItem = $("#two option:selected").attr("data-code");
-             if(messageType == "STUDENT_MESSAGE_WEIXIN"){
+             if(messageType == "STUDENT_MESSAGE_MOBILE"){
                  url = rootPath + "/classModule/selClassType";
                  $("#classTitle").html("课程：");
              }
@@ -49,6 +49,7 @@
  				success:function(data){
  					if(data.result == "success"){
  						$(".loading").hide();
+						$(".loading-bg").hide();
 				        $('<div class="c-fa">'+ "消息已发送！" +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){
 				        	$(this).remove();
 				        });
@@ -117,7 +118,7 @@
 						$("#three").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
 					});
 					var url = "";
-					if(messageType == "STUDENT_MESSAGE_WEIXIN"){
+					if(messageType == "STUDENT_MESSAGE_MOBILE"){
 						url = rootPath + "/classModule/selClassType";
 						$("#classTitle").html("课程：");
 					}

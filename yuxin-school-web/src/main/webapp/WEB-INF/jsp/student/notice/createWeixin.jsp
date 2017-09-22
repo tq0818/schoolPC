@@ -58,7 +58,7 @@
 					<p class="c">
 						<span class="c-title">通知类型：</span> <span class="c-content font-style">
 							<a href="javascript:;" class="btn btn-mini btn-type btn-primary"
-							data-type="STUDENT_MESSAGE_WEIXIN">微信指定通知</a>
+							data-type="STUDENT_MESSAGE_MOBILE">微信指定通知</a>
 						</span>
 					</p>
 					

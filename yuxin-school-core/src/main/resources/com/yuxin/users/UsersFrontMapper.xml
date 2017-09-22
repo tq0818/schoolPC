@@ -82,6 +82,7 @@
 		<result property="homePhone" column="home_phone" />
 		<result property="officePhone" column="office_phone" />
 		<result property="weixinId" column="weixin_id" />
+		<result property="wxOpenId" column="wx_open_id" />
 		<result property="emergencyContact" column="emergency_contact" />
 		<result property="emergencyPhone" column="emergency_phone" />
 		<result property="remark" column="remark" />
@@ -883,5 +884,14 @@
 		select <include refid="table_columns" />
 		from users_front
 		where username = #{username} and company_id=#{companyId} limit 0,1
+	</select>
+
+
+	<!-- 根据学员查询前台账号 -->
+	<select id="findUserFrontAndStudent" parameterType="com.yuxin.wx.model.student.Student" resultMap="usersFrontVoResultMap">
+		select u.*,s.name
+		from users_front u INNER JOIN student s on s.user_id=u.id
+		where u.wx_open_id is not null and u.wx_open_id !='' and s.edu_step = #{eduStep}
+		and s.edu_year = #{eduYear}
 	</select>
 </mapper>

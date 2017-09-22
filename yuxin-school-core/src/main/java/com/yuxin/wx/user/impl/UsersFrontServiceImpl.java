@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.student.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
@@ -302,6 +303,11 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         map.put("code", code);
         map.put("companyId", companyId);
         return this.usersFrontMapper.findUserVoByInvitCode(map);
+    }
+
+    @Override
+    public List<UsersFrontVo> findUserFrontAndStudent(Student student) {
+        return usersFrontMapper.findUserFrontAndStudent(student);
     }
 
     @Override

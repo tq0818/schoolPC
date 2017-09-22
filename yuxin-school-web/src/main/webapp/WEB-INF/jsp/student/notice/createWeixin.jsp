@@ -5,9 +5,12 @@
 <head>
 <title>通知内容</title>
     <%@include file="/decorators/import.jsp" %>
-     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/student.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/miniJs/css/minitip.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/student.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/select2.min.css" />
-	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery-ui.js"></script>
+	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.min.js"></script>
 	<script type="text/javascript" src="<%=rootPath%>/javascripts/student.js"></script>
 	<script type="text/javascript" src="<%=rootPath%>/javascripts/select2.full.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/student/notice/createWeixin.js"></script>
@@ -36,6 +39,7 @@
     </style>
 </head>
 <body>
+	<jsp:include page="/header.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp" />
 	<div class="u-wrap student new-student">
 		<div class="mainbackground">
@@ -47,13 +51,13 @@
 				<div class="notice-main">
 					<p class="c">
 						<span class="c-title">通知方式：</span> <span class="c-content font-style">
-							<a href="javascript:;" class="btn btn-mini btn-method btn-default"
+							<a href="javascript:;" class="btn btn-mini btn-method btn-primary"
 							data-type="STUDENT_MESSAGE_WEIXIN">微信通知</a>
 						</span>
 					</p>
 					<p class="c">
 						<span class="c-title">通知类型：</span> <span class="c-content font-style">
-							<a href="javascript:;" class="btn btn-mini btn-type btn-default"
+							<a href="javascript:;" class="btn btn-mini btn-type btn-primary"
 							data-type="STUDENT_MESSAGE_WEIXIN">微信指定通知</a>
 						</span>
 					</p>
@@ -78,22 +82,31 @@
 						</select>
 						</span>
 						<span class="c-title" id="classTitle">课程：</span> <span
-							class="c-content"> <select id="class"
-							class="js-example-basic-single">
+							class="c-content"> <select id="class" class="js-example-basic-single">
 						</select>
 						</span> 
 					</p>
 
 					<!-- 指定通知 -->
 					<p class="c phoneHint">
-						<span class="c-title">学生所在学段：</span><br> <span
-							class="c-content l-content"> <textarea class="msg-content"
-								id="phone" onkeyup="javascript:valida();"></textarea>
+						<span class="c-title">学生所在学段：</span> <span class="c-content">
+							<select style="width: 100px;" id="step">
+								<c:forEach items="${steps}" var="step">
+									<option value="${step.id }" data-code="${step.itemCode}">${step.itemValue }</option>
+								</c:forEach>
+							</select>
 						</span>
-						<span class="c-title">入学年份：</span> <span class="c-content">
-							<select style="width: 100px;">
-						</select>
+						<span class="c-title">入学年份：</span> <span
+							class="c-content">
+							<select style="width: 100px;" id="year">
+								<c:forEach items="${years}" var="year">
+									<option value="${year }" data-code="${year }">${year }</option>
+								</c:forEach>
+							</select>
 						</span>
+					</p>
+					<p class="text-center">
+						<a href="javascript:;" class="btn btn-sm btn-primary btn-send">发送通知</a>
 					</p>
 				</div>
 			</div>

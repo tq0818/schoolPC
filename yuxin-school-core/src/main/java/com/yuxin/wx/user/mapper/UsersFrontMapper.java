@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
@@ -82,4 +83,6 @@ public interface UsersFrontMapper extends BaseMapper<UsersFront> {
     UsersFront findUsersFrontOnlyByMobile(SelectStudentOrUsersfrontVo search);
     
     UsersFront findUsersFrontOnlyByUsername(SelectStudentOrUsersfrontVo search);
+
+    List<UsersFrontVo> findUserFrontAndStudent(Student student);
 }

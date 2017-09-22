@@ -2525,21 +2525,6 @@ public class StudentController {
 
     @RequestMapping("/createWeixin")
     public String createWeixin(Model model, HttpServletRequest request) {
-        // 根据公司 和 学校 查询 一级项目
-        Integer companyId = WebUtils.getCurrentCompanyId();
-        Integer schoolId = WebUtils.getCurrentUserSchoolId(request);
-
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("companyId", companyId);
-        param.put("schoolId", schoolId);
-        param.put("itemType", 1);
-        param.put("functionCode", "COMPANY_FUNCTION_COURSE");
-
-        // 查询多课程支持
-        Integer status = studentServiceImpl.findClassMore(param);
-
-        model.addAttribute("classMoreStatus", status);
-
         List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -2556,6 +2541,18 @@ public class StudentController {
         }
 
         model.addAttribute("oneItem", relations);
+
+        SysConfigDict sysConfigDict = new SysConfigDict();
+        sysConfigDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> sysConfigDictList = sysConfigDictServiceImpl.queryConfigDictListByDictCode(sysConfigDict);
+        model.addAttribute("steps", sysConfigDictList);
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
         return "student/notice/createWeixin";
 
     }

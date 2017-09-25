@@ -18,35 +18,36 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.weixin.IWeiXinService;
 import com.yuxin.wx.common.SignUtils;
+import com.yuxin.wx.util.JedisUtil;
+import com.yuxin.wx.vo.weichat.WeichatAccessToken;
 
 @Service("weiXinService")
 public class WeiXinServiceImpl implements IWeiXinService{
 
 	private Log log = LogFactory.getLog("WeiXinServiceImpl");
 
-	public static long expiresTime = 0l;
 	
-	public static String accessToken;
 	
 	@Override
 	public String wxGetToken(String weixinBaseUrl,String weixinAppId,String weixinSecret) {
-		    String token = "";
-		    String url = weixinBaseUrl + "/token";
-		 	String grantType = "client_credential";
-		    if(StringUtils.isNotBlank(accessToken) && new Date().getTime() < expiresTime){
-		    	token = accessToken;
-		    }else{
-		    	MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
-				param.add("grant_type", grantType);
-				param.add("appid", weixinAppId);
-				param.add("secret", weixinSecret);
-				String json =  new RestTemplate().postForObject(url,param,String.class);
-	            JSONObject resultJson = JSONObject.parseObject(json);
-	            accessToken = resultJson.getString("access_token");
-	            expiresTime  = new Date().getTime() + ((Integer.parseInt(resultJson.getString("expires_in")) - 200) * 1000);
-	            token = accessToken;
-		    }
-			return token;
+		String url = weixinBaseUrl + "/token";
+		String grantType = "client_credential";
+		String token = "";
+		String redisToken = JedisUtil.getString("weChatAccessToken");
+		if(StringUtils.isNotBlank(redisToken) && StringUtils.isNotBlank(JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token())){
+			token = JSONObject.parseObject(redisToken,WeichatAccessToken.class ).getAccess_token();
+		}else{
+			MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
+			param.add("grant_type", grantType);
+			param.add("appid", weixinAppId);
+			param.add("secret", weixinSecret);
+			String json =  new RestTemplate().postForObject(url,param,String.class);
+			WeichatAccessToken accessToken = JSONObject.parseObject(json,WeichatAccessToken.class);
+			JedisUtil.put("weChatAccessToken", JSONObject.toJSONString(accessToken),3600);
+			token = accessToken.getAccess_token();
+		}
+		log.info("weixin request token :"+token);
+		return token;
 	}
 
 	@Override
@@ -55,6 +56,9 @@ public class WeiXinServiceImpl implements IWeiXinService{
 		String result = "failed";
 		String url = weixinBaseUrl +"/message/template/send?access_token="+token;
 		JSONObject msgJson = JSONObject.parseObject(template);
+		String redirectUrl = paramsJson.getString("url");
+		paramsJson.remove("url");
+		msgJson.put("url", redirectUrl);
 		msgJson.put("touser", openId);
 		JSONObject dataJson = msgJson.getJSONObject("data");
 		Iterator it = dataJson.keySet().iterator();
@@ -62,8 +66,10 @@ public class WeiXinServiceImpl implements IWeiXinService{
 			 String key = it.next().toString();
 			 JSONObject json = dataJson.getJSONObject(key);
 			 String value = paramsJson.getString(key);
-			 json.put("value", value);
-			 
+			 if(StringUtils.isNotBlank(value)){
+				 json.put("value", value); 
+			 }
+						 
 		}
 		String msg = new String(msgJson.toString().getBytes("UTF-8"),"iso-8859-1");
 		log.info("weixin send template msg content  iso-8859-1:"+msg);

@@ -1,6 +1,7 @@
 package com.yuxin.wx.api.user;
 
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
@@ -244,6 +245,8 @@ public interface IUsersFrontService {
     UsersFrontVo findUsersFrontVoById(Integer id);
 
     UsersFrontVo findUserIdByInvitCode(String code, Integer companyId);
+
+    List<UsersFrontVo> findUserFrontAndStudent(Student student);
 
     UsersFront findUserFrontByStudentId(Integer id);
     

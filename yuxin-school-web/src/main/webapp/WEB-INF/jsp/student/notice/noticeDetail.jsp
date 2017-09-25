@@ -32,10 +32,17 @@
 	                       		<c:if test="${m.messageType == 'STUDENT_MESSAGE_GROUP' }">
 	                       			分组通知
 	                       		</c:if>
+	                       		<c:if test="${m.messageType == 'STUDENT_MESSAGE_WEIXIN' }">
+	                       			微信通知
+	                       		</c:if>
 	                       </span>
 	                   </td>
 	                   <td>
 	                   <c:if test="${m.messageType == 'STUDENT_MESSAGE_CLASSTYPE' }">
+	                       <span class="t-title">课程：</span>
+	                       <span class="t-content">${m.classTypeName }</span>
+	                   </c:if>
+	                   <c:if test="${m.messageType == 'STUDENT_MESSAGE_WEIXIN' }">
 	                       <span class="t-title">课程：</span>
 	                       <span class="t-content">${m.classTypeName }</span>
 	                   </c:if>
@@ -78,6 +85,9 @@
 	                       		</c:if>
 	                       		<c:if test="${m.messageMethod == 'STUDENT_MESSAGE_EMAIL' }">
 	                       			邮件通知
+	                       		</c:if>
+	                       		<c:if test="${m.messageMethod == 'STUDENT_MESSAGE_MOBILE_WEIXIN' }">
+	                       			微信指定通知
 	                       		</c:if>
 	                       </span>
 	                   </td>

@@ -38,7 +38,7 @@ function test(){
                         <a href="javascript:;" class="btn btn-mini btn-notice" data-type="STUDENT_MESSAGE_WEIXIN">微信指定通知</a>
                     </span>
                 </p>
-                <p class="c">
+                <p class="c courseFlag">
                     <span class="t-title">分类</span>
                     <span class="t-content" id="one">
                         <a href="javascript:;" class="btn btn-mini btn-one btn-success" data-id="">全部</a>
@@ -47,7 +47,7 @@ function test(){
                         </c:forEach>
                     </span>
                 </p>
-                <p class="c">
+                <p class="c stepFlag">
                     <span class="t-title">学段</span>
                     <span class="t-content" id="two">
                     	<a href="javascript:;" class="btn btn-mini btn-two btn-success" data-id="">全部</a>
@@ -56,7 +56,7 @@ function test(){
                     	</c:forEach>
                     </span>
                 </p>
-                <p class="c">
+                <p class="c subjectFlag">
                     <span class="t-title">学科</span>
                     <span class="t-content" id="three">
                         <a href="javascript:;" class="btn btn-mini btn-three btn-success" data-id="">全部</a>
@@ -65,7 +65,7 @@ function test(){
                         </c:forEach>
                     </span>
                 </p>
-                <p class="c">
+                <p class="c typeFlag">
                     <span class="t-title">通知方式</span>
                     <span class="t-content">
                         <a href="javascript:;" class="btn btn-mini btn-method btn-success" data-type="all">全部</a>

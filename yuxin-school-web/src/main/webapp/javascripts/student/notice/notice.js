@@ -4,6 +4,17 @@ $(function(){
     		$(".btn-one:first").attr("class","btn btn-mini btn-one btn-success");
     		$(".classes-type").delegate("a","click",function () {
 				$(this).addClass("btn-success").siblings().removeClass("btn-success");
+				if($(this).attr("data-type") == 'STUDENT_MESSAGE_WEIXIN'){
+					$(".classes-type p").show();
+					$(".typeFlag").hide();
+				}else if($(this).attr("data-type") == 'STUDENT_MESSAGE_AFFICHE'){
+					$(".courseFlag").hide();
+					$(".stepFlag").hide();
+					$(".subjectFlag").hide();
+					$(".typeFlag").hide();
+				}else{
+					$(".classes-type p").show();
+				}
                 selDetail(1);
             })
 	/*$(".btn-notice").each(function(){
@@ -133,7 +144,9 @@ $(function(){
     	function goAddPage(){
     		if(messageType == "STUDENT_MESSAGE_AFFICHE"){
     			window.location = rootPath +"/student/createNotice?addAffiche=addAffiche";
-    		}else{
+    		}else if(messageType == "STUDENT_MESSAGE_WEIXIN"){
+				window.location = rootPath +"/student/createWeixin";
+			}else{
     			window.location = rootPath +"/student/createNotice";
     		}
     	}

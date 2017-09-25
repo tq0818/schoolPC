@@ -2523,6 +2523,40 @@ public class StudentController {
         
     }
 
+    @RequestMapping("/createWeixin")
+    public String createWeixin(Model model, HttpServletRequest request) {
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItem item = new SysConfigItem();
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
+        item.setItemType("2");
+        List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
+        for(SysConfigItemRelation re : relations) {
+            for (SysConfigItem name : names) {
+                if (re.getItemCode().equals(name.getItemCode())) {
+                    re.setItemName(name.getItemName());
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("oneItem", relations);
+
+        SysConfigDict sysConfigDict = new SysConfigDict();
+        sysConfigDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> sysConfigDictList = sysConfigDictServiceImpl.queryConfigDictListByDictCode(sysConfigDict);
+        model.addAttribute("steps", sysConfigDictList);
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
+        return "student/notice/createWeixin";
+
+    }
+
     /**
      *
      * Class Name: StudentController.java

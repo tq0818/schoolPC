@@ -73,7 +73,8 @@ public class ClassModuleLesson extends BaseEntity {
 	private Integer homeworkType;
 	private CourseExercise courseExercise;
 	private TikuPaper tikuPaper;
-
+    private Date lessonDateTime;
+    
 	public TikuPaper getTikuPaper() {
 		return tikuPaper;
 	}
@@ -538,4 +539,14 @@ public class ClassModuleLesson extends BaseEntity {
 	public void setSchoolShortName(String schoolShortName) {
 		this.schoolShortName = schoolShortName;
 	}
+
+	public Date getLessonDateTime() {
+		return lessonDateTime;
+	}
+
+	public void setLessonDateTime(Date lessonDateTime) {
+		this.lessonDateTime = lessonDateTime;
+	}
+	
+	
 }

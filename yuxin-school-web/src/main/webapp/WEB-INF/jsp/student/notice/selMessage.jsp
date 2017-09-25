@@ -48,10 +48,17 @@
 	                       		<c:if test="${msg.messageType == 'STUDENT_MESSAGE_GROUP' }">
 	                       			分组通知
 	                       		</c:if>
+	                       		<c:if test="${msg.messageType == 'STUDENT_MESSAGE_WEIXIN' }">
+	                       			微信通知
+	                       		</c:if>
 	                       </span>
 	                   </td>
 	                   <td>
 	                   <c:if test="${msg.messageType == 'STUDENT_MESSAGE_CLASSTYPE' }">
+	                       <span class="t-title">课程：</span>
+	                       <span class="t-content">${msg.classTypeName }</span>
+	                   </c:if>
+	                   <c:if test="${msg.messageType == 'STUDENT_MESSAGE_WEIXIN' }">
 	                       <span class="t-title">课程：</span>
 	                       <span class="t-content">${msg.classTypeName }</span>
 	                   </c:if>
@@ -94,6 +101,9 @@
 	                       		</c:if>
 	                       		<c:if test="${msg.messageMethod == 'STUDENT_MESSAGE_EMAIL' }">
 	                       			邮件通知
+	                       		</c:if>
+	                       		<c:if test="${msg.messageMethod == 'STUDENT_MESSAGE_MOBILE_WEIXIN' }">
+	                       			微信指定通知
 	                       		</c:if>
 	                       </span>
 	                   </td>
@@ -165,11 +175,18 @@
                                 ${msg.sendNum - msg.failNum }
 								</a>人
                             </span>
-                            <c:if test="${msg.messageMethod == 'STUDENT_MESSAGE_MOBILE' }"><span class="c-title">消耗短信：</span></c:if>
-                            <c:if test="${msg.messageMethod == 'STUDENT_MESSAGE_EMAIL' }"><span class="c-title">消耗邮件：</span></c:if>
-                            <span class="c-content">
-                                ${msg.messageCost }条
-                            </span>
+                            <c:if test="${msg.messageMethod == 'STUDENT_MESSAGE_MOBILE' }">
+								<span class="c-title">消耗短信：</span>
+								<span class="c-content">
+									${msg.messageCost }条
+								</span>
+							</c:if>
+                            <c:if test="${msg.messageMethod == 'STUDENT_MESSAGE_EMAIL' }">
+								<span class="c-title">消耗邮件：</span>
+								<span class="c-content">
+									${msg.messageCost }条
+								</span>
+							</c:if>
                         </p>
                         <p class="c">
                             <span class="c-title">发送失败：</span>

@@ -3166,11 +3166,11 @@ public class ClassModuleController {
 					paramsJson.put("keyword4", time);//获取课次上课时间
 				}
                 String result = weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, FileUtil.props.getProperty("wxBaseUrl"));
+				sendNum++;
 				if("success".equals(result)){
 					this.log.info(">>> [报名] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId()
 							+ ", 学生ID = " + ufv.getId() + ", 课程ClassTypeID = "
 							+ comm.getId() + ", 课程名称 = " + comm.getName());
-					sendNum++;
 				}else{
 					failNum++;
 				}
@@ -3183,7 +3183,7 @@ public class ClassModuleController {
 		companyStudentMessage.setTitle("微信指定通知");
 		companyStudentMessage.setContent("订阅课程["+classType.getName()+"]今天开课");
 		companyStudentMessage.setMessageType("STUDENT_MESSAGE_WEIXIN");
-		companyStudentMessage.setMessageMethod("STUDENT_MESSAGE_MOBILE");
+		companyStudentMessage.setMessageMethod("STUDENT_MESSAGE_MOBILE_WEIXIN");
 		companyStudentMessage.setClassTypeId(classType.getId());
 		companyStudentMessage.setClassTypeName(classType.getName());
 		companyStudentMessage.setModuleNoId(cml!=null ? cml.getModuleNoId():null);

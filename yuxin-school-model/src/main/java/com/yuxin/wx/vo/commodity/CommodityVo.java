@@ -102,6 +102,7 @@ public class CommodityVo extends BaseEntity {
 
     private Integer specialOrder;//针对专题详情课程排序
     
+    
     private String limitTimeOne;
     
     private String limitTimeTwo;

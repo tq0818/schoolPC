@@ -97,12 +97,50 @@ public class CommodityVo extends BaseEntity {
 
     private Date previewDate;//预览时间
     private String range;//范围
+    
+    private String courseName;
 
     private Integer specialOrder;//针对专题详情课程排序
     
+    private String limitTimeOne;
+    
+    private String limitTimeTwo;
+    
+    private String expiredFlag;
 
+    public String getExpiredFlag() {
+		return expiredFlag;
+	}
 
-    public Date getPreviewDate() {
+	public void setExpiredFlag(String expiredFlag) {
+		this.expiredFlag = expiredFlag;
+	}
+
+	public String getLimitTimeOne() {
+		return limitTimeOne;
+	}
+
+	public void setLimitTimeOne(String limitTimeOne) {
+		this.limitTimeOne = limitTimeOne;
+	}
+
+	public String getLimitTimeTwo() {
+		return limitTimeTwo;
+	}
+
+	public void setLimitTimeTwo(String limitTimeTwo) {
+		this.limitTimeTwo = limitTimeTwo;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public Date getPreviewDate() {
 		return previewDate;
 	}
 

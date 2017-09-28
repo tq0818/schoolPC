@@ -197,7 +197,7 @@ public class TikuExamUserRelationController {
                         for(TikuTopic topic : topics){
                             for(int i = 0; i < optionList.size(); i++){
                                 TikuTopicOption option = optionList.get(i);
-                                if(option.getTopicId() == topic.getId()){
+                                if(topic.getId().equals(option.getTopicId())){
                                     topic.getOptionList().add(option);
                                     optionList.remove(i);
                                     i--;
@@ -264,7 +264,6 @@ public class TikuExamUserRelationController {
      * @date 2016年3月17日 下午5:15:56
      * @version 1.0
      * @param model
-     * @param search
      * @return
      */
     @RequestMapping(value = "/exportExcle")

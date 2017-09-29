@@ -118,7 +118,7 @@
 						$("#three").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
 					});
 					var url = "";
-					if(messageType == "STUDENT_MESSAGE_MOBILE"){
+					if(messageType == "STUDENT_MESSAGE_MOBILE_WEIXIN"){
 						url = rootPath + "/classModule/selClassType";
 						$("#classTitle").html("课程：");
 					}

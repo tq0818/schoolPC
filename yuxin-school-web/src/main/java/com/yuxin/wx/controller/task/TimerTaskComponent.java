@@ -18,12 +18,11 @@ import com.yuxin.wx.model.system.SysFileConvertTask;
 import com.yuxin.wx.model.system.SysTaskLog;
 import com.yuxin.wx.scheduled.*;
 import com.yuxin.wx.system.mapper.SysFileConvertTaskMapper;
-import com.yuxin.wx.utils.DateUtil;
-import com.yuxin.wx.utils.LetvCloudV1;
-import com.yuxin.wx.utils.MD5;
-import com.yuxin.wx.utils.PropertiesUtil;
+import com.yuxin.wx.utils.*;
+import com.yuxin.wx.utils.FileUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.aspectj.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -65,6 +64,9 @@ public class TimerTaskComponent {
 
 	@Autowired
 	private VideoStatisticsTask videoStatisticsTask;
+
+	@Autowired
+	private SendWeixinMsgTask sendWeixinMsgTask;
 
 	@Autowired
 	private MessageStatisticsTask messageStatisticsTask;
@@ -722,4 +724,36 @@ public class TimerTaskComponent {
 			 sysTaskLogServiceImpl.insert(stl);
 		 }
 	 }
+
+
+	/**
+	 * 每晚8点定时发送微信通知
+	 *
+	 */
+	@Scheduled(cron = "0 0/2 * * * ?")
+	public void taskSendWeixinMsg() {
+		SysTaskLog stl = new SysTaskLog();
+		try {
+			stl.setExecuteDate(new Date());
+			stl.setStartTime(new Date());
+			stl.setTaskName("定时微信账号通知");
+			stl.setOperator(0);
+			stl.setOperateTime(new Date());
+			log.info("定时微信账号通知任务-----执行时间：" + new Date());
+			sendWeixinMsgTask.sendWeixinMsg(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId(), FileUtil.props);
+			log.info("定时微信账号通知任务-----处理：完成");
+			stl.setEndTime(new Date());
+			stl.setResult("发送成功");
+			stl.setErrorLog("无错误");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			log.info("定时微信账号通知-----异常：" + e.getMessage());
+			stl.setEndTime(new Date());
+			stl.setResult("发送中出错");
+			stl.setErrorLog(e.getMessage());
+		} finally {
+			sysTaskLogServiceImpl.insert(stl);
+		}
+	}
 }

@@ -191,7 +191,7 @@ public class ClassModuleController {
 	@Autowired
 	private IUsersService usersServiceImpl;
 	@Autowired
-	private ICommodityService commodityService;
+	private ICommodityService commodityServiceImpl;
 	@Autowired
 	private IWeiXinService weiXinServiceImpl;
 	@Autowired
@@ -2721,6 +2721,7 @@ public class ClassModuleController {
 			companyStudentMessageServiceImpl.update(companyStudentMessage);
 			json.put(JsonMsg.RESULT, JsonMsg.SUCCESS);
 		}
+
 		return json;
 	}
 	/**
@@ -2962,9 +2963,9 @@ public class ClassModuleController {
 		search.setEduYear(yearItemCode);
 		List<UsersFrontVo> usersFrontVoList = usersFrontService.findUserFrontAndStudent(search);
 		ClassType classType = classTypeServiceImpl.findClassTypeById(classId);
-		Integer commodityId = commodityService.findCommodityIdByClassTypeId(classId);
+		Integer commodityId = commodityServiceImpl.findCommodityIdByClassTypeId(classId);
 		if(commodityId != null){
-			Commodity comm = commodityService.findCommodityById(commodityId);
+			Commodity comm = commodityServiceImpl.findCommodityById(commodityId);
 			sendWXTemplate(comm, classType, usersFrontVoList, request);//发送微信模版
 			jsonObject.put(JsonMsg.RESULT,"success");
 		}

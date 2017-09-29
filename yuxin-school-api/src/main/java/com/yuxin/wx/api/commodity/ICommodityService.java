@@ -249,4 +249,6 @@ public interface ICommodityService  {
 	List<CommodityVo> queryCourseByTeacherIds(Map<String,Object> map);
 	
 	int updateSpecialOrder(CommodityVo commodity);
+
+	List<CommodityVo> queryClassScheduleList(CommodityVo search);
 }

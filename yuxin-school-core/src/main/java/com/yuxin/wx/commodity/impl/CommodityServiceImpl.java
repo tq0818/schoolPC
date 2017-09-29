@@ -1,9 +1,11 @@
 package com.yuxin.wx.commodity.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.yuxin.wx.util.JedisUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -143,7 +145,7 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
     }
 
     /**
-     * 
+     *
      * @Title: queryCommodityByPage
      * @Description:分页条件查询
      * @param id
@@ -224,5 +226,22 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
 		int row = commodityMapper.updateSpecialOrder(commodity);
 		return row;
 	}
-	
+
+
+    @Override
+    public List<CommodityVo> queryClassScheduleList(CommodityVo search) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("com",search);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(new Date());
+        Calendar ca  = Calendar.getInstance();
+        ca.add(Calendar.DAY_OF_YEAR,1);
+        String tomorry = sdf.format(ca.getTime());
+        map.put("today",today);
+        map.put("tomorry",tomorry);
+
+        List<CommodityVo> data = this.commodityMapper.queryClassScheduleList(map);
+        return data;
+    }
+
 }

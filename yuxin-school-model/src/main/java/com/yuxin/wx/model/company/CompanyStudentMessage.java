@@ -49,6 +49,7 @@ public class CompanyStudentMessage extends BaseEntity {
 	private String	itemOneCode;
 	private String	itemSecondCode;
 	private String	itemThirdCode;
+	private Integer	isWxOpen;
 	// Constructor
 	public CompanyStudentMessage() {
 	}
@@ -367,5 +368,13 @@ public class CompanyStudentMessage extends BaseEntity {
 
 	public void setItemThirdCode(String itemThirdCode) {
 		this.itemThirdCode = itemThirdCode;
+	}
+
+	public Integer getIsWxOpen() {
+		return isWxOpen;
+	}
+
+	public void setIsWxOpen(Integer isWxOpen) {
+		this.isWxOpen = isWxOpen;
 	}
 }

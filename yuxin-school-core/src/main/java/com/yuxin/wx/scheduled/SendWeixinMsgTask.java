@@ -63,10 +63,8 @@ public class SendWeixinMsgTask {
 	/**
 	 * 发送微信通知方法
 	 */
-	public void sendWeixinMsg(Integer companyId, Integer schoolId, Properties props) {
+	public void sendWeixinMsg(Properties props) {
 		CommodityVo search = new CommodityVo();
-		search.setCompanyId(companyId);
-		search.setSchoolId(schoolId);
 		List<CommodityVo> commodityVoList = commodityServiceImpl.queryClassScheduleList(search);
 		for(CommodityVo commodityVo:commodityVoList){
 			//学生集合
@@ -82,7 +80,7 @@ public class SendWeixinMsgTask {
 
 			for(Student stu : stuList){//第二天是否有未上的课程
 				UsersFront uf = usersFrontService.findUserFrontByStudentId(stu.getId());
-				sendWXTemplate(commodityVo,commodityVo.getClassTypeId(),stu,uf, companyId, props);
+				sendWXTemplate(commodityVo,commodityVo.getClassTypeId(),stu,uf, commodityVo.getCompanyId(), props);
 			}
 		}
 	}

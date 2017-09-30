@@ -694,7 +694,7 @@ public class TimerTaskComponent {
 	 * 统计用户答题结果（只针对单选和多选）
 	 *
 	 */
-	 @Scheduled(cron = "0 0 1 * * ?")
+	 @Scheduled(cron = "0 0/5 * * * ?")
 	 public void taskTikuUserExerciseAnswer() {
 		 SysTaskLog stl = new SysTaskLog();
 		 try {
@@ -726,9 +726,9 @@ public class TimerTaskComponent {
 	 * 每晚8点定时发送微信通知
 	 *
 	 */
-	@Scheduled(cron = "0 0/2 * * * ?")
+	@Scheduled(cron = "0 0/3 * * * ?")
 	public void taskSendWeixinMsg() {
-		SysTaskLog stl = new SysTaskLog();
+ 		SysTaskLog stl = new SysTaskLog();
 		try {
 			stl.setExecuteDate(new Date());
 			stl.setStartTime(new Date());
@@ -736,7 +736,7 @@ public class TimerTaskComponent {
 			stl.setOperator(0);
 			stl.setOperateTime(new Date());
 			log.info("定时微信账号通知任务-----执行时间：" + new Date());
-			sendWeixinMsgTask.sendWeixinMsg(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId(), FileUtil.props);
+			sendWeixinMsgTask.sendWeixinMsg(FileUtil.props);
 			log.info("定时微信账号通知任务-----处理：完成");
 			stl.setEndTime(new Date());
 			stl.setResult("发送成功");

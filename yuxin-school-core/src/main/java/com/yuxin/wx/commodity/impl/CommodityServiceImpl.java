@@ -233,11 +233,10 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
         Map<String,Object> map = new HashMap<>();
         map.put("com",search);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String today = sdf.format(new Date());
         Calendar ca  = Calendar.getInstance();
         ca.add(Calendar.DAY_OF_YEAR,1);
         String tomorry = sdf.format(ca.getTime());
-        map.put("today",today);
+        map.put("today",tomorry);
         map.put("tomorry",tomorry);
 
         List<CommodityVo> data = this.commodityMapper.queryClassScheduleList(map);

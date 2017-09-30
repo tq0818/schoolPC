@@ -694,7 +694,7 @@ public class TimerTaskComponent {
 	 * 统计用户答题结果（只针对单选和多选）
 	 *
 	 */
-	 @Scheduled(cron = "0 0/5 * * * ?")
+	 @Scheduled(cron = "0 0/15 * * * ?")
 	 public void taskTikuUserExerciseAnswer() {
 		 SysTaskLog stl = new SysTaskLog();
 		 try {
@@ -726,7 +726,7 @@ public class TimerTaskComponent {
 	 * 每晚8点定时发送微信通知
 	 *
 	 */
-	@Scheduled(cron = "0 0/3 * * * ?")
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void taskSendWeixinMsg() {
  		SysTaskLog stl = new SysTaskLog();
 		try {

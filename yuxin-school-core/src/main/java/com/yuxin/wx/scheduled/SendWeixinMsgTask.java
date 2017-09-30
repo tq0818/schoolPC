@@ -102,67 +102,15 @@ public class SendWeixinMsgTask {
 			if(comm.getLiveFlag() != null && comm.getLiveFlag().intValue() == 1){
 				paramsJson.put("url", "http://"+company.getDomain()+"/wx?urlNew="+company.getDomain()+"/html/starcube/index/details-live.html?invite="+comm.getId());
 			}
-			List<ClassModuleLesson> cmlList = new ArrayList<ClassModuleLesson>();
-			List<ClassModule> modulesVoList=classModuleServiceImpl.findModulesByClassTypeId(classTypeId);
-			for(ClassModule module:modulesVoList){
-				if(StringUtils.equals(module.getTeachMethod(),"TEACH_METHOD_LIVE")){
-					//查询模块对应的班号
-					List<ClassModuleNo> list = classModuleNoServiceImpl.findByCmId(module.getId(),classTypeId);
-					if(list.size() > 0){
-						ClassModuleNo mNo=list.get(0);
-						//查询班号对应的课次
-						List<ClassModuleLesson> lessonList=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(mNo.getId());
-						if(lessonList.size() > 0){
-							cmlList.addAll(lessonList);
-						}
-
-					}
-
-				}
-			}
-			if(cmlList.size() > 0){
-				Collections.sort(cmlList,new Comparator<ClassModuleLesson>(){
-					public int compare(ClassModuleLesson l1,ClassModuleLesson l2) {
-						Date d1 = null;
-						Date d2 = null;
-						try{
-							d1 = getLessonDateTime(l1);
-							d2 = getLessonDateTime(l2);
-						}catch(Exception e){
-							log.error("compare is error", e);
-						}
-						return d1.compareTo(d2);
-					}
-				});
-				ClassModuleLesson cml = cmlList.get(0);
-				Date lessonDateTime = cml.getLessonDateTime();
-				SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				SimpleDateFormat df =  new SimpleDateFormat("yyyy-MM-dd");
-				if(lessonDateTime == null){
-					String lessonDateStr = df.format(cml.getLessonDate());
-					lessonDateTime = dateFormat.parse(lessonDateStr+ " "+cml.getLessonTimeStart()+":00");
-				}
-				String time = dateFormat.format(lessonDateTime);
-				paramsJson.put("date", time);//获取课次上课时间
-			}
-			weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, props.getProperty("wxBaseUrl"));
+            SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            if(StringUtils.isNotBlank(comm.getLessonDate())){
+                Date lessonDateTime = dateFormat.parse(comm.getLessonDate()+ " "+comm.getLessonTimeStart()+":00");
+                String time = dateFormat.format(lessonDateTime);
+                paramsJson.put("date", time);//获取课次上课时间
+                weiXinServiceImpl.wxSendTemplate(token, openId, template, paramsJson, props.getProperty("wxBaseUrl"));
+            }
 		}catch(Exception e){
 			log.error("sendWXTemplate is error :", e);
-		}
-
-	}
-
-	private Date getLessonDateTime(ClassModuleLesson lesson) throws Exception{
-		Date date = null;
-		try{
-			SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			SimpleDateFormat df =  new SimpleDateFormat("yyyy-MM-dd");
-			String lessonDateStr = df.format(lesson.getLessonDate());
-			date = dateFormat.parse(lessonDateStr+ " "+lesson.getLessonTimeStart()+":00");
-			lesson.setLessonDateTime(date);
-			return date;
-		}catch(Exception e){
-			throw new Exception(e);
 		}
 
 	}

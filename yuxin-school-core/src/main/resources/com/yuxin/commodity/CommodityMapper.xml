@@ -74,6 +74,10 @@
 		<result property="itemSecondCode" column="item_second_code" />
 		<result property="itemThirdCode" column="item_third_code" />
 		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="lessonDate" column="lesson_date" />
+		<result property="lessonTimeStart" column="lesson_time_start" />
+		<result property="lessonTimeEnd" column="lesson_time_end" />
+		<result property="lessonName" column="lesson_name" />
 	</resultMap>
 	<sql id="table_columns">
 		id,
@@ -387,7 +391,11 @@
 		ct.id as classTypeId,
 		c.item_one_code,
 		c.item_second_code,
-		c.item_third_code
+		c.item_third_code,
+		cml.lesson_date,
+		cml.lesson_time_start,
+		cml.lesson_time_end,
+		cml.lesson_name
 		from class_module_lesson cml
 		join class_module_no cmn on cmn.id=cml.module_no_id
 		join class_type_module_relation ctmr on ctmr.module_id=cmn.module_id

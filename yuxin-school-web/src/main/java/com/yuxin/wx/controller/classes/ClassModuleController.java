@@ -47,8 +47,8 @@ import com.yuxin.wx.vo.course.CourseRemoteVo;
 import com.yuxin.wx.vo.course.CourseVideoMarqueeVo;
 import com.yuxin.wx.vo.course.VideoVo;
 import com.yuxin.wx.vo.system.*;
-
 import com.yuxin.wx.vo.user.UsersFrontVo;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -6579,4 +6579,27 @@ public class ClassModuleController {
 		log.info("返回:"+rStr);
 		return rStr;
 	}
+	
+	/**
+	 * 重置TOKEN
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/resetWeiXinToken")
+	public String resetWeiXinToken(HttpServletRequest request,HttpServletResponse response){
+		String result = "failed";
+		try{
+			String token = weiXinServiceImpl.resetWeiXinToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
+			if(StringUtils.isNotBlank(token)){
+				result = "success";
+			}
+		}catch(Exception e){
+			log.error("reset Wei Xin token is error :", e);
+		}
+		return result;
+	}
+	
+	
 }

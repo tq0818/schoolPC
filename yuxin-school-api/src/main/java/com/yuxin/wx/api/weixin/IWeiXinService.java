@@ -33,4 +33,13 @@ public interface IWeiXinService {
 	 * @return
 	 */
 	public String wxValidateToken(String signature,String timestamp,String nonce,String echostr);
+	
+	/**
+	 * 重置微信TOKEN
+	 * @param weixinBaseUrl
+	 * @param weixinAppId
+	 * @param weixinSecret
+	 * @return
+	 */
+	public String resetWeiXinToken(String weixinBaseUrl,String weixinAppId,String weixinSecret);
 }

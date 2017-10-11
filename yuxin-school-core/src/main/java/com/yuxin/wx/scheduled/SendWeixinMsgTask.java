@@ -95,7 +95,7 @@ public class SendWeixinMsgTask {
 				return;
 			}
 			String token = weiXinServiceImpl.wxGetToken(props.getProperty("wxBaseUrl"), props.getProperty("wxAppId"), props.getProperty("wxSecret"));
-			String template = props.getProperty("attendClassTemplateMsg");//报名结果通知
+			String template = props.getProperty("attendClassTemplateMsg");//上课结果通知
 			com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
 			paramsJson.put("userName", uf.getUsername());
 			paramsJson.put("courseName", comm.getName());

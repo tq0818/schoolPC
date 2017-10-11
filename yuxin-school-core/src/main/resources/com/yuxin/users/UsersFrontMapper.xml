@@ -237,7 +237,8 @@
 		#{memberEndTime},
 		#{integralRemaining},
 		#{memberStatus},
-        #{recharge}
+        #{recharge},
+        #{wxOpenId}
 	</sql>
 	<sql id="batch_entity_properties">
 		#{item.id},

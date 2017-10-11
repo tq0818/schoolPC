@@ -107,6 +107,7 @@
 					</p>
 					<p class="text-center">
 						<a href="javascript:;" class="btn btn-sm btn-primary btn-send">发送通知</a>
+						<a href="javascript:;" class="btn btn-mini btn-method btn-primary" onclick="resetWeiXinToken()">重置微信TOKEN</a>
 					</p>
 				</div>
 			</div>
@@ -127,6 +128,23 @@
 				_checkbox.attr('checked',false);
 			}
 		});
+		
+		function resetWeiXinToken(){
+			$.ajax({
+ 				url:rootPath + "/classModule/resetWeiXinToken",
+ 				type:"post",
+ 				data:{},
+ 				dataType:"text",
+				success:function(data){
+ 					if(data == "success"){
+ 						  $('<div class="c-fa">'+ "重置微信TOKEN成功" +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){
+					        	$(this).remove();
+					      });
+ 					}
+ 				}
+ 			});
+ 	
+		}
 	</script>
 
 </body>

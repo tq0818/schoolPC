@@ -63,4 +63,11 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
 	List<CommodityVo> queryCourseByTeacherIds(Map<String,Object> map);
 	
 	int updateSpecialOrder(CommodityVo commodity);
+
+	/**
+	 * 查询明日直播课程
+	 * @param map
+	 * @return
+	 */
+	List<CommodityVo> queryClassScheduleList(Map<String, Object> map);
 }

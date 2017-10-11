@@ -891,13 +891,15 @@
 			inner join student_pay_master m
 				on s.id = m.stu_id
 				LEFT JOIN  class_type ct ON  ct.id = m.commodity_id
+		    inner join users_front u on u.id = s.user_id
 			where m.school_id = #{schoolId} and 
 				m.company_id = #{companyId} and
 				ct.item_one_code = #{itemOneCode} and
 				ct.item_second_code = #{itemSecondCode} and
 				ct.item_third_code = #{itemThirdCode} and
 				m.commodity_id = #{classTypeId} and
-				m.delete_flag = 0 and m.commodity_type='COMMODITY_CLASS' 
+				<if test="isWxOpen == 1">u.wx_open_id is not null and u.wx_open_id !=''</if>
+				and m.delete_flag = 0 and m.commodity_type='COMMODITY_CLASS'
 				and (m.pay_status_code='ORDER_PAID' or m.pay_status_code='ORDER_PART_PAY' or m.pay_status_code='ORDER_FINISHED' or m.pay_status_code='ORDER_PAID_NO_COURSE')
 			group by s.id
 		) c

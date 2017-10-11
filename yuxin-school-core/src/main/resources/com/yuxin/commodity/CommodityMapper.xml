@@ -69,11 +69,15 @@
 		<result property="schoolShortName" column="school_short_name"/>
 		<result property="teacherId" column="teacher_id"/>
 		<result property="specialOrder" column="special_order"/>
-		
-		<!--<result property="itemOneCode" column="item_one_code" />-->
-		<!--<result property="itemSecondCode" column="item_second_code" />-->
-		<!--<result property="itemThirdCode" column="item_third_code" />-->
-		<!--<result property="itemFourthCode" column="item_fourth_code" />-->
+
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="lessonDate" column="lesson_date" />
+		<result property="lessonTimeStart" column="lesson_time_start" />
+		<result property="lessonTimeEnd" column="lesson_time_end" />
+		<result property="lessonName" column="lesson_name" />
 	</resultMap>
 	<sql id="table_columns">
 		id,
@@ -375,4 +379,42 @@
 	<update id="updateSpecialOrder" parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
 	    update commodity set special_order = #{specialOrder} where id = #{id}
 	</update>
+
+	<!-- 课程搜索 lym -->
+	<select id="queryClassScheduleList" resultMap="commodityVoResultMap" parameterType="map">
+		select
+		c.id,
+		c.name,
+		c.live_flag,
+		c.company_id,
+		c.school_id,
+		ct.id as classTypeId,
+		c.item_one_code,
+		c.item_second_code,
+		c.item_third_code,
+		cml.lesson_date,
+		cml.lesson_time_start,
+		cml.lesson_time_end,
+		cml.lesson_name
+		from class_module_lesson cml
+		join class_module_no cmn on cmn.id=cml.module_no_id
+		join class_type_module_relation ctmr on ctmr.module_id=cmn.module_id
+		join class_type ct on ct.id = ctmr.class_type_id
+		JOIN commodity_product_realtion pr ON ct.id = pr.product_id
+		JOIN commodity c ON c.id = pr.com_id
+		JOIN sys_config_teacher sct ON ct.teacher_id = sct.id
+		JOIN sys_config_item sci on sci.parent_code='SUBJECT' and sci.item_code=c.item_third_code
+		where c.status=1
+		<if test="com.companyId != null and com.companyId != ''">
+			and c.company_id=#{com.companyId}
+		</if>
+		and c.type='COMMODITY_CLASS' and ct.del_flag = 0 and ct.live_flag = 1 and ct.publish_status = 'CLASS_ON_SALE'
+		and c.item_third_code is not null
+		and cml.lesson_date BETWEEN #{today} and #{tomorry}
+		<if test="com.itemSecondCode != null and com.itemSecondCode != ''">and c.item_second_code = #{com.itemSecondCode}</if>
+		<if test="com.schoolId != null and com.schoolId != ''">and c.school_id =(${com.schoolId})</if>
+		<if test="com.teacherId != null and com.teacherId != ''">and ct.teacher_id = #{com.teacherId}</if>
+		<if test="com.itemSecondCode != null and com.itemSecondCode != ''">and c.item_second_code = #{com.itemSecondCode}</if>
+		<if test="com.itemThirdCode != null and com.itemThirdCode != ''">and c.item_third_code = #{com.itemThirdCode}</if>
+	</select>
 </mapper>

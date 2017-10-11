@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.api.course.IVideoService;
 import com.yuxin.wx.api.system.ISysTaskLogService;
-import com.yuxin.wx.api.tiku.ITikuUserExerciseAnswerService;
 import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.company.mapper.CompanyPayConfigMapper;
 import com.yuxin.wx.company.mapper.CompanyServiceStaticDayMapper;
@@ -13,16 +12,12 @@ import com.yuxin.wx.company.mapper.CompanyServiceStaticMapper;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.CompanyServiceStaticDay;
-import com.yuxin.wx.model.course.Video;
 import com.yuxin.wx.model.system.SysFileConvertTask;
 import com.yuxin.wx.model.system.SysTaskLog;
 import com.yuxin.wx.scheduled.*;
 import com.yuxin.wx.system.mapper.SysFileConvertTaskMapper;
-import com.yuxin.wx.utils.DateUtil;
-import com.yuxin.wx.utils.LetvCloudV1;
-import com.yuxin.wx.utils.MD5;
-import com.yuxin.wx.utils.PropertiesUtil;
-import org.apache.commons.lang.StringUtils;
+import com.yuxin.wx.utils.*;
+import com.yuxin.wx.utils.FileUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -65,6 +60,9 @@ public class TimerTaskComponent {
 
 	@Autowired
 	private VideoStatisticsTask videoStatisticsTask;
+
+	@Autowired
+	private SendWeixinMsgTask sendWeixinMsgTask;
 
 	@Autowired
 	private MessageStatisticsTask messageStatisticsTask;
@@ -696,7 +694,7 @@ public class TimerTaskComponent {
 	 * 统计用户答题结果（只针对单选和多选）
 	 *
 	 */
-	 @Scheduled(cron = "0 0 1 * * ?")
+	 @Scheduled(cron = "0 0/15 * * * ?")
 	 public void taskTikuUserExerciseAnswer() {
 		 SysTaskLog stl = new SysTaskLog();
 		 try {
@@ -722,4 +720,36 @@ public class TimerTaskComponent {
 			 sysTaskLogServiceImpl.insert(stl);
 		 }
 	 }
+
+
+	/**
+	 * 每晚8点定时发送微信通知
+	 *
+	 */
+	@Scheduled(cron = "0 0/10 * * * ?")
+	public void taskSendWeixinMsg() {
+ 		SysTaskLog stl = new SysTaskLog();
+		try {
+			stl.setExecuteDate(new Date());
+			stl.setStartTime(new Date());
+			stl.setTaskName("定时微信账号通知");
+			stl.setOperator(0);
+			stl.setOperateTime(new Date());
+			log.info("定时微信账号通知任务-----执行时间：" + new Date());
+			sendWeixinMsgTask.sendWeixinMsg(FileUtil.props);
+			log.info("定时微信账号通知任务-----处理：完成");
+			stl.setEndTime(new Date());
+			stl.setResult("发送成功");
+			stl.setErrorLog("无错误");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			log.info("定时微信账号通知-----异常：" + e.getMessage());
+			stl.setEndTime(new Date());
+			stl.setResult("发送中出错");
+			stl.setErrorLog(e.getMessage());
+		} finally {
+			sysTaskLogServiceImpl.insert(stl);
+		}
+	}
 }

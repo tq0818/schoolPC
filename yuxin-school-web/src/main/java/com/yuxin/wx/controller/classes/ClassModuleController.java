@@ -3101,7 +3101,7 @@ public class ClassModuleController {
                 String token = weiXinServiceImpl.wxGetToken(FileUtil.props.getProperty("wxBaseUrl"), FileUtil.props.getProperty("wxAppId"), FileUtil.props.getProperty("wxSecret"));
                 String template = FileUtil.props.getProperty("subscribeClassRemindTemplateMsg");//订阅结果通知
                 com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
-                paramsJson.put("first", "您好!"+comm.getName()+"课已上线");
+                paramsJson.put("first", ufv.getName()+"，您好！《"+comm.getName()+"》课已上线");
                 paramsJson.put("keyword1", comm.getName());//课程标题
                 if(comm.getLiveFlag() != null && comm.getLiveFlag().intValue() == 1){
                     paramsJson.put("url", "http://"+company.getDomain()+"/wx?urlNew="+company.getDomain()+"/html/starcube/index/details-live.html?invite="+comm.getId());

@@ -92,7 +92,7 @@ public class UsersFrontVo extends BaseEntity {
 
     private Integer isStu; //是否学生,1是。0不是
     private String wxOpenId;
-
+    private Integer teacherFlag;
     public Integer getIsStu() {
         return isStu;
     }
@@ -123,6 +123,14 @@ public class UsersFrontVo extends BaseEntity {
 
     public void setWxOpenId(String wxOpenId) {
         this.wxOpenId = wxOpenId;
+    }
+
+    public Integer getTeacherFlag() {
+        return teacherFlag;
+    }
+
+    public void setTeacherFlag(Integer teacherFlag) {
+        this.teacherFlag = teacherFlag;
     }
 
     public UsersFrontVo() {

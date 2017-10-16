@@ -50,7 +50,7 @@ public class UsersFront extends BaseEntity {
     private String inviteCode;
     private String wxOpenId;
     private double recharge;
-
+    private Integer teacherFlag;
     public UsersFront() {
         super();
         // TODO Auto-generated constructor stub
@@ -376,6 +376,14 @@ public class UsersFront extends BaseEntity {
 
     public void setWxOpenId(String wxOpenId) {
         this.wxOpenId = wxOpenId;
+    }
+
+    public Integer getTeacherFlag() {
+        return teacherFlag;
+    }
+
+    public void setTeacherFlag(Integer teacherFlag) {
+        this.teacherFlag = teacherFlag;
     }
 
     @Override

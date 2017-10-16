@@ -98,7 +98,7 @@ public class SendWeixinMsgTask {
 			String template = props.getProperty("attendClassTemplateMsg");//上课结果通知
 			com.alibaba.fastjson.JSONObject paramsJson = new com.alibaba.fastjson.JSONObject();
 			paramsJson.put("userName", uf.getUsername());
-			paramsJson.put("courseName", comm.getName());
+			paramsJson.put("courseName", "《"+comm.getName()+"》");
 			if(comm.getLiveFlag() != null && comm.getLiveFlag().intValue() == 1){
 				paramsJson.put("url", "http://"+company.getDomain()+"/wx?urlNew="+company.getDomain()+"/html/starcube/index/details-live.html?invite="+comm.getId());
 			}

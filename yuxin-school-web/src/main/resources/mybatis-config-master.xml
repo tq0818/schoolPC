@@ -38,7 +38,6 @@
 		<mapper resource="com/yuxin/classes/ClassTypeRemoteRelationMapper.xml" />
 		<mapper resource="com/yuxin/classes/ClassTypeResourceMapper.xml" />
 		<mapper resource="com/yuxin/classes/ClassTypeResourceTypeMapper.xml" />
-
 		<!-- 课程相关 -->
 		<mapper resource="com/yuxin/course/CourseRemoteMapper.xml" />
 		<mapper resource="com/yuxin/course/CourseVideoChapterMapper.xml" />
@@ -325,6 +324,7 @@
 
 		<!-- 统计查询 -->
 		<mapper resource="com/yuxin/query/StudentStatisticsMapper.xml"/>
+		<mapper resource="com/yuxin/watchInfo/WatchInfoMapper.xml" />
 	</mappers>
 
 </configuration>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.watchInfo.mapper.WatchInfoMapper">
+	<resultMap type="com.yuxin.wx.model.watchInfo.WatchInfo" id="watchInfoResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="lessonId" column="lesson_id" />
+		<result property="lessonName" column="lesson_name" />
+		<result property="lessonDate" column="lesson_date" />
+		<result property="classtypeId" column="classtype_id" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="userId" column="user_id" />
+
+		<result property="liveroomId" column="liveroom_id" />
+		<result property="joinTime" column="join_time" />
+		<result property="leaveTime" column="leave_time" />
+		<result property="watchTime" column="watch_time" />
+		<result property="classId" column="class_id" />
+	</resultMap>
+	<resultMap id="classRoomRelationMap" type="com.yuxin.wx.model.watchInfo.ClassRoomRelation">
+		<result property="id" column="id" />
+		<result property="classId" column="class_id" />
+		<result property="liveroomId" column="liveroom_id" />
+	</resultMap>
+	<resultMap type="com.yuxin.wx.model.classes.ClassModuleLesson" id="classModuleLessonResultMap">
+		<result property="id" column="id" />
+		<result property="lessonName" column="lesson_name" />
+		<result property="moduleNoId" column="module_no_id" />
+		<result property="lessonDate" column="lesson_date" />
+		<result property="scope" column="scope" />
+		<result property="weekType" column="week_type" />
+		<result property="lessonTimeStart" column="lesson_time_start" />
+		<result property="lessonTimeEnd" column="lesson_time_end" />
+		<result property="lessonHour" column="lesson_hour" />
+		<result property="teachers" column="teachers" />
+		<result property="assistants" column="assistants" />
+		<result property="masters" column="masters" />
+		<result property="teachersName" column="teachers_name" />
+		<result property="assistantsName" column="assistants_name" />
+		<result property="mastersName" column="masters_name" />
+		<result property="classroomId" column="classroom_id" />
+		<result property="classroom" column="classroom" />
+		<result property="liveRoom" column="live_room" />
+		<result property="remark" column="remark" />
+		<result property="liveCompanyType" column="live_company_type" />
+		<result property="liveroomIdGh" column="liveroom_id_gh" />
+		<result property="studentUrlGh" column="student_url_gh" />
+		<result property="teacherUrlGh" column="teacher_url_gh" />
+		<result property="assistantUrlGh" column="assistant_url_gh" />
+		<result property="replayUrlGh" column="replay_url_gh" />
+		<result property="delFlag" column="del_flag" />
+		<result property="sort" column="sort"/>
+		<result property="chapterFlag" column="chapter_flag"/>
+		<result property="supportMobile" column="support_mobile"/>
+		<result property="liveClassType" column="live_class_type"/>
+		<result property="createTime" column="create_time"/>
+		<result property="creator" column="creator"/>
+		<result property="barrage" column="barrage"/>
+		<result property="modetype" column="modetype"/>
+		<result property="tikuPaper.id" column="paperId"></result>
+		<result property="tikuPaper.paperName" column="paperName"></result>
+		<result property="courseExercise.id" column="courseExerciseId"></result>
+	</resultMap>
+	<sql id="table_columns">
+		id,
+		name,
+		lesson_name,
+		lesson_id,
+		lesson_date,
+		user_id,
+		commodity_id,
+		classtype_id,
+		liveroom_id,
+		join_time,
+		leave_time,
+		watch_time
+    </sql>
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{lessonName},
+		#{lessonId},
+		#{lessonDate},
+		#{userId},
+		#{commodityId},
+		#{classtypeId},
+		#{liveroomId},
+		#{joinTime},
+		#{leaveTime},
+		#{watchTime}
+	</sql>
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.userId},
+		#{item.commodityId},
+		#{item.classTypeId},
+		#{item.lectureId},
+		#{item.studyDate},
+		#{item.studyStatus},
+		#{item.studyLength}
+	</sql>
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="addWatchInfo" parameterType="com.yuxin.wx.model.watchInfo.WatchInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_watch_info( <include refid="table_columns" /> )
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	<insert id="addClassRoomRelation" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_watch_info( 'liveroom_id','class_id')
+		values
+		<foreach item="item" collection="list" separator="," >
+			( #{liveroomId}，#{classId})
+		</foreach>
+	</insert>
+	<select id="getClassRoomRelation" parameterType="com.yuxin.wx.model.watchInfo.ClassRoomRelation" resultMap="watchInfoResultMap">
+		select src.class_id,cml.lesson_name,cm.`name`,cml.lesson_date,cml.liveroom_id_gh as liveroom_id,cmon.classtype_id,cpr.com_id as commodity_id,cml.id as lesson_id from sys_room_class src
+		LEFT JOIN class_module_lesson  cml on  cml.liveroom_id_gh = src.liveroom_id
+		LEFT JOIN class_module_no_onsale cmon  on cmon.module_no_id =cml.module_no_id
+		LEFT JOIN commodity_product_realtion cpr on cpr.product_id = cmon.classtype_id
+		LEFT JOIN commodity cm on cm.id = cpr.com_id
+		<include refid="page_where" />
+	</select>
+	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
+	<sql id="page_where">
+		<trim prefix="where" prefixOverrides="and | or ">
+			<if test="classId != null and classId != ''">and src.class_id = #{classId}</if>
+			<if test="liveroomId != null and liveroomId != ''">and src.liveroom_id = #{liveroomId}</if>
+		</trim>
+	</sql>
+	<select id="getLessonByDate" parameterType="string" resultMap="watchInfoResultMap">
+		select cml.lesson_name,cm.`name`,cml.lesson_date,cml.liveroom_id_gh as liveroom_id,cmon.classtype_id,cpr.com_id as commodity_id,cml.id as lesson_id from class_module_lesson  cml
+		LEFT JOIN class_module_no_onsale cmon  on cmon.module_no_id =cml.module_no_id
+		LEFT JOIN commodity_product_realtion cpr on cpr.product_id = cmon.classtype_id
+		LEFT JOIN commodity cm on cm.id = cpr.com_id where cml.lesson_date = #{lessonDate}
+	</select>
+</mapper>

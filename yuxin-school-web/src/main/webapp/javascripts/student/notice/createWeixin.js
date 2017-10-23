@@ -15,10 +15,8 @@
              var messageType = $(".btn-type.btn-primary").attr("data-type");
              var oneItem = $("#one option:selected").attr("data-code");
              var twoItem = $("#two option:selected").attr("data-code");
-             if(messageType == "STUDENT_MESSAGE_MOBILE"){
-                 url = rootPath + "/classModule/selClassType";
-                 $("#classTitle").html("课程：");
-             }
+			 url = rootPath + "/classModule/selClassType";
+			 $("#classTitle").html("课程：");
              selClassOrModule(url,oneItem,twoItem,$("#three option:selected").attr("data-code"));
          });
 

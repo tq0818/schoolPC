@@ -31,7 +31,6 @@
 				<div class="heading">
 					<h2 class="h5">${area.itemValue}学员列表</h2>
 					<span class="line"></span>
-					<input type="hidden" id="eduArea" name="eduArea" value='${area.itemCode}'/>
 				</div>
 				<form method="post" id="searchForm">
 					<div>
@@ -39,7 +38,7 @@
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
-
+						<input type="hidden" id="isStu" name="isStu" value="1"/>
 						<select name="eduArea" id="eduArea">
 							<option value="${area.itemCode}" data-id="${area.id}" >${area.itemValue}</option>
 						</select>
@@ -71,9 +70,9 @@
 						<%--</c:if>--%>
 
 					</div>
-					<div style="margin-top: 10px;">
+					<div style="margin: 10px 0;">
 						<span>创建时间</span>
-						<span><input type="text" name="startTime" class="date-picker from"/><em>到</em><input type="text" name="endTime" class="date-picker to"/></span>
+						<span><input type="text" name="startTime" class="date-picker from"/><em> 到 </em><input type="text" name="endTime" class="date-picker to"/></span>
 						<c:if test="${address==1}">
 						<span style="padding:0 15px;" id="caddress">
 							<select id="prov" name="province"></select>
@@ -82,6 +81,7 @@
 						</span>
 						</c:if>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+						<span class="fr"><a href="javascript:;" class="btn btn-primary exportExcleArea">导出数据</a></span>
 					</div>
 				</form>
 				<div class="user-list">

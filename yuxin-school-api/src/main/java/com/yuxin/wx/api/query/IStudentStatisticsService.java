@@ -2,6 +2,7 @@ package com.yuxin.wx.api.query;
 
 
 import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 import java.util.List;
@@ -44,4 +45,13 @@ public interface IStudentStatisticsService {
      * @return
      */
     public List<Map> getOrgStudentStatistics(Map<String, Object> map);
+
+    Map<String, Object> getOrgStudentTotalStatisticsByAreaAndStep(Map<String, Object> map);
+
+    /**
+     * 区域导出统计信息
+     * @param search
+     * @return
+     */
+    List<Map<String, Object>> getAreaStudentCountList(StudentListVo search);
 }

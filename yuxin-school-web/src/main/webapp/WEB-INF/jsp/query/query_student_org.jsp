@@ -31,14 +31,15 @@
 				<div class="heading">
 					<h2 class="h5">${school.itemValue}学员列表</h2>
 					<span class="line"></span>
-					<input type="hidden" id="eduSchool" name="eduSchool" value='${school.itemCode}'/>
 				</div>
 				<form method="post" id="searchForm">
 					<div>
 						<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
+						<input type="hidden" id="eduSchool" name="eduSchool" value='${school.itemCode}'/>
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
+						<input type="hidden" id="isStu" name="isStu" value="1"/>
                         <span style="margin-left:30px">当前学段</span>
                         <select id="eduStep" name="eduStep" style="width:150px;">
                            <option value="">请选择学段</option>
@@ -66,6 +67,7 @@
 						</span>
 						</c:if>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+						<span class="fr"><a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
 					</div>
 				</form>
 				<div class="user-list">

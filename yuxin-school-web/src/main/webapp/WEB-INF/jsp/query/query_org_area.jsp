@@ -44,6 +44,8 @@
 						</c:forEach>
 					</select>
 					<span><a href="javascript:;" class="btn btn-primary" onclick="queryPerfect2()">搜索</a></span>
+
+					<div style="text-align: center;font-size: 16px;width: 46%;display: none;">总计<span id="studentTotal" style="color:red"></span>人已完善教育信息</div>
 				</div>
 				<div class="biaoge-coment biaoge-left wit50">
 					<div class="biaoge-cont">
@@ -76,6 +78,18 @@
 				alert("请选择学段！");
 				return;
 			}
+
+			$.ajax({
+				url:rootPath+'/query/statistics/orgStudentTotalStatistics',
+				data:{'eduArea':'${area.itemCode}', 'eduStep':eduStep},
+				dataType:'json',
+				type:'post',
+				success:function(result){
+					if(result!=null && result.stuNum!=null){
+						$("#studentTotal").html(result.stuNum).parent().css({"display":'inline-block'});
+					}
+				}
+			});
 			$(document).statistical({}).queryPerfect2('${area.itemCode}', eduStep);
 		}
 	</script>

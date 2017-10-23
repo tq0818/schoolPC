@@ -2,16 +2,22 @@ package com.yuxin.wx.controller.query;
 
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
+import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.utils.EntityUtil;
+import com.yuxin.wx.utils.ExcelUtil;
 import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +25,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +44,8 @@ public class StudentStatisticsController {
     private ICompanyFunctionSetService companyFunctionSetServiceImpl;
     @Autowired
     private IUsersService usersServiceImpl;
+    @Autowired
+    private IStudentService studentServiceImpl;
 	/**
 	 * 页面跳转
 	 * @param model
@@ -134,6 +144,43 @@ public class StudentStatisticsController {
         model.addAttribute("stepNews", stepNews);
 
         return "/query/query_org";
+    }
+
+    /**
+     * 数据查询
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/statistics/orgStudentTotalStatistics")
+    @ResponseBody
+    public Map<String, Object> orgStudentTotalStatistics(Model model, HttpServletRequest request){
+        //区域学员统计
+        String eduArea = request.getParameter("eduArea");
+        String eduStep = request.getParameter("eduStep");
+        Subject subject = SecurityUtils.getSubject();
+        if(StringUtils.isBlank(eduArea) || "null".equals(eduArea)){
+            return null;
+        }
+
+        Map<String, Object> orgStuStatistics = null;
+        if(!subject.hasRole("学校负责人")){
+            if(StringUtils.isBlank(eduStep) || "null".equals(eduStep)){
+                return null;
+            }
+            //传递参数
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("eduArea",eduArea);
+            map.put("eduStep",eduStep);
+            orgStuStatistics = studentStatisticsServiceImpl.getOrgStudentTotalStatisticsByAreaAndStep(map);
+        }else{
+            //传递参数
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("orgCode",eduArea);
+//            orgStuStatistics = studentStatisticsServiceImpl.getOrgStudentStatistics(map);
+        }
+        //传递参数
+        return orgStuStatistics;
     }
 
     /**
@@ -423,5 +470,84 @@ public class StudentStatisticsController {
         model.addAttribute("stepNews", stepNews);
 
         return "/query/query_org_org";
+    }
+
+    /**
+     *
+     * @Description: 统计信息导出学员数据
+     * @param model
+     * @param search
+     * @return
+     */
+    @RequestMapping(value = "/exportExcleArea")
+    public ModelAndView exportExcleArea(Model model, StudentListVo search) {
+        List<Map<String, Object>> al = new ArrayList<Map<String, Object>>();
+        if (EntityUtil.isNotBlank(search)) {
+            search.setCompanyId(WebUtils.getCurrentCompanyId());
+            // search.setSchoolId(WebUtils.getCurrentSchoolId());
+            search.setPageSize(50000);
+            al = studentStatisticsServiceImpl.getAreaStudentCountList(search);
+        }
+        StringBuffer title = new StringBuffer(
+                "学段:eduStep,学校:eduSchool,注册人数:registerNum,报名人数:paymaterCount");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(al, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "学员列表.xls");
+        return new ModelAndView(excel, map);
+    }
+
+    /**
+     *
+     * @Description: 统计信息导出学员数据
+     * @param model
+     * @param search
+     * @return
+     */
+    @RequestMapping(value = "/exportExcleSchool")
+    public ModelAndView exportExcleSchool(Model model, StudentListVo search) {
+        List<StudentListVo> al = new ArrayList<StudentListVo>();
+        if (EntityUtil.isNotBlank(search)) {
+            search.setCompanyId(WebUtils.getCurrentCompanyId());
+            // search.setSchoolId(WebUtils.getCurrentSchoolId());
+            search.setPageSize(50000);
+            al = studentServiceImpl.findStudentsData(search);
+        }
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (StudentListVo s : al) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("username", s.getUsername());
+            map.put("name", s.getName());
+            String eduYear = "";
+            String eduClass = "";
+            if(!StringUtils.isBlank(s.getEduYear())){
+                eduYear = s.getEduArea();
+            }
+            if(!StringUtils.isBlank(s.getEduClass())){
+                eduClass = s.getEduClass()+"班";
+            }
+            map.put("eduYear", eduYear);
+            map.put("eduClass", eduClass);
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                "用户名:username,学生姓名:name,入学年份:eduYear,班级:eduClass");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "学员列表.xls");
+        return new ModelAndView(excel, map);
     }
 }

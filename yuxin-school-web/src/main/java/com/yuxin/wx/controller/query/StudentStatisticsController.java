@@ -527,7 +527,7 @@ public class StudentStatisticsController {
             String eduYear = "";
             String eduClass = "";
             if(!StringUtils.isBlank(s.getEduYear())){
-                eduYear = s.getEduArea();
+                eduYear = s.getEduYear();
             }
             if(!StringUtils.isBlank(s.getEduClass())){
                 eduClass = s.getEduClass()+"班";

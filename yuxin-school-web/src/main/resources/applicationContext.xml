@@ -176,4 +176,38 @@
     		<list></list>
     	</property>
     </bean>
+
+	<!-- 引入quartz.xml定时任务 -->
+	<!--<import resource="classpath*:/quartz.xml" />-->
+
+	<!-- ======================== 调度工厂 ======================== -->
+	<!--  总管理类如果将lazy-init='false'那么容器启动就会执行调度程序   -->
+	<!--<bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" >-->
+		<!--<property name="configLocation" value="classpath:quartz.properties" />-->
+		<!--<property name="dataSource">-->
+			<!--<ref bean="dataSourceSchool" />-->
+		<!--</property>-->
+		<!--<property name="applicationContextSchedulerContextKey" value="applicationContext" />-->
+		<!--<property name="triggers">-->
+			<!--<list>-->
+				<!--<ref local="cronTrigger"/>-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
+
+	<!--&lt;!&ndash; 业务对象 &ndash;&gt;-->
+	<!--<bean id="bizObject" class="com.yuxin.wx.controller.task.TimerTaskPrimary" />-->
+
+	<!--&lt;!&ndash; 调度业务 &ndash;&gt;-->
+	<!--<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">-->
+		<!--&lt;!&ndash; 指定任务Bean的实现类 &ndash;&gt;-->
+		<!--<property name="jobClass">-->
+			<!--<value>com.yuxin.wx.controller.task.TimerTaskPrimary1</value>-->
+		<!--</property>-->
+	<!--</bean>-->
+
+	<!--<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+		<!--<property name="jobDetail" ref="jobDetail" />-->
+		<!--<property name="cronExpression" value="0 0 2 * * ?" />-->
+	<!--</bean>-->
  </beans>

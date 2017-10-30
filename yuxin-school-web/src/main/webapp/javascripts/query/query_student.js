@@ -141,6 +141,32 @@
                     }
 
                 });
+            // 区域导出用户
+            $(".exportExcleArea").on(
+                'click',
+                function () {
+                    if ($("#tableList").find("tr").eq(1).find("td").length <= 1) {
+                        $.msg("没有数据可以导出");
+                    } else {
+                        $("#searchForm").attr("action",
+                            rootPath + "/query/exportExcleArea")
+                            .submit();
+                    }
+
+                });
+            // 学校导出用户
+            $(".exportExcleSchool").on(
+                'click',
+                function () {
+                    if ($("#tableList").find("tr").eq(1).find("td").length <= 1) {
+                        $.msg("没有数据可以导出");
+                    } else {
+                        $("#searchForm").attr("action",
+                            rootPath + "/query/exportExcleSchool")
+                            .submit();
+                    }
+
+                });
             $(".exportStudentDatas").on('click',function(){
                 	 $("#searchForm").attr("action",
                              rootPath + "/student/exportStudentPayMaster")
@@ -216,6 +242,7 @@
         	student.search();
         },
         search: function (page) {
+            debugger
             var $this = this;
             var data = {};
             data.mobile = $("#stuMobile").val();
@@ -240,6 +267,7 @@
             data.eduStep = $('#eduStep').val();
             data.eduYear = $('#eduYear').val();
             data.eduClass = $('#eduClass').val();
+            data.isStu = $('#isStu').val();
             var tel = $("#stuMobile").val(); // 获取手机号
 
             if ($(".to").val() != "") {

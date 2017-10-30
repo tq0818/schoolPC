@@ -99,7 +99,7 @@
 						        textStyle: {
 						        	color:'#777',
 						        	fontWeight: 'normal',
-						        	fontSize:16
+						        	fontSize:14
 						        },
 						        top:15
 						    },

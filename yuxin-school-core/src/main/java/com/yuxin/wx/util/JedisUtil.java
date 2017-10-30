@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,9 @@ public class JedisUtil {
 				password = props.getProperty("yunduoketang.redis.password");// 邮件中提供的“密码”
 			}
 			jedis = new Jedis(host, port,timeout);
-			jedis.auth(password);//instance_id:password
+			if(StringUtils.isNotEmpty(password)){
+				jedis.auth(password);//instance_id:password
+			}
 			jedis.select(0);
 		}catch(Exception e){
 			log.error("--------------初始化redis链接异常，原因["+e+"]---------------",e);

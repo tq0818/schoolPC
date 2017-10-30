@@ -38,6 +38,7 @@
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
+						<input type="hidden" id="isStu" name="isStu" value="1"/>
 
 						<select name="eduArea" id="eduArea">
 							<option value="">请选择区域</option>
@@ -84,6 +85,7 @@
 						</span>
 						</c:if>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+						<span><a href="javascript:;" class="btn btn-primary searchContents">导出</a></span>
 					</div>
 				</form>
 				<div class="user-list">

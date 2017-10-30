@@ -292,7 +292,7 @@
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.assistants AND sct.del_flag = 0),'该助教被删除') as assistants_name,
 		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,
 		barrage,modetype,ce.class_type_id,ce.id as courseExerciseId, tp.id as paperId, tp.paper_name as paperName
-		from class_module_lesson cml left join course_exercise ce on ce.resource_id = cml.id
+		from class_module_lesson cml left join course_exercise ce on ce.resource_id = cml.id AND ce.`resource_type` = 'TEACH_METHOD_LIVE'
 		left join tiku_paper tp on tp.id = ce.paper_id
 		where module_no_id = #{moduleNoId} and del_flag = 0 order by sort asc,lesson_date asc
 	</select>

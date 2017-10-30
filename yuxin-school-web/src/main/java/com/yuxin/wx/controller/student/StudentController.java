@@ -2734,9 +2734,6 @@ public class StudentController {
         if (subject.hasRole("代理机构")) {
             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
         }
-        if(subject.hasRole("教科院") || subject.hasRole("区县负责人") || subject.hasRole("学校负责人")){
-            search.setIsStu(1);
-        }
         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
         return pageFinder;
     }
@@ -3147,7 +3144,7 @@ public class StudentController {
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(1000);
+            search.setPageSize(50000);
             al = studentServiceImpl.findStudentsData(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -3189,13 +3186,14 @@ public class StudentController {
             map.put("county", s.getCounty());
             map.put("addressDetail", s.getAddressDetail());
             String eduIdentity = "";
-if(s.getEduIdentity()!=null){
-    if(s.getTeacherFlag()!=null && String.valueOf(s.getTeacherFlag()).equals("1")){
-        eduIdentity = "教师";
-    }else{
-        eduIdentity = (String.valueOf(s.getEduIdentity()).equals("0"))?"学生":"普通用户";
-    }
-}map.put("eduIdentity", eduIdentity);
+            if(s.getEduIdentity()!=null){
+                if(s.getTeacherFlag()!=null && String.valueOf(s.getTeacherFlag()).equals("1")){
+                    eduIdentity = "教师";
+                }else{
+                    eduIdentity = (String.valueOf(s.getEduIdentity()).equals("0"))?"学生":"普通用户";
+                }
+            }
+            map.put("eduIdentity", eduIdentity);
             String area = "";
             String school = "";
             if(!StringUtils.isBlank(s.getEduArea())){

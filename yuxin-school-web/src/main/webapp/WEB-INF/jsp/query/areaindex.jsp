@@ -5,7 +5,7 @@
 <html lang="zh-cn">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>区域统计总览</title>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css">
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/css/homepage.css">
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/query/statistical-style.css">

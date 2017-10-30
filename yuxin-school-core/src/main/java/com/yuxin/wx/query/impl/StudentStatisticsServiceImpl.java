@@ -3,6 +3,7 @@ package com.yuxin.wx.query.impl;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.query.mapper.StudentStatisticsMapper;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,15 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public List<Map> getOrgStudentStatistics(Map<String, Object> map) {
         return studentstatisticsMapper.getOrgStudentStatistics(map);
+    }
+
+    @Override
+    public Map<String, Object> getOrgStudentTotalStatisticsByAreaAndStep(Map<String, Object> map) {
+        return studentstatisticsMapper.getOrgStudentTotalStatisticsByAreaAndStep(map);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAreaStudentCountList(StudentListVo search) {
+        return studentstatisticsMapper.getAreaStudentCountList(search);
     }
 }

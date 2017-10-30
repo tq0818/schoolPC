@@ -37,6 +37,23 @@
 		edu_class IS NOT NULL and edu_class != '' GROUP BY edu_area
 	</select>
 
+	<select id="getOrgStudentTotalStatisticsByAreaAndStep" resultType="Map" parameterType="Map">
+		SELECT COUNT(s.`id`) AS stuNum FROM sys_config_dict c LEFT JOIN student s ON c.`item_code` = s.`edu_school`
+		and s.`edu_identity` = 0
+		AND edu_area IS NOT NULL AND edu_area != '' AND edu_school IS NOT NULL AND edu_school != '' AND
+		edu_step IS NOT NULL AND edu_step != '' AND edu_year IS NOT NULL AND edu_year != '' AND
+		edu_class IS NOT NULL AND edu_class != ''
+  		LEFT JOIN users_front u ON u.id = s.`user_id` AND s.edu_identity = 0 LEFT JOIN sys_config_dict pc ON pc.`id` = c.`parent_item_id`
+  		LEFT JOIN edu_step_school_relation e ON e.`edu_school_id` = c.`id` WHERE 1=1
+  		<if test="eduArea!=null and eduArea!=''">
+			and pc.`item_code` = #{eduArea}
+		</if>
+		AND IFNULL(u.teacher_flag, 0)!=1
+		<if test="eduStep!=null and eduStep!=''">
+			AND e.`edu_step_new_code` = #{eduStep}
+		</if>
+	</select>
+
 	<select id="getOrgStudentStatisticsByAreaAndStep" resultType="Map" parameterType="Map">
 		SELECT COUNT(s.`id`) AS stuNum,c.`item_value` FROM sys_config_dict c LEFT JOIN student s ON c.`item_code` = s.`edu_school`
 		and s.`edu_identity` = 0
@@ -68,5 +85,72 @@
 		</if>
 		AND IFNULL(u.teacher_flag, 0)!=1
 		GROUP BY c.`item_code`
+	</select>
+
+	<select id="getAreaStudentCountList" resultType="Map" parameterType="Map">
+		select IFNULL(d1.item_value,'') as eduSchool,IFNULL(d2.item_value,'') as eduStep,IFNULL(count(distinct(s.id )), 0) as registerNum,
+		sum(u.vip_flag) as paymaterCount
+		from student s INNER JOIN users_front u on s.user_id=u.id
+		left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
+		LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
+		LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
+		LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
+		where 1=1
+		<if test="schoolId != null">and s.school_id=#{schoolId}</if>
+		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
+		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		<if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
+		<if test="registType != null">
+			<choose>
+				<when test="registType == 1">
+					and u.id is not null
+				</when>
+				<otherwise>
+					and u.id is null
+				</otherwise>
+			</choose>
+		</if>
+		<if test="status != null">
+			<choose>
+				<when test="status == 1">
+					and u.status = #{status}
+				</when>
+				<otherwise>
+					and (u.status != 1 or u.status is null)
+				</otherwise>
+			</choose>
+		</if>
+		<if test="paymaterCount != null">
+			<choose>
+				<when test="paymaterCount == 1">
+					and u.vip_flag<![CDATA[>=]]>1
+				</when>
+				<otherwise>
+					and u.vip_flag<![CDATA[<=]]>0
+				</otherwise>
+			</choose>
+		</if>
+		<if test="isMember != null and isMember==1">
+			and u.member_status=1 and (u.member_buy_length>0 || u.member_buy_length=-1)
+		</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		<if test="province != null and province != ''">and province='${province}'</if>
+		<if test="city != null and city != ''">and city= '${city}'</if>
+		<if test="county != null and county != ''">and county= '${county}'</if>
+		<if test="groupOneId != null and groupOneId != ''">and group_one_id= '${groupOneId}'</if>
+		<if test="groupTwoId != null and groupTwoId != ''">and group_two_id= '${groupTwoId}'</if>
+		<if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
+		<if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
+		<if test="isStu != null and isStu == 1"> and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
+		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
+		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
+		<if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
+		GROUP by d1.item_code, d2.item_code
+		order by d1.item_code, d2.item_code
+		limit #{firstIndex},#{pageSize}
 	</select>
 </mapper>

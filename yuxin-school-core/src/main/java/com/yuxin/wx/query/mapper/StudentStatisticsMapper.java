@@ -2,6 +2,7 @@ package com.yuxin.wx.query.mapper;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.statistics.Statistics;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 import java.util.List;
@@ -44,4 +45,17 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
 	public List<Map> getOrgStudentStatistics(Map<String, Object> map);
+
+	/**
+	 * 获取学校已完善总数人数
+	 * @return
+	 */
+    Map<String, Object> getOrgStudentTotalStatisticsByAreaAndStep(Map<String, Object> map);
+
+	/**
+	 * 区域导出统计信息
+	 * @param search
+	 * @return
+	 */
+    List<Map<String, Object>> getAreaStudentCountList(StudentListVo search);
 }

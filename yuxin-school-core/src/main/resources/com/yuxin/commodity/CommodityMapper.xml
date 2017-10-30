@@ -416,5 +416,6 @@
 		<if test="com.teacherId != null and com.teacherId != ''">and ct.teacher_id = #{com.teacherId}</if>
 		<if test="com.itemSecondCode != null and com.itemSecondCode != ''">and c.item_second_code = #{com.itemSecondCode}</if>
 		<if test="com.itemThirdCode != null and com.itemThirdCode != ''">and c.item_third_code = #{com.itemThirdCode}</if>
+		group by c.id
 	</select>
 </mapper>

@@ -242,7 +242,6 @@
         	student.search();
         },
         search: function (page) {
-            debugger
             var $this = this;
             var data = {};
             data.mobile = $("#stuMobile").val();

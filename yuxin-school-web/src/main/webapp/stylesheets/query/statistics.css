@@ -1,0 +1,38 @@
+body,html{margin: 0;padding: 0;}
+i{font-style: normal;}
+.content-right{width: 930px;padding: 20px ;background: #f6f6f6;font-size: 14px;}
+
+.content-right .btn{display: inline-block;text-decoration: none;padding:3px 20px;color:#fff;
+	float: left;
+margin-right: 10px;}
+.btn-survey,.btn-default{background: #0099ff;}
+ .btn-detail{background: #999;}
+.screen-info .date{border: 1px solid #ddd;display: inline-block;vertical-align: middle;
+	height: 30px;line-height: 30px;margin-left: 200px;background: #fff;}
+.screen-info .text{background: #ccc;border-right: 1px solid #ddd;display: inline-block;
+padding:0 5px;
+}
+.screen-info .i-data{border: 0;height: 25px;width:80px;margin:0 5px;}
+.screen-info .btns-default{display: inline-block;padding:5px 20px;color:#fff;background: #9bbbdb;
+border-radius:2px;border: 0;
+}
+.statistics-con{overflow: hidden;margin-top: 20px;}
+.demand-count{clear: both;margin: 20px 0;}
+.school-demand{margin-bottom: 20px;}
+.screen-info{clear: both;overflow: hidden;}
+.screen-info .search-item{display: inline-block;float: left;margin-right: 10px;}
+.screen-info .select-box{height: 30px;	}
+.btn-center{text-align: center;}
+.course-info{background: #fff;padding:10px 5px ;}
+.course-info .name{width: 40%;display: inline-block;font-size: 12px;}
+.course-info .play{width: 30%;
+}
+.course-info .play,.course-info .device{display: inline-block;vertical-align: middle;}
+.course-info .play i{width: 33%;float: left;text-align: center;}
+.course-info .device{width: 28%;display: inline-block;}
+.course-info .device i{width: 100%;border-bottom: 1px solid #ccc;display: inline-block;}
+.pull-right{float: right;}
+.pull-left{float: left;}
+.btn-grouplist{margin-bottom: 20px;overflow: hidden;}
+.btn_group2 a{float: left;width: 34px;height: 18px;text-align: center;line-height: 18px;background: #fff;border: 1px solid #ccc;border-radius: 3px;color: #000;text-decoration: none;}
+.btn_group2 a.active{color:#fff;background:#0088cc;border:none;margin:1px}

@@ -204,4 +204,9 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	public SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict){
 		return sysConfigDictMapper.queryConfigDictValue(sysConfigDict);
 	}
+
+	@Override
+	public List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict) {
+		return sysConfigDictMapper.querySchoolListByStepCode(areaDict);
+	}
 }

@@ -155,4 +155,6 @@ public interface ISysConfigDictService  {
     
     List<SysConfigDict> queryConfigDictListByDictCode(SysConfigDict sysConfigDict);
 	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
+
+    List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict);
 }

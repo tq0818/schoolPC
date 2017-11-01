@@ -325,6 +325,7 @@
 		<!-- 统计查询 -->
 		<mapper resource="com/yuxin/query/StudentStatisticsMapper.xml"/>
 		<mapper resource="com/yuxin/watchInfo/WatchInfoMapper.xml" />
+		<mapper resource="com/yuxin/query/SysPlayLogsMapper.xml" />
 	</mappers>
 
 </configuration>

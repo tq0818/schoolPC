@@ -162,7 +162,7 @@ public class StudentController {
     private ISysConfigTeacherService sysConfigTeacherServiceImpl;
     @Autowired
     private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
-    
+
     private static Logger log = Logger.getLogger(StudentController.class);
     
     public static final String AFFICHE_TYPE = "AFFICHE";
@@ -4200,5 +4200,12 @@ public class StudentController {
     	}
     	return result;
     }
-    
+
+    @ResponseBody
+    @RequestMapping(value = "/getSchoolListByStep")
+    public List<SysConfigDict> getSchoolListByStep(HttpServletRequest request,SysConfigDict areaDict) {
+        areaDict.setDictCode("EDU_SCHOOL");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.querySchoolListByStepCode(areaDict);
+        return areas;
+    }
 }

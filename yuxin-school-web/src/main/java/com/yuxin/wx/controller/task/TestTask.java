@@ -1,16 +1,22 @@
 package com.yuxin.wx.controller.task;
 
 import com.google.gson.Gson;
+import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.LiveRoomConstant;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.utils.HttpPostRequest;
+import com.yuxin.wx.utils.MD5;
+import com.yuxin.wx.vo.user.UserHistoryAllVo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -20,70 +26,94 @@ import java.util.*;
 @Controller
 @RequestMapping("/watchInfo")
 public class TestTask {
-@Autowired
-private IWatchInfoService watchInfoServiceImpl;
+    @Autowired
+    private IWatchInfoService watchInfoServiceImpl;
+    @Autowired
+    private IUserHistoryService userHistoryServiceImpl;
+
+    private Log log = LogFactory.getLog("log");
     @RequestMapping(value="/getInfo")
-    public void test() throws Exception {
+    public void test() {
         //获取当日的课次
         Date date = new Date();
+        date.setTime(date.getTime()-(3600*24*1000));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String lessonDate = sdf.format(date);
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.MONTH,7);
+        ca.set(Calendar.DAY_OF_MONTH,17);
+        String lessonDate = sdf.format(ca.getTime());
         List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(lessonDate);
         Map<String,Object> map = new HashMap();
         map.put("loginName", LiveRoomConstant.LOGIN_NAME);
         map.put("password",LiveRoomConstant.PASSWORD);
         map.put("startTime",lessonDate+" 00:00:00");
-        map.put("endTime",lessonDate+" 23:59:59");
+
         for(WatchInfo lesson :list){
             map.put("roomId",lesson.getLiveroomId());
-            String result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/export/history",map);
+            String result = null;
+            try {
+                result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/export/history",map);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             map.remove("startTime");
             map.remove("endTime");
             System.out.println(result);
             Gson g = new Gson();
             LiveResult re =  g.fromJson(result,LiveResult.class);
-            if(!re.getCode().equals("200")){
+            if(!re.getCode().equals("0")){
                 System.out.println(re.getMessage());
                 continue;
             }
             //用户信息过滤并存入数据库
             for(MessUser mUser : re.getList()){
-                if(Integer.parseInt(mUser.getUid())-1000000000>0){
+                if(Long.valueOf(mUser.getUid())-1000000000<1000000000){
                     lesson.setJoinTime(mUser.getJoinTime());
                     lesson.setLeaveTime(mUser.getLeaveTime());
                     lesson.setUserId(Integer.parseInt(mUser.getUid())-1000000000);
-                    lesson.setLessonId(lesson.getId());
-                    lesson.setWatchTime(Integer.parseInt(mUser.getLeaveTime())-Integer.parseInt(mUser.getJoinTime()));
+                    lesson.setLessonId(lesson.getLessonId());
+                    lesson.setWatchTime(Long.valueOf(mUser.getLeaveTime())-Long.valueOf(mUser.getJoinTime()));
                     watchInfoServiceImpl.addWatchInfo(lesson);
                 }
             }
         }
         //获取前一天课次下所有课件
-        Date beforeDate = sdf.parse(lessonDate);
+        Date beforeDate = null;
+        try {
+            beforeDate = sdf.parse(lessonDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Calendar c = Calendar.getInstance();
         c.setTime(beforeDate);
-        c.add(Calendar.DAY_OF_YEAR,-1);
-        beforeDate = c.getTime();
+        ca.add(Calendar.DAY_OF_YEAR,-1);
+        beforeDate = ca.getTime();
         String before = sdf.format(beforeDate);
         List<WatchInfo> listBefor = watchInfoServiceImpl.getLessonByDate(lessonDate);
         for(WatchInfo lesson :listBefor){
             List<ClassRoomRelation> relations = new ArrayList<>();
             map.put("roomId",lesson.getLiveroomId());
-            String result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/export/history",map);
+            String result = null;
+            try {
+                result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/courseware/list",map);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println(result);
             Gson g = new Gson();
             Relation re =  g.fromJson(result,Relation.class);
-            if(!re.getCode().equals("200")){
+            if(!re.getCode().equals("0")){
                 System.out.println(re.getMessage());
                 continue;
             }
-            for (CourseWare course : re.getCoursewares()) {
-                ClassRoomRelation relation = new ClassRoomRelation();
-                relation.setClassId(course.getId());
-                relation.setLiveroomId(course.getRoomId());
-                relations.add(relation);
+            if( re.getCoursewares()!=null){
+                for (CourseWare course : re.getCoursewares()) {
+                    ClassRoomRelation relation = new ClassRoomRelation();
+                    relation.setClassId(course.getId());
+                    relation.setLiveroomId(course.getRoomId());
+                    watchInfoServiceImpl.addClassRoomRelation(relation);
+                }
             }
-            watchInfoServiceImpl.addClassRoomRelation(relations);
         }
         //获取所有的 课次 课件 关系
         List<WatchInfo> relations = watchInfoServiceImpl.getClassRoomRelation(new ClassRoomRelation());
@@ -97,30 +127,97 @@ private IWatchInfoService watchInfoServiceImpl;
                     addWatchUser(map,relations);
                 }
             }
+
+
+
     }
-    public MessResult addWatchUser(Map<String,Object> map,List<WatchInfo> relations) throws Exception {
-        String result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME + "/integration/site/training/export/study/history", map);
-        System.out.println(result);
-        Gson g = new Gson();
-        MessResult re = g.fromJson(result, MessResult.class);
-        if (re.getPage() != null && re.getList() != null) {
-            //剔除所有roomId 并与uid对应
-            for (int n = 0; n < re.getList().size(); n++) {
-                WatchUser user = re.getList().get(n);
-                for (int m = 0; m < relations.size(); m++) {
-                    WatchInfo relation = relations.get(m);
-                    if (user.getId().equals(relation.getClassId()) && user.getUid() - 1000000000 > 0) {
-                        relation.setJoinTime(user.getStartTime());
-                        relation.setLeaveTime(user.getLeaveTime());
-                        relation.setUserId(user.getUid() - 1000000000);
-                        relation.setWatchTime(Integer.parseInt(user.getLeaveTime()) - Integer.parseInt(user.getStartTime()));
-                        watchInfoServiceImpl.addWatchInfo(relation);
+    //获取前一天录播观看个人信息
+    @RequestMapping(value="/getPlayInfo")
+    public void getPlayInfo() {
+        String a = "";
+        long b = System.currentTimeMillis()/1000L;
+        String infoUrl ="";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ss");
+       Calendar c = Calendar.getInstance();
+       c.add(Calendar.DAY_OF_YEAR,-1);
+        Date date  = c.getTime();
+//        map.put("date","2017-10-23");
+        // a +="date=2017-10-23";
+        //map.put("userid","7EFA9ED6F0ABB8DD");
+        a+="date="+ sdf.format(date);
+        a +="&num_per_page=1000";
+        a +="&userid=7EFA9ED6F0ABB8DD";
+        // map.put("time",b);
+        a +="&time="+b;
+        // map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
+        infoUrl = a;
+        a +="&salt=G162ODWstqL4ekW9c3lB56ikyWaVSIxb";
+        System.out.println(MD5.getMD5(a));
+        infoUrl+="&hash="+MD5.getMD5(a);
+//        map.put("hash",a);
+        System.out.println((c));
+        String result = null;
+        try {
+            result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
+            System.out.println(result);
+            Gson g = new Gson();
+            PlayLogsResult plre =  g.fromJson(result,PlayLogsResult.class);
+            System.out.println(plre.getPlay_logs().getPlay_log().size());
+            List<PlayLog> playLog = plre.getPlay_logs().getPlay_log();
+            for(int n  = 0 ; n < playLog.size() ; n++){
+                PlayLog  play = playLog.get(n);
+                UserHistoryAllVo uha =new UserHistoryAllVo();
+                String  [] info = play.getCustom_id().split("_");
+                uha.setUserId(Integer.parseInt(info[0]));
+                uha.setCommodityId(Integer.parseInt(info[1]));
+                uha.setClassTypeId(Integer.parseInt(info[2]));
+                uha.setLectureId(Integer.parseInt(info[3]));
+                uha.setStudyLength(play.getPlay_duration());
+                uha.setStudyTime(date);
+                userHistoryServiceImpl.insertPlayLogs(uha);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public MessResult addWatchUser(Map<String,Object> map,List<WatchInfo> relations)  {
+        String result = null;
+        try {
+            result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME + "/integration/site/training/export/study/history", map);
+
+            System.out.println(result);
+            Gson g = new Gson();
+            MessResult re = g.fromJson(result, MessResult.class);
+            if(!re.getCode().equals(0)){
+                log.info(re.getMessage());
+                return null;
+            }
+            if (re.getPage() != null && re.getList() != null) {
+                //剔除所有roomId 并与uid对应
+                for (int n = 0; n < re.getList().size(); n++) {
+                    WatchUser user = re.getList().get(n);
+                    for (int m = 0; m < relations.size(); m++) {
+                        WatchInfo relation = relations.get(m);
+                        if (user.getId().equals(relation.getClassId()) && user.getUid() - 1000000000 > 0) {
+                            relation.setJoinTime(user.getStartTime());
+                            relation.setLeaveTime(user.getLeaveTime());
+                            relation.setUserId(user.getUid() - 1000000000);
+                            relation.setWatchTime(Integer.parseInt(user.getLeaveTime()) - Integer.parseInt(user.getStartTime()));
+                            watchInfoServiceImpl.addWatchInfo(relation);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
+            return re;
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            e.printStackTrace();
         }
-        return re;
+        return null;
+    }
+    public void addPlayLog(){
+
     }
 //回看信息获取
     class MessResult{
@@ -440,4 +537,106 @@ private IWatchInfoService watchInfoServiceImpl;
             this.roomId = roomId;
         }
     }
+
+
+    //录播观看记录
+    class PlayLogsResult{
+        private PlayLogs play_logs;
+
+        public PlayLogs getPlay_logs() {
+            return play_logs;
+        }
+
+        public void setPlay_logs(PlayLogs play_logs) {
+            this.play_logs = play_logs;
+        }
+    }
+    class PlayLogs{
+    private Integer total;
+    private List<PlayLog> play_log;
+
+        public Integer getTotal() {
+            return total;
+        }
+
+        public void setTotal(Integer total) {
+            this.total = total;
+        }
+
+        public List<PlayLog> getPlay_log() {
+            return play_log;
+        }
+
+        public void setPlay_log(List<PlayLog> play_log) {
+            this.play_log = play_log;
+        }
+    }
+    class PlayLog{
+        private String custom_id;
+        private Integer play_duration;
+
+        public String getCustom_id() {
+            return custom_id;
+        }
+
+        public void setCustom_id(String custom_id) {
+            this.custom_id = custom_id;
+        }
+
+        public Integer getPlay_duration() {
+            return play_duration;
+        }
+
+        public void setPlay_duration(Integer play_duration) {
+            this.play_duration = play_duration;
+        }
+    }
+    public static void main(String[] arg) throws Exception {
+        Map<String,Object> map = new HashMap();
+//         PropertiesUtil util = new PropertiesUtil();
+//        map.put("loginName",util.getZsLoginName());
+//        map.put("password",util.getZsPassWord());
+//
+//        map.put("roomId","sXrgZ8I92n");
+//        map.put("startDate","2017-08-24 00:17:16");
+        String a = "";
+        long b = System.currentTimeMillis()/1000L;
+        String c ="";
+//        map.put("date","2017-10-23");
+        // a +="date=2017-10-23";
+        //map.put("userid","7EFA9ED6F0ABB8DD");
+        a+="date=2017-10-25";
+        a +="&num_per_page=1000";
+        a +="&userid=7EFA9ED6F0ABB8DD";
+        // map.put("time",b);
+        a +="&time="+b;
+        // map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
+        c = a;
+        a +="&salt=G162ODWstqL4ekW9c3lB56ikyWaVSIxb";
+        System.out.println(MD5.getMD5(a));
+        c+="&hash="+MD5.getMD5(a);
+//        map.put("hash",a);
+        System.out.println((c));
+        String result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+c);
+        System.out.println(result);
+        Gson g = new Gson();
+        PlayLogsResult re =  g.fromJson(result,PlayLogsResult.class);
+        System.out.println(re.getPlay_logs().getPlay_log().size());
+        List<PlayLog> playLog = re.getPlay_logs().getPlay_log();
+        for(int n  = 0 ; n < playLog.size() ; n++){
+            PlayLog  play = playLog.get(n);
+            UserHistoryAllVo uha =new UserHistoryAllVo();
+            String  [] info = play.getCustom_id().split("_");
+            uha.setUserId(Integer.parseInt(info[0]));
+            uha.setCommodityId(Integer.parseInt(info[1]));
+            uha.setClassTypeId(Integer.parseInt(info[2]));
+            uha.setLectureId(Integer.parseInt(info[3]));
+            uha.setStudyLength(play.getPlay_duration());
+//            uha.setStudyTime();
+        }
+
+
+    }
+
+
 }

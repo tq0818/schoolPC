@@ -62,7 +62,7 @@
 				</div>
 				<div style="margin-top: 10px;">
 					<span>日期</span>
-					<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${ednTime}"/></span>
+					<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 					<input type="text" id="teaName" name="teaName" placeholder="请输入教师姓名"/>
 					<span><a href="javascript:;" class="btn btn-primary searchContents">查询</a></span>
 					<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>

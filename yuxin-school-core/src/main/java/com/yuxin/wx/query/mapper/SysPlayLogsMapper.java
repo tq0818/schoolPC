@@ -51,26 +51,26 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * 查询视频资源在区域下播放情况
 	 * @return
 	 */
-	List<Map<String,Object>> queryTotleVideoCourse();
+	List<Map<String,Object>> queryTotleVideoCourse(Map<String, Object> papamMap);
 
 	/**
 	 * 查询视频播放的总人数
 	 * @return
 	 */
-	Integer queryTotleUserVideoNum();
+	Integer queryTotleUserVideoNum(Map<String, Object> papamMap);
 
 	/**
 	 * 根据学校性质查询用户
 	 * @return
 	 */
-	List<Map<String,Object>> queryTotleSchoolStep();
+	List<Map<String,Object>> queryTotleSchoolStep(Map<String, Object> papamMap);
 
     /**
      * 观看点播前五
-     * @param pageSize
+     * @param papamMap
      * @return
      */
-    List<Map<String,Object>> queryTopSchoolView(Integer pageSize);
+    List<Map<String,Object>> queryTopSchoolView(Map<String, Object> papamMap);
 
 	/**
 	 * 根据视频查询前三

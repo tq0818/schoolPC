@@ -183,7 +183,7 @@
 	</select>
 
 
-	<select id="queryTotleUserVideoNum" resultType="int">
+	<select id="queryTotleUserVideoNum" resultType="int" parameterType="map">
 		select count(1) from (select
 		  pl.user_id as totleNum
 		from
@@ -193,10 +193,11 @@
           AND s.edu_identity = 0
       WHERE s.`edu_area` IS NOT NULL
         AND s.`edu_school` IS NOT NULL
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		group by pl.user_id ) t
 	</select>
 
-	<select id="queryTotleVideoCourse" resultType="map">
+	<select id="queryTotleVideoCourse" resultType="map" parameterType="map">
 		SELECT
           COUNT(1) AS userNum,
           d.item_value AS areaName,
@@ -212,6 +213,7 @@
               AND s.edu_identity = 0
           WHERE s.`edu_area` IS NOT NULL
           AND s.`edu_school` IS NOT NULL
+		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
           GROUP BY s.user_id) t
           LEFT JOIN sys_config_dict d
             ON d.`item_code` = t.edu_area
@@ -219,7 +221,7 @@
 		order by d.`item_code`
 	</select>
 
-	<select id="queryTotleSchoolStep" resultType="map">
+	<select id="queryTotleSchoolStep" resultType="map" parameterType="map">
 		select
           COUNT(1) AS userNum,
           r.`edu_step_new_code` as schoolStepCode
@@ -234,6 +236,7 @@
               AND s.edu_identity = 0
           where s.`edu_area` is not null
             and s.`edu_school` is not null
+		   <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
           group by s.user_id) t
           LEFT JOIN `edu_step_school_relation` r
             ON r.`edu_school_code` = t.`edu_school`
@@ -243,7 +246,7 @@
 	</select>
 
 
-    <select id="queryTopSchoolView" resultType="map" parameterType="int">
+    <select id="queryTopSchoolView" resultType="map" parameterType="map">
         SELECT
           COUNT(1) AS viewNum,
           d.`item_value` AS schoolName,
@@ -259,6 +262,7 @@
               AND s.edu_identity = 0
           WHERE s.`edu_area` IS NOT NULL
             AND s.`edu_school` IS NOT NULL
+		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
           GROUP BY s.user_id) t
           LEFT JOIN `sys_config_dict` d
             ON d.`item_code` = t.`edu_school`
@@ -283,9 +287,10 @@
 			LEFT JOIN student s
 			  ON s.user_id = pl.user_id
 			  AND s.edu_identity = 0
-		  WHERE t.`item_third_code` = #{subjectCode}
-			and s.`edu_area` IS NOT NULL
+		  WHERE s.`edu_area` IS NOT NULL
 			AND s.`edu_school` IS NOT NULL
+			<if test="subjectCode!=null and subjectCode!=''">and t.`item_third_code` = #{subjectCode}</if>
+			<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		  GROUP BY s.user_id) t
 		  LEFT JOIN `sys_config_dict` d
 			ON d.`item_code` = t.`edu_school`

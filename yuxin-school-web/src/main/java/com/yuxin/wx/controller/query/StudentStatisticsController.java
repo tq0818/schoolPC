@@ -588,7 +588,7 @@ public class StudentStatisticsController {
         model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
-        return "/query/video/queryTeacherVideoList";
+        return "/queVideo/queryTeacherVideoList";
     }
 
     /**
@@ -625,7 +625,7 @@ public class StudentStatisticsController {
         model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
-        return "/query/video/queryUserVideoList";
+        return "/queVideo/queryUserVideoList";
     }
 
 
@@ -785,18 +785,23 @@ public class StudentStatisticsController {
             throw new Exception("数据出现异常，请联系管理员！");
         }
 
-        //查询区域的录播观看人数
-        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum();
-        model.addAttribute("totleNum", totleNum);
-
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
         cal.add(Calendar.DAY_OF_MONTH, -6);
-        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
 
-        return "/query/video/videoCourseIndex";
+        //查询区域的录播观看人数
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        model.addAttribute("totleNum", totleNum);
+
+        return "/queVideo/videoCourseIndex";
     }
 
 
@@ -808,15 +813,18 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTotleVideoCourse")
     @ResponseBody
-    public JSONObject queryTotleVideoCourse(HttpServletRequest request) throws Exception {
+    public JSONObject queryTotleVideoCourse(HttpServletRequest request, String startTime, String endTime) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
 
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
         //查询区域的录播观看人数
-        List<Map<String, Object>> areaVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse();
+        List<Map<String, Object>> areaVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse(papamMap);
 
         jsonObject.put("areaVideoList", areaVideoList);
         return jsonObject;
@@ -830,7 +838,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTotleSchoolStep")
     @ResponseBody
-    public JSONObject queryTotleSchoolStep(HttpServletRequest request) throws Exception {
+    public JSONObject queryTotleSchoolStep(HttpServletRequest request, String startTime, String endTime) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -838,7 +846,10 @@ public class StudentStatisticsController {
         }
 
         //查询区域的录播观看人数
-        List<Map<String, Object>> schoolStepList = sysPlayLogsServiceImpl.queryTotleSchoolStep();
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        List<Map<String, Object>> schoolStepList = sysPlayLogsServiceImpl.queryTotleSchoolStep(papamMap);
 
         jsonObject.put("schoolStepList", schoolStepList);
         return jsonObject;
@@ -852,16 +863,19 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTopSchoolView")
     @ResponseBody
-    public JSONObject queryTopSchoolView(HttpServletRequest request) throws Exception {
+    public JSONObject queryTopSchoolView(HttpServletRequest request, String startTime, String endTime) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
 
-        Integer pageSize = 5;//查询top5
         //查询区域的录播观看人数
-        List<Map<String, Object>> schoolViewList = sysPlayLogsServiceImpl.queryTopSchoolView(pageSize);
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("pageSize", 5);
+        List<Map<String, Object>> schoolViewList = sysPlayLogsServiceImpl.queryTopSchoolView(papamMap);
 
         jsonObject.put("schoolViewList", schoolViewList);
         return jsonObject;
@@ -876,7 +890,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTopSubjectView")
     @ResponseBody
-    public JSONObject queryTopSubjectView(HttpServletRequest request) throws Exception {
+    public JSONObject queryTopSubjectView(HttpServletRequest request, String startTime, String endTime) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -884,12 +898,17 @@ public class StudentStatisticsController {
         }
 
         Integer pageSize = 5;//查询top5
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("pageSize", 5);
         List<SysConfigItemRelation> itemList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
         List<Map<String, Object>> subjectTotleList = new ArrayList<Map<String, Object>>();
         Map<String, Object> subjectTotleMap;
         for(SysConfigItemRelation item : itemList){
             //查询学科的录播观看人数
-            List<Map<String, Object>> subjectViewList = sysPlayLogsServiceImpl.queryTopSubjectView(item.getItemCode(), pageSize);
+            papamMap.put("subjectCode", item.getItemCode());
+            List<Map<String, Object>> subjectViewList = sysPlayLogsServiceImpl.queryTopSubjectView(papamMap);
             subjectTotleMap = new HashMap<String, Object>();
             subjectTotleMap.put(item.getItemName(), subjectViewList);
             subjectTotleList.add(subjectTotleMap);
@@ -897,5 +916,40 @@ public class StudentStatisticsController {
 
         jsonObject.put("subjectTotleList", subjectTotleList);
         return jsonObject;
+    }
+
+    /**
+     * 点播统计-详情
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/videoCourseDetail")
+    public String videoCourseDetail(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        //学校所属学科
+        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);//查询学科
+        model.addAttribute("subjectItem", subjectItem);
+
+        //学校所属学段
+        List<SysConfigItemRelation> stepItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);//查询学段
+        model.addAttribute("stepItem", stepItem);
+
+
+        return "/queVideo/videoCourseDetail";
     }
 }

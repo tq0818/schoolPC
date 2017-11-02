@@ -51,31 +51,31 @@ public interface ISysPlayLogsService {
      * 查询区域的录播观看人数
      * @return
      */
-    List<Map<String,Object>> queryTotleVideoCourse();
+    List<Map<String,Object>> queryTotleVideoCourse(Map<String, Object> papamMap);
 
     /**
      * 查询用户观看视频的总量
      * @return
      */
-    Integer queryTotleUserVideoNum();
+    Integer queryTotleUserVideoNum(Map<String, Object> papamMap);
 
     /**
      * 根据学校性质查询
      * @return
      */
-    List<Map<String,Object>> queryTotleSchoolStep();
+    List<Map<String,Object>> queryTotleSchoolStep(Map<String, Object> papamMap);
 
     /**
      * 观看点播前五
      * @param pageSize
      * @return
      */
-    List<Map<String,Object>> queryTopSchoolView(Integer pageSize);
+    List<Map<String,Object>> queryTopSchoolView(Map<String, Object> papamMap);
 
     /**
      * 根据视频学科查询前三
      * @param pageSize
      * @return
      */
-    List<Map<String,Object>> queryTopSubjectView(String subjectCode, Integer pageSize);
+    List<Map<String,Object>> queryTopSubjectView(Map<String, Object> papamMap);
 }

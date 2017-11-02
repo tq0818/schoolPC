@@ -49,30 +49,27 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
     }
 
     @Override
-    public List<Map<String, Object>> queryTotleVideoCourse() {
-        return sysPlayLogsMapper.queryTotleVideoCourse();
+    public List<Map<String, Object>> queryTotleVideoCourse(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryTotleVideoCourse(papamMap);
     }
 
     @Override
-    public Integer queryTotleUserVideoNum() {
-        return sysPlayLogsMapper.queryTotleUserVideoNum();
+    public Integer queryTotleUserVideoNum(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryTotleUserVideoNum(papamMap);
     }
 
     @Override
-    public List<Map<String, Object>> queryTotleSchoolStep() {
-        return sysPlayLogsMapper.queryTotleSchoolStep();
+    public List<Map<String, Object>> queryTotleSchoolStep(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryTotleSchoolStep(papamMap);
     }
 
     @Override
-    public List<Map<String, Object>> queryTopSchoolView(Integer pageSize) {
-        return sysPlayLogsMapper.queryTopSchoolView(pageSize);
+    public List<Map<String, Object>> queryTopSchoolView(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryTopSchoolView(papamMap);
     }
 
     @Override
-    public List<Map<String, Object>> queryTopSubjectView(String subjectCode, Integer pageSize) {
-        Map<String, Object> papamMap = new HashMap<String, Object>();
-        papamMap.put("subjectCode", subjectCode);
-        papamMap.put("pageSize", pageSize);
+    public List<Map<String, Object>> queryTopSubjectView(Map<String, Object> papamMap) {
         return sysPlayLogsMapper.queryTopSubjectView(papamMap);
     }
 }

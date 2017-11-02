@@ -6,14 +6,20 @@ import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.api.query.ISysPlayLogsService;
 import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.system.ISysConfigItemService;
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.EntityUtil;
 import com.yuxin.wx.utils.ExcelUtil;
@@ -50,6 +56,8 @@ public class StudentStatisticsController {
     private IUsersService usersServiceImpl;
     @Autowired
     private IStudentService studentServiceImpl;
+    @Autowired
+    private ISysConfigItemService sysConfigItemService;
     @Autowired
     private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
 
@@ -94,6 +102,7 @@ public class StudentStatisticsController {
     /**
      * 页面跳转
      * @param model
+     * @param name
      * @return
      */
     @RequestMapping(value="/statistics/studentList")
@@ -304,6 +313,7 @@ public class StudentStatisticsController {
     /**
      * 页面跳转
      * @param model
+     * @param name
      * @return
      */
     @RequestMapping(value="/areastatistics/studentList")
@@ -391,6 +401,7 @@ public class StudentStatisticsController {
     /**
      * 页面跳转
      * @param model
+     * @param name
      * @return
      */
     @RequestMapping(value="/orgstatistics/studentList")
@@ -557,6 +568,187 @@ public class StudentStatisticsController {
         map.put("fileName", "学员列表.xls");
         return new ModelAndView(excel, map);
     }
+//获取直播观看统计信息
+    @RequestMapping(value="/statistics/watchInfoList")
+    public String watchInfoList(Model model, HttpServletRequest request) throws Exception {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String endDate = sdf.format(c.getTime());
+        c.add(Calendar.MONTH,-1);
+        String startDate = sdf.format(c.getTime());
+        model.addAttribute("endDate",endDate);
+        model.addAttribute("startDate",startDate);
+        return "/query/query_student_watchInfo";
+    }
+    //直播观看人次
+    @RequestMapping(value="/statistics/watchInfoAll")
+    @ResponseBody
+    public List<Map> watchInfoAll(String startDate,String endDate,HttpServletRequest request){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("startDate",startDate);
+        map.put("endDate",endDate);
+
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("学校负责人")) {
+            map.put("schoolId",uersAreaRelation.getEduSchool());
+            map.put("groupBy","edu_year");
+        }else if(subject.hasRole("教科院")){
+            // map.put("areaId",uersAreaRelation.getE);
+            map.put("groupBy","edu_area");
+        }else if(subject.hasRole("区县负责人")){
+            map.put("areaId",uersAreaRelation.getEduArea());
+            map.put("groupBy","edu_school");
+        }
+
+
+        List<Map>  result  =  studentStatisticsServiceImpl.watchAllChartData(map);
+
+
+        return result;
+    }
+
+
+    //直播观看人数
+    @RequestMapping(value="/statistics/watchInfoIndex")
+    @ResponseBody
+    public List<Map> watchInfoIndex(String startDate,String endDate,HttpServletRequest request){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("startDate",startDate);
+        map.put("endDate",endDate);
+
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("学校负责人")) {
+            map.put("schoolId",uersAreaRelation.getEduSchool());
+            map.put("groupBy","edu_year");
+        }else if(subject.hasRole("教科院")){
+            // map.put("areaId",uersAreaRelation.getE);
+            map.put("groupBy","edu_area");
+        }else if(subject.hasRole("区县负责人")){
+            map.put("areaId",uersAreaRelation.getEduArea());
+            map.put("groupBy","edu_school");
+        }
+
+
+        List<Map>  result  =  studentStatisticsServiceImpl.watchIndexChartData(map);
+
+
+        return result;
+    }
+
+
+    @RequestMapping(value="/statistics/watchInfoTotal")
+    @ResponseBody
+    public Map<String,Object> watchInfoTotal(String startDate,String endDate,Model model, HttpServletRequest request) throws Exception{
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        Map<String,Object> map = new HashMap<>();
+        if(uersAreaRelation==null){
+            map.put("groupBy","edu_area");
+        }else{
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole("学校负责人")) {
+                map.put("schoolId",uersAreaRelation.getEduSchool());
+                map.put("groupBy","edu_year");
+            }else if(subject.hasRole("教科院")){
+                // map.put("areaId",uersAreaRelation.getE);
+                map.put("groupBy","edu_area");
+            }else if(subject.hasRole("区县负责人")){
+                map.put("areaId",uersAreaRelation.getEduArea());
+                map.put("groupBy","edu_school");
+            }
+        }
+        map.put("endDate",endDate);
+        map.put("startDate",startDate);
+        List<Map> index = studentStatisticsServiceImpl.getWatchInfoIndex(map);
+        List<Map> all =   studentStatisticsServiceImpl.getWatchInfoAll(map);
+        Map<String,Object> result = new HashMap<>();
+        if(index.size()>0){
+            result.put("index",index.get(0).get("times"));
+        }else{
+            result.put("index",0);
+        }
+        if(all.size()>0){
+            result.put("all",all.get(0).get("times"));
+        }else{
+            result.put("all",0);
+        }
+        return result;
+    }
+
+
+    @RequestMapping(value="/statistics/studentWatchInfoList")
+    public String studentWatchInfoList(Model model, HttpServletRequest request) throws Exception {
+        // 查询课程的多课程单元和多班号功能
+        CompanyFunctionSet search = new CompanyFunctionSet();
+        search.setFunctionCode("COMPANY_FUNCTION_COURSE");
+        search.setCompanyId(WebUtils.getCurrentCompanyId());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
+        //查询学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP");
+
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("steps", steps);
+        // 学员分组
+        CompanyFunctionSet companyFunctionSet = new CompanyFunctionSet();
+        companyFunctionSet.setCompanyId(WebUtils.getCurrentCompanyId());
+        companyFunctionSet.setFunctionCode("STUDENT_GROUP");
+        List<CompanyFunctionSet> companyFunctionSetList = companyFunctionSetServiceImpl.findCompanyFunctionSetByPage(companyFunctionSet);
+        if (companyFunctionSetList != null && companyFunctionSetList.size() > 0) {
+            model.addAttribute("sgOpen", companyFunctionSetList.get(0).getStatus());
+        }
+
+        // 查看该机构学员地址信息配置功能
+        search.setFunctionCode("STUDENT_ADDRESS_INFO");
+        CompanyFunctionSet address = companyFunctionSetServiceImpl.findCompanyUseCourse(search);
+        if (address != null && "1".equals(address.getStatus())) {
+            model.addAttribute("address", 1);
+        } else {
+            model.addAttribute("address", 0);
+        }
+
+        CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
+        model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
+        SysConfigItem item = new SysConfigItem();
+        item.setParentCode("SUBJECT");
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId(WebUtils.getCurrentSchoolId());
+        List<SysConfigItem> items = sysConfigItemService.findByParentCode(item);
+        model.addAttribute("subject", items);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        model.addAttribute("endTime",sdf.format(c.getTime()));
+        c.add(Calendar.MONTH,-1);
+        model.addAttribute("startTime",sdf.format(c.getTime()));
+
+
+        return "/query/query_student_watchList";
+    }
+    //查询直播统计
+    @ResponseBody
+    @RequestMapping(value = "/queryStudentsWatchInfoList")
+    public PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search) {
+        String flag = "";
+        //search.setCompanyId(WebUtils.getCurrentCompanyId());
+        // 分页调整
+        search.setPageSize(10);
+        PageFinder2<WatchInfoResult> pageFinder = studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
+        return pageFinder;
+    }
+
+
 
     /**
      * 教师授课详情页面跳转

@@ -174,6 +174,7 @@ public class TestTask {
                 uha.setLectureId(Integer.parseInt(info[3]));
                 uha.setStudyLength(play.getPlay_duration());
                 uha.setStudyTime(date);
+                uha.setDevice(play.getDevice());
                 userHistoryServiceImpl.insertPlayLogs(uha);
             }
         } catch (Exception e) {
@@ -574,9 +575,18 @@ public class TestTask {
     class PlayLog{
         private String custom_id;
         private Integer play_duration;
+        private String device;
 
         public String getCustom_id() {
             return custom_id;
+        }
+
+        public String getDevice() {
+            return device;
+        }
+
+        public void setDevice(String device) {
+            this.device = device;
         }
 
         public void setCustom_id(String custom_id) {

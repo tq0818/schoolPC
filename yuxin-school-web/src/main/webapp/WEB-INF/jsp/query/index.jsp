@@ -45,7 +45,7 @@
 <script type="text/javascript" src='<%=rootPath %>/javascripts/plus/echarts/echarts.common.min.js'></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/common/DateUtils.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/home-page.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/query/statistical.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/statistical_watchInfo.js"></script>
 <script type="text/javascript">
 		$(document).statistical({}).queryPerfect();
 </script>

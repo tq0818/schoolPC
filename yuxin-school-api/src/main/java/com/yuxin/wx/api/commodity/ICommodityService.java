@@ -251,4 +251,6 @@ public interface ICommodityService  {
 	int updateSpecialOrder(CommodityVo commodity);
 
 	List<CommodityVo> queryClassScheduleList(CommodityVo search);
+
+    List<CommodityVo> findCommodityByItems(CommodityVo search);
 }

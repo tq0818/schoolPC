@@ -1,7 +1,9 @@
 package com.yuxin.wx.api.query;
 
 
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 
@@ -54,4 +56,14 @@ public interface IStudentStatisticsService {
      * @return
      */
     List<Map<String, Object>> getAreaStudentCountList(StudentListVo search);
+
+    List<Map> getWatchInfoIndex(Map<String, Object> map);
+
+    List<Map> getWatchInfoAll(Map<String, Object> map);
+
+    List<Map> watchIndexChartData(Map<String, Object> map);
+
+    List<Map> watchAllChartData(Map<String, Object> map);
+
+    PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
 }

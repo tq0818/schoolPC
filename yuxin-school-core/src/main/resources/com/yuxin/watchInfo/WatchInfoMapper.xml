@@ -105,12 +105,10 @@
 		insert into sys_watch_info( <include refid="table_columns" /> )
 		values ( <include refid="entity_properties" /> )
 	</insert>
-	<insert id="addClassRoomRelation" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_watch_info( 'liveroom_id','class_id')
+	<insert id="addClassRoomRelation" parameterType="com.yuxin.wx.model.watchInfo.ClassRoomRelation" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_room_class ( liveroom_id ,class_id)
 		values
-		<foreach item="item" collection="list" separator="," >
-			( #{liveroomId}，#{classId})
-		</foreach>
+			(#{liveroomId},#{classId})
 	</insert>
 	<select id="getClassRoomRelation" parameterType="com.yuxin.wx.model.watchInfo.ClassRoomRelation" resultMap="watchInfoResultMap">
 		select src.class_id,cml.lesson_name,cm.`name`,cml.lesson_date,cml.liveroom_id_gh as liveroom_id,cmon.classtype_id,cpr.com_id as commodity_id,cml.id as lesson_id from sys_room_class src

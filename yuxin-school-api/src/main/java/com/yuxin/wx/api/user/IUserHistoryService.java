@@ -3,6 +3,8 @@ package com.yuxin.wx.api.user;
 import java.util.List;
 
 import com.yuxin.wx.model.user.UserHistory;
+import com.yuxin.wx.vo.user.UserHistoryAllVo;
+
 /**
  * Service Interface:UserHistory
  * @author chopin
@@ -98,4 +100,8 @@ public interface IUserHistoryService  {
 	List<UserHistory> findUserHistoryByPage(UserHistory search);
 	
 	int queryCountByClassTypeIdAndUserId(UserHistory search);
+
+	void insertHistoryAll(UserHistoryAllVo userHistoryAllVo);
+
+    void insertPlayLogs(UserHistoryAllVo uha);
 }

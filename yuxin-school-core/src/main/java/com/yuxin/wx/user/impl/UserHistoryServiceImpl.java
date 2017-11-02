@@ -3,6 +3,7 @@ package com.yuxin.wx.user.impl;
 
 import java.util.List;
 
+import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
@@ -136,5 +137,19 @@ public class UserHistoryServiceImpl extends BaseServiceImpl implements IUserHist
 	@Override
 	public int queryCountByClassTypeIdAndUserId(UserHistory search) {
 		return userHistoryMapper.queryCountByClassTypeIdAndUserId(search);
-	};
+	}
+
+	@Override
+	public void insertHistoryAll(UserHistoryAllVo userHistoryAllVo) {
+		userHistoryMapper.insertHistoryAll(userHistoryAllVo);
+	}
+
+	@Override
+	public void insertPlayLogs(UserHistoryAllVo uha) {
+		userHistoryMapper.insertPlayLogs(uha);
+	}
+
+
+
+
 }

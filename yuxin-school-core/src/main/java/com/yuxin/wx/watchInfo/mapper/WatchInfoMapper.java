@@ -15,7 +15,7 @@ public interface WatchInfoMapper extends BaseMapper<WatchInfo> {
 
     void addWatchInfo(WatchInfo watchInfo);
 
-    void addClassRoomRelation(List<ClassRoomRelation> list);
+    void addClassRoomRelation(ClassRoomRelation relation);
 
     List<WatchInfo> getClassRoomRelation(ClassRoomRelation relation);
 

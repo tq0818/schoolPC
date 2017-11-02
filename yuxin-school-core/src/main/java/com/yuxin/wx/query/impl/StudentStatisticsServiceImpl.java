@@ -1,7 +1,9 @@
 package com.yuxin.wx.query.impl;
 
 import com.yuxin.wx.api.query.IStudentStatisticsService;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.query.mapper.StudentStatisticsMapper;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
@@ -52,5 +54,34 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public List<Map<String, Object>> getAreaStudentCountList(StudentListVo search) {
         return studentstatisticsMapper.getAreaStudentCountList(search);
+    }
+
+    @Override
+    public List<Map> getWatchInfoIndex(Map<String, Object> map) {
+        return studentstatisticsMapper.watchInfoIndex(map);
+    }
+
+    @Override
+    public List<Map> getWatchInfoAll(Map<String, Object> map) {
+        return studentstatisticsMapper.watchInfoAll(map);
+    }
+
+    @Override
+    public List<Map> watchIndexChartData(Map<String, Object> map) {
+        return studentstatisticsMapper.watchIndexChartData(map);
+    }
+
+    @Override
+    public List<Map> watchAllChartData(Map<String, Object> map) {
+        return studentstatisticsMapper.watchAllChartData(map);
+    }
+
+    @Override
+    public PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search) {
+        List<WatchInfoResult> data = studentstatisticsMapper.queryStudentsWatchInfoList(search);
+        Integer count = studentstatisticsMapper.queryStudentsWatchInfoListCount(search);
+        PageFinder2<WatchInfoResult> pageFinder = new PageFinder2<WatchInfoResult>(
+                search.getPage(), search.getPageSize(), count, data);
+        return pageFinder;
     }
 }

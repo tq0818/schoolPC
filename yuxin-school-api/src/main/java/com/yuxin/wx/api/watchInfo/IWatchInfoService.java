@@ -16,7 +16,7 @@ import java.util.List;
 public interface IWatchInfoService {
 	 List<WatchInfo> getWatchInfo(WatchInfo watchInfo);
 	 void addWatchInfo(WatchInfo watchInfo);
-	 void addClassRoomRelation(List<ClassRoomRelation> list);
+	 void addClassRoomRelation(ClassRoomRelation list);
 	List<WatchInfo> getClassRoomRelation(ClassRoomRelation relation);
 	List<WatchInfo> getLessonByDate(String lessonDate);
 }

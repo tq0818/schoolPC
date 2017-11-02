@@ -501,4 +501,14 @@ public class CommodityController {
 		}
 		return result;
 	}
+
+	//根据元数据获取直播列表
+	@ResponseBody
+	@RequestMapping("findCommodityByItems")
+	public List<CommodityVo> findCommodityByItems(CommodityVo search,HttpServletRequest request){
+		search.setCompanyId(WebUtils.getCurrentCompanyId());
+		search.setSchoolId(WebUtils.getCurrentSchoolId());
+
+		return commodityServiceImpl.findCommodityByItems(search);
+	}
 }

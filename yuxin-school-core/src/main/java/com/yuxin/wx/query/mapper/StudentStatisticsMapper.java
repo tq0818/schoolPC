@@ -2,6 +2,7 @@ package com.yuxin.wx.query.mapper;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.statistics.Statistics;
+import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 
@@ -58,4 +59,16 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String, Object>> getAreaStudentCountList(StudentListVo search);
+
+    List<Map> watchInfoIndex(Map<String, Object> map);
+
+	List<Map> watchInfoAll(Map<String, Object> map);
+
+	List<Map> watchIndexChartData(Map<String, Object> map);
+
+	List<Map> watchAllChartData(Map<String, Object> map);
+
+    List<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
+
+	Integer queryStudentsWatchInfoListCount(WatchInfoResult search);
 }

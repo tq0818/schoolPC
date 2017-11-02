@@ -38,7 +38,7 @@ public class WatchInfoServiceImpl extends BaseServiceImpl implements IWatchInfoS
     }
 
     @Override
-    public void addClassRoomRelation(List<ClassRoomRelation> list) {
+    public void addClassRoomRelation(ClassRoomRelation list) {
         watchInfoMapper.addClassRoomRelation(list);
     }
 

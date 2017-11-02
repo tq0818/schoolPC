@@ -8,17 +8,17 @@ import java.util.Date;
  * Created by Administrator on 2017/10/18.
  */
 public class WatchInfo extends BaseEntity {
-    private String  name ;
-    private Integer  lessonId ; //课次ID
-    private String   liveroomId;//直播房间ID
-    private String   lessonName;//课次名称
+    private String name;
+    private Integer lessonId; //课次ID
+    private String liveroomId;//直播房间ID
+    private String lessonName;//课次名称
     private Date lessonDate;//课次日期
-    private Integer  classtypeId ;// 课程ID
-    private Integer   commodityId;//商品ID
-    private Integer   userId;//用户ID
-    private String   joinTime;//加入时间
-    private String   leaveTime;//离开时间
-    private Integer   watchTime;//观看时长
+    private Integer classtypeId;// 课程ID
+    private Integer commodityId;//商品ID
+    private Integer userId;//用户ID
+    private String joinTime;//加入时间
+    private String leaveTime;//离开时间
+    private long watchTime;//观看时长
     private String classId;//课件ID
 
     public String getClassId() {
@@ -109,11 +109,11 @@ public class WatchInfo extends BaseEntity {
         this.leaveTime = leaveTime;
     }
 
-    public Integer getWatchTime() {
+    public long getWatchTime() {
         return watchTime;
     }
 
-    public void setWatchTime(Integer watchTime) {
+    public void setWatchTime(long watchTime) {
         this.watchTime = watchTime;
     }
 }

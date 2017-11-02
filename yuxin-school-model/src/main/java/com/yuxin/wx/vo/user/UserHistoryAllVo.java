@@ -12,7 +12,16 @@ public class UserHistoryAllVo  extends BaseEntity{
 	private Integer lectureId; /* 视频id */
 	private Date studyTime; /* 观看时间记录 */
 	private Integer studyLength;	/*学习时长(秒)*/
-	
+	private String device;	/*学习时长(秒)*/
+
+	public String getDevice() {
+		return device;
+	}
+
+	public void setDevice(String device) {
+		this.device = device;
+	}
+
 	public UserHistoryAllVo() {
 		super();
 	}

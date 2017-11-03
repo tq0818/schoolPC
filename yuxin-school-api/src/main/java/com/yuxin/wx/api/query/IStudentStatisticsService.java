@@ -66,4 +66,6 @@ public interface IStudentStatisticsService {
     List<Map> watchAllChartData(Map<String, Object> map);
 
     PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
+
+    List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
 }

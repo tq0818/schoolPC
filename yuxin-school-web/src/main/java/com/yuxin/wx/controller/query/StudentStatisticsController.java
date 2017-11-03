@@ -580,6 +580,24 @@ public class StudentStatisticsController {
         String startDate = sdf.format(c.getTime());
         model.addAttribute("endDate",endDate);
         model.addAttribute("startDate",startDate);
+        //权限判断
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("学校负责人")) {
+
+        }else if(subject.hasRole("教科院")){
+
+        }else if(subject.hasRole("区县负责人")){
+            model.addAttribute("isArea",true);
+            SysConfigDict  search = new SysConfigDict();
+            search.setDictCode("EDU_STEP_NEW");
+            model.addAttribute("eduStep",sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+        }
+
+
+
+
         return "/query/query_student_watchInfo";
     }
     //直播观看人次
@@ -740,7 +758,7 @@ public class StudentStatisticsController {
     }
     //查询直播统计
     @ResponseBody
-    @RequestMapping(value = "/queryStudentsWatchInfoList")
+    @RequestMapping(value = "/statistics/queryStudentsWatchInfoList")
     public PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search) {
         String flag = "";
         //search.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -749,7 +767,51 @@ public class StudentStatisticsController {
         PageFinder2<WatchInfoResult> pageFinder = studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
         return pageFinder;
     }
+    /**
+     * 用户点播统计
+     * @param model
+     * @param userVideoVo
+     * @return
+     */
+    @RequestMapping(value = "/exportUserWatchExcle")
+    public ModelAndView exportUserWatchExcle(Model model, WatchInfoResult search) {
+        List<WatchInfoResult> list = new ArrayList<>();
+        if (EntityUtil.isNotBlank(search)) {
+            //userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+            search.setPageSize(50000);
+            list = studentStatisticsServiceImpl.exportStudentsWatchInfoList(search);//studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
+        }
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (WatchInfoResult v : list) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("className", v.getClassName());
+            map.put("lessonName", v.getLessonName());
+            map.put("userName", v.getUserName());
+            map.put("studentName", v.getStudentName());
+            map.put("areaName", v.getEduArea());//区域
+            map.put("schoolName", v.getEduSchool());//学校
+            map.put("schoolType", v.getSchoolType());
+            map.put("stepName", v.getEduStep());//学段
+            map.put("eduYear", v.getEduYear());//入学年份
+            map.put("eduClass", v.getEduClass());//班级
+            map.put("times", v.getTimes());//观看次数
+            map.put("studyTime", v.getStudyTime());//观看时长
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,区域:areaName,学校:schoolName,学校性质:schoolType,学段:stepName,入学年份:eduYear,班级:eduClass,观看累计次数:times,观看累计时长:studyTime");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
 
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "用户直播统计.xls");
+        return new ModelAndView(excel, map);
+    }
 
 
     /**

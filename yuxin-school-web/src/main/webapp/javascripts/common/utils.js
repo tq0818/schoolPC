@@ -862,4 +862,11 @@
 		})
 		return result;
     }
+// 初始化日期框
+    $(".date-picker").datetimepicker({
+        format: "yyyy-mm-dd",
+        minView: 2,
+        autoclose: true,
+        language: "zh-CN"
+    });
 })(jQuery);

@@ -615,7 +615,7 @@ public class TestTask {
 //        map.put("date","2017-10-23");
         // a +="date=2017-10-23";
         //map.put("userid","7EFA9ED6F0ABB8DD");
-        a+="date=2017-10-25";
+        a+="date=2017-10-31";
         a +="&num_per_page=1000";
         a +="&userid=7EFA9ED6F0ABB8DD";
         // map.put("time",b);

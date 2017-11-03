@@ -71,4 +71,6 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
     List<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
 
 	Integer queryStudentsWatchInfoListCount(WatchInfoResult search);
+
+    List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
 }

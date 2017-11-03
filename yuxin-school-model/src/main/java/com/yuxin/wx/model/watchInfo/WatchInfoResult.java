@@ -26,6 +26,15 @@ public class WatchInfoResult extends BaseEntity {
     private String  startTime;//开始日期
     private String  endTime;//结束日期
     private String userNameOrMobile;
+    private String studyTime;
+    private String schoolType;
+    public String getStudyTime() {
+        return studyTime;
+    }
+
+    public void setStudyTime(String studyTime) {
+        this.studyTime = studyTime;
+    }
 
     public String getUserNameOrMobile() {
         return userNameOrMobile;
@@ -171,4 +180,11 @@ public class WatchInfoResult extends BaseEntity {
         this.endTime = endTime;
     }
 
+    public String getSchoolType() {
+        return schoolType;
+    }
+
+    public void setSchoolType(String schoolType) {
+        this.schoolType = schoolType;
+    }
 }

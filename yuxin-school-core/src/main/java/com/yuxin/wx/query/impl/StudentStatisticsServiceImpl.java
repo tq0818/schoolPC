@@ -10,6 +10,8 @@ import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -79,9 +81,30 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search) {
         List<WatchInfoResult> data = studentstatisticsMapper.queryStudentsWatchInfoList(search);
+        for(WatchInfoResult re  : data){
+            re.setWatchTime(re.getWatchTime()/1000);
+            int s = (int) (re.getWatchTime() % 60);
+            int m = (int) (re.getWatchTime() / 60 % 60);
+            int h = (int) (re.getWatchTime() / 3600);
+            re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+        }
         Integer count = studentstatisticsMapper.queryStudentsWatchInfoListCount(search);
         PageFinder2<WatchInfoResult> pageFinder = new PageFinder2<WatchInfoResult>(
                 search.getPage(), search.getPageSize(), count, data);
         return pageFinder;
     }
+
+    @Override
+    public List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search) {
+        List<WatchInfoResult> data  =studentstatisticsMapper.exportStudentsWatchInfoList(search);
+        for(WatchInfoResult re  : data){
+            re.setWatchTime(re.getWatchTime()/1000);
+            int s = (int) (re.getWatchTime() % 60);
+            int m = (int) (re.getWatchTime() / 60 % 60);
+            int h = (int) (re.getWatchTime() / 3600);
+            re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+        }
+        return  data;
+    }
+
 }

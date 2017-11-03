@@ -869,4 +869,15 @@
         autoclose: true,
         language: "zh-CN"
     });
+    $.tableSort = function (dom,param) {
+        $(document).delegate(dom,"click",function (e) {
+            var fieldName = $(e.target).attr("fieldName"),
+                type = $(e.target).attr("sort");
+            //type 看当前是什么排序 asc or desc的，
+            //如果当前是升序，点击了就该降序，并把sort 设置成降序；
+            type=='ASC' ? type = 'DESC': type = 'ASC';
+            $(e.target).attr("sort",type);
+            param.callback({'sortType':type,'fieldName':fieldName});
+        });
+    }
 })(jQuery);

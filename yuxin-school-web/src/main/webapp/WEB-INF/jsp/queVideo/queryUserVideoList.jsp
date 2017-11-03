@@ -79,17 +79,17 @@
 				<table class="table table-center" id="tableList">
 					<tr data-buy="true">
 						<%--<th width="3%"><input type="checkbox" class="checkboxAll"></th>--%>
-						<th width="12%">课程名称</th>
+						<th width="11%">课程名称</th>
 						<th width="6%">课程学段</th>
 						<th width="6%">学科</th>
-						<th width="12%">学校</th>
+						<th width="11%">学校</th>
 						<th width="6%">用户名</th>
-						<th width="8%">学员名称</th>
+						<th width="7%">学员名称</th>
 						<th width="6%">入学年份</th>
 						<th width="6%">班级</th>
-						<th width="6%">总播放时长</th>
-						<th width="6%">播完率</th>
-						<th width="6%">观看次数</th>
+						<th width="7%" class="btn-sort" fieldName="totleStudyLength" sort="">总播放时长</th>
+						<th width="7%" class="btn-sort" fieldName="studyRate" sort="">播完率</th>
+						<th width="7%" class="btn-sort" fieldName="viewNum" sort="">观看次数</th>
 					</tr>
 					<c:choose>
 						<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
@@ -129,6 +129,12 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
 	$selectSubMenu('statistics_org_detail');
+	$.tableSort($(".btn-sort"),{
+		callback:function(data){
+			console.log(data);
+			student.search();
+		}
+	});
 </script>
 </body>
 </html>

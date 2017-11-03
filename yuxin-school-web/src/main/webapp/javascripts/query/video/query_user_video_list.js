@@ -114,9 +114,12 @@
             $("#selectCounts").val($("#selectCount").val());
             student.search();
         },
-        search: function (page) {
+        search: function (page,sortdata) {
             var $this = this;
             var data = {};
+            if(sortdata){
+                data =$.extend(data,sortdata);
+            }
             data.startTime = $(".from").val();
             data.endTime = $(".to").val();
             data.eduArea=$("#eduArea").val();

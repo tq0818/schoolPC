@@ -1,15 +1,19 @@
 body,html{margin: 0;padding: 0;}
 i{font-style: normal;}
 li{list-style: none;}
-.content-right{width: 930px;padding: 20px ;background: #f6f6f6;font-size: 14px;}
+.content-right{padding: 0 25px 20px;background: #f6f6f6;font-size: 14px;}
 
 .content-right .btn{display: inline-block;text-decoration: none;padding:3px 20px;color:#fff;
 	float: left;background: #999;cursor: pointer;
 margin-right: 10px;}
-.content-right .btn.active{background: #0099ff;}
-/*  .btn-detail,.btn-default{} */
+.content-right .btn:hover {
+    background: #999;
+}
+.content-right .btn.active,.content-right .btn.active:hover{background: #0099ff;}
 .screen-info .date{border: 1px solid #ddd;display: inline-block;vertical-align: middle;
 	height: 30px;line-height: 30px;margin-left: 200px;background: #fff;}
+.screen-info .date .date-picker{
+    border:0;}
 .screen-info .text{background: #ccc;border-right: 1px solid #ddd;display: inline-block;
 padding:0 5px;
 }
@@ -53,3 +57,4 @@ border-radius:2px;border: 0;
 .playcount-info li .tit,.playcount-info li .msg{display: block;margin-top: 10px;
     width: 70%;}
 .playcount-info li .msg{text-align: right;}
+

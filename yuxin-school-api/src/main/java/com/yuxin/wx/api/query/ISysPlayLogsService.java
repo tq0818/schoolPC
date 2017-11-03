@@ -67,15 +67,36 @@ public interface ISysPlayLogsService {
 
     /**
      * 观看点播前五
-     * @param pageSize
+     * @param papamMap
      * @return
      */
     List<Map<String,Object>> queryTopSchoolView(Map<String, Object> papamMap);
 
     /**
      * 根据视频学科查询前三
-     * @param pageSize
+     * @param papamMap
      * @return
      */
     List<Map<String,Object>> queryTopSubjectView(Map<String, Object> papamMap);
+
+    /**
+     * 查询单视频的信息
+     * @param papamMap
+     * @return
+     */
+    Map<String,Object> queryVideoCourseDetail(Map<String, Object> papamMap);
+
+    /**
+     * 根据课程查询它的浏览终端
+     * @param papamMap
+     * @return
+     */
+    List<Map<String,Object>> queryDeviceDetail(Map<String, Object> papamMap);
+
+    /**
+     * 查看视频的观看热点
+     * @param papamMap
+     * @return
+     */
+    List<Map<String,Object>> queryVideoCourseHourly(Map<String, Object> papamMap);
 }

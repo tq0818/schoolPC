@@ -72,4 +72,19 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
     public List<Map<String, Object>> queryTopSubjectView(Map<String, Object> papamMap) {
         return sysPlayLogsMapper.queryTopSubjectView(papamMap);
     }
+
+    @Override
+    public Map<String, Object> queryVideoCourseDetail(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryVideoCourseDetail(papamMap);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryDeviceDetail(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryDeviceDetail(papamMap);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryVideoCourseHourly(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryVideoCourseHourly(papamMap);
+    }
 }

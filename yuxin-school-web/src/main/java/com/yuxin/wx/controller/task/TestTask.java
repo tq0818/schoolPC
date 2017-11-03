@@ -72,7 +72,7 @@ public class TestTask {
                     lesson.setLeaveTime(mUser.getLeaveTime());
                     lesson.setUserId(Integer.parseInt(mUser.getUid())-1000000000);
                     lesson.setLessonId(lesson.getLessonId());
-                    lesson.setWatchTime(Long.valueOf(mUser.getLeaveTime())-Long.valueOf(mUser.getJoinTime()));
+                    lesson.setWatchTime(Integer.valueOf(mUser.getLeaveTime())-Integer.valueOf(mUser.getJoinTime()));
                     watchInfoServiceImpl.addWatchInfo(lesson);
                 }
             }

@@ -78,4 +78,25 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryTopSubjectView(Map<String, Object> papamMap);
+
+	/**
+	 * 查询单个视频资源
+	 * @param papamMap
+	 * @return
+	 */
+	Map<String,Object> queryVideoCourseDetail(Map<String, Object> papamMap);
+
+	/**
+	 * 查询单个视频的浏览终端
+	 * @param papamMap
+	 * @return
+	 */
+    List<Map<String,Object>> queryDeviceDetail(Map<String, Object> papamMap);
+
+	/**
+	 * 查询视频的观看热点
+	 * @param papamMap
+	 * @return
+	 */
+    List<Map<String,Object>> queryVideoCourseHourly(Map<String, Object> papamMap);
 }

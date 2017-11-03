@@ -1,6 +1,7 @@
 package com.yuxin.wx.controller.query;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.api.query.ISysPlayLogsService;
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -63,6 +65,9 @@ public class StudentStatisticsController {
 
     @Autowired
     private ISysPlayLogsService sysPlayLogsServiceImpl;
+
+    @Autowired
+    private IClassTypeService classTypeServiceImpl;
 
 	/**
 	 * 页面跳转
@@ -102,7 +107,6 @@ public class StudentStatisticsController {
     /**
      * 页面跳转
      * @param model
-     * @param name
      * @return
      */
     @RequestMapping(value="/statistics/studentList")
@@ -313,7 +317,6 @@ public class StudentStatisticsController {
     /**
      * 页面跳转
      * @param model
-     * @param name
      * @return
      */
     @RequestMapping(value="/areastatistics/studentList")
@@ -401,7 +404,6 @@ public class StudentStatisticsController {
     /**
      * 页面跳转
      * @param model
-     * @param name
      * @return
      */
     @RequestMapping(value="/orgstatistics/studentList")
@@ -1143,5 +1145,108 @@ public class StudentStatisticsController {
 
 
         return "/queVideo/videoCourseDetail";
+    }
+
+    /**
+     * 查询单个视频详情
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/queryVideoCourseDetail")
+    @ResponseBody
+    public JSONObject queryVideoCourseDetail(HttpServletRequest request, String startTime, String endTime,Integer classId, String className) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("classId", classId);
+        papamMap.put("className", className);
+        Map<String, Object> videoDetail = sysPlayLogsServiceImpl.queryVideoCourseDetail(papamMap);
+        jsonObject.put("videoDetail", videoDetail);
+        if(videoDetail!=null){
+            List<Map<String, Object>> deviceList = sysPlayLogsServiceImpl.queryDeviceDetail(papamMap);
+            int pcNum = 0;int totleNum = 0;
+            for(Map<String, Object> deviceMap : deviceList){
+                if(deviceMap.get("device")!=null && "PC".equals(deviceMap.get("device"))){
+                    pcNum += deviceMap.get("deviceNum")!=null ? Integer.valueOf(deviceMap.get("deviceNum").toString()):0;
+                }
+                totleNum += deviceMap.get("deviceNum")!=null ? Integer.valueOf(deviceMap.get("deviceNum").toString()):0;
+            }
+
+            jsonObject.put("pcNum", pcNum);
+            jsonObject.put("otherNum", totleNum - pcNum);
+            // 创建一个数值格式化对象
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            // 设置精确到小数点后2位
+            numberFormat.setMaximumFractionDigits(2);
+            String pcRate = numberFormat.format((float) pcNum / (float) totleNum * 100);
+            jsonObject.put("pcRate", pcRate);
+            jsonObject.put("otherRate", numberFormat.format((float) (totleNum-pcNum) / (float) totleNum * 100));
+        }
+        return jsonObject;
+    }
+
+    /**
+     * 查看视频的播放比例
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/queryVideoCourseHourly")
+    @ResponseBody
+    public JSONObject queryVideoCourseHourly(HttpServletRequest request, String startTime, String endTime,Integer classId, String className) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("classId", classId);
+        papamMap.put("className", className);
+        Map<String, Object> videoDetail = sysPlayLogsServiceImpl.queryVideoCourseDetail(papamMap);
+        jsonObject.put("videoDetail", videoDetail);
+        Long videoLength = 0l;
+        if(videoDetail!=null && videoDetail.get("videoTime")!=null){
+            videoLength = (Long)videoDetail.get("videoTime");
+        }
+        if(videoDetail!=null && !Long.valueOf(0).equals(videoLength)){
+            // 创建一个数值格式化对象
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            // 设置精确到小数点后2位
+            numberFormat.setMaximumFractionDigits(0);
+            int timeNum = (int)Math.ceil(videoLength / 24);
+            String[] timeStr = new String[13];
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            for(int i=1; i<=25; i+=2){
+                if(i == 1){
+                    papamMap.put("time0", timeNum * i);
+                    timeStr[i/2] = sdf.format(new Date(videoLength));
+                }else if(i == 25){
+                    papamMap.put("time12", videoLength);
+                    timeStr[i/2] = sdf.format(new Date(videoLength));
+                }else{
+                    papamMap.put("time"+i/2, timeNum * i);
+                    timeStr[i/2] = sdf.format(new Date(timeNum * i));
+                }
+            }
+            List<Map<String, Object>> hourlyDetail = sysPlayLogsServiceImpl.queryVideoCourseHourly(papamMap);
+            for(Map<String, Object> deviceMap : hourlyDetail){
+//                if(deviceMap.get("device")!=null && "PC".equals(deviceMap.get("device"))){
+//                    pcNum += deviceMap.get("deviceNum")!=null ? Integer.valueOf(deviceMap.get("deviceNum").toString()):0;
+//                }
+//                totleNum += deviceMap.get("deviceNum")!=null ? Integer.valueOf(deviceMap.get("deviceNum").toString()):0;
+            }
+
+        }
+        return jsonObject;
     }
 }

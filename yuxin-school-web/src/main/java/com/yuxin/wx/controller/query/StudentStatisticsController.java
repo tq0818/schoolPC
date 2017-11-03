@@ -3,28 +3,27 @@ package com.yuxin.wx.controller.query;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
+import com.yuxin.wx.api.company.ICompanyPayConfigService;
+import com.yuxin.wx.api.course.IVideoService;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.api.query.ISysPlayLogsService;
 import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
-import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
+import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
-import com.yuxin.wx.utils.DateUtil;
-import com.yuxin.wx.utils.EntityUtil;
-import com.yuxin.wx.utils.ExcelUtil;
-import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.utils.*;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
 import com.yuxin.wx.vo.student.StudentListVo;
@@ -65,9 +64,8 @@ public class StudentStatisticsController {
 
     @Autowired
     private ISysPlayLogsService sysPlayLogsServiceImpl;
-
     @Autowired
-    private IClassTypeService classTypeServiceImpl;
+    private ICompanyPayConfigService companyPayConfigServiceImpl;
 
 	/**
 	 * 页面跳转
@@ -1255,7 +1253,7 @@ public class StudentStatisticsController {
     }
 
     /**
-     * 查看视频的播放比例
+     * 查看视频的播放热点
      * @param request
      * @return
      * @throws Exception
@@ -1270,45 +1268,104 @@ public class StudentStatisticsController {
         }
 
         Map<String, Object> papamMap = new HashMap<String, Object>();
-        papamMap.put("startTime", startTime);
-        papamMap.put("endTime", endTime);
         papamMap.put("classId", classId);
         papamMap.put("className", className);
-        Map<String, Object> videoDetail = sysPlayLogsServiceImpl.queryVideoCourseDetail(papamMap);
-        jsonObject.put("videoDetail", videoDetail);
-        Long videoLength = 0l;
-        if(videoDetail!=null && videoDetail.get("videoTime")!=null){
-            videoLength = (Long)videoDetail.get("videoTime");
-        }
-        if(videoDetail!=null && !Long.valueOf(0).equals(videoLength)){
+        Map<String, Object> video = sysPlayLogsServiceImpl.queryVideo(papamMap);
+
+        if(video!=null){
+            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
+            long nowtime = System.currentTimeMillis()/1000L;
+            StringBuffer a = new StringBuffer("end_date="+ endTime);
+            a.append("&start_date=" + startTime);
+            a.append("&userid=" + companyPayConfig.getCcUserId());
+            a.append("&videoid=" + video.get("video_cc_id"));
+            a.append("&time="+nowtime);
+            String infoUrl = a.toString();
+            a.append("&salt=" + companyPayConfig.getCcApiKey());
+            System.out.println(MD5.getMD5(a.toString()));
+            infoUrl+="&hash="+MD5.getMD5(a.toString());
             // 创建一个数值格式化对象
-            NumberFormat numberFormat = NumberFormat.getInstance();
-            // 设置精确到小数点后2位
-            numberFormat.setMaximumFractionDigits(0);
-            int timeNum = (int)Math.ceil(videoLength / 24);
-            String[] timeStr = new String[13];
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-            for(int i=1; i<=25; i+=2){
-                if(i == 1){
-                    papamMap.put("time0", timeNum * i);
-                    timeStr[i/2] = sdf.format(new Date(videoLength));
-                }else if(i == 25){
-                    papamMap.put("time12", videoLength);
-                    timeStr[i/2] = sdf.format(new Date(videoLength));
-                }else{
-                    papamMap.put("time"+i/2, timeNum * i);
-                    timeStr[i/2] = sdf.format(new Date(timeNum * i));
+            String result = HttpPostRequest.get(CCVideoConstant.CC_VIDEO_DAILY + infoUrl);
+            System.out.println("请求地址：" + CCVideoConstant.CC_VIDEO_DAILY + infoUrl);
+            System.out.println("接口返回参数："+ result);
+            if(StringUtils.isNotBlank(result)){
+                Map<String, Object> map = JSONObject.parseObject(result, Map.class);
+                if(map.get("play_counts")!=null){
+                    jsonObject.put("play_counts", map.get("play_counts"));
                 }
             }
-            List<Map<String, Object>> hourlyDetail = sysPlayLogsServiceImpl.queryVideoCourseHourly(papamMap);
-            for(Map<String, Object> deviceMap : hourlyDetail){
-//                if(deviceMap.get("device")!=null && "PC".equals(deviceMap.get("device"))){
-//                    pcNum += deviceMap.get("deviceNum")!=null ? Integer.valueOf(deviceMap.get("deviceNum").toString()):0;
-//                }
-//                totleNum += deviceMap.get("deviceNum")!=null ? Integer.valueOf(deviceMap.get("deviceNum").toString()):0;
-            }
-
         }
+        return jsonObject;
+    }
+
+
+    /**
+     * 查看视频的播放比例
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/queryVideoCourseDaily")
+    @ResponseBody
+    public JSONObject queryVideoCourseDaily(HttpServletRequest request, String startTime, String endTime,Integer classId, String className) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        if(classId == null && StringUtils.isBlank(className)){
+            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
+            long nowtime = System.currentTimeMillis()/1000L;
+            StringBuffer a = new StringBuffer("end_date="+ endTime);
+            a.append("&start_date=" + startTime);
+            a.append("&userid=" + companyPayConfig.getCcUserId());
+            a.append("&time="+nowtime);
+            String infoUrl = a.toString();
+            a.append("&salt=" + companyPayConfig.getCcApiKey());
+            System.out.println(MD5.getMD5(a.toString()));
+            infoUrl+="&hash="+MD5.getMD5(a.toString());
+            // 创建一个数值格式化对象
+            String result = HttpPostRequest.get(CCVideoConstant.CC_ATTENTION_VIDEO_USER_DAILY + infoUrl);
+            System.out.println("请求地址：" + CCVideoConstant.CC_ATTENTION_VIDEO_USER_DAILY + infoUrl);
+            System.out.println("接口返回参数："+ result);
+            if(StringUtils.isNotBlank(result)){
+                Map<String, Object> map = JSONObject.parseObject(result, Map.class);
+                if(map.get("attention")!=null){
+                    jsonObject.put("attention", map.get("attention"));
+                }
+            }
+        }else{
+            Map<String, Object> papamMap = new HashMap<String, Object>();
+            papamMap.put("classId", classId);
+            papamMap.put("className", className);
+            Map<String, Object> video = sysPlayLogsServiceImpl.queryVideo(papamMap);
+
+            if(video!=null){
+                CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
+                long nowtime = System.currentTimeMillis()/1000L;
+                StringBuffer a = new StringBuffer("end_date="+ endTime);
+                a.append("&start_date=" + startTime);
+                a.append("&userid=" + companyPayConfig.getCcUserId());
+                a.append("&videoid=" + video.get("video_cc_id"));
+                a.append("&time="+nowtime);
+                String infoUrl = a.toString();
+                a.append("&salt=" + companyPayConfig.getCcApiKey());
+                System.out.println(MD5.getMD5(a.toString()));
+                infoUrl+="&hash="+MD5.getMD5(a.toString());
+                // 创建一个数值格式化对象
+                String result = HttpPostRequest.get(CCVideoConstant.CC_ATTENTION_VIDEO_DAILY + infoUrl);
+                System.out.println("请求地址：" + CCVideoConstant.CC_ATTENTION_VIDEO_DAILY + infoUrl);
+                System.out.println("接口返回参数："+ result);
+                if(StringUtils.isNotBlank(result)){
+                    Map<String, Object> map = JSONObject.parseObject(result, Map.class);
+                    if(map.get("attention")!=null){
+                        jsonObject.put("attention", map.get("attention"));
+                    }
+                }
+            }
+        }
+
         return jsonObject;
     }
 }

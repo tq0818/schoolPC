@@ -99,4 +99,11 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryVideoCourseHourly(Map<String, Object> papamMap);
+
+	/**
+	 * 查询单个视频资源
+	 * @param papamMap
+	 * @return
+	 */
+    Map<String,Object> queryVideo(Map<String, Object> papamMap);
 }

@@ -87,4 +87,9 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
     public List<Map<String, Object>> queryVideoCourseHourly(Map<String, Object> papamMap) {
         return sysPlayLogsMapper.queryVideoCourseHourly(papamMap);
     }
+
+    @Override
+    public Map<String, Object> queryVideo(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryVideo(papamMap);
+    }
 }

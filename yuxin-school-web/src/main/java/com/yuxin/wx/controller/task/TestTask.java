@@ -1,10 +1,12 @@
 package com.yuxin.wx.controller.task;
 
 import com.google.gson.Gson;
+import com.yuxin.wx.api.company.ICompanyPayConfigService;
 import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.LiveRoomConstant;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.utils.HttpPostRequest;
@@ -30,6 +32,8 @@ public class TestTask {
     private IWatchInfoService watchInfoServiceImpl;
     @Autowired
     private IUserHistoryService userHistoryServiceImpl;
+    @Autowired
+    private ICompanyPayConfigService companyPayConfigServiceImpl;
 
     private Log log = LogFactory.getLog("log");
     @RequestMapping(value="/getInfo")
@@ -138,6 +142,7 @@ public class TestTask {
         long b = System.currentTimeMillis()/1000L;
         String infoUrl ="";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ss");
+        CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(18113);//暂时写死为数校公司id
        Calendar c = Calendar.getInstance();
        c.add(Calendar.DAY_OF_YEAR,-1);
         Date date  = c.getTime();
@@ -146,12 +151,12 @@ public class TestTask {
         //map.put("userid","7EFA9ED6F0ABB8DD");
         a+="date="+ sdf.format(date);
         a +="&num_per_page=1000";
-        a +="&userid=7EFA9ED6F0ABB8DD";
+        a +="&userid=" + companyPayConfig.getCcUserId();
         // map.put("time",b);
         a +="&time="+b;
         // map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
         infoUrl = a;
-        a +="&salt=G162ODWstqL4ekW9c3lB56ikyWaVSIxb";
+        a +="&salt=" + companyPayConfig.getCcApiKey();
         System.out.println(MD5.getMD5(a));
         infoUrl+="&hash="+MD5.getMD5(a);
 //        map.put("hash",a);

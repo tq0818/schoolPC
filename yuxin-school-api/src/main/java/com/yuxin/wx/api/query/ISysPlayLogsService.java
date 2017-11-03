@@ -99,4 +99,11 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<Map<String,Object>> queryVideoCourseHourly(Map<String, Object> papamMap);
+
+    /**
+     * 通过数据查询对应的视频信息
+     * @param papamMap
+     * @return
+     */
+    Map<String,Object> queryVideo(Map<String, Object> papamMap);
 }

@@ -222,10 +222,10 @@
     function searchVideoCourseDetail3(startTime, endTime){
         var dataKey = new Array(),dataValue = new Array();
         $.ajax({
-            url: rootPath + "/query/statistics/queryVideoCourseDetail",
+            url: rootPath + "/query/statistics/queryVideoCourseDaily",
             data:{classId:$("#classType").val(),startTime:startTime, endTime:endTime,className:$("#className").val()},
             success:function(result){
-                result = result.schoolViewList ? result.schoolViewList:null;
+                result = result.attention ? result.attention:null;
                 if(result!=null && result.length>0){
                     for(var i=0; i<result.length; i++){
                         if(result[i].schoolCode!=null && result[i].schoolCode!=""){
@@ -272,7 +272,6 @@
     }
 
 
-    searchVideoCourseDetail2($(".from").val(), $(".to").val());//观看热点
     searchVideoCourseDetail3($(".from").val(), $(".to").val());//观看比例
 
     $(document).statistical().changeType({

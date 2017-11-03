@@ -314,7 +314,8 @@
         TIME_TO_SEC(v.video_time) as videoTime,
         concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totleStudyLength,
         round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as studyRate,
-        COUNT(pl.user_id) AS totleStudy
+        COUNT(pl.user_id) AS totleStudy,
+        v.video_cc_id as videoid
         FROM
         sys_play_logs pl
         left join class_type t
@@ -357,39 +358,22 @@
         group by pl.device
     </select>
 
-    <select id="queryVideoCourseHourly" resultType="map" parameterType="map">
-        <![CDATA[
-        SELECT
-        sum(CASE when pl.`study_length`<${time0} then 1 else 0 end) AS 'data1',
-        sum(CASE when pl.`study_length`>=${time0} and pl.`study_length`<${time1} then 1 else 0 end) AS 'data2',
-        sum(CASE when pl.`study_length`>=${time1} and pl.`study_length`<${time2} then 1 else 0 end) AS 'data3',
-        sum(CASE when pl.`study_length`>=${time2} and pl.`study_length`<${time3} then 1 else 0 end) AS 'data4',
-        sum(CASE when pl.`study_length`>=${time3} and pl.`study_length`<${time4} then 1 else 0 end) AS 'data5',
-        sum(CASE when pl.`study_length`>=${time4} and pl.`study_length`<${time5} then 1 else 0 end) AS 'data6',
-        sum(CASE when pl.`study_length`>=${time5} and pl.`study_length`<${time6} then 1 else 0 end) AS 'data7',
-        sum(CASE when pl.`study_length`>=${time6} and pl.`study_length`<${time7} then 1 else 0 end) AS 'data8',
-        sum(CASE when pl.`study_length`>=${time7} and pl.`study_length`<${time8} then 1 else 0 end) AS 'data9',
-        sum(CASE when pl.`study_length`>=${time8} and pl.`study_length`<${time9} then 1 else 0 end) AS 'data10',
-        sum(CASE when pl.`study_length`>=${time9} and pl.`study_length`<${time10} then 1 else 0 end) AS 'data11',
-        sum(CASE when pl.`study_length`>=${time10} and pl.`study_length`<${time11} then 1 else 0 end) AS 'data12',
-        sum(CASE when pl.`study_length`>=${time11} and pl.`study_length`<${time12} then 1 else 0 end) AS 'data13'
-        FROM
-        sys_play_logs pl
-        left join class_type t
-        on t.id = pl.`class_type_id`
-        LEFT JOIN student s
-        ON s.user_id = pl.user_id
-        AND s.edu_identity = 0
-        left join course_video_lecture cl on cl.id = pl.`lecture_id`
-        left join video v on v.id = cl.video_id
-        WHERE s.`edu_area` IS NOT NULL
-        AND s.`edu_school` IS NOT NULL
-        and s.delete_flag = 0
-        ]]>
+    <select id="queryVideo" resultType="map" parameterType="map">
+		SELECT
+		v.*
+		FROM
+		class_type t
+		left join `class_type_module_relation` cr
+		on t.id = cr.`class_type_id`
+		left join `course_video_chapter` vc
+		on vc.module_id = cr.`module_id`
+		left join `course_video_lecture` vl
+		on vl.`chapter_id` = vc.`id`
+		left join video v
+		on v.id = vl.video_id
+		where v.id is not null
         <if test="classId!=null and classId!=''">and t.id = #{classId}</if>
         <if test="className!=null and className!=''">and t.name = #{className}</if>
-        <if test="subjectCode!=null and subjectCode!=''">and t.`item_third_code` = #{subjectCode}</if>
-        <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 
     </select>
 </mapper>

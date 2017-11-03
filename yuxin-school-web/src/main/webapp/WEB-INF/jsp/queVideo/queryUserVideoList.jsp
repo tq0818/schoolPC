@@ -132,7 +132,7 @@
 	$.tableSort($(".btn-sort"),{
 		callback:function(data){
 			console.log(data);
-			student.search();
+			student.search(1,data);
 		}
 	});
 </script>

@@ -768,7 +768,6 @@ public class StudentStatisticsController {
     /**
      * 用户点播统计
      * @param model
-     * @param userVideoVo
      * @return
      */
     @RequestMapping(value = "/exportUserWatchExcle")
@@ -1151,7 +1150,6 @@ public class StudentStatisticsController {
             throw new Exception("数据出现异常，请联系管理员！");
         }
 
-        Integer pageSize = 5;//查询top5
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
@@ -1275,8 +1273,8 @@ public class StudentStatisticsController {
         if(video!=null){
             CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
             long nowtime = System.currentTimeMillis()/1000L;
-            StringBuffer a = new StringBuffer("end_date="+ endTime);
-            a.append("&start_date=" + startTime);
+            StringBuffer a = new StringBuffer("date="+ startTime);
+//            a.append("&start_date=" + startTime);
             a.append("&userid=" + companyPayConfig.getCcUserId());
             a.append("&videoid=" + video.get("video_cc_id"));
             a.append("&time="+nowtime);
@@ -1330,9 +1328,27 @@ public class StudentStatisticsController {
             System.out.println("请求地址：" + CCVideoConstant.CC_ATTENTION_VIDEO_USER_DAILY + infoUrl);
             System.out.println("接口返回参数："+ result);
             if(StringUtils.isNotBlank(result)){
-                Map<String, Object> map = JSONObject.parseObject(result, Map.class);
-                if(map.get("attention")!=null){
-                    jsonObject.put("attention", map.get("attention"));
+                JSONObject resultJson = JSONObject.parseObject(result);
+                if(resultJson.get("attentions")!=null){
+                    resultJson = (JSONObject) resultJson.get("attentions");
+                    if(resultJson.get("attention")!=null){
+                        List<Map<String, Object>>list = (List<Map<String, Object>>) resultJson.get("attention");
+                        Collections.sort(list, new Comparator<Map<String, Object>>(){
+                            /*
+                             * int compare(Student o1, Student o2) 返回一个基本类型的整型，
+                             * 返回负数表示：o1 小于o2，
+                             * 返回0 表示：o1和o2相等，
+                             * 返回正数表示：o1大于o2。
+                             */
+                            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                                String o1section = (String) o1.get("section");
+                                String o2section = (String) o2.get("section");
+                                return o1section.compareToIgnoreCase(o2section);
+                            }
+                        });
+                        System.out.println("排序后："+list);
+                        jsonObject.put("attentions", list);
+                    }
                 }
             }
         }else{
@@ -1358,14 +1374,74 @@ public class StudentStatisticsController {
                 System.out.println("请求地址：" + CCVideoConstant.CC_ATTENTION_VIDEO_DAILY + infoUrl);
                 System.out.println("接口返回参数："+ result);
                 if(StringUtils.isNotBlank(result)){
-                    Map<String, Object> map = JSONObject.parseObject(result, Map.class);
-                    if(map.get("attention")!=null){
-                        jsonObject.put("attention", map.get("attention"));
+                    JSONObject resultJson = JSONObject.parseObject(result);
+                    if(resultJson.get("attentions")!=null){
+                        resultJson = (JSONObject) resultJson.get("attentions");
+                        if(resultJson.get("attention")!=null){
+                            List<Map<String, Object>>list = (List<Map<String, Object>>) resultJson.get("attention");
+                            Collections.sort(list, new Comparator<Map<String, Object>>(){
+                                /*
+                                 * int compare(Student o1, Student o2) 返回一个基本类型的整型，
+                                 * 返回负数表示：o1 小于o2，
+                                 * 返回0 表示：o1和o2相等，
+                                 * 返回正数表示：o1大于o2。
+                                 */
+                                public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                                    String o1section = (String) o1.get("section");
+                                    String o2section = (String) o2.get("section");
+                                    return o1section.compareToIgnoreCase(o2section);
+                                }
+                            });
+                            System.out.println("排序后："+list);
+                            jsonObject.put("attentions", list);
+                        }
                     }
                 }
             }
         }
 
         return jsonObject;
+    }
+
+
+    /**
+     * 点播统计-概况导出
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/exportVideoExcle")
+    public ModelAndView exportVideoExcle(Model model, String startTime, String endTime) {
+        List<UserVideoVo> al = new ArrayList<UserVideoVo>();
+        //查询区域的录播观看人数
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("pageSize", 50000);
+        List<Map<String, Object>> totleVideoList = sysPlayLogsServiceImpl.queryTotleVideo(papamMap);
+
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (Map<String, Object> map : totleVideoList) {
+            map.put("eduArea", map.get("edu_area"));
+            map.put("eduSchool", map.get("edu_school"));
+            map.put("eduStep", map.get("edu_step"));
+            map.put("eduSubject", map.get("edu_subject"));
+            map.put("totleStudy", map.get("totle_study"));
+            map.put("totleStudyLength", map.get("totle_study_length"));
+            map.put("studyRate", map.get("study_rate"));
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                "区域:eduArea,学校:eduSchool,学段:eduStep,学科:eduSubject,总播放量:totleStudy,总播放时长:totleStudyLength,播完率:studyRate,观看人数:totleStudy");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "用户点播统计.xls");
+        return new ModelAndView(excel, map);
     }
 }

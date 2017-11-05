@@ -87,9 +87,9 @@
 						<th width="7%">学员名称</th>
 						<th width="6%">入学年份</th>
 						<th width="6%">班级</th>
-						<th width="7%" class="btn-sort" fieldName="totleStudyLength" sort="">总播放时长</th>
-						<th width="7%" class="btn-sort" fieldName="studyRate" sort="">播完率</th>
-						<th width="7%" class="btn-sort" fieldName="viewNum" sort="">观看次数</th>
+						<th width="7%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>
+						<th width="7%" class="btn-sort" fieldName="study_rate" sort="">播完率</th>
+						<th width="7%" class="btn-sort" fieldName="view_num" sort="">观看次数</th>
 					</tr>
 					<c:choose>
 						<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
@@ -128,7 +128,8 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
-	$selectSubMenu('statistics_org_detail');
+//	$selectSubMenu('statistics_org_detail');
+	$selectThirdMenu('userVideoList');
 	$.tableSort($(".btn-sort"),{
 		callback:function(data){
 			console.log(data);

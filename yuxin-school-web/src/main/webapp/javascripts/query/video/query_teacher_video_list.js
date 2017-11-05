@@ -114,9 +114,12 @@
         	$("#selectCounts").val($("#selectCount").val());
         	student.search();
         },
-        search: function (page) {
+        search: function (page,sortdata) {
             var $this = this;
             var data = {};
+            if(sortdata){
+                data =$.extend(data,sortdata);
+            }
             data.teaName=$("#teaName").val();
             data.startTime = $(".from").val();
             data.endTime = $(".to").val();
@@ -139,7 +142,7 @@
                 if (!value) {
                     delete data[key];
                 }
-            })
+            });
             $(".user-list").find("table").find("tr:gt(0)").remove();
             $(".checkboxAll").prop("checked", false);
             //代理机构权限
@@ -216,14 +219,6 @@
                             });
                         $("#rowCount").remove();
                         $("#pageNo").remove();
-                        $.ajax({
-                        	url: rootPath+"/student/queryBuyNum",
-                        	dataType: "text",
-                        	success:function(data){
-                        		
-                        		$(".user-list").after('<input type="hidden" id="rowCount" value="'+(data?data:0)+'"/>');
-                        	}
-                        })
                         $(".user-list").after('<input type="hidden" id="pageNo" value="'+jsonData.pageNo+'"/>');
                         
                         if (jsonData.rowCount >$("#selectCounts").val()) {
@@ -277,18 +272,6 @@
                     }
                 });
             $("#maxCount").remove();
-            // 查询允许本机构报名的最大数量
-            $.ajax({
-            	url: rootPath+"/companyMemberService/studentNum",
-            	dataType: "json",
-            	success: function(num){
-            		if(num){
-            			$(".user-list").after('<input type="hidden" id="maxCount" value="'+num+'"/>');
-            		}else{
-            			$(".user-list").after('<input type="hidden" id="maxCount" value="0"/>');
-            		}
-            	}
-            })
         },
         checkMaxSignUpNum: function(ele){
         	var flag=true;

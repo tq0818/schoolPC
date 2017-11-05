@@ -224,14 +224,6 @@
                     });
                     $("#rowCount").remove();
                     $("#pageNo").remove();
-                    $.ajax({
-                        url: rootPath+"/student/queryBuyNum",
-                        dataType: "text",
-                        success:function(data){
-
-                            $(".user-list").after('<input type="hidden" id="rowCount" value="'+(data?data:0)+'"/>');
-                        }
-                    })
                     $(".user-list").after('<input type="hidden" id="pageNo" value="'+jsonData.pageNo+'"/>');
 
                     if (jsonData.rowCount >$("#selectCounts").val()) {
@@ -285,18 +277,6 @@
                 }
             });
             $("#maxCount").remove();
-            // 查询允许本机构报名的最大数量
-            $.ajax({
-                url: rootPath+"/companyMemberService/studentNum",
-                dataType: "json",
-                success: function(num){
-                    if(num){
-                        $(".user-list").after('<input type="hidden" id="maxCount" value="'+num+'"/>');
-                    }else{
-                        $(".user-list").after('<input type="hidden" id="maxCount" value="0"/>');
-                    }
-                }
-            })
         },
         checkMaxSignUpNum: function(ele){
             var flag=true;

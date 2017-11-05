@@ -53,7 +53,8 @@
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript">
-	$selectSubMenu('statistics_org_detail');
+//	$selectSubMenu('statistics_org_detail');
+	$selectThirdMenu('videoList');
 	// 初始化日期框
 	$(".date-picker").datetimepicker({
 		format: "yyyy-mm-dd",
@@ -74,6 +75,17 @@
         searchTotleVideoCourse2($(".from").val(), $(".to").val());//按照学校性质赛选
         searchTotleVideoCourse3($(".from").val(), $(".to").val());//观看点播前五学校
         searchTotleVideoCourse4($(".from").val(), $(".to").val());//观看学科前五学校
+    });
+	//导出
+    $("#exportData").click(function(){
+        if ($(".to").val() != "") {
+            if ($(".to").val() < $(".from").val()) {
+                $.msg("时间范围不正确");
+                return;
+            }
+        }
+
+        window.location.href = rootPath + "/query/statistics/queryTotleVideoCourse?startTime="+$(".from").val()+"&endTime="+$(".to").val();
     });
 
 	function searchTotleVideoCourse(startTime, endTime){
@@ -321,6 +333,7 @@
 	searchTotleVideoCourse2($(".from").val(), $(".to").val());//按照学校性质赛选
     searchTotleVideoCourse3($(".from").val(), $(".to").val());//观看点播前五学校
     searchTotleVideoCourse4($(".from").val(), $(".to").val());//观看学科前五学校
+
 
 </script>
 </body>

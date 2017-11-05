@@ -29,6 +29,8 @@ public class VideoCourseVo extends BaseEntity {
 	private String teaName;	 /* 教师名称 */
 	private String startTime;	 /* 开始时间 */
 	private String endTime;	 /* 结束时间 */
+	private String fieldName;	 /* 排序字段 */
+	private String sortType;	 /* 排序类型 */
 	// Constructor
 	public VideoCourseVo() {
 	}
@@ -207,5 +209,21 @@ public class VideoCourseVo extends BaseEntity {
 
 	public void setSchoolStepName(String schoolStepName) {
 		this.schoolStepName = schoolStepName;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public String getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
 	}
 }

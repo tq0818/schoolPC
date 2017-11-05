@@ -108,7 +108,8 @@
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript">
-    $selectSubMenu('statistics_org_detail');
+//    $selectSubMenu('statistics_org_detail');
+    $selectThirdMenu('videoList');
     // 初始化日期框
     $(".date-picker").datetimepicker({
         format: "yyyy-mm-dd",
@@ -225,20 +226,15 @@
             url: rootPath + "/query/statistics/queryVideoCourseDaily",
             data:{classId:$("#classType").val(),startTime:startTime, endTime:endTime,className:$("#className").val()},
             success:function(result){
-                result = result.attention ? result.attention:null;
-                if(result!=null && result.length>0){
-                    for(var i=0; i<result.length; i++){
-                        if(result[i].schoolCode!=null && result[i].schoolCode!=""){
-                            dataKey.push(result[i].schoolName);
-                            dataValue.push(result[i].viewNum);
-                        }
-                    }
+                result = result.attentions ? result.attentions:null;
+                for(var i=0; result && i<result.length; i++){
+                    dataKey.push(result[i].section);
+                    dataValue.push(result[i].pc+result[i].mobile);
                 }
                 var chart3 = {
                     "id":document.getElementById("viewsScale"),
                     "titleText":' ',
-                    "seriesData":[550,503,489,480,429,350,
-                        360,319,288,160],
+                    "seriesData":dataValue,
                     "seriesName":"观看比例"
 
                 };
@@ -249,9 +245,8 @@
                 chart3.xAxis = [
                     {
                         name: '已观看比例',
-                        splitNumber:5,
                         type : 'category',
-                        data : ['0-10%', '20%-30%', '30%-40%', '40%-50%', '50%-60%','60%-70%','70%-80%','80%-90%','90%-100%'],
+                        data : ['0-10%', '10%-20%', '20%-30%', '30%-40%', '40%-50%', '50%-60%','60%-70%','70%-80%','80%-90%','90%-100%'],
                         axisTick: {
                             alignWithLabel: false
                         }
@@ -277,14 +272,42 @@
     $(document).statistical().changeType({
         callback:function(e){
             var terminal = $(e).attr("t"),//设备类型
-                    $viewId = document.getElementById($(e).parent().attr("content")),//容器
-                    //更新数据
-                    option =$($viewId).data();
-            option.id = $viewId;
-            option.tooltip.axisPointer = $($viewId).attr("axisPointer");
-            option.series[0].data = [5300,810,800,720,668,590,550,503,489,480,429,350,360,319,288,260,210,90,90,88,81,72,66,60];
-            $(document).statistical().setCharts(option);
+            $viewId = document.getElementById($(e).parent().attr("content"));//容器
+            if($(e).parent().attr("content") == "viewsCount"){//line
 
+            }else{//bar
+                if ($(".to").val() != "") {
+                    if ($(".to").val() < $(".from").val()) {
+                        $.msg("时间范围不正确");
+                        return;
+                    }
+                }
+                var dataKey = new Array(),dataValue = new Array();
+                $.ajax({
+                    url: rootPath + "/query/statistics/queryVideoCourseDaily",
+                    data:{classId:$("#classType").val(),startTime:$(".from").val(), endTime:$(".to").val(),className:$("#className").val()},
+                    success:function(result){
+                        result = result.attentions ? result.attentions:null;
+                        for(var i=0; result && i<result.length; i++){
+                            dataKey.push(result[i].section);
+                            if(terminal == 'pc'){
+                                dataValue.push(result[i].pc);
+                            }else if(terminal == 'mobile'){
+                                dataValue.push(result[i].mobile);
+                            }else{
+                                dataValue.push(result[i].pc+result[i].mobile);
+                            }
+
+                        }
+                        //更新数据
+                        var option =$($viewId).data();
+                        option.id = $viewId;
+                        option.tooltip.axisPointer = $($viewId).attr("axisPointer");
+                        option.series[0].data = dataValue;
+                        $(document).statistical().setCharts(option);
+                    }
+                });
+            }
 
         }
     });

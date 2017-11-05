@@ -78,9 +78,9 @@
 						<th width="12%">学校</th>
 						<th width="6%">学科</th>
 						<th width="8%">课程学段</th>
-						<th width="8%">总播放量</th>
-						<th width="10%">总播放时长</th>
-						<th width="6%">播放率</th>
+						<th width="8%" class="btn-sort" fieldName="totle_study" sort="">总播放量</th>
+						<th width="10%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>
+						<th width="6%" class="btn-sort" fieldName="study_rate" sort="">播放率</th>
 						<th width="6%">操作</th>
 					</tr>
 					<c:choose>
@@ -120,7 +120,15 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
-	$selectSubMenu('statistics_org_detail');
+//	$selectSubMenu('statistics_org_detail');
+	$selectThirdMenu('teacherVideoList');
+
+	$.tableSort($(".btn-sort"),{
+		callback:function(data){
+			console.log(data);
+			student.search(1,data);
+		}
+	});
 </script>
 </body>
 </html>

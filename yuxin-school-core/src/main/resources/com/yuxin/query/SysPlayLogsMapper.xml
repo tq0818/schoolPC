@@ -83,7 +83,13 @@
 		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
 		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = '%${username}%')</if>
 		group by pl.user_id
-		order by t.name
+		<choose>
+			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
+			<otherwise>order by t.name</otherwise>
+		</choose>
+		<choose>
+			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
+		</choose>
 		limit #{firstIndex},#{pageSize}
 	</select>
 
@@ -154,7 +160,13 @@
 		  <if test="teaName!=null and teaName!=''">and ut.name like '%${teaName}%'</if>
 		  <if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
 		group by pl.class_type_id
-		order by ut.name
+		<choose>
+			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
+			<otherwise>order by ut.name</otherwise>
+		</choose>
+		<choose>
+			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
+		</choose>
 		limit #{firstIndex},#{pageSize}
 	</select>
 
@@ -227,6 +239,39 @@
 		order by d.`item_code`
 	</select>
 
+	<select id="queryTotleVideo" resultType="map" parameterType="map">
+		SELECT
+		d.`item_value` AS edu_area,
+		d1.`item_value` AS edu_school,
+		it.`item_name` AS edu_step,
+		it1.`item_name` AS edu_subject,
+		COUNT(1) AS totle_study,
+		CONCAT(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
+		ROUND(SUM(pl.study_length) / (COUNT(1) * TIME_TO_SEC(v.video_time)) * 100,2)  AS study_rate
+		FROM
+		sys_play_logs pl
+		LEFT JOIN student s
+		ON s.user_id = pl.user_id
+		AND s.edu_identity = 0
+		LEFT JOIN sys_config_dict d
+		ON d.`item_code` = s.`edu_area`
+		LEFT JOIN sys_config_dict d1
+		ON d1.`item_code` = s.`edu_school`
+		LEFT JOIN class_type t
+		ON t.id = pl.`class_type_id`
+		LEFT JOIN sys_config_item it
+		ON it.`item_code` = t.`item_second_code`
+		LEFT JOIN sys_config_item it1
+		ON it1.`item_code` = t.`item_third_code`
+		LEFT JOIN course_video_lecture cl ON cl.id = pl.`lecture_id`
+		LEFT JOIN video v ON v.id = cl.video_id
+		WHERE s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+		AND s.delete_flag = 0
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		GROUP BY s.`edu_area`,s.`edu_school`,t.`item_second_code`,t.`item_third_code`
+	</select>
+
 	<select id="queryTotleSchoolStep" resultType="map" parameterType="map">
 		select
           COUNT(1) AS userNum,
@@ -251,7 +296,6 @@
         GROUP BY r.`edu_step_new_code`
         order by r.`edu_step_new_code`
 	</select>
-
 
     <select id="queryTopSchoolView" resultType="map" parameterType="map">
         SELECT

@@ -106,4 +106,11 @@ public interface ISysPlayLogsService {
      * @return
      */
     Map<String,Object> queryVideo(Map<String, Object> papamMap);
+
+    /**
+     * 教科院管理员概况-导出
+     * @param papamMap
+     * @return
+     */
+    List<Map<String,Object>> queryTotleVideo(Map<String, Object> papamMap);
 }

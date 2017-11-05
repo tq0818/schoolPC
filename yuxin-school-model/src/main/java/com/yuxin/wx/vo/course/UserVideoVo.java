@@ -33,6 +33,8 @@ public class UserVideoVo extends BaseEntity {
 	private String teaName;	 /* 教师名称 */
 	private String startTime;	 /* 开始时间 */
 	private String endTime;	 /* 结束时间 */
+	private String fieldName;	 /* 排序字段 */
+	private String sortType;	 /* 排序类型 */
 	// Constructor
 	public UserVideoVo() {
 	}
@@ -251,5 +253,21 @@ public class UserVideoVo extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public String getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
 	}
 }

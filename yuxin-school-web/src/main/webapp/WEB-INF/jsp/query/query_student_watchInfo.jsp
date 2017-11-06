@@ -83,7 +83,6 @@
 		<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 		<script type="text/javascript">
 
-			$selectThirdMenu('watchList');
             $selectThirdMenu('watchInfoList');
             function queryChartData(){
                 $.ajax({

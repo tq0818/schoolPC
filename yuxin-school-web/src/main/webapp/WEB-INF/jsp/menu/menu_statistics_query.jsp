@@ -24,10 +24,10 @@
                 <p class="managelist-parent">点播统计</p>
                 <b class="arrow-bottom"><i class="bottom-arrow1"></i><i class="bottom-arrow2"></i></b>
                 <ul class="managelist-child">
-                    <li class="item-child" code="teacherVideoList" mark="/query/statistics/teacherVideoList">教师授课详情</li>
-                    <li class="item-child" code="userVideoList" mark="/query/statistics/userVideoList">用户点播统计</li>
                 </ul>
-            </li>
+                </li>
+                <li class="item-child" code="teacherVideoList" mark="/query/statistics/teacherVideoList">教师授课详情</li>
+                <li class="item-child" code="userVideoList" mark="/query/statistics/userVideoList">用户点播统计</li>
             </shiro:hasAnyRoles>
        </ul>
     </div>

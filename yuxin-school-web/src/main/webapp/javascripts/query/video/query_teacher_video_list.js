@@ -212,9 +212,12 @@
                                     + (videoCourse.studyRate ? videoCourse.studyRate + "%"
                                         : "")
                                     + '</td>'
-                                    + '<td class="baoming" value="' + videoCourse.videoId + '">'
-                                    + '详情'
-                                    + '</td>'
+                                    + '<td class="slink">'
+                                    + '<a class="more" href="javascript:void(0);">详情</a>'
+                                    + '<ul class="none box">'
+                                    + ' <li><a class="updateStudentMsg" videoCCId="' + videoCourse.videoId + '" href="javascript:void(0);">观看比例</a></li>'
+                                    + ' <li><a class="delStudent" videoCCId="' + videoCourse.videoId + '" href="javascript:void(0);">观看热点</a></li>'
+                                    + '</ul></td>'
                                     + '</tr>');
                             });
                         $("#rowCount").remove();

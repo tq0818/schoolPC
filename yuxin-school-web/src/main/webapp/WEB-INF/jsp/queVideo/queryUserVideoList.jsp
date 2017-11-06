@@ -11,6 +11,7 @@
 	<title>用户点播统计</title>
 	<link rel="stylesheet" type="text/css"
 		  href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
+	<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
 	<link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 	<style type="text/css">

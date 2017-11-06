@@ -18,7 +18,7 @@ public class WatchInfo extends BaseEntity {
     private Integer userId;//用户ID
     private String joinTime;//加入时间
     private String leaveTime;//离开时间
-    private Integer watchTime;//观看时长
+    private Long watchTime;//观看时长
     private String classId;//课件ID
 
     public String getClassId() {
@@ -109,11 +109,11 @@ public class WatchInfo extends BaseEntity {
         this.leaveTime = leaveTime;
     }
 
-    public Integer getWatchTime() {
+    public Long getWatchTime() {
         return watchTime;
     }
 
-    public void setWatchTime(Integer watchTime) {
+    public void setWatchTime(Long watchTime) {
         this.watchTime = watchTime;
     }
 }

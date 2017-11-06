@@ -129,6 +129,7 @@
 		select cml.lesson_name,cm.`name`,cml.lesson_date,cml.liveroom_id_gh as liveroom_id,cmon.classtype_id,cpr.com_id as commodity_id,cml.id as lesson_id from class_module_lesson  cml
 		LEFT JOIN class_module_no_onsale cmon  on cmon.module_no_id =cml.module_no_id
 		LEFT JOIN commodity_product_realtion cpr on cpr.product_id = cmon.classtype_id
-		LEFT JOIN commodity cm on cm.id = cpr.com_id where cml.lesson_date = #{lessonDate}
+		LEFT JOIN commodity cm on cm.id = cpr.com_id
+		<if test="lessonDate !=null and lessonDate !=''">where cml.lesson_date = #{lessonDate}</if>
 	</select>
 </mapper>

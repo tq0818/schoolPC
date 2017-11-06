@@ -11,6 +11,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.Gson;
+import com.yuxin.wx.api.watchInfo.IWatchInfoService;
+import com.yuxin.wx.controller.task.TestTask;
+import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.vo.classes.*;
 import net.sf.json.JSONObject;
 
@@ -119,6 +123,8 @@ public class ClassModuleLessonController {
 	private IClassTypeService classTypeServiceImpl;
 	@Autowired
 	private ICompanyFunctionSetService companyFunctionSetServiceImpl;
+	@Autowired
+	private IWatchInfoService watchInfoServiceImpl;
 	
 	DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -1213,5 +1219,46 @@ public class ClassModuleLessonController {
 	public List<ClassModuleLesson> findLessonByCommodityId(Integer id,HttpServletRequest request){
    		return classModuleLessonServiceImpl.findLessonByCommodityId(id);
 	}
+
+	@RequestMapping(value="/getAllWatchInfo")
+	public void getAllWatchInfo(HttpServletRequest request){
+		List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(null);
+		Map<String,Object> map = new HashMap();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		map.put("loginName", LiveRoomConstant.LOGIN_NAME);
+		map.put("password",LiveRoomConstant.PASSWORD);
+		for(WatchInfo lesson :list){
+			map.put("startTime",sdf.format(lesson.getLessonDate())+" 00:00:00");
+			map.put("roomId",lesson.getLiveroomId());
+			String result = null;
+			try {
+				result = com.yuxin.wx.utils.HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/export/history",map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			map.remove("startTime");
+			map.remove("endTime");
+			System.out.println(result);
+			Gson g = new Gson();
+			TestTask.LiveResult re =  g.fromJson(result,TestTask.LiveResult.class);
+			if(!re.getCode().equals("0")){
+				System.out.println(re.getMessage());
+				continue;
+			}
+			//用户信息过滤并存入数据库
+			for(TestTask.MessUser mUser : re.getList()){
+				if(Long.valueOf(mUser.getUid())-1000000000<1000000000){
+					lesson.setJoinTime(mUser.getJoinTime());
+					lesson.setLeaveTime(mUser.getLeaveTime());
+					lesson.setUserId(Integer.parseInt(mUser.getUid())-1000000000);
+					lesson.setLessonId(lesson.getLessonId());
+					lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
+					watchInfoServiceImpl.addWatchInfo(lesson);
+				}
+			}
+		}
+
+	}
+
 
 }

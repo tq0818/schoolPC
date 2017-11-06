@@ -83,7 +83,7 @@ public class TestTask {
                     lesson.setLeaveTime(mUser.getLeaveTime());
                     lesson.setUserId(Integer.parseInt(mUser.getUid())-1000000000);
                     lesson.setLessonId(lesson.getLessonId());
-                    lesson.setWatchTime(Integer.valueOf(mUser.getLeaveTime())-Integer.valueOf(mUser.getJoinTime()));
+                    lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
                     watchInfoServiceImpl.addWatchInfo(lesson);
                 }
             }
@@ -216,7 +216,7 @@ public class TestTask {
                             relation.setJoinTime(user.getStartTime());
                             relation.setLeaveTime(user.getLeaveTime());
                             relation.setUserId(user.getUid() - 1000000000);
-                            relation.setWatchTime(Integer.parseInt(user.getLeaveTime()) - Integer.parseInt(user.getStartTime()));
+                            relation.setWatchTime(Long.parseLong(user.getLeaveTime()) - Long.parseLong(user.getStartTime()));
                             watchInfoServiceImpl.addWatchInfo(relation);
                         }
                         break;
@@ -272,7 +272,7 @@ public class TestTask {
         }
     }
     //直播信息结果
-    class LiveResult{
+    public class  LiveResult{
         private String code ;
         private List<MessUser> list;
         private String message;
@@ -332,7 +332,7 @@ public class TestTask {
         }
     }
     //直播用户信息
-    class MessUser{
+    public class MessUser{
         private String area;
         private String company;
         private String device;

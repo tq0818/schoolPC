@@ -162,7 +162,7 @@ public class StudentController {
     private ISysConfigTeacherService sysConfigTeacherServiceImpl;
     @Autowired
     private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
-    
+
     private static Logger log = Logger.getLogger(StudentController.class);
     
     public static final String AFFICHE_TYPE = "AFFICHE";
@@ -269,6 +269,18 @@ public class StudentController {
         List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         return areas;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getSchoolList")
+    public List<SysConfigDict> getSchoolList(HttpServletRequest request,String schoolType,String area) {
+
+        Map<String,Object>  map  = new HashMap<>();
+        map.put("schoolType",schoolType);
+        map.put("area",area);
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.findSchoolBySchoolType(map);
+        return areas;
+    }
+
     @ResponseBody
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageFinder<Student> query(Model model, Student search) {
@@ -4200,5 +4212,12 @@ public class StudentController {
     	}
     	return result;
     }
-    
+
+    @ResponseBody
+    @RequestMapping(value = "/getSchoolListByStep")
+    public List<SysConfigDict> getSchoolListByStep(HttpServletRequest request,SysConfigDict areaDict) {
+        areaDict.setDictCode("EDU_SCHOOL");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.querySchoolListByStepCode(areaDict);
+        return areas;
+    }
 }

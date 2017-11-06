@@ -1,10 +1,6 @@
 package com.yuxin.wx.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Reader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -193,7 +189,7 @@ public class HttpPostRequest {
         Reader reader = null;
         StringBuilder content = new StringBuilder();
         try{
-            reader = new InputStreamReader(in);
+            reader = new InputStreamReader(in,"utf-8");
             char[] buffer = new char[1024];
             int head = 0;
             while( (head=reader.read(buffer))>0 ){

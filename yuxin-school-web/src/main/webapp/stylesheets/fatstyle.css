@@ -648,7 +648,7 @@ h1 .more, .h1 .more, h2 .more, .h2 .more, h3 .more, .h3 .more, h4 .more, .h4 .mo
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 10px
+    margin:20px 0 10px;
 }
 
 .table > tbody > tr > td, .table > tbody > tr > th {
@@ -1219,3 +1219,8 @@ span.mintitle{
     cursor: default;
 }
 .txt-required{color:red;margin-right: 5px;}
+.table.table-center .btn-sort{ background: url(../images/query/ico-sort.png) no-repeat;
+  /*  text-align: left;*/
+    background-position: right center;
+    cursor: pointer;
+}

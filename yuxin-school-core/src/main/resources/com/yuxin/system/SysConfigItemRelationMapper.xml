@@ -118,4 +118,14 @@
           FROM
         sys_config_item_relation_front rf
     </select>
+
+    <select id="findItemFrontByLevel" resultMap="sysConfigItemRelationResultMap"
+            parameterType="Integer">
+        SELECT DISTINCT
+        (rf.item_code) AS item_code,(SELECT item_name FROM sys_config_item sci WHERE sci.item_code=rf.item_code)AS item_name,
+        LEVEL
+          FROM
+        sys_config_item_relation_front rf
+        WHERE LEVEL = #{level}
+    </select>
 </mapper>

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.vo.classes.*;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
@@ -68,10 +69,6 @@ import com.yuxin.wx.util.TalkfunUtils;
 import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
-import com.yuxin.wx.vo.classes.ClassTypeVo;
-import com.yuxin.wx.vo.classes.ClassVo;
-import com.yuxin.wx.vo.classes.LiveRoomInfo;
-import com.yuxin.wx.vo.classes.TalkfunEntityVo;
 import com.yuxin.wx.vo.student.StuMessageVo;
 import com.yuxin.wx.vo.system.TeacherVo;
 
@@ -1210,4 +1207,11 @@ public class ClassModuleLessonController {
 		}
 		return JsonMsg.SUCCESS;
 	}
+	//根据商品ID获取课次
+	@ResponseBody
+	@RequestMapping(value="/findLessonByCommodityId")
+	public List<ClassModuleLesson> findLessonByCommodityId(Integer id,HttpServletRequest request){
+   		return classModuleLessonServiceImpl.findLessonByCommodityId(id);
+	}
+
 }

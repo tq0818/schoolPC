@@ -62,4 +62,6 @@ public interface ISysConfigItemRelationService {
     void publishRelation();
     List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item);
     List<SysConfigItemRelation> findAllItemFront();
+
+    List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
 }

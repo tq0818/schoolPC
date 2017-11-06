@@ -162,4 +162,22 @@
 		where dict_code=#{dictCode} and item_code = #{itemCode}
 		limit 1
 	</select>
+
+	<select id="querySchoolListByStepCode" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select d.item_code,d.item_value,d.id from sys_config_dict d
+		left join edu_step_school_relation r
+		on r.edu_school_id = d.id
+		where d.dict_code=#{dictCode} and d.item_status_code = '1'
+		<if test="stepId != null and stepId != ''">and r.edu_step_new_id = #{stepId}</if>
+		<if test="parentItemId != null and parentItemId != ''">and d.parent_item_id = #{parentItemId}</if>
+		<if test="itemCode != null and itemCode != ''">and d.item_code = #{itemCode}</if>
+		<if test="itemValue != null and itemValue != ''">and d.item_value = #{itemValue}</if>
+		ORDER by display_seq asc
+	</select>
+
+	<select id="findSchoolBySchoolType"  parameterType="Map" resultMap="sysConfigDictResultMap">
+		select  scd.item_code,scd.item_value from edu_step_school_relation  essr
+		LEFT JOIN sys_config_dict scd on  scd .item_code  = essr.edu_school_code
+		where essr.edu_step_new_code  = #{schoolType} and  scd.parent_item_id = #{area}
+	</select>
 </mapper>

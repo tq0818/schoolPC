@@ -694,7 +694,7 @@ public class TimerTaskComponent {
 	 * 统计用户答题结果（只针对单选和多选）
 	 *
 	 */
-	 @Scheduled(cron = "0 0 1 * * ?")
+	 @Scheduled(cron = "0 0 * * * ?")
 	 public void taskTikuUserExerciseAnswer() {
 		 SysTaskLog stl = new SysTaskLog();
 		 try {

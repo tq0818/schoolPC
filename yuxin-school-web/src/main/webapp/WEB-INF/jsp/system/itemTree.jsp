@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div id="courses" class="tree-listtype">
-                    <label class="tit-type fl">学科：</label>
+                      <label class="tit-type fl">学科：</label>
                     <div class="tit-list fl">
                         <c:forEach items="${subjectList}" var="subject">
                             <label><input type="checkbox" value="${subject.itemCode}" name="course">${subject.itemName}</label>

@@ -282,6 +282,22 @@ button.cloze {
 			}
 		})
 	}
+    function $selectThirdMenu(code) {
+       // $(".system_managelist").find("li").removeClass("active");
+
+        var $target = $(".system_managelist").find("li[code="+code+"]");
+        $target.addClass("active").siblings().removeClass("active");
+        if(!$target.hasClass("item-child")){
+            $(".system_managelist").find("li .managelist-child").hide();
+        }
+        $target.find(".managelist-child").show();
+     /*   $(".system_managelist").find("li").each(function() {
+            if ($(this).attr("code") == code) {
+                $(this).addClass("active");
+                $(this).closest(".managelist-child").show();
+            }
+        })*/
+    }
 </script>
 <!-- header start -->
 <header class="full-wrap navbar minibar reversal">

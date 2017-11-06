@@ -245,4 +245,6 @@ public interface IClassModuleLessonService  {
 	List<ClassModuleLesson> findcmlByModuleNoId(Integer moduleNoId);
 	
 	List<Integer> findClassModuleLessonIdsByModuleNoId(Integer id);
+
+    List<ClassModuleLesson> findLessonByCommodityId(Integer id);
 }

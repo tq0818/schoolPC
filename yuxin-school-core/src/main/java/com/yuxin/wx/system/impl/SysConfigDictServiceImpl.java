@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.model.system.SysConfigDict;
@@ -204,4 +205,15 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	public SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict){
 		return sysConfigDictMapper.queryConfigDictValue(sysConfigDict);
 	}
+
+	@Override
+	public List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict) {
+		return sysConfigDictMapper.querySchoolListByStepCode(areaDict);
+	}
+
+	@Override
+	public List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map) {
+		return sysConfigDictMapper.findSchoolBySchoolType(map);
+	}
+
 }

@@ -97,4 +97,6 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
 	@ResultMap("classModuleLessonResultMap")
 	@Select("select l.live_room,l.live_company_type from class_module_lesson l inner join class_module_no n on l.module_no_id = n.id where (l.lesson_date = #{lessonDate} and str_to_date(#{currentTime},'%H:%i') > str_to_date(l.lesson_time_start,'%H:%i') and str_to_date(l.lesson_time_end,'%H:%i') > str_to_date(#{currentTime},'%H:%i')) union all select loc.live_room,loc.live_service_provider live_company_type from live_open_course loc where (loc.start_open_data = #{lessonDate} and str_to_date(#{currentTime},'%H:%i') > str_to_date(loc.start_time,'%H:%i') and str_to_date(loc.end_time,'%H:%i') > str_to_date(#{currentTime},'%H:%i'))")
 	List<ClassModuleLesson> findLiveByAop(Map<String, Object> param);
+
+    List<ClassModuleLesson> findLessonByCommodityId(Map<String, Object> id);
 }

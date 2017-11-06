@@ -862,4 +862,27 @@
 		})
 		return result;
     }
+// 初始化日期框
+	if($(".date-picker").length>0){
+        $(".date-picker").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: 2,
+            autoclose: true,
+            language: "zh-CN"
+        });
+	}
+	$.tableSort = function (dom,param) {
+		$(document).delegate(dom,"click",function (e) {
+			e.stopPropagation();
+			var fieldName = $(e.target).attr("fieldName"),
+				type = $(e.target).attr("sort");
+			if(fieldName!=undefined && type!=undefined){
+				//type 看当前是什么排序 asc or desc的，
+				//如果当前是升序，点击了就该降序，并把sort 设置成降序；
+				type=='ASC' ? type = 'DESC': type = 'ASC';
+				$(e.target).attr("sort",type);
+				param.callback({'sortType':type,'fieldName':fieldName});
+			}
+		});
+	}
 })(jQuery);

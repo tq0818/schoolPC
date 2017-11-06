@@ -70,4 +70,6 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
 	 * @return
 	 */
 	List<CommodityVo> queryClassScheduleList(Map<String, Object> map);
+
+    List<CommodityVo> findCommodityByItems(CommodityVo search);
 }

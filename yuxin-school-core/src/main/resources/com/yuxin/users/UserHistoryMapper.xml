@@ -22,6 +22,26 @@
 		study_status,
 		study_length
     </sql>
+	<sql id="table_columns_all">
+		id,
+		user_id,
+		commodity_id,
+		class_type_id,
+		lecture_id,
+		study_time,
+		study_length,
+		device
+	</sql>
+	<sql id="entity_properties_all">
+		#{id},
+		#{userId},
+		#{commodityId},
+		#{classTypeId},
+		#{lectureId},
+		#{studyTime},
+		#{studyLength},
+		#{device}
+	</sql>
 	<sql id="entity_properties">
 		#{id},
 		#{userId},
@@ -127,4 +147,24 @@
 	<select id="queryCountByClassTypeIdAndUserId" resultType="int" parameterType="com.yuxin.wx.model.user.UserHistory">
 		select count(id) from user_history where class_type_id = #{classTypeId} and user_id = #{userId} and study_status = 3
 	</select>
+
+
+	<insert id="insertHistoryAll" parameterType="com.yuxin.wx.vo.user.UserHistoryAllVo"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into user_history_all(
+		<include refid="table_columns_all" />
+		)
+		values (
+		<include refid="entity_properties_all" />
+		)
+	</insert>
+	<insert id="insertPlayLogs" parameterType="com.yuxin.wx.vo.user.UserHistoryAllVo"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into sys_play_logs(
+		<include refid="table_columns_all" />
+		)
+		values (
+		<include refid="entity_properties_all" />
+		)
+	</insert>
 </mapper>

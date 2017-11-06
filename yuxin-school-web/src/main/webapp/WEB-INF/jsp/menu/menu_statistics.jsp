@@ -11,6 +11,7 @@
             <shiro:hasPermission name="statistics_all_detail">
                 <li code="statistics_all_detail"><a href="<%=request.getContextPath() %>/query/statistics/studentList">查询统计</a></li>
             </shiro:hasPermission>
+
         </ul>
     </div>
 </div>

@@ -22,6 +22,7 @@ public class SysConfigDict extends BaseEntity {
 	private Integer companyId;
 	private Integer isDirectly;		/* 是否直属校：1是，0否 */
 
+	private Integer stepId;		/* 学校所属学段 */
 	// Constructor
 	public SysConfigDict() {
 	}
@@ -127,6 +128,14 @@ public class SysConfigDict extends BaseEntity {
 
 	public void setIsDirectly(Integer isDirectly) {
 		this.isDirectly = isDirectly;
+	}
+
+	public Integer getStepId() {
+		return stepId;
+	}
+
+	public void setStepId(Integer stepId) {
+		this.stepId = stepId;
 	}
 
 	@Override

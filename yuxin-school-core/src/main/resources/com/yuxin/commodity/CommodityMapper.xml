@@ -418,4 +418,12 @@
 		<if test="com.itemThirdCode != null and com.itemThirdCode != ''">and c.item_third_code = #{com.itemThirdCode}</if>
 		group by c.id
 	</select>
+	<select id="findCommodityByItems" parameterType="com.yuxin.wx.vo.commodity.CommodityVo" resultMap="commodityVoResultMap">
+		select id,name from commodity where live_flag = 1 and company_id = #{companyId} and school_id = #{schoolId} and type = 'COMMODITY_CLASS'
+		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code =#{itemOneCode}</if>
+		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code =#{itemSecondCode}</if>
+		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code =#{itemThirdCode}</if>
+		<if test="itemFourthCode != null and itemFourthCode != ''">and item_fourth_code =#{itemFourthCode}</if>
+		ORDER  BY cerate_time
+	</select>
 </mapper>

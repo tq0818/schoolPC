@@ -67,14 +67,14 @@
 	<script type="text/javascript" src='<%=rootPath %>/javascripts/plus/echarts/echarts.common.min.js'></script>
 	<script type="text/javascript" src="<%=rootPath %>/javascripts/query/statistical.js"></script>
 	<script type="text/javascript">
-		function $selectThirdMenu(code) {
+/*		function $selectThirdMenu(code) {
 			$(".system_managelist").find("li").removeClass("active");
 			$(".system_managelist").find("li").each(function() {
 				if ($(this).attr("code") == code) {
 					$(this).addClass("active");
 				}
 			})
-		}
+		}*/
 		$selectThirdMenu('orgStuList');
 		function queryPerfect2(){
 			var eduArea = $('#eduArea').val();

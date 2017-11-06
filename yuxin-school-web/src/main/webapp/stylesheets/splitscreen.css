@@ -66,14 +66,14 @@
 }
 
 .subentry{
-    height: 34px;
+    min-height: 34px;
     line-height: 34px;
     /*text-align: center;*/
     font-size: 14px;
     color: #666;
     cursor: pointer;
     border-top: 1px solid #F6F6F6;
-    padding-left: 38%;
+    padding-left: 38%;position: relative;
 }
 .subentry:hover{
     background-color: #ddd;
@@ -1509,4 +1509,90 @@ div.pop-bottom-btn>span:last-child{
     position: absolute;
     right: -9px;
     top: -1px;
+}
+
+/*上箭头*/
+.arrow-top{
+    width:20px;
+    height:20px;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index: 2;/*兼容ie8-*/
+
+}
+.top-arrow1,.top-arrow2{
+    width:0;
+    height:0;
+    display:block;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index: 5;/*兼容ie8-*/
+    border-top:10px transparent dashed;
+    border-left:10px transparent dashed;
+    border-right:10px transparent dashed;
+    border-bottom:10px white solid;
+    overflow:hidden;
+}
+.top-arrow1{
+    border-bottom:10px #f6f6f6 solid;
+}
+.top-arrow2{
+    top:1px;/*重要*/
+    border-bottom:10px #f6f6f6 solid;
+}
+/*下箭头*/
+.arrow-bottom{
+    width:20px;
+    height:20px;
+    position:absolute;
+    right: 10px;
+    top:10px;
+    z-index: 2;/*兼容ie8-*/
+}
+.bottom-arrow1,.bottom-arrow2{
+    width:0;
+    height:0;
+    display:block;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index: 5;/*兼容ie8-*/
+    border-bottom:10px transparent dashed;
+    border-left:10px transparent dashed;
+    border-right:10px transparent dashed;
+    border-top:10px white solid;
+    overflow:hidden;
+}
+.bottom-arrow1{
+    top:2px;/*重要*/
+    border-top:10px #777 solid;
+}
+.bottom-arrow2{
+    border-top:10px #f6f6f6 solid;
+}
+.tj_managelist .subentry{padding-left:0}
+.tj_managelist .managelist-child{    border-top: 2px solid transparent;display: none;
+   }
+.tj_managelist .managelist-child .item-child{ padding-left: 45%;}
+.tj_managelist .managelist-parent{
+    height: 34px;line-height: 34px;
+    font-size: 1.4rem;
+    padding-left: 38%;}
+.tj_managelist .subentry:hover .managelist-child,.tj_managelist .subentry.active .managelist-child{    border-color: #F6f6f6;}
+.tj_managelist .subentry.active .bottom-arrow2{    border-top: 10px #00aaff solid;}
+.tj_managelist .subentry.active  .bottom-arrow1{border-top: 10px #f6f6f6 solid;}
+.left-side .tj_managelist li.active,.tj_managelist .subentry:hover{    background-color: transparent;
+    color: #666;}
+.tj_managelist li.active .managelist-parent,.tj_managelist .managelist-child .item-child.active{background: #00aaff;color:#fff;}
+.tj_managelist .managelist-parent:hover,.tj_managelist .managelist-child .item-child:hover{
+    background-color: #ddd;
+    color: #fff;
+}
+.tj_managelist .managelist-parent:hover + .bottom-arrow2{    border-top: 10px #ddd solid;}
+.tj_managelist li.subentry .arrow-bottom{transition: all 0.2s ease-in-out;}
+.tj_managelist li.subentry.active .arrow-bottom{
+    transform: rotate(180deg);top:4px;
+
 }

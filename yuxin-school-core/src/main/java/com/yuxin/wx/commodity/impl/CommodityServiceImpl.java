@@ -243,4 +243,10 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
         return data;
     }
 
+    @Override
+    public List<CommodityVo> findCommodityByItems(CommodityVo search) {
+
+        return commodityMapper.findCommodityByItems(search);
+    }
+
 }

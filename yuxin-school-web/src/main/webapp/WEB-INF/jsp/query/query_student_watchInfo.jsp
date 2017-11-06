@@ -82,14 +82,8 @@
 		<script type="text/javascript" src="<%=rootPath %>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 		<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 		<script type="text/javascript">
-            function $selectThirdMenu(code) {
-                $(".system_managelist").find("li").removeClass("active");
-                $(".system_managelist").find("li").each(function() {
-                    if ($(this).attr("code") == code) {
-                        $(this).addClass("active");
-                    }
-                })
-            }
+
+			$selectThirdMenu('watchList');
             $selectThirdMenu('watchInfoList');
             function queryChartData(){
                 $.ajax({

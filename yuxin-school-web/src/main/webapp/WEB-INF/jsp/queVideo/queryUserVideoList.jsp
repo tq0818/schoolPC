@@ -129,6 +129,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
 //	$selectSubMenu('statistics_org_detail');
+	$selectThirdMenu('videoList');
 	$selectThirdMenu('userVideoList');
 	$.tableSort($(".btn-sort"),{
 		callback:function(data){

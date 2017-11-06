@@ -46,12 +46,12 @@ public class TestTask {
     @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void test() {
         //获取当日的课次
-        Date date = new Date();
-        date.setTime(date.getTime()-(3600*24*1000));
+//        Date date = new Date();
+//        date.setTime(date.getTime()-(3600*24*1000));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
-        ca.set(Calendar.MONTH,7);
-        ca.set(Calendar.DAY_OF_MONTH,17);
+        //ca.set(Calendar.MONTH,7);
+        ca.add(Calendar.DAY_OF_MONTH,-1);
         String lessonDate = sdf.format(ca.getTime());
         List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(lessonDate);
         Map<String,Object> map = new HashMap();

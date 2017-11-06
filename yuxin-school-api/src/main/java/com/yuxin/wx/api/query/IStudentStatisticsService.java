@@ -68,4 +68,6 @@ public interface IStudentStatisticsService {
     PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
 
     List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
+
+    Integer totalPayMasterCount(WatchInfoResult search);
 }

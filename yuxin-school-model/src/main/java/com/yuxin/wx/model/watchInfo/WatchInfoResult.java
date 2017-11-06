@@ -28,6 +28,16 @@ public class WatchInfoResult extends BaseEntity {
     private String userNameOrMobile;
     private String studyTime;
     private String schoolType;
+    private String orderBy;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
     public String getStudyTime() {
         return studyTime;
     }

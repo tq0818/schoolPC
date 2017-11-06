@@ -40,15 +40,15 @@
 						<c:if test="${isArea}">
 							<select class="select-box" id="eduStep" name="eduStep">
 								<option value="">请选择</option>
-								<c:forEach items="eduStep" var="eduStep">
+								<c:forEach items="${eduStep}" var="eduStep">
 									<option value="${eduStep.itemCode}">${eduStep.itemValue}</option>
 								</c:forEach>
 							</select>
 						</c:if>
 						<span class="date">
 							<i class="text">日期</i>
-							<span><input type="text" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>到</em>
-								<input type="text" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
+							<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>到</em>
+								<input type="text" id="endDate" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
 						</span>
 						<button class="btns-default" id="search" onclick="queryChartData();">查询</button>
 					</p>
@@ -80,8 +80,17 @@
 		<script type="text/javascript" src="<%=rootPath %>/javascripts/query/statistical_watchInfo.js"></script>
 		<script type="text/javascript" src="<%=rootPath %>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript" src="<%=rootPath %>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 		<script type="text/javascript">
-
+            function $selectThirdMenu(code) {
+                $(".system_managelist").find("li").removeClass("active");
+                $(".system_managelist").find("li").each(function() {
+                    if ($(this).attr("code") == code) {
+                        $(this).addClass("active");
+                    }
+                })
+            }
+            $selectThirdMenu('watchInfoList');
             function queryChartData(){
                 $.ajax({
                     url:rootPath+'/query/statistics/watchInfoTotal',

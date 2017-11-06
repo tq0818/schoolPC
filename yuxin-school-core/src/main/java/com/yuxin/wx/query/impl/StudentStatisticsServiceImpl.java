@@ -107,4 +107,9 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         return  data;
     }
 
+    @Override
+    public Integer totalPayMasterCount(WatchInfoResult search) {
+        return studentstatisticsMapper.totalPayMasterCount(search);
+    }
+
 }

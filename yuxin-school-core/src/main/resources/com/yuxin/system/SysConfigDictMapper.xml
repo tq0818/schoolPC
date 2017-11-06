@@ -174,4 +174,10 @@
 		<if test="itemValue != null and itemValue != ''">and d.item_value = #{itemValue}</if>
 		ORDER by display_seq asc
 	</select>
+
+	<select id="findSchoolBySchoolType"  parameterType="Map" resultMap="sysConfigDictResultMap">
+		select  scd.item_code,scd.item_value from edu_step_school_relation  essr
+		LEFT JOIN sys_config_dict scd on  scd .item_code  = essr.edu_school_code
+		where essr.edu_step_new_code  = #{schoolType} and  scd.parent_item_id = #{area}
+	</select>
 </mapper>

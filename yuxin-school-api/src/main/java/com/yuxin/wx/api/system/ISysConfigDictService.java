@@ -1,6 +1,7 @@
 package com.yuxin.wx.api.system;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.model.system.SysConfigDict;
 /**
@@ -157,4 +158,6 @@ public interface ISysConfigDictService  {
 	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
 
     List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict);
+
+    List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map);
 }

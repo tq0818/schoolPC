@@ -15,7 +15,7 @@
 					$.ajax({
 						url:rootPath+'/query/statistics/watchInfoIndex',
 						dataType:'json',
-						data:{'startDate':$("#startDate").val(),'endDate':$("#endDate").val()},
+						data:{'startDate':$("#startDate").val(),'endDate':$("#endDate").val(),'eduStep':$("#eduStep").val()},
 						type:'post',
 						success:function(result){
                             if(result!=null && result.length>0){
@@ -53,7 +53,7 @@
                     $.ajax({
                         url:rootPath+'/query/statistics/watchInfoAll',
                         dataType:'json',
-                        data:{'startDate':$("#startDate").val(),'endDate':$("#endDate").val()},
+                        data:{'startDate':$("#startDate").val(),'endDate':$("#endDate").val(),'eduStep':$("#eduStep").val()},
                         type:'post',
                         success:function(result){
                             if(result!=null && result.length>0){

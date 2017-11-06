@@ -35,8 +35,8 @@
 				</div>
 				<div class="content-right">
 					<p class="screen-info" style="margin-bottom: 20px;">
-						<a href="/query/statistics/watchInfoList" class="btn active">概况</a>
-						<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
+						<a href="/query/statistics/watchInfoList" class="btn ">概况</a>
+						<a href="/query/statistics/studentWatchInfoList" class="btn active">详情</a>
 
 					</p>
 					<form method="post" id="searchForm" class="screen-info">
@@ -44,23 +44,56 @@
 							<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
 							<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 							<input type="hidden" id="isStu" name="isStu" value="1"/>
-							<span>区域</span>
-							<select name="eduArea" id="eduArea">
-								<c:forEach items="${areas}" var="area" >
-									<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
-								</c:forEach>
-							</select>
-							<span>学校</span>
-								<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
-								<option value="">请选择学校</option>
-							</select>
-							<span>学段</span>
-								<select name="eduStep" id="eduStep">
-									<option value="">请选择学段</option>
-									<c:forEach items="${steps}" var="steps" >
-										<option value="${steps.itemCode}" data-id="${steps.id}" >${steps.itemValue}</option>
-									</c:forEach>
-								</select>
+								<input type="hidden" id="role" name="role" value="${role}"/>
+								<c:if test="${role=='all'}">
+									<span>区域</span>
+									<select name="eduArea" id="eduArea">
+										<c:forEach items="${areas}" var="area" >
+											<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+										</c:forEach>
+									</select>
+									<span>学校</span>
+									<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+										<option value="">请选择学校</option>
+									</select>
+									<span>学段</span>
+									<select name="eduStep" id="eduStep">
+										<option value="">请选择学段</option>
+										<c:forEach items="${steps}" var="steps" >
+											<option value="${steps.itemCode}" data-id="${steps.id}" >${steps.itemValue}</option>
+										</c:forEach>
+									</select>
+								</c:if>
+								<c:if test="${role=='area'}">
+									<input type="hidden" id="eduArea" data-id="${areaId}" value="${area}"/>
+									<span>学校</span>
+									<!--学校性质-->
+									<select name="schoolType" id="schoolType">
+										<c:forEach items="${schoolType}" var="schoolType" >
+											<option value="${schoolType.itemCode}" data-id="${schoolType.id}" >${schoolType.itemValue}</option>
+										</c:forEach>
+									</select>
+									<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+									</select>
+								</c:if>
+								<c:if test="${role =='school'}">
+									<input type="hidden" id="eduArea" value="${area}"/>
+									<input type="hidden" id="eduSchool" value="${eduSchool}"/>
+									<span>学段</span>
+									<select name="eduStep" id="eduStep">
+										<option value="">请选择学段</option>
+										<c:forEach items="${steps}" var="steps" >
+											<option value="${steps.itemCode}" data-id="${steps.id}" >${steps.itemValue}</option>
+										</c:forEach>
+									</select>
+								</c:if>
+							<%--<span>学段</span>--%>
+								<%--<select name="eduStep" id="eduStep">--%>
+									<%--<option value="">请选择学段</option>--%>
+									<%--<c:forEach items="${steps}" var="steps" >--%>
+										<%--<option value="${steps.itemCode}" data-id="${steps.id}" >${steps.itemValue}</option>--%>
+									<%--</c:forEach>--%>
+								<%--</select>--%>
 							<span>入学年份</span>
 								<select name="eduYear" id="eduYear">
 									<option value="">请选择入学年份</option>
@@ -121,12 +154,16 @@
 
 						</div>
 						<div class="btn-center">
-							<button class="btns-default" id="search" onclick="searchbtn();">查询</button>
+							<button class="btns-default" id="search" onclick="searchbtn();" type="button">查询</button>
 							<button class="btns-default exportExcleStudent" id="search" >导出</button>
+
 						<%--	<span><a  class="btn btn-primary searchContents" onclick="searchbtn()">搜索</a></span>
 							<span><a href="javascript:;" class="btn btn-primary exportExcleStudent">导出</a></span>--%>
 
 						</div>
+                        <div  class="btn-center">
+                            <span>总报名人数</span><span id="total"></span><span>，实际观课人数</span><span id="watch"></span>
+                        </div>
 					</form>
 					<div class="user-list">
 						<table class="table table-center" id="tableList">
@@ -138,9 +175,16 @@
 								<th width="10%">课次名称</th>
 								<th width="10%">用户名</th>
 								<th width="8%">学员名称</th>
-								<th width="8%">所在班级</th>
-								<th width="6%">观看累计次数</th>
-								<th width="12%">观看累计时长</th>
+                                <c:if test="${role=='school'}">
+                                    <th width="8%">所在班级</th>
+                                </c:if>
+                                <c:if test="${role=='area' ||role== 'all'}">
+                                    <th width="8%">学校</th>
+                                    <th width="8%">学段</th>
+                                    <th width="8%" class="btn-sort" fieldName="edu_year"  sort="">入学年份</th>
+                                </c:if>
+                                <th width="6%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
+								<th width="12%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
 								<%--<th width="10%">操作</th>--%>
 							</tr>
 						</table>
@@ -172,11 +216,25 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
     init();
-	$selectSubMenu('statistics_org_detail');
+    function $selectThirdMenu(code) {
+        $(".system_managelist").find("li").removeClass("active");
+        $(".system_managelist").find("li").each(function() {
+            if ($(this).attr("code") == code) {
+                $(this).addClass("active");
+            }
+        })
+    }
+    $selectThirdMenu('watchInfoList');
 	function searchbtn(){
         var pageNo=$("#pageNo").val();
        search(pageNo);
 	}
+//    $.tableSort($(".btn-sort"),{
+//        callback:function(data){
+//            console.log(data);
+//            search(1,data);
+//        }
+//    });
 </script>
 </body>
 </html>

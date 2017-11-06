@@ -11,6 +11,7 @@
         	<shiro:hasAnyRoles name="教科院,区县负责人,学校负责人">
             <li class="subentry active" code="studentList" mark="/query/orgstatistics/studentList">学员</li>
             <li class="subentry" code="orgStuList" mark="/query/orgstatistics/queryOrg">学校</li>
+
       		</shiro:hasAnyRoles>
        </ul>
     </div>

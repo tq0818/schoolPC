@@ -1,16 +1,18 @@
-
-    function  init() {
+$(document).ready(function(){
+    search();
+});
+function  init() {
         $("#eduArea").change(function () {
-            var area = $(this).find(":selected").attr("data-id");
+            var area = $(this).find(":selected").attr("data-id")!=null?$(this).find(":selected").attr("data-id"):$("#eduArea").attr("data-id");
             var schoolVal = $.trim($("#eduSchool").attr("data-id"));
             if (area == null || area == "") {
-                $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
             } else {
                 $.ajax({
                     url: rootPath + "/student/getSchoolList/" + area,
                     type: "post",
                     success: function (data) {
-                        $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
                         var options = '';
                         $.each(data, function (i, j) {
                             if (schoolVal == j.itemValue) {
@@ -20,13 +22,45 @@
                             }
 
                         });
-                        $("#eduSchool").append(options);
+                        if($("#schoolType").val()){
+                            $("#schoolType").change();
+                        }else{
+                            $("#eduSchool").append(options);
+                        }
                     }
                 });
             }
         });
-        //加载入学年份
-        $("#eduArea").change();
+
+        if($("#schoolType")){
+            $("#schoolType").change(function () {
+                var area = $("#eduArea").attr("data-id");
+                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
+                if (area == null || area == "") {
+                } else {
+                    $.ajax({
+                        url: rootPath + "/student/getSchoolList",
+                        data:{"schoolType":$("#schoolType").val(),'area':area},
+                        type: "post",
+                        success: function (data) {
+                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                            var options = '';
+                            $.each(data, function (i, j) {
+                                if (schoolVal == j.itemValue) {
+                                    options += '<option value="' + j.itemCode + '" selected="selected">' + j.itemValue + '</option>';
+                                } else {
+                                    options += '<option value="' + j.itemCode + '">' + j.itemValue + '</option>';
+                                }
+
+                            });
+                            $("#eduSchool").append(options);
+                        }
+                    });
+                }
+            });
+        }
+
+
         var date = new Date();
         var year = date.getFullYear();
         var end = year - 15;
@@ -54,7 +88,7 @@
                 }
             });
         });
-        $("#subject").change();
+
         $("#class").change(function () {
             var id = $(this).find(":selected").attr("value");
             $.ajax({
@@ -71,6 +105,9 @@
                 }
             });
         });
+        //加载入学年份
+        $("#eduArea").change();
+        $("#subject").change();
         $("#class").change();
         $(".exportExcleStudent").on(
             'click',
@@ -85,9 +122,14 @@
 
             });
     }
-        function search(page){
+        function search(page,sort){
             var $this = this;
             var data = {};
+            if(sort){
+                data =$.extend(data,sort);
+                data.orderBy  = data.fileName+" "+data.sortType;
+            }
+
             data.eduArea = $("#eduArea").val();
             data.eduSchool=$("#eduSchool").val();
             data.eduStep = $("#eduStep").val();
@@ -98,8 +140,17 @@
             data.lessonId = $("#lesson").val();//
             data.startTime = $("#startTime").val();//
             data.endTime=$("#endTime").val();
+            data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
             data.userNameOrMobile=$("#userNameOrMobile").val();
+            $.ajax({
+                url: rootPath + "/query/statistics/totalPayMasterCount",
+                data: data,
+                type: 'post',
+                success: function (jsonData) {
+                    $("#total").html(jsonData);
+                }
+            });
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoList",
                 data: data,
@@ -108,7 +159,8 @@
                     $(".loading").show();
                     $(".loading-bg").show();
                 },
-                success: function (jsonData) {
+                success: function (result) {
+                    var  jsonData  =  result.pageFinder;
                     $(".user-list")
                         .find(".listData").remove();
                     if (jsonData.data.length == 0) {
@@ -118,8 +170,17 @@
                                     '<tr class="listData"><td colspan="14">没有查找到数据</td></tr>');
 
                     }
+                    $("#watch").html(jsonData.rowCount);
+                    $("#total").html(result.total);
                     $.each(jsonData.data,function (i, stu) {
-                        var eduIdentity = null;
+                        var str = null;
+                        if($("#role").val()!='school'){
+                            str  =" <td>"+ stu.eduSchool+ "</td>"+" <td>"+ stu.eduStep+ "</td>"+" <td>"+ stu.eduYear+ "</td>";
+                        }else
+                        {
+                            str  = " <td>"+stu.studyClass+ "</td>";
+                        }
+
                         $(".user-list")
                             .find("table")
                             .append(
@@ -147,10 +208,7 @@
                                 + '<td>'
                                 + stu.studentName
                                 + '</td>'
-                                + '<td>'
-                                + (stu.eduStep!=null ? stu.studyClass
-                                    : "")
-                                + '</td>'
+                                + str
                                 + '<td>'
                                 + stu.times
                                 + '</td>'

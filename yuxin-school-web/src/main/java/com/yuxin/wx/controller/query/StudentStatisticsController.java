@@ -601,11 +601,11 @@ public class StudentStatisticsController {
     //直播观看人次
     @RequestMapping(value="/statistics/watchInfoAll")
     @ResponseBody
-    public List<Map> watchInfoAll(String startDate,String endDate,HttpServletRequest request){
+    public List<Map> watchInfoAll(String startDate,String endDate,HttpServletRequest request,String eduStep){
         Map<String ,Object> map = new HashMap<>();
         map.put("startDate",startDate);
         map.put("endDate",endDate);
-
+        map.put("eduStep",eduStep);
         Users user = WebUtils.getCurrentUser();
         UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
 
@@ -615,10 +615,12 @@ public class StudentStatisticsController {
             map.put("groupBy","edu_year");
         }else if(subject.hasRole("教科院")){
             // map.put("areaId",uersAreaRelation.getE);
-            map.put("groupBy","edu_area");
+            map.put("role","all");
+            map.put("groupBy","user_id");
         }else if(subject.hasRole("区县负责人")){
             map.put("areaId",uersAreaRelation.getEduArea());
             map.put("groupBy","edu_school");
+            map.put("role","area");
         }
 
 
@@ -632,11 +634,11 @@ public class StudentStatisticsController {
     //直播观看人数
     @RequestMapping(value="/statistics/watchInfoIndex")
     @ResponseBody
-    public List<Map> watchInfoIndex(String startDate,String endDate,HttpServletRequest request){
+    public List<Map> watchInfoIndex(String startDate,String endDate,HttpServletRequest request,String eduStep){
         Map<String ,Object> map = new HashMap<>();
         map.put("startDate",startDate);
         map.put("endDate",endDate);
-
+        map.put("eduStep",eduStep);
         Users user = WebUtils.getCurrentUser();
         UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
 
@@ -646,10 +648,12 @@ public class StudentStatisticsController {
             map.put("groupBy","edu_year");
         }else if(subject.hasRole("教科院")){
             // map.put("areaId",uersAreaRelation.getE);
-            map.put("groupBy","edu_area");
+            map.put("role","all");
+            map.put("groupBy","user_id");
         }else if(subject.hasRole("区县负责人")){
             map.put("areaId",uersAreaRelation.getEduArea());
             map.put("groupBy","edu_school");
+            map.put("role","area");
         }
 
 
@@ -662,10 +666,11 @@ public class StudentStatisticsController {
 
     @RequestMapping(value="/statistics/watchInfoTotal")
     @ResponseBody
-    public Map<String,Object> watchInfoTotal(String startDate,String endDate,Model model, HttpServletRequest request) throws Exception{
+    public Map<String,Object> watchInfoTotal(String startDate,String endDate,Model model, HttpServletRequest request,String eduStep) throws Exception{
         Users user = WebUtils.getCurrentUser();
         UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
         Map<String,Object> map = new HashMap<>();
+        map.put("eduStep",eduStep);
         if(uersAreaRelation==null){
             map.put("groupBy","edu_area");
         }else{
@@ -752,19 +757,61 @@ public class StudentStatisticsController {
         model.addAttribute("startTime",sdf.format(c.getTime()));
 
 
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        if(uersAreaRelation==null){
+//            map.put("groupBy","edu_area");
+            model.addAttribute("role","all");
+        }else{
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole("学校负责人")) {
+//                map.put("schoolId",uersAreaRelation.getEduSchool());
+//                map.put("groupBy","edu_year");
+                model.addAttribute("role","school");
+                model.addAttribute("school",uersAreaRelation.getEduSchool());
+
+            }else if(subject.hasRole("教科院")){
+                // map.put("areaId",uersAreaRelation.getE);
+//                map.put("groupBy","edu_area");
+                model.addAttribute("role","all");
+            }else if(subject.hasRole("区县负责人")){
+//                map.put("areaId",uersAreaRelation.getEduArea());
+//                map.put("groupBy","edu_school");
+                model.addAttribute("role","area");
+                model.addAttribute("area",uersAreaRelation.getEduArea());
+                SysConfigDict dic  = new SysConfigDict();
+                dic.setItemCode(uersAreaRelation.getEduArea());
+                model.addAttribute("areaId", sysConfigDictServiceImpl.findSysConfigDictByCode(dic).getId());
+                model.addAttribute("schoolType", sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+            }
+        }
+
         return "/query/query_student_watchList";
     }
     //查询直播统计
     @ResponseBody
     @RequestMapping(value = "/statistics/queryStudentsWatchInfoList")
-    public PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search) {
+    public Map queryStudentsWatchInfoList(WatchInfoResult search) {
         String flag = "";
         //search.setCompanyId(WebUtils.getCurrentCompanyId());
         // 分页调整
         search.setPageSize(10);
+        Integer total = studentStatisticsServiceImpl.totalPayMasterCount(search);
         PageFinder2<WatchInfoResult> pageFinder = studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
-        return pageFinder;
+        Map<String,Object> map = new HashMap<>();
+        map.put("total",total);
+        map.put("pageFinder",pageFinder);
+        return map;
     }
+    //查询直播统计
+//    @ResponseBody
+//    @RequestMapping(value = "/statistics/totalPayMasterCount")
+//    public Integer totalPayMasterCount(WatchInfoResult search) {
+//        Integer total = studentStatisticsServiceImpl.totalPayMasterCount(search);
+//        return total;
+//    }
+
     /**
      * 用户点播统计
      * @param model
@@ -779,24 +826,48 @@ public class StudentStatisticsController {
             list = studentStatisticsServiceImpl.exportStudentsWatchInfoList(search);//studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        Subject subject = SecurityUtils.getSubject();
         for (WatchInfoResult v : list) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("className", v.getClassName());
             map.put("lessonName", v.getLessonName());
             map.put("userName", v.getUserName());
             map.put("studentName", v.getStudentName());
-            map.put("areaName", v.getEduArea());//区域
-            map.put("schoolName", v.getEduSchool());//学校
-            map.put("schoolType", v.getSchoolType());
-            map.put("stepName", v.getEduStep());//学段
-            map.put("eduYear", v.getEduYear());//入学年份
-            map.put("eduClass", v.getEduClass());//班级
+            if(subject.hasRole("学校负责人")) {
+                map.put("stepName", v.getEduStep());//学段
+                map.put("eduClass", v.getStudyTime());//班级
+            }else if(subject.hasRole("教科院")){
+                map.put("areaName", v.getEduArea());//区域
+                map.put("schoolName", v.getEduSchool());//学校
+                map.put("schoolType", v.getSchoolType());
+                map.put("stepName", v.getEduStep());//学段
+                map.put("eduYear", v.getEduYear());//入学年份
+                map.put("eduClass", v.getEduClass());//班级
+            }else if(subject.hasRole("区县负责人")){
+                map.put("schoolName", v.getEduSchool());//学校
+                map.put("schoolType", v.getSchoolType());
+                map.put("stepName", v.getEduStep());//学段
+                map.put("eduYear", v.getEduYear());//入学年份
+                map.put("eduClass", v.getEduClass());//班级
+            }
+//            map.put("stepName", v.getEduStep());//学段
+//            map.put("eduYear", v.getEduYear());//入学年份
+//            map.put("eduClass", v.getEduClass());//班级
             map.put("times", v.getTimes());//观看次数
             map.put("studyTime", v.getStudyTime());//观看时长
             lists.add(map);
         }
+        String titles = "";
+        if(subject.hasRole("学校负责人")) {
+            titles = "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,学段:stepName,班级:eduClass,观看累计次数:times,观看累计时长:studyTime";
+        }else if(subject.hasRole("教科院")){
+            titles = "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,区域:areaName,学校:schoolName,学校性质:schoolType,学段:stepName,入学年份:eduYear,班级:eduClass,观看累计次数:times,观看累计时长:studyTime";
+        }else if(subject.hasRole("区县负责人")){
+            titles = "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,学校:schoolName,学校性质:schoolType,学段:stepName,入学年份:eduYear,班级:eduClass,观看累计次数:times,观看累计时长:studyTime";
+        }
+
         StringBuffer title = new StringBuffer(
-                "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,区域:areaName,学校:schoolName,学校性质:schoolType,学段:stepName,入学年份:eduYear,班级:eduClass,观看累计次数:times,观看累计时长:studyTime");
+                titles);
         ViewFiles excel = new ViewFiles();
         HSSFWorkbook wb = new HSSFWorkbook();
         try {

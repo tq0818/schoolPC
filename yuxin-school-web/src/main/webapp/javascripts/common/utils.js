@@ -880,4 +880,13 @@
             param.callback({'sortType':type,'fieldName':fieldName});
         });
     }
+	if($(".date-picker").length>0){
+        $(".date-picker").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: 2,
+            autoclose: true,
+            language: "zh-CN"
+        });
+	}
+
 })(jQuery);

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.ParseException;
@@ -29,6 +30,7 @@ import java.util.*;
  */
 //@Controller
 @Component
+@Transactional
 //@RequestMapping("/watchInfo")
 public class TestTask {
     @Autowired
@@ -41,7 +43,7 @@ public class TestTask {
     private Log log = LogFactory.getLog("log");
 
 //    @RequestMapping(value="/getInfo")
-    @Scheduled(cron = "0 0 7 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void test() {
         //获取当日的课次
         Date date = new Date();
@@ -142,7 +144,7 @@ public class TestTask {
     }
     //获取前一天录播观看个人信息
 //    @RequestMapping(value="/getPlayInfo")
-    @Scheduled(cron = "0 0 7 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
         String a = "";
         long b = System.currentTimeMillis()/1000L;

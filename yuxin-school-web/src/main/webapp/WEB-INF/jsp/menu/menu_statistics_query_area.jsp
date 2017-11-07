@@ -12,10 +12,9 @@
             <li class="subentry active" code="studentList" mark="/query/areastatistics/studentList">学员</li>
             <li class="subentry" code="orgStuList" mark="/query/areastatistics/queryOrg">学校</li>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
-            <li class="subentry" code="teacherVideoList" mark="/query/statistics/teacherVideoList">教师授课详情</li>
-            <li class="subentry" code="userVideoList" mark="/query/statistics/userVideoList">用户点播统计</li>
-            <li class="subentry" code="userVideoList" mark="/query/statistics/videoCourseIndex">点播统计</li>
-      		</shiro:hasAnyRoles>
+            <li class="subentry" code="videoList" mark="/query/areastatistics/videoCourseIndex">点播统计</li>
+            <li class="subentry" code="userVideoList" mark="/query/areastatistics/userVideoList">用户点播详情</li>
+            </shiro:hasAnyRoles>
        </ul>
     </div>
 <script>

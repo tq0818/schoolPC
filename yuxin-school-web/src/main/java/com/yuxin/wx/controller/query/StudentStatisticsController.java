@@ -959,6 +959,48 @@ public class StudentStatisticsController {
 
 
     /**
+     * 用户点播详情页面跳转
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/areastatistics/userVideoList")
+    public String userVideoListArea(Model model, HttpServletRequest request){
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+        }
+
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP_NEW");
+        List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("stepNews", stepNews);
+
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        return "/queVideo/queryUserVideoList_area";
+    }
+
+    /**
      *
      * Class Name: StudentController.java
      *
@@ -1136,13 +1178,63 @@ public class StudentStatisticsController {
 
     /**
      * 点播统计-概况
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/areastatistics/videoCourseIndex")
+    public String videoCourseIndexArea(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //获取账号对应用户信息
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+            papamMap.put("eduArea", area.get(0).getItemCode());
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        //查询区域的录播观看人数
+        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        model.addAttribute("totleNum", totleNum);
+
+        return "/queVideo/videoCourseIndex_area";
+    }
+
+
+    /**
+     * 点播统计-概况
      * @param request
      * @return
      * @throws Exception
      */
     @RequestMapping(value="/statistics/queryTotleVideoCourse")
     @ResponseBody
-    public JSONObject queryTotleVideoCourse(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTotleVideoCourse(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1152,6 +1244,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         //查询区域的录播观看人数
         List<Map<String, Object>> areaVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse(papamMap);
 
@@ -1167,7 +1260,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTotleSchoolStep")
     @ResponseBody
-    public JSONObject queryTotleSchoolStep(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTotleSchoolStep(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1178,6 +1271,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         List<Map<String, Object>> schoolStepList = sysPlayLogsServiceImpl.queryTotleSchoolStep(papamMap);
 
         jsonObject.put("schoolStepList", schoolStepList);
@@ -1192,7 +1286,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTopSchoolView")
     @ResponseBody
-    public JSONObject queryTopSchoolView(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTopSchoolView(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1203,6 +1297,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         papamMap.put("pageSize", 5);
         List<Map<String, Object>> schoolViewList = sysPlayLogsServiceImpl.queryTopSchoolView(papamMap);
 

@@ -212,6 +212,7 @@
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		group by pl.user_id ) t
 	</select>
 
@@ -233,6 +234,7 @@
           AND s.`edu_school` IS NOT NULL
           and s.delete_flag = 0
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
           GROUP BY s.user_id) t
           LEFT JOIN sys_config_dict d
             ON d.`item_code` = t.edu_area
@@ -290,6 +292,7 @@
             and s.`edu_school` is not null
             and s.delete_flag = 0
 		   <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		   <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
           group by s.user_id) t
           LEFT JOIN `edu_step_school_relation` r
             ON r.`edu_school_code` = t.`edu_school`
@@ -316,6 +319,7 @@
             AND s.`edu_school` IS NOT NULL
           and s.delete_flag = 0
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
           GROUP BY s.user_id) t
           LEFT JOIN `sys_config_dict` d
             ON d.`item_code` = t.`edu_school`

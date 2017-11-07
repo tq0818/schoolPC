@@ -16,6 +16,7 @@ import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.common.ViewFiles;
+import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.system.SysConfigDict;
@@ -24,6 +25,7 @@ import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.utils.*;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
 import com.yuxin.wx.vo.student.StudentListVo;
@@ -35,6 +37,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,6 +69,8 @@ public class StudentStatisticsController {
     private ISysPlayLogsService sysPlayLogsServiceImpl;
     @Autowired
     private ICompanyPayConfigService companyPayConfigServiceImpl;
+    @Autowired
+    private IClassTypeService classTypeServiceImpl;
 
 	/**
 	 * 页面跳转
@@ -1514,5 +1519,38 @@ public class StudentStatisticsController {
         map.put("workbook", wb);
         map.put("fileName", "用户点播统计.xls");
         return new ModelAndView(excel, map);
+    }
+
+
+    /**
+     * 单个点播详情
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/videoDetail/{id}/{lable}")
+    public String videoDetail(Model model, HttpServletRequest request, @PathVariable Integer id, @PathVariable String lable) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+        //根据班型id查询详情
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("classId", "" + id);
+        ClassTypeVo classType = classTypeServiceImpl.findClassTypeDetail(map);
+
+        model.addAttribute("ct", classType);
+        model.addAttribute("lable", lable);
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        return "/queVideo/videoDetail";
     }
 }

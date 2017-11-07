@@ -105,6 +105,25 @@
 	</div>
 	<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 	<!--  ajax加载中div结束 -->
+
+	<!-- popupwin 编辑学生界面 开始    -->
+	<div class="popupwin-box queryVideoDaily clear" style="display:none">
+		<div class="popupwin queryVideoDaily" style="width:1000px; height: auto;top:10px" data-pupwin="modal">
+			<div class="btn-grouplist"><a href="" class="btn active  pull-left">观看比例</a>
+				<!-- ==================终端 选择pc和移动 新加=================-->
+				<div class="btn_group2 pull-right">
+					<span class="pull-left">终端：</span>
+					<div class="pull-left" content="viewsScale">
+						<a name="terminal" v="0" t="all" class="active" href="javascript:void(0);">全部</a>
+						<a name="terminal" v="1" t="pc" href="javascript:void(0);">PC</a>
+						<a name="terminal" v="2" t="mobile" href="javascript:void(0);">移动</a>
+					</div>
+				</div>
+			</div>
+			<div class="demand-count viewsCount" axisPointer="shadow" id="viewsScale" style="width:100%;height: 380px;"></div>
+		</div>
+	</div>
+	<!-- popupwin 编辑学生界面结束 -->
 </div>
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/video/query_teacher_video_list.js"></script>
@@ -117,7 +136,8 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript">
 //	$selectSubMenu('statistics_org_detail');
 

@@ -125,6 +125,7 @@
 	<select id="queryVideoCourseList" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
 		select
 		pl.id,
+		pl.class_type_id as class_type_id,
 		v.video_cc_id as video_id,
 		ut.name as tea_name,
 		t.name as course_name,
@@ -418,6 +419,6 @@
 		where v.id is not null
         <if test="classId!=null and classId!=''">and t.id = #{classId}</if>
         <if test="className!=null and className!=''">and t.name = #{className}</if>
-
+		limit 1;
     </select>
 </mapper>

@@ -909,7 +909,7 @@ public class StudentStatisticsController {
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryTeacherVideoList";

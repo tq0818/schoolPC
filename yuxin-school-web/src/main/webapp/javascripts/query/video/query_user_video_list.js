@@ -106,9 +106,6 @@
                 required: false
             });
 
-
-            selectGroup1('');
-            selectGroup1('_add');
         },
         searchCount: function(){
             $("#selectCounts").val($("#selectCount").val());

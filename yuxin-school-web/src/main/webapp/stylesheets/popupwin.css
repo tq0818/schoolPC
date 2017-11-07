@@ -4460,3 +4460,12 @@ td.visible-print {
     overflow-x: hidden;
     max-height: 400px;
 }
+.popupwin-main{
+    padding: 20px;}
+.btn-grouplist .btn{display: inline-block;text-decoration: none;padding:3px 20px;color:#fff;
+    float: left;background: #999;cursor: pointer;
+    margin-right: 10px;}
+.btn-grouplist .btn.active{background: #0099ff;}
+.btn-grouplist{margin-bottom: 20px;overflow: hidden;}
+.btn_group2 a{float: left;width: 34px;height: 18px;text-align: center;line-height: 18px;background: #fff;border: 1px solid #ccc;border-radius: 3px;color: #000;text-decoration: none;}
+.btn_group2 a.active{color:#fff;background:#0088cc;border:none;margin:1px}

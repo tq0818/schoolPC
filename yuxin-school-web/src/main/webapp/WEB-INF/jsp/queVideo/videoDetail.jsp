@@ -24,15 +24,20 @@
                 <span class="line"></span>
             </div>
         </div>
-        <div style="margin-top: 10px;">
+        <div class="mainbackground nopadding content-right" style="padding-top:0;">
             <input type="hidden" name="classType" id="classType" value="${ct.id}"/>
-            <span class="date" style="margin-left: 0;">
+      <%--      <span class="date" >
                 <i class="text">日期</i>
                 <span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
-            </span>
+            </span>--%>
             <p class="screen-info btn-center">
-                <button class="btns-default" id="searchData">查询</button>
-                <button class="btns-default" id="exportData">导出数据</button>
+                <span class="date fl" style="margin-left: 0;">
+					<i class="text">日期</i>
+					<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+				</span>
+                <button class="btns-default fr" id="exportData">导出数据</button>
+                <button class="btns-default fr" id="searchData">查询</button>
+
             </p>
             <div class="course-info">
                 <span class="name">${ct.name}（${startTime}至${endTime}）</span>
@@ -85,20 +90,14 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript">
 //    $selectSubMenu('statistics_org_detail');
     $selectMenu("course_class_type");
     $chooseMenu("videoStatistics");
-    // 初始化日期框
-    $(".date-picker").datetimepicker({
-        format: "yyyy-mm-dd",
-        minView: 2,
-        autoclose: true,
-        language: "zh-CN"
-    });
+
 
     function searchVideoCourseDetail(startTime, endTime){
         $.ajax({
@@ -142,7 +141,64 @@
                             }
                         }
                     }
-                    var chart2 = {
+                    var myChartStu = echarts.init(document.getElementById("viewsCount"));
+                    option = {
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            show:false,
+                            data:['邮件营销']
+                        },
+                        toolbox: {
+                            show : true
+                        },
+                        calculable : true,
+                        xAxis : [
+                            {
+                                type : 'category',
+                                boundaryGap : false,
+                                data: ['00:00:00','00:00:10','00:00:20','00:00:30','00:00:40','00:00:50',
+                                    '00:20:00','00:20:10','00:20:20','00:20:30','00:20:40','00:20:50',
+                                    '00:30:00','00:30:10','00:30:20','00:30:30','00:30:40','00:30:50',
+                                    '00:40:00','00:40:10','00:40:20','00:40:30','00:40:40','00:40:50','00:50:00']
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value'
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'邮件营销',
+                                type:'line',
+                                stack: '总量',
+                                itemStyle: {
+                                    normal: {
+                                        color: "transparent",
+                                        lineStyle: {
+                                            color:'#4bc5e8'
+                                        }
+
+                                    },
+                                    emphasis: {
+                                        color: "#4bc5e8",
+                                        lineStyle: {
+                                            color:'red'
+                                        }
+                                    }
+                                },
+                                data:[2100,810,800,720,668,590,
+                                    550,503,489,480,429,350,
+                                    360,319,288,260,210,90,
+                                    90,88,81,72,66,60,90
+                                ]
+                            }
+                        ]
+                    };
+                    myChartStu.setOption(option);
+                    /*var chart2 = {
                         "id": document.getElementById("viewsCount"),
                         "titleText": ' ',
                         "tooltip": {
@@ -191,7 +247,7 @@
                         }
                     }];
 
-                    $(document).statistical().setCharts(chart2);
+                    $(document).statistical().setCharts(chart2);*/
                 }
             });
         }

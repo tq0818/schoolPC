@@ -1572,7 +1572,7 @@ div.pop-bottom-btn>span:last-child{
 .bottom-arrow2{
     border-top:10px #f6f6f6 solid;
 }
-.tj_managelist .subentry{padding-left:0}
+.tj_managelist .subentry{padding-left:0;z-index: 0;}
 .tj_managelist .managelist-child{    border-top: 2px solid transparent;display: none;
    }
 .tj_managelist .managelist-child .item-child{ padding-left: 45%;}

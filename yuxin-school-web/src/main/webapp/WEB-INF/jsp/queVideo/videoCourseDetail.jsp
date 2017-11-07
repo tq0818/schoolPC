@@ -301,10 +301,12 @@
                         }
                         //更新数据
                         var option =$($viewId).data();
-                        option.id = $viewId;
-                        option.tooltip.axisPointer = $($viewId).attr("axisPointer");
-                        option.series[0].data = dataValue;
-                        $(document).statistical().setCharts(option);
+                        if(JSON.stringify(option) != "{}") {
+                            option.id = $viewId;
+                            option.tooltip.axisPointer = $($viewId).attr("axisPointer");
+                            option.series[0].data = dataValue;
+                            $(document).statistical().setCharts(option);
+                        }
                     }
                 });
             }

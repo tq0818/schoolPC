@@ -5,8 +5,8 @@
 
 	<!-- =====================主扫描下单任务========================== -->
 	<!-- 定义目标bean和bean中的方法 -->
-	<bean id="timerTaskPrimary" class="com.yuxin.wx.controller.task.TimerTaskPrimary" >
-	</bean>
+	<!--<bean id="timerTaskPrimary" class="com.yuxin.wx.controller.task.TimerTaskPrimary" >-->
+	<!--</bean>-->
 
 	<bean id="timerTaskPrimaryQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="timerTaskPrimary"/>

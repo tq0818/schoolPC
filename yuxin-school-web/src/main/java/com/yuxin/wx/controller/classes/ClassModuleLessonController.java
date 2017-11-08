@@ -1229,6 +1229,7 @@ public class ClassModuleLessonController {
 		map.put("password",LiveRoomConstant.PASSWORD);
 		for(WatchInfo lesson :list){
 			map.put("startTime",sdf.format(lesson.getLessonDate())+" 00:00:00");
+			map.put("endTime",sdf.format(lesson.getLessonDate())+" 23:59:59");
 			map.put("roomId",lesson.getLiveroomId());
 			String result = null;
 			try {
@@ -1254,6 +1255,7 @@ public class ClassModuleLessonController {
 					lesson.setLessonId(lesson.getLessonId());
 					lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
 					watchInfoServiceImpl.addWatchInfo(lesson);
+					lesson.setId(null);
 				}
 			}
 		}

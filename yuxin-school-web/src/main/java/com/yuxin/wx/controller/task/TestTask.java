@@ -58,7 +58,7 @@ public class TestTask {
         map.put("loginName", LiveRoomConstant.LOGIN_NAME);
         map.put("password",LiveRoomConstant.PASSWORD);
         map.put("startTime",lessonDate+" 00:00:00");
-
+        map.put("endTime",lessonDate+" 23:59:59");
         for(WatchInfo lesson :list){
             map.put("roomId",lesson.getLiveroomId());
             String result = null;
@@ -218,6 +218,7 @@ public class TestTask {
                             relation.setUserId(user.getUid() - 1000000000);
                             relation.setWatchTime(Long.parseLong(user.getLeaveTime()) - Long.parseLong(user.getStartTime()));
                             watchInfoServiceImpl.addWatchInfo(relation);
+                            relation.setId(null);
                         }
                         break;
                     }

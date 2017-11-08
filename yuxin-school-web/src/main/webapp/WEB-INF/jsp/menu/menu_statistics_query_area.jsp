@@ -13,7 +13,6 @@
             <li class="subentry" code="orgStuList" mark="/query/areastatistics/queryOrg">学校</li>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
             <li class="subentry" code="videoList" mark="/query/areastatistics/videoCourseIndex">点播统计</li>
-            <li class="subentry" code="userVideoList" mark="/query/areastatistics/userVideoList">用户点播详情</li>
             </shiro:hasAnyRoles>
        </ul>
     </div>

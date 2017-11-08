@@ -26,8 +26,8 @@
 			<div class="survey-detail" id="statisticsCon">
 				<div class="survey-con">
 					<p class="screen-info">
-						<a href="<%=rootPath%>/query/statistics/videoCourseIndex" class="btn active" >概况</a>
-						<a href="<%=rootPath%>/query/statistics/videoCourseDetail" class="btn">详情</a>
+						<a href="<%=rootPath%>/query/areastatistics/videoCourseIndex" class="btn active" >概况</a>
+						<a href="<%=rootPath%>/query/areastatistics/userVideoList" class="btn">详情</a>
 						<span class="date">
 						<i class="text">日期</i>
 						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>

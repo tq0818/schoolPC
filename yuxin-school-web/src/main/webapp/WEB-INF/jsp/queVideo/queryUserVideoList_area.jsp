@@ -14,6 +14,7 @@
 	<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
 	<link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/query/statistics.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -33,43 +34,49 @@
 				<h2 class="h5">点播情况</h2>
 				<span class="line"></span>
 			</div>
-			<form method="post" id="searchForm">
-				<div>
-					<p class="screen-info">
-						<a href="<%=rootPath%>/query/statistics/videoCourseIndex" class="btn" >概况</a>
-						<a href="<%=rootPath%>/query/statistics/videoCourseDetail" class="btn active">详情</a>
-					</p>
-					<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}"/>
-					<span>学校：</span>
-					<select name="eduSchoolStep" id="eduSchoolStep">
-						<option value="">请选择学校性质</option>
-						<c:forEach items="${stepNews}" var="step" >
-							<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
-						</c:forEach>
-					</select>
-
-					<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
-						<option value="">请选择所在学校</option>
-					</select>
-
-					<span>入学年份：</span>
-					<select name="eduYear" id="eduYear">
-						<option value="">请选择年份</option>
-						<c:forEach items="${years}" var="item" >
-							<option value="${item}" >${item}</option>
-						</c:forEach>
-					</select>
-					<span>班级：</span>
-					<select name="eduClass" id="eduClass">
-						<option value="">请选择班级</option>
-						<c:forEach begin="1" end="30" varStatus="index">
-							<option value="${index.index}">${index.index}班</option>
-						</c:forEach>
-					</select>
-					<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询"/>
+			<div class="content-right">
+				<div class="survey-detail" id="statisticsCon">
+					<div class="survey-con">
+						<p class="screen-info">
+							<a href="<%=rootPath%>/query/areastatistics/videoCourseIndex" class="btn" >概况</a>
+							<a href="<%=rootPath%>/query/areastatistics/userVideoList" class="btn active">详情</a>
+						</p>
+					</div>
 				</div>
-				<div class="content-right">
+
+			<form method="post" id="searchForm">
+
 					<div class="detail-con">
+						<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}"/>
+						<span>学校：</span>
+						<select name="eduSchoolStep" id="eduSchoolStep">
+							<option value="">请选择学校性质</option>
+							<c:forEach items="${stepNews}" var="step" >
+								<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
+							</c:forEach>
+						</select>
+
+						<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+							<option value="">请选择所在学校</option>
+						</select>
+
+						<span>入学年份：</span>
+						<select name="eduYear" id="eduYear">
+							<option value="">请选择年份</option>
+							<c:forEach items="${years}" var="item" >
+								<option value="${item}" >${item}</option>
+							</c:forEach>
+						</select>
+						<span>班级：</span>
+						<select name="eduClass" id="eduClass">
+							<option value="">请选择班级</option>
+							<c:forEach begin="1" end="30" varStatus="index">
+								<option value="${index.index}">${index.index}班</option>
+							</c:forEach>
+						</select>
+						<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询"/>
+				</div>
+					<div class="detail-con screen-info">
 						<span>学科：</span>
 						<select name="eduSubject" id="eduSubject" onchange="selClassOrModule()">
 							<option value="">请选择学科</option>
@@ -89,14 +96,22 @@
 						</select>
 						<span>课程名</span>
 						<input type="text" id="className" name="className" placeholder="请输入课程名"/>
+						<span class="date" style="margin-left: 0;">
+							<i class="text">日期</i>
+							<span><input type="text" name="startTime" class="date-picker from i-data" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to i-data" value="${ednTime}"/></span>
+						</span>
 					</div>
-					<div style="margin-top: 10px;">
+					<div class="screen-info btn-center margin20">
+						<button class="btns-default searchContents">查询</button>
+						<button class="btns-default exportexcle">导出数据</button>
+					</div>
+					<%--<div style="margin-top: 10px;">
 						<span>日期</span>
 						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${ednTime}"/></span>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">查询</a></span>
 						<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>
-					</div>
-				</div>
+					</div>--%>
+
 			</form>
 			<div class="user-list">
 				<table class="table table-center" id="tableList">
@@ -127,6 +142,7 @@
 				</table>
 				<div class="pages pagination"></div>
 			</div>
+			</div>
 		</div>
 	</div>
 	<!-- ajax加载中div开始 -->
@@ -151,7 +167,7 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript">
 //	$selectSubMenu('statistics_org_detail');
-	$selectThirdMenu('userVideoList');
+	$selectThirdMenu('videoList');
 	$.tableSort($(".btn-sort"),{
 		callback:function(data){
 			console.log(data);

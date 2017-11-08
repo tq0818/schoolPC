@@ -89,6 +89,19 @@ public class TestTask {
             }
         }
         //获取前一天课次下所有课件
+
+
+
+        //getWatchInfoForClass(sdf,lessonDate,map);
+
+
+
+
+    }
+
+    //获取回看记录
+    public void getWatchInfoForClass(SimpleDateFormat sdf,String lessonDate, Map<String,Object> map){
+        //获取前一天课次下所有课件
         Date beforeDate = null;
         try {
             beforeDate = sdf.parse(lessonDate);
@@ -96,9 +109,8 @@ public class TestTask {
             e.printStackTrace();
         }
         Calendar c = Calendar.getInstance();
-        c.setTime(beforeDate);
-        ca.add(Calendar.DAY_OF_YEAR,-1);
-        beforeDate = ca.getTime();
+        c.add(Calendar.DAY_OF_YEAR,-1);
+        beforeDate = c.getTime();
         String before = sdf.format(beforeDate);
         List<WatchInfo> listBefor = watchInfoServiceImpl.getLessonByDate(lessonDate);
         for(WatchInfo lesson :listBefor){
@@ -132,16 +144,15 @@ public class TestTask {
         map.remove("roomId");
         map.put("date",lessonDate+" 00:00:00");
         MessResult re = addWatchUser(map,relations);
-            if(re.getPage().getPageNo()<re.getPage().getTotalPages()){
-                for(int n = 2 ; n<=re.getPage().totalPages ; n++){
-                    map.put("pageNo",n);
-                    addWatchUser(map,relations);
-                }
+        if(re.getPage().getPageNo()<re.getPage().getTotalPages()){
+            for(int n = 2 ; n<=re.getPage().totalPages ; n++){
+                map.put("pageNo",n);
+                addWatchUser(map,relations);
             }
-
-
-
+        }
     }
+
+
     //获取前一天录播观看个人信息
 //    @RequestMapping(value="/getPlayInfo")
     @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?

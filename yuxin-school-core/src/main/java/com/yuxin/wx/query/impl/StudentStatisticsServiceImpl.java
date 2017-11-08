@@ -135,7 +135,7 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
 
     @Override
     public Integer getWatchTotalBySchool(Map<String, Object> map) {
-        return    studentstatisticsMapper.getWatchTotalBySchool(map);;
+        return    studentstatisticsMapper.getWatchTotalBySchool(map);
     }
 
 }

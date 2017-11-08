@@ -138,4 +138,9 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         return    studentstatisticsMapper.getWatchTotalBySchool(map);
     }
 
+    @Override
+    public List<Map> watchSchoolChartData(Map<String, Object> map) {
+        return studentstatisticsMapper.watchSchoolChartData(map);
+    }
+
 }

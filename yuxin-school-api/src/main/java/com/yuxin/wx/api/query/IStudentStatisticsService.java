@@ -78,4 +78,6 @@ public interface IStudentStatisticsService {
     String getWatchTimeLengthBySchool(Map<String, Object> map);
 
     Integer getWatchTotalBySchool(Map<String, Object> map);
+
+    List<Map> watchSchoolChartData(Map<String, Object> map);
 }

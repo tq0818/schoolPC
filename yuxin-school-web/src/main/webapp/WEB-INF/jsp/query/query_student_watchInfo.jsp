@@ -30,7 +30,7 @@
 			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
 		</c:if>
 		<c:if test="${role=='area'}">
-			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_area.jsp"></jsp:include>
 		</c:if>
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">

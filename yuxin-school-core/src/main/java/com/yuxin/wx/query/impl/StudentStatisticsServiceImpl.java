@@ -21,6 +21,7 @@ import java.util.Map;
 @Service
 public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
 
+
     @Autowired
     private StudentStatisticsMapper studentstatisticsMapper;
     @Override
@@ -110,6 +111,36 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public Integer totalPayMasterCount(WatchInfoResult search) {
         return studentstatisticsMapper.totalPayMasterCount(search);
+    }
+    @Override
+    public List<Map> getEduYearBySchool(Map<String, Object> map) {
+        return studentstatisticsMapper.getEduYearBySchool(map);
+    }
+
+    @Override
+    public Integer getWatchNumBySchool(Map<String, Object> map) {
+        return studentstatisticsMapper.getWatchNumBySchool(map);
+    }
+
+    @Override
+    public String getWatchTimeLengthBySchool(Map<String, Object> map) {
+        WatchInfoResult re  = studentstatisticsMapper.getWatchTimeLengthBySchool(map);
+        re.setWatchTime(re.getWatchTime()/1000);
+        int s = (int) (re.getWatchTime() % 60);
+        int m = (int) (re.getWatchTime() / 60 % 60);
+        int h = (int) (re.getWatchTime() / 3600);
+        re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+        return (h + "小时" + m + "分" + s +"秒");
+    }
+
+    @Override
+    public Integer getWatchTotalBySchool(Map<String, Object> map) {
+        return    studentstatisticsMapper.getWatchTotalBySchool(map);
+    }
+
+    @Override
+    public List<Map> watchSchoolChartData(Map<String, Object> map) {
+        return studentstatisticsMapper.watchSchoolChartData(map);
     }
 
 }

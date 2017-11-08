@@ -447,4 +447,30 @@
 						<if test="lessonId !=null and lessonId != ''">and cml.lessonId = #{lessonId}</if>
 						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username =#{userNameOrMobile} or  sf.mobile =#{userNameOrMobile})</if>
 					</select>
+					<select id="watchSchoolChartData" parameterType="Map" resultType="Map">
+						select  count(1) from  sys_watch_info swi
+						LEFT JOIN student s on  s.user_id = swi.user_id
+						where s.delete_flag =  0  and swi.edu_school=#{schoolId}
+					</select>
+
+					<select id="getEduYearBySchool" parameterType="Map" resultType="Map">
+						SELECT   DISTINCT (edu_year)  from student  where delete_flag = 0  and edu_year is not null  and edu_year <![CDATA[<>]]>''and edu_school=#{schoolId}  ORDER BY  s.edu_year desc
+					</select>
+
+					<select id="getWatchNumBySchool" parameterType="Map" resultType="int">
+						select  count(DISTINCT (swi.user_id)) from  sys_watch_info swi
+						LEFT JOIN student s on  s.user_id = swi.user_id
+						where s.delete_flag =  0  and swi.edu_school=#{schoolId}
+					</select>
+					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="int">
+						select  sum(swi.watch_time) from  sys_watch_info swi
+						LEFT JOIN student s on  s.user_id = swi.user_id
+						where s.delete_flag =  0  and swi.edu_school=#{schoolId}
+					</select>
+					<select id="getWatchTotalBySchool" parameterType="Map" resultType="int">
+						select  count(1) from  sys_watch_info swi
+						LEFT JOIN student s on  s.user_id = swi.user_id
+						where s.delete_flag =  0  and swi.edu_school=#{schoolId}
+					</select>
+
                 </mapper>

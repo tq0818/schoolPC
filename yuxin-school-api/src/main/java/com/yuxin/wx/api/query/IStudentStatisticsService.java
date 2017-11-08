@@ -70,4 +70,14 @@ public interface IStudentStatisticsService {
     List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
 
     Integer totalPayMasterCount(WatchInfoResult search);
+
+    List<Map> getEduYearBySchool(Map<String, Object> map);
+
+    Integer getWatchNumBySchool(Map<String, Object> map);
+
+    String getWatchTimeLengthBySchool(Map<String, Object> map);
+
+    Integer getWatchTotalBySchool(Map<String, Object> map);
+
+    List<Map> watchSchoolChartData(Map<String, Object> map);
 }

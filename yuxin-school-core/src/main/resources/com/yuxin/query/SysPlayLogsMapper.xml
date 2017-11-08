@@ -40,6 +40,8 @@
 		<result property="videoId" column="video_id" />
 		<result property="yearName" column="year_name" />
 		<result property="className" column="class_name" />
+		<result property="schoolStepName" column="school_step_name" />
+		<result property="stepName" column="step_name" />
 	</resultMap>
 
 	<select id="queryUserVideoList" resultMap="userVideoResultMap" parameterType="com.yuxin.wx.vo.course.UserVideoVo">
@@ -78,9 +80,14 @@
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
 		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduClass!=null and eduClass!=''">and s.edu_class like #{eduClass}</if>
 		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
+		<if test="className!=null and className!=''">and t.name = #{className} </if>
+		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
+		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
 		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = '%${username}%')</if>
 		group by pl.user_id
 		<choose>
@@ -125,6 +132,7 @@
 	<select id="queryVideoCourseList" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
 		select
 		pl.id,
+		pl.class_type_id as class_type_id,
 		v.video_cc_id as video_id,
 		ut.name as tea_name,
 		t.name as course_name,
@@ -211,6 +219,7 @@
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		group by pl.user_id ) t
 	</select>
 
@@ -232,6 +241,7 @@
           AND s.`edu_school` IS NOT NULL
           and s.delete_flag = 0
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
           GROUP BY s.user_id) t
           LEFT JOIN sys_config_dict d
             ON d.`item_code` = t.edu_area
@@ -289,6 +299,7 @@
             and s.`edu_school` is not null
             and s.delete_flag = 0
 		   <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		   <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
           group by s.user_id) t
           LEFT JOIN `edu_step_school_relation` r
             ON r.`edu_school_code` = t.`edu_school`
@@ -315,6 +326,7 @@
             AND s.`edu_school` IS NOT NULL
           and s.delete_flag = 0
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
           GROUP BY s.user_id) t
           LEFT JOIN `sys_config_dict` d
             ON d.`item_code` = t.`edu_school`
@@ -418,6 +430,6 @@
 		where v.id is not null
         <if test="classId!=null and classId!=''">and t.id = #{classId}</if>
         <if test="className!=null and className!=''">and t.name = #{className}</if>
-
+		limit 1;
     </select>
 </mapper>

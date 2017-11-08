@@ -16,6 +16,7 @@ import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.common.ViewFiles;
+import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.system.SysConfigDict;
@@ -24,6 +25,7 @@ import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.utils.*;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
 import com.yuxin.wx.vo.student.StudentListVo;
@@ -35,6 +37,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,6 +69,8 @@ public class StudentStatisticsController {
     private ISysPlayLogsService sysPlayLogsServiceImpl;
     @Autowired
     private ICompanyPayConfigService companyPayConfigServiceImpl;
+    @Autowired
+    private IClassTypeService classTypeServiceImpl;
 
 	/**
 	 * 页面跳转
@@ -584,17 +589,16 @@ public class StudentStatisticsController {
         Subject subject = SecurityUtils.getSubject();
         if(subject.hasRole("学校负责人")) {
 
+            return "/query/query_student_school_watchInfo";
         }else if(subject.hasRole("教科院")){
-
+            model.addAttribute("role","all");
         }else if(subject.hasRole("区县负责人")){
             model.addAttribute("isArea",true);
             SysConfigDict  search = new SysConfigDict();
             search.setDictCode("EDU_STEP_NEW");
             model.addAttribute("eduStep",sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+            model.addAttribute("role","area");
         }
-
-
-
 
         return "/query/query_student_watchInfo";
     }
@@ -662,6 +666,9 @@ public class StudentStatisticsController {
 
         return result;
     }
+
+
+
 
 
     @RequestMapping(value="/statistics/watchInfoTotal")
@@ -769,8 +776,8 @@ public class StudentStatisticsController {
 //                map.put("schoolId",uersAreaRelation.getEduSchool());
 //                map.put("groupBy","edu_year");
                 model.addAttribute("role","school");
-                model.addAttribute("school",uersAreaRelation.getEduSchool());
-
+                model.addAttribute("area",uersAreaRelation.getEduArea());
+                model.addAttribute("eduSchool",uersAreaRelation.getEduSchool());
             }else if(subject.hasRole("教科院")){
                 // map.put("areaId",uersAreaRelation.getE);
 //                map.put("groupBy","edu_area");
@@ -789,6 +796,10 @@ public class StudentStatisticsController {
 
         return "/query/query_student_watchList";
     }
+
+
+
+
     //查询直播统计
     @ResponseBody
     @RequestMapping(value = "/statistics/queryStudentsWatchInfoList")
@@ -835,7 +846,7 @@ public class StudentStatisticsController {
             map.put("studentName", v.getStudentName());
             if(subject.hasRole("学校负责人")) {
                 map.put("stepName", v.getEduStep());//学段
-                map.put("eduClass", v.getStudyTime());//班级
+                map.put("eduClass", v.getStudyClass());//班级sss
             }else if(subject.hasRole("教科院")){
                 map.put("areaName", v.getEduArea());//区域
                 map.put("schoolName", v.getEduSchool());//学校
@@ -850,9 +861,6 @@ public class StudentStatisticsController {
                 map.put("eduYear", v.getEduYear());//入学年份
                 map.put("eduClass", v.getEduClass());//班级
             }
-//            map.put("stepName", v.getEduStep());//学段
-//            map.put("eduYear", v.getEduYear());//入学年份
-//            map.put("eduClass", v.getEduClass());//班级
             map.put("times", v.getTimes());//观看次数
             map.put("studyTime", v.getStudyTime());//观看时长
             lists.add(map);
@@ -879,6 +887,51 @@ public class StudentStatisticsController {
         map.put("workbook", wb);
         map.put("fileName", "用户直播统计.xls");
         return new ModelAndView(excel, map);
+    }
+
+
+    //直播观看人数
+    @RequestMapping(value="/statistics/watchSchoolInfoIndex")
+    @ResponseBody
+    public List<Map> watchSchoolInfoIndex(String startDate,String endDate,HttpServletRequest request){
+            Map<String ,Object> map = new HashMap<>();
+            map.put("startDate",startDate);
+            map.put("endDate",endDate);
+            Users user = WebUtils.getCurrentUser();
+            UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole("学校负责人")) {
+                map.put("schoolId",uersAreaRelation.getEduSchool());
+                map.put("groupBy","edu_year");
+            }
+
+
+            List<Map>  result  =  studentStatisticsServiceImpl.watchSchoolChartData(map);
+
+            return result;
+    }
+    @RequestMapping(value="/statistics/watchSchoolInfoTotal")
+    @ResponseBody
+    public Map watchSchoolTotal(String startDate,String endDate,HttpServletRequest request){
+        Map<String ,Object>  map  = new HashMap<>();
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("学校负责人")) {
+            map.put("schoolId",uersAreaRelation.getEduSchool());
+            map.put("groupBy","edu_year");
+        }
+        //获取总的年级数
+        List<Map> year = studentStatisticsServiceImpl.getEduYearBySchool(map);
+        //获取总观看人数
+        Integer  watchNum =studentStatisticsServiceImpl.getWatchNumBySchool(map);
+        //获取总观看时长
+        String  totalTime =studentStatisticsServiceImpl.getWatchTimeLengthBySchool(map);
+        //获取总观看人次
+        Integer watchAll =studentStatisticsServiceImpl.getWatchTotalBySchool(map);
+        return null;
     }
 
 
@@ -909,7 +962,7 @@ public class StudentStatisticsController {
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryTeacherVideoList";
@@ -952,6 +1005,104 @@ public class StudentStatisticsController {
         return "/queVideo/queryUserVideoList";
     }
 
+
+    /**
+     * 用户点播详情页面跳转
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/areastatistics/userVideoList")
+    public String userVideoListArea(Model model, HttpServletRequest request){
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+        }
+
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP_NEW");
+        List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("stepNews", stepNews);
+
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
+
+        //课程学段
+        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+        model.addAttribute( "stepItem", stepList);
+        //课程科目
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        model.addAttribute( "subjectItem", subjectList);
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        return "/queVideo/queryUserVideoList_area";
+    }
+
+    /**
+     * 用户点播详情页面跳转
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/orgstatistics/userVideoList")
+    public String userVideoListOrg(Model model, HttpServletRequest request){
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+        }
+
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("steps", steps);
+
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
+
+        //课程学段
+        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+        model.addAttribute( "stepItem", stepList);
+        //课程科目
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        model.addAttribute( "subjectItem", subjectList);
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        return "/queVideo/queryUserVideoList_org";
+    }
 
     /**
      *
@@ -1131,13 +1282,121 @@ public class StudentStatisticsController {
 
     /**
      * 点播统计-概况
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/areastatistics/videoCourseIndex")
+    public String videoCourseIndexArea(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //获取账号对应用户信息
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+            papamMap.put("eduArea", area.get(0).getItemCode());
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        //查询区域的录播观看人数
+        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        model.addAttribute("totleNum", totleNum);
+
+        return "/queVideo/videoCourseIndex_area";
+    }
+
+
+    /**
+     * 点播统计-概况
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/orgstatistics/videoCourseIndex")
+    public String videoCourseIndexOrg(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //获取账号对应用户信息
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        //查询所在区域
+        SysConfigDict dict = new SysConfigDict();
+        dict.setItemCode(uersAreaRelation.getEduArea());
+        dict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(dict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+            papamMap.put("eduArea", area.get(0).getItemCode());
+        }
+
+        //查询所在学校
+        dict.setItemCode(uersAreaRelation.getEduSchool());
+        dict.setDictCode("EDU_SCHOOL");
+        List<SysConfigDict> org = sysConfigDictServiceImpl.queryConfigDictListByDictCode(dict);
+        if(org!=null && org.get(0)!=null){
+            model.addAttribute("org", org.get(0));
+            papamMap.put("eduSchool", org.get(0).getItemCode());
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        //查询区域的录播观看人数
+        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        model.addAttribute("totleNum", totleNum);
+
+        return "/queVideo/videoCourseIndex_org";
+    }
+
+    /**
+     * 点播统计-概况
      * @param request
      * @return
      * @throws Exception
      */
     @RequestMapping(value="/statistics/queryTotleVideoCourse")
     @ResponseBody
-    public JSONObject queryTotleVideoCourse(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTotleVideoCourse(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1147,6 +1406,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         //查询区域的录播观看人数
         List<Map<String, Object>> areaVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse(papamMap);
 
@@ -1162,7 +1422,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTotleSchoolStep")
     @ResponseBody
-    public JSONObject queryTotleSchoolStep(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTotleSchoolStep(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1173,6 +1433,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         List<Map<String, Object>> schoolStepList = sysPlayLogsServiceImpl.queryTotleSchoolStep(papamMap);
 
         jsonObject.put("schoolStepList", schoolStepList);
@@ -1187,7 +1448,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTopSchoolView")
     @ResponseBody
-    public JSONObject queryTopSchoolView(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTopSchoolView(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1198,6 +1459,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         papamMap.put("pageSize", 5);
         List<Map<String, Object>> schoolViewList = sysPlayLogsServiceImpl.queryTopSchoolView(papamMap);
 
@@ -1514,5 +1776,38 @@ public class StudentStatisticsController {
         map.put("workbook", wb);
         map.put("fileName", "用户点播统计.xls");
         return new ModelAndView(excel, map);
+    }
+
+
+    /**
+     * 单个点播详情
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/videoDetail/{id}/{lable}")
+    public String videoDetail(Model model, HttpServletRequest request, @PathVariable Integer id, @PathVariable String lable) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+        //根据班型id查询详情
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("classId", "" + id);
+        ClassTypeVo classType = classTypeServiceImpl.findClassTypeDetail(map);
+
+        model.addAttribute("ct", classType);
+        model.addAttribute("lable", lable);
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        return "/queVideo/videoDetail";
     }
 }

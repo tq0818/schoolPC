@@ -24,6 +24,7 @@ public class CompanyRegisterConfig extends BaseEntity {
 	private String registerAgreement;	 /* 注册协议内容 */
 	private Integer registerAgreementFlag;	 /* 注册协议开启状态 */
 	private Integer validateEmailFlag;   /*邮箱验证*/
+	private Integer jjwLogFlag;   /*继教网登录开关*/
 	// Constructor
 	public CompanyRegisterConfig() {
 	}
@@ -54,6 +55,14 @@ public class CompanyRegisterConfig extends BaseEntity {
 
 	public void setValidateEmailFlag(Integer validateEmailFlag) {
 		this.validateEmailFlag = validateEmailFlag;
+	}
+
+	public Integer getJjwLogFlag() {
+		return jjwLogFlag;
+	}
+
+	public void setJjwLogFlag(Integer jjwLogFlag) {
+		this.jjwLogFlag = jjwLogFlag;
 	}
 
 	public Integer getMobileFlag() {

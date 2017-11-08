@@ -229,12 +229,12 @@
         var pageNo=$("#pageNo").val();
        search(pageNo);
 	}
-//    $.tableSort($(".btn-sort"),{
-//        callback:function(data){
-//            console.log(data);
-//            search(1,data);
-//        }
-//    });
+    $.tableSort($(".btn-sort"),{
+        callback:function(data){
+            console.log(data);
+            search(1,data);
+        }
+    });
 </script>
 </body>
 </html>

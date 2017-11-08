@@ -14,6 +14,7 @@
 		<result property="registerAgreement" column="register_agreement" />
 		<result property="registerAgreementFlag" column="register_agreement_flag" />
 		<result property="validateEmailFlag" column="validate_email_flag" />
+		<result property="jjwLogFlag" column="jjw_log_flag" />
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -28,7 +29,8 @@
 		company_id,
 		register_agreement,
 		register_agreement_flag,
-		validate_email_flag
+		validate_email_flag,
+		jjw_log_flag
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -42,7 +44,8 @@
 		#{companyId},
 		#{registerAgreement},
 		#{registerAgreementFlag},
-		#{validateEmailFlag}
+		#{validateEmailFlag},
+		#{jjwLogFlag}
 		
 	</sql>
 	<sql id="batch_entity_properties">

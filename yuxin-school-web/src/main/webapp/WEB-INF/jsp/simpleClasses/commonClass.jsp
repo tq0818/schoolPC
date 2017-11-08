@@ -30,6 +30,7 @@
             	<li class="lines"></li>
             	 <li class="subentry t1" code="studentsCode" mark="/classStu/studentList/${ct.id }/video"><span class="iconfont" title="学员管理">&#xe680;</span><em>学员管理</em></li>
             	  <li class="subentry" code="classResource" mark="/classModuleLesson/classesResource/${ct.id }/video"><span class="iconfont" title="课程资料">&#xe688;</span><em>课程资料</em></li>
+            	  <li class="subentry" code="videoStatistics" mark="/query/statistics/videoDetail/${ct.id }/video"><span class="iconfont" title="点播详情统计">&#xe688;</span><em>点播详情统计</em></li>
          	</c:if>
          	<c:if test="${lable=='togther' }">
          		<li class="subentry" code="baseCode"  mark="/editSimpleCourse/editClassBaseInfo/${ct.id }/togther"><span class="iconfont" title="基本信息">&#xe682;</span><em>基本信息</em></li>
@@ -64,7 +65,7 @@
 	//点击菜单列表
 	$(".menuList_choose").on('click','li.subentry',function(){
 		var mark=$(this).attr("mark");
-		window.location.href="/yuxin-school-web"+mark;
+		window.location.href=rootPath+mark;
 	});
 	//点击返回
 	$(".courseCancle").on('click',function(){

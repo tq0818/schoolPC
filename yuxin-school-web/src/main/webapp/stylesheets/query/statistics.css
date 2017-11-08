@@ -9,6 +9,11 @@ margin-right: 10px;}
 .content-right .btn:hover {
     background: #999;
 }
+
+.content-right .detail-con,.content-right .margin10{
+    margin-top: 10px;}
+.content-right .margin20{
+    margin-top: 20px;}
 .content-right .btn.active,.content-right .btn.active:hover{background: #0099ff;}
 .screen-info .date{border: 1px solid #ddd;display: inline-block;vertical-align: middle;
 	height: 30px;line-height: 30px;margin-left: 200px;background: #fff;}
@@ -17,7 +22,7 @@ margin-right: 10px;}
 .screen-info .text{background: #ccc;border-right: 1px solid #ddd;display: inline-block;
 padding:0 5px;
 }
-.screen-info .i-data{border: 0;height: 25px;width:80px;margin:0 5px;}
+.screen-info .i-data{border: 0;height: auto;width:80px;margin:0 5px;}
 .screen-info .btns-default{display: inline-block;padding:5px 20px;color:#fff;background: #9bbbdb;
 border-radius:2px;border: 0;
 }

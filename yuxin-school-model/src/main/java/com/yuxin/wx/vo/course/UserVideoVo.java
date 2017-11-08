@@ -17,7 +17,7 @@ public class UserVideoVo extends BaseEntity {
 	private String eduArea;	 /* 区域编码 */
 	private String areaName;	 /* 区域名称 */
 	private String eduSchoolStep;	 /* 学校属性编码 */
-	private String stepName;	 /* 学校属性名称 */
+	private String schoolStepName;	 /* 学校属性名称 */
 	private String eduSchool;	 /* 学校编码 */
 	private String schoolName;	 /* 学校名称 */
 	private String eduSubject;	 /* 学科编码 */
@@ -35,6 +35,11 @@ public class UserVideoVo extends BaseEntity {
 	private String endTime;	 /* 结束时间 */
 	private String fieldName;	 /* 排序字段 */
 	private String sortType;	 /* 排序类型 */
+	private String classStep;	 /* 课程所属学段 */
+	private String classSubject;	 /* 课程所属学科 */
+	private String classTypeName;	 /* 课程名称 */
+	private String eduStep;	 /* 学生所属学段 */
+	private String stepName;	 /* 学生所属学段名称 */
 	// Constructor
 	public UserVideoVo() {
 	}
@@ -269,5 +274,45 @@ public class UserVideoVo extends BaseEntity {
 
 	public void setSortType(String sortType) {
 		this.sortType = sortType;
+	}
+
+	public String getClassStep() {
+		return classStep;
+	}
+
+	public void setClassStep(String classStep) {
+		this.classStep = classStep;
+	}
+
+	public String getClassSubject() {
+		return classSubject;
+	}
+
+	public void setClassSubject(String classSubject) {
+		this.classSubject = classSubject;
+	}
+
+	public String getSchoolStepName() {
+		return schoolStepName;
+	}
+
+	public void setSchoolStepName(String schoolStepName) {
+		this.schoolStepName = schoolStepName;
+	}
+
+	public String getClassTypeName() {
+		return classTypeName;
+	}
+
+	public void setClassTypeName(String classTypeName) {
+		this.classTypeName = classTypeName;
+	}
+
+	public String getEduStep() {
+		return eduStep;
+	}
+
+	public void setEduStep(String eduStep) {
+		this.eduStep = eduStep;
 	}
 }

@@ -18,7 +18,7 @@
 	<div class="right-side set-system gg-biaoge">
 	<div class="mainbackground nopadding">
 		<div class="heading">
-		<h2 class="h5">学校教育信息完善情况</h2>
+		<h2 class="h5">点播情况</h2>
 		<span class="line"></span>
 	</div>
 	</div>

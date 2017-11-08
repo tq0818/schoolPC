@@ -106,9 +106,6 @@
 			    required: false	
 			});
           
-            
-            selectGroup1('');
-			selectGroup1('_add');
         },
         searchCount: function(){
         	$("#selectCounts").val($("#selectCount").val());
@@ -215,8 +212,8 @@
                                     + '<td class="slink">'
                                     + '<a class="more" href="javascript:void(0);">详情</a>'
                                     + '<ul class="none box">'
-                                    + ' <li><a class="updateStudentMsg" videoCCId="' + videoCourse.videoId + '" href="javascript:void(0);">观看比例</a></li>'
-                                    + ' <li><a class="delStudent" videoCCId="' + videoCourse.videoId + '" href="javascript:void(0);">观看热点</a></li>'
+                                    + ' <li><a class="queryVideoDaily" classId="' + videoCourse.classTypeId + '" href="javascript:void(0);">观看比例</a></li>'
+                                    + ' <li><a class="queryVideoHourly" classId="' + videoCourse.classTypeId + '" href="javascript:void(0);">观看热点</a></li>'
                                     + '</ul></td>'
                                     + '</tr>');
                             });
@@ -1066,6 +1063,57 @@
             });
 
         },
+        queryVideoDaily : function(){
+            $(".user-list").on("click", ".queryVideoDaily", function () {
+                var dataKey = new Array(),dataValue = new Array();
+                $.ajax({
+                    url: rootPath + "/query/statistics/queryVideoCourseDaily",
+                    data:{classId:$(this).attr("classId"),startTime:$(".from").val(), endTime:$(".to").val()},
+                    success:function(result){
+                        result = result.attentions ? result.attentions:null;
+                        for(var i=0; result && i<result.length; i++){
+                            dataKey.push(result[i].section);
+                            dataValue.push(result[i].pc+result[i].mobile);
+                        }
+                        var chart3 = {
+                            "id":document.getElementById("viewsScale"),
+                            "titleText":' ',
+                            "seriesData":dataValue,
+                            "seriesName":"观看比例"
+
+                        };
+                        chart3.legend = {
+                            show:false,
+                            data:['观看比例']
+                        };
+                        chart3.xAxis = [
+                            {
+                                name: '已观看比例',
+                                type : 'category',
+                                data : ['0-10%', '10%-20%', '20%-30%', '30%-40%', '40%-50%', '50%-60%','60%-70%','70%-80%','80%-90%','90%-100%'],
+                                axisTick: {
+                                    alignWithLabel: false
+                                }
+
+                            }
+                        ];
+                        chart3.yAxis = [{
+                            type : 'value',
+                            name: '观看量',
+                            nameTextStyle: {
+                                align: "right"
+                            }
+                        }];
+
+                        $(document).statistical().setCharts(chart3);
+                    }
+                });
+
+                $(".queryVideoDaily").show();
+                $(".queryVideoDaily").popup("show");
+                $(".queryVideoDaily").css("top", "2%");
+            });
+        },
         clearData: function () {
             $("#updateStudentForm")[0].reset();
             Validator2.resetForm();
@@ -1177,6 +1225,7 @@
         list.educationList();
         Link.init();
         update.init();
+        update.queryVideoDaily();
         changePw.init();
         $(".ico").css("color", "red");
     })

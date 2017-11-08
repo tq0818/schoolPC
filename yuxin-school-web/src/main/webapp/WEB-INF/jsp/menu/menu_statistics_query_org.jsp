@@ -11,8 +11,10 @@
         	<shiro:hasAnyRoles name="教科院,区县负责人,学校负责人">
             <li class="subentry active" code="studentList" mark="/query/orgstatistics/studentList">学员</li>
             <li class="subentry" code="orgStuList" mark="/query/orgstatistics/queryOrg">学校</li>
-
+            <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
+            <li class="subentry" code="videoList" mark="/query/orgstatistics/videoCourseIndex">点播统计</li>
       		</shiro:hasAnyRoles>
+
        </ul>
     </div>
 <script>

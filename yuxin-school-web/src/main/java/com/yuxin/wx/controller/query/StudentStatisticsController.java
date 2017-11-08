@@ -589,17 +589,16 @@ public class StudentStatisticsController {
         Subject subject = SecurityUtils.getSubject();
         if(subject.hasRole("学校负责人")) {
 
+            return "/query/query_student_school_watchInfo";
         }else if(subject.hasRole("教科院")){
-
+            model.addAttribute("role","all");
         }else if(subject.hasRole("区县负责人")){
             model.addAttribute("isArea",true);
             SysConfigDict  search = new SysConfigDict();
             search.setDictCode("EDU_STEP_NEW");
             model.addAttribute("eduStep",sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+            model.addAttribute("role","area");
         }
-
-
-
 
         return "/query/query_student_watchInfo";
     }
@@ -667,6 +666,9 @@ public class StudentStatisticsController {
 
         return result;
     }
+
+
+
 
 
     @RequestMapping(value="/statistics/watchInfoTotal")
@@ -774,8 +776,8 @@ public class StudentStatisticsController {
 //                map.put("schoolId",uersAreaRelation.getEduSchool());
 //                map.put("groupBy","edu_year");
                 model.addAttribute("role","school");
-                model.addAttribute("school",uersAreaRelation.getEduSchool());
-
+                model.addAttribute("area",uersAreaRelation.getEduArea());
+                model.addAttribute("eduSchool",uersAreaRelation.getEduSchool());
             }else if(subject.hasRole("教科院")){
                 // map.put("areaId",uersAreaRelation.getE);
 //                map.put("groupBy","edu_area");
@@ -794,6 +796,10 @@ public class StudentStatisticsController {
 
         return "/query/query_student_watchList";
     }
+
+
+
+
     //查询直播统计
     @ResponseBody
     @RequestMapping(value = "/statistics/queryStudentsWatchInfoList")
@@ -840,7 +846,7 @@ public class StudentStatisticsController {
             map.put("studentName", v.getStudentName());
             if(subject.hasRole("学校负责人")) {
                 map.put("stepName", v.getEduStep());//学段
-                map.put("eduClass", v.getStudyTime());//班级
+                map.put("eduClass", v.getStudyClass());//班级sss
             }else if(subject.hasRole("教科院")){
                 map.put("areaName", v.getEduArea());//区域
                 map.put("schoolName", v.getEduSchool());//学校
@@ -855,9 +861,6 @@ public class StudentStatisticsController {
                 map.put("eduYear", v.getEduYear());//入学年份
                 map.put("eduClass", v.getEduClass());//班级
             }
-//            map.put("stepName", v.getEduStep());//学段
-//            map.put("eduYear", v.getEduYear());//入学年份
-//            map.put("eduClass", v.getEduClass());//班级
             map.put("times", v.getTimes());//观看次数
             map.put("studyTime", v.getStudyTime());//观看时长
             lists.add(map);
@@ -884,6 +887,51 @@ public class StudentStatisticsController {
         map.put("workbook", wb);
         map.put("fileName", "用户直播统计.xls");
         return new ModelAndView(excel, map);
+    }
+
+
+    //直播观看人数
+    @RequestMapping(value="/statistics/watchSchoolInfoIndex")
+    @ResponseBody
+    public List<Map> watchSchoolInfoIndex(String startDate,String endDate,HttpServletRequest request){
+            Map<String ,Object> map = new HashMap<>();
+            map.put("startDate",startDate);
+            map.put("endDate",endDate);
+            Users user = WebUtils.getCurrentUser();
+            UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole("学校负责人")) {
+                map.put("schoolId",uersAreaRelation.getEduSchool());
+                map.put("groupBy","edu_year");
+            }
+
+
+            List<Map>  result  =  studentStatisticsServiceImpl.watchSchoolChartData(map);
+
+            return result;
+    }
+    @RequestMapping(value="/statistics/watchSchoolInfoTotal")
+    @ResponseBody
+    public Map watchSchoolTotal(String startDate,String endDate,HttpServletRequest request){
+        Map<String ,Object>  map  = new HashMap<>();
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("学校负责人")) {
+            map.put("schoolId",uersAreaRelation.getEduSchool());
+            map.put("groupBy","edu_year");
+        }
+        //获取总的年级数
+        List<Map> year = studentStatisticsServiceImpl.getEduYearBySchool(map);
+        //获取总观看人数
+        Integer  watchNum =studentStatisticsServiceImpl.getWatchNumBySchool(map);
+        //获取总观看时长
+        String  totalTime =studentStatisticsServiceImpl.getWatchTimeLengthBySchool(map);
+        //获取总观看人次
+        Integer watchAll =studentStatisticsServiceImpl.getWatchTotalBySchool(map);
+        return null;
     }
 
 

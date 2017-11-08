@@ -75,4 +75,12 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
     List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
 
     Integer totalPayMasterCount(WatchInfoResult search);
+
+    List<Map> getEduYearBySchool(Map<String, Object> map);
+
+	Integer getWatchNumBySchool(Map<String, Object> map);
+
+	WatchInfoResult getWatchTimeLengthBySchool(Map<String, Object> map);
+
+	Integer getWatchTotalBySchool(Map<String, Object> map);
 }

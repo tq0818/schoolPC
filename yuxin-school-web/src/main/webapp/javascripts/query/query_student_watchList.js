@@ -127,7 +127,7 @@ function  init() {
             var data = {};
             if(sort){
                 data =$.extend(data,sort);
-                data.orderBy  = data.fileName+" "+data.sortType;
+                data.orderBy  = data.filedName+" "+data.sortType;
             }
 
             data.eduArea = $("#eduArea").val();

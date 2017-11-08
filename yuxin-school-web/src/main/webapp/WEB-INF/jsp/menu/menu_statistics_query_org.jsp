@@ -16,6 +16,9 @@
                 <li class="subentry" code="userVideoList" mark="/query/statistics/userVideoList">用户点播统计</li>
                 <li class="subentry" code="userVideoList" mark="/query/statistics/videoCourseIndex">点播统计</li>
       		</shiro:hasAnyRoles>
+            <li class="subentry" code="videoList" mark="/query/orgstatistics/videoCourseIndex">点播统计</li>
+
+            </shiro:hasAnyRoles>
        </ul>
     </div>
 <script>

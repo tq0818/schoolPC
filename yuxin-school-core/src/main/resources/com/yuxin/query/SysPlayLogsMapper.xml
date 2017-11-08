@@ -40,6 +40,8 @@
 		<result property="videoId" column="video_id" />
 		<result property="yearName" column="year_name" />
 		<result property="className" column="class_name" />
+		<result property="schoolStepName" column="school_step_name" />
+		<result property="stepName" column="step_name" />
 	</resultMap>
 
 	<select id="queryUserVideoList" resultMap="userVideoResultMap" parameterType="com.yuxin.wx.vo.course.UserVideoVo">
@@ -78,9 +80,14 @@
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
 		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduClass!=null and eduClass!=''">and s.edu_class like #{eduClass}</if>
 		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
+		<if test="className!=null and className!=''">and t.name = #{className} </if>
+		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
+		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
 		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = '%${username}%')</if>
 		group by pl.user_id
 		<choose>

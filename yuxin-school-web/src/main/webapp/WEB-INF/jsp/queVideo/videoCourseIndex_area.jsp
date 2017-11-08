@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/query/statistics.css">
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/menu/menu_statistics.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"></jsp:include>
 <div class="u-wrap query overflow">
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_area.jsp"></jsp:include>
 	<div class="right-side set-system gg-biaoge">
@@ -29,11 +29,11 @@
 						<a href="<%=rootPath%>/query/areastatistics/videoCourseIndex" class="btn active" >概况</a>
 						<a href="<%=rootPath%>/query/areastatistics/userVideoList" class="btn">详情</a>
 						<span class="date">
-						<i class="text">日期</i>
-						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+							<i class="text">日期</i>
+							<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 
-						<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}">
-					</span>
+							<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}">
+						</span>
 						<button class="btns-default" id="searchData">查询</button>
 						<button class="btns-default" id="exportData">导出数据</button>
 					</p>

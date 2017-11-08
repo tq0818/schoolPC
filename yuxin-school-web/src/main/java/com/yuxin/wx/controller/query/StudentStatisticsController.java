@@ -1039,6 +1039,13 @@ public class StudentStatisticsController {
         }
         model.addAttribute( "years", years);
 
+        //课程学段
+        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+        model.addAttribute( "stepItem", stepList);
+        //课程科目
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        model.addAttribute( "subjectItem", subjectList);
+
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -1046,6 +1053,55 @@ public class StudentStatisticsController {
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryUserVideoList_area";
+    }
+
+    /**
+     * 用户点播详情页面跳转
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/orgstatistics/userVideoList")
+    public String userVideoListOrg(Model model, HttpServletRequest request){
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setItemCode(uersAreaRelation.getEduArea());
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+        }
+
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("steps", steps);
+
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
+
+        //课程学段
+        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+        model.addAttribute( "stepItem", stepList);
+        //课程科目
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        model.addAttribute( "subjectItem", subjectList);
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        return "/queVideo/queryUserVideoList_org";
     }
 
     /**
@@ -1273,6 +1329,64 @@ public class StudentStatisticsController {
         return "/queVideo/videoCourseIndex_area";
     }
 
+
+    /**
+     * 点播统计-概况
+     * @param model
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/orgstatistics/videoCourseIndex")
+    public String videoCourseIndexOrg(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //获取账号对应用户信息
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        if(uersAreaRelation==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        //查询所在区域
+        SysConfigDict dict = new SysConfigDict();
+        dict.setItemCode(uersAreaRelation.getEduArea());
+        dict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(dict);
+        if(area!=null && area.get(0)!=null){
+            model.addAttribute("area", area.get(0));
+            papamMap.put("eduArea", area.get(0).getItemCode());
+        }
+
+        //查询所在学校
+        dict.setItemCode(uersAreaRelation.getEduSchool());
+        dict.setDictCode("EDU_SCHOOL");
+        List<SysConfigDict> org = sysConfigDictServiceImpl.queryConfigDictListByDictCode(dict);
+        if(org!=null && org.get(0)!=null){
+            model.addAttribute("org", org.get(0));
+            papamMap.put("eduSchool", org.get(0).getItemCode());
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        //查询区域的录播观看人数
+        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        model.addAttribute("totleNum", totleNum);
+
+        return "/queVideo/videoCourseIndex_org";
+    }
 
     /**
      * 点播统计-概况

@@ -2,60 +2,13 @@
 
     var student = {
         init: function () {
-            $("#eduArea").change(function(){
-                var area = $(this).find(":selected").attr("data-id");
-                var stepId = $("#eduSchoolStep").find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
-                if(stepId==null || stepId==""){
-                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
-                    $.ajax({
-                        url: rootPath + "/student/getSchoolListByStep",
-                        data:{stepId:stepId, parentItemId:area},
-                        type: "post",
-                        success: function (data) {
-                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                            var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemValue){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
-                                }
-
-                            });
-                            $("#eduSchool").append(options);
-                        }
-                    });
-                }
+            $("#classStep").change(function(){
+                $this.searchCourse();
             });
-            $("#eduSchoolStep").change(function(){
-                var area = $("#eduArea").find(":selected").attr("data-id");
-                var stepId = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
-                if(stepId==null || stepId==""){
-                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
-                    $.ajax({
-                        url: rootPath + "/student/getSchoolListByStep",
-                        data:{stepId:stepId, parentItemId:area},
-                        type: "post",
-                        success: function (data) {
-                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                            var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemValue){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
-                                }
-
-                            });
-                            $("#eduSchool").append(options);
-                        }
-                    });
-                }
+            $("#classSubject").change(function(){
+                $this.searchCourse();
             });
+
             var $this = this;
             // $selectSubMenu('statistics_all_detail');
             // 初始化日期框
@@ -111,6 +64,32 @@
             $("#selectCounts").val($("#selectCount").val());
             student.search();
         },
+        searchCourse: function (){
+            var twoItem = $("#classStep").val();
+            var threeItem = $("#classSubject").val();
+            $.ajax({
+                url:rootPath + "/classModule/selClassType",
+                type:"post",
+                data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem},
+                // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
+                dataType:"json",
+                beforeSend:function(XMLHttpRequest){
+                    $(".loading").show();
+                    $(".loading-bg").show();
+                },
+                success:function(data){
+                    $("#classType").empty();
+                    $("#classType").append('<option value="">请选择课程名称</option>');
+                    $.each(data.types,function(index,item){
+                        $("#classType").append("<option value='" + item.id + "'>" + item.name + "</option>");
+                    });
+                },
+                complete:function(XMLHttpRequest,textStatus){
+                    $(".loading").hide();
+                    $(".loading-bg").hide();
+                }
+            });
+        },
         search: function (page,sortdata) {
             var $this = this;
             var data = {};
@@ -121,12 +100,15 @@
             data.endTime = $(".to").val();
             data.eduArea=$("#eduArea").val();
             data.eduSchool=$("#eduSchool").val();
-            data.eduSchoolStep=$("#eduSchoolStep").val();
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
-            data.proxyOrgName = $('#proxyOrgName').val();
+            data.eduStep=$("#eduStep").val();
             data.eduYear = $('#eduYear').val();
             data.eduClass = $('#eduClass').val();
+            data.classStep = $("#classStep").val();
+            data.classSubject = $("#classSubject").val();
+            data.classTypeId = $("#classType").val();
+            data.className = $("#className").val();
             data.username = $("#username").val();
 
             if ($(".to").val() != "") {
@@ -184,10 +166,6 @@
                                 + '</td>'
                                 + '<td>'
                                 + (videoCourse.courseName ? videoCourse.courseName
-                                    : "")
-                                + '</td>'
-                                + '<td>'
-                                + (videoCourse.schoolName ? videoCourse.schoolName
                                     : "")
                                 + '</td>'
                                 + '<td>'

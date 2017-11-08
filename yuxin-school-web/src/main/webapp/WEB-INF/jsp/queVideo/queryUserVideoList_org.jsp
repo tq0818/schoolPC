@@ -8,7 +8,7 @@
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>用户点播统计（区县管理员）</title>
+	<title>用户点播统计（校级管理员）</title>
 	<link rel="stylesheet" type="text/css"
 		  href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 	<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
@@ -25,9 +25,9 @@
 <input type="hidden" id="isAdmin" value='${isAdmin}'/>
 <input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 <!-- 二级导航 -->
-<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_org.jsp"></jsp:include>
 <div class="u-wrap query overflow">
-	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_area.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
 	<div class="right-side set-system">
 		<div class="mainbackground nopadding">
 			<div class="heading">
@@ -38,26 +38,23 @@
 				<div class="survey-detail" id="statisticsCon">
 					<div class="survey-con">
 						<p class="screen-info">
-							<a href="<%=rootPath%>/query/areastatistics/videoCourseIndex" class="btn" >概况</a>
-							<a href="<%=rootPath%>/query/areastatistics/userVideoList" class="btn active">详情</a>
+							<a href="<%=rootPath%>/query/orgstatistics/videoCourseIndex" class="btn" >概况</a>
+							<a href="<%=rootPath%>/query/orgstatistics/userVideoList" class="btn active">详情</a>
 						</p>
 					</div>
 				</div>
 
 			<form method="post" id="searchForm">
+
 					<div class="detail-con">
 						<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}"/>
-						<input type="hidden" id="eduAreaId" name="eduAreaId" value="${area.id}"/>
-						<span>学校：</span>
-						<select name="eduSchoolStep" id="eduSchoolStep">
-							<option value="">请选择学校性质</option>
-							<c:forEach items="${stepNews}" var="step" >
+						<input type="hidden" id="eduSchool" name="eduSchool" value="${org.itemCode}"/>
+						<span>学段：</span>
+						<select name="eduStep" id="eduStep">
+							<option value="">请选择学段</option>
+							<c:forEach items="${steps}" var="step" >
 								<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
 							</c:forEach>
-						</select>
-
-						<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
-							<option value="">请选择所在学校</option>
 						</select>
 
 						<span>入学年份：</span>
@@ -113,7 +110,6 @@
 						<th width="6%">用户名</th>
 						<th width="7%">学员名称</th>
 						<th width="11%">课程名称</th>
-						<th width="11%">学校</th>
 						<th width="6%">课程学段</th>
 						<th width="6%">入学年份</th>
 						<th width="6%">班级</th>
@@ -146,7 +142,7 @@
 	<!--  ajax加载中div结束 -->
 </div>
 <input type="hidden" id="selectCounts" value="10">
-<script type="text/javascript" src="<%=rootPath %>/javascripts/query/video/query_user_video_list_area.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/video/query_user_video_list_org.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>

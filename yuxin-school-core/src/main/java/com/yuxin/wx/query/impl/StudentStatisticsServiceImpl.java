@@ -24,6 +24,7 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
 
     @Autowired
     private StudentStatisticsMapper studentstatisticsMapper;
+
     @Override
     public Long getAllStudentNum(UsersAreaRelation usersAreaRelation) {
         return studentstatisticsMapper.getAllStudentNum(usersAreaRelation);
@@ -125,12 +126,17 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public String getWatchTimeLengthBySchool(Map<String, Object> map) {
         WatchInfoResult re  = studentstatisticsMapper.getWatchTimeLengthBySchool(map);
-        re.setWatchTime(re.getWatchTime()/1000);
-        int s = (int) (re.getWatchTime() % 60);
-        int m = (int) (re.getWatchTime() / 60 % 60);
-        int h = (int) (re.getWatchTime() / 3600);
-        re.setStudyTime( h + "小时" + m + "分" + s +"秒");
-        return (h + "小时" + m + "分" + s +"秒");
+        if(re !=null && re.getWatchTime() >0){
+
+            re.setWatchTime(re.getWatchTime()/1000);
+            int s = (int) (re.getWatchTime() % 60);
+            int m = (int) (re.getWatchTime() / 60 % 60);
+            int h = (int) (re.getWatchTime() / 3600);
+            re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+            return (h + "小时" + m + "分" + s +"秒");
+        }else{
+            return (0 + "小时" + 0 + "分" + 0 +"秒");
+        }
     }
 
     @Override
@@ -142,5 +148,11 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     public List<Map> watchSchoolChartData(Map<String, Object> map) {
         return studentstatisticsMapper.watchSchoolChartData(map);
     }
+
+    @Override
+    public List<Map> getAllBuyNum(Map<String, Object> map) {
+        return studentstatisticsMapper.getAllBuyNum(map);
+    }
+
 
 }

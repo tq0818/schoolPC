@@ -684,13 +684,13 @@ public class StudentStatisticsController {
 
             Subject subject = SecurityUtils.getSubject();
             if(subject.hasRole("学校负责人")) {
-                map.put("schoolId",uersAreaRelation.getEduSchool());
+                map.put("eduSchool",uersAreaRelation.getEduSchool());
                 map.put("groupBy","edu_year");
             }else if(subject.hasRole("教科院")){
                 // map.put("areaId",uersAreaRelation.getE);
                 map.put("groupBy","edu_area");
             }else if(subject.hasRole("区县负责人")){
-                map.put("areaId",uersAreaRelation.getEduArea());
+                map.put("eduArea",uersAreaRelation.getEduArea());
                 map.put("groupBy","edu_school");
             }
         }
@@ -893,7 +893,7 @@ public class StudentStatisticsController {
     //直播观看人数
     @RequestMapping(value="/statistics/watchSchoolInfoIndex")
     @ResponseBody
-    public List<Map> watchSchoolInfoIndex(String startDate,String endDate,HttpServletRequest request){
+    public Map watchSchoolInfoIndex(String startDate,String endDate,HttpServletRequest request){
             Map<String ,Object> map = new HashMap<>();
             map.put("startDate",startDate);
             map.put("endDate",endDate);
@@ -904,12 +904,33 @@ public class StudentStatisticsController {
             if(subject.hasRole("学校负责人")) {
                 map.put("schoolId",uersAreaRelation.getEduSchool());
                 map.put("groupBy","edu_year");
+            }else{
+                return null;
             }
 
+            //获取总的年级数
+            List<Map> year = studentStatisticsServiceImpl.getEduYearBySchool(map);
+            //获取总观看人数
+            Integer  watchNum =studentStatisticsServiceImpl.getWatchNumBySchool(map);
+            //获取总观看时长
+            String  totalTime =studentStatisticsServiceImpl.getWatchTimeLengthBySchool(map);
+            //获取总观看人次
+            Integer watchAll =studentStatisticsServiceImpl.getWatchTotalBySchool(map);
 
+
+            //按年级分观看人数
             List<Map>  result  =  studentStatisticsServiceImpl.watchSchoolChartData(map);
+           //按年级分报名人数
+            List<Map> total    =  studentStatisticsServiceImpl.getAllBuyNum(map);
 
-            return result;
+            map = new HashMap<>();
+            map.put("year",year);
+            map.put("watchNum",watchNum);
+            map.put("totalTime",totalTime);
+            map.put("watchAll",watchAll);
+            map.put("result",result);
+            map.put("total",total);
+            return map;
     }
     @RequestMapping(value="/statistics/watchSchoolInfoTotal")
     @ResponseBody

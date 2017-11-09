@@ -80,4 +80,6 @@ public interface IStudentStatisticsService {
     Integer getWatchTotalBySchool(Map<String, Object> map);
 
     List<Map> watchSchoolChartData(Map<String, Object> map);
+
+    List<Map> getAllBuyNum(Map<String, Object> map);
 }

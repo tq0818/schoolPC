@@ -14,6 +14,7 @@
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 	<link rel="stylesheet" href="<%=rootPath %>/stylesheets/query/statistics.css">
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -173,7 +174,7 @@
 								<%--<th width="8%">用户名</th>--%>
 								<th width="10%">课程名称</th>
 								<th width="10%">课次名称</th>
-								<th width="10%">用户名</th>
+								<th width="8%">用户名</th>
 								<th width="8%">学员名称</th>
                                 <c:if test="${role=='school'}">
                                     <th width="8%">所在班级</th>
@@ -183,8 +184,8 @@
                                     <th width="8%">学段</th>
                                     <th width="8%" class="btn-sort" fieldName="edu_year"  sort="">入学年份</th>
                                 </c:if>
-                                <th width="6%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
-								<th width="12%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
+                                <th width="9%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
+								<th width="11%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
 								<%--<th width="10%">操作</th>--%>
 							</tr>
 						</table>
@@ -199,6 +200,34 @@
 		</div>
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
+		<!-- popupwin 累积上课详细 开始    -->
+		<div class="popupwin-box cumulativeClass1  clear" style="display:none">
+			<div class="popupwin cumulativeClass" style="width:850px; height: auto;top:10px;" data-pupwin="modal">
+				<div class="popupwin-title">
+					<h2 class="h5">累积上课详细</h2>
+					<i class="close iconfont canclekuang"></i>
+				</div>
+				<div class="popupwin-main">
+
+						<table class="table table-center" id="cumulativeCount">
+							<tr data-buy="true">
+								<th width="15%">课次名称</th>
+								<th width="15%">学员名称</th>
+								<th width="10%">学校</th>
+								<th width="10%">学段</th>
+								<th width="10%">班级</th>
+								<th width="15%">进入学习时间</th>
+								<th width="15%">结束学习时间</th>
+								<th width="10%">学习时长</th>
+							</tr>
+							<tr class="listData"><td colspan="14">没有查找到数据</td></tr>
+						</table>
+						<div class="pages pagination"></div>
+
+				</div>
+			</div>
+		</div>
+		<!-- popupwin 累积上课详细结束 -->
 	</div>
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_watchList.js"></script>
@@ -209,8 +238,6 @@
 <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>

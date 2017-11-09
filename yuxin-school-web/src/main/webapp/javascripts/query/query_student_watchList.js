@@ -1,5 +1,13 @@
 $(document).ready(function(){
     search();
+    $(".table").delegate(".amassCount","click",function(e){
+       // $(e.target)
+        $(".cumulativeClass1").show();
+        $(".cumulativeClass").popup("show").css("top", "8%");
+    })
+    $(".canclekuang").on('click',function(){
+        $(".cumulativeClass1").hide();
+    })
 });
 function  init() {
         $("#eduArea").change(function () {
@@ -209,7 +217,7 @@ function  init() {
                                 + stu.studentName
                                 + '</td>'
                                 + str
-                                + '<td>'
+                                + '<td class="amassCount">'
                                 + stu.times
                                 + '</td>'
                                 + '<td >'

@@ -39,7 +39,7 @@
 					</p>
 					<div class="statistics-con">
 						<div class="school-demand" id="demandCount2" style="width:49%;height: 240px;float: left;"></div>
-						<div class="school-demand" id="demandCount3" style="width:49%;height: 240px;float: right;"></div>
+						<div class="school-demand" id="" style="width:49%;height: 240px;float: right;"></div>
 						<div class="demand-count" id="demandCount" style="width:100%;height: 380px;"></div>
 					</div>
 				</div>
@@ -209,7 +209,7 @@
 					}
 				}
 				var chart3 = {
-					"id":document.getElementById("demandCount3"),
+					"id":document.getElementById(""),
 					"titleText":'观看点播前五',
 					"seriesData":dataValue,
 					"seriesName":"观看点播人数",

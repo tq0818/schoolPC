@@ -49,9 +49,9 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript">
 //	$selectSubMenu('statistics_org_detail');
 	$selectThirdMenu('videoList');
@@ -223,7 +223,7 @@
                     {
                         type : 'category',
                         data : dataKey,
-                        axisLabel:{ interval:0}
+                        axisLabel:{ interval:0,rotate: 10}
                     }
                 ];
                 chart3.yAxis = [{type : 'value'}];
@@ -237,17 +237,17 @@
         var chartOpiton = {
             "id":id,
             "grid":{
-                x:80,
-                x2:50,
-                y:5,
-                y2:5
+				x:80,
+				x2:50,
+				y:5,
+				y2:30
             },
             "series":[{
                 name: shcoolList[0],
                 type: 'bar',
                 itemStyle: {
                     normal: {
-                        label : {show: true,formatter: '{a} {c}人'},
+                        label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                         color: "#5b9bd5"
                     }
                 },
@@ -258,7 +258,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#ffc000"
                         }
                     },
@@ -269,7 +269,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#a5a5a5"
                         }
                     },
@@ -280,7 +280,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#ed7d31"
                         }
                     },
@@ -291,7 +291,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#4472c4"
                         }
                     },

@@ -51,9 +51,9 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript">
 	//	$selectSubMenu('statistics_org_detail');
 	$selectThirdMenu('videoList');
@@ -213,7 +213,11 @@
 					"titleText":'观看点播前五',
 					"seriesData":dataValue,
 					"seriesName":"观看点播人数",
-					"seriesFormatter":'{c}人'
+					"seriesFormatter":'{c}人',
+					"grid":{
+						y:50,
+						y2:60
+					}
 				};
 				chart3.legend ={
 					show:true,
@@ -225,7 +229,7 @@
 					{
 						type : 'category',
 						data : dataKey,
-						axisLabel:{ interval:0}
+						axisLabel:{ interval:0,rotate: 10}
 					}
 				];
 				chart3.yAxis = [{type : 'value'}];

@@ -159,7 +159,15 @@ public class CompanyRegisterConfig extends BaseEntity {
 		this.companyId = companyId;
 		return this;
 	}
-	
+
+	public Integer getJjwLogFlag() {
+		return jjwLogFlag;
+	}
+
+	public void setJjwLogFlag(Integer jjwLogFlag) {
+		this.jjwLogFlag = jjwLogFlag;
+	}
+
 	@Override
 	public String toString() {
 		return "CompanyRegisterConfig [" + "id=" + getId() + ", mobileFlag=" + mobileFlag + ", usernameFlag=" + usernameFlag + ", emailFlag=" + emailFlag + ", qqFlag=" + qqFlag + ", wechatFlag=" + wechatFlag + ", weiboFlag=" + weiboFlag + ", closeFlag=" + closeFlag + ", companyId=" + companyId +  "]";

@@ -39,27 +39,17 @@
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play1.png" alt="">
 					<span class="pull-right tit">总计观看点播人数</span>
-					<span class="pull-right msg" id="userNum">${userNum}</span>
+					<span class="pull-right msg" id="userNum"></span>
 				</li>
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play2.png" alt="">
 					<span class="pull-right tit">总计观看点播时长</span>
-					<c:if test="${totleVideo.totleStudyLength!=null && totleVideo.totleStudyLength!=''}">
-						<span class="pull-right msg" id="totleStudyLength">${totleVideo.totleStudyLength}</span>
-					</c:if>
-					<c:if test="${totleVideo.totleStudyLength ==null || totleVideo.totleStudyLength==''}">
-						<span class="pull-right msg" id="totleStudyLength">0</span>
-					</c:if>
+                    <span class="pull-right msg" id="totleStudyLength"></span>
 				</li>
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play3.png" alt="">
 					<span class="pull-right tit">总计观看直播人次</span>
-					<c:if test="${empty totleVideo.personNum}">
-						<span class="pull-right msg" id="personNum">${totleVideo.personNum}</span>
-					</c:if>
-					<c:if test="${!empty totleVideo.personNum}">
-						<span class="pull-right msg" id="personNum">0</span>
-					</c:if>
+                    <span class="pull-right msg" id="personNum"></span>
 				</li>
 			</ul>
 			<div class="user-list">

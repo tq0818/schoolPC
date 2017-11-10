@@ -65,7 +65,7 @@
                         $.msg("没有数据可以导出");
                     } else {
                         $("#searchForm").attr("action",
-                            rootPath + "/query/exportUserVideoExcle")
+                            rootPath + "/query/exportAreaCourseExcle")
                             .submit();
                     }
 
@@ -315,16 +315,7 @@
 
     $(document).ready(function () {
         student.init();
-        Form.init();
-        list.identityList();
-        list.educationList();
-        Link.init();
-        update.init();
-        changePw.init();
         $(".ico").css("color", "red");
     })
     window.student = student;
-    window.Form = Form;
-    window.update = update;
-    window.changePw = changePw;
 })(jQuery)

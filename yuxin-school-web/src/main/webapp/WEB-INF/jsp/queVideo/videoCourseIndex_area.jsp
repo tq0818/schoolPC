@@ -30,8 +30,7 @@
 						<a href="<%=rootPath%>/query/areastatistics/userVideoList" class="btn">详情</a>
 						<span class="date">
 							<i class="text">日期</i>
-							<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
-
+							<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 							<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}">
 						</span>
 						<button class="btns-default" id="searchData">查询</button>
@@ -39,8 +38,22 @@
 					</p>
 					<div class="statistics-con">
 						<div class="school-demand" id="demandCount2" style="width:49%;height: 240px;float: left;"></div>
-						<div class="school-demand" id="" style="width:49%;height: 240px;float: right;"></div>
-						<div class="demand-count" id="demandCount" style="width:100%;height: 380px;"></div>
+						<div class="school-demand" id="demandCount3" style="width:49%;height: 240px;float: left;"></div>
+						<div class="demandCount-search screen-info">
+							<select name="eduSchoolStep" id="eduSchoolStep">
+								<option value="">请选择学校性质</option>
+								<c:forEach items="${stepNews}" var="step" >
+									<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
+								</c:forEach>
+							</select>
+							<span class="date" style="margin-left: 0;">
+								<i class="text">日期</i>
+								<span><input type="text" name="startTime2" class="date-picker from2" value="${startTime}"/><em>至</em><input type="text" name="endTime2" class="date-picker to2" value="${endTime}"/></span>
+							</span>
+							<button class="btns-default" id="searchData2">查询</button>
+
+							<div class="demand-count" id="demandCount" style="width:100%;height: 380px;"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -57,13 +70,7 @@
 <script type="text/javascript">
 	//	$selectSubMenu('statistics_org_detail');
 	$selectThirdMenu('videoList');
-	// 初始化日期框
-	$(".date-picker").datetimepicker({
-		format: "yyyy-mm-dd",
-		minView: 2,
-		autoclose: true,
-		language: "zh-CN"
-	});
+
 
 	$("#searchData").click(function(){
 		if ($(".to").val() != "") {
@@ -73,10 +80,19 @@
 			}
 		}
 
-		searchTotleVideoCourse($(".from").val(), $(".to").val());//查询所有的学生
 		searchTotleVideoCourse2($(".from").val(), $(".to").val());//按照学校性质赛选
 		searchTotleVideoCourse3($(".from").val(), $(".to").val());//观看点播前五学校
 		searchTotleVideoCourse4($(".from").val(), $(".to").val());//观看学科前五学校
+	});
+	$("#searchData2").click(function(){
+		if ($(".to2").val() != "") {
+			if ($(".to2").val() < $(".from2").val()) {
+				$.msg("时间范围不正确");
+				return;
+			}
+		}
+
+		searchTotleVideoCourse($(".from2").val(), $(".to2").val());//查询所有的学生
 	});
 	//导出
 	$("#exportData").click(function(){
@@ -91,46 +107,33 @@
 	});
 
 	function searchTotleVideoCourse(startTime, endTime){
-		var dataCode = ["510102","510104","510105","510106","510107","510108",
-			"510112","510113","510114","510115","510116","510117","510121","510129","510131","510132",
-			"510156","510181","510182","510183","510184","510185"];
-		var dataName = ["高新区","锦江区","青羊区","金牛区","武侯区","成华区","龙泉驿区","青白江区","新都区","温江区","双流区",
-			"郫都区","金堂县","大邑县","蒲江县","新津县","天府新区","都江堰市","彭州市","邛崃市","崇州市","简阳市"];
 		var dataKey = new Array(),dataValue = new Array();
+		var totleNum = 0;
 		$.ajax({
-			url: rootPath + "/query/statistics/queryTotleVideoCourse",
-			data:{startTime:startTime, endTime:endTime, eduArea:$("#eduArea").val()},
+			url: rootPath + "/query/statistics/queryTotleVideoCourseForSchool",
+			data:{startTime:startTime, endTime:endTime, eduArea:$("#eduArea").val(), eduSchoolStep:$("#eduSchoolStep").val()},
 			success:function(result){
-				result = result.areaVideoList ? result.areaVideoList:null;
+				result = result.schoolVideoList ? result.schoolVideoList:null;
 				if(result!=null && result.length>0){
-					for(var i=dataCode.length-1; i>=0; i--){
-						var num = 0;
-						for(var j=0; j<result.length; j++){
-							if(result[j].eduArea!=null && result[j].eduArea!="" && dataCode[i] == result[j].eduArea){
-								dataKey.push(dataName[i]);
-								dataValue.push(result[j].userNum);
+					for(var i=0; i<result.length; i++){
+						dataKey.push(result[i].schoolName);
+						dataValue.push(result[i].userNum);
 
-								result.splice(j, 1);
-								j--;
-								num++;
-							}
-						}
-						if(num == 0){
-							dataKey.push(dataName[i]);
-							dataValue.push(0);
-						}
+						totleNum += result[i].userNum;
 					}
-
 				}
 				var chart1 = {
 					"id":document.getElementById("demandCount"),
-					"titleText":'总计观看点播人数${totleNum}',
+					"titleText":'总计观看点播人数' + totleNum,
 					"seriesData":dataValue,
 					"seriesName":"观看点播人数",
 					"barWidth":5,
-					"yAxisData":dataKey
-
+					"yAxisData":dataKey,
+					"grid":{
+						x:250
+					}
 				};
+
 				$(document).statistical().setCharts(chart1);
 			}
 		});
@@ -209,14 +212,16 @@
 					}
 				}
 				var chart3 = {
-					"id":document.getElementById(""),
+					"id":document.getElementById("demandCount3"),
 					"titleText":'观看点播前五',
 					"seriesData":dataValue,
 					"seriesName":"观看点播人数",
 					"seriesFormatter":'{c}人',
 					"grid":{
+						x:50,
+						x2:30,
 						y:50,
-						y2:60
+						y2:80
 					}
 				};
 				chart3.legend ={
@@ -229,7 +234,7 @@
 					{
 						type : 'category',
 						data : dataKey,
-						axisLabel:{ interval:0,rotate: 10}
+						axisLabel:{ interval:0,rotate: 15}
 					}
 				];
 				chart3.yAxis = [{type : 'value'}];
@@ -243,17 +248,17 @@
 		var chartOpiton = {
 			"id":id,
 			"grid":{
-				x:80,
-				x2:50,
-				y:5,
-				y2:5
+					x:80,
+					x2:50,
+					y:5,
+					y2:30
 			},
 			"series":[{
 				name: shcoolList[0],
 				type: 'bar',
 				itemStyle: {
 					normal: {
-						label : {show: true,formatter: '{a} {c}人'},
+						label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
 						color: "#5b9bd5"
 					}
 				},
@@ -264,7 +269,7 @@
 					type: 'bar',
 					itemStyle: {
 						normal: {
-							label : {show: true,formatter: '{a} {c}人'},
+							label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
 							color: "#ffc000"
 						}
 					},
@@ -275,7 +280,7 @@
 					type: 'bar',
 					itemStyle: {
 						normal: {
-							label : {show: true,formatter: '{a} {c}人'},
+							label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
 							color: "#a5a5a5"
 						}
 					},
@@ -286,7 +291,7 @@
 					type: 'bar',
 					itemStyle: {
 						normal: {
-							label : {show: true,formatter: '{a} {c}人'},
+							label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
 							color: "#ed7d31"
 						}
 					},
@@ -297,7 +302,7 @@
 					type: 'bar',
 					itemStyle: {
 						normal: {
-							label : {show: true,formatter: '{a} {c}人'},
+							label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
 							color: "#4472c4"
 						}
 					},
@@ -326,8 +331,10 @@
 								dataKey.push(result[j][k][i].schoolName);
 								dataValue.push(result[j][k][i].viewNum);
 							}
-							$(".statistics-con").append('<div class="demand-count subjectinfo" style="width:100%;height: 120px;"></div>');
-							var chart4 = setSubjectinfo($(".statistics-con").children(":last")[0],dataKey,dataValue,k);
+							//$(".statistics-con").append('<div class="demand-count subjectinfo" style="width:100%;height: 120px;"></div>');
+							$('<div class="demand-count subjectinfo" style="width:100%;height: 160px;"></div>').insertBefore($(".demandCount-search"));
+
+							var chart4 = setSubjectinfo($(".statistics-con").children(":last").prev()[0],dataKey,dataValue,k);
 							$(document).statistical().setCharts(chart4);
 						}
 					}

@@ -15,6 +15,7 @@
 	<link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/query/statistics.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -35,7 +36,7 @@
 				<span class="line"></span>
 			</div>
 			<form method="post" id="searchForm">
-				<div>
+				<div class="screen-info ">
 					<span>区域：</span>
 					<select name="eduArea" id="eduArea">
 						<c:forEach items="${areas}" var="area" >
@@ -62,9 +63,11 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div style="margin-top: 10px;">
-					<span>日期</span>
-					<span><input type="text" name="startTime" class="date-picker from" value="2016-01-01"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+				<div class="screen-info "style="margin-top: 10px;">
+					<span class="date" style="margin-left:0">
+						<i class="text">日期</i>
+						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+					</span>
 					<input type="text" id="teaName" name="teaName" placeholder="请输入教师姓名"/>
 					<span><a href="javascript:;" class="btn btn-primary searchContents">查询</a></span>
 					<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>
@@ -164,11 +167,17 @@ $(document).statistical().changeType({
 		if($(e).parent().attr("content") == "viewsCount"){//line
 
 		}else{//bar
-			if ($(".to").val() != "") {
+			if ($(".from").val()!="" && $(".to").val()!="") {
 				if ($(".to").val() < $(".from").val()) {
 					$.msg("时间范围不正确");
 					return;
+				}else if(new Date($(".to").val()) - new Date($(".from").val()) > 30*24*60*60*1000){
+					$.msg("时间范围不能超过30天");
+					return;
 				}
+			}else{
+				$.msg("时间选项必填");
+				return;
 			}
 			var dataKey = new Array(),dataValue = new Array();
 			$.ajax({

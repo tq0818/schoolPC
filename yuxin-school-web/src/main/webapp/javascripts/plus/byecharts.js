@@ -53,7 +53,7 @@
 					    },
 					    yAxis: obj.yAxis || {
 					        type: 'category',
-					        axisLabel:{  
+					        axisLabel:obj.axisLabel ||{  
 		                         interval:0,//横轴信息全部显示  
 		                    },
 					        data: obj.yAxisData || ['100',"200","300"]

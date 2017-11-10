@@ -160,13 +160,6 @@ public class CompanyRegisterConfig extends BaseEntity {
 		return this;
 	}
 
-	public Integer getJjwLogFlag() {
-		return jjwLogFlag;
-	}
-
-	public void setJjwLogFlag(Integer jjwLogFlag) {
-		this.jjwLogFlag = jjwLogFlag;
-	}
 
 	@Override
 	public String toString() {

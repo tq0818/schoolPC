@@ -2,92 +2,13 @@
 
     var student = {
         init: function () {
-            $("#classStep").change(function(){
-                $this.searchCourse();
-            });
-            $("#classSubject").change(function(){
-                $this.searchCourse();
-            });
-
             var $this = this;
             // $selectSubMenu('statistics_all_detail');
-            // 初始化日期框
-            $(".date-picker").datetimepicker({
-                format: "yyyy-mm-dd",
-                minView: 2,
-                autoclose: true,
-                language: "zh-CN"
-            });
             // 初始化数据
             $this.search();
             // 收索
             $(".searchContents").on('click', function () {
                 $this.search();
-            });
-            // 导出用户
-            $(".exportexcle").on(
-                'click',
-                function () {
-                    if ($(".to").val() != "") {
-                        if ($(".to").val() < $(".from").val()) {
-                            $.msg("时间范围不正确");
-                            return;
-                        }
-                    }
-                    if ($("#tableList").find("tr").eq(1).find("td").length <= 1) {
-                        $.msg("没有数据可以导出");
-                    } else {
-                        $("#searchForm").attr("action",
-                            rootPath + "/query/exportUserVideoExcle")
-                            .submit();
-                    }
-
-                });
-            //全选 取消全选
-            $(".checkboxAll").on('change', function () {
-                if ($(this).prop("checked")) {
-                    $("#tableList").find(".signUpMany").prop("checked", true);
-                } else {
-                    $("#tableList").find(".signUpMany").prop("checked", false);
-                }
-            });
-            $("#caddress").cityselect({
-                url:rootPath + "/javascripts/company/city.min.js",
-                prov:"", //省份
-                city:"",     //市
-                nodata:"none", //当子集无数据时，隐藏select
-                required: false
-            });
-
-        },
-        searchCount: function(){
-            $("#selectCounts").val($("#selectCount").val());
-            student.search();
-        },
-        searchCourse: function (){
-            var twoItem = $("#classStep").val();
-            var threeItem = $("#classSubject").val();
-            $.ajax({
-                url:rootPath + "/classModule/selClassType",
-                type:"post",
-                data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem},
-                // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
-                dataType:"json",
-                beforeSend:function(XMLHttpRequest){
-                    $(".loading").show();
-                    $(".loading-bg").show();
-                },
-                success:function(data){
-                    $("#classType").empty();
-                    $("#classType").append('<option value="">请选择课程名称</option>');
-                    $.each(data.types,function(index,item){
-                        $("#classType").append("<option value='" + item.id + "'>" + item.name + "</option>");
-                    });
-                },
-                complete:function(XMLHttpRequest,textStatus){
-                    $(".loading").hide();
-                    $(".loading-bg").hide();
-                }
             });
         },
         search: function (page,sortdata) {
@@ -102,14 +23,6 @@
             data.eduSchool=$("#eduSchool").val();
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
-            data.eduStep=$("#eduStep").val();
-            data.eduYear = $('#eduYear').val();
-            data.eduClass = $('#eduClass').val();
-            data.classStep = $("#classStep").val();
-            data.classSubject = $("#classSubject").val();
-            data.classTypeId = $("#classType").val();
-            data.className = $("#className").val();
-            data.username = $("#username").val();
 
             if ($(".to").val() != "") {
                 if ($(".to").val() < $(".from").val()) {
@@ -122,14 +35,31 @@
                 if (!value) {
                     delete data[key];
                 }
-            })
+            });
+            $.ajax({
+                url: rootPath + "/query/queryVideoTotleForSchool",
+                data: data,
+                type: 'post',
+                beforeSend: function (XMLHttpRequest) {
+                    $(".loading").show();
+                    $(".loading-bg").show();
+                },
+                success: function (jsonData) {
+                    $("#userNum").html(jsonData.userNum ? jsonData.userNum:0);
+                    $("#totleStudyLength").html(jsonData.totleVideo.totleStudyLength ? jsonData.totleVideo.totleStudyLength:0);
+                    $("#personNum").html(jsonData.totleVideo.personNum ? jsonData.totleVideo.personNum:0);
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    $(".loading").hide();
+                    $(".loading-bg").hide();
+                }
+            });
             $(".user-list").find("table").find("tr:gt(0)").remove();
-            $(".checkboxAll").prop("checked", false);
             //代理机构权限
             var proxyOrgRole = $("#proxyOrgRole").val();
             var userorg_roleopenflag = $("#userorg_roleopenflag").val();
             $.ajax({
-                url: rootPath + "/query/queryUserVideoList",
+                url: rootPath + "/query/queryVideoListForSchool",
                 data: data,
                 type: 'post',
                 beforeSend: function (XMLHttpRequest) {
@@ -143,12 +73,12 @@
                             $(".user-list")
                                 .find("table")
                                 .append(
-                                    '<tr><td colspan="15">没有查找到数据</td></tr>');
+                                    '<tr><td colspan="7">没有查找到数据</td></tr>');
                         }else{
                             $(".user-list")
                                 .find("table")
                                 .append(
-                                    '<tr><td colspan="14">没有查找到数据</td></tr>');
+                                    '<tr><td colspan="6">没有查找到数据</td></tr>');
                         }
                     }
                     $.each(jsonData.data,function (i, videoCourse) {
@@ -157,31 +87,15 @@
                             .append(
                                 '<tr data-buy="'+(videoCourse.paymaterCount>0)+'">'
                                 + '<td>'
-                                + (videoCourse.username ? videoCourse.username
-                                    : "")
-                                + '</td>'
-                                + '<td>'
-                                + (videoCourse.name ? videoCourse.name
-                                    : "")
-                                + '</td>'
-                                + '<td>'
-                                + (videoCourse.courseName ? videoCourse.courseName
-                                    : "")
-                                + '</td>'
-                                + '<td>'
                                 + (videoCourse.stepName ? videoCourse.stepName
                                     : "")
                                 + '</td>'
                                 + '<td>'
-                                + (videoCourse.yearName ? videoCourse.yearName + "级"
-                                    : "")
-                                + '</td>'
-                                + '<td>'
-                                + (videoCourse.className ? videoCourse.className + "班"
-                                    : "")
-                                + '</td>'
-                                + '<td>'
                                 + (videoCourse.subjectName ? videoCourse.subjectName
+                                    : "")
+                                + '</td>'
+                                + '<td>'
+                                + (videoCourse.totleStudy ? videoCourse.totleStudy
                                     : "")
                                 + '</td>'
                                 + '<td>'
@@ -253,32 +167,6 @@
             });
             $("#maxCount").remove();
         },
-        checkMaxSignUpNum: function(ele){
-            var flag=true;
-            $.ajax({
-                type: "post",
-                url:  rootPath+"/company/queryCompany",
-                async: false,
-                success: function(result){
-                    if(result){
-                        var cnt=0;
-                        $("#tableList").find("tr").find("input:checkbox:checked").each(function(){
-                            if($(this).parents("tr").attr("data-buy")!="true"){
-                                cnt++;
-                            }
-                        })
-                        if(ele && ele.parents("tr").attr("data-buy")!="true"){
-                            cnt=1;
-                        }
-                        if((parseInt($("#rowCount").val())+cnt)>$("#maxCount").val()){
-                            $.msg("报名人数已超过最大服务数，请升级版本或续费");
-                            flag=false;
-                        }
-                    }
-                }
-            });
-            return flag;
-        }
     }
 
     $(document).ready(function () {

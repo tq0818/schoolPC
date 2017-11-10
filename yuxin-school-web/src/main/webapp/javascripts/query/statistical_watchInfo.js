@@ -36,7 +36,7 @@
                                 }else {
                                     $('.e-charst').css('height', '390px');
                                 }
-                                _this.setCharts(perfect,"观看直播人数",dataKey,dataValue,"#70ad47");
+                                _this.setCharts(perfect,"",dataKey,dataValue,"#70ad47");
                             }else{
                                 $(perfect).html('<div class="nodata">暂无数据！！！</div>');
                             }
@@ -74,7 +74,7 @@
                                 }else {
                                     $('.e-charst').css('height', '390px');
                                 }
-                                _this.setCharts(perfect,"观看直播人次",dataKey,dataValue,"#70ad47");
+                                _this.setCharts(perfect,"",dataKey,dataValue,"#70ad47");
                             }else{
                                 $(perfect).html('<div class="nodata">暂无数据！！！</div>');
                             }

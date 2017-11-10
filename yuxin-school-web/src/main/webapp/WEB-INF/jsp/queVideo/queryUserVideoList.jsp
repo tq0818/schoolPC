@@ -14,6 +14,7 @@
 	<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
 	<link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/query/statistics.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -34,7 +35,7 @@
 				<span class="line"></span>
 			</div>
 			<form method="post" id="searchForm">
-				<div>
+				<div class="screen-info">
 					<span>区域：</span>
 					<select name="eduArea" id="eduArea">
 						<c:forEach items="${areas}" var="area" >
@@ -68,9 +69,11 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div style="margin-top: 10px;">
-					<span>日期</span>
-					<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${ednTime}"/></span>
+				<div class="screen-info margin10">
+					<span class="date" style="margin-left: 0;">
+						<i class="text">日期</i>
+						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+					</span>
 					<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询"/>
 					<span><a href="javascript:;" class="btn btn-primary searchContents">查询</a></span>
 					<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>

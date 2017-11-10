@@ -113,4 +113,31 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryTotleVideo(Map<String, Object> papamMap);
+
+	/**
+	 * 查看点播总时长+人次
+	 * @param papamMap
+	 * @return
+	 */
+	Map<String,Object> queryTotleStudyLengthAndPersonNum(Map<String, Object> papamMap);
+
+	/**
+	 * 通过学校查询学员点播记录
+	 * @param userVideoVo
+	 * @return
+	 */
+	List<VideoCourseVo> queryVideoListForSchool(VideoCourseVo userVideoVo);
+
+	/**
+	 * 通过学校查询学员点播记录数
+	 * @param videoCourseVo
+	 * @return
+	 */
+	Integer queryVideoListForSchoolCount(VideoCourseVo videoCourseVo);
+
+	/**
+	 * 查询视频资源在学校下播放情况
+	 * @return
+	 */
+	List<Map<String,Object>> queryTotleVideoCourseForSchool(Map<String, Object> papamMap);
 }

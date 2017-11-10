@@ -29,6 +29,15 @@ public class WatchInfoResult extends BaseEntity {
     private String studyTime;
     private String schoolType;
     private String orderBy;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getOrderBy() {
         return orderBy;

@@ -30,7 +30,7 @@
 					<a href="<%=rootPath%>/query/statistics/videoCourseDetail" class="btn">详情</a>
 					<span class="date">
 						<i class="text">日期</i>
-						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 					</span>
 					<button class="btns-default" id="searchData">查询</button>
 					<button class="btns-default" id="exportData">导出数据</button>
@@ -49,9 +49,9 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript">
 //	$selectSubMenu('statistics_org_detail');
 	$selectThirdMenu('videoList');
@@ -95,6 +95,7 @@
 		var dataName = ["高新区","锦江区","青羊区","金牛区","武侯区","成华区","龙泉驿区","青白江区","新都区","温江区","双流区",
 			"郫都区","金堂县","大邑县","蒲江县","新津县","天府新区","都江堰市","彭州市","邛崃市","崇州市","简阳市"];
 		var dataKey = new Array(),dataValue = new Array();
+		var totleNum = 0;
 		$.ajax({
 			url: rootPath + "/query/statistics/queryTotleVideoCourse",
             data:{startTime:startTime, endTime:endTime},
@@ -107,7 +108,7 @@
 							if(result[j].eduArea!=null && result[j].eduArea!="" && dataCode[i] == result[j].eduArea){
 								dataKey.push(dataName[i]);
 								dataValue.push(result[j].userNum);
-
+								totleNum += result[j].userNum;
 								result.splice(j, 1);
 								j--;
 								num++;
@@ -122,7 +123,7 @@
 				}
                 var chart1 = {
                     "id":document.getElementById("demandCount"),
-                    "titleText":'总计观看点播人数${totleNum}',
+                    "titleText":'总计观看点播人数'+totleNum,
                     "seriesData":dataValue,
                     "seriesName":"观看点播人数",
                     "barWidth":5,
@@ -223,7 +224,7 @@
                     {
                         type : 'category',
                         data : dataKey,
-                        axisLabel:{ interval:0}
+                        axisLabel:{ interval:0,rotate: 10}
                     }
                 ];
                 chart3.yAxis = [{type : 'value'}];
@@ -237,17 +238,17 @@
         var chartOpiton = {
             "id":id,
             "grid":{
-                x:80,
-                x2:50,
-                y:5,
-                y2:5
+				x:80,
+				x2:50,
+				y:5,
+				y2:30
             },
             "series":[{
                 name: shcoolList[0],
                 type: 'bar',
                 itemStyle: {
                     normal: {
-                        label : {show: true,formatter: '{a} {c}人'},
+                        label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                         color: "#5b9bd5"
                     }
                 },
@@ -258,7 +259,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#ffc000"
                         }
                     },
@@ -269,7 +270,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#a5a5a5"
                         }
                     },
@@ -280,7 +281,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#ed7d31"
                         }
                     },
@@ -291,7 +292,7 @@
                     type: 'bar',
                     itemStyle: {
                         normal: {
-                            label : {show: true,formatter: '{a} {c}人'},
+                            label : {show: true,formatter: '{a} {c}人',position:'insideRight'},
                             color: "#4472c4"
                         }
                     },

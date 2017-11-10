@@ -8,20 +8,20 @@
 	<!--<bean id="timerTaskPrimary" class="com.yuxin.wx.controller.task.TimerTaskPrimary" >-->
 	<!--</bean>-->
 
-	<bean id="timerTaskPrimaryQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="timerTaskPrimary"/>
-		<property name="targetMethod" value="taskTikuUserExerciseAnswer"/>
-		<!-- 是否允许任务并发执行,当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->
-		<property name="concurrent" value="false"/>
-	</bean>
+	<!--<bean id="timerTaskPrimaryQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+		<!--<property name="targetObject" ref="timerTaskPrimary"/>-->
+		<!--<property name="targetMethod" value="taskTikuUserExerciseAnswer"/>-->
+		<!--&lt;!&ndash; 是否允许任务并发执行,当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 &ndash;&gt;-->
+		<!--<property name="concurrent" value="false"/>-->
+	<!--</bean>-->
 
-	<bean id="OrderTaskPrimaryCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail">
-			<ref bean="timerTaskPrimaryQtzJobMethod" />
-		</property>
-		<property name="cronExpression">
-			<value>0 0/2 * * * ?</value>
-		</property>
-	</bean>
+	<!--<bean id="OrderTaskPrimaryCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+		<!--<property name="jobDetail">-->
+			<!--<ref bean="timerTaskPrimaryQtzJobMethod" />-->
+		<!--</property>-->
+		<!--<property name="cronExpression">-->
+			<!--<value>0 0/2 * * * ?</value>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 </beans>

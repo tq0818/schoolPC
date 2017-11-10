@@ -5109,6 +5109,12 @@ public class ClassModuleController {
 		log.info("zs：Affected:" + Affected);
 		log.info("zs：totalusernum:" + totalusernum);
 		log.info("redis：查询redis");
+
+
+
+
+
+
 		try {
 			//根据班号 查询公司id
 

@@ -80,9 +80,13 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 
 	Integer getWatchNumBySchool(Map<String, Object> map);
 
-	WatchInfoResult getWatchTimeLengthBySchool(Map<String, Object> map);
+	long getWatchTimeLengthBySchool(Map<String, Object> map);
 
 	Integer getWatchTotalBySchool(Map<String, Object> map);
 
 	List<Map> watchSchoolChartData(Map<String, Object> map);
+
+	List<Map> getAllBuyNum(Map<String, Object> map);
+
+	List<Map> getStudentWatchInfo(Map<String, Object> map);
 }

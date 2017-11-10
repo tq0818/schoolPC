@@ -23,35 +23,35 @@
             </div>
         </div>
         <div class="content-right">
-            <div class="detail-con">
             <p class="screen-info">
                 <a href="<%=rootPath%>/query/statistics/videoCourseIndex" class="btn" >概况</a>
                 <a href="<%=rootPath%>/query/statistics/videoCourseDetail" class="btn active">详情</a>
             </p>
-            <span>学科</span>
-            <select name="eduSubject" id="eduSubject" onchange="selClassOrModule()">
-                <option value="">请选择学科</option>
-                <c:forEach items="${subjectItem}" var="item" >
-                    <option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
-                </c:forEach>
-            </select>
-            <span>课程</span>
-            <select name="eduStep" id="eduStep" onchange="selClassOrModule()">
-                <option value="">请选择学段</option>
-                <c:forEach items="${stepItem}" var="item" >
-                    <option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
-                </c:forEach>
-            </select>
-            <select name="classType" id="classType">
-                <option value="">请选择课程名称</option>
-            </select>
-            <span>课程名</span>
-            <input type="text" id="className" name="className" placeholder="请输入课程名"/>
-        </div>
-        <div style="margin-top: 10px;">
-            <span class="date" style="margin-left: 0;">
+            <div class="detail-con">
+                <span>学科</span>
+                <select name="eduSubject" id="eduSubject" onchange="selClassOrModule()">
+                    <option value="">请选择学科</option>
+                    <c:forEach items="${subjectItem}" var="item" >
+                        <option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
+                    </c:forEach>
+                </select>
+                <span>课程</span>
+                <select name="eduStep" id="eduStep" onchange="selClassOrModule()">
+                    <option value="">请选择学段</option>
+                    <c:forEach items="${stepItem}" var="item" >
+                        <option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
+                    </c:forEach>
+                </select>
+                <select name="classType" id="classType">
+                    <option value="">请选择课程名称</option>
+                </select>
+                <span>课程名</span>
+                <input type="text" id="className" name="className" placeholder="请输入课程名"/>
+            </div>
+        <div class="screen-info margin10">
+            <span class="date" style="margin-left:0">
                 <i class="text">日期</i>
-                <span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+                <span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
             </span>
             <p class="screen-info btn-center">
                 <button class="btns-default" id="searchData">查询</button>
@@ -59,10 +59,14 @@
             </p>
             <div class="course-info">
                 <span class="name"></span>
-                <span class="play"></span>
+                <span class="play">
+                    <i>播放总时长<br/></i>
+                    <i>播完率<br/></i>
+                    <i>播放量<br/></i>
+                </span>
                 <div class="device">
-                    <span class="ico ico-pc"><i></i></span>
-                    <span class="ico ico-yd"><i></i></span>
+                    <span class="ico ico-pc"><i>pc</i></span>
+                    <span class="ico ico-yd"><i>移动</i></span>
                 </div>
             </div>
             <div class="statistics-con" >
@@ -104,9 +108,9 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript">
 //    $selectSubMenu('statistics_org_detail');
     $selectThirdMenu('videoList');
@@ -119,21 +123,19 @@
     });
 
     function searchVideoCourseDetail(startTime, endTime){
-        $.ajax({
-            url: rootPath + "/query/statistics/queryVideoCourseDetail",
-            data:{classId:$("#classType").val(),startTime:startTime, endTime:endTime,className:$("#className").val()},
-            success:function(result){
-                var videoDetail = result.videoDetail ? result.videoDetail:null;
-                $(".course-info").find(".name").html("");
-                $(".course-info").find(".play").empty();
-                $(".ico-pc").empty().append("<i></i>");
-                $(".ico-yd").empty().append("<i></i>");
-                if(videoDetail!=null){
-                    $(".course-info").find(".name").html(videoDetail.name+"（"+startTime+"至"+endTime+"）");
-                    var totleStudyLength = videoDetail.totleStudyLength ? videoDetail.totleStudyLength:"";
-                    var studyRate = videoDetail.studyRate ? videoDetail.studyRate:"";
-                    var totleStudy = videoDetail.totleStudy ? videoDetail.totleStudy:"";
-                    $(".course-info").find(".play").append('<i>播放总时长<br/>'+totleStudyLength+'</i>');
+        var courseName = $("#className").val() ? $("#className").val():$("#classType option:selected").text();
+        if(courseName && courseName!="请选择课程名称"){
+            $.ajax({
+                url: rootPath + "/query/statistics/queryVideoCourseDetail",
+                data:{classId:$("#classType").val(),startTime:startTime, endTime:endTime,className:$("#className").val()},
+                success:function(result){
+                    var videoDetail = result.videoDetail ? result.videoDetail:null;
+                    var courseName = (videoDetail&&videoDetail.name) ? videoDetail.name : $("#className").val() ? $("#className").val():$("#classType option:selected").text();
+                    $(".course-info").find(".name").html(courseName+"（"+startTime+"至"+endTime+"）");
+                    var totleStudyLength = (videoDetail&&videoDetail.totleStudyLength) ? videoDetail.totleStudyLength:"0";
+                    var studyRate = (videoDetail&&videoDetail.studyRate) ? videoDetail.studyRate:"0%";
+                    var totleStudy = (videoDetail&&videoDetail.totleStudy) ? videoDetail.totleStudy:"0";
+                    $(".course-info").find(".play").empty().append('<i>播放总时长<br/>'+totleStudyLength+'</i>');
                     $(".course-info").find(".play").append('<i>播完率<br/>'+studyRate+'</i>');
                     $(".course-info").find(".play").append('<i>播放量<br/>'+totleStudy+'</i>');
 
@@ -144,8 +146,15 @@
                     $(".ico-pc").empty().append("<i>pc</i><i>"+pcNum+"</i><i>"+pcRate+"%</i>");
                     $(".ico-yd").empty().append("<i>移动</i><i>"+otherNum+"</i><i>"+otherRate+"%</i>");
                 }
-            }
-        });
+            });
+        }else{
+            $(".course-info").find(".name").html("");
+            $(".course-info").find(".play").empty().append('<i>播放总时长<br/></i>');
+            $(".course-info").find(".play").append('<i>播完率<br/></i>');
+            $(".course-info").find(".play").append('<i>播放量<br/></i>');
+            $(".ico-pc").empty().append("<i>pc</i><i></i><i></i>");
+            $(".ico-yd").empty().append("<i>移动</i><i></i><i></i>");
+        }
     }
 
     function searchVideoCourseDetail2(startTime, endTime){
@@ -276,11 +285,17 @@
             if($(e).parent().attr("content") == "viewsCount"){//line
 
             }else{//bar
-                if ($(".to").val() != "") {
+                if ($(".from").val()!="" && $(".to").val()!="") {
                     if ($(".to").val() < $(".from").val()) {
                         $.msg("时间范围不正确");
                         return;
+                    }else if(new Date($(".to").val()) - new Date($(".from").val()) > 30*24*60*60*1000){
+                        $.msg("时间范围不能超过30天");
+                        return;
                     }
+                }else{
+                    $.msg("时间选项必填");
+                    return;
                 }
                 var dataKey = new Array(),dataValue = new Array();
                 $.ajax({
@@ -301,10 +316,12 @@
                         }
                         //更新数据
                         var option =$($viewId).data();
-                        option.id = $viewId;
-                        option.tooltip.axisPointer = $($viewId).attr("axisPointer");
-                        option.series[0].data = dataValue;
-                        $(document).statistical().setCharts(option);
+                        if(JSON.stringify(option) != "{}") {
+                            option.id = $viewId;
+                            option.tooltip.axisPointer = $($viewId).attr("axisPointer");
+                            option.series[0].data = dataValue;
+                            $(document).statistical().setCharts(option);
+                        }
                     }
                 });
             }
@@ -313,11 +330,17 @@
     });
 
     $("#searchData").click(function(){
-        if ($(".to").val() != "") {
+        if ($(".from").val()!="" && $(".to").val()!="") {
             if ($(".to").val() < $(".from").val()) {
                 $.msg("时间范围不正确");
                 return;
+            }else if(new Date($(".to").val()) - new Date($(".from").val()) > 30*24*60*60*1000){
+                $.msg("时间范围不能超过30天");
+                return;
             }
+        }else{
+            $.msg("时间选项必填");
+            return;
         }
 
         searchVideoCourseDetail($(".from").val(), $(".to").val());//查询单个视频信息

@@ -1,5 +1,50 @@
 $(document).ready(function(){
     search();
+    $(".table").delegate(".amassCount","click",function(e){
+       // $(e.target)
+        var obj = $(e.target).data();
+        var role = $("#role").val();
+        $.ajax({
+           type:"post",
+           url: rootPath + "/query/getStudentWatchInfo",
+           data:{'lessonId':obj.lessonId,'userId':obj.userId},
+           success:function (result) {
+               $.each(result,function(i,info){
+                   $(".popupwin-main")
+                       .find(".listData").remove();
+                   var str = '<tr class="listData"><td>'+ obj.lessonName+ '</td>'+'<td>'+ obj.studentName+ '</td>';
+                   if(role!="school"){
+                       str +='<td>'+ obj.eduSchool+ '</td>';
+                   }
+                   str +='<td>'
+                       + obj.eduStep
+                       + '</td>'
+                       +'<td>'
+                       + obj.studyClass
+                       + '</td>'
+                       +'<td>'
+                       + info.joinTime
+                       + '</td>'
+                       +'<td>'
+                       + info.leaveTime
+                       + '</td>'
+                       +'<td>'
+                       + info.watchTime
+                       + '</td>'
+                       + '</tr>';
+                   $(".popupwin-main")
+                       .find("table")
+                       .append(str);
+               })
+               $(".cumulativeClass1").show();
+               $(".cumulativeClass").popup("show").css("top", "20%");
+           }
+        });
+
+    })
+    $(".canclekuang").on('click',function(){
+        $(".cumulativeClass1").hide();
+    })
 });
 function  init() {
         $("#eduArea").change(function () {
@@ -74,6 +119,10 @@ function  init() {
 
         $("#subject").change(function () {
             var subject = $(this).find(":selected").attr("value");
+            if(subject==""){
+                $("#class").html('<option value="">请选择课程模块</option>');
+                return;
+            }
             $.ajax({
                 url: rootPath + "/commodity/findCommodityByItems",
                 type: "post",
@@ -91,6 +140,10 @@ function  init() {
 
         $("#class").change(function () {
             var id = $(this).find(":selected").attr("value");
+            if(id==""){
+                $("#lesson").html('<option value="">请选择课次</option>');
+                return;
+            }
             $.ajax({
                 url: rootPath + "/classModuleLesson/findLessonByCommodityId",
                 type: "post",
@@ -127,7 +180,9 @@ function  init() {
             var data = {};
             if(sort){
                 data =$.extend(data,sort);
-                data.orderBy  = data.filedName+" "+data.sortType;
+                data.orderBy  = data.fieldName+" "+data.sortType;
+            }else{
+                data.orderBy = "class_name";
             }
 
             data.eduArea = $("#eduArea").val();
@@ -143,14 +198,6 @@ function  init() {
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
             data.userNameOrMobile=$("#userNameOrMobile").val();
-            $.ajax({
-                url: rootPath + "/query/statistics/totalPayMasterCount",
-                data: data,
-                type: 'post',
-                success: function (jsonData) {
-                    $("#total").html(jsonData);
-                }
-            });
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoList",
                 data: data,
@@ -180,65 +227,32 @@ function  init() {
                         {
                             str  = " <td>"+stu.studyClass+ "</td>";
                         }
+                        var $tr = $('<tr class="listData">'
+                            + '<td>'
+                            + stu.className
+                            + '</td>'
+                            + '<td>'
+                            + stu.lessonName
+                            + '</td>'
+                            + '<td>'
+                            + stu.userName
+                            + '</td>'
+                            + '<td>'
+                            + stu.studentName
+                            + '</td>'
+                            + str
+                            + '<td class="amassCount"  >'
+                            + stu.times
+                            + '</td>'
+                            + '<td >'
+                            + stu.studyTime
+                            + '</td>'
+                            + '</tr>');
+                        $tr.find(".amassCount").data(stu);
 
                         $(".user-list")
                             .find("table")
-                            .append(
-                                '<tr class="listData">'
-                                // + '<td>'
-                                // + '<input type="checkbox" class="signUpMany" uName="'+(stu.username?stu.username:"")+'" value="' + (stu.mobile?stu.mobile:"") + '">'
-                                // + '</td>'
-                                // + '<td>'
-                                // + (stu.mobile ? stu.mobile
-                                //     : "")
-                                // + '</td>'
-                                // + '<td>'
-                                // + (stu.username ? stu.username
-                                //     : "")
-                                // + '</td>'
-                                + '<td>'
-                                + stu.className
-                                + '</td>'
-                                + '<td>'
-                                + stu.lessonName
-                                + '</td>'
-                                + '<td>'
-                                + stu.userName
-                                + '</td>'
-                                + '<td>'
-                                + stu.studentName
-                                + '</td>'
-                                + str
-                                + '<td>'
-                                + stu.times
-                                + '</td>'
-                                + '<td >'
-                                + stu.studyTime
-                                + '</td>'
-
-                                // + '<td class="slink">'
-                                // + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
-                                // + '<a class="studentDetail" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">详情</a>|'
-                                // + '<a class="more" href="javascript:void(0);">更多</a>'
-                                // + '<ul class="none box">'
-                                // + ' <li><a class="updateStudentMsg" stuId="' + stu.id + '" href="javascript:void(0);">修改信息</a></li>'
-                                // +(($("#isDelete").val()==1)?((stu.paymaterCount > 0)?' <li><a class="delStudent" stuId="'+stu.id+'" href="javascript:void(0);">取消报名</a></li>':""):"")
-                                // + (stu.userId ? (stu.status == 1 ? '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">禁用用户</a></li>'
-                                //     : '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">启用用户</a></li>' ) : '')
-                                // + (stu.status == 1 ? '<li><a class="changePwd" userId="' + stu.userId + '" href="javascript:void(0);">修改密码</a></li>' : '')
-                                // +(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportStudyRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllCl?stuId='+stu.id+'" target="_blank">学习记录</a></li>' : '')
-                                // +(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportExcleRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllExt?stuId='+stu.id+'" target="_blank">做题记录</a></li>' : '')
-                                // + ((stu.paymaterCount > 0 && stu.commodityType!='COMMODITY_PACKAGE') ? '<li><a class="toTransaction" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">异动</a></li>' : '')
-                                // + (stu.paymaterCount > 0 ? (stu.ispay == "1" ? '<li><a class="toMessage" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">补费</a></li>' : '' ) : '')
-                                // + (stu.paymaterCount > 0 ?
-                                //     (stu.agentFlag == "1" ?
-                                //         (stu.isAgent == "1" ?
-                                //         '<li><a class="showStuMaterial" mobile="' +(stu.mobile?stu.mobile:"")+ '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报考材料</a></li>'
-                                //             : '')
-                                //         : '')
-                                //     : '')
-                                // + '</ul></td>'
-                                + '</tr>');
+                            .append($tr);
                     });
                     $("#rowCount").remove();
                     $("#pageNo").remove();

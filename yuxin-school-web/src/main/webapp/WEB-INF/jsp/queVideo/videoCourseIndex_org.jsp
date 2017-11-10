@@ -33,76 +33,73 @@
 					<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}">
 					<input type="hidden" id="eduSchool" name="eduSchool" value="${org.itemCode}">
 				</span>
-				<button class="btns-default">查询</button>
+				<button class="btns-default searchContents">查询</button>
 			</p>
 			<ul class="playcount-info">
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play1.png" alt="">
-					<span class="pull-right tit">总计观看直播人数</span>
-					<span class="pull-right msg">500</span>
+					<span class="pull-right tit">总计观看点播人数</span>
+					<span class="pull-right msg" id="userNum"></span>
 				</li>
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play2.png" alt="">
-					<span class="pull-right tit">总计观看直播时长</span>
-					<span class="pull-right msg">1034小时32分10秒</span>
+					<span class="pull-right tit">总计观看点播时长</span>
+                    <span class="pull-right msg" id="totleStudyLength"></span>
 				</li>
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play3.png" alt="">
 					<span class="pull-right tit">总计观看直播人次</span>
-					<span class="pull-right msg">1210</span>
+                    <span class="pull-right msg" id="personNum"></span>
 				</li>
 			</ul>
-			<div class="statistics-con">
-				<div class="demand-count" id="demandCount" style="width:100%;height: 380px;"></div>
+			<div class="user-list">
+				<table class="table table-center" id="tableList">
+					<tr data-buy="true">
+						<th width="16%">课程学段</th>
+						<th width="16%">学科</th>
+						<th width="16%" class="btn-sort" fieldName="totle_study" sort="">总播放量</th>
+						<th width="16%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>
+						<th width="16%" class="btn-sort" fieldName="study_rate" sort="">播完率</th>
+						<th width="16%" class="btn-sort" fieldName="view_num" sort="">观看次数</th>
+					</tr>
+					<c:choose>
+						<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
+							<tr><td colspan="7">暂无数据</td></tr>
+						</c:when>
+						<c:otherwise>
+							<tr><td colspan="6">暂无数据</td></tr>
+						</c:otherwise>
+					</c:choose>
+
+				</table>
+				<div class="pages pagination"></div>
 			</div>
 		</div>
 	</div>
+	<!-- ajax加载中div开始 -->
+	<div class="loading lp-units-loading" style="display:none">
+		<p><i></i>加载中,请稍后...</p>
+	</div>
+	<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
+	<!--  ajax加载中div结束 -->
 </div>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/video/video_course_index_org.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/byecharts.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript">
 	$selectThirdMenu('videoList');
-	$(document).statistical().init();
 
-	var chartOpiton = {
-		"id":document.getElementById("demandCount"),
-		"legend":{
-			show:true,
-			selectedMode: false,
-			y: 20,
-			data:["报名人数","实际观看人数"]
-		},
-		"series":[
-			{
-				name: '实际观看人数',
-				type: 'bar',
-				itemStyle: {
-					normal: {
-						color: "#5b9bd5"
-					}
-				},
-				data: [160,172,160,98,102,30]
-			},{
-				name: "报名人数",
-				type: 'bar',
-				itemStyle: {
-					normal: {
-						color: "#ed7d31",
-					}
-				},
-				data: [200,200,200,200,200,200]
-			}
-		],
-		"seriesName":"观看点播前五",
-		"yAxisData":['2012级','2013级','2014级','2015级','2016级','2017级']
-
-	};
-	$(document).statistical().setCharts(chartOpiton);
+	$.tableSort($(".btn-sort"),{
+		callback:function(data){
+			console.log(data);
+			student.search(1,data);
+		}
+	});
 </script>
 </body>
 </html>

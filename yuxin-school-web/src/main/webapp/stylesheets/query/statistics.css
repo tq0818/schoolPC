@@ -24,7 +24,7 @@ padding:0 5px;
 }
 .screen-info .i-data{border: 0;height: auto;width:80px;margin:0 5px;}
 .screen-info .btns-default{display: inline-block;padding:5px 20px;color:#fff;background: #9bbbdb;
-border-radius:2px;border: 0;
+border-radius:2px;border: 0;    margin-right: 5px;
 }
 .statistics-con{overflow: hidden;margin-top: 20px;clear: both;}
 .demand-count{clear: both;margin: 20px 0;}
@@ -33,7 +33,7 @@ border-radius:2px;border: 0;
 .screen-info .search-item{display: inline-block;float: left;margin-right: 10px;}
 .screen-info .select-box{height: 30px;	}
 .btn-center{text-align: center;}
-.course-info{background: #fff;padding:10px 5px ;}
+.course-info{background: #fff;padding:10px 5px ;margin: 20px 0;}
 .course-info .name{width: 40%;display: inline-block;font-size: 13px;}
 .course-info .play{width: 30%;
 }
@@ -45,6 +45,7 @@ border-radius:2px;border: 0;
   
     background: url(../../images/query/ico-pc.png) no-repeat left;
      }
+.course-info .device .ico:last-child{border-bottom: 0;}
 .course-info .device .ico-pc{background-size: 15px 15px;}
 .course-info .device .ico-yd{background-size: 12px 15px;}
 .course-info .device .ico i{margin: 0 20px 0 5px;    min-width: 40px;

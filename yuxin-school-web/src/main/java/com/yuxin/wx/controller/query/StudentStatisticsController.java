@@ -33,6 +33,7 @@ import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -684,13 +685,13 @@ public class StudentStatisticsController {
 
             Subject subject = SecurityUtils.getSubject();
             if(subject.hasRole("学校负责人")) {
-                map.put("schoolId",uersAreaRelation.getEduSchool());
+                map.put("eduSchool",uersAreaRelation.getEduSchool());
                 map.put("groupBy","edu_year");
             }else if(subject.hasRole("教科院")){
                 // map.put("areaId",uersAreaRelation.getE);
                 map.put("groupBy","edu_area");
             }else if(subject.hasRole("区县负责人")){
-                map.put("areaId",uersAreaRelation.getEduArea());
+                map.put("eduArea",uersAreaRelation.getEduArea());
                 map.put("groupBy","edu_school");
             }
         }
@@ -816,12 +817,15 @@ public class StudentStatisticsController {
         return map;
     }
     //查询直播统计
-//    @ResponseBody
-//    @RequestMapping(value = "/statistics/totalPayMasterCount")
-//    public Integer totalPayMasterCount(WatchInfoResult search) {
-//        Integer total = studentStatisticsServiceImpl.totalPayMasterCount(search);
-//        return total;
-//    }
+    @ResponseBody
+    @RequestMapping(value = "/getStudentWatchInfo")
+    public List<Map> getStudentWatchInfo(String lessonId,String userId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("lessonId",lessonId);
+        map.put("userId",userId);
+        List<Map> result = studentStatisticsServiceImpl.getStudentWatchInfo(map);
+        return result;
+    }
 
     /**
      * 用户点播统计
@@ -893,7 +897,7 @@ public class StudentStatisticsController {
     //直播观看人数
     @RequestMapping(value="/statistics/watchSchoolInfoIndex")
     @ResponseBody
-    public List<Map> watchSchoolInfoIndex(String startDate,String endDate,HttpServletRequest request){
+    public Map watchSchoolInfoIndex(String startDate,String endDate,HttpServletRequest request){
             Map<String ,Object> map = new HashMap<>();
             map.put("startDate",startDate);
             map.put("endDate",endDate);
@@ -904,12 +908,102 @@ public class StudentStatisticsController {
             if(subject.hasRole("学校负责人")) {
                 map.put("schoolId",uersAreaRelation.getEduSchool());
                 map.put("groupBy","edu_year");
+            }else{
+                return null;
             }
 
+            //获取总的年级数
+            List<Map> year = studentStatisticsServiceImpl.getEduYearBySchool(map);
+            //获取总观看人数
+            Integer  watchNum =studentStatisticsServiceImpl.getWatchNumBySchool(map);
+            //获取总观看时长
+            String  totalTime =studentStatisticsServiceImpl.getWatchTimeLengthBySchool(map);
+            //获取总观看人次
+            Integer watchAll =studentStatisticsServiceImpl.getWatchTotalBySchool(map);
 
+
+            //按年级分观看人数
             List<Map>  result  =  studentStatisticsServiceImpl.watchSchoolChartData(map);
+           //按年级分报名人数
+            List<Map> total    =  studentStatisticsServiceImpl.getAllBuyNum(map);
 
-            return result;
+
+
+            if(result.size()>0 &&result.size()<year.size() ){
+                List<Map> newResult = new ArrayList<>();
+                for(int n = 0 ; n <year.size() ; n++){
+
+                    for(int m = 0 ; m <result.size() ; m++){
+                        Map a  = result.get(m);
+                        boolean flag = false;
+                        if(a.get("edu_year").equals(year.get(n).get("edu_year"))){
+                            flag = true;
+                            newResult.add(a);
+                            break;
+                        }
+                        if(m==result.size()-1 && !flag){
+                            Map b = new HashMap();
+                            b.put("edu_year",year.get(n).get("edu_year"));
+                            b.put("times",0);
+                            newResult.add(b);
+
+                        }
+                    }
+
+                }
+                result = newResult;
+
+            }else if(result.size() == 0){
+                for(int n = 0 ; n <year.size() ; n++){
+                        Map a  = new HashMap();
+                        String eduYear = (String)year.get(n).get("edu_year");
+                        a.put("edu_year",eduYear);
+                        a.put("times",0);
+                        result.add(a);
+                }
+            }
+
+        if(total.size()>0 &&total.size()<year.size() ){
+            List<Map> newTotal = new ArrayList<>();
+
+                for(int n = 0 ; n <year.size() ; n++){
+                    for(int m = 0 ; m <total.size() ; m++){
+                        Map a  = total.get(m);
+                        boolean flag = false;
+                    if(a.get("edu_year").equals(year.get(n).get("edu_year"))){
+                        flag = true;
+                        newTotal.add(a);
+                        break;
+                    }
+                    if(m==total.size()-1 && !flag){
+                        Map b = new HashMap();
+                        b.put("edu_year",year.get(n).get("edu_year"));
+                        b.put("times",0);
+                        newTotal.add(b);
+
+                    }
+
+                }
+            }
+            total = newTotal;
+        }else if(total.size()==0){
+            for(int n = 0 ; n <year.size() ; n++){
+                Map a  = new HashMap();
+                a.put("edu_year",year.get(n).get("edu_year"));
+                a.put("times",0);
+                total.add(a);
+            }
+        }
+
+
+            map = new HashMap<>();
+            map.put("year",year);
+            map.put("watchNum",watchNum);
+            map.put("totalTime",totalTime);
+            map.put("watchAll",watchAll);
+            map.put("result",result);
+            map.put("total",total);
+            return map;
     }
     @RequestMapping(value="/statistics/watchSchoolInfoTotal")
     @ResponseBody
@@ -999,7 +1093,7 @@ public class StudentStatisticsController {
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryUserVideoList";
@@ -1049,7 +1143,7 @@ public class StudentStatisticsController {
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryUserVideoList_area";
@@ -1098,7 +1192,7 @@ public class StudentStatisticsController {
         //计算时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        model.addAttribute("ednTime" ,sdf.format(cal.getTime()));
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_MONTH, -6);
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryUserVideoList_org";
@@ -1199,6 +1293,53 @@ public class StudentStatisticsController {
     }
 
     /**
+     * 教师授课详情
+     * @param model
+     * @param userVideoVo
+     * @return
+     */
+    @RequestMapping(value = "/exportAreaCourseExcle")
+    public ModelAndView exportAreaCourseExcle(Model model, UserVideoVo userVideoVo) {
+        List<UserVideoVo> al = new ArrayList<UserVideoVo>();
+        if (EntityUtil.isNotBlank(userVideoVo)) {
+            userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+            userVideoVo.setPageSize(50000);
+            al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
+        }
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (UserVideoVo v : al) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("dataTime", userVideoVo.getStartTime()+"至"+userVideoVo.getEndTime());
+            map.put("schoolStepName", v.getSchoolStepName());
+            map.put("schoolName", v.getSchoolName());
+            map.put("stepName", v.getStepName());
+            map.put("subjectName", v.getSubjectName());
+            map.put("courseName", v.getCourseName());
+            map.put("yearName", v.getYearName());
+            map.put("className", v.getClassName());
+            map.put("username", v.getUsername());
+            map.put("name", v.getName());
+            map.put("totleStudyLength", v.getTotleStudyLength());
+            map.put("studyRate", v.getStudyRate()!=null ? v.getStudyRate()+"%":"");
+            map.put("viewNum", v.getViewNum());
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                    "日期:dataTime,学校性质:schoolStepName,学校:schoolName,学段:stepName,学科:subjectName,课程名:courseName,入学年份:yearName,班级:className,用户名:username,学员名:name,总播放时长:totleStudyLength,播完率:studyRate,观看次数:viewNum");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "点播统计详情.xls");
+        return new ModelAndView(excel, map);
+    }
+
+    /**
      * 用户点播统计
      * @param model
      * @param userVideoVo
@@ -1218,7 +1359,7 @@ public class StudentStatisticsController {
             map.put("time", userVideoVo.getStartTime() + "至" + userVideoVo.getEndTime());
             map.put("areaName", v.getAreaName());
             map.put("schoolName", v.getSchoolName());
-            map.put("stepName", v.getStepName());
+            map.put("stepName", v.getCourseStepName());
             map.put("subjectName", v.getSubjectName());
             map.put("courseName", v.getCourseName());
             map.put("username", v.getUsername());
@@ -1273,8 +1414,6 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
-        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
-        model.addAttribute("totleNum", totleNum);
 
         return "/queVideo/videoCourseIndex";
     }
@@ -1322,10 +1461,12 @@ public class StudentStatisticsController {
 
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
-        //查询区域的录播观看人数
-        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
-        model.addAttribute("totleNum", totleNum);
 
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP_NEW");
+        List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("stepNews", stepNews);
         return "/queVideo/videoCourseIndex_area";
     }
 
@@ -1381,10 +1522,6 @@ public class StudentStatisticsController {
 
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
-        //查询区域的录播观看人数
-        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
-        model.addAttribute("totleNum", totleNum);
-
         return "/queVideo/videoCourseIndex_org";
     }
 
@@ -1411,6 +1548,33 @@ public class StudentStatisticsController {
         List<Map<String, Object>> areaVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse(papamMap);
 
         jsonObject.put("areaVideoList", areaVideoList);
+        return jsonObject;
+    }
+
+    /**
+     * 点播统计-概况
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/statistics/queryTotleVideoCourseForSchool")
+    @ResponseBody
+    public JSONObject queryTotleVideoCourseForSchool(HttpServletRequest request, String startTime, String endTime, String eduArea, String eduSchoolStep) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
+        papamMap.put("eduSchoolStep", eduSchoolStep);
+        //查询区域的录播观看人数
+        List<Map<String, Object>> schoolVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourseForSchool(papamMap);
+
+        jsonObject.put("schoolVideoList", schoolVideoList);
         return jsonObject;
     }
 
@@ -1476,7 +1640,7 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value="/statistics/queryTopSubjectView")
     @ResponseBody
-    public JSONObject queryTopSubjectView(HttpServletRequest request, String startTime, String endTime) throws Exception {
+    public JSONObject queryTopSubjectView(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
         JSONObject jsonObject = new JSONObject();
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -1486,6 +1650,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
         papamMap.put("pageSize", 5);
         List<SysConfigItemRelation> itemList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
         List<Map<String, Object>> subjectTotleList = new ArrayList<Map<String, Object>>();
@@ -1533,7 +1698,6 @@ public class StudentStatisticsController {
         //学校所属学段
         List<SysConfigItemRelation> stepItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);//查询学段
         model.addAttribute("stepItem", stepItem);
-
 
         return "/queVideo/videoCourseDetail";
     }
@@ -1809,5 +1973,62 @@ public class StudentStatisticsController {
         model.addAttribute("startTime" ,startTime);
 
         return "/queVideo/videoDetail";
+    }
+
+
+    /**
+     *
+     * Class Name: StudentController.java
+     *
+     * @Description: 查询学员列表数据
+     * @author zhang.zx
+     * @date 2015年9月29日 下午4:46:54
+     * @modifier
+     * @modify-date 2015年9月29日 下午4:46:54
+     * @version 1.0
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryVideoListForSchool")
+    public PageFinder<VideoCourseVo> queryVideoListForSchool(VideoCourseVo videoCourseVo) {
+        videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
+        // 分页调整
+        if (videoCourseVo.getPageSize() == null) {
+            videoCourseVo.setPageSize(10);
+        }
+
+        PageFinder<VideoCourseVo> pageFinder = sysPlayLogsServiceImpl.queryVideoListForSchool(videoCourseVo);
+        return pageFinder;
+    }
+
+    /**
+     *
+     * Class Name: StudentController.java
+     *
+     * @Description: 查询学员列表数据
+     * @author zhang.zx
+     * @date 2015年9月29日 下午4:46:54
+     * @modifier
+     * @modify-date 2015年9月29日 下午4:46:54
+     * @version 1.0
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryVideoTotleForSchool")
+    public JSONObject queryVideoTotleForSchool(VideoCourseVo videoCourseVo) {
+        JSONObject jsonObject = new JSONObject();
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", videoCourseVo.getStartTime());
+        papamMap.put("endTime", videoCourseVo.getEndTime());
+        papamMap.put("eduArea", videoCourseVo.getEduArea());
+        papamMap.put("eduSchool", videoCourseVo.getEduSchool());
+        //查询学校的录播观看人数
+        Integer userNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        jsonObject.put("userNum", userNum);
+
+        //总计观看点播时长+人次
+        Map<String, Object> totleVideo = sysPlayLogsServiceImpl.queryTotleStudyLengthAndPersonNum(papamMap);
+        jsonObject.put("totleVideo", totleVideo);
+        return jsonObject;
     }
 }

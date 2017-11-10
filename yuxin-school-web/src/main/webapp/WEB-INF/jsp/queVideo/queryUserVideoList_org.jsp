@@ -95,7 +95,7 @@
 						<input type="text" id="className" name="className" placeholder="请输入课程名"/>
 						<span class="date" style="margin-left: 0;">
 							<i class="text">日期</i>
-							<span><input type="text" name="startTime" class="date-picker from i-data" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to i-data" value="${ednTime}"/></span>
+							<span><input type="text" name="startTime" class="date-picker from i-data" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to i-data" value="${endTime}"/></span>
 						</span>
 					</div>
 					<div class="screen-info btn-center margin20">
@@ -110,7 +110,7 @@
 						<th width="6%">用户名</th>
 						<th width="7%">学员名称</th>
 						<th width="11%">课程名称</th>
-						<th width="6%">课程学段</th>
+						<th width="6%">学段</th>
 						<th width="6%">入学年份</th>
 						<th width="6%">班级</th>
 						<th width="6%">学科</th>
@@ -126,7 +126,6 @@
 							<tr><td colspan="14">暂无数据</td></tr>
 						</c:otherwise>
 					</c:choose>
-
 
 				</table>
 				<div class="pages pagination"></div>
@@ -149,9 +148,9 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript">

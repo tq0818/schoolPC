@@ -1109,9 +1109,9 @@
                     }
                 });
 
-                $(".queryVideoDaily").show();
-                $(".queryVideoDaily").popup("show");
-                $(".queryVideoDaily").css("top", "2%");
+                $(".queryVideoDailyInfo1").show().find("[name=terminal]:first").addClass("active").siblings().removeClass("active");
+                $(".queryVideoDailyInfo").popup("show").css("top", "5%");
+
             });
         },
         clearData: function () {
@@ -1228,6 +1228,9 @@
         update.queryVideoDaily();
         changePw.init();
         $(".ico").css("color", "red");
+        $(".canclekuang").on('click',function(){
+            $(".queryVideoDailyInfo1").hide();
+        })
     })
     window.student = student;
     window.Form = Form;

@@ -14,6 +14,7 @@
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 	<link rel="stylesheet" href="<%=rootPath %>/stylesheets/query/statistics.css">
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -65,7 +66,7 @@
 									</select>
 								</c:if>
 								<c:if test="${role=='area'}">
-									<input type="hidden" id="eduArea" data-id="${areaId}" value="${area}"/>
+									<input type="hidden" name="eduArea" id="eduArea" data-id="${areaId}" value="${area}"/>
 									<span>学校</span>
 									<!--学校性质-->
 									<select name="schoolType" id="schoolType">
@@ -77,8 +78,8 @@
 									</select>
 								</c:if>
 								<c:if test="${role =='school'}">
-									<input type="hidden" id="eduArea" value="${area}"/>
-									<input type="hidden" id="eduSchool" value="${eduSchool}"/>
+									<input type="hidden" name="eduArea" id="eduArea" value="${area}"/>
+									<input type="hidden" name="eduSchool" id="eduSchool" value="${eduSchool}"/>
 									<span>学段</span>
 									<select name="eduStep" id="eduStep">
 										<option value="">请选择学段</option>
@@ -136,6 +137,7 @@
 						<div style="margin-top: 10px;">
 							<span>学科</span>
 							<select name="itemThirdCode" id="subject">
+								<option value="">请选择课程模块</option>
 								<c:forEach items="${subject}" var="subject" >
 									<option value="${subject.itemCode}" data-id="${subject.id}" >${subject.itemName}</option>
 								</c:forEach>
@@ -173,7 +175,7 @@
 								<%--<th width="8%">用户名</th>--%>
 								<th width="10%">课程名称</th>
 								<th width="10%">课次名称</th>
-								<th width="10%">用户名</th>
+								<th width="8%">用户名</th>
 								<th width="8%">学员名称</th>
                                 <c:if test="${role=='school'}">
                                     <th width="8%">所在班级</th>
@@ -183,8 +185,8 @@
                                     <th width="8%">学段</th>
                                     <th width="8%" class="btn-sort" fieldName="edu_year"  sort="">入学年份</th>
                                 </c:if>
-                                <th width="6%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
-								<th width="12%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
+                                <th width="9%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
+								<th width="11%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
 								<%--<th width="10%">操作</th>--%>
 							</tr>
 						</table>
@@ -199,6 +201,34 @@
 		</div>
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
+		<!-- popupwin 累积上课详细 开始    -->
+		<div class="popupwin-box cumulativeClass1  clear" style="display:none">
+			<div class="popupwin cumulativeClass" style="width:850px; height: auto;top:10px;" data-pupwin="modal">
+				<div class="popupwin-title">
+					<h2 class="h5">累积上课详细</h2>
+					<i class="close iconfont canclekuang"></i>
+				</div>
+				<div class="popupwin-main">
+
+						<table class="table table-center" id="cumulativeCount">
+							<tr data-buy="true">
+								<th width="15%">课次名称</th>
+								<th width="10%">学员名称</th>
+								<c:if test="${role!='school'}">
+									<th width="15%">学校</th>
+								</c:if>
+								<th width="8%">学段</th>
+								<th width="10%">班级</th>
+								<th width="15%">进入学习时间</th>
+								<th width="15%">结束学习时间</th>
+								<th width="20%">学习时长</th>
+							</tr>
+							<tr class="listData"><td colspan="14">没有查找到数据</td></tr>
+						</table>
+				</div>
+			</div>
+		</div>
+		<!-- popupwin 累积上课详细结束 -->
 	</div>
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_watchList.js"></script>
@@ -209,8 +239,6 @@
 <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
@@ -226,8 +254,8 @@
     }
     $selectThirdMenu('watchInfoList');
 	function searchbtn(){
-        var pageNo=$("#pageNo").val();
-       search(pageNo);
+        //var pageNo=$("#pageNo").val();
+       search(1);
 	}
     $.tableSort($(".btn-sort"),{
         callback:function(data){

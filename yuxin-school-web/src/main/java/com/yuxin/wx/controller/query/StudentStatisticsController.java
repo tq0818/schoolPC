@@ -1402,9 +1402,13 @@ public class StudentStatisticsController {
 
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
-        //查询区域的录播观看人数
-        Integer totleNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
-        model.addAttribute("totleNum", totleNum);
+        //查询学校的录播观看人数
+        Integer userNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        model.addAttribute("userNum", userNum);
+
+        //总计观看点播时长+人次
+        Map<String, Object> totleVideo = sysPlayLogsServiceImpl.queryTotleStudyLengthAndPersonNum(papamMap);
+        model.addAttribute("totleVideo", totleVideo);
 
         return "/queVideo/videoCourseIndex_org";
     }
@@ -1554,7 +1558,6 @@ public class StudentStatisticsController {
         //学校所属学段
         List<SysConfigItemRelation> stepItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);//查询学段
         model.addAttribute("stepItem", stepItem);
-
 
         return "/queVideo/videoCourseDetail";
     }
@@ -1830,5 +1833,62 @@ public class StudentStatisticsController {
         model.addAttribute("startTime" ,startTime);
 
         return "/queVideo/videoDetail";
+    }
+
+
+    /**
+     *
+     * Class Name: StudentController.java
+     *
+     * @Description: 查询学员列表数据
+     * @author zhang.zx
+     * @date 2015年9月29日 下午4:46:54
+     * @modifier
+     * @modify-date 2015年9月29日 下午4:46:54
+     * @version 1.0
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryVideoListForSchool")
+    public PageFinder<VideoCourseVo> queryVideoListForSchool(VideoCourseVo videoCourseVo) {
+        videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
+        // 分页调整
+        if (videoCourseVo.getPageSize() == null) {
+            videoCourseVo.setPageSize(10);
+        }
+
+        PageFinder<VideoCourseVo> pageFinder = sysPlayLogsServiceImpl.queryVideoListForSchool(videoCourseVo);
+        return pageFinder;
+    }
+
+    /**
+     *
+     * Class Name: StudentController.java
+     *
+     * @Description: 查询学员列表数据
+     * @author zhang.zx
+     * @date 2015年9月29日 下午4:46:54
+     * @modifier
+     * @modify-date 2015年9月29日 下午4:46:54
+     * @version 1.0
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryVideoTotleForSchool")
+    public JSONObject queryVideoTotleForSchool(VideoCourseVo videoCourseVo) {
+        JSONObject jsonObject = new JSONObject();
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", videoCourseVo.getStartTime());
+        papamMap.put("endTime", videoCourseVo.getEndTime());
+        papamMap.put("eduArea", videoCourseVo.getEduArea());
+        papamMap.put("eduSchool", videoCourseVo.getEduSchool());
+        //查询学校的录播观看人数
+        Integer userNum = sysPlayLogsServiceImpl.queryTotleUserVideoNum(papamMap);
+        jsonObject.put("userNum", userNum);
+
+        //总计观看点播时长+人次
+        Map<String, Object> totleVideo = sysPlayLogsServiceImpl.queryTotleStudyLengthAndPersonNum(papamMap);
+        jsonObject.put("totleVideo", totleVideo);
+        return jsonObject;
     }
 }

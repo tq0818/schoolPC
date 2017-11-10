@@ -97,4 +97,19 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
     public List<Map<String, Object>> queryTotleVideo(Map<String, Object> papamMap) {
         return sysPlayLogsMapper.queryTotleVideo(papamMap);
     }
+
+    @Override
+    public Map<String, Object> queryTotleStudyLengthAndPersonNum(Map<String, Object> papamMap) {
+        return sysPlayLogsMapper.queryTotleStudyLengthAndPersonNum(papamMap);
+    }
+
+    @Override
+    public PageFinder<VideoCourseVo> queryVideoListForSchool(VideoCourseVo videoCourseVo) {
+        List<VideoCourseVo> al = sysPlayLogsMapper.queryVideoListForSchool(videoCourseVo);
+        Integer rowCount = sysPlayLogsMapper.queryVideoListForSchoolCount(videoCourseVo);
+        PageFinder<VideoCourseVo> pf = new PageFinder<VideoCourseVo>(videoCourseVo.getPage(),
+                videoCourseVo.getPageSize(), rowCount, al);
+        return pf;
+    }
+
 }

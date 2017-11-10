@@ -220,7 +220,25 @@
         and s.delete_flag = 0
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
 		group by pl.user_id ) t
+	</select>
+
+	<select id="queryTotleStudyLengthAndPersonNum" resultType="map" parameterType="map">
+		select
+		CONCAT(SEC_TO_TIME(SUM(pl.study_length)),'') AS totleStudyLength,
+		count(1) as personNum
+		from
+		sys_play_logs pl
+		LEFT JOIN student s
+		ON s.user_id = pl.user_id
+		AND s.edu_identity = 0
+		WHERE s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+		and s.delete_flag = 0
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
 	</select>
 
 	<select id="queryTotleVideoCourse" resultType="map" parameterType="map">
@@ -432,4 +450,63 @@
         <if test="className!=null and className!=''">and t.name = #{className}</if>
 		limit 1;
     </select>
+
+
+	<select id="queryVideoListForSchool" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
+		select
+		it.item_name as subject_name,
+		it1.item_name AS step_name,
+		COUNT(pl.user_id) AS totle_study,
+		concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
+		round(SUM(pl.study_length) / (COUNT(pl.user_id) * TIME_TO_SEC(v.video_time)) * 100,2)  as study_rate
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id
+		left join sys_config_teacher ut on ut.id = t.teacher_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id
+		where s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+		and s.delete_flag = 0
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		group by t.`item_second_code`,
+		t.`item_third_code`
+		<choose>
+			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
+			<otherwise>order by t.item_second_code, t.item_third_code</otherwise>
+		</choose>
+		<choose>
+			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
+		</choose>
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="queryVideoListForSchoolCount" resultType="int" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
+		SELECT COUNT(1) FROM (select
+		pl.class_type_id
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id
+		left join sys_config_teacher ut on ut.id = t.teacher_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id
+		where  s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+		and s.delete_flag = 0
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		group by t.`item_second_code`,
+		t.`item_third_code`) t
+	</select>
 </mapper>

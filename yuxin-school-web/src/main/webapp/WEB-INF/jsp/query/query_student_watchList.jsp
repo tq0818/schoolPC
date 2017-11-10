@@ -66,7 +66,7 @@
 									</select>
 								</c:if>
 								<c:if test="${role=='area'}">
-									<input type="hidden" id="eduArea" data-id="${areaId}" value="${area}"/>
+									<input type="hidden" name="eduArea" id="eduArea" data-id="${areaId}" value="${area}"/>
 									<span>学校</span>
 									<!--学校性质-->
 									<select name="schoolType" id="schoolType">
@@ -78,8 +78,8 @@
 									</select>
 								</c:if>
 								<c:if test="${role =='school'}">
-									<input type="hidden" id="eduArea" value="${area}"/>
-									<input type="hidden" id="eduSchool" value="${eduSchool}"/>
+									<input type="hidden" name="eduArea" id="eduArea" value="${area}"/>
+									<input type="hidden" name="eduSchool" id="eduSchool" value="${eduSchool}"/>
 									<span>学段</span>
 									<select name="eduStep" id="eduStep">
 										<option value="">请选择学段</option>
@@ -137,6 +137,7 @@
 						<div style="margin-top: 10px;">
 							<span>学科</span>
 							<select name="itemThirdCode" id="subject">
+								<option value="">请选择课程模块</option>
 								<c:forEach items="${subject}" var="subject" >
 									<option value="${subject.itemCode}" data-id="${subject.id}" >${subject.itemName}</option>
 								</c:forEach>
@@ -212,18 +213,18 @@
 						<table class="table table-center" id="cumulativeCount">
 							<tr data-buy="true">
 								<th width="15%">课次名称</th>
-								<th width="15%">学员名称</th>
-								<th width="10%">学校</th>
-								<th width="10%">学段</th>
+								<th width="10%">学员名称</th>
+								<c:if test="${role!='school'}">
+									<th width="15%">学校</th>
+								</c:if>
+								<th width="8%">学段</th>
 								<th width="10%">班级</th>
 								<th width="15%">进入学习时间</th>
 								<th width="15%">结束学习时间</th>
-								<th width="10%">学习时长</th>
+								<th width="20%">学习时长</th>
 							</tr>
 							<tr class="listData"><td colspan="14">没有查找到数据</td></tr>
 						</table>
-						<div class="pages pagination"></div>
-
 				</div>
 			</div>
 		</div>
@@ -253,8 +254,8 @@
     }
     $selectThirdMenu('watchInfoList');
 	function searchbtn(){
-        var pageNo=$("#pageNo").val();
-       search(pageNo);
+        //var pageNo=$("#pageNo").val();
+       search(1);
 	}
     $.tableSort($(".btn-sort"),{
         callback:function(data){

@@ -20,6 +20,7 @@
 		<result property="startTime" column="start_time" />
 		<result property="endTime" column="end_time" />
 		<result property="schoolType" column="school_type" />
+		<result property="userId" column="user_id" />
 	</resultMap>
 	<select id="getAllStudentNum" resultType="Long" parameterType="com.yuxin.wx.vo.user.UsersAreaRelation">
 		select count(1) as studentNum from student s INNER JOIN users_front u ON u.id = s.user_id
@@ -289,8 +290,10 @@
                     SELECT
                      swi. NAME AS class_name,
                     swi.lesson_name,
+					swi.lesson_id,
                     s. NAME AS student_name,
                     sf.username as user_name,
+					sf.id as user_id,
 					s.edu_year,
                     CONCAT(
                         s.edu_year,
@@ -320,7 +323,7 @@
                     <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
                     <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
                     <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
-                    <if test="lessonId !=null and lessonId != ''">and swi.lessonId = #{lessonId}</if>
+                    <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
                     <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
                     <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
 					<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
@@ -370,7 +373,7 @@
                         <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
                         <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
                         <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
-                        <if test="lessonId !=null and lessonId != ''">and swi.lessonId = #{lessonId}</if>
+                        <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
                         <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
                         <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
 						<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
@@ -418,7 +421,7 @@
                         <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
                         <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
                         <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
-                        <if test="lessonId !=null and lessonId != ''">and swi.lessonId = #{lessonId}</if>
+                        <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
                         <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
                         <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
 						<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
@@ -445,7 +448,7 @@
 						<if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
 						<if test="itemThirdCode !=null and itemThirdCode != ''">and c.item_third_code = #{itemThirdCode}</if>
 						<if test="commodityId !=null and commodityId != ''">and c.id = #{commodityId}</if>
-						<if test="lessonId !=null and lessonId != ''">and cml.lessonId = #{lessonId}</if>
+						<if test="lessonId !=null and lessonId != ''">and cml.id = #{lessonId}</if>
 						<if test="startTime !=null and startTime != ''">and spm.apply_time >= #{startTime}</if>
 						<if test="endTime !=null and endTime != ''">and spm.apply_time <![CDATA[<=]]> #{endTime}</if>
 						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
@@ -465,20 +468,21 @@
 						AND s.edu_identity = 0 and s.delete_flag =  0  AND m.live_flag =1
 						<if test="startDate !=null and startDate != ''">and  DATE(spm.apply_time) >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and  DATE(spm.apply_time) <![CDATA[<=]]> #{endDate}</if>
-						GROUP BY s.edu_year
+						GROUP BY s.edu_year asc
 					</select>
 					<select id="watchSchoolChartData" parameterType="Map" resultType="Map">
-						SELECT  COUNT(DISTINCT(swi.user_id)),s.edu_year from sys_watch_info  swi
+						SELECT  COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
 						LEFT JOIN student s  on s.user_id = swi.user_id
 						where  s.edu_year >0  and s.edu_school = #{schoolId} and s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY s.edu_year
-						ORDER BY s.edu_year DESC
+						ORDER BY s.edu_year asc
 					</select>
 
 					<select id="getEduYearBySchool" parameterType="Map" resultType="Map">
-						SELECT   DISTINCT (edu_year)  from student  where delete_flag = 0  and edu_year > 0 and edu_school=#{schoolId}  ORDER BY  edu_year desc
+						SELECT   DISTINCT (edu_year)  from student
+						where delete_flag = 0  and edu_year > 0 and edu_school=#{schoolId}  ORDER BY  edu_year asc
 					</select>
 
 					<select id="getWatchNumBySchool" parameterType="Map" resultType="int">
@@ -490,8 +494,8 @@
 
 
 					</select>
-					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="int">
-						select  sum(swi.watch_time) from  sys_watch_info swi
+					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="Long">
+						select  IFNULL(sum(swi.watch_time),0) as watch_time from  sys_watch_info swi
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0  and s.edu_school=#{schoolId}
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
@@ -505,4 +509,14 @@
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 					</select>
 
+
+
+					<select id="getStudentWatchInfo" parameterType="Map" resultType="Map">
+						SELECT
+							join_time,leave_time,watch_time
+						from  sys_watch_info swi
+						where lesson_id = #{lessonId}
+						and user_id = #{userId}
+						ORDER  BY  join_time asc
+					</select>
                 </mapper>

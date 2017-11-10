@@ -26,7 +26,7 @@
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
-	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
+	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
@@ -48,17 +48,17 @@
 						<li>
 							<img class="pull-left" src="<%=rootPath %>/images/query/ico-play1.png" alt="">
 							<span class="pull-right tit">总计观看直播人数</span>
-							<span class="pull-right msg">500</span>
+							<span class="pull-right msg" id="watchNum">500</span>
 						</li>
 						<li>
 							<img class="pull-left" src="<%=rootPath %>/images/query/ico-play2.png" alt="">
 							<span class="pull-right tit">总计观看直播时长</span>
-							<span class="pull-right msg">1034小时32分10秒</span>
+							<span class="pull-right msg" id="totalTime">1034小时32分10秒</span>
 						</li>
 						<li>
 							<img class="pull-left" src="<%=rootPath %>/images/query/ico-play3.png" alt="">
 							<span class="pull-right tit">总计观看直播人次</span>
-							<span class="pull-right msg">1210</span>
+							<span class="pull-right msg" id="watchAll">1210</span>
 						</li>
 					</ul>
 					<div class="statistics-con">
@@ -92,12 +92,68 @@
                     dataType: 'json',
                     type: 'post',
                     success: function (result) {
-                        if (result != null && result.all != null) {
-                            $("#watchAll").html(result.all).parent().css({"display": 'inline-block'});
-                        }
-                        if (result != null && result.index != null) {
-                            $("#watchIndex").html(result.index).parent().css({"display": 'inline-block'});
-                        }
+
+						if(result!=null){
+
+                            var  year =[];
+                            var  newResult=[];
+                            var  newTotal =[];
+                            $.each(result.year,function(i,n){
+                                year[i] = (n.edu_year+"级");
+							});
+                            $.each(result.result,function(m,l){
+                                    newResult[m]=(l.times);
+                            });
+                            $.each(result.total,function(x,y){
+                                    newTotal[x]=(y.times);
+                            });
+
+                            $("#watchNum").html(result.watchNum);
+                            $("#totalTime").html(result.totalTime);
+                            $("#watchAll").html(result.watchAll);
+
+
+						}
+                        var chartOpiton = {
+                            "id": document.getElementById("demandCount"),
+                            "legend": {
+                                show: true,
+                                selectedMode: false,
+                                y: 20,
+                                data: ["报名人数", "实际观看人数"]
+                            },
+                            "series": [
+                                {
+                                    name: '实际观看人数',
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {
+                                            color: "#5b9bd5"
+                                        }
+                                    },
+                                    data: newResult
+                                }, {
+                                    name: "报名人数",
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {
+                                            color: "#ed7d31",
+                                        }
+                                    },
+                                    data: newTotal
+                                }
+                            ],
+                            "seriesName": "观看点播前五",
+                            "yAxisData": year
+
+                        };
+
+                        $(document).statistical().setCharts(chartOpiton);
+
+
+
+
+
                     }
                 });
             }

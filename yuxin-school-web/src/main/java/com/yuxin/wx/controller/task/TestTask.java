@@ -155,7 +155,7 @@ public class TestTask {
 
     //获取前一天录播观看个人信息
 //    @RequestMapping(value="/getPlayInfo")
-    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 0/5 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
         String a = "";
         long b = System.currentTimeMillis()/1000L;
@@ -640,7 +640,7 @@ public class TestTask {
 //        map.put("date","2017-10-23");
         // a +="date=2017-10-23";
         //map.put("userid","7EFA9ED6F0ABB8DD");
-        a+="date=2017-10-31";
+        a+="date=2017-8-20";
         a +="&num_per_page=1000";
         a +="&userid=7EFA9ED6F0ABB8DD";
         // map.put("time",b);

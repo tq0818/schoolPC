@@ -33,6 +33,7 @@ import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -816,12 +817,15 @@ public class StudentStatisticsController {
         return map;
     }
     //查询直播统计
-//    @ResponseBody
-//    @RequestMapping(value = "/statistics/totalPayMasterCount")
-//    public Integer totalPayMasterCount(WatchInfoResult search) {
-//        Integer total = studentStatisticsServiceImpl.totalPayMasterCount(search);
-//        return total;
-//    }
+    @ResponseBody
+    @RequestMapping(value = "/getStudentWatchInfo")
+    public List<Map> getStudentWatchInfo(String lessonId,String userId) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("lessonId",lessonId);
+        map.put("userId",userId);
+        List<Map> result = studentStatisticsServiceImpl.getStudentWatchInfo(map);
+        return result;
+    }
 
     /**
      * 用户点播统计
@@ -922,6 +926,75 @@ public class StudentStatisticsController {
             List<Map>  result  =  studentStatisticsServiceImpl.watchSchoolChartData(map);
            //按年级分报名人数
             List<Map> total    =  studentStatisticsServiceImpl.getAllBuyNum(map);
+
+
+
+            if(result.size()>0 &&result.size()<year.size() ){
+                List<Map> newResult = new ArrayList<>();
+                for(int n = 0 ; n <year.size() ; n++){
+
+                    for(int m = 0 ; m <result.size() ; m++){
+                        Map a  = result.get(m);
+                        boolean flag = false;
+                        if(a.get("edu_year").equals(year.get(n).get("edu_year"))){
+                            flag = true;
+                            newResult.add(a);
+                            break;
+                        }
+                        if(m==result.size()-1 && !flag){
+                            Map b = new HashMap();
+                            b.put("edu_year",year.get(n).get("edu_year"));
+                            b.put("times",0);
+                            newResult.add(b);
+
+                        }
+                    }
+
+                }
+                result = newResult;
+
+            }else if(result.size() == 0){
+                for(int n = 0 ; n <year.size() ; n++){
+                        Map a  = new HashMap();
+                        String eduYear = (String)year.get(n).get("edu_year");
+                        a.put("edu_year",eduYear);
+                        a.put("times",0);
+                        result.add(a);
+                }
+            }
+
+        if(total.size()>0 &&total.size()<year.size() ){
+            List<Map> newTotal = new ArrayList<>();
+
+                for(int n = 0 ; n <year.size() ; n++){
+                    for(int m = 0 ; m <total.size() ; m++){
+                        Map a  = total.get(m);
+                        boolean flag = false;
+                    if(a.get("edu_year").equals(year.get(n).get("edu_year"))){
+                        flag = true;
+                        newTotal.add(a);
+                        break;
+                    }
+                    if(m==total.size()-1 && !flag){
+                        Map b = new HashMap();
+                        b.put("edu_year",year.get(n).get("edu_year"));
+                        b.put("times",0);
+                        newTotal.add(b);
+
+                    }
+
+                }
+            }
+            total = newTotal;
+        }else if(total.size()==0){
+            for(int n = 0 ; n <year.size() ; n++){
+                Map a  = new HashMap();
+                a.put("edu_year",year.get(n).get("edu_year"));
+                a.put("times",0);
+                total.add(a);
+            }
+        }
+
 
             map = new HashMap<>();
             map.put("year",year);

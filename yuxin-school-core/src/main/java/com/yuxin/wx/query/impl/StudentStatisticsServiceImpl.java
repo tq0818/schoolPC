@@ -125,14 +125,13 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
 
     @Override
     public String getWatchTimeLengthBySchool(Map<String, Object> map) {
-        WatchInfoResult re  = studentstatisticsMapper.getWatchTimeLengthBySchool(map);
-        if(re !=null && re.getWatchTime() >0){
+        long re  = studentstatisticsMapper.getWatchTimeLengthBySchool(map);
+        if( re >0){
 
-            re.setWatchTime(re.getWatchTime()/1000);
-            int s = (int) (re.getWatchTime() % 60);
-            int m = (int) (re.getWatchTime() / 60 % 60);
-            int h = (int) (re.getWatchTime() / 3600);
-            re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+            re=re/1000;
+            long s = (re) % 60;
+            long m =  (re / 60 % 60);
+            long h =  (re / 3600);
             return (h + "小时" + m + "分" + s +"秒");
         }else{
             return (0 + "小时" + 0 + "分" + 0 +"秒");
@@ -152,6 +151,32 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public List<Map> getAllBuyNum(Map<String, Object> map) {
         return studentstatisticsMapper.getAllBuyNum(map);
+    }
+
+    @Override
+    public List<Map> getStudentWatchInfo(Map<String, Object> map) {
+        List<Map> result = studentstatisticsMapper.getStudentWatchInfo(map);
+        SimpleDateFormat sdf  = new SimpleDateFormat("HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        for(int n = 0 ; n <result.size();n++){
+            Map<String,Object> a = result.get(n);
+            long joinTime =    Long.parseLong((String)a.get("join_time"));
+            long leaveTime =   Long.parseLong((String)a.get("leave_time"));
+            long watch =((int)a.get("watch_time"));
+            c.setTimeInMillis(joinTime);
+            a.put("joinTime",sdf.format(c.getTime()));
+            c.setTimeInMillis(leaveTime);
+            a.put("leaveTime",sdf.format(c.getTime()));
+            watch=watch/1000;
+            long s = (watch) % 60;
+            long m =  (watch / 60 % 60);
+            long h =  (watch / 3600);
+            a.put ("watchTime",h + "小时" + m + "分" + s +"秒");
+
+        }
+
+
+        return result;
     }
 
 

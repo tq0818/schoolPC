@@ -197,7 +197,7 @@ function  init() {
             data.endTime=$("#endTime").val();
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
-            data.userNameOrMobile=$("#userNameOrMobile").val();
+            data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoList",
                 data: data,

@@ -137,7 +137,7 @@
 						<div style="margin-top: 10px;">
 							<span>学科</span>
 							<select name="itemThirdCode" id="subject">
-								<option value="">请选择课程模块</option>
+								<option value="">请选择学科</option>
 								<c:forEach items="${subject}" var="subject" >
 									<option value="${subject.itemCode}" data-id="${subject.id}" >${subject.itemName}</option>
 								</c:forEach>
@@ -152,7 +152,7 @@
 							</select>
 							<span>观看时间</span>
 							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
-							<input name="userOrMobile" placeholder="学员手机号/用户名查询" />
+							<input id="userOrMobile" name="userOrMobile" placeholder="学员手机号/用户名查询" />
 
 						</div>
 						<div class="btn-center">

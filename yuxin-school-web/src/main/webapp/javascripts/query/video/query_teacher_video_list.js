@@ -1109,7 +1109,7 @@
                     }
                 });
 
-                $(".queryVideoDailyInfo1").show();
+                $(".queryVideoDailyInfo1").show().find("[name=terminal]:first").addClass("active").siblings().removeClass("active");
                 $(".queryVideoDailyInfo").popup("show").css("top", "5%");
 
             });

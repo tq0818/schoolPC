@@ -26,6 +26,7 @@
         </div>
         <div class="mainbackground nopadding content-right" style="padding-top:0;">
             <input type="hidden" name="classType" id="classType" value="${ct.id}"/>
+            <input type="hidden" name="className" id="className" value="${ct.name}"/>
       <%--      <span class="date" >
                 <i class="text">日期</i>
                 <span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
@@ -105,22 +106,20 @@
             data:{classId:$("#classType").val(),startTime:startTime, endTime:endTime},
             success:function(result){
                 var videoDetail = result.videoDetail ? result.videoDetail:null;
-                if(videoDetail!=null){
-                    $(".course-info").find(".name").html(videoDetail.name+"（"+startTime+"至"+endTime+"）");
-                    var totleStudyLength = videoDetail.totleStudyLength ? videoDetail.totleStudyLength:"";
-                    var studyRate = videoDetail.studyRate ? videoDetail.studyRate:"";
-                    var totleStudy = videoDetail.totleStudy ? videoDetail.totleStudy:"";
-                    $(".course-info").find(".play").empty().append('<i>播放总时长<br/>'+totleStudyLength+'</i>');
-                    $(".course-info").find(".play").append('<i>播完率<br/>'+studyRate+'</i>');
-                    $(".course-info").find(".play").append('<i>播放量<br/>'+totleStudy+'</i>');
+                $(".course-info").find(".name").html($("#className").val()+"（"+startTime+"至"+endTime+"）");
+                var totleStudyLength = (videoDetail&&videoDetail.totleStudyLength) ? videoDetail.totleStudyLength:"0";
+                var studyRate = (videoDetail&&videoDetail.studyRate) ? videoDetail.studyRate:"0";
+                var totleStudy = (videoDetail&&videoDetail.totleStudy) ? videoDetail.totleStudy:"0";
+                $(".course-info").find(".play").empty().append('<i>播放总时长<br/>'+totleStudyLength+'</i>');
+                $(".course-info").find(".play").append('<i>播完率<br/>'+studyRate+'</i>');
+                $(".course-info").find(".play").append('<i>播放量<br/>'+totleStudy+'</i>');
 
-                    var pcNum = result.pcNum ? result.pcNum : 0;
-                    var pcRate = result.pcRate ? result.pcRate : 0;
-                    var otherNum = result.otherNum ? result.otherNum : 0;
-                    var otherRate = result.otherRate ? result.otherRate : 0;
-                    $(".ico-pc").empty().append("<i>pc</i><i>"+pcNum+"</i><i>"+pcRate+"%</i>");
-                    $(".ico-yd").empty().append("<i>移动</i><i>"+otherNum+"</i><i>"+otherRate+"%</i>");
-                }
+                var pcNum = result.pcNum ? result.pcNum : 0;
+                var pcRate = result.pcRate ? result.pcRate : 0;
+                var otherNum = result.otherNum ? result.otherNum : 0;
+                var otherRate = result.otherRate ? result.otherRate : 0;
+                $(".ico-pc").empty().append("<i>pc</i><i>"+pcNum+"</i><i>"+pcRate+"%</i>");
+                $(".ico-yd").empty().append("<i>移动</i><i>"+otherNum+"</i><i>"+otherRate+"%</i>");
             }
         });
     }

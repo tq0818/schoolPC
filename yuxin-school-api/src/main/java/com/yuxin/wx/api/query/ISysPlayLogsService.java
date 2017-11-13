@@ -127,4 +127,10 @@ public interface ISysPlayLogsService {
      * @return
      */
     PageFinder<VideoCourseVo> queryVideoListForSchool(VideoCourseVo videoCourseVo);
+
+    /**
+     * 查询学校的录播观看人数
+     * @return
+     */
+    List<Map<String,Object>> queryTotleVideoCourseForSchool(Map<String, Object> papamMap);
 }

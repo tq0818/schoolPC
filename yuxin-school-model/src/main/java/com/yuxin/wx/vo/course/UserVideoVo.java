@@ -14,6 +14,7 @@ public class UserVideoVo extends BaseEntity {
 	private String totleStudyLength;		 /* 播放总时长 */
 	private String studyRate;	 /* 播放率 */
 	private String courseName;	 /* 课程名称 */
+	private String courseStepName;	 /* 课程学段 */
 	private String eduArea;	 /* 区域编码 */
 	private String areaName;	 /* 区域名称 */
 	private String eduSchoolStep;	 /* 学校属性编码 */
@@ -314,5 +315,13 @@ public class UserVideoVo extends BaseEntity {
 
 	public void setEduStep(String eduStep) {
 		this.eduStep = eduStep;
+	}
+
+	public String getCourseStepName() {
+		return courseStepName;
+	}
+
+	public void setCourseStepName(String courseStepName) {
+		this.courseStepName = courseStepName;
 	}
 }

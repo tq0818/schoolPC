@@ -95,7 +95,7 @@
 						<input type="text" id="className" name="className" placeholder="请输入课程名"/>
 						<span class="date" style="margin-left: 0;">
 							<i class="text">日期</i>
-							<span><input type="text" name="startTime" class="date-picker from i-data" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to i-data" value="${ednTime}"/></span>
+							<span><input type="text" name="startTime" class="date-picker from i-data" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to i-data" value="${endTime}"/></span>
 						</span>
 					</div>
 					<div class="screen-info btn-center margin20">
@@ -110,7 +110,7 @@
 						<th width="6%">用户名</th>
 						<th width="7%">学员名称</th>
 						<th width="11%">课程名称</th>
-						<th width="6%">课程学段</th>
+						<th width="6%">学段</th>
 						<th width="6%">入学年份</th>
 						<th width="6%">班级</th>
 						<th width="6%">学科</th>

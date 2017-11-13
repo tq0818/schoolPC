@@ -186,7 +186,7 @@
                                     <th width="8%" class="btn-sort" fieldName="edu_year"  sort="">入学年份</th>
                                 </c:if>
                                 <th width="9%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
-								<th width="11%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
+								<th width="11%" class="btn-sort" fieldName="watch_time"  sort="">观看累计时长</th>
 								<%--<th width="10%">操作</th>--%>
 							</tr>
 						</table>
@@ -205,7 +205,7 @@
 		<div class="popupwin-box cumulativeClass1  clear" style="display:none">
 			<div class="popupwin cumulativeClass" style="width:850px; height: auto;top:10px;" data-pupwin="modal">
 				<div class="popupwin-title">
-					<h2 class="h5">累积上课详细</h2>
+					<h2 class="h5">累积上课详情</h2>
 					<i class="close iconfont canclekuang"></i>
 				</div>
 				<div class="popupwin-main">

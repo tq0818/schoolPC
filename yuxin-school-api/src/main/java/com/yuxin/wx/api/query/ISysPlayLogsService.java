@@ -148,23 +148,4 @@ public interface ISysPlayLogsService {
      */
     List<VideoCourseVo> queryCourseIndexList(VideoCourseVo videoCourseVo);
 
-    /**
-     * 查看点播总时长+人次
-     * @param papamMap
-     * @return
-     */
-    Map<String,Object> queryTotleStudyLengthAndPersonNum(Map<String, Object> papamMap);
-
-    /**
-     * 通过机构查询学员的点播记录
-     * @param videoCourseVo
-     * @return
-     */
-    PageFinder<VideoCourseVo> queryVideoListForSchool(VideoCourseVo videoCourseVo);
-
-    /**
-     * 查询学校的录播观看人数
-     * @return
-     */
-    List<Map<String,Object>> queryTotleVideoCourseForSchool(Map<String, Object> papamMap);
 }

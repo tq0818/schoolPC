@@ -5114,7 +5114,7 @@ public class ClassModuleController {
 		log.info("zs：Affected:" + Affected);
 		log.info("zs：totalusernum:" + totalusernum);
 		log.info("redis：查询redis");
-		if(Action.equals("101")){
+		if(Action.equals("101")||Action.equals("107")){
 			WatchInfoFromZSSend send  = new WatchInfoFromZSSend(ClassNo, Operator,Action,Affected,totalusernum);
 			List<WatchInfoFromZSSend> list = JedisUtil.getList(ClassNo);
 			if(list ==null || list.size()==0){
@@ -5125,10 +5125,14 @@ public class ClassModuleController {
 		}else if(Action.equals("105")){
 			List<WatchInfoFromZSSend> list = JedisUtil.getList(ClassNo);
 			if(list !=null && list.size()!=0){
+				int n  =  0 ;
 				for(WatchInfoFromZSSend send : list){
+					n++;
 					watchInfoServiceImpl.addWatchInfoFromZSSent(send);
+					System.out.println("==========第"+n+"人==========");
 				}
 			}
+			JedisUtil.deleteByKey(ClassNo);
 		}
 
 

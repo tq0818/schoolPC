@@ -93,7 +93,7 @@
 		<if test="className!=null and className!=''">and t.name = #{className} </if>
 		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
 		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
-		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = ${username})</if>
+		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = #{username})</if>
 		group by pl.user_id
 		<choose>
 			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
@@ -136,7 +136,7 @@
 		<if test="className!=null and className!=''">and t.name = #{className} </if>
 		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
 		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
-		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = ${username})</if>
+		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = #{username})</if>
 		group by pl.user_id) t
 	</select>
 

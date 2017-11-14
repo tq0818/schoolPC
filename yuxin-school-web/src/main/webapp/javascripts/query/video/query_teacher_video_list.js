@@ -237,13 +237,13 @@
                                     }
                                 });
                             $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
-                            $(".pagination").find("li:first").before('每页：<select id="selectCount"  onchange="javascript:student.searchCount()">'+
-                					' <option value="10">10</option>'+
-                					' <option value="20">20</option>'+
-                					' <option value="30">30</option>'+
-                					' <option value="50">50</option>'+
-                					' <option value="100">100</option>'+
-                					' </select> 条   ');
+                            // $(".pagination").find("li:first").before('每页：<select id="selectCount"  onchange="javascript:student.searchCount()">'+
+                				// 	' <option value="10">10</option>'+
+                				// 	' <option value="20">20</option>'+
+                				// 	' <option value="30">30</option>'+
+                				// 	' <option value="50">50</option>'+
+                				// 	' <option value="100">100</option>'+
+                				// 	' </select> 条   ');
                             $("#selectCount").val($("#selectCounts").val());
 //                            $("#selectCount").css("margin-bottom","").css("margin-bottom","-78px");
                         } else {

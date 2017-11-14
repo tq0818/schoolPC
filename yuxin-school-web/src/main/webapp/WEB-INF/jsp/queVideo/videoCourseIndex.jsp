@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@include file="/decorators/import.jsp"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!doctype html>
 <html lang="zh-cn">
 <head>
@@ -33,7 +34,9 @@
 						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 					</span>
 					<button class="btns-default" id="searchData">查询</button>
+					<shiro:hasAnyRoles name="文轩教育">
 					<button class="btns-default" id="exportData">导出数据</button>
+					</shiro:hasAnyRoles>
 				</p>
 				<div class="statistics-con">
 					<div class="demand-count" id="demandCount" style="width:100%;height: 380px;"></div>

@@ -65,12 +65,16 @@ public class TestTask {
         List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(dateMap);
         Map<String,Object> map = new HashMap();
         CompanyLiveConfig config = companyLiveConfigServiceImpl.findByCompanyId(18113);
+        String url ="";
         if(config==null){
             map.put("loginName", LiveRoomConstant.LOGIN_NAME);
             map.put("password",LiveRoomConstant.PASSWORD);
+            url = LiveRoomConstant.DOMIN_NAME;
+
         }else{
             map.put("loginName", config.getLoginName());
             map.put("password",config.getPassword());
+            url = config.getDomain();
         }
 
         map.put("startTime",lessonDate+" 00:00:00");
@@ -79,7 +83,7 @@ public class TestTask {
             map.put("roomId",lesson.getLiveroomId());
             String result = null;
             try {
-                result = HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/export/history",map);
+                result = HttpPostRequest.post(url+"/integration/site/training/export/history",map);
             } catch (Exception e) {
                 e.printStackTrace();
             }

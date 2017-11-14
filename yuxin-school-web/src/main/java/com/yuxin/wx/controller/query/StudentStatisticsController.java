@@ -509,7 +509,7 @@ public class StudentStatisticsController {
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(50000);
+            search.setPageSize(20000);
             al = studentStatisticsServiceImpl.getAreaStudentCountList(search);
         }
         StringBuffer title = new StringBuffer(
@@ -540,7 +540,7 @@ public class StudentStatisticsController {
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(50000);
+            search.setPageSize(20000);
             al = studentServiceImpl.findStudentsData(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -837,7 +837,7 @@ public class StudentStatisticsController {
         List<WatchInfoResult> list = new ArrayList<>();
         if (EntityUtil.isNotBlank(search)) {
             //userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            search.setPageSize(50000);
+            search.setPageSize(20000);
             list = studentStatisticsServiceImpl.exportStudentsWatchInfoList(search);//studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1167,6 +1167,14 @@ public class StudentStatisticsController {
         if(area!=null && area.get(0)!=null){
             model.addAttribute("area", area.get(0));
         }
+        //查询学校所在学校
+        SysConfigDict orgDict = new SysConfigDict();
+        orgDict.setItemCode(uersAreaRelation.getEduSchool());
+        orgDict.setDictCode("EDU_SCHOOL");
+        List<SysConfigDict> org = sysConfigDictServiceImpl.queryConfigDictListByDictCode(orgDict);
+        if(org!=null && org.get(0)!=null){
+            model.addAttribute("org", org.get(0));
+        }
 
         //查询学校所属学段
         SysConfigDict stepDict = new SysConfigDict();
@@ -1259,7 +1267,7 @@ public class StudentStatisticsController {
         List<VideoCourseVo> al = new ArrayList<VideoCourseVo>();
         if (EntityUtil.isNotBlank(videoCourseVo)) {
             videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            videoCourseVo.setPageSize(50000);
+            videoCourseVo.setPageSize(20000);
             al = sysPlayLogsServiceImpl.queryVideoCourseList(videoCourseVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1293,7 +1301,7 @@ public class StudentStatisticsController {
     }
 
     /**
-     * 教师授课详情
+     * 区县详情导出
      * @param model
      * @param userVideoVo
      * @return
@@ -1303,7 +1311,7 @@ public class StudentStatisticsController {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            userVideoVo.setPageSize(50000);
+            userVideoVo.setPageSize(20000);
             al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1340,6 +1348,88 @@ public class StudentStatisticsController {
     }
 
     /**
+     * 区县点播导出详情
+     * @param model
+     * @param videoCourseVo
+     * @return
+     */
+    @RequestMapping(value = "/exportAreaCourseIndexExcle")
+    public ModelAndView exportAreaCourseIndexExcle(Model model, VideoCourseVo videoCourseVo) {
+        List<VideoCourseVo> al = new ArrayList<VideoCourseVo>();
+        if (EntityUtil.isNotBlank(videoCourseVo)) {
+            videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
+            videoCourseVo.setPageSize(20000);
+            al = sysPlayLogsServiceImpl.queryAreaCourseIndexList(videoCourseVo);
+        }
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (VideoCourseVo v : al) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("schoolStepName", v.getSchoolStepName());
+            map.put("schoolName", v.getSchoolName());
+            map.put("stepName", v.getStepName());
+            map.put("totleStudy", v.getTotleStudy());
+            map.put("totleStudyLength", v.getTotleStudyLength());
+            map.put("studyRate", v.getStudyRate());
+            map.put("viewNum", "");
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                    "学校性质:schoolStepName,学校:schoolName,学段:stepName,总播放量:totleStudy,总播放时长:totleStudyLength,播完率:studyRate,观看人数:viewNum");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "点播统计概况.xls");
+        return new ModelAndView(excel, map);
+    }
+
+    /**
+     * 管理员点播导出详情
+     * @param model
+     * @param videoCourseVo
+     * @return
+     */
+    @RequestMapping(value = "/exportCourseIndexExcle")
+    public ModelAndView exportCourseIndexExcle(Model model, VideoCourseVo videoCourseVo) {
+        List<VideoCourseVo> al = new ArrayList<VideoCourseVo>();
+        if (EntityUtil.isNotBlank(videoCourseVo)) {
+            videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
+            videoCourseVo.setPageSize(20000);
+            al = sysPlayLogsServiceImpl.queryCourseIndexList(videoCourseVo);
+        }
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (VideoCourseVo v : al) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("courseName", v.getCourseName());
+            map.put("teaName", v.getTeaName());
+            map.put("time", videoCourseVo.getStartTime()+"至"+videoCourseVo.getEndTime());
+            map.put("totleStudy", v.getTotleStudy());
+            map.put("totleStudyLength", v.getTotleStudyLength());
+            map.put("studyRate", v.getStudyRate());
+            map.put("viewNum", "");
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                    "课程名:courseName,教师:teaName,日期:time,总播放量:totleStudy,总播放时长:totleStudyLength,播完率:studyRate");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "点播统计概况.xls");
+        return new ModelAndView(excel, map);
+    }
+
+    /**
      * 用户点播统计
      * @param model
      * @param userVideoVo
@@ -1350,7 +1440,7 @@ public class StudentStatisticsController {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            userVideoVo.setPageSize(50000);
+            userVideoVo.setPageSize(20000);
             al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1383,6 +1473,52 @@ public class StudentStatisticsController {
         Map map = new HashMap();
         map.put("workbook", wb);
         map.put("fileName", "用户点播统计.xls");
+        return new ModelAndView(excel, map);
+    }
+
+    /**
+     * 点播统计--详情导出
+     * @param model
+     * @param userVideoVo
+     * @return
+     */
+    @RequestMapping(value = "/exportUserVideoOrgExcle")
+    public ModelAndView exportUserVideoOrgExcle(Model model, UserVideoVo userVideoVo) {
+        List<UserVideoVo> al = new ArrayList<UserVideoVo>();
+        if (EntityUtil.isNotBlank(userVideoVo)) {
+            userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+            userVideoVo.setPageSize(20000);
+            al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
+        }
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (UserVideoVo v : al) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("time", userVideoVo.getStartTime() + "至" + userVideoVo.getEndTime());
+            map.put("stepName", v.getStepName());
+            map.put("courseStepName", v.getCourseStepName());
+            map.put("subjectName", v.getSubjectName());
+            map.put("courseName", v.getCourseName());
+            map.put("username", v.getUsername());
+            map.put("name", v.getName());
+            map.put("yearName", v.getYearName()!=null ? v.getYearName()+"级":"");
+            map.put("className", v.getClassName()!=null ? v.getClassName()+"班":"");
+            map.put("totleStudyLength", v.getTotleStudyLength());
+            map.put("studyRate", v.getStudyRate()!=null ? v.getStudyRate()+"%":"");
+            map.put("viewNum", v.getViewNum());
+            lists.add(map);
+        }
+        StringBuffer title = new StringBuffer(
+                "日期:time,学段:stepName,课程学段:courseStepName,学科:subjectName,课程名:courseName,用户名:username,学员名:name,入学年份:yearName,班级:className,总播放时长:totleStudyLength,播完率:studyRate,观看次数:viewNum");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "校级用户点播统计.xls");
         return new ModelAndView(excel, map);
     }
 
@@ -1913,7 +2049,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
-        papamMap.put("pageSize", 50000);
+        papamMap.put("pageSize", 20000);
         List<Map<String, Object>> totleVideoList = sysPlayLogsServiceImpl.queryTotleVideo(papamMap);
 
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();

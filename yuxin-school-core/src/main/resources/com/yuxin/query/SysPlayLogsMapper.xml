@@ -67,7 +67,7 @@
 		sys_play_logs pl
 		left JOIN class_type t on t.id = pl.class_type_id
 		left join sys_config_teacher ut on ut.id = t.teacher_id
-		left join student s on s.user_id = pl.id and s.edu_identity = 0
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict dr on r.edu_step_new_code = dr.item_code
@@ -94,7 +94,7 @@
 		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
 		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
 		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = #{username})</if>
-		group by pl.user_id
+		group by pl.lecture_id,pl.user_id
 		<choose>
 			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
 			<otherwise>order by t.name</otherwise>
@@ -105,6 +105,62 @@
 		limit #{firstIndex},#{pageSize}
 	</select>
 
+	<select id="queryAreaCourseIndexList" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
+		select
+		dr.item_value as school_step_name,
+		d1.item_value as school_name,
+		d2.item_value as step_name,
+		COUNT(1) AS totle_study,
+		concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
+		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		inner join users_front uf on uf.id = s.user_id
+		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
+		left join sys_config_dict dr on r.edu_step_new_code = dr.item_code
+		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
+		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id
+		where s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+        and s.delete_flag = 0
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		group by r.edu_step_new_code,s.edu_school,s.edu_step
+		order by  r.edu_step_new_code,s.edu_school,s.edu_step
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="queryCourseIndexList" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
+		select
+		t.name as course_name,
+		ut.name as tea_name,
+		COUNT(1) AS totle_study,
+		concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
+		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id
+		left join sys_config_teacher ut on ut.id = t.teacher_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		inner join users_front uf on uf.id = s.user_id
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id
+		where s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+        and s.delete_flag = 0
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		group by pl.lecture_id
+		order by pl.lecture_id
+		limit #{firstIndex},#{pageSize}
+	</select>
+
 	<select id="queryUserVideoCount" resultType="int" parameterType="com.yuxin.wx.vo.course.UserVideoVo">
 		SELECT COUNT(1) FROM (select
 		pl.class_type_id
@@ -112,7 +168,7 @@
 		sys_play_logs pl
 		left JOIN class_type t on t.id = pl.class_type_id
 		left join sys_config_teacher ut on ut.id = t.teacher_id
-		left join student s on s.user_id = pl.id and s.edu_identity = 0
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict d on d.item_code = s.edu_area
@@ -137,7 +193,7 @@
 		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
 		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
 		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile = #{username})</if>
-		group by pl.user_id) t
+		group by pl.lecture_id,pl.user_id) t
 	</select>
 
 	<select id="queryVideoCourseList" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
@@ -178,7 +234,7 @@
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		  <if test="teaName!=null and teaName!=''">and ut.name like '%${teaName}%'</if>
 		  <if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
-		group by pl.class_type_id
+		group by pl.lecture_id
 		<choose>
 			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
 			<otherwise>order by ut.name</otherwise>
@@ -214,7 +270,7 @@
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="teaName!=null and teaName!=''">and ut.name like '%${teaName}%'</if>
 		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
-		group by pl.class_type_id) t
+		group by pl.lecture_id) t
 	</select>
 
 
@@ -232,7 +288,7 @@
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
-		group by pl.user_id ) t
+		group by pl.lecture_id,pl.user_id ) t
 	</select>
 
 	<select id="queryTotleStudyLengthAndPersonNum" resultType="map" parameterType="map">
@@ -271,7 +327,7 @@
           and s.delete_flag = 0
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
-          GROUP BY s.user_id) t
+          GROUP BY pl.lecture_id,pl.user_id) t
           LEFT JOIN sys_config_dict d
             ON d.`item_code` = t.edu_area
         GROUP BY d.`item_code`
@@ -300,7 +356,7 @@
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		  <if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
-          GROUP BY s.user_id) t
+          GROUP BY pl.lecture_id,pl.user_id) t
           LEFT JOIN sys_config_dict d
             ON d.`item_code` = t.edu_school
         GROUP BY d.`item_code`
@@ -358,7 +414,7 @@
             and s.delete_flag = 0
 		   <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		   <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
-          group by s.user_id) t
+          group by pl.lecture_id,pl.user_id) t
           LEFT JOIN `edu_step_school_relation` r
             ON r.`edu_school_code` = t.`edu_school`
         where r.`edu_school_code` is not null
@@ -385,7 +441,7 @@
           and s.delete_flag = 0
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
-          GROUP BY s.user_id) t
+          GROUP BY pl.lecture_id,pl.user_id) t
           LEFT JOIN `sys_config_dict` d
             ON d.`item_code` = t.`edu_school`
         GROUP BY d.`item_code`
@@ -415,7 +471,7 @@
 			<if test="subjectCode!=null and subjectCode!=''">and t.`item_third_code` = #{subjectCode}</if>
 			<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 			<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
-		  GROUP BY s.user_id) t
+		  GROUP BY pl.lecture_id,pl.user_id) t
 		  LEFT JOIN `sys_config_dict` d
 			ON d.`item_code` = t.`edu_school`
 		GROUP BY d.`item_code`

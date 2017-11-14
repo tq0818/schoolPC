@@ -552,6 +552,8 @@
 		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
 		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code = #{itemThirdCode}</if>
 		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
+		<if test="liveFlag != null and liveFlag != ''">and live_flag = #{liveFlag}</if>
+		<if test="videoFlag != null and videoFlag != ''">and video_flag = #{videoFlag}</if>
 		and del_flag=0
 		order by id desc
 	</select>

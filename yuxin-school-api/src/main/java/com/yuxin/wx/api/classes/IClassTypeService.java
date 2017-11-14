@@ -331,7 +331,7 @@ public interface IClassTypeService  {
 	List<ClassType> findClassByItem(Integer conpanyId,Integer schoolId,Integer itemOneId,Integer itemTwoId);
 
     List<ClassType> findClassByItemRelation(Integer conpanyId, Integer schoolId,
-                                            String itemOneCode, String itemSecondCode, String itemThridCode);
+                                            String itemOneCode, String itemSecondCode, String itemThridCode, Integer liveFlag, Integer videoFlag);
 
     /**
 	 * 

@@ -81,13 +81,13 @@
 								<option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
 							</c:forEach>
 						</select>
-						<span>课程：</span>
 						<select name="classSubject" id="classSubject">
 							<option value="">请选择学科</option>
 							<c:forEach items="${subjectItem}" var="item" >
 								<option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
 							</c:forEach>
 						</select>
+						<span>课程：</span>
 						<select name="classType" id="classType">
 							<option value="">请选择课程名称</option>
 						</select>
@@ -111,7 +111,6 @@
 						<th width="7%">学员名称</th>
 						<th width="11%">课程名称</th>
 						<th width="6%">学段</th>
-						<th width="6%">入学年份</th>
 						<th width="6%">班级</th>
 						<th width="6%">学科</th>
 						<th width="7%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>

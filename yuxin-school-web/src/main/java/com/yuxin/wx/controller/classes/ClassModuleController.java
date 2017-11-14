@@ -1896,7 +1896,7 @@ public class ClassModuleController {
 		//查询 班型
 //		List<ClassType> types = classTypeServiceImpl.findClassByItem(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request), classType.getItemOneId(), classType.getItemSecondId());
 
-		List<ClassType> types = classTypeServiceImpl.findClassByItemRelation(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request), classType.getItemOneCode(), classType.getItemSecondCode(),classType.getItemThirdCode());
+		List<ClassType> types = classTypeServiceImpl.findClassByItemRelation(WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request), classType.getItemOneCode(), classType.getItemSecondCode(),classType.getItemThirdCode(), classType.getLiveFlag(),classType.getVideoFlag());
 
 		JSONObject json = new JSONObject();
 		json.put("types", types);

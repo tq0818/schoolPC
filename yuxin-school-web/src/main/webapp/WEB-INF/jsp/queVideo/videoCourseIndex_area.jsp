@@ -25,6 +25,7 @@
 		<div class="content-right">
 			<div class="survey-detail" id="statisticsCon">
 				<div class="survey-con">
+					<form id="searchForm">
 					<p class="screen-info">
 						<a href="<%=rootPath%>/query/areastatistics/videoCourseIndex" class="btn active" >概况</a>
 						<a href="<%=rootPath%>/query/areastatistics/userVideoList" class="btn">详情</a>
@@ -33,15 +34,15 @@
 							<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 							<input type="hidden" id="eduArea" name="eduArea" value="${area.itemCode}">
 						</span>
-						<button class="btns-default" id="searchData">查询</button>
-						<button class="btns-default" id="exportData">导出数据</button>
+						<button type="button" class="btns-default" id="searchData">查询</button>
+						<button type="button" class="btns-default" id="exportData">导出数据</button>
 					</p>
+					</form>
 					<div class="statistics-con">
 						<div class="school-demand" id="demandCount2" style="width:49%;height: 240px;float: left;"></div>
 						<div class="school-demand" id="demandCount3" style="width:49%;height: 240px;float: left;"></div>
 						<div class="demandCount-search screen-info">
 							<select name="eduSchoolStep" id="eduSchoolStep">
-								<option value="">请选择学校性质</option>
 								<c:forEach items="${stepNews}" var="step" >
 									<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
 								</c:forEach>
@@ -103,7 +104,9 @@
 			}
 		}
 
-		window.location.href = rootPath + "/query/statistics/queryTotleVideoCourse?startTime="+$(".from").val()+"&endTime="+$(".to").val()+"&eduArea="+$("#eduArea").val();
+		$("#searchForm").attr("action",
+				rootPath + "/query/exportAreaCourseIndexExcle")
+				.submit();
 	});
 
 	function searchTotleVideoCourse(startTime, endTime){
@@ -319,7 +322,7 @@
 	function searchTotleVideoCourse4(startTime, endTime){
 		$.ajax({
 			url: rootPath + "/query/statistics/queryTopSubjectView",
-			data:{startTime:startTime, endTime:endTime},
+			data:{startTime:startTime, endTime:endTime,eduArea:$("#eduArea").val()},
 			success:function(result){
 				result = result.subjectTotleList ? result.subjectTotleList:null;
 				if(result!=null && result.length>0){

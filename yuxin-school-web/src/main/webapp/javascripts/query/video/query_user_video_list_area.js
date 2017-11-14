@@ -97,7 +97,7 @@
             $.ajax({
                 url:rootPath + "/classModule/selClassType",
                 type:"post",
-                data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem},
+                data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem,"videoFlag":1},
                 // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
                 dataType:"json",
                 beforeSend:function(XMLHttpRequest){

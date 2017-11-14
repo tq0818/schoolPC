@@ -133,4 +133,18 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<Map<String,Object>> queryTotleVideoCourseForSchool(Map<String, Object> papamMap);
+
+    /**
+     * 区县管理员概况导出
+     * @param videoCourseVo
+     * @return
+     */
+    List<VideoCourseVo> queryAreaCourseIndexList(VideoCourseVo videoCourseVo);
+
+    /**
+     * 教科院管理员概况-导出
+     * @param videoCourseVo
+     * @return
+     */
+    List<VideoCourseVo> queryCourseIndexList(VideoCourseVo videoCourseVo);
 }

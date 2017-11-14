@@ -424,7 +424,7 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	}
 	@Override
 	public List<ClassType> findClassByItemRelation(Integer conpanyId, Integer schoolId,
-												   String itemOneCode, String itemSecondCode, String itemThridCode) {
+												   String itemOneCode, String itemSecondCode, String itemThridCode, Integer liveFlag, Integer videoFlag) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("companyId", conpanyId);
@@ -432,6 +432,8 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		map.put("itemSecondCode", itemSecondCode);
 		map.put("itemThirdCode", itemThridCode);
 		map.put("createSchoolId", schoolId);
+		map.put("liveFlag", liveFlag);
+		map.put("videoFlag", videoFlag);
 		return classTypeMapper.findClassByItemRelation(map);
 	}
 

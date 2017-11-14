@@ -54,9 +54,10 @@
                 <span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
             </span>
             <p class="screen-info btn-center">
-                <button class="btns-default" id="searchData">查询</button>
-                <button class="btns-default" id="exportData">导出数据</button>
+                <button type="button" class="btns-default" id="searchData">查询</button>
+                <button type="button" class="btns-default" id="exportData">导出数据</button>
             </p>
+
             <div class="course-info">
                 <span class="name"></span>
                 <span class="play">
@@ -348,13 +349,31 @@
         searchVideoCourseDetail3($(".from").val(), $(".to").val());//观看比列
     });
 
+    $("#exportData").click(function(){
+        if ($(".from").val()!="" && $(".to").val()!="") {
+            if ($(".to").val() < $(".from").val()) {
+                $.msg("时间范围不正确");
+                return;
+            }else if(new Date($(".to").val()) - new Date($(".from").val()) > 30*24*60*60*1000){
+                $.msg("时间范围不能超过30天");
+                return;
+            }
+        }else{
+            $.msg("时间选项必填");
+            return;
+        }
+
+        window.location.href = rootPath + "/query/exportCourseIndexExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
+                "&classId="+$("#classType").val()+"&className="+$("#className").val();
+    });
+
     function selClassOrModule(){
         var twoItem = $("#eduStep").val();
         var threeItem = $("#eduSubject").val();
         $.ajax({
             url:rootPath + "/classModule/selClassType",
             type:"post",
-            data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem},
+            data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem,"videoFlag":1},
             // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
             dataType:"json",
             beforeSend:function(XMLHttpRequest){

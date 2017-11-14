@@ -38,7 +38,7 @@
                         $.msg("没有数据可以导出");
                     } else {
                         $("#searchForm").attr("action",
-                            rootPath + "/query/exportUserVideoExcle")
+                            rootPath + "/query/exportUserVideoOrgExcle")
                             .submit();
                     }
 
@@ -70,7 +70,7 @@
             $.ajax({
                 url:rootPath + "/classModule/selClassType",
                 type:"post",
-                data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem},
+                data:{"itemSecondCode":twoItem,"itemThirdCode":threeItem,"videoFlag":1},
                 // data:{"itemOneId":oneItem,"itemSecondId":twoItem,"itemThridCode":threeItem},
                 dataType:"json",
                 beforeSend:function(XMLHttpRequest){
@@ -170,10 +170,6 @@
                                 + '</td>'
                                 + '<td>'
                                 + (videoCourse.stepName ? videoCourse.stepName
-                                    : "")
-                                + '</td>'
-                                + '<td>'
-                                + (videoCourse.yearName ? videoCourse.yearName + "级"
                                     : "")
                                 + '</td>'
                                 + '<td>'

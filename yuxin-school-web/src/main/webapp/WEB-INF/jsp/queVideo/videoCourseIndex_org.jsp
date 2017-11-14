@@ -43,12 +43,12 @@
 				</li>
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play2.png" alt="">
-					<span class="pull-right tit">总计观看点播时长</span>
+					<span class="pull-right tit">观看总时长</span>
                     <span class="pull-right msg" id="totleStudyLength"></span>
 				</li>
 				<li>
 					<img class="pull-left" src="<%=rootPath%>/images/query/ico-play3.png" alt="">
-					<span class="pull-right tit">总计观看直播人次</span>
+					<span class="pull-right tit">观看总播放量</span>
                     <span class="pull-right msg" id="personNum"></span>
 				</li>
 			</ul>

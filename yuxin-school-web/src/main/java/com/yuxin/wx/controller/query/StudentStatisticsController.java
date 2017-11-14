@@ -591,7 +591,7 @@ public class StudentStatisticsController {
         if(subject.hasRole("学校负责人")) {
 
             return "/query/query_student_school_watchInfo";
-        }else if(subject.hasRole("教科院")){
+        }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
             model.addAttribute("role","all");
         }else if(subject.hasRole("区县负责人")){
             model.addAttribute("isArea",true);
@@ -618,7 +618,7 @@ public class StudentStatisticsController {
         if(subject.hasRole("学校负责人")) {
             map.put("schoolId",uersAreaRelation.getEduSchool());
             map.put("groupBy","edu_year");
-        }else if(subject.hasRole("教科院")){
+        }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
             // map.put("areaId",uersAreaRelation.getE);
             map.put("role","all");
             map.put("groupBy","user_id");
@@ -651,7 +651,7 @@ public class StudentStatisticsController {
         if(subject.hasRole("学校负责人")) {
             map.put("schoolId",uersAreaRelation.getEduSchool());
             map.put("groupBy","edu_year");
-        }else if(subject.hasRole("教科院")){
+        }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
             // map.put("areaId",uersAreaRelation.getE);
             map.put("role","all");
             map.put("groupBy","user_id");
@@ -687,7 +687,7 @@ public class StudentStatisticsController {
             if(subject.hasRole("学校负责人")) {
                 map.put("eduSchool",uersAreaRelation.getEduSchool());
                 map.put("groupBy","edu_year");
-            }else if(subject.hasRole("教科院")){
+            }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
                 // map.put("areaId",uersAreaRelation.getE);
                 map.put("groupBy","edu_area");
             }else if(subject.hasRole("区县负责人")){
@@ -779,7 +779,7 @@ public class StudentStatisticsController {
                 model.addAttribute("role","school");
                 model.addAttribute("area",uersAreaRelation.getEduArea());
                 model.addAttribute("eduSchool",uersAreaRelation.getEduSchool());
-            }else if(subject.hasRole("教科院")){
+            }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
                 // map.put("areaId",uersAreaRelation.getE);
 //                map.put("groupBy","edu_area");
                 model.addAttribute("role","all");
@@ -851,7 +851,7 @@ public class StudentStatisticsController {
             if(subject.hasRole("学校负责人")) {
                 map.put("stepName", v.getEduStep());//学段
                 map.put("eduClass", v.getStudyClass());//班级sss
-            }else if(subject.hasRole("教科院")){
+            }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
                 map.put("areaName", v.getEduArea());//区域
                 map.put("schoolName", v.getEduSchool());//学校
                 map.put("schoolType", v.getSchoolType());
@@ -872,7 +872,7 @@ public class StudentStatisticsController {
         String titles = "";
         if(subject.hasRole("学校负责人")) {
             titles = "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,学段:stepName,班级:eduClass,观看累计次数:times,观看累计时长:studyTime";
-        }else if(subject.hasRole("教科院")){
+        }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
             titles = "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,区域:areaName,学校:schoolName,学校性质:schoolType,学段:stepName,入学年份:eduYear,班级:eduClass,观看累计次数:times,观看累计时长:studyTime";
         }else if(subject.hasRole("区县负责人")){
             titles = "课程名称:className,课次名称:lessonName,用户名:userName,学员名称:studentName,学校:schoolName,学校性质:schoolType,学段:stepName,入学年份:eduYear,班级:eduClass,观看累计次数:times,观看累计时长:studyTime";

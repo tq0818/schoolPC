@@ -20,7 +20,10 @@ public class WatchInfo extends BaseEntity {
     private String leaveTime;//离开时间
     private Long watchTime;//观看时长
     private String classId;//课件ID
-
+    private String device;//设备类型
+    // 0 PC 客户端 1 PC Web 端,2 PC Web 端(http流),3 IPAD Web 端,4 IPHONE Web 端,5 APAD Web 端,6 APHONE Web 端,7 IPAD APP 端
+    //8 IPHONE APP 端,9 APAD APP 端,10 APHONE APP 端,11 MAC 客户端,12 电话端,16 PLAYERSDK IOS 端,17 PLAYERSDK 安卓端
+    private Integer companyId;
     public String getClassId() {
         return classId;
     }
@@ -115,5 +118,21 @@ public class WatchInfo extends BaseEntity {
 
     public void setWatchTime(Long watchTime) {
         this.watchTime = watchTime;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

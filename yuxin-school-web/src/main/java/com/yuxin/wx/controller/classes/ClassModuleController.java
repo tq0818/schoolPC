@@ -13,6 +13,7 @@ import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.api.system.*;
 import com.yuxin.wx.api.user.IUsersFrontService;
 import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.api.weixin.IWeiXinService;
 import com.yuxin.wx.classes.impl.CCLiveRoomServiceImpl;
 import com.yuxin.wx.classes.impl.EketangLiveRoomServiceImpl;
@@ -33,6 +34,7 @@ import com.yuxin.wx.model.system.*;
 import com.yuxin.wx.model.user.UserMessage;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
+import com.yuxin.wx.model.watchInfo.WatchInfoFromZSSend;
 import com.yuxin.wx.util.*;
 import com.yuxin.wx.util.HttpPostRequest;
 import com.yuxin.wx.util.MD5;
@@ -196,6 +198,9 @@ public class ClassModuleController {
 	private IWeiXinService weiXinServiceImpl;
 	@Autowired
 	private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+	@Autowired
+	private IWatchInfoService watchInfoServiceImpl;
+
 	DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 
@@ -5109,9 +5114,22 @@ public class ClassModuleController {
 		log.info("zs：Affected:" + Affected);
 		log.info("zs：totalusernum:" + totalusernum);
 		log.info("redis：查询redis");
-
-
-
+		if(Action.equals("101")){
+			WatchInfoFromZSSend send  = new WatchInfoFromZSSend(ClassNo, Operator,Action,Affected,totalusernum);
+			List<WatchInfoFromZSSend> list = JedisUtil.getList(ClassNo);
+			if(list ==null || list.size()==0){
+				list = new ArrayList<>();
+			}
+			list.add(send);
+			JedisUtil.put(ClassNo,list);
+		}else if(Action.equals("105")){
+			List<WatchInfoFromZSSend> list = JedisUtil.getList(ClassNo);
+			if(list !=null && list.size()!=0){
+				for(WatchInfoFromZSSend send : list){
+					watchInfoServiceImpl.addWatchInfoFromZSSent(send);
+				}
+			}
+		}
 
 
 

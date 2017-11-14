@@ -81,7 +81,7 @@
 		<script type="text/javascript" src="<%=rootPath %>/javascripts/plus/byecharts.js"></script>
 		<script type="text/javascript">
 
-            $selectThirdMenu('watchSchoolInfoList');
+            $selectThirdMenu('watchInfoList');
             function queryChartData() {
                 $.ajax({
                     url: rootPath + '/query/statistics/watchSchoolInfoIndex',
@@ -120,15 +120,19 @@
                                 show: true,
                                 selectedMode: false,
                                 y: 20,
-                                data: ["报名人数", "实际观看人数"]
+                                data: ["报名人数", "实际观课人数"]
                             },
                             "series": [
                                 {
-                                    name: '实际观看人数',
+                                    name: '实际观课人数',
                                     type: 'bar',
                                     itemStyle: {
                                         normal: {
-                                            color: "#5b9bd5"
+                                            color: "#5b9bd5",
+                                            label: {
+                                                show: true,
+                                                position:'right'
+                                            }
                                         }
                                     },
                                     data: newResult
@@ -138,6 +142,10 @@
                                     itemStyle: {
                                         normal: {
                                             color: "#ed7d31",
+                                            label: {
+                                                show: true,
+                                                position:'right'
+                                            }
                                         }
                                     },
                                     data: newTotal
@@ -197,7 +205,7 @@
 
                 };
 
-                $(document).statistical().setCharts(chartOpiton);
+               // $(document).statistical().setCharts(chartOpiton);
 
 		</script>
 </body>

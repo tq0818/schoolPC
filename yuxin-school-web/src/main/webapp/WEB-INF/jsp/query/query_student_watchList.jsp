@@ -137,7 +137,7 @@
 						<div style="margin-top: 10px;">
 							<span>学科</span>
 							<select name="itemThirdCode" id="subject">
-								<option value="">请选择课程模块</option>
+								<option value="">请选择学科</option>
 								<c:forEach items="${subject}" var="subject" >
 									<option value="${subject.itemCode}" data-id="${subject.id}" >${subject.itemName}</option>
 								</c:forEach>
@@ -152,12 +152,12 @@
 							</select>
 							<span>观看时间</span>
 							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
-							<input name="userOrMobile" placeholder="学员手机号/用户名查询" />
+							<input id="userOrMobile" name="userOrMobile" placeholder="学员手机号/用户名查询" />
 
 						</div>
 						<div class="btn-center">
 							<button class="btns-default" id="search" onclick="searchbtn();" type="button">查询</button>
-							<button class="btns-default exportExcleStudent" id="search" >导出</button>
+							<button class="btns-default exportExcleStudent" id="search" >导出数据</button>
 
 						<%--	<span><a  class="btn btn-primary searchContents" onclick="searchbtn()">搜索</a></span>
 							<span><a href="javascript:;" class="btn btn-primary exportExcleStudent">导出</a></span>--%>
@@ -186,7 +186,7 @@
                                     <th width="8%" class="btn-sort" fieldName="edu_year"  sort="">入学年份</th>
                                 </c:if>
                                 <th width="9%" class="btn-sort" fieldName="times"  sort="">观看累计次数</th>
-								<th width="11%" class="btn-sort" fieldName="totle_study"  sort="">观看累计时长</th>
+								<th width="11%" class="btn-sort" fieldName="watch_time"  sort="">观看累计时长</th>
 								<%--<th width="10%">操作</th>--%>
 							</tr>
 						</table>
@@ -205,7 +205,7 @@
 		<div class="popupwin-box cumulativeClass1  clear" style="display:none">
 			<div class="popupwin cumulativeClass" style="width:850px; height: auto;top:10px;" data-pupwin="modal">
 				<div class="popupwin-title">
-					<h2 class="h5">累积上课详细</h2>
+					<h2 class="h5">累积上课详情</h2>
 					<i class="close iconfont canclekuang"></i>
 				</div>
 				<div class="popupwin-main">

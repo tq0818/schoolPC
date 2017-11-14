@@ -73,7 +73,8 @@
 		liveroom_id,
 		join_time,
 		leave_time,
-		watch_time
+		watch_time,
+		device
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -87,8 +88,39 @@
 		#{liveroomId},
 		#{joinTime},
 		#{leaveTime},
-		#{watchTime}
+		#{watchTime},
+		#{device}
 	</sql>
+
+	<sql id="table_columns_history">
+		room_id,
+		max_concurrent,
+		watch_date
+	</sql>
+	<sql id="entity_properties_history">
+		#{id},
+		#{maxConcurrent},
+		#{watchDate}
+	</sql>
+
+	<sql id="table_columns_realtime">
+		room_id,
+		operator,
+		action_id,
+		affected,
+		totalusernum,
+		watch_date
+	</sql>
+	<sql id="entity_properties_realtime">
+		#{classNo},
+		#{operator},
+		#{action},
+		#{affected},
+		#{totalusernum},
+		#{watchDate}
+	</sql>
+
+
 	<sql id="batch_entity_properties">
 		#{item.id},
 		#{item.userId},
@@ -125,11 +157,28 @@
 			<if test="liveroomId != null and liveroomId != ''">and src.liveroom_id = #{liveroomId}</if>
 		</trim>
 	</sql>
-	<select id="getLessonByDate" parameterType="string" resultMap="watchInfoResultMap">
+	<select id="getLessonByDate" parameterType="map" resultMap="watchInfoResultMap">
 		select cml.lesson_name,cm.`name`,cml.lesson_date,cml.liveroom_id_gh as liveroom_id,cmon.classtype_id,cpr.com_id as commodity_id,cml.id as lesson_id from class_module_lesson  cml
 		LEFT JOIN class_module_no_onsale cmon  on cmon.module_no_id =cml.module_no_id
 		LEFT JOIN commodity_product_realtion cpr on cpr.product_id = cmon.classtype_id
 		LEFT JOIN commodity cm on cm.id = cpr.com_id
 		<if test="lessonDate !=null and lessonDate !=''">where cml.lesson_date = #{lessonDate}</if>
 	</select>
+	<!--写入历史课堂并发数据-->
+	<insert id="addWatchInfoFromZSResult" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet">
+		insert into sys_watch_info_history ( <include refid="table_columns_history" /> )
+		values ( <include refid="entity_properties_history" /> )
+	</insert>
+	<!--写入历史课堂并发数据-->
+	<insert id="addWatchInfoFromZSSent" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoFromZSSend">
+		insert into sys_watch_info_realtime ( <include refid="table_columns_realtime" /> )
+		values ( <include refid="entity_properties_realtime" /> )
+	</insert>
+
+	<!--查询课程并发数-->
+	<select id="getCurrentByRoom" parameterType="Map" resultType="Map">
+		select <include refid="table_columns_history" />  from sys_watch_info_history
+
+	</select>
+
 </mapper>

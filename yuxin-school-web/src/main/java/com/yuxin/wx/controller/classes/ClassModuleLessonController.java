@@ -2,12 +2,7 @@ package com.yuxin.wx.controller.classes;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +10,8 @@ import com.google.gson.Gson;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.controller.task.TestTask;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
+import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
+import com.yuxin.wx.model.watchInfo.WatchInfoFromZSResult;
 import com.yuxin.wx.vo.classes.*;
 import net.sf.json.JSONObject;
 
@@ -1222,18 +1219,29 @@ public class ClassModuleLessonController {
 
 	@RequestMapping(value="/getAllWatchInfo")
 	public void getAllWatchInfo(HttpServletRequest request){
-		List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(null);
+		List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(new HashMap());
 		Map<String,Object> map = new HashMap();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		map.put("loginName", LiveRoomConstant.LOGIN_NAME);
-		map.put("password",LiveRoomConstant.PASSWORD);
+
+		CompanyLiveConfig config = null;//companyLiveConfigServiceImpl.findByCompanyId(WebUtils.getCurrentCompanyId());
+		String url ="";
+		if(config==null){
+			map.put("loginName", LiveRoomConstant.LOGIN_NAME);
+			map.put("password",LiveRoomConstant.PASSWORD);
+			url = LiveRoomConstant.DOMIN_NAME;
+
+		}else{
+			map.put("loginName", config.getLoginName());
+			map.put("password",config.getPassword());
+			url = config.getDomain();
+		}map.put("password",config.getPassword());
 		for(WatchInfo lesson :list){
 			map.put("startTime",sdf.format(lesson.getLessonDate())+" 00:00:00");
 			map.put("endTime",sdf.format(lesson.getLessonDate())+" 23:59:59");
 			map.put("roomId",lesson.getLiveroomId());
 			String result = null;
 			try {
-				result = com.yuxin.wx.utils.HttpPostRequest.post(LiveRoomConstant.DOMIN_NAME+"/integration/site/training/export/history",map);
+				result = com.yuxin.wx.utils.HttpPostRequest.post(url+"/integration/site/training/export/history",map);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1254,6 +1262,7 @@ public class ClassModuleLessonController {
 					lesson.setUserId(Integer.parseInt(mUser.getUid())-1000000000);
 					lesson.setLessonId(lesson.getLessonId());
 					lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
+					lesson.setDevice(mUser.getDevice());
 					watchInfoServiceImpl.addWatchInfo(lesson);
 					lesson.setId(null);
 				}
@@ -1262,5 +1271,78 @@ public class ClassModuleLessonController {
 
 	}
 
+
+	@RequestMapping(value="/getAllWatchInfoHistory")
+	public void getAllWatchInfoHistory(HttpServletRequest request){
+
+		List<WatchInfo> lessonList = watchInfoServiceImpl.getLessonByDate(new HashMap());
+		Map<String,Object> map = new HashMap();
+		CompanyLiveConfig config = null;//companyLiveConfigServiceImpl.findByCompanyId(WebUtils.getCurrentCompanyId());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String url ="";
+		if(config==null){
+			map.put("loginName", LiveRoomConstant.LOGIN_NAME);
+			map.put("password",LiveRoomConstant.PASSWORD);
+			url = LiveRoomConstant.DOMIN_NAME;
+
+		}else{
+			map.put("loginName", config.getLoginName());
+			map.put("password",config.getPassword());
+			url = config.getDomain();
+		}
+
+
+		for(WatchInfo lesson : lessonList){
+			String theDate = sdf.format(lesson.getLessonDate());
+			map.put("startTime",theDate+" 00:00:00");
+			map.put("endTime",theDate+" 23:59:59");
+			map.put("roomId",lesson.getLiveroomId());
+
+			String result = null;
+			try {
+				result = com.yuxin.wx.utils.HttpPostRequest.post(url+"/integration/site/training/export/room/usage ",map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			map.remove("startTime");
+			map.remove("endTime");
+			System.out.println(result);
+			Gson g = new Gson();
+			WatchInfoFromZSResult re =  g.fromJson(result,WatchInfoFromZSResult.class);
+			List<WatchInfoFromZSGet> list  = re.getList();
+			if(!re.getCode().equals("0")){
+				 System.out.println(re.getMessage());
+				 log.error(re.getMessage());
+				continue;
+			}else{
+				if(re.getList().size()>0){
+					Collections.sort(list, new Comparator<WatchInfoFromZSGet>(){
+
+						/*
+                         * int compare(Student o1, Student o2) 返回一个基本类型的整型，
+                         * 返回负数表示：o1 小于o2，
+                         * 返回0 表示：o1和o2相等，
+                         * 返回正数表示：o1大于o2。
+                         */
+						public int compare(WatchInfoFromZSGet o1, WatchInfoFromZSGet o2) {
+
+							//按照学生的年龄进行升序排列
+							if(o1.getMaxConcurrent() > o2.getMaxConcurrent()){
+								return -1;
+							}
+							if(o1.getMaxConcurrent() == o2.getMaxConcurrent()){
+								return 0;
+							}
+							return 1;
+						}
+					});
+					System.out.println(list.get(0).getMaxConcurrent());
+
+					watchInfoServiceImpl.addWatchInfoFromZSResult(list.get(0));
+
+				}
+			}
+		}
+	}
 
 }

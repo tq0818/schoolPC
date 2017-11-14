@@ -81,12 +81,12 @@
 								<option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
 							</c:forEach>
 						</select>
-						<select name="classSubject" id="classSubject">
-							<option value="">请选择学科</option>
-							<c:forEach items="${subjectItem}" var="item" >
-								<option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
-							</c:forEach>
-						</select>
+                        <select name="classSubject" id="classSubject">
+                            <option value="">请选择学科</option>
+                            <c:forEach items="${subjectItem}" var="item" >
+                                <option value="${item.itemCode}" data-id="${item.id}" >${item.itemName}</option>
+                            </c:forEach>
+                        </select>
 						<span>课程：</span>
 						<select name="classType" id="classType">
 							<option value="">请选择课程名称</option>

@@ -65,9 +65,9 @@
 						<input type="button" id="search" value="查询" onclick="queryChartData();"/>
 					</div>--%>
 
-					<div style="text-align: center;font-size: 16px;width: 100%;display: none;">总计观看人数<span id="watchIndex" style="color:red"></span></div>
+					<div style="text-align: center;font-size: 16px;width: 100%;display: none;">总计观看直播人数<span id="watchIndex" style="color:red"></span></div>
 					<div class="e-charst" id="watch_info_index"></div>
-					<div style="text-align: center;font-size: 16px;width: 100%;display: none;">总计观看人次<span id="watchAll" style="color:red"></span></div>
+					<div style="text-align: center;font-size: 16px;width: 100%;display: none;">总计观看直播人次<span id="watchAll" style="color:red"></span></div>
 					<div class="e-charst" id="watch_info_all"></div>
 				</div>
 			</div>

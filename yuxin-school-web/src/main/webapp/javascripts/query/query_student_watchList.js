@@ -9,9 +9,9 @@ $(document).ready(function(){
            url: rootPath + "/query/getStudentWatchInfo",
            data:{'lessonId':obj.lessonId,'userId':obj.userId},
            success:function (result) {
+               $(".popupwin-main")
+                   .find(".listData").remove();
                $.each(result,function(i,info){
-                   $(".popupwin-main")
-                       .find(".listData").remove();
                    var str = '<tr class="listData"><td>'+ obj.lessonName+ '</td>'+'<td>'+ obj.studentName+ '</td>';
                    if(role!="school"){
                        str +='<td>'+ obj.eduSchool+ '</td>';
@@ -197,7 +197,7 @@ function  init() {
             data.endTime=$("#endTime").val();
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
-            data.userNameOrMobile=$("#userNameOrMobile").val();
+            data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoList",
                 data: data,

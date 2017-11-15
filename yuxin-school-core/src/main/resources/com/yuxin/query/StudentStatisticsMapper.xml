@@ -472,12 +472,12 @@
 						GROUP BY s.edu_year asc
 					</select>
 					<select id="watchSchoolChartData" parameterType="Map" resultType="Map">
-						SELECT COUNT(a.times) as times,a.edu_year from (select COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
+						SELECT SUM(a.times) as times,a.edu_year from (select COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
 						LEFT JOIN student s  on s.user_id = swi.user_id
 						where  s.edu_year >0  and s.edu_school = #{schoolId} and s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
-						GROUP BY s.edu_year
+						GROUP BY s.edu_year,swi.liveroom_id
 						ORDER BY s.edu_year asc) a
 						GROUP BY a.edu_year
 						ORDER BY a.edu_year asc
@@ -494,7 +494,7 @@
 						where s.edu_identity = 0 and s.delete_flag =  0   and s.edu_school=#{schoolId}
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
-						GROUP BY swf.liveroom_id) a
+						GROUP BY swi.liveroom_id) a
 
 					</select>
 					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="Long">

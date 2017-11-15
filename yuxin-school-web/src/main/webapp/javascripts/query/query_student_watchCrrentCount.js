@@ -1,7 +1,31 @@
 $(document).ready(function(){
     search();
+    $(".table").delegate(".max-imum","click",function(e){
+        $(".max-imumbox1").show();
+        $(".max-imumbox").popup("show").css("top", "20%");
+        var key = ['11:00:00','11:10:00','11:20:00','11:30:00','11:40:00','11:50:00','12:00:00',
+        '12:10:00','12:20:00','12:30:00','12:40:00','12:50:00','13:00:00','13:10:00','13:20:00',
+        '13:30:00','13:40:00','13:50:00','14:00:00','14:10:00','14:20:00','14:30:00','14:40:00',
+        '14:50:00'],
+        values = [820, 932, 901, 934, 1290, 1330,1320,1330,1350,1220,1200,999,990,1000,993,980,
+        960,980,965,950,960,955,940,902,900];
+        model.maxImum(key,values);
 
+    });
+    $(".table").delegate(".learning-style","click",function(e){
+        $(".learning-stylebox1").show();
+        $(".learning-stylebox").popup("show").css("top", "10%");
+        
+
+        model.learningStyle([23,68],[[20,80],[40,60]]);
+        
+    });
+    $(".canclekuang").on('click',function(){
+        $(".max-imumbox1,.learning-stylebox1").hide();
+    })
 });
+
+
 function  init() {
         $("#secondItemCode").change(function () {
             var secondItemCode = $("#secondItemCode").val();
@@ -84,7 +108,7 @@ function  init() {
 
             });
     }
-        function search(page,sort){
+function search(page,sort){
             var $this = this;
             var data = {};
             if(sort){
@@ -202,3 +226,132 @@ function  init() {
                 }
         });
     }
+var model = {
+    maxImum:function(key,values){
+        var myChartStu = echarts.init(document.getElementById("maxImum"));
+            option = {
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    show:false,
+                    data:['最大并发']
+                },
+                toolbox: {
+                    show : true,
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : key
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    
+                    {
+                        name:'搜索引擎',
+                        type:'line',
+                        stack: '总量',
+                        itemStyle: {
+                            normal: {
+                                color:'#45ccce',
+                                areaStyle:
+                                 {type: 'default'}
+                                }
+                            },
+                        data:values
+                    }
+                ]
+            };
+
+            myChartStu.setOption(option);
+    },
+    learningStyle:function (num,values) {
+        var myChartStu2 = echarts.init(document.getElementById("learningStyle"));
+
+
+        option2 = {
+            legend: {
+                show:false,
+                data:['学习方式详细']
+            },
+            toolbox: {
+                show : true,
+            },
+            series : [
+                seriesData(num[0],values[0],'移动端',"#5ab1ef",['28%', '40%']),seriesData(num[1],values[1],'非移动端',"#b6a2de",['68%', '40%'])
+               
+            ]
+        };
+        myChartStu2.setOption(option2);
+        function seriesData(num,values,name,color,address){
+            var sData = {
+                    type : 'pie',
+                    center : address,
+                    radius : [45, 55],
+                    itemStyle : {
+                        normal : {
+                            label : {
+                                formatter : function (params){
+                                    return num +'\n'+(100 - params.value) + '%'
+                                },
+                              
+                                textStyle: {
+                                    baseline : 'top'
+                                }
+                            }
+                        },
+                    },
+                    data : [
+                        {
+                            name:'other', 
+                            value:values[0],
+                            itemStyle :
+                             {
+                                normal : {
+                                    color: '#ccc',
+                                    label : {
+                                        show : true,
+                                        position : 'center'
+                                    },
+                                    labelLine : {
+                                        show : false
+                                    }
+                                },
+                                emphasis: {
+                                    color: 'rgba(0,0,0,0)'
+                                }
+                            }
+                        },
+                        {
+                            name:name,
+                            value:values[1],
+                            itemStyle : {
+                                normal : {
+                                    color: color,
+                                    label : {
+                                        show : true,
+                                        position : 'center',
+                                        formatter : '{b}',
+                                        textStyle: {
+                                            baseline : 'bottom'
+                                        }
+                                    },
+                                    labelLine : {
+                                        show : false
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+                return sData;
+        }
+    }
+}

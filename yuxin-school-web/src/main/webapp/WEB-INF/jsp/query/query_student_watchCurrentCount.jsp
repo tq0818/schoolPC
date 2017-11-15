@@ -41,9 +41,9 @@
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 							<span>时间</span>
 							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
-							<input type="button" value="7天"/>
-							<input type="button" value="14天"/>
-							<input type="button" value="31天"/>
+							<input type="button" class="daysTab" value="7天"/>
+							<input type="button" class="daysTab" value="14天"/>
+							<input type="button" class="daysTab" value="31天"/>
 						</div>
 						<div style="margin-top: 10px;">
 							<span>学段</span>
@@ -84,6 +84,13 @@
 								<th width="8%" class="btn-sort" fieldName="edu_year" sort="">最大并发</th>
 								<th width="8%">用户学习方式详情</th>
 							</tr>
+							<tr>
+								<td>name</td>
+								<td>name123</td>
+								<td>52</td>
+								<td class="max-imum">66</td>
+								<td class="learning-style">detail</td>
+							</tr>
 						</table>
 						<div class="pages pagination"></div>
 					</div>
@@ -97,6 +104,32 @@
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
 	</div>
+	<!-- popupwin 最大并发 开始    -->
+	<div class="popupwin-box max-imumbox1 clear" style="display:none">
+		<div class="popupwin max-imumbox" style="width:1000px; height: auto;top:10px;" data-pupwin="modal">
+			<div class="popupwin-title">
+					<h2 class="h5">最大并发</h2>
+					<i class="close iconfont canclekuang"></i>
+				</div>
+			<div class="popupwin-main">
+				<div class="demand-count viewsCount" id="maxImum" style="width:960px;height: 380px;"></div>
+			</div>
+		</div>
+	</div>
+	<!-- popupwin 最大并发结束 -->
+<!-- popupwin 学习方式详细 开始    -->
+<div class="popupwin-box learning-stylebox1 clear" style="display:none">
+	<div class="popupwin learning-stylebox" style="width:400px; height: auto;top:10px;" data-pupwin="modal">
+		<div class="popupwin-title">
+			<h2 class="h5">学习方式详细</h2>
+			<i class="close iconfont canclekuang"></i>
+		</div>
+		<div class="popupwin-main">
+			<div class="demand-count viewsCount" id="learningStyle" style="width:360px;height: 160px;"></div>
+		</div>
+	</div>
+</div>
+<!-- popupwin 学习方式详细结束 -->
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_watchCrrentCount.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
@@ -109,8 +142,9 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript">
-    init();
+    //init();
     function $selectThirdMenu(code) {
         $(".system_managelist").find("li").removeClass("active");
         $(".system_managelist").find("li").each(function() {

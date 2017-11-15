@@ -154,4 +154,10 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<VideoCourseVo> queryCourseIndexList(VideoCourseVo videoCourseVo);
+
+	/**
+	 * 获取用户播放记录
+	 * @return
+	 */
+    List<Map<String,Object>> queryHistoryAll();
 }

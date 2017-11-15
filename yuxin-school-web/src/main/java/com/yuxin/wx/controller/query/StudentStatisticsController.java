@@ -30,6 +30,7 @@ import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
 import com.yuxin.wx.vo.student.StudentListVo;
+import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -46,6 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -73,8 +75,8 @@ public class StudentStatisticsController {
     private ICompanyPayConfigService companyPayConfigServiceImpl;
     @Autowired
     private IClassTypeService classTypeServiceImpl;
-//    @Autowired
-//    private IUserHistoryService userHistoryServiceImpl;
+    @Autowired
+    private IUserHistoryService userHistoryServiceImpl;
 
 	/**
 	 * 页面跳转
@@ -2181,9 +2183,30 @@ public class StudentStatisticsController {
     public JSONObject installSysPlayLogs() {
         JSONObject jsonObject = new JSONObject();
         //查询所有的播放记录
-
-
-//        sysPlayLogsServiceImpl.in
+        List<Map<String, Object>> hisList = sysPlayLogsServiceImpl.queryHistoryAll();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        for(Map<String, Object> hisMap:hisList){
+            try {
+                UserHistoryAllVo allVo = new UserHistoryAllVo();
+                allVo.setUserId(Integer.valueOf(hisMap.get("user_id").toString()));
+                allVo.setCommodityId(Integer.valueOf(hisMap.get("commodity_id").toString()));
+                allVo.setClassTypeId(Integer.valueOf(hisMap.get("class_type_id").toString()));
+                allVo.setLectureId(Integer.valueOf(hisMap.get("lecture_id").toString()));
+                allVo.setStudyTime(sdf.parse(hisMap.get("study_time").toString()));
+                Random rd = new Random();
+                Integer video_time = rd.nextInt(Integer.valueOf(hisMap.get("video_time").toString()));
+                allVo.setStudyLength(video_time);
+                int device = rd.nextInt(100);
+                if(device>76){
+                    allVo.setDevice("PC");
+                }else{
+                    allVo.setDevice("Mobile");
+                }
+                userHistoryServiceImpl.insertPlayLogs(allVo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return jsonObject;
     }
 }

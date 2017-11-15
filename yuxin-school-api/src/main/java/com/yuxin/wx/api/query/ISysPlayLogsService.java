@@ -148,4 +148,10 @@ public interface ISysPlayLogsService {
      */
     List<VideoCourseVo> queryCourseIndexList(VideoCourseVo videoCourseVo);
 
+
+    /**
+     * 获取用户总播放记录
+     * @return
+     */
+    List<Map<String,Object>> queryHistoryAll();
 }

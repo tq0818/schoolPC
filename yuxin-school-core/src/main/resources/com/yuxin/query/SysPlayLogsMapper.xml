@@ -606,4 +606,28 @@
 		group by t.`item_second_code`,
 		t.`item_third_code`) t
 	</select>
+
+	<select id="queryHistoryAll" resultType="map">
+		SELECT
+		  uh.id,
+		  uh.user_id,
+		  uh.commodity_id,
+		  uh.class_type_id,
+		  uh.lecture_id,
+		  uh.study_time,
+		  uh.study_length,
+		  TIME_TO_SEC(v.video_time) as video_time
+		FROM
+		  user_history_all uh
+		  LEFT JOIN `course_video_lecture` cv
+		  ON cv.id = uh.`lecture_id`
+		  LEFT JOIN video v
+		  ON v.id = cv.`video_id`
+		WHERE uh.user_id IS NOT NULL
+		  AND uh.commodity_id IS NOT NULL
+		  AND uh.class_type_id IS NOT NULL
+		  AND uh.lecture_id IS NOT NULL
+		  AND uh.study_time IS NOT NULL
+		  AND v.video_time IS NOT NULL
+	</select>
 </mapper>

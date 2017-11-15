@@ -525,7 +525,7 @@
 
 					<select id="queryStudentsWatchInfoCountCurrent" parameterType="Map" resultType="Map">
 						SELECT
-						m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,
+						m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,swih.max_concurrent,
 						COUNT((CASE WHEN swi.device = 0  then 1 end)) pc,
 						COUNT((CASE WHEN swi.device > 0 then 1  end )) no_pc
 						FROM
@@ -547,7 +547,7 @@
 					</select>
 					<select id="queryStudentsWatchInfoCountCurrentCount" parameterType="Map" resultType="int">
 						SELECT
-						IFNULL(count(1),0)
+						IFNULL(count(DISTINCT(swih.room_id)),0)
 						FROM
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
@@ -562,5 +562,10 @@
 						<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
 						<if test="lesson !=null and lesson != ''">and cml.id = #{lessonlesson}</if>
 						GROUP BY swi.liveroom_id,swih.room_id
+					</select>
+					<select id="queryStudentsWatchInfoTime" parameterType="Map" resultType="map">
+						SELECT * from sys_watch_info_realtime
+						  where  room_id =#{roomId}
+						  ORDER  BY  watch_date desc
 					</select>
                 </mapper>

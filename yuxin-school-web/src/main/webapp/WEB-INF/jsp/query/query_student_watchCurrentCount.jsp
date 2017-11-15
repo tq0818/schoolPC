@@ -80,17 +80,17 @@
 							<tr data-buy="true">
 								<th width="10%">课程名称</th>
 								<th width="10%">课次名称</th>
-								<th width="8%" class="btn-sort" fieldName="edu_year" sort="">观看人次</th>
-								<th width="8%" class="btn-sort" fieldName="edu_year" sort="">最大并发</th>
+								<th width="8%" class="btn-sort" fieldName="times" sort="">观看人次</th>
+								<th width="8%" class="btn-sort" fieldName="max_concurrent" sort="">最大并发</th>
 								<th width="8%">用户学习方式详情</th>
 							</tr>
-							<tr>
+							<%--<tr>
 								<td>name</td>
 								<td>name123</td>
 								<td>52</td>
 								<td class="max-imum">66</td>
 								<td class="learning-style">detail</td>
-							</tr>
+							</tr>--%>
 						</table>
 						<div class="pages pagination"></div>
 					</div>
@@ -144,7 +144,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript">
-    //init();
+    init();
     function $selectThirdMenu(code) {
         $(".system_managelist").find("li").removeClass("active");
         $(".system_managelist").find("li").each(function() {

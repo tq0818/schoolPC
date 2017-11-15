@@ -9,6 +9,27 @@ $(document).ready(function(){
         '14:50:00'],
         values = [820, 932, 901, 934, 1290, 1330,1320,1330,1350,1220,1200,999,990,1000,993,980,
         960,980,965,950,960,955,940,902,900];
+
+        var info = $(e.target).parent("tr").date();
+        $.ajax({
+            type:"post",
+            url:"",
+            data:{'roomId':info.room_id},
+            success:function(data){
+                if(data.list.length>0){
+                    key =new Object();
+                    values =new Object();
+                    for(var n = 0 ; n<data.list.length ; n++){
+                        key.push(list[n].watch_date);
+                        values.push(list[n].totalusernum);
+                    }
+                }else{
+                    $.msg("暂无数据");
+                    return;
+                }
+            }
+        })
+
         model.maxImum(key,values);
 
     });
@@ -135,6 +156,8 @@ function search(page,sort){
             data.itemThirdCode = $("#itemThirdCode").val();
             data.comId = $("#class").val();
             data.lesson =$("#lesson").val();
+            data.startDate = $("#startTime").val();//
+            data.endDate=$("#endTime").val();
             data.page = page ? page : 1;
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoCountCurrent",
@@ -152,41 +175,29 @@ function search(page,sort){
                             $(".user-list")
                                 .find("table")
                                 .append(
-                                    '<tr class="listData"><td colspan="14">没有查找到数据</td></tr>');
+                                    '<tr class="listData"><td colspan="5">没有查找到数据</td></tr>');
 
                     }
-                    $("#watch").html(jsonData.rowCount);
-                    $("#total").html(result.total);
                     $.each(jsonData.data,function (i, stu) {
-                        var str = null;
-                        if($("#role").val()!='school'){
-                            str  =" <td>"+ stu.eduSchool+ "</td>"+" <td>"+ stu.eduStep+ "</td>"+" <td>"+ stu.eduYear+ "</td>";
-                        }else
-                        {
-                            str  = " <td>"+stu.studyClass+ "</td>";
-                        }
+                        var str = "移动端:"+stu.no_pc+";非移动端:"+stu.pc;
                         var $tr = $('<tr class="listData">'
                             + '<td>'
-                            + stu.className
+                            + stu.name
                             + '</td>'
                             + '<td>'
-                            + stu.lessonName
+                            + stu.lesson_name
                             + '</td>'
                             + '<td>'
-                            + stu.userName
-                            + '</td>'
-                            + '<td>'
-                            + stu.studentName
-                            + '</td>'
-                            + str
-                            + '<td class="amassCount"  >'
                             + stu.times
                             + '</td>'
-                            + '<td >'
-                            + stu.studyTime
-                            + '</td>'
+                            + '<td class="max-imum">'
+                            + stu.max_concurrent
+                            + '</td><td class="learning-style">'
+                            +str
+                            +'</td>'
                             + '</tr>');
-                        $tr.find(".amassCount").data(stu);
+
+                        $tr.data(stu);
 
                         $(".user-list")
                             .find("table")

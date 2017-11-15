@@ -87,4 +87,6 @@ public interface IStudentStatisticsService {
     List<Map> getStudentWatchInfo(Map<String, Object> map);
 
     PageFinder2<Map> queryStudentsWatchInfoCountCurrent(Map<String, Object> map);
+
+    List<Map> queryStudentsWatchInfoTime(Map<String, Object> map);
 }

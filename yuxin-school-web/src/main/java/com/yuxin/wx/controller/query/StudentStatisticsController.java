@@ -1072,7 +1072,7 @@ public class StudentStatisticsController {
     @ResponseBody
     @RequestMapping(value="/statistics/queryStudentsWatchInfoCountCurrent")
 
-    public PageFinder2<Map> queryStudentsWatchInfoCountCurrent(
+    public Map queryStudentsWatchInfoCountCurrent(
             String startDate,String endDate,String secondItemCode,String itemThirdCode,
             String comId,String lesson,Integer page,String orderBy, HttpServletRequest request){
 
@@ -1083,7 +1083,7 @@ public class StudentStatisticsController {
         map.put("itemThirdCode",itemThirdCode);
         map.put("comId",comId);
         map.put("lesson",lesson);
-        map.put("firstPage",page);
+        map.put("firstPage",(page-1)*10);
 
         map.put("pageSize",10);
         map.put("orderBy",orderBy);
@@ -1091,10 +1091,35 @@ public class StudentStatisticsController {
 
         PageFinder2<Map> list =studentStatisticsServiceImpl.queryStudentsWatchInfoCountCurrent(map);
 
+        Map<String,Object> result = new HashMap<>();
+        result.put("pageFinder",list);
 
-
-        return list;
+        return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value="/statistics/queryStudentsWatchInfoTime")
+
+    public Map queryStudentsWatchInfoTime(
+            String roomId, HttpServletRequest request){
+
+        Map<String,Object> map  = new HashMap<>();
+        map.put("roomId",roomId);
+
+        List<Map> list =studentStatisticsServiceImpl.queryStudentsWatchInfoTime(map);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        for(Map a : list){
+            long time = (long)a.get("watch_date");
+            c.setTimeInMillis(time);
+            a.put("watch_date",sdf.format(c.getTime()));
+        }
+        Map<String,Object> result = new HashMap<>();
+        result.put("list",list);
+
+        return result;
+    }
+
 
     /**
      * 教师授课详情页面跳转

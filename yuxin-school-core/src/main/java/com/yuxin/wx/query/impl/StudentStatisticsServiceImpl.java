@@ -185,10 +185,15 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         List<Map> data = studentstatisticsMapper.queryStudentsWatchInfoCountCurrent(map);
         Integer count = studentstatisticsMapper.queryStudentsWatchInfoCountCurrentCount(map);
         PageFinder2<Map> pageFinder = new PageFinder2<Map>(
-                (Integer)map.get("firtstPage"), (Integer)map.get("pageSize"), count, data);
+                (Integer)map.get("firstPage"), (Integer)map.get("pageSize"), count, data);
         return pageFinder;
 
         //return studentstatisticsMapper.queryStudentsWatchInfoCountCurrent(map);
+    }
+
+    @Override
+    public List<Map> queryStudentsWatchInfoTime(Map<String, Object> map) {
+        return studentstatisticsMapper.queryStudentsWatchInfoTime(map);
     }
 
 

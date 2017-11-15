@@ -509,7 +509,7 @@ public class StudentStatisticsController {
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(50000);
+            search.setPageSize(20000);
             al = studentStatisticsServiceImpl.getAreaStudentCountList(search);
         }
         StringBuffer title = new StringBuffer(
@@ -540,7 +540,7 @@ public class StudentStatisticsController {
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(50000);
+            search.setPageSize(20000);
             al = studentServiceImpl.findStudentsData(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -837,7 +837,7 @@ public class StudentStatisticsController {
         List<WatchInfoResult> list = new ArrayList<>();
         if (EntityUtil.isNotBlank(search)) {
             //userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            search.setPageSize(50000);
+            search.setPageSize(20000);
             list = studentStatisticsServiceImpl.exportStudentsWatchInfoList(search);//studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1121,6 +1121,44 @@ public class StudentStatisticsController {
     }
 
 
+
+    @RequestMapping(value = "/exportStudentsWatchInfoCountCurrent")
+    public ModelAndView exportStudentsWatchInfoCountCurrent(Model model,String startTime,String endTime,String secondItemCode,String itemThirdCode,
+                                                            String comId,String lesson) {
+        List<Map> list = new ArrayList<>();
+        Map<String,Object> info  = new HashMap<>();
+        info.put("startDate",startTime);
+        info.put("endDate",endTime);
+        info.put("secondItemCode",secondItemCode);
+        info.put("itemThirdCode",itemThirdCode);
+        info.put("comId",comId);
+        info.put("lesson",lesson);
+        //userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+        info.put("pageSize",20000);
+        list = studentStatisticsServiceImpl.exportStudentsWatchInfoCountCurrent(info);//studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (Map v : list) {
+            lists.add(v);
+        }
+        String titles = "";
+            titles = "课程名称:name,课次名称:lesson_name,观看人次:times,最大并发数:max_concurrent,观看人数:user_num,移动端学习人次:no_pc,非移动端学习人次:pc";
+
+        StringBuffer title = new StringBuffer(
+                titles);
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "直播并发统计.xls");
+        return new ModelAndView(excel, map);
+    }
+
+
     /**
      * 教师授课详情页面跳转
      * @param model
@@ -1351,7 +1389,7 @@ public class StudentStatisticsController {
         List<VideoCourseVo> al = new ArrayList<VideoCourseVo>();
         if (EntityUtil.isNotBlank(videoCourseVo)) {
             videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            videoCourseVo.setPageSize(50000);
+            videoCourseVo.setPageSize(20000);
             al = sysPlayLogsServiceImpl.queryVideoCourseList(videoCourseVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1395,7 +1433,7 @@ public class StudentStatisticsController {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            userVideoVo.setPageSize(50000);
+            userVideoVo.setPageSize(20000);
             al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1442,7 +1480,7 @@ public class StudentStatisticsController {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
-            userVideoVo.setPageSize(50000);
+            userVideoVo.setPageSize(20000);
             al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -2005,7 +2043,7 @@ public class StudentStatisticsController {
         Map<String, Object> papamMap = new HashMap<String, Object>();
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
-        papamMap.put("pageSize", 50000);
+        papamMap.put("pageSize", 20000);
         List<Map<String, Object>> totleVideoList = sysPlayLogsServiceImpl.queryTotleVideo(papamMap);
 
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();

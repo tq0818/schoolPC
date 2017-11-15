@@ -61,11 +61,11 @@
 								<option value="">请选择学科</option>
 							</select>
 							<span>课程模块</span>
-							<select name="commodityId" id="class">
+							<select name="comId" id="class">
 								<option value="">请选择课程模块</option>
 							</select>
 							<span>课次</span>
-							<select name="lessonId" id="lesson">
+							<select name="lesson" id="lesson">
 								<option value="">全部</option>
 							</select>
 						</div>
@@ -148,14 +148,8 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <script type="text/javascript">
     init();
-    function $selectThirdMenu(code) {
-        $(".system_managelist").find("li").removeClass("active");
-        $(".system_managelist").find("li").each(function() {
-            if ($(this).attr("code") == code) {
-                $(this).addClass("active");
-            }
-        })
-    }
+
+    $selectThirdMenu('watchInfoList');
     $selectThirdMenu('watchInfoCurrentCount');
 	function searchbtn(){
         //var pageNo=$("#pageNo").val();

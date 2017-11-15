@@ -525,7 +525,7 @@
 
 					<select id="queryStudentsWatchInfoCountCurrent" parameterType="Map" resultType="Map">
 						SELECT
-						m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,swih.max_concurrent,
+						m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,swih.max_concurrent,count(DISTINCT(swi.user_id)) as user_num,
 						COUNT((CASE WHEN swi.device = 0  then 1 end)) pc,
 						COUNT((CASE WHEN swi.device > 0 then 1  end )) no_pc
 						FROM
@@ -540,14 +540,14 @@
 						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
 						<if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
 						<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
-						<if test="lesson !=null and lesson != ''">and cml.id = #{lessonlesson}</if>
+						<if test="lesson !=null and lesson != ''">and cml.id = #{lesson}</if>
 						GROUP BY swi.liveroom_id,swih.room_id
 						ORDER BY ${orderBy}
 						limit #{firstPage},#{pageSize}
 					</select>
 					<select id="queryStudentsWatchInfoCountCurrentCount" parameterType="Map" resultType="int">
-						SELECT
-						IFNULL(count(DISTINCT(swih.room_id)),0)
+					select IFNULL(a.time,0) from	(SELECT
+						IFNULL(count(DISTINCT(swih.room_id)),0) as time
 						FROM
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
@@ -560,12 +560,35 @@
 						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
 						<if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
 						<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
-						<if test="lesson !=null and lesson != ''">and cml.id = #{lessonlesson}</if>
-						GROUP BY swi.liveroom_id,swih.room_id
+						<if test="lesson !=null and lesson != ''">and cml.id = #{lesson}</if>
+						GROUP BY swi.liveroom_id,swih.room_id) a
 					</select>
 					<select id="queryStudentsWatchInfoTime" parameterType="Map" resultType="map">
 						SELECT * from sys_watch_info_realtime
 						  where  room_id =#{roomId}
 						  ORDER  BY  watch_date desc
 					</select>
+
+
+	<select id="exportStudentsWatchInfoCountCurrent" parameterType="Map" resultType="Map">
+		SELECT
+		m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,swih.max_concurrent,count(DISTINCT(swi.user_id)) as user_num,
+		COUNT((CASE WHEN swi.device = 0  then 1 end)) pc,
+		COUNT((CASE WHEN swi.device > 0 then 1  end )) no_pc
+		FROM
+		sys_watch_info_history swih
+		LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+		LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
+		LEFT JOIN commodity m ON m.id = swi.commodity_id
+		LEFT JOIN student s ON  s.user_id = swi.user_id
+		where s.edu_identity = 0 and s.delete_flag =  0
+		<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
+		<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
+		<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
+		<if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+		<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
+		<if test="lesson !=null and lesson != ''">and cml.id = #{lesson}</if>
+		GROUP BY swi.liveroom_id,swih.room_id
+		limit #{pageSize}
+	</select>
                 </mapper>

@@ -137,7 +137,7 @@ function  init() {
                     $.msg("没有数据可以导出");
                 } else {
                     $("#searchForm").attr("action",
-                        rootPath + "/query/exportUserWatchExcle")
+                        rootPath + "/query/exportStudentsWatchInfoCountCurrent")
                         .submit();
                 }
 

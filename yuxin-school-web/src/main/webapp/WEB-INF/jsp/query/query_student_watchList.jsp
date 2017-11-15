@@ -244,14 +244,6 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
     init();
-    function $selectThirdMenu(code) {
-        $(".system_managelist").find("li").removeClass("active");
-        $(".system_managelist").find("li").each(function() {
-            if ($(this).attr("code") == code) {
-                $(this).addClass("active");
-            }
-        })
-    }
     $selectThirdMenu('watchInfoList');
 	function searchbtn(){
 		//清除之前字段排序的值

@@ -95,4 +95,6 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	Integer queryStudentsWatchInfoCountCurrentCount(Map<String, Object> map);
 
     List<Map> queryStudentsWatchInfoTime(Map<String, Object> map);
+
+	List<Map> exportStudentsWatchInfoCountCurrent(Map<String, Object> map);
 }

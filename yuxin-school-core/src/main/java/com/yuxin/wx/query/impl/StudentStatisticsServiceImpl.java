@@ -184,6 +184,10 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     public PageFinder2<Map> queryStudentsWatchInfoCountCurrent(Map<String, Object> map) {
         List<Map> data = studentstatisticsMapper.queryStudentsWatchInfoCountCurrent(map);
         Integer count = studentstatisticsMapper.queryStudentsWatchInfoCountCurrentCount(map);
+        if(count==null){
+            count=0;
+        }
+
         PageFinder2<Map> pageFinder = new PageFinder2<Map>(
                 (Integer)map.get("firstPage"), (Integer)map.get("pageSize"), count, data);
         return pageFinder;
@@ -194,6 +198,11 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
     @Override
     public List<Map> queryStudentsWatchInfoTime(Map<String, Object> map) {
         return studentstatisticsMapper.queryStudentsWatchInfoTime(map);
+    }
+
+    @Override
+    public List<Map> exportStudentsWatchInfoCountCurrent(Map<String, Object> map) {
+        return studentstatisticsMapper.exportStudentsWatchInfoCountCurrent(map);
     }
 
 

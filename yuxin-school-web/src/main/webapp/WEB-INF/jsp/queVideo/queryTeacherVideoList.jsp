@@ -85,7 +85,7 @@
 						<th width="8%">课程学段</th>
 						<th width="8%" class="btn-sort" fieldName="totle_study" sort="">总播放量</th>
 						<th width="10%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>
-						<th width="6%" class="btn-sort" fieldName="study_rate" sort="">播放率</th>
+						<th width="6%" class="btn-sort" fieldName="study_rate" sort="">播完率</th>
 						<th width="6%">操作</th>
 					</tr>
 					<c:choose>

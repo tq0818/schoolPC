@@ -358,6 +358,24 @@
         searchVideoCourseDetail3($(".from").val(), $(".to").val());//观看比列
     });
 
+
+    $("#exportData").click(function(){
+        if ($(".from").val()!="" && $(".to").val()!="") {
+            if ($(".to").val() < $(".from").val()) {
+                $.msg("时间范围不正确");
+                return;
+            }else if(new Date($(".to").val()) - new Date($(".from").val()) > 30*24*60*60*1000){
+                $.msg("时间范围不能超过30天");
+                return;
+            }
+        }else{
+            $.msg("时间选项必填");
+            return;
+        }
+
+        window.location.href = rootPath + "/query/exportVideoCourseDetailExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
+                "&classId="+$("#classType").val();
+    });
 </script>
 </body>
 </html>

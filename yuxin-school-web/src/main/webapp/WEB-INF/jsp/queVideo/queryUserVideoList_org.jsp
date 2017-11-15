@@ -115,7 +115,7 @@
 						<th width="6%">学科</th>
 						<th width="7%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>
 						<th width="7%" class="btn-sort" fieldName="study_rate" sort="">播完率</th>
-						<th width="7%" class="btn-sort" fieldName="view_num" sort="">观看次数</th>
+						<th width="7%" class="btn-sort" fieldName="view_num" sort="">观看人次</th>
 					</tr>
 					<c:choose>
 						<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">

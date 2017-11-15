@@ -18,6 +18,7 @@
 		<result property="studyRate" column="study_rate" />
 		<result property="videoId" column="video_id" />
 		<result property="schoolStepName" column="school_step_name" />
+		<result property="viewNum" column="view_num" />
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.vo.course.UserVideoVo" id="userVideoResultMap">
@@ -107,31 +108,48 @@
 
 	<select id="queryAreaCourseIndexList" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
 		select
-		dr.item_value as school_step_name,
-		d1.item_value as school_name,
-		d2.item_value as step_name,
+		dr.item_value AS school_step_name,
+		d1.item_value AS school_name,
+		d2.item_value AS step_name,
+		SUM(totle_study) AS totle_study,
+		CONCAT(SEC_TO_TIME(SUM(totle_study_length)),'') AS totle_study_length,
+		COUNT(1) AS view_num
+		from
+		(select
+		s.edu_area,
+		s.edu_school,
+		s.edu_step,
+		pl.lecture_id,
 		COUNT(1) AS totle_study,
-		concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
-		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate
+		SUM(pl.study_length) AS totle_study_length
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
-		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
-		inner join users_front uf on uf.id = s.user_id
-		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
-		left join sys_config_dict dr on r.edu_step_new_code = dr.item_code
-		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
-		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left JOIN class_type t
+		on t.id = pl.class_type_id
+		left join student s
+		on s.user_id = pl.user_id
+		and s.edu_identity = 0
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
-        and s.delete_flag = 0
+		and s.delete_flag = 0
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
-		group by r.edu_step_new_code,s.edu_school,s.edu_step
-		order by  r.edu_step_new_code,s.edu_school,s.edu_step
+		group by pl.lecture_id, pl.user_id) td
+		LEFT JOIN edu_step_school_relation r
+		ON r.edu_school_code = td.edu_school
+		LEFT JOIN sys_config_dict dr
+		ON r.edu_step_new_code = dr.item_code
+		LEFT JOIN sys_config_dict d1
+		ON d1.item_code = td.edu_school
+		LEFT JOIN sys_config_dict d2
+		ON d2.item_code = td.edu_step
+		LEFT JOIN course_video_lecture cl
+		ON cl.id = td.`lecture_id`
+		LEFT JOIN video v
+		ON v.id = cl.video_id
+		group by r.edu_step_new_code,td.edu_school,td.edu_step
+		order by r.edu_step_new_code,td.edu_school,td.edu_step
 		limit #{firstIndex},#{pageSize}
 	</select>
 
@@ -364,36 +382,46 @@
 	</select>
 
 	<select id="queryTotleVideo" resultType="map" parameterType="map">
-		SELECT
+		select
 		d.`item_value` AS edu_area,
 		d1.`item_value` AS edu_school,
 		it.`item_name` AS edu_step,
 		it1.`item_name` AS edu_subject,
+		sum(totle_study) as totle_study,
+		concat(SEC_TO_TIME(sum(totle_study_length)),'') as totle_study_length,
+		COUNT(1) as view_num
+		from
+		(SELECT
+		s.edu_area,
+		s.edu_school,
+		pl.class_type_id,
 		COUNT(1) AS totle_study,
-		CONCAT(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
-		ROUND(SUM(pl.study_length) / (COUNT(1) * TIME_TO_SEC(v.video_time)) * 100,2)  AS study_rate
+		SUM(pl.study_length) AS totle_study_length
 		FROM
 		sys_play_logs pl
 		LEFT JOIN student s
 		ON s.user_id = pl.user_id
 		AND s.edu_identity = 0
-		LEFT JOIN sys_config_dict d
-		ON d.`item_code` = s.`edu_area`
-		LEFT JOIN sys_config_dict d1
-		ON d1.`item_code` = s.`edu_school`
-		LEFT JOIN class_type t
-		ON t.id = pl.`class_type_id`
-		LEFT JOIN sys_config_item it
-		ON it.`item_code` = t.`item_second_code`
-		LEFT JOIN sys_config_item it1
-		ON it1.`item_code` = t.`item_third_code`
-		LEFT JOIN course_video_lecture cl ON cl.id = pl.`lecture_id`
-		LEFT JOIN video v ON v.id = cl.video_id
+		LEFT JOIN course_video_lecture cl
+		ON cl.id = pl.`lecture_id`
+		LEFT JOIN video v
+		ON v.id = cl.video_id
 		WHERE s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
 		AND s.delete_flag = 0
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
-		GROUP BY s.`edu_area`,s.`edu_school`,t.`item_second_code`,t.`item_third_code`
+		group by pl.lecture_id,
+		pl.user_id) td
+		LEFT JOIN sys_config_dict d ON d.`item_code` = td.`edu_area`
+		LEFT JOIN sys_config_dict d1 ON d1.`item_code` = td.`edu_school`
+		LEFT JOIN class_type t ON t.id = td.`class_type_id`
+		LEFT JOIN sys_config_item it ON it.`item_code` = t.`item_second_code`
+		LEFT JOIN sys_config_item it1 ON it1.`item_code` = t.`item_third_code`
+		GROUP BY td.`edu_area`,
+		td.`edu_school`,
+		t.`item_second_code`,
+		t.`item_third_code`
+		limit #{pageSize}
 	</select>
 
 	<select id="queryTotleSchoolStep" resultType="map" parameterType="map">
@@ -548,40 +576,47 @@
 		limit 1;
     </select>
 
-
 	<select id="queryVideoListForSchool" resultMap="videoCourseResultMap" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">
-		select
-		it.item_name as subject_name,
+		SELECT
+		it.item_name AS subject_name,
 		it1.item_name AS step_name,
-		COUNT(pl.user_id) AS totle_study,
-		concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
-		round(SUM(pl.study_length) / (COUNT(pl.user_id) * TIME_TO_SEC(v.video_time)) * 100,2)  as study_rate
-		from
+		SUM(totle_study) AS totle_study,
+		CONCAT(SEC_TO_TIME(SUM(td.totle_study_length)),'') AS totle_study_length,
+		COUNT(1) view_num
+		FROM
+		(SELECT
+		class_type_id,
+		t.item_third_code,
+		t.item_second_code,
+		COUNT(1) AS totle_study,
+		SUM(pl.study_length) AS totle_study_length
+		FROM
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
-		left join sys_config_teacher ut on ut.id = t.teacher_id
-		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
-		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
-		where s.`edu_area` IS NOT NULL
+		LEFT JOIN class_type t ON t.id = pl.class_type_id
+		LEFT JOIN student s ON s.user_id = pl.user_id AND s.edu_identity = 0
+		LEFT JOIN course_video_lecture cl ON cl.id = pl.`lecture_id`
+		LEFT JOIN video v ON v.id = cl.video_id
+		WHERE s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
-		and s.delete_flag = 0
-		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
-		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
-		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
-		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
-		group by t.`item_second_code`,
-		t.`item_third_code`
+		AND s.delete_flag = 0
+		<if test="eduArea!=null and eduArea!=''">AND s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">AND s.edu_school = #{eduSchool}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">AND study_time BETWEEN #{startTime} and #{endTime}</if>
+		<if test="companyId!=null and companyId!=''">AND t.company_id = #{companyId}</if>
+		GROUP BY pl.lecture_id,
+		pl.user_id) td
+		LEFT JOIN sys_config_item it ON it.item_code = td.item_third_code
+		LEFT JOIN sys_config_item it1 ON it1.item_code = td.item_second_code
+		GROUP BY td.`item_second_code`,
+		td.`item_third_code`
 		<choose>
-			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
-			<otherwise>order by t.item_second_code, t.item_third_code</otherwise>
+			<when test="fieldName!=null and fieldName!=''">ORDER BY ${fieldName} </when>
+			<otherwise>ORDER BY td.item_second_code, td.item_third_code</otherwise>
 		</choose>
 		<choose>
 			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
 		</choose>
-		limit #{firstIndex},#{pageSize}
+		LIMIT #{firstIndex},#{pageSize}
 	</select>
 
 	<select id="queryVideoListForSchoolCount" resultType="int" parameterType="com.yuxin.wx.vo.course.VideoCourseVo">

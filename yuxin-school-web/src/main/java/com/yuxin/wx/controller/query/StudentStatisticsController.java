@@ -1375,7 +1375,7 @@ public class StudentStatisticsController {
             map.put("totleStudy", v.getTotleStudy());
             map.put("totleStudyLength", v.getTotleStudyLength());
             map.put("studyRate", v.getStudyRate());
-            map.put("viewNum", "");
+            map.put("viewNum", v.getViewNum());
             lists.add(map);
         }
         StringBuffer title = new StringBuffer(
@@ -1416,7 +1416,6 @@ public class StudentStatisticsController {
             map.put("totleStudy", v.getTotleStudy());
             map.put("totleStudyLength", v.getTotleStudyLength());
             map.put("studyRate", v.getStudyRate());
-            map.put("viewNum", "");
             lists.add(map);
         }
         StringBuffer title = new StringBuffer(
@@ -1430,7 +1429,7 @@ public class StudentStatisticsController {
         }
         Map map = new HashMap();
         map.put("workbook", wb);
-        map.put("fileName", "点播统计概况.xls");
+        map.put("fileName", "视频点播统计详情.xls");
         return new ModelAndView(excel, map);
     }
 
@@ -2184,7 +2183,9 @@ public class StudentStatisticsController {
         JSONObject jsonObject = new JSONObject();
         //查询所有的播放记录
         List<Map<String, Object>> hisList = sysPlayLogsServiceImpl.queryHistoryAll();
-        SimpleDateFormat sdf = new SimpleDateFormat();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        int success = 0;
+        int flag = 0;
         for(Map<String, Object> hisMap:hisList){
             try {
                 UserHistoryAllVo allVo = new UserHistoryAllVo();
@@ -2203,10 +2204,14 @@ public class StudentStatisticsController {
                     allVo.setDevice("Mobile");
                 }
                 userHistoryServiceImpl.insertPlayLogs(allVo);
+                success++;
             } catch (Exception e) {
                 e.printStackTrace();
+                flag++;
             }
         }
+
+        jsonObject.put("result","初始化历史记录信息：总条数["+hisList.size()+"]"+"、成功数["+success+"]"+"、失败数["+flag+"]");
         return jsonObject;
     }
 }

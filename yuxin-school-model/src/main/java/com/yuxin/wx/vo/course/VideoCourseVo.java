@@ -12,7 +12,7 @@ public class VideoCourseVo extends BaseEntity {
 	private Integer	classTypeId;		 /* 课程ID */
 	private Long totleStudy;		 /* 播放总量 */
 	private String totleStudyLength;		 /* 播放总时长 */
-	private String studyRate;	 /* 播放率 */
+	private String studyRate;	 /* 播完率 */
 	private String courseName;	 /* 课程名称 */
 	private String eduArea;	 /* 区域编码 */
 	private String areaName;	 /* 区域名称 */
@@ -31,6 +31,7 @@ public class VideoCourseVo extends BaseEntity {
 	private String endTime;	 /* 结束时间 */
 	private String fieldName;	 /* 排序字段 */
 	private String sortType;	 /* 排序类型 */
+	private Long viewNum;	 /* 观看人数 */
 	// Constructor
 	public VideoCourseVo() {
 	}
@@ -225,5 +226,13 @@ public class VideoCourseVo extends BaseEntity {
 
 	public void setSortType(String sortType) {
 		this.sortType = sortType;
+	}
+
+	public Long getViewNum() {
+		return viewNum;
+	}
+
+	public void setViewNum(Long viewNum) {
+		this.viewNum = viewNum;
 	}
 }

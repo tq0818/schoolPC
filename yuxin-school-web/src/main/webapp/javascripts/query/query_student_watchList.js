@@ -178,13 +178,12 @@ function  init() {
         function search(page,sort){
             var $this = this;
             var data = {};
-            if(sort){
-                data =$.extend(data,sort);
+            if(sort && JSON.stringify(sort) != "{}"){
+                    data =$.extend(data,sort);
                 data.orderBy  = data.fieldName+" "+data.sortType;
             }else{
                 data.orderBy = "class_name";
             }
-
             data.eduArea = $("#eduArea").val();
             data.eduSchool=$("#eduSchool").val();
             data.eduStep = $("#eduStep").val();
@@ -197,7 +196,7 @@ function  init() {
             data.endTime=$("#endTime").val();
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
-            data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";
+            data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";debugger;
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoList",
                 data: data,
@@ -270,7 +269,16 @@ function  init() {
                                 num_edge_entries: 1,
                                 callback: function (page, jq) {
                                     var pageNo = page + 1;
-                                    $this.search(pageNo);
+                                    var sortTab = {},
+                                        starget = $(".table .sortTarget");
+                                    //如果点击页码，获取是否之前点过排序。
+                                    if(starget.length>0){
+                                         sortTab = {
+                                            "fieldName":$(".table .sortTarget").attr("fieldName"),
+                                            "sortType":$(".table .sortTarget").attr("sort")
+                                        };
+                                    }
+                                    $this.search(pageNo,sortTab);
                                 }
                             });
                         $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');

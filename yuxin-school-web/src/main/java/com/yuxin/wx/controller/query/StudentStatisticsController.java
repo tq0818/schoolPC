@@ -1027,7 +1027,74 @@ public class StudentStatisticsController {
         Integer watchAll =studentStatisticsServiceImpl.getWatchTotalBySchool(map);
         return null;
     }
+        /**
+         * 并发统计页面跳转
+         * @param model
+         * @param request
+         * @return
+         */
+        @RequestMapping(value="/statistics/watchInfoCurrentCount")
+        public String watchInfoCurrentCount(Model model, HttpServletRequest request){
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String endTime = sdf.format(c.getTime());
+            model.addAttribute("endTime",endTime);
+            c.add(Calendar.MONTH,-1);
+            String startTime  = sdf.format(c.getTime());
 
+            model.addAttribute("startTime",startTime);
+
+
+            List<SysConfigItemRelation> seconds = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+            model.addAttribute("secondItem",seconds);
+            //sysConfigItemRelationServiceImpl.findItem
+
+            return "/query/query_student_watchCurrentCount";
+        }
+    /**
+     * 查询学科
+     * @param model
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/statistics/findItemByPid")
+
+    public List<SysConfigItemRelation> findItemByPid( SysConfigItemRelation relation, HttpServletRequest request){
+
+        List<SysConfigItemRelation> list =sysConfigItemRelationServiceImpl.findChildByCode(relation);
+
+
+
+        return list;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/statistics/queryStudentsWatchInfoCountCurrent")
+
+    public PageFinder2<Map> queryStudentsWatchInfoCountCurrent(
+            String startDate,String endDate,String secondItemCode,String itemThirdCode,
+            String comId,String lesson,Integer page,String orderBy, HttpServletRequest request){
+
+        Map<String,Object> map  = new HashMap<>();
+        map.put("startDate",startDate);
+        map.put("endDate",endDate);
+        map.put("secondItemCode",secondItemCode);
+        map.put("itemThirdCode",itemThirdCode);
+        map.put("comId",comId);
+        map.put("lesson",lesson);
+        map.put("firstPage",page);
+
+        map.put("pageSize",10);
+        map.put("orderBy",orderBy);
+
+
+        PageFinder2<Map> list =studentStatisticsServiceImpl.queryStudentsWatchInfoCountCurrent(map);
+
+
+
+        return list;
+    }
 
     /**
      * 教师授课详情页面跳转

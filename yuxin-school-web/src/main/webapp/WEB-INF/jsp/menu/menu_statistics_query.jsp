@@ -8,15 +8,17 @@
         	<!-- <span class="iconfont return-pic hcancle">&#xe650;</span> -->
         </div>
         <ul id="course_manage" class="system_managelist tj_managelist">
-        	<shiro:hasAnyRoles name="教科院,区县负责人,学校负责人">
+        	<shiro:hasAnyRoles name="教科院,区县负责人,学校负责人,文轩教育">
             <li class="subentry active" code="studentList" mark="/query/statistics/studentList"><p class="managelist-parent">学员</p></li>
             <li class="subentry" code="orgStuList" mark="/query/statistics/queryOrg"><p class="managelist-parent">学校</p></li>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">
                 <p class="managelist-parent">直播统计</p>
-                <%--<b class="arrow-bottom"><i class="bottom-arrow1"></i><i class="bottom-arrow2"></i></b>
+                <shiro:hasAnyRoles name="文轩教育">
+                <b class="arrow-bottom"><i class="bottom-arrow1"></i><i class="bottom-arrow2"></i></b>
                 <ul class="managelist-child">
-                    <li class="item-child" code="watchInfoList" >— 直播课程并发</li>
-                </ul>--%>
+                    <li class="item-child" code="watchInfoCurrentCoun" mark="/query/statistics/watchInfoCurrentCount" >— 直播课程并发</li>
+                </ul>
+                </shiro:hasAnyRoles>
             </li>
            <%-- <li class="subentry" code="teacherVideoList" mark="/query/statistics/teacherVideoList"><p class="managelist-parent">教师授课详情</p></li>
             <li class="subentry" code="userVideoList" mark="/query/statistics/userVideoList"><p class="managelist-parent">用户点播统计</p></li>--%>

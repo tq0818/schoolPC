@@ -2,6 +2,7 @@ package com.yuxin.wx.api.query;
 
 
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.vo.student.StudentListVo;
@@ -84,4 +85,6 @@ public interface IStudentStatisticsService {
     List<Map> getAllBuyNum(Map<String, Object> map);
 
     List<Map> getStudentWatchInfo(Map<String, Object> map);
+
+    PageFinder2<Map> queryStudentsWatchInfoCountCurrent(Map<String, Object> map);
 }

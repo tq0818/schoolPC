@@ -2,6 +2,7 @@ package com.yuxin.wx.query.impl;
 
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.query.mapper.StudentStatisticsMapper;
@@ -177,6 +178,17 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
 
 
         return result;
+    }
+
+    @Override
+    public PageFinder2<Map> queryStudentsWatchInfoCountCurrent(Map<String, Object> map) {
+        List<Map> data = studentstatisticsMapper.queryStudentsWatchInfoCountCurrent(map);
+        Integer count = studentstatisticsMapper.queryStudentsWatchInfoCountCurrentCount(map);
+        PageFinder2<Map> pageFinder = new PageFinder2<Map>(
+                (Integer)map.get("firtstPage"), (Integer)map.get("pageSize"), count, data);
+        return pageFinder;
+
+        //return studentstatisticsMapper.queryStudentsWatchInfoCountCurrent(map);
     }
 
 

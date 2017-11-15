@@ -89,4 +89,8 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	List<Map> getAllBuyNum(Map<String, Object> map);
 
 	List<Map> getStudentWatchInfo(Map<String, Object> map);
+
+    List<Map> queryStudentsWatchInfoCountCurrent(Map<String, Object> map);
+
+	Integer queryStudentsWatchInfoCountCurrentCount(Map<String, Object> map);
 }

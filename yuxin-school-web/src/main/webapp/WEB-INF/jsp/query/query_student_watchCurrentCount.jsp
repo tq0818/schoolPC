@@ -41,11 +41,14 @@
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 							<span>时间</span>
 							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
-							<input type="button" class="daysTab" value="7天"/>
-							<input type="button" class="daysTab" value="14天"/>
-							<input type="button" class="daysTab" value="31天"/>
+							<span class="dayList">
+								<button type="button" class="daysTab" value="-7">7天</button>
+								<button type="button" class="daysTab" value="-14">14天</button>
+								<button type="button" class="daysTab active" value="-31">31天</button>
+							</span>
+							
 						</div>
-						<div style="margin-top: 10px;">
+						<div class="margin10">
 							<span>学段</span>
 							<select name="secondItemCode" id="secondItemCode">
 								<option value="">请选择学段</option>
@@ -66,7 +69,7 @@
 								<option value="">全部</option>
 							</select>
 						</div>
-						<div class="btn-center">
+						<div class="btn-center margin10">
 							<button class="btns-default" id="search" onclick="searchbtn();" type="button">查询</button>
 							<button class="btns-default exportExcleStudent" id="search" >导出数据</button>
 

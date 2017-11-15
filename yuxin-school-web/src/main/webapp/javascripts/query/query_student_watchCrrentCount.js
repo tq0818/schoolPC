@@ -1,8 +1,18 @@
 $(document).ready(function(){
-    search();
+   // search();
+    $(".dayList").delegate(".daysTab ","click",function(){
+        $(this).addClass("active").siblings().removeClass("active");
+        var dayStr = $(this).val(),
+         prevDate = DateUtil.fun_NewDate(parseInt(dayStr)),
+         today = DateUtil.dateTostring('yyyy-MM-dd',new Date());
+         $("#startTime").val(prevDate);
+         $("#endTime").val(today);
+         search();
+
+    });
     $(".table").delegate(".max-imum","click",function(e){
         $(".max-imumbox1").show();
-        $(".max-imumbox").popup("show").css("top", "20%");
+        $(".max-imumbox").popup("show").css("top", "10%");
         var key = ['11:00:00','11:10:00','11:20:00','11:30:00','11:40:00','11:50:00','12:00:00',
         '12:10:00','12:20:00','12:30:00','12:40:00','12:50:00','13:00:00','13:10:00','13:20:00',
         '13:30:00','13:40:00','13:50:00','14:00:00','14:10:00','14:20:00','14:30:00','14:40:00',
@@ -10,7 +20,7 @@ $(document).ready(function(){
         values = [820, 932, 901, 934, 1290, 1330,1320,1330,1350,1220,1200,999,990,1000,993,980,
         960,980,965,950,960,955,940,902,900];
 
-        var info = $(e.target).parent("tr").date();
+        var info = $(e.target).parent("tr").data();
         $.ajax({
             type:"post",
             url:"",
@@ -23,6 +33,7 @@ $(document).ready(function(){
                         key.push(list[n].watch_date);
                         values.push(list[n].totalusernum);
                     }
+                     model.maxImum(key,values);
                 }else{
                     $.msg("暂无数据");
                     return;
@@ -30,15 +41,18 @@ $(document).ready(function(){
             }
         })
 
-        model.maxImum(key,values);
+       
 
     });
     $(".table").delegate(".learning-style","click",function(e){
         $(".learning-stylebox1").show();
         $(".learning-stylebox").popup("show").css("top", "10%");
-        
+        var info = $(e.target).parent("tr").data();
+        var pc_percent = (parseInt(info.pc) / parseInt(info.times)).toFixed(2) *100,
+            nopc_percent = (parseInt(info.no_pc) / parseInt(info.times)).toFixed(2) *100;
 
-        model.learningStyle([23,68],[[20,80],[40,60]]);
+
+        model.learningStyle([parseInt(info.pc),parseInt(info.no_pc)],[[100-pc_percent,pc_percent],[100-nopc_percent,nopc_percent]]);
         
     });
     $(".canclekuang").on('click',function(){

@@ -29,10 +29,29 @@
 		class_type_id,
 		lecture_id,
 		study_time,
+		study_length
+	</sql>
+	<sql id="entity_properties_all">
+		#{id},
+		#{userId},
+		#{commodityId},
+		#{classTypeId},
+		#{lectureId},
+		#{studyTime},
+		#{studyLength}
+	</sql>
+
+	<sql id="table_columns_log">
+		id,
+		user_id,
+		commodity_id,
+		class_type_id,
+		lecture_id,
+		study_time,
 		study_length,
 		device
 	</sql>
-	<sql id="entity_properties_all">
+	<sql id="entity_properties_log">
 		#{id},
 		#{userId},
 		#{commodityId},
@@ -42,6 +61,7 @@
 		#{studyLength},
 		#{device}
 	</sql>
+
 	<sql id="entity_properties">
 		#{id},
 		#{userId},
@@ -161,10 +181,10 @@
 	<insert id="insertPlayLogs" parameterType="com.yuxin.wx.vo.user.UserHistoryAllVo"
 			useGeneratedKeys="true" keyProperty="id">
 		insert into sys_play_logs(
-		<include refid="table_columns_all" />
+		<include refid="table_columns_log" />
 		)
 		values (
-		<include refid="entity_properties_all" />
+		<include refid="entity_properties_log" />
 		)
 	</insert>
 </mapper>

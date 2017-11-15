@@ -88,7 +88,7 @@
             }
         }
 
-        window.location.href = rootPath + "/query/statistics/queryTotleVideoCourse?startTime="+$(".from").val()+"&endTime="+$(".to").val();
+        window.location.href = rootPath + "/query/exportVideoCourseIndexExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val();
     });
 
 	function searchTotleVideoCourse(startTime, endTime){

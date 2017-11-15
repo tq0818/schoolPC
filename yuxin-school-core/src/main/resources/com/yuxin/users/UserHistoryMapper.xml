@@ -117,6 +117,12 @@
 		select <include refid="table_columns" /> 
 		from user_history
 	</select>
+
+
+	<select id="queryHisAll" resultMap="userHistoryResultMap">
+		select <include refid="table_columns_all" />
+		from user_history_all
+	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">

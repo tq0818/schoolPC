@@ -105,7 +105,7 @@
 		}
 
 		$("#searchForm").attr("action",
-				rootPath + "/query/exportAreaCourseIndexExcle")
+				rootPath + "/query/exportVideoCourseIndexExcle_area")
 				.submit();
 	});
 

@@ -65,7 +65,7 @@
                         $.msg("没有数据可以导出");
                     } else {
                         $("#searchForm").attr("action",
-                            rootPath + "/query/exportAreaCourseExcle")
+                            rootPath + "/query/exportVideoCourseDetailExcle_area")
                             .submit();
                     }
 

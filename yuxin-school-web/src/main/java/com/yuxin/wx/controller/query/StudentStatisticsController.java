@@ -11,6 +11,7 @@ import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
+import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.common.PageFinder;
@@ -72,6 +73,8 @@ public class StudentStatisticsController {
     private ICompanyPayConfigService companyPayConfigServiceImpl;
     @Autowired
     private IClassTypeService classTypeServiceImpl;
+//    @Autowired
+//    private IUserHistoryService userHistoryServiceImpl;
 
 	/**
 	 * 页面跳转
@@ -1306,8 +1309,8 @@ public class StudentStatisticsController {
      * @param userVideoVo
      * @return
      */
-    @RequestMapping(value = "/exportAreaCourseExcle")
-    public ModelAndView exportAreaCourseExcle(Model model, UserVideoVo userVideoVo) {
+    @RequestMapping(value = "/exportVideoCourseDetailExcle_area")
+    public ModelAndView exportVideoCourseDetailExcleArea(Model model, UserVideoVo userVideoVo) {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1353,8 +1356,8 @@ public class StudentStatisticsController {
      * @param videoCourseVo
      * @return
      */
-    @RequestMapping(value = "/exportAreaCourseIndexExcle")
-    public ModelAndView exportAreaCourseIndexExcle(Model model, VideoCourseVo videoCourseVo) {
+    @RequestMapping(value = "/exportVideoCourseIndexExcle_area")
+    public ModelAndView exportVideoCourseIndexExcleArea(Model model, VideoCourseVo videoCourseVo) {
         List<VideoCourseVo> al = new ArrayList<VideoCourseVo>();
         if (EntityUtil.isNotBlank(videoCourseVo)) {
             videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1394,8 +1397,8 @@ public class StudentStatisticsController {
      * @param videoCourseVo
      * @return
      */
-    @RequestMapping(value = "/exportCourseIndexExcle")
-    public ModelAndView exportCourseIndexExcle(Model model, VideoCourseVo videoCourseVo) {
+    @RequestMapping(value = "/exportVideoCourseDetailExcle")
+    public ModelAndView exportVideoCourseDetailExcle(Model model, VideoCourseVo videoCourseVo) {
         List<VideoCourseVo> al = new ArrayList<VideoCourseVo>();
         if (EntityUtil.isNotBlank(videoCourseVo)) {
             videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1482,8 +1485,8 @@ public class StudentStatisticsController {
      * @param userVideoVo
      * @return
      */
-    @RequestMapping(value = "/exportUserVideoOrgExcle")
-    public ModelAndView exportUserVideoOrgExcle(Model model, UserVideoVo userVideoVo) {
+    @RequestMapping(value = "/exportVideoCourseDetailExcle_org")
+    public ModelAndView exportVideoCourseDetailExcleOrg(Model model, UserVideoVo userVideoVo) {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -2042,8 +2045,8 @@ public class StudentStatisticsController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/exportVideoExcle")
-    public ModelAndView exportVideoExcle(Model model, String startTime, String endTime) {
+    @RequestMapping(value = "/exportVideoCourseIndexExcle")
+    public ModelAndView exportVideoCourseIndexExcle(Model model, String startTime, String endTime) {
         List<UserVideoVo> al = new ArrayList<UserVideoVo>();
         //查询区域的录播观看人数
         Map<String, Object> papamMap = new HashMap<String, Object>();
@@ -2061,10 +2064,11 @@ public class StudentStatisticsController {
             map.put("totleStudy", map.get("totle_study"));
             map.put("totleStudyLength", map.get("totle_study_length"));
             map.put("studyRate", map.get("study_rate"));
+            map.put("viewNum", map.get("view_num"));
             lists.add(map);
         }
         StringBuffer title = new StringBuffer(
-                "区域:eduArea,学校:eduSchool,学段:eduStep,学科:eduSubject,总播放量:totleStudy,总播放时长:totleStudyLength,播完率:studyRate,观看人数:totleStudy");
+                "区域:eduArea,学校:eduSchool,学段:eduStep,学科:eduSubject,总播放量:totleStudy,总播放时长:totleStudyLength,播完率:studyRate,观看人数:viewNum");
         ViewFiles excel = new ViewFiles();
         HSSFWorkbook wb = new HSSFWorkbook();
         try {
@@ -2074,7 +2078,7 @@ public class StudentStatisticsController {
         }
         Map map = new HashMap();
         map.put("workbook", wb);
-        map.put("fileName", "用户点播统计.xls");
+        map.put("fileName", "区域用户点播统计.xls");
         return new ModelAndView(excel, map);
     }
 
@@ -2165,6 +2169,21 @@ public class StudentStatisticsController {
         //总计观看点播时长+人次
         Map<String, Object> totleVideo = sysPlayLogsServiceImpl.queryTotleStudyLengthAndPersonNum(papamMap);
         jsonObject.put("totleVideo", totleVideo);
+        return jsonObject;
+    }
+
+    /**
+     * 初始化历史播放记录
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/installSysPlayLogs")
+    public JSONObject installSysPlayLogs() {
+        JSONObject jsonObject = new JSONObject();
+        //查询所有的播放记录
+
+
+//        sysPlayLogsServiceImpl.in
         return jsonObject;
     }
 }

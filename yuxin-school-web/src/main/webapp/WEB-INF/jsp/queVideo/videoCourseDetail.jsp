@@ -363,7 +363,7 @@
             return;
         }
 
-        window.location.href = rootPath + "/query/exportCourseIndexExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
+        window.location.href = rootPath + "/query/exportVideoCourseDetailExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
                 "&classId="+$("#classType").val()+"&className="+$("#className").val();
     });
 

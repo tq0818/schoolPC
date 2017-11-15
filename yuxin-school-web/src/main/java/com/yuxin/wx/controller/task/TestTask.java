@@ -6,7 +6,6 @@ import com.yuxin.wx.api.company.ICompanyPayConfigService;
 import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.LiveRoomConstant;
-import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
@@ -15,16 +14,13 @@ import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSResult;
 import com.yuxin.wx.utils.HttpPostRequest;
 import com.yuxin.wx.utils.MD5;
-import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,10 +46,10 @@ public class TestTask {
     private Log log = LogFactory.getLog("log");
 
 //    @RequestMapping(value="/getInfo")
-    @Scheduled(cron = "0 0/10 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 15 9,20 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void test() {
         //获取当日的课次
-//        Date date = new Date();
+//        Date date = new date();
 //        date.setTime(date.getTime()-(3600*24*1000));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
@@ -179,7 +175,7 @@ public class TestTask {
 
     //获取前一天录播观看个人信息
 //    @RequestMapping(value="/getPlayInfo")
-    @Scheduled(cron = "0 0/10 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 15 9,20 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
         String a = "";
         long b = System.currentTimeMillis()/1000L;
@@ -233,7 +229,7 @@ public class TestTask {
 
 
     //获取前一天课次历史并发记录
-    @Scheduled(cron = "0 0/10 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 15 9,20 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getWatchInfoHistory(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();

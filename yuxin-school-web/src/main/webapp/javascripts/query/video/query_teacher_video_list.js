@@ -1122,7 +1122,7 @@
                 });
 
                 $(".queryVideoDailyInfo1").show().find("[name=terminal]:first").addClass("active").siblings().removeClass("active");
-                $(".queryVideoDailyInfo").popup("show").css("top", "5%");
+                $(".queryVideoDailyInfo").attr("classId",$(this).attr("classId")).popup("show").css("top", "5%");
 
             });
         },

@@ -161,9 +161,10 @@
 		}
 	});
 $(document).statistical().changeType({
-	callback:function(e){
+	callback:function(e){debugger;
 		var terminal = $(e).attr("t"),//设备类型
-				$viewId = document.getElementById($(e).parent().attr("content"));//容器
+				$viewId = document.getElementById($(e).parent().attr("content")),//容器
+				classId = $(".queryVideoDailyInfo").attr("classId");
 		if($(e).parent().attr("content") == "viewsCount"){//line
 
 		}else{//bar
@@ -182,7 +183,7 @@ $(document).statistical().changeType({
 			var dataKey = new Array(),dataValue = new Array();
 			$.ajax({
 				url: rootPath + "/query/statistics/queryVideoCourseDaily",
-				data:{classId:$("#classType").val(),startTime:$(".from").val(), endTime:$(".to").val(),className:$("#className").val()},
+				data:{classId:classId,startTime:$(".from").val(), endTime:$(".to").val()},
 				success:function(result){
 					result = result.attentions ? result.attentions:null;
 					for(var i=0; result && i<result.length; i++){

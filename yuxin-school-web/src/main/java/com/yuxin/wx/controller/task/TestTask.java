@@ -6,6 +6,7 @@ import com.yuxin.wx.api.company.ICompanyPayConfigService;
 import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.LiveRoomConstant;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
@@ -14,13 +15,17 @@ import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSResult;
 import com.yuxin.wx.utils.HttpPostRequest;
 import com.yuxin.wx.utils.MD5;
+import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,12 +51,11 @@ public class TestTask {
     private Log log = LogFactory.getLog("log");
 
 //    @RequestMapping(value="/getInfo")
-    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?  0ujmqq6m33
     public void test() {
         //获取当日的课次
-//        Date date = new date();
+//        Date date = new Date();
 //        date.setTime(date.getTime()-(3600*24*1000));
-        log.info("获取昨天直播信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
         //ca.set(Calendar.MONTH,7);
@@ -84,8 +88,6 @@ public class TestTask {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            map.remove("startTime");
-            map.remove("endTime");
             System.out.println(result);
             Gson g = new Gson();
             LiveResult re =  g.fromJson(result,LiveResult.class);
@@ -108,7 +110,7 @@ public class TestTask {
             }
         }
         //获取前一天课次下所有课件
-        log.info("获取昨天直播信息-----结束");
+
 
 
         //getWatchInfoForClass(sdf,lessonDate,map);
@@ -117,6 +119,13 @@ public class TestTask {
 
 
     }
+
+
+
+
+
+
+
 
     //获取回看记录
     public void getWatchInfoForClass(SimpleDateFormat sdf,String lessonDate, Map<String,Object> map){
@@ -178,7 +187,6 @@ public class TestTask {
 //    @RequestMapping(value="/getPlayInfo")
     @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
-        log.info("获取昨天录播信息-----执行时间：" + new Date());
         String a = "";
         long b = System.currentTimeMillis()/1000L;
         String infoUrl ="";
@@ -223,7 +231,6 @@ public class TestTask {
                 uha.setDevice(play.getDevice());
                 userHistoryServiceImpl.insertPlayLogs(uha);
             }
-            log.info("获取昨天录播信息-----结束");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -234,7 +241,6 @@ public class TestTask {
     //获取前一天课次历史并发记录
     @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getWatchInfoHistory(){
-        log.info("获取昨天直播并发信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
         ca.add(Calendar.DAY_OF_YEAR,-1);
@@ -310,7 +316,6 @@ public class TestTask {
                 }
             }
         }
-        log.info("获取昨天直播并发信息-----结束");
     }
 
 
@@ -737,13 +742,56 @@ public class TestTask {
         }
     }
 
+    public static void main(String[] arg){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar ca = Calendar.getInstance();
+        //ca.set(Calendar.MONTH,7);
+        ca.add(Calendar.DAY_OF_MONTH,-1);
+        String lessonDate = sdf.format(ca.getTime());
+        Map<String,Object> map = new HashMap();
+        String url ="";
+        map.put("loginName", LiveRoomConstant.LOGIN_NAME);
+        map.put("password",LiveRoomConstant.PASSWORD);
+        url = LiveRoomConstant.DOMIN_NAME;
+
+
+        map.put("startTime","2017-11-15 00:00:00");
+        map.put("endTime","2017-11-15 23:59:59");
+        map.put("roomId","pS8MSqCml4");
+        String result = null;
+        try {
+            result = HttpPostRequest.post(url+"/integration/site/training/export/history",map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        map.remove("startTime");
+        map.remove("endTime");
+        System.out.println(result);
+        Gson g = new Gson();
+        LiveResult re =  g.fromJson(result,LiveResult.class);
+        if(!re.getCode().equals("0")){
+            System.out.println(re.getMessage());
+        }else{
+            System.out.println(re.getList().size());
+        }
+
+int  n = 0 ;
+        for(MessUser mUser : re.getList()){
+            if(Long.valueOf(mUser.getUid())-1000000000<1000000000){
+                    n++;
+            }
+        }
+        System.out.println(n);
+    }
+
+
 
     //录播数据获取测试
-    public static void main(String[] arg) throws Exception {
+    /*public static void main(String[] arg) throws Exception {
         String a = "";
         long b = System.currentTimeMillis() / 1000L;
         String c = "";
-        a += "date=2017-11-14";
+        a += "date=2017-11-15";
         a += "&num_per_page=1000";
         a += "&userid=7EFA9ED6F0ABB8DD";
         a += "&time=" + b;
@@ -768,7 +816,7 @@ public class TestTask {
             uha.setLectureId(Integer.parseInt(info[3]));
             uha.setStudyLength(play.getPlay_duration());
         }
-    }
+    }*/
     //课堂历史并发数据获取
     /*public  static void main(String[] arg){
         //获取当日的课次

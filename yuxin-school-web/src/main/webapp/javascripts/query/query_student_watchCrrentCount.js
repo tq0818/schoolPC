@@ -67,6 +67,7 @@ function  init() {
             var secondItemCode = $("#secondItemCode").val();
             if (secondItemCode == null || secondItemCode == "") {
                     $("#itemThirdCode").html('<option value="">请选择学科</option>');
+                $("#itemThirdCode").change();
             } else {
                 $.ajax({
                     url:  "/query/statistics/findItemByPid",
@@ -80,6 +81,7 @@ function  init() {
 
                         });
                         $("#itemThirdCode").append(options);
+                        $("#itemThirdCode").change();
                     }
                 });
             }
@@ -93,6 +95,7 @@ function  init() {
             var itemThirdCode = $("#itemThirdCode").val();
             if(itemThirdCode==""){
                 $("#class").html('<option value="">请选择课程模块</option>');
+                $("#class").change();
                 return;
             }
             $.ajax({
@@ -106,6 +109,8 @@ function  init() {
                         options += '<option value="' + j.id + '">' + j.name + '</option>';
                     });
                     $("#class").append(options);
+                    $("#class").change();
+
                 }
             });
         });

@@ -134,6 +134,7 @@ function  init() {
                         options += '<option value="' + j.id + '">' + j.name + '</option>';
                     });
                     $("#class").append(options);
+                    $("#class").change();
                 }
             });
         });

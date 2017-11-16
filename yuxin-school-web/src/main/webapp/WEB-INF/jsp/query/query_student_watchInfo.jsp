@@ -44,7 +44,7 @@
 						<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
 						<c:if test="${isArea}">
 							<select class="select-box" id="eduStep" name="eduStep">
-								<option value="">请选择学段</option>
+								<option value="">请选择学校性质</option>
 								<c:forEach items="${eduStep}" var="eduStep">
 									<option value="${eduStep.itemCode}">${eduStep.itemValue}</option>
 								</c:forEach>

@@ -705,12 +705,12 @@ public class StudentStatisticsController {
         List<Map> index = studentStatisticsServiceImpl.getWatchInfoIndex(map);
         List<Map> all =   studentStatisticsServiceImpl.getWatchInfoAll(map);
         Map<String,Object> result = new HashMap<>();
-        if(index.size()>0){
+        if(index.size()>0&&index.get(0)!=null){
             result.put("index",index.get(0).get("times"));
         }else{
             result.put("index",0);
         }
-        if(all.size()>0){
+        if(all.size()>0&&all.get(0)!=null){
             result.put("all",all.get(0).get("times"));
         }else{
             result.put("all",0);

@@ -99,7 +99,7 @@
                 }
                 $.ajax({
                     url:rootPath+'/query/statistics/watchInfoTotal',
-                    data:{'startDate':$("#startDate").val(),'endDate':$("#endDate").val(),'eduStep':$("#eduStep").val()},
+                    data:{'startDate':$("#startDate").val()+" 00:00:00",'endDate':$("#endDate")+" 23:59:59".val(),'eduStep':$("#eduStep").val()},
                     dataType:'json',
                     type:'post',
                     success:function(result){

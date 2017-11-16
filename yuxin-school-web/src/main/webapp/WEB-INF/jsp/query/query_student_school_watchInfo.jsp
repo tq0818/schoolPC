@@ -93,8 +93,8 @@
                 $.ajax({
                     url: rootPath + '/query/statistics/watchSchoolInfoIndex',
                     data: {
-                        'startDate': $("#startDate").val(),
-                        'endDate': $("#endDate").val()
+                        'startDate': $("#startDate").val()+" 00:00:00",
+                        'endDate': $("#endDate").val()+" 23:59:59"
                     },
                     dataType: 'json',
                     type: 'post',
@@ -115,7 +115,7 @@
                                     newTotal[x]=(y.times);
                             });
 
-                            $("#watchNum").html(result.watchNum);
+                            $("#watchNum").html(result.watchNum==null?0:result.watchNum);
                             $("#totalTime").html(result.totalTime);
                             $("#watchAll").html(result.watchAll);
 
@@ -131,20 +131,6 @@
                             },
                             "series": [
                                 {
-                                    name: '实际观课人数',
-                                    type: 'bar',
-                                    barGap: '0',
-                                    itemStyle: {
-                                        normal: {
-                                            color: "#5b9bd5",
-                                            label: {
-                                                show: true,
-                                                position:'right'
-                                            }
-                                        }
-                                    },
-                                    data: newResult
-                                }, {
                                     name: "报名人数",
                                     type: 'bar',
                                     barGap: '0',
@@ -158,6 +144,20 @@
                                         }
                                     },
                                     data: newTotal
+                                },{
+                                    name: '实际观课人数',
+                                    type: 'bar',
+                                    barGap: '0',
+                                    itemStyle: {
+                                        normal: {
+                                            color: "#5b9bd5",
+                                            label: {
+                                                show: true,
+                                                position:'right'
+                                            }
+                                        }
+                                    },
+                                    data: newResult
                                 }
                             ],
                             "seriesName": "观看点播前五",

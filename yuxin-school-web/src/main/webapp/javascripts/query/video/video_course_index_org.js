@@ -8,13 +8,16 @@
             $this.search();
             // 收索
             $(".searchContents").on('click', function () {
+                //清除之前字段排序的值
+                $(".table .btn-sort").attr("sort","");
+                $(".table .sortTarget").removeClass("sortTarget");
                 $this.search();
             });
         },
         search: function (page,sortdata) {
             var $this = this;
             var data = {};
-            if(sortdata){
+            if(sortdata && JSON.stringify(sortdata) != "{}"){
                 data =$.extend(data,sortdata);
             }
             data.startTime = $(".from").val();
@@ -127,7 +130,16 @@
                                 num_edge_entries: 1,
                                 callback: function (page, jq) {
                                     var pageNo = page + 1;
-                                    $this.search(pageNo);
+                                    var sortTab = {},
+                                        starget = $(".table .sortTarget");
+                                    //如果点击页码，获取是否之前点过排序。
+                                    if(starget.length>0){
+                                        sortTab = {
+                                            "fieldName":$(".table .sortTarget").attr("fieldName"),
+                                            "sortType":$(".table .sortTarget").attr("sort")
+                                        }
+                                    }
+                                    $this.search(pageNo,sortTab);
                                 }
                             });
                         $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');

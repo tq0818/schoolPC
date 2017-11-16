@@ -51,6 +51,7 @@ public class TestTask {
         //获取当日的课次
 //        Date date = new date();
 //        date.setTime(date.getTime()-(3600*24*1000));
+        log.info("获取昨天直播信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
         //ca.set(Calendar.MONTH,7);
@@ -107,7 +108,7 @@ public class TestTask {
             }
         }
         //获取前一天课次下所有课件
-
+        log.info("获取昨天直播信息-----结束");
 
 
         //getWatchInfoForClass(sdf,lessonDate,map);
@@ -177,6 +178,7 @@ public class TestTask {
 //    @RequestMapping(value="/getPlayInfo")
     @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
+        log.info("获取昨天录播信息-----执行时间：" + new Date());
         String a = "";
         long b = System.currentTimeMillis()/1000L;
         String infoUrl ="";
@@ -221,6 +223,7 @@ public class TestTask {
                 uha.setDevice(play.getDevice());
                 userHistoryServiceImpl.insertPlayLogs(uha);
             }
+            log.info("获取昨天录播信息-----结束");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -231,6 +234,7 @@ public class TestTask {
     //获取前一天课次历史并发记录
     @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getWatchInfoHistory(){
+        log.info("获取昨天直播并发信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
         ca.add(Calendar.DAY_OF_YEAR,-1);
@@ -306,6 +310,7 @@ public class TestTask {
                 }
             }
         }
+        log.info("获取昨天直播并发信息-----结束");
     }
 
 

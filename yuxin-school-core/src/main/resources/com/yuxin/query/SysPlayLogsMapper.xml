@@ -582,12 +582,14 @@
 		it1.item_name AS step_name,
 		SUM(totle_study) AS totle_study,
 		CONCAT(SEC_TO_TIME(SUM(td.totle_study_length)),'') AS totle_study_length,
+		round(SUM(td.totle_study_length) / (SUM(totle_study) * TIME_TO_SEC(video_time)) * 100,2) as study_rate,
 		COUNT(1) view_num
 		FROM
 		(SELECT
 		class_type_id,
 		t.item_third_code,
 		t.item_second_code,
+		v.video_time,
 		COUNT(1) AS totle_study,
 		SUM(pl.study_length) AS totle_study_length
 		FROM

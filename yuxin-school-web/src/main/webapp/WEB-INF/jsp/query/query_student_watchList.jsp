@@ -157,7 +157,7 @@
 						</div>
 						<div class="btn-center">
 							<button class="btns-default" id="search" onclick="searchbtn();" type="button">查询</button>
-							<button class="btns-default exportExcleStudent" id="search" >导出数据</button>
+							<button class="btns-default exportExcleStudent" id="search" type="button">导出数据</button>
 
 						<%--	<span><a  class="btn btn-primary searchContents" onclick="searchbtn()">搜索</a></span>
 							<span><a href="javascript:;" class="btn btn-primary exportExcleStudent">导出</a></span>--%>

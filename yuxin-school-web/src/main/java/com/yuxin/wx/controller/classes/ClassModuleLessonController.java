@@ -1345,4 +1345,65 @@ public class ClassModuleLessonController {
 		}
 	}
 
+
+	@RequestMapping(value="/testInfo")
+	public void test(){
+		//获取当日的课次
+//        Date date = new Date();
+//        date.setTime(date.getTime()-(3600*24*1000));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar ca = Calendar.getInstance();
+		//ca.set(Calendar.MONTH,7);
+		ca.add(Calendar.DAY_OF_MONTH,-1);
+		String lessonDate = sdf.format(ca.getTime());
+		Map dateMap = new HashMap();
+		dateMap.put("lessonDate",lessonDate);
+		List<WatchInfo> list = watchInfoServiceImpl.getLessonByDate(dateMap);
+		Map<String,Object> map = new HashMap();
+		CompanyLiveConfig config = companyLiveConfigServiceImpl.findByCompanyId(18113);
+		String url ="";
+		if(config==null){
+			map.put("loginName", LiveRoomConstant.LOGIN_NAME);
+			map.put("password",LiveRoomConstant.PASSWORD);
+			url = LiveRoomConstant.DOMIN_NAME;
+
+		}else{
+			map.put("loginName", config.getLoginName());
+			map.put("password",config.getPassword());
+			url = config.getDomain();
+		}
+
+		map.put("startTime",lessonDate+" 00:00:00");
+		map.put("endTime",lessonDate+" 23:59:59");
+		for(WatchInfo lesson :list){
+			map.put("roomId",lesson.getLiveroomId());
+			String result = null;
+			try {
+				result = com.yuxin.wx.utils.HttpPostRequest.post(url+"/integration/site/training/export/history",map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println(result);
+			Gson g = new Gson();
+			TestTask.LiveResult re =  g.fromJson(result,TestTask.LiveResult.class);
+			if(!re.getCode().equals("0")){
+				System.out.println(re.getMessage());
+				continue;
+			}
+			//用户信息过滤并存入数据库
+			for(TestTask.MessUser mUser : re.getList()){
+				if(Long.valueOf(mUser.getUid())-1000000000<1000000000){
+					lesson.setJoinTime(mUser.getJoinTime());
+					lesson.setLeaveTime(mUser.getLeaveTime());
+					lesson.setUserId(Integer.parseInt(mUser.getUid())-1000000000);
+					lesson.setLessonId(lesson.getLessonId());
+					lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
+					lesson.setDevice(mUser.getDevice());
+					lesson.setId(null);
+					watchInfoServiceImpl.addWatchInfo(lesson);
+				}
+			}
+		}
+	}
+
 }

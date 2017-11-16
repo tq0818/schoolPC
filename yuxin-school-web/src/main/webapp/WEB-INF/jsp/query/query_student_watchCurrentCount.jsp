@@ -49,22 +49,22 @@
 							
 						</div>
 						<div class="margin10">
-							<span>学段</span>
+							<span><i class="iconfont ico" style="color: red;"></i>学段</span>
 							<select name="secondItemCode" id="secondItemCode">
 								<option value="">请选择学段</option>
 								<c:forEach items="${secondItem}" var="secondItem" >
 									<option value="${secondItem.itemCode}"  >${secondItem.itemName}</option>
 								</c:forEach>
 							</select>
-							<span>学科</span>
+							<span><i class="iconfont ico" style="color: red;"></i>学科</span>
 							<select name="itemThirdCode" id="itemThirdCode">
 								<option value="">请选择学科</option>
 							</select>
-							<span>课程模块</span>
+							<span><i class="iconfont ico" style="color: red;"></i>课程模块</span>
 							<select name="comId" id="class">
 								<option value="">请选择课程模块</option>
 							</select>
-							<span>课次</span>
+							<span><i class="iconfont ico" style="color: red;"></i>课次</span>
 							<select name="lesson" id="lesson">
 								<option value="">全部</option>
 							</select>
@@ -124,7 +124,7 @@
 <div class="popupwin-box learning-stylebox1 clear" style="display:none">
 	<div class="popupwin learning-stylebox" style="width:400px; height: auto;top:10px;" data-pupwin="modal">
 		<div class="popupwin-title">
-			<h2 class="h5">学习方式详细</h2>
+			<h2 class="h5">用户学习方式详情</h2>
 			<i class="close iconfont canclekuang"></i>
 		</div>
 		<div class="popupwin-main">
@@ -149,15 +149,16 @@
 <script type="text/javascript">
     init();
 
-    $selectThirdMenu('watchInfoList');
-    $selectThirdMenu('watchInfoCurrentCount');
+	$selectThirdMenu('watchInfoList');
+	$selectThirdMenu('watchInfoCurrentCoun');
 	function searchbtn(){
-        //var pageNo=$("#pageNo").val();
+		//清除之前字段排序的值
+		$(".table .btn-sort").attr("sort","");
+		$(".table .sortTarget").removeClass("sortTarget");
        search(1);
 	}
     $.tableSort($(".btn-sort"),{
         callback:function(data){
-            console.log(data);
             search(1,data);
         }
     });

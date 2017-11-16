@@ -11,8 +11,7 @@ $(document).ready(function(){
 
     });
     $(".table").delegate(".max-imum","click",function(e){
-        $(".max-imumbox1").show();
-        $(".max-imumbox").popup("show").css("top", "10%");
+
         var key = ['11:00:00','11:10:00','11:20:00','11:30:00','11:40:00','11:50:00','12:00:00',
         '12:10:00','12:20:00','12:30:00','12:40:00','12:50:00','13:00:00','13:10:00','13:20:00',
         '13:30:00','13:40:00','13:50:00','14:00:00','14:10:00','14:20:00','14:30:00','14:40:00',
@@ -23,7 +22,7 @@ $(document).ready(function(){
         var info = $(e.target).parent("tr").data();
         $.ajax({
             type:"post",
-            url:"",
+            url:"/query/statistics/queryStudentsWatchInfoTime",
             data:{'roomId':info.room_id},
             success:function(data){
                 if(data.list.length>0){
@@ -33,6 +32,8 @@ $(document).ready(function(){
                         key.push(list[n].watch_date);
                         values.push(list[n].totalusernum);
                     }
+                    $(".max-imumbox1").show();
+                    $(".max-imumbox").popup("show").css("top", "10%");
                      model.maxImum(key,values);
                 }else{
                     $.msg("暂无数据");
@@ -146,7 +147,7 @@ function  init() {
 function search(page,sort){
             var $this = this;
             var data = {};
-            if(sort){
+            if(sort && JSON.stringify(sort) != "{}"){
                 data =$.extend(data,sort);
                 data.orderBy  = data.fieldName+" "+data.sortType;
             }else{
@@ -233,7 +234,16 @@ function search(page,sort){
                                 num_edge_entries: 1,
                                 callback: function (page, jq) {
                                     var pageNo = page + 1;
-                                    $this.search(pageNo);
+                                    var sortTab = {},
+                                        starget = $(".table .sortTarget");
+                                    //如果点击页码，获取是否之前点过排序。
+                                    if(starget.length>0){
+                                        sortTab = {
+                                            "fieldName":$(".table .sortTarget").attr("fieldName"),
+                                            "sortType":$(".table .sortTarget").attr("sort")
+                                        };
+                                    }
+                                    $this.search(pageNo,sortTab);
                                 }
                             });
                         $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');

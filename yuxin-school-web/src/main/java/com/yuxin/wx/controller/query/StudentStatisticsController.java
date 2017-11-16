@@ -1032,6 +1032,136 @@ public class StudentStatisticsController {
         Integer watchAll =studentStatisticsServiceImpl.getWatchTotalBySchool(map);
         return null;
     }
+        /**
+         * 并发统计页面跳转
+         * @param model
+         * @param request
+         * @return
+         */
+        @RequestMapping(value="/statistics/watchInfoCurrentCount")
+        public String watchInfoCurrentCount(Model model, HttpServletRequest request){
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String endTime = sdf.format(c.getTime());
+            model.addAttribute("endTime",endTime);
+            c.add(Calendar.MONTH,-1);
+            String startTime  = sdf.format(c.getTime());
+
+            model.addAttribute("startTime",startTime);
+
+
+            List<SysConfigItemRelation> seconds = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+            model.addAttribute("secondItem",seconds);
+            //sysConfigItemRelationServiceImpl.findItem
+
+            return "/query/query_student_watchCurrentCount";
+        }
+    /**
+     * 查询学科
+     * @param model
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/statistics/findItemByPid")
+
+    public List<SysConfigItemRelation> findItemByPid( SysConfigItemRelation relation, HttpServletRequest request){
+
+        List<SysConfigItemRelation> list =sysConfigItemRelationServiceImpl.findChildByCode(relation);
+
+
+
+        return list;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/statistics/queryStudentsWatchInfoCountCurrent")
+
+    public Map queryStudentsWatchInfoCountCurrent(
+            String startDate,String endDate,String secondItemCode,String itemThirdCode,
+            String comId,String lesson,Integer page,String orderBy, HttpServletRequest request){
+
+        Map<String,Object> map  = new HashMap<>();
+        map.put("startDate",startDate);
+        map.put("endDate",endDate);
+        map.put("secondItemCode",secondItemCode);
+        map.put("itemThirdCode",itemThirdCode);
+        map.put("comId",comId);
+        map.put("lesson",lesson);
+        map.put("firstPage",(page-1)*10);
+
+        map.put("pageSize",10);
+        map.put("orderBy",orderBy);
+
+
+        PageFinder2<Map> list =studentStatisticsServiceImpl.queryStudentsWatchInfoCountCurrent(map);
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("pageFinder",list);
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/statistics/queryStudentsWatchInfoTime")
+
+    public Map queryStudentsWatchInfoTime(
+            String roomId, HttpServletRequest request){
+
+        Map<String,Object> map  = new HashMap<>();
+        map.put("roomId",roomId);
+
+        List<Map> list =studentStatisticsServiceImpl.queryStudentsWatchInfoTime(map);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        for(Map a : list){
+            long time = (long)a.get("watch_date");
+            c.setTimeInMillis(time);
+            a.put("watch_date",sdf.format(c.getTime()));
+        }
+        Map<String,Object> result = new HashMap<>();
+        result.put("list",list);
+
+        return result;
+    }
+
+
+
+    @RequestMapping(value = "/exportStudentsWatchInfoCountCurrent")
+    public ModelAndView exportStudentsWatchInfoCountCurrent(Model model,String startTime,String endTime,String secondItemCode,String itemThirdCode,
+                                                            String comId,String lesson) {
+        List<Map> list = new ArrayList<>();
+        Map<String,Object> info  = new HashMap<>();
+        info.put("startDate",startTime);
+        info.put("endDate",endTime);
+        info.put("secondItemCode",secondItemCode);
+        info.put("itemThirdCode",itemThirdCode);
+        info.put("comId",comId);
+        info.put("lesson",lesson);
+        //userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+        info.put("pageSize",20000);
+        list = studentStatisticsServiceImpl.exportStudentsWatchInfoCountCurrent(info);//studentStatisticsServiceImpl.queryStudentsWatchInfoList(search);
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (Map v : list) {
+            lists.add(v);
+        }
+        String titles = "";
+            titles = "课程名称:name,课次名称:lesson_name,观看人次:times,最大并发数:max_concurrent,观看人数:user_num,移动端学习人次:no_pc,非移动端学习人次:pc";
+
+        StringBuffer title = new StringBuffer(
+                titles);
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "直播并发统计.xls");
+        return new ModelAndView(excel, map);
+    }
 
 
     /**

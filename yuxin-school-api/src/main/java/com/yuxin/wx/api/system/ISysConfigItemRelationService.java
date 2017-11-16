@@ -64,4 +64,6 @@ public interface ISysConfigItemRelationService {
     List<SysConfigItemRelation> findAllItemFront();
 
     List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
+
+    List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation);
 }

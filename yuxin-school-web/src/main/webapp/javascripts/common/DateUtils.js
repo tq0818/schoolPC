@@ -318,6 +318,14 @@ var DateUtil = function(){
 		time = (time/(60*60*1000)).toFixed(1);
 		return time;
     }
-     
+    //日期差今天前7天 fun_NewDate(-7)
+     this.fun_NewDate = function (num) {
+         var date1 = new Date(),
+             time1=date1.getFullYear()+"-"+(date1.getMonth()+1)+"-"+date1.getDate();//time1表示当前时间
+         var date2 = new Date(date1);
+         date2.setDate(date1.getDate()+num);
+         var timeNew = date2.getFullYear()+"-"+(date2.getMonth()+1)+"-"+date2.getDate();
+         return timeNew;
+     }
     return this;
 }();

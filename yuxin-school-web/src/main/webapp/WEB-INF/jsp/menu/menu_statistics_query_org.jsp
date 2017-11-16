@@ -8,7 +8,7 @@
         	<!-- <span class="iconfont return-pic hcancle">&#xe650;</span> -->
         </div>
         <ul id="course_manage" class="system_managelist">
-        	<shiro:hasAnyRoles name="文轩教育,教科院,区县负责人,学校负责人">
+        	<shiro:hasAnyRoles name="教科院,区县负责人,学校负责人,文轩教育">
             <li class="subentry active" code="studentList" mark="/query/orgstatistics/studentList">学员</li>
             <li class="subentry" code="orgStuList" mark="/query/orgstatistics/queryOrg">学校</li>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>

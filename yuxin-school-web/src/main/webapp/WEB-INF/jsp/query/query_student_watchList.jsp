@@ -244,22 +244,15 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
     init();
-    function $selectThirdMenu(code) {
-        $(".system_managelist").find("li").removeClass("active");
-        $(".system_managelist").find("li").each(function() {
-            if ($(this).attr("code") == code) {
-                $(this).addClass("active");
-            }
-        })
-    }
     $selectThirdMenu('watchInfoList');
 	function searchbtn(){
-        //var pageNo=$("#pageNo").val();
+		//清除之前字段排序的值
+		$(".table .btn-sort").attr("sort","");
+		$(".table .sortTarget").removeClass("sortTarget");
        search(1);
 	}
     $.tableSort($(".btn-sort"),{
         callback:function(data){
-            console.log(data);
             search(1,data);
         }
     });

@@ -233,6 +233,7 @@ public class TestTask {
     public void getWatchInfoHistory(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.DAY_OF_YEAR,-1);
         String lessonDate = sdf.format(ca.getTime());
         Map dateMap = new HashMap();
         dateMap.put("lessonDate",lessonDate);
@@ -733,50 +734,38 @@ public class TestTask {
 
 
     //录播数据获取测试
-   // public static void main(String[] arg) throws Exception {
-  //      Map<String,Object> map = new HashMap();
-//         PropertiesUtil util = new PropertiesUtil();
-//        map.put("loginName",util.getZsLoginName());
-//        map.put("password",util.getZsPassWord());
-//
-//        map.put("roomId","sXrgZ8I92n");
-//        map.put("startDate","2017-08-24 00:17:16");
-      //  String a = "";
-      //  long b = System.currentTimeMillis()/1000L;
-      //  String c ="";
-//        map.put("date","2017-10-23");
-        // a +="date=2017-10-23";
-        //map.put("userid","7EFA9ED6F0ABB8DD");
-      //  a+="date=2017-8-20";
-      //  a +="&num_per_page=1000";
-     //   a +="&userid=7EFA9ED6F0ABB8DD";
-        // map.put("time",b);
-     //   a +="&time="+b;
-        // map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
-     //   c = a;
-      //  a +="&salt=G162ODWstqL4ekW9c3lB56ikyWaVSIxb";
-     //   System.out.println(MD5.getMD5(a));
-     //   c+="&hash="+MD5.getMD5(a);
-//        map.put("hash",a);
-       // System.out.println((c));
-      //  String result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+c);
-     //   System.out.println(result);
-      //  Gson g = new Gson();
-      //  PlayLogsResult re =  g.fromJson(result,PlayLogsResult.class);
-      //  System.out.println(re.getPlay_logs().getPlay_log().size());
-      //  List<PlayLog> playLog = re.getPlay_logs().getPlay_log();
-      //  for(int n  = 0 ; n < playLog.size() ; n++){
-      //      PlayLog  play = playLog.get(n);
-       //     UserHistoryAllVo uha =new UserHistoryAllVo();
-       //     String  [] info = play.getCustom_id().split("_");
-       //     uha.setUserId(Integer.parseInt(info[0]));
-       //     uha.setCommodityId(Integer.parseInt(info[1]));
-      //      uha.setClassTypeId(Integer.parseInt(info[2]));
-      //      uha.setLectureId(Integer.parseInt(info[3]));
-       //     uha.setStudyLength(play.getPlay_duration());
-       // }
+    public static void main(String[] arg) throws Exception {
+        String a = "";
+        long b = System.currentTimeMillis() / 1000L;
+        String c = "";
+        a += "date=2017-11-14";
+        a += "&num_per_page=1000";
+        a += "&userid=7EFA9ED6F0ABB8DD";
+        a += "&time=" + b;
+        c = a;
+        a += "&salt=G162ODWstqL4ekW9c3lB56ikyWaVSIxb";
+        System.out.println(MD5.getMD5(a));
+        c += "&hash=" + MD5.getMD5(a);
+        System.out.println((c));
+        String result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?" + c);
+        System.out.println(result);
+        Gson g = new Gson();
+        PlayLogsResult re = g.fromJson(result, PlayLogsResult.class);
+        System.out.println(re.getPlay_logs().getPlay_log().size());
+        List<PlayLog> playLog = re.getPlay_logs().getPlay_log();
+        for (int n = 0; n < playLog.size(); n++) {
+            PlayLog play = playLog.get(n);
+            UserHistoryAllVo uha = new UserHistoryAllVo();
+            String[] info = play.getCustom_id().split("_");
+            uha.setUserId(Integer.parseInt(info[0]));
+            uha.setCommodityId(Integer.parseInt(info[1]));
+            uha.setClassTypeId(Integer.parseInt(info[2]));
+            uha.setLectureId(Integer.parseInt(info[3]));
+            uha.setStudyLength(play.getPlay_duration());
+        }
+    }
     //课堂历史并发数据获取
-    public  static void main(String[] arg){
+    /*public  static void main(String[] arg){
         //获取当日的课次
 //        Date date = new Date();
 //        date.setTime(date.getTime()-(3600*24*1000));
@@ -816,12 +805,12 @@ public class TestTask {
             if(re.getList().size()>0){
                 Collections.sort(list, new Comparator<WatchInfoFromZSGet>(){
 
-                    /*
+                    *//*
                      * int compare(Student o1, Student o2) 返回一个基本类型的整型，
                      * 返回负数表示：o1 小于o2，
                      * 返回0 表示：o1和o2相等，
                      * 返回正数表示：o1大于o2。
-                     */
+                     *//*
                     public int compare(WatchInfoFromZSGet o1, WatchInfoFromZSGet o2) {
 
                         //按照学生的年龄进行升序排列
@@ -840,6 +829,6 @@ public class TestTask {
             //用户信息过滤并存入数据库
 
 
-    }
+    }*/
 
 }

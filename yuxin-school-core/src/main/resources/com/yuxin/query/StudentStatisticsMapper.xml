@@ -176,24 +176,24 @@
 	</select>
 
 	<select id="watchInfoIndex"  parameterType="Map" resultType="Map">
-		select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
+		select sum(a.times) as times from (select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
-		where 1=1
+		where s.edu_identity=0
 		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
 		<if test="eduSchool !=null and eduSchool != ''">and edu_school = #{eduSchool}</if>
 		<if test="eduArea !=null and eduArea !=''">and edu_area = #{eduArea}</if>
 		<if test="startDate !=null and startDate !=''">and lesson_date >= #{startDate}</if>
 		<if test="endDate !=null and endDate !=''">and lesson_date <![CDATA[<=]]> #{endDate}</if>
 		<if test="eduStep !=null and eduStep !=''">and essr.edu_step_new_code = #{eduStep}</if>
-		<!--<if test="groupBy  !=''"> GROUP BY ${groupBy}</if>-->
+		GROUP BY swf.liveroom_id) a
 	</select>
 
 	<select id="watchInfoAll" parameterType="Map" resultType="Map">
 		select COUNT(1) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
-		where 1=1
+		where s.edu_identity=0
 		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
 		<if test="eduSchool !=null and eduSchool != ''">and edu_school = #{eduSchool}</if>
 		<if test="eduArea !=null and eduArea !=''">and edu_area = #{eduArea}</if>
@@ -209,7 +209,8 @@
 		c.item_value
 	FROM
 		sys_config_dict c
-		<if test="role =='area'">LEFT JOIN   sys_config_dict d  on  d.id = c.parent_item_id
+		<if test="role =='area'">
+			LEFT JOIN   sys_config_dict d  on  d.id = c.parent_item_id
 			Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = c.item_code
 		</if>
 	LEFT JOIN (
@@ -224,14 +225,14 @@
 			sys_watch_info swf
 		LEFT JOIN student s ON s.user_id = swf.user_id
 		Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
-		where 1=1
+		where s.edu_identity=0
 		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
 		<if test="schoolId !=null and schoolId != ''">and edu_school = #{schoolId}</if>
 		<if test="areaId !=null and areaId !=''">and edu_area = #{areaId}</if>
 		<if test="eduStep !=null and eduStep !=''">and essr.edu_step_new_code = #{eduStep}</if>
 		<if test="startDate !=null and startDate !=''">and lesson_date >= #{startDate}</if>
 		<if test="endDate !=null and endDate !=''">and lesson_date <![CDATA[<=]]> #{endDate}</if>
-		<if test="groupBy  !=''"> GROUP BY ${groupBy}</if>
+		<if test="groupBy  !=''"> GROUP BY ${groupBy},liveroom_id</if>
 		) a ON
 <!--		a.edu_area = c.item_code-->
 		<if test="role =='all'">a.edu_area = c.item_code</if>
@@ -265,7 +266,7 @@
                 sys_watch_info swf
                 LEFT JOIN student s ON s.user_id = swf.user_id
 				Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
-				where 1=1
+				where s.edu_identity=0
 				<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
                 <if test="schoolId !=null and schoolId != ''">and edu_school = #{schoolId}</if>
                 <if test="areaId !=null and areaId !=''">and edu_area = #{areaId}</if>
@@ -471,13 +472,15 @@
 						GROUP BY s.edu_year asc
 					</select>
 					<select id="watchSchoolChartData" parameterType="Map" resultType="Map">
-						SELECT  COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
+						SELECT SUM(a.times) as times,a.edu_year from (select COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
 						LEFT JOIN student s  on s.user_id = swi.user_id
 						where  s.edu_year >0  and s.edu_school = #{schoolId} and s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
-						GROUP BY s.edu_year
-						ORDER BY s.edu_year asc
+						GROUP BY s.edu_year,swi.liveroom_id
+						ORDER BY s.edu_year asc) a
+						GROUP BY a.edu_year
+						ORDER BY a.edu_year asc
 					</select>
 
 					<select id="getEduYearBySchool" parameterType="Map" resultType="Map">
@@ -486,12 +489,12 @@
 					</select>
 
 					<select id="getWatchNumBySchool" parameterType="Map" resultType="int">
-						select  count(DISTINCT (swi.user_id)) from  sys_watch_info swi
+						select SUM(a.times) from (select  count(DISTINCT (swi.user_id)) as times from  sys_watch_info swi
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0   and s.edu_school=#{schoolId}
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
-
+						GROUP BY swi.liveroom_id) a
 
 					</select>
 					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="Long">
@@ -519,4 +522,73 @@
 						and user_id = #{userId}
 						ORDER  BY  join_time asc
 					</select>
+
+					<select id="queryStudentsWatchInfoCountCurrent" parameterType="Map" resultType="Map">
+						SELECT
+						m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,swih.max_concurrent,count(DISTINCT(swi.user_id)) as user_num,
+						COUNT((CASE WHEN swi.device = 0  then 1 end)) pc,
+						COUNT((CASE WHEN swi.device > 0 then 1  end )) no_pc
+						FROM
+							sys_watch_info_history swih
+						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
+						LEFT JOIN commodity m ON m.id = swi.commodity_id
+						LEFT JOIN student s ON  s.user_id = swi.user_id
+						where s.edu_identity = 0 and s.delete_flag =  0
+						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
+						<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
+						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
+						<if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+						<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
+						<if test="lesson !=null and lesson != ''">and cml.id = #{lesson}</if>
+						GROUP BY swi.liveroom_id,swih.room_id
+						ORDER BY ${orderBy}
+						limit #{firstPage},#{pageSize}
+					</select>
+					<select id="queryStudentsWatchInfoCountCurrentCount" parameterType="Map" resultType="int">
+					select IFNULL(a.time,0) from	(SELECT
+						IFNULL(count(DISTINCT(swih.room_id)),0) as time
+						FROM
+						sys_watch_info_history swih
+						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
+						LEFT JOIN commodity m ON m.id = swi.commodity_id
+						LEFT JOIN student s ON  s.user_id = swi.user_id
+						where s.edu_identity = 0 and s.delete_flag =  0
+						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
+						<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
+						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
+						<if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+						<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
+						<if test="lesson !=null and lesson != ''">and cml.id = #{lesson}</if>
+						GROUP BY swi.liveroom_id,swih.room_id) a
+					</select>
+					<select id="queryStudentsWatchInfoTime" parameterType="Map" resultType="map">
+						SELECT * from sys_watch_info_realtime
+						  where  room_id =#{roomId}
+						  ORDER  BY  watch_date desc
+					</select>
+
+
+	<select id="exportStudentsWatchInfoCountCurrent" parameterType="Map" resultType="Map">
+		SELECT
+		m.name,cml.lesson_name,swih.room_id, COUNT(swi.user_id) as times,swih.max_concurrent,count(DISTINCT(swi.user_id)) as user_num,
+		COUNT((CASE WHEN swi.device = 0  then 1 end)) pc,
+		COUNT((CASE WHEN swi.device > 0 then 1  end )) no_pc
+		FROM
+		sys_watch_info_history swih
+		LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+		LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
+		LEFT JOIN commodity m ON m.id = swi.commodity_id
+		LEFT JOIN student s ON  s.user_id = swi.user_id
+		where s.edu_identity = 0 and s.delete_flag =  0
+		<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
+		<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
+		<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
+		<if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+		<if test="comId !=null and comId != ''">and m.id = #{comId}</if>
+		<if test="lesson !=null and lesson != ''">and cml.id = #{lesson}</if>
+		GROUP BY swi.liveroom_id,swih.room_id
+		limit #{pageSize}
+	</select>
                 </mapper>

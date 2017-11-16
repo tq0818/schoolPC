@@ -80,6 +80,11 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
+    public List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation) {
+        return sysConfigItemRelationMapper.findChildByCode(relation);
+    }
+
+    @Override
     public List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
         if(id==null){
@@ -102,4 +107,6 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     public List<SysConfigItemRelation> findRelationByIds(List<Integer> ids) {
         return sysConfigItemRelationMapper.findRelationByIds(ids);
     }
+
+
 }

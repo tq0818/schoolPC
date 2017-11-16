@@ -41,9 +41,6 @@ $(document).ready(function(){
                 }
             }
         })
-
-       
-
     });
     $(".table").delegate(".learning-style","click",function(e){
         $(".learning-stylebox1").show();
@@ -175,9 +172,10 @@ function search(page,sort){
             data.secondItemCode = $("#secondItemCode").val();
             data.itemThirdCode = $("#itemThirdCode").val();
             data.comId = $("#class").val();
+
             data.lesson =$("#lesson").val();
-            data.startDate = $("#startTime").val();//
-            data.endDate=$("#endTime").val();
+            data.startDate = $("#startTime").val()+" 00:00:00";//
+            data.endDate=$("#endTime").val()+" 23:59:59";
             data.page = page ? page : 1;
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoCountCurrent",

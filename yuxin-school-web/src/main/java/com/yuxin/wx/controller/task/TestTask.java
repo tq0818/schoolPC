@@ -735,7 +735,7 @@ public class TestTask {
         }
     }
 
-    public static void main(String[] arg){
+    /*public static void main(String[] arg){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
         //ca.set(Calendar.MONTH,7);
@@ -775,16 +775,16 @@ int  n = 0 ;
             }
         }
         System.out.println(n);
-    }
+    }*/
 
 
 
     //录播数据获取测试
-    /*public static void main(String[] arg) throws Exception {
+    public static void main(String[] arg) throws Exception {
         String a = "";
         long b = System.currentTimeMillis() / 1000L;
         String c = "";
-        a += "date=2017-11-15";
+        a += "date=2017-11-14";
         a += "&num_per_page=1000";
         a += "&userid=7EFA9ED6F0ABB8DD";
         a += "&time=" + b;
@@ -809,7 +809,7 @@ int  n = 0 ;
             uha.setLectureId(Integer.parseInt(info[3]));
             uha.setStudyLength(play.getPlay_duration());
         }
-    }*/
+    }
     //课堂历史并发数据获取
     /*public  static void main(String[] arg){
         //获取当日的课次

@@ -193,8 +193,8 @@ function  init() {
             data.itemThirdCode = $("#subject").val();
             data.commodityId = $("#class").val();//
             data.lessonId = $("#lesson").val();//
-            data.startTime = $("#startTime").val();//
-            data.endTime=$("#endTime").val();
+            data.startTime = $("#startTime").val()+" 00:00:00";//
+            data.endTime=$("#endTime").val()+" 23:59:59";
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
             data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";debugger;

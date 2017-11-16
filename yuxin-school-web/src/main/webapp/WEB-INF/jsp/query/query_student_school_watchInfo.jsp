@@ -126,6 +126,7 @@
                                 {
                                     name: '实际观课人数',
                                     type: 'bar',
+                                    barGap: '0',
                                     itemStyle: {
                                         normal: {
                                             color: "#5b9bd5",
@@ -139,6 +140,7 @@
                                 }, {
                                     name: "报名人数",
                                     type: 'bar',
+                                    barGap: '0',
                                     itemStyle: {
                                         normal: {
                                             color: "#ed7d31",

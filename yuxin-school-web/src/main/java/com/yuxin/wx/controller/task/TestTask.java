@@ -84,8 +84,6 @@ public class TestTask {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            map.remove("startTime");
-            map.remove("endTime");
             System.out.println(result);
             Gson g = new Gson();
             LiveResult re =  g.fromJson(result,LiveResult.class);

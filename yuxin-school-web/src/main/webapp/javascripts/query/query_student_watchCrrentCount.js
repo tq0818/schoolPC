@@ -177,6 +177,17 @@ function search(page,sort){
             data.startDate = $("#startTime").val()+" 00:00:00";//
             data.endDate=$("#endTime").val()+" 23:59:59";
             data.page = page ? page : 1;
+
+            if ($("#endTime").val() != "") {
+                if ($("#endTime").val() < $("#startTime").val()) {
+                    $.msg("时间范围不正确");
+                    return;
+                }
+
+            }
+
+
+
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoCountCurrent",
                 data: data,

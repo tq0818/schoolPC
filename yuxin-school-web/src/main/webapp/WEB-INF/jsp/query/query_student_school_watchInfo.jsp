@@ -83,6 +83,13 @@
 
             $selectThirdMenu('watchInfoList');
             function queryChartData() {
+                if ($("#endDate").val() != "") {
+                    if ($("#endDate").val() < $("#startDate").val()) {
+                        $.msg("时间范围不正确");
+                        return;
+                    }
+
+                }
                 $.ajax({
                     url: rootPath + '/query/statistics/watchSchoolInfoIndex',
                     data: {

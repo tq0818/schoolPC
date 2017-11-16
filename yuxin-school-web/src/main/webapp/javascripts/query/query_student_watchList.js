@@ -198,6 +198,13 @@ function  init() {
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
             data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";debugger;
+            if ($("#endTime").val() != "") {
+                if ($("#endTime").val() < $("#startTime").val()) {
+                    $.msg("时间范围不正确");
+                    return;
+                }
+
+            }
             $.ajax({
                 url: rootPath + "/query/statistics/queryStudentsWatchInfoList",
                 data: data,

@@ -26,11 +26,11 @@ $(document).ready(function(){
             data:{'roomId':info.room_id},
             success:function(data){
                 if(data.list.length>0){
-                    key =new Object();
-                    values =new Object();
-                    for(var n = 0 ; n<data.list.length ; n++){
-                        key.push(list[n].watch_date);
-                        values.push(list[n].totalusernum);
+                    key =new Array();
+                    values =new Array();
+                    for(var n = data.list.length-1 ; n>=0 ; n--){
+                        key.push(data.list[n].watch_date);
+                        values.push(data.list[n].totalusernum);
                     }
                     $(".max-imumbox1").show();
                     $(".max-imumbox").popup("show").css("top", "10%");
@@ -304,14 +304,17 @@ var model = {
                 series : [
                     
                     {
-                        name:'搜索引擎',
+                        name:'最大并发',
                         type:'line',
                         stack: '总量',
                         itemStyle: {
                             normal: {
-                                color:'#45ccce',
+                                color:'#4eced0',
                                 areaStyle:
-                                 {type: 'default'}
+                                 {
+                                     color:'rgba(78, 206, 208, 0.4)',
+                                     type: 'default'
+                                 }
                                 }
                             },
                         data:values

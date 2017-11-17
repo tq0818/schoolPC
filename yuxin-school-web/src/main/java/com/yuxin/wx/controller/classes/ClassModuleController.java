@@ -5114,7 +5114,11 @@ public class ClassModuleController {
 		log.info("zs：Affected:" + Affected);
 		log.info("zs：totalusernum:" + totalusernum);
 		log.info("redis：查询redis");
-		if(Action.equals("101")||Action.equals("107")){
+
+		if(Action.equals("101")||Action.equals("107")||Action.equals("110")){
+			log.info("zs：Action.equals(101)======="+Action.equals("101"));
+			log.info("zs：Action.equals(107)======="+Action.equals("107"));
+			log.info("zs：Action.equals(110)======="+Action.equals("110"));
 			WatchInfoFromZSSend send  = new WatchInfoFromZSSend(ClassNo, Operator,Action,Affected,totalusernum);
 			List<WatchInfoFromZSSend> list = JedisUtil.getList(ClassNo);
 			if(list ==null || list.size()==0){
@@ -5128,10 +5132,12 @@ public class ClassModuleController {
 				int n  =  0 ;
 				for(WatchInfoFromZSSend send : list){
 					n++;
+					log.info("zs：写入实时数据");
 					watchInfoServiceImpl.addWatchInfoFromZSSent(send);
 					System.out.println("==========第"+n+"人==========");
 				}
 			}
+			log.info("zs：移除实时数据");
 			JedisUtil.deleteByKey(ClassNo);
 		}
 

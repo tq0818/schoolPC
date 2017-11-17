@@ -1115,9 +1115,9 @@ public class StudentStatisticsController {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         Calendar c = Calendar.getInstance();
         for(Map a : list){
-            long time = (long)a.get("watch_date");
-            c.setTimeInMillis(time);
-            a.put("watch_date",sdf.format(c.getTime()));
+            /*long time = (long)a.get("watch_date");
+            c.setTimeInMillis(time);*/
+            a.put("watch_date",sdf.format(a.get("watch_date")));
         }
         Map<String,Object> result = new HashMap<>();
         result.put("list",list);

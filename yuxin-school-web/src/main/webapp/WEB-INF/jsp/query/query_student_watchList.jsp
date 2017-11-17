@@ -152,7 +152,7 @@
 							</select>
 							<span>观看时间</span>
 							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
-							<input id="userOrMobile" name="userOrMobile" placeholder="学员手机号/用户名查询" />
+							<input id="userOrMobile" name="userNameOrMobile" placeholder="学员手机号/用户名查询" />
 
 						</div>
 						<div class="btn-center">

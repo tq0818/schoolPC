@@ -42,20 +42,22 @@
 					<p class="screen-info" style="margin-bottom: 20px;">
 						<a href="/query/statistics/watchInfoList" class="btn active">概况</a>
 						<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
-						<c:if test="${isArea}">
-							<select class="select-box" id="eduStep" name="eduStep">
-								<option value="">请选择学校性质</option>
-								<c:forEach items="${eduStep}" var="eduStep">
-									<option value="${eduStep.itemCode}">${eduStep.itemValue}</option>
-								</c:forEach>
-							</select>
-						</c:if>
-						<span class="date">
-							<i class="text">日期</i>
-							<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>到</em>
-								<input type="text" id="endDate" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
+						<span class="pull-right">
+							<c:if test="${isArea}">
+								<select class="select-box" id="eduStep" name="eduStep">
+									<option value="">请选择学校性质</option>
+									<c:forEach items="${eduStep}" var="eduStep">
+										<option value="${eduStep.itemCode}">${eduStep.itemValue}</option>
+									</c:forEach>
+								</select>
+							</c:if>
+							<span class="date" style="margin-left: 0;">
+								<i class="text">日期</i>
+								<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>到</em>
+									<input type="text" id="endDate" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
+							</span>
+							<button class="btns-default" id="search" onclick="queryChartData();">查询</button>
 						</span>
-						<button class="btns-default" id="search" onclick="queryChartData();">查询</button>
 					</p>
 					<%--<div>
 						&lt;%&ndash;<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>&ndash;%&gt;
@@ -99,7 +101,7 @@
                 }
                 $.ajax({
                     url:rootPath+'/query/statistics/watchInfoTotal',
-                    data:{'startDate':$("#startDate").val()+" 00:00:00",'endDate':$("#endDate")+" 23:59:59".val(),'eduStep':$("#eduStep").val()},
+                    data:{'startDate':$("#startDate").val()+" 00:00:00",'endDate':$("#endDate").val()+" 23:59:59",'eduStep':$("#eduStep").val()},
                     dataType:'json',
                     type:'post',
                     success:function(result){

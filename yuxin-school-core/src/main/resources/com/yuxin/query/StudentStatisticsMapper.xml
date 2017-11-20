@@ -426,7 +426,7 @@
                         <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
                         <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
 						<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
-						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
+						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like '%${userNameOrMobile}%'or  sf.mobile like '%${userNameOrMobile}%')</if>
                         GROUP BY
                         swi.lesson_id,
                         swi.user_id

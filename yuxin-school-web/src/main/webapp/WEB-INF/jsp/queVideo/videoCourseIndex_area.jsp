@@ -125,6 +125,17 @@
 						totleNum += result[i].userNum;
 					}
 				}
+				if(dataKey.length>25 && dataKey.length<=35){
+					$('#demandCount').css('height', '550px');
+				}else if(dataKey.length>35 && dataKey.length<=45){
+					$('#demandCount').css('height', '750px');
+				}else if(dataKey.length>45 && dataKey.length<=55){
+					$('#demandCount').css('height', '950px');
+				}else if(dataKey.length>55){
+					$('#demandCount').css('height', '4000px');
+				}else {
+					$('#demandCount').css('height', '380px');
+				}
 				var chart1 = {
 					"id":document.getElementById("demandCount"),
 					"titleText":'总计观看点播人数' + totleNum,

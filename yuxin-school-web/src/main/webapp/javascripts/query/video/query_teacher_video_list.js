@@ -216,7 +216,7 @@
                                     + '<a class="more" href="javascript:void(0);">详情</a>'
                                     + '<ul class="none box">'
                                     + ' <li><a class="queryVideoDaily" classId="' + videoCourse.classTypeId + '" href="javascript:void(0);">观看比例</a></li>'
-                                    + ' <li><a class="queryVideoHourly" classId="' + videoCourse.classTypeId + '" href="javascript:void(0);">观看热点</a></li>'
+                                    // + ' <li><a class="queryVideoHourly" classId="' + videoCourse.classTypeId + '" href="javascript:void(0);">观看热点</a></li>'
                                     + '</ul></td>'
                                     + '</tr>');
                             });

@@ -72,19 +72,19 @@
             </div>
             <div class="statistics-con" >
 
-                <div class="btn-grouplist">
-                    <a href="" class="btn active pull-left">观看热点</a>
-                    <!-- ==================终端 选择pc和移动 新加=================-->
-                    <div class="btn_group2 pull-right">
-                        <span class="pull-left">终端：</span>
-                        <div class="pull-left" content="viewsCount">
-                            <a name="terminal" v="0" t="all" class="active" href="javascript:void(0);">全部</a>
-                            <a name="terminal" v="1" t="pc" href="javascript:void(0);">PC</a>
-                            <a name="terminal" v="2" t="mobile" href="javascript:void(0);">移动</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="demand-count viewsCount" axisPointer="line" id="viewsCount" style="width:100%;height: 380px;"></div>
+                <%--<div class="btn-grouplist">--%>
+                    <%--<a href="" class="btn active pull-left">观看热点</a>--%>
+                    <%--<!-- ==================终端 选择pc和移动 新加=================-->--%>
+                    <%--<div class="btn_group2 pull-right">--%>
+                        <%--<span class="pull-left">终端：</span>--%>
+                        <%--<div class="pull-left" content="viewsCount">--%>
+                            <%--<a name="terminal" v="0" t="all" class="active" href="javascript:void(0);">全部</a>--%>
+                            <%--<a name="terminal" v="1" t="pc" href="javascript:void(0);">PC</a>--%>
+                            <%--<a name="terminal" v="2" t="mobile" href="javascript:void(0);">移动</a>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="demand-count viewsCount" axisPointer="line" id="viewsCount" style="width:100%;height: 380px;"></div>--%>
 
                 <div class="btn-grouplist"><a href="" class="btn active  pull-left">观看比例</a>
                     <!-- ==================终端 选择pc和移动 新加=================-->
@@ -345,7 +345,7 @@
         }
 
         searchVideoCourseDetail($(".from").val(), $(".to").val());//查询单个视频信息
-        searchVideoCourseDetail2($(".from").val(), $(".to").val());//观看热点
+//        searchVideoCourseDetail2($(".from").val(), $(".to").val());//观看热点
         searchVideoCourseDetail3($(".from").val(), $(".to").val());//观看比列
     });
 
@@ -364,7 +364,7 @@
         }
 
         window.location.href = rootPath + "/query/exportVideoCourseDetailExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
-                "&classId="+$("#classType").val()+"&className="+$("#className").val();
+                "&classTypeId="+$("#classType").val()+"&className="+$("#className").val();
     });
 
     function selClassOrModule(){

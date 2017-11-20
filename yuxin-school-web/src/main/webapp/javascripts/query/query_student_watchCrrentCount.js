@@ -98,7 +98,7 @@ function  init() {
             $.ajax({
                 url: rootPath + "/commodity/findCommodityByItems",
                 type: "post",
-                data: {'item_second_code':$("#secondItemCode").val(),'itemThirdCode': itemThirdCode},
+                data: {'itemSecondCode':$("#secondItemCode").val(),'itemThirdCode': itemThirdCode},
                 success: function (data) {
                     $("#class").html('<option value="">请选择课程模块</option>');
                     var options = '';

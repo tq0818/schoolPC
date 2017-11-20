@@ -179,7 +179,7 @@ function search(page,sort){
             data.page = page ? page : 1;
 
             if ($("#endTime").val() != "") {
-                if ($("#endTime").val() < $("#startTime").val()) {
+                if (new Date($("#endDate").val()) < new Date($("#startDate").val())) {
                     $.msg("时间范围不正确");
                     return;
                 }
@@ -337,7 +337,7 @@ var model = {
                 show : true,
             },
             series : [
-                seriesData(num[0],values[0],'移动端',"#5ab1ef",['28%', '40%']),seriesData(num[1],values[1],'非移动端',"#b6a2de",['68%', '40%'])
+                seriesData(num[1],values[1],'移动端',"#5ab1ef",['28%', '40%']),seriesData(num[0],values[0],'非移动端',"#b6a2de",['68%', '40%'])
                
             ]
         };

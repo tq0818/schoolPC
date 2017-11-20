@@ -82,7 +82,6 @@
 									<input type="hidden" name="eduSchool" id="eduSchool" value="${eduSchool}"/>
 									<span>学段</span>
 									<select name="eduStep" id="eduStep">
-										<option value="">请选择学段</option>
 										<c:forEach items="${steps}" var="steps" >
 											<option value="${steps.itemCode}" data-id="${steps.id}" >${steps.itemValue}</option>
 										</c:forEach>

@@ -374,7 +374,7 @@
         }
 
         window.location.href = rootPath + "/query/exportVideoCourseDetailExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
-                "&classId="+$("#classType").val();
+                "&classTypeId="+$("#classType").val();
     });
 </script>
 </body>

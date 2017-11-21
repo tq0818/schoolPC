@@ -364,7 +364,7 @@
         }
 
         window.location.href = rootPath + "/query/exportVideoCourseDetailExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val()+
-                "&classTypeId="+$("#classType").val()+"&className="+$("#className").val();
+                "&classTypeId="+$("#classType").val()+"&courseName="+$("#className").val();
     });
 
     function selClassOrModule(){

@@ -23,8 +23,12 @@ import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
+import com.yuxin.wx.model.tiku.TikuPaperTopic;
+import com.yuxin.wx.model.tiku.TikuTopicOption;
+import com.yuxin.wx.model.tiku.TikuUserExerciseAnswer;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
+import com.yuxin.wx.scheduled.TikuStatisticsTask;
 import com.yuxin.wx.utils.*;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.course.UserVideoVo;
@@ -50,11 +54,15 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Controller
 @RequestMapping("/query")
 public class StudentStatisticsController {
-	@Autowired
+    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+    @Autowired
 	private IStudentStatisticsService studentStatisticsServiceImpl;
     @Autowired
     private ISysConfigDictService sysConfigDictServiceImpl;
@@ -1058,7 +1066,6 @@ public class StudentStatisticsController {
         }
     /**
      * 查询学科
-     * @param model
      * @param request
      * @return
      */
@@ -2313,10 +2320,22 @@ public class StudentStatisticsController {
         JSONObject jsonObject = new JSONObject();
         //查询所有的播放记录
         List<Map<String, Object>> hisList = sysPlayLogsServiceImpl.queryHistoryAll();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        int success = 0;
-        int flag = 0;
         for(Map<String, Object> hisMap:hisList){
+            fixedThreadPool.submit(new RuntimeStatistics(hisMap));
+        }
+
+        jsonObject.put("result","初始化历史记录信息：总条数["+hisList.size()+"]");
+        return jsonObject;
+    }
+
+    public class RuntimeStatistics implements Runnable{
+        private Map<String, Object> hisMap = null;
+        public RuntimeStatistics(Map<String, Object> hisMap){
+            this.hisMap = hisMap;
+        }
+        @Override
+        public void run(){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 UserHistoryAllVo allVo = new UserHistoryAllVo();
                 allVo.setUserId(Integer.valueOf(hisMap.get("user_id").toString()));
@@ -2334,14 +2353,9 @@ public class StudentStatisticsController {
                     allVo.setDevice("Mobile");
                 }
                 userHistoryServiceImpl.insertPlayLogs(allVo);
-                success++;
             } catch (Exception e) {
                 e.printStackTrace();
-                flag++;
             }
         }
-
-        jsonObject.put("result","初始化历史记录信息：总条数["+hisList.size()+"]"+"、成功数["+success+"]"+"、失败数["+flag+"]");
-        return jsonObject;
     }
 }

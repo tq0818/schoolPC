@@ -173,6 +173,7 @@
         and s.delete_flag = 0
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
+		<if test="courseName!=null and courseName!=''">and t.name = #{courseName}</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
 		group by pl.lecture_id

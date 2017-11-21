@@ -546,7 +546,7 @@
 						limit #{firstPage},#{pageSize}
 					</select>
 					<select id="queryStudentsWatchInfoCountCurrentCount" parameterType="Map" resultType="int">
-					select IFNULL(a.time,0) from	(SELECT
+					select count(IFNULL(a.time,0)) from	(SELECT
 						IFNULL(count(DISTINCT(swih.room_id)),0) as time
 						FROM
 						sys_watch_info_history swih

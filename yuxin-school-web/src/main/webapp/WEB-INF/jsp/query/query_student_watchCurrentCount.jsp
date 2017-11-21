@@ -44,7 +44,7 @@
 							<span class="dayList">
 								<button type="button" class="daysTab" value="-7">7天</button>
 								<button type="button" class="daysTab" value="-14">14天</button>
-								<button type="button" class="daysTab active" value="-31">31天</button>
+								<button type="button" class="daysTab" value="-31">31天</button>
 							</span>
 							
 						</div>

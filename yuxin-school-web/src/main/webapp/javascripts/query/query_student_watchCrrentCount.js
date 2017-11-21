@@ -1,7 +1,7 @@
 $(document).ready(function(){
    // search();
     $(".dayList").delegate(".daysTab ","click",function(){
-        $(this).addClass("active").siblings().removeClass("active");
+       // $(this).addClass("active").siblings().removeClass("active");
         var dayStr = $(this).val(),
          prevDate = DateUtil.fun_NewDate(parseInt(dayStr)),
          today = DateUtil.dateTostring('yyyy-MM-dd',new Date());

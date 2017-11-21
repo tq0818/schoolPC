@@ -1233,6 +1233,6 @@ span.mintitle{
     vertical-align: middle;
     line-height: 17px;
     background: transparent;}
-.content-right .daysTab.active{
+.content-right .daysTab.active,.content-right .daysTab:hover{
     color:#fff;
     background: #79c6f8;}

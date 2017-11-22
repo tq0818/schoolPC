@@ -44,7 +44,7 @@
 							--%>
 							<span class="date marginL0">
 								<i class="text">日期</i>
-								<span><input type="text" name="startTime" class="date-picker from" value="2017-11-16"><em>至</em><input type="text" name="endTime" class="date-picker to" value="2017-11-22"></span>
+								<span><input type="text" name="startTime" id="startTime"  class="date-picker from" value="${startTime}"><em>至</em><input type="text" id="endTime" name="endTime" class="date-picker to" value="${endTime}"></span>
 							</span>
 							<span class="dayList">
 								<button type="button" class="daysTab" value="-7">7天</button>

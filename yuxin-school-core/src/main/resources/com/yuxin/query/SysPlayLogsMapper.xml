@@ -113,6 +113,7 @@
 		d2.item_value AS step_name,
 		SUM(totle_study) AS totle_study,
 		CONCAT(SEC_TO_TIME(SUM(totle_study_length)),'') AS totle_study_length,
+		round(sum(totle_study_length) / (sum(totle_study) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate,
 		COUNT(1) AS view_num
 		from
 		(select

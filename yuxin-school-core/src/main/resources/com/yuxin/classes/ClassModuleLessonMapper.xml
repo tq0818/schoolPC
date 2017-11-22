@@ -497,7 +497,7 @@
 		LEFT JOIN class_module_no_onsale cmno  on  cmno.module_no_id = cml.module_no_id
 		LEFT JOIN  commodity_product_realtion cpr on cpr.product_id = cmno.classtype_id
 		left join commodity m  on m.id  = cpr.com_id
-		where  m.id = #{id}
+		where  m.id = #{id} and cml.del_flag=1
 		ORDER  BY  cml.lesson_name desc
 	</select>
 </mapper>

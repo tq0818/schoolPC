@@ -1454,6 +1454,7 @@ public class StudentStatisticsController {
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
             userVideoVo.setPageSize(20000);
+            userVideoVo.setClassName(userVideoVo.getClassTypeName());
             al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -1511,7 +1512,7 @@ public class StudentStatisticsController {
             map.put("stepName", v.getStepName());
             map.put("totleStudy", v.getTotleStudy());
             map.put("totleStudyLength", v.getTotleStudyLength());
-            map.put("studyRate", v.getStudyRate());
+            map.put("studyRate", v.getStudyRate()+"%");
             map.put("viewNum", v.getViewNum());
             lists.add(map);
         }
@@ -1629,6 +1630,7 @@ public class StudentStatisticsController {
         if (EntityUtil.isNotBlank(userVideoVo)) {
             userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
             userVideoVo.setPageSize(20000);
+            userVideoVo.setClassName(userVideoVo.getClassTypeName());
             al = sysPlayLogsServiceImpl.queryUserVideoList(userVideoVo);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();

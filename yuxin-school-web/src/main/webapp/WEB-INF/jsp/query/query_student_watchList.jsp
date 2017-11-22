@@ -149,9 +149,14 @@
 							<select name="lessonId" id="lesson">
 
 							</select>
-							<span>观看时间</span>
-							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
-							<input id="userOrMobile" name="userNameOrMobile" placeholder="学员手机号/用户名查询" />
+							<%--<span>观看时间</span>
+							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
+							--%>
+                            <span class="date marginL0">
+								<i class="text">观看时间</i>
+								<span><input type="text" name="startTime" class="date-picker from" value="2017-11-16" style="width: 110px"><em>至</em><input type="text" name="endTime" class="date-picker to" value="2017-11-22" style="width: 110px"></span>
+							</span>
+                            <input id="userOrMobile" name="userNameOrMobile" placeholder="学员手机号/用户名查询" type="text" style="height: 20px;"/>
 
 						</div>
 						<div class="btn-center margin10">

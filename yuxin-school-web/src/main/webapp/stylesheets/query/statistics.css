@@ -10,7 +10,7 @@ margin-right: 10px;}
     background: #999;
 }
 
-.content-right .detail-con,.content-right .margin10{
+.content-right .detail-con,.content-right .margin10,.margin10{
     margin-top: 10px;}
 .content-right .margin20{
     margin-top: 20px;}
@@ -64,4 +64,6 @@ border-radius:2px;border: 0;    margin-right: 5px;
     width: 70%;}
 .playcount-info li .msg{
     text-align: right;}
-
+.screen-info .marginL0{
+    margin-left: 0;
+}

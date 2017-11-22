@@ -68,7 +68,7 @@
                 <%--</div>--%>
                 <%--<div class="demand-count viewsCount" axisPointer="line" id="viewsCount" style="width:100%;height: 380px;"></div>--%>
 
-                <div class="btn-grouplist"><a href="" class="btn active  pull-left">观看比例</a>
+                <div class="btn-grouplist"><span class="btn active  pull-left">观看比例</span>
                     <!-- ==================终端 选择pc和移动 新加=================-->
                     <div class="btn_group2 pull-right">
                         <span class="pull-left">终端：</span>

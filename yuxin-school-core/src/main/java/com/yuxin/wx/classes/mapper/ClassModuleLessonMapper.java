@@ -99,4 +99,6 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
 	List<ClassModuleLesson> findLiveByAop(Map<String, Object> param);
 
     List<ClassModuleLesson> findLessonByCommodityId(Map<String, Object> id);
+
+    List<ClassModuleLesson> findLessonByCommodityIdNotDel(Map<String, Object> map);
 }

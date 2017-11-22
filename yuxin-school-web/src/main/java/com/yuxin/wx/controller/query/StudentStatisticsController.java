@@ -2203,7 +2203,7 @@ public class StudentStatisticsController {
             map.put("eduSubject", map.get("edu_subject"));
             map.put("totleStudy", map.get("totle_study"));
             map.put("totleStudyLength", map.get("totle_study_length"));
-            map.put("studyRate", map.get("study_rate")+"%");
+            map.put("studyRate", map.get("study_rate")==null?"":map.get("study_rate")+"%");
             map.put("viewNum", map.get("view_num"));
             lists.add(map);
         }

@@ -238,4 +238,12 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 		map.put("id",id);
 		return classModuleLessonMapper.findLessonByCommodityId(map);
 	}
+
+	@Override
+	public List<ClassModuleLesson> findLessonByCommodityIdNotDel(Integer id) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("id",id);
+		return classModuleLessonMapper.findLessonByCommodityIdNotDel(map);
+	}
+
 }

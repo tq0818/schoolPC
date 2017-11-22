@@ -247,4 +247,5 @@ public interface IClassModuleLessonService  {
 	List<Integer> findClassModuleLessonIdsByModuleNoId(Integer id);
 
     List<ClassModuleLesson> findLessonByCommodityId(Integer id);
+	List<ClassModuleLesson> findLessonByCommodityIdNotDel(Integer id);
 }

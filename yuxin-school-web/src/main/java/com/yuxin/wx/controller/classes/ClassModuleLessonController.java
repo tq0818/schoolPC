@@ -1216,6 +1216,12 @@ public class ClassModuleLessonController {
 	public List<ClassModuleLesson> findLessonByCommodityId(Integer id,HttpServletRequest request){
    		return classModuleLessonServiceImpl.findLessonByCommodityId(id);
 	}
+	//根据商品ID获取未删除课次
+	@ResponseBody
+	@RequestMapping(value="/findLessonByCommodityIdNotDel")
+	public List<ClassModuleLesson> findLessonByCommodityIdNotDel(Integer id,HttpServletRequest request){
+		return classModuleLessonServiceImpl.findLessonByCommodityId(id);
+	}
 
 	@RequestMapping(value="/getAllWatchInfo")
 	public void getAllWatchInfo(HttpServletRequest request){

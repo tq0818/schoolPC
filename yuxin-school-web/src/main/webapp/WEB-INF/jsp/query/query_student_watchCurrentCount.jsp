@@ -49,22 +49,22 @@
 							
 						</div>
 						<div class="margin10">
-							<span><i class="iconfont ico" style="color: red;"></i>学段</span>
+							<span>学段</span>
 							<select name="secondItemCode" id="secondItemCode">
 								<option value="">请选择学段</option>
 								<c:forEach items="${secondItem}" var="secondItem" >
 									<option value="${secondItem.itemCode}"  >${secondItem.itemName}</option>
 								</c:forEach>
 							</select>
-							<span><i class="iconfont ico" style="color: red;"></i>学科</span>
+							<span>学科</span>
 							<select name="itemThirdCode" id="itemThirdCode">
 								<option value="">请选择学科</option>
 							</select>
-							<span><i class="iconfont ico" style="color: red;"></i>课程模块</span>
+							<span>课程模块</span>
 							<select name="comId" id="class">
 								<option value="">请选择课程模块</option>
 							</select>
-							<span><i class="iconfont ico" style="color: red;"></i>课次</span>
+							<span>课次</span>
 							<select name="lesson" id="lesson">
 								<option value="">全部</option>
 							</select>

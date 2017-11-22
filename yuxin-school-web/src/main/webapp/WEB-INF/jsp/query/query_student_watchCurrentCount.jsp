@@ -132,7 +132,8 @@
 		</div>
 	</div>
 </div>
-<!-- popupwin 学习方式详细结束 -->
+<!-- popupwin 学习方式详细结束  -->
+
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_watchCrrentCount.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>

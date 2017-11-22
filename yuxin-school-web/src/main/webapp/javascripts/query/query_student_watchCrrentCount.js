@@ -8,10 +8,8 @@ $(document).ready(function(){
          $("#startTime").val(prevDate);
          $("#endTime").val(today);
          search();
-
     });
     $(".table").delegate(".max-imum","click",function(e){
-
         var key = ['11:00:00','11:10:00','11:20:00','11:30:00','11:40:00','11:50:00','12:00:00',
         '12:10:00','12:20:00','12:30:00','12:40:00','12:50:00','13:00:00','13:10:00','13:20:00',
         '13:30:00','13:40:00','13:50:00','14:00:00','14:10:00','14:20:00','14:30:00','14:40:00',
@@ -20,6 +18,7 @@ $(document).ready(function(){
         960,980,965,950,960,955,940,902,900];
 
         var info = $(e.target).parents("tr").data();
+
         $.ajax({
             type:"post",
             url:"/query/statistics/queryStudentsWatchInfoTime",

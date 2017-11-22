@@ -62,5 +62,6 @@ border-radius:2px;border: 0;    margin-right: 5px;
 .playcount-info li img{}
 .playcount-info li .tit,.playcount-info li .msg{display: block;margin-top: 10px;
     width: 70%;}
-.playcount-info li .msg{text-align: right;}
+.playcount-info li .msg{
+    text-align: right;}
 

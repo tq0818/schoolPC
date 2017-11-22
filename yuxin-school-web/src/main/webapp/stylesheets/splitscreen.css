@@ -1575,7 +1575,8 @@ div.pop-bottom-btn>span:last-child{
 .tj_managelist .managelist-parent:hover+.arrow-bottom .bottom-arrow2{
     border-top: 10px #ddd solid;
 }
-.tj_managelist .active .managelist-parent:hover+.arrow-bottom .bottom-arrow2{border-top: 10px #00aaff solid;}
+.tj_managelist .active .managelist-parent:hover+.arrow-bottom .bottom-arrow2{
+    border-top: 10px #00aaff solid;}
 .tj_managelist .subentry{padding-left:0;z-index: 0;}
 .tj_managelist .managelist-child{    border-top: 2px solid transparent;display: none;
    }

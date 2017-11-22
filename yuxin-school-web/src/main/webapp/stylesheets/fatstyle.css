@@ -1221,6 +1221,7 @@ span.mintitle{
 .txt-required{color:red;margin-right: 5px;}
 .table.table-center .btn-sort{ background: url(../images/query/ico-sort.png) no-repeat;
   /*  text-align: left;*/
+
     background-position: right center;
     cursor: pointer;
 }

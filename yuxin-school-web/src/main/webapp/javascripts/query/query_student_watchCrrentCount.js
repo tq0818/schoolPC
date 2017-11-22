@@ -1,5 +1,5 @@
 $(document).ready(function(){
-   // search();
+    search();
     $(".dayList").delegate(".daysTab ","click",function(){
         $(this).addClass("active").siblings().removeClass("active");
         var dayStr = $(this).val(),
@@ -156,7 +156,7 @@ function search(page,sort){
             }
             data.startDate = $("#startDate").val();
             data.endDate=$("#endDate").val();
-            if( $("#secondItemCode").val()=="" ||  $("#secondItemCode").val()==null){
+           /* if( $("#secondItemCode").val()=="" ||  $("#secondItemCode").val()==null){
                 $.msg("请选择学段")
                 return;
             }
@@ -167,7 +167,7 @@ function search(page,sort){
             if( $("#class").val()=="" ||  $("#class").val()==null){
                 $.msg("请选择课程模块")
                 return;
-            }
+            }*/
             data.secondItemCode = $("#secondItemCode").val();
             data.itemThirdCode = $("#itemThirdCode").val();
             data.comId = $("#class").val();

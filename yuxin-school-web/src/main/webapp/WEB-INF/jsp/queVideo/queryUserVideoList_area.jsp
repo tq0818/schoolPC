@@ -91,11 +91,11 @@
 							</c:forEach>
 						</select>
 						<span>课程：</span>
-						<select name="classType" id="classType">
+						<select name="classTypeId" id="classType">
 							<option value="">请选择课程名称</option>
 						</select>
 						<span>课程名</span>
-						<input type="text" id="className" name="className" placeholder="请输入课程名"/>
+						<input type="text" id="className" name="classTypeName" placeholder="请输入课程名"/>
 						<span class="date" style="margin-left: 0;">
 							<i class="text">日期</i>
 							<span><input type="text" name="startTime" class="date-picker from i-data" value="${startTime}"/><em>到</em><input type="text" name="endTime" class="date-picker to i-data" value="${endTime}"/></span>

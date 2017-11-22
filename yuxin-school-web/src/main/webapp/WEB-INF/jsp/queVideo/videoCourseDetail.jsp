@@ -18,7 +18,7 @@
     <div class="right-side set-system gg-biaoge">
         <div class="mainbackground nopadding">
             <div class="heading">
-                <h2 class="h5">学校教育信息完善情况</h2>
+                <h2 class="h5">点播情况</h2>
                 <span class="line"></span>
             </div>
         </div>
@@ -132,9 +132,9 @@
                 success:function(result){
                     var videoDetail = result.videoDetail ? result.videoDetail:null;
                     var courseName = (videoDetail&&videoDetail.name) ? videoDetail.name : $("#className").val() ? $("#className").val():$("#classType option:selected").text();
-                    $(".course-info").find(".name").html(courseName+"（"+startTime+"至"+endTime+"）");
+                    $(".course-info").find(".name").html(courseName);//+"（"+startTime+"至"+endTime+"）");
                     var totleStudyLength = (videoDetail&&videoDetail.totleStudyLength) ? videoDetail.totleStudyLength:"0";
-                    var studyRate = (videoDetail&&videoDetail.studyRate) ? videoDetail.studyRate:"0%";
+                    var studyRate = (videoDetail&&videoDetail.studyRate) ? videoDetail.studyRate+"%":"0%";
                     var totleStudy = (videoDetail&&videoDetail.totleStudy) ? videoDetail.totleStudy:"0";
                     $(".course-info").find(".play").empty().append('<i>播放总时长<br/>'+totleStudyLength+'</i>');
                     $(".course-info").find(".play").append('<i>播完率<br/>'+studyRate+'</i>');

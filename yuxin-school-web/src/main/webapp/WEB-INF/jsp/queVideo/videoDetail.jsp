@@ -106,9 +106,9 @@
             data:{classId:$("#classType").val(),startTime:startTime, endTime:endTime},
             success:function(result){
                 var videoDetail = result.videoDetail ? result.videoDetail:null;
-                $(".course-info").find(".name").html($("#className").val()+"（"+startTime+"至"+endTime+"）");
+                $(".course-info").find(".name").html($("#className").val());//+"（"+startTime+"至"+endTime+"）");
                 var totleStudyLength = (videoDetail&&videoDetail.totleStudyLength) ? videoDetail.totleStudyLength:"0";
-                var studyRate = (videoDetail&&videoDetail.studyRate) ? videoDetail.studyRate:"0";
+                var studyRate = (videoDetail&&videoDetail.studyRate) ? videoDetail.studyRate+"%":"0%";
                 var totleStudy = (videoDetail&&videoDetail.totleStudy) ? videoDetail.totleStudy:"0";
                 $(".course-info").find(".play").empty().append('<i>播放总时长<br/>'+totleStudyLength+'</i>');
                 $(".course-info").find(".play").append('<i>播完率<br/>'+studyRate+'</i>');

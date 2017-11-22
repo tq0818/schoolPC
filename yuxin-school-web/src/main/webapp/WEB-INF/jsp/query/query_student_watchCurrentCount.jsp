@@ -40,7 +40,7 @@
 						<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 							<span>时间</span>
-							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>到</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
+							<span><input type="text" name="startTime" id="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" id="endTime" class="date-picker to" value="${endTime}"/></span>
 							<span class="dayList">
 								<button type="button" class="daysTab" value="-7">7天</button>
 								<button type="button" class="daysTab" value="-14">14天</button>

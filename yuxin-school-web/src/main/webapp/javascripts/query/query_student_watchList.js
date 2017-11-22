@@ -121,6 +121,7 @@ function  init() {
             var subject = $(this).find(":selected").attr("value");
             if(subject==""){
                 $("#class").html('<option value="">请选择课程模块</option>');
+                $("#class").change();
                 return;
             }
             $.ajax({

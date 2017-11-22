@@ -1552,7 +1552,7 @@ public class StudentStatisticsController {
             map.put("time", videoCourseVo.getStartTime()+"至"+videoCourseVo.getEndTime());
             map.put("totleStudy", v.getTotleStudy());
             map.put("totleStudyLength", v.getTotleStudyLength());
-            map.put("studyRate", v.getStudyRate());
+            map.put("studyRate", v.getStudyRate()!=null?v.getStudyRate()+"%":0+"%");
             lists.add(map);
         }
         StringBuffer title = new StringBuffer(

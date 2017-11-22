@@ -39,7 +39,7 @@
 						<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
 						<span class="date">
 							<i class="text">日期</i>
-							<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>到</em>
+							<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>至</em>
 								<input type="text" id="endDate" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
 						</span>
 						<button class="btns-default" id="search" onclick="queryChartData();">查询</button>

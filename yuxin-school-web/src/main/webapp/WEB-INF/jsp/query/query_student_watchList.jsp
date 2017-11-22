@@ -154,7 +154,7 @@
 							<input id="userOrMobile" name="userNameOrMobile" placeholder="学员手机号/用户名查询" />
 
 						</div>
-						<div class="btn-center">
+						<div class="btn-center margin10">
 							<button class="btns-default" id="search" onclick="searchbtn();" type="button">查询</button>
 							<button class="btns-default exportExcleStudent" id="search" type="button">导出数据</button>
 
@@ -162,7 +162,7 @@
 							<span><a href="javascript:;" class="btn btn-primary exportExcleStudent">导出</a></span>--%>
 
 						</div>
-                        <div  class="btn-center">
+                        <div  class="btn-center margin10">
                             <span>总报名人数</span><span id="total"></span><span>，实际观课人数</span><span id="watch"></span>
                         </div>
 					</form>

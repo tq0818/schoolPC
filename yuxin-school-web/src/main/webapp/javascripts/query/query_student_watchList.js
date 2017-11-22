@@ -197,7 +197,7 @@ function  init() {
             data.endTime=$("#endTime").val()+" 23:59:59";
             data.schoolType=$("#schoolType").val();
             data.page = page ? page : 1;
-            data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";debugger;
+            data.userNameOrMobile="'%"+$("#userOrMobile").val()+"%'";
             if ($("#endTime").val() != "") {
                 if ($("#endTime").val() < $("#startTime").val()) {
                     $.msg("时间范围不正确");
@@ -248,8 +248,9 @@ function  init() {
                             + stu.studentName
                             + '</td>'
                             + str
-                            + '<td class="amassCount"  >'
+                            + '<td>'
                             + stu.times
+                            +'<i class="icon iconfont amassCount">&#xe62a;</i>'
                             + '</td>'
                             + '<td >'
                             + stu.studyTime

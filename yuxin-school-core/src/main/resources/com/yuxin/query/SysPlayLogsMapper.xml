@@ -391,12 +391,14 @@
 		it1.`item_name` AS edu_subject,
 		sum(totle_study) as totle_study,
 		concat(SEC_TO_TIME(sum(totle_study_length)),'') as totle_study_length,
+        round(sum(totle_study_length) / (sum(totle_study) * TIME_TO_SEC(video_time)) * 100,2) as study_rate,
 		COUNT(1) as view_num
 		from
 		(SELECT
 		s.edu_area,
 		s.edu_school,
 		pl.class_type_id,
+        v.video_time,
 		COUNT(1) AS totle_study,
 		SUM(pl.study_length) AS totle_study_length
 		FROM

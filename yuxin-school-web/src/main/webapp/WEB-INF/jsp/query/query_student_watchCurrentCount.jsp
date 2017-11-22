@@ -44,7 +44,7 @@
 							<span class="dayList">
 								<button type="button" class="daysTab" value="-7">7天</button>
 								<button type="button" class="daysTab" value="-14">14天</button>
-								<button type="button" class="daysTab" value="-31">31天</button>
+								<button type="button" class="daysTab active" value="-31">31天</button>
 							</span>
 							
 						</div>
@@ -151,6 +151,10 @@
 
 	$selectThirdMenu('watchInfoList');
 	$selectThirdMenu('watchInfoCurrentCoun');
+	//切换日期，删除天数选中
+	$('.date-picker').on('changeDate', function(ev){
+		$(".dayList .daysTab.active").removeClass("active")
+	});
 	function searchbtn(){
 		//清除之前字段排序的值
 		$(".table .btn-sort").attr("sort","");

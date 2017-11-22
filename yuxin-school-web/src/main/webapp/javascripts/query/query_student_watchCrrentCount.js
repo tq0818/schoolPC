@@ -1,7 +1,7 @@
 $(document).ready(function(){
    // search();
     $(".dayList").delegate(".daysTab ","click",function(){
-       // $(this).addClass("active").siblings().removeClass("active");
+        $(this).addClass("active").siblings().removeClass("active");
         var dayStr = $(this).val(),
          prevDate = DateUtil.fun_NewDate(parseInt(dayStr)),
          today = DateUtil.dateTostring('yyyy-MM-dd',new Date());
@@ -19,7 +19,7 @@ $(document).ready(function(){
         values = [820, 932, 901, 934, 1290, 1330,1320,1330,1350,1220,1200,999,990,1000,993,980,
         960,980,965,950,960,955,940,902,900];
 
-        var info = $(e.target).parent("tr").data();
+        var info = $(e.target).parents("tr").data();
         $.ajax({
             type:"post",
             url:"/query/statistics/queryStudentsWatchInfoTime",
@@ -45,7 +45,7 @@ $(document).ready(function(){
     $(".table").delegate(".learning-style","click",function(e){
         $(".learning-stylebox1").show();
         $(".learning-stylebox").popup("show").css("top", "10%");
-        var info = $(e.target).parent("tr").data();
+        var info = $(e.target).parents("tr").data();
         var pc_percent = (parseInt(info.pc) / parseInt(info.times)).toFixed(2) *100,
             nopc_percent = (parseInt(info.no_pc) / parseInt(info.times)).toFixed(2) *100;
 
@@ -219,10 +219,12 @@ function search(page,sort){
                             + '<td>'
                             + stu.times
                             + '</td>'
-                            + '<td class="max-imum">'
+                            + '<td>'
                             + stu.max_concurrent
-                            + '</td><td class="learning-style">'
+                            +'<i class="icon iconfont max-imum">&#xe62a;</i>'
+                            + '</td><td>'
                             +str
+                            +'<i class="icon iconfont learning-style">&#xe62a;</i>'
                             +'</td>'
                             + '</tr>');
 

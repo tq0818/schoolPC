@@ -1225,7 +1225,9 @@ span.mintitle{
     cursor: pointer;
 }
 .table .amassCount,.table .max-imum,.table .learning-style{
-    cursor: pointer;
+    cursor: pointer;float: right;
+    font-size: 16px;
+    color: #0099ff;
 }
 .content-right .daysTab{border: 0;
 

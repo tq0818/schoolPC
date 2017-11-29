@@ -244,6 +244,18 @@
 		            	<span class="nullnum3 none" style="color:red;">没有数据，<a href="javascript:void(0);" class="addT">去设置</a></span>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">直播预习</label>
+					<div class="col-md-8" >
+						<input type="text" id="beforeStudyUrl" maxlength="200" name="beforeStudyUrl" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label">直播回放</label>
+					<div class="col-md-8" >
+						<input type="text" id="afterStudyUrl" maxlength="200" name="afterStudyUrl" />
+					</div>
+				</div>
 				<div class="form-group" id="mobilesupports">
 					<label class="col-md-2 control-label">是否支持移动端</label>
 					<div class="col-md-8">

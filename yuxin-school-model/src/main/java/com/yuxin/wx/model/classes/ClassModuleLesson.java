@@ -47,7 +47,8 @@ public class ClassModuleLesson extends BaseEntity {
 	private Integer	delFlag;
 	private Integer barrage;			 /* 弹幕，默认0:不开启*/
 	private Integer modetype;			 /* 模式,默认3:大班课，1:语音,5:小班课*/
-	
+	private String beforeStudyUrl;		/*直播预习*/
+	private String afterStudyUrl;		/*直播回看*/
 	//当前课程播放状态
 	private Integer status;
 	private Integer sort;    /*排序字段*/
@@ -547,6 +548,20 @@ public class ClassModuleLesson extends BaseEntity {
 	public void setLessonDateTime(Date lessonDateTime) {
 		this.lessonDateTime = lessonDateTime;
 	}
-	
-	
+
+	public String getBeforeStudyUrl() {
+		return beforeStudyUrl;
+	}
+
+	public void setBeforeStudyUrl(String beforeStudyUrl) {
+		this.beforeStudyUrl = beforeStudyUrl;
+	}
+
+	public String getAfterStudyUrl() {
+		return afterStudyUrl;
+	}
+
+	public void setAfterStudyUrl(String afterStudyUrl) {
+		this.afterStudyUrl = afterStudyUrl;
+	}
 }

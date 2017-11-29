@@ -417,6 +417,8 @@
 											$("#tassitList").select2();
 											$("#lessonId").val(lesson.id);
 											$("#chaptermark").val(lesson.chapterFlag);
+                                             $("#beforeStudyUrl").val(lesson.beforeStudyUrl);
+                                             $("#afterStudyUrl").val(lesson.afterStudyUrl);
 											if(lesson.liveClassType){
 												$('input[value='+lesson.liveClassType+']').prop("checked","checked");
 											}else{
@@ -464,6 +466,8 @@
 									$("#tassitList").select2();
 									$("#lessonId").val(lesson.id);
 									$("#chaptermark").val(lesson.chapterFlag);
+                                    $("#beforeStudyUrl").val(lesson.beforeStudyUrl);
+                                    $("#afterStudyUrl").val(lesson.afterStudyUrl);
 									if(lesson.liveClassType){
 										$('input[value='+lesson.liveClassType+']').prop("checked","checked");
 									}else{
@@ -997,6 +1001,8 @@
 						data.liveClassType=$("input[name=liveClassType]:checked").val();
 						data.barrage=$("input[name=barrage]:checked").val();
 						data.modetype=$("#modetypes").val();
+						data.beforeStudyUrl = $("#beforeStudyUrl").val();
+						data.afterStudyUrl =$("#afterStudyUrl").val();
 						var url="";
 						if($("#chaptermark").val()==1){
 							if($("#eidtype").val()=="add"){
@@ -1058,6 +1064,8 @@
 				data.liveClassType=$("input[name=liveClassType]:checked").val();
 				data.barrage=$("input[name=barrage]:checked").val();
 				data.modetype=$("#modetypes").val();
+                data.beforeStudyUrl = $("#beforeStudyUrl").val();
+                data.afterStudyUrl =$("#afterStudyUrl").val();
 				var url="";
 				if($("#chaptermark").val()==1){
 					if($("#eidtype").val()=="add"){

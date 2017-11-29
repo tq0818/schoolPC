@@ -36,6 +36,8 @@
 		<result property="creator" column="creator"/>
 		<result property="barrage" column="barrage"/>
 		<result property="modetype" column="modetype"/>
+		<result property="beforeStudyUrl" column="before_study_url"/>
+		<result property="afterStudyUrl" column="after_study_url"/>
 		<result property="tikuPaper.id" column="paperId"></result>
 		<result property="tikuPaper.paperName" column="paperName"></result>
 		<result property="courseExercise.id" column="courseExerciseId"></result>
@@ -80,7 +82,10 @@
 		create_time,
 		creator,
 		barrage,
-		modetype
+		modetype,
+		before_study_url,
+		after_study_url
+
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -116,7 +121,9 @@
 		#{createTime},
 		#{creator},
 		#{barrage},
-		#{modetype}
+		#{modetype},
+		#{beforeStudyUrl},
+		#{afterStudyUrl}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -219,6 +226,8 @@
 			<if test="liveClassType != null and liveClassType != ''">live_class_type = #{liveClassType},</if>
 			<if test="barrage != null">barrage = #{barrage},</if>
 			<if test="modetype != null">modetype = #{modetype},</if>
+			<if test="afterStudyUrl != null  and afterStudyUrl != ''">after_study_url = #{afterStudyUrl},</if>
+			<if test="beforeStudyUrl != null  and beforeStudyUrl != ''">before_study_url = #{beforeStudyUrl},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

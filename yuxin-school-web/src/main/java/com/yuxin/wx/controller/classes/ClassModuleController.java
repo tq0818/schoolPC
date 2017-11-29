@@ -3312,7 +3312,7 @@ public class ClassModuleController {
 			,String lessonHour,String teachers,String teachersName,String assistants
 			,String assistantsName,String lessonName,String classroomName,Integer classroomId
 			,Integer mark,Integer classNoId,Integer supportMobile,String liveClassType,
-			Integer barrage,Integer modetype) throws Exception{
+			Integer barrage,Integer modetype,String beforeStudyUrl,String afterStudyUrl) throws Exception{
 		JSONObject json = new JSONObject();
 		Integer companyId = WebUtils.getCurrentCompanyId();
 
@@ -3358,6 +3358,8 @@ public class ClassModuleController {
 				lesson.setCreateTime(new Date());
 				lesson.setCreator(WebUtils.getCurrentUserId(request));
 				lesson.setLiveRoom(UUID.randomUUID().toString().replaceAll("-", ""));
+				lesson.setAfterStudyUrl(afterStudyUrl);
+				lesson.setBeforeStudyUrl(beforeStudyUrl);
 				if("TEACH_METHOD_FACE".equals(teachMethod)){
 					lesson.setClassroom(classroomName);
 					lesson.setClassroomId(classroomId);
@@ -3768,7 +3770,7 @@ public class ClassModuleController {
 			String teachMethod,String lessonDate,String lessonTimeStart,String lessonTimeEnd,Integer lessonHour,
 			String teachers,String teachersName,String assistants,String assistantsName,String lessonName,
 			String classroomName,Integer classroomId,Integer mark,Integer moduleId,Integer supportMobile,String liveClassType
-			,Integer barrage ,Integer modetype) throws Exception{
+			,Integer barrage ,Integer modetype,String afterStudyUrl,String beforeStudyUrl) throws Exception{
 		JSONObject json = new JSONObject();
 		Integer companyId = WebUtils.getCurrentCompanyId();
 
@@ -3819,6 +3821,8 @@ public class ClassModuleController {
 		lesson.setBarrage(barrage != null ? barrage : 0);
 		lesson.setModetype(modetype != null ? modetype : 3);
 		lesson.setLiveRoom(UUID.randomUUID().toString().replaceAll("-", ""));
+		lesson.setAfterStudyUrl(afterStudyUrl);
+		lesson.setBeforeStudyUrl(beforeStudyUrl);
 		classModuleLessonServiceImpl.insert(lesson);
 		json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
 		//更新直播教室
@@ -4705,7 +4709,7 @@ public class ClassModuleController {
 			String teachMethod,Integer totalHours,String lessonDate,String lessonTimeStart,String lessonTimeEnd,String lessonHour,
 			String teachers,String teachersName,String assistants,String assistantsName,String lessonName,Integer moduleId,Integer classmoduleId,
 			Integer lessonId,String classroomName,Integer classroomId,String liveClassType
-			,Integer barrage,Integer modetype) throws Exception{
+			,Integer barrage,Integer modetype,String afterStudyUrl,String beforeStudyUrl) throws Exception{
 		JSONObject json = new JSONObject();
 		Integer companyId = WebUtils.getCurrentCompanyId();
 
@@ -4731,6 +4735,8 @@ public class ClassModuleController {
 		}
 		lesson.setBarrage(barrage != null ? barrage : 0);
 		lesson.setModetype(modetype != null ? modetype : 3);
+		lesson.setAfterStudyUrl(afterStudyUrl);
+		lesson.setBeforeStudyUrl(beforeStudyUrl);
 		classModuleLessonServiceImpl.update(lesson);
 		//更新直播教室
 		if("TEACH_METHOD_LIVE".equals(teachMethod)){

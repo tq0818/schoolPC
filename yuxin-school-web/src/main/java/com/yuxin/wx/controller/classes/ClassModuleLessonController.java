@@ -7,18 +7,23 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
+import com.yuxin.wx.api.company.*;
+import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.controller.task.TestTask;
+import com.yuxin.wx.model.company.*;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSResult;
 import com.yuxin.wx.vo.classes.*;
+import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -33,11 +38,6 @@ import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.api.classes.IClassTypeResourceTypeService;
 import com.yuxin.wx.api.classes.IClassTypeService;
-import com.yuxin.wx.api.company.ICompanyFunctionSetService;
-import com.yuxin.wx.api.company.ICompanyLiveConfigService;
-import com.yuxin.wx.api.company.ICompanyMemberServiceService;
-import com.yuxin.wx.api.company.ICompanyMessageHistoryService;
-import com.yuxin.wx.api.company.ICompanyStudentMessageService;
 import com.yuxin.wx.api.student.IStudentPayMasterService;
 import com.yuxin.wx.api.student.IStudentPaySlaveService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
@@ -56,10 +56,6 @@ import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassTypeResourceType;
 import com.yuxin.wx.model.classes.liveroom.ZsReturnInfo;
-import com.yuxin.wx.model.company.CompanyFunctionSet;
-import com.yuxin.wx.model.company.CompanyLiveConfig;
-import com.yuxin.wx.model.company.CompanyMemberService;
-import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigTeacher;
@@ -122,7 +118,10 @@ public class ClassModuleLessonController {
 	private ICompanyFunctionSetService companyFunctionSetServiceImpl;
 	@Autowired
 	private IWatchInfoService watchInfoServiceImpl;
-	
+	@Autowired
+	private ICompanyPayConfigService companyPayConfigServiceImpl;
+	@Autowired
+	private IUserHistoryService userHistoryServiceImpl;
 	DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -1409,6 +1408,79 @@ public class ClassModuleLessonController {
 					watchInfoServiceImpl.addWatchInfo(lesson);
 				}
 			}
+		}
+	}
+
+
+	//获取前一天录播观看个人信息
+    @RequestMapping(value="/getPlayInfo")
+	//@Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+	public void getPlayInfo() {
+		log.info("获取昨天录播观看信息-----执行时间：" + new Date());
+		String a = "";
+		long b = System.currentTimeMillis()/1000L;
+		String infoUrl ="";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(18113);//暂时写死为数校公司id
+
+
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_YEAR,-3);
+		Date date  = c.getTime();
+
+		addPlayLog(date,companyPayConfig,1,sdf);
+//
+	}
+
+
+	public void addPlayLog(Date date, CompanyPayConfig companyPayConfig, int index, SimpleDateFormat sdf){
+		String a = "";
+		String infoUrl ="";
+		long b = System.currentTimeMillis()/1000L;
+		a+="date="+ sdf.format(date);
+		a +="&num_per_page=100";
+		a +="&page="+index;
+		a +="&userid=" + companyPayConfig.getCcUserId();
+		// map.put("time",b);
+		a +="&time="+b;
+		// map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
+		infoUrl = a;
+		a +="&salt=" + companyPayConfig.getCcApiKey();
+		System.out.println(com.yuxin.wx.utils.MD5.getMD5(a));
+		infoUrl+="&hash="+ com.yuxin.wx.utils.MD5.getMD5(a);
+//        map.put("hash",a);
+		//System.out.println((c));
+		String result = null;
+		try {
+			result = com.yuxin.wx.utils.HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
+			System.out.println(result);
+			Gson g = new Gson();
+			TestTask.PlayLogsResult plre =  g.fromJson(result,TestTask.PlayLogsResult.class);
+			System.out.println(plre.getPlay_logs().getPlay_log().size());
+			List<TestTask.PlayLog> playLog = plre.getPlay_logs().getPlay_log();
+			for(int n  = 0 ; n < playLog.size() ; n++){
+				TestTask.PlayLog play = playLog.get(n);
+				UserHistoryAllVo uha =new UserHistoryAllVo();
+				if(play.getCustom_id().indexOf("null")!=-1){
+					continue;
+				}
+				String  [] info = play.getCustom_id().split("_");
+				uha.setUserId(Integer.parseInt(info[0]));
+				uha.setCommodityId(Integer.parseInt(info[1]));
+				uha.setClassTypeId(Integer.parseInt(info[2]));
+				uha.setLectureId(Integer.parseInt(info[3]));
+				uha.setStudyLength(play.getPlay_duration());
+				uha.setStudyTime(date);
+				uha.setDevice(play.getDevice());
+				//userHistoryServiceImpl.insertPlayLogs(uha);
+			}
+			if(playLog.size()==100){
+				addPlayLog(date,companyPayConfig,index+1,sdf);
+			}
+
+			log.info("获取昨天录播观看信息-----结束");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

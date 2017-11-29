@@ -226,8 +226,8 @@
 			<if test="liveClassType != null and liveClassType != ''">live_class_type = #{liveClassType},</if>
 			<if test="barrage != null">barrage = #{barrage},</if>
 			<if test="modetype != null">modetype = #{modetype},</if>
-			<if test="afterStudyUrl != null  and afterStudyUrl != ''">after_study_url = #{afterStudyUrl},</if>
-			<if test="beforeStudyUrl != null  and beforeStudyUrl != ''">before_study_url = #{beforeStudyUrl},</if>
+			<if test="afterStudyUrl != null  ">after_study_url = #{afterStudyUrl},</if>
+			<if test="beforeStudyUrl != null ">before_study_url = #{beforeStudyUrl},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

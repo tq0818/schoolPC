@@ -182,24 +182,29 @@ public class TestTask {
         String infoUrl ="";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(18113);//暂时写死为数校公司id
-       Calendar c = Calendar.getInstance();
-       c.add(Calendar.DAY_OF_YEAR,-1);
+
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_YEAR,-1);
         Date date  = c.getTime();
+
+        addPlayLog(date,companyPayConfig,1,sdf);
 //        map.put("date","2017-10-23");
         // a +="date=2017-10-23";
         //map.put("userid","7EFA9ED6F0ABB8DD");
-        a+="date="+ sdf.format(date);
-        a +="&num_per_page=1000";
-        a +="&userid=" + companyPayConfig.getCcUserId();
+        //a+="date="+ sdf.format(date);
+        //a +="&num_per_page=1000";
+        //a +="&page=1";
+        //a +="&userid=" + companyPayConfig.getCcUserId();
         // map.put("time",b);
-        a +="&time="+b;
+        //a +="&time="+b;
         // map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
-        infoUrl = a;
-        a +="&salt=" + companyPayConfig.getCcApiKey();
+        //infoUrl = a;
+        /*a +="&salt=" + companyPayConfig.getCcApiKey();
         System.out.println(MD5.getMD5(a));
-        infoUrl+="&hash="+MD5.getMD5(a);
+        infoUrl+="&hash="+MD5.getMD5(a);*/
 //        map.put("hash",a);
-        System.out.println((c));
+       /* System.out.println((c));
         String result = null;
         try {
             result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
@@ -224,7 +229,7 @@ public class TestTask {
             log.info("获取昨天录播观看信息-----结束");
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -350,8 +355,52 @@ public class TestTask {
         }
         return null;
     }
-    public void addPlayLog(){
+    public void addPlayLog(Date date,CompanyPayConfig companyPayConfig,int index,SimpleDateFormat sdf){
+        String a = "";
+        String infoUrl ="";
+        long b = System.currentTimeMillis()/1000L;
+        a+="date="+ sdf.format(date);
+        a +="&num_per_page=1000";
+        a +="&page="+index;
+        a +="&userid=" + companyPayConfig.getCcUserId();
+        // map.put("time",b);
+        a +="&time="+b;
+        // map.put("salt","G162ODWstqL4ekW9c3lB56ikyWaVSIxb");
+        infoUrl = a;
+        a +="&salt=" + companyPayConfig.getCcApiKey();
+        System.out.println(MD5.getMD5(a));
+        infoUrl+="&hash="+MD5.getMD5(a);
+//        map.put("hash",a);
+        //System.out.println((c));
+        String result = null;
+        try {
+            result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
+            System.out.println(result);
+            Gson g = new Gson();
+            PlayLogsResult plre =  g.fromJson(result,PlayLogsResult.class);
+            System.out.println(plre.getPlay_logs().getPlay_log().size());
+            List<PlayLog> playLog = plre.getPlay_logs().getPlay_log();
+            for(int n  = 0 ; n < playLog.size() ; n++){
+                PlayLog  play = playLog.get(n);
+                UserHistoryAllVo uha =new UserHistoryAllVo();
+                String  [] info = play.getCustom_id().split("_");
+                uha.setUserId(Integer.parseInt(info[0]));
+                uha.setCommodityId(Integer.parseInt(info[1]));
+                uha.setClassTypeId(Integer.parseInt(info[2]));
+                uha.setLectureId(Integer.parseInt(info[3]));
+                uha.setStudyLength(play.getPlay_duration());
+                uha.setStudyTime(date);
+                uha.setDevice(play.getDevice());
+                userHistoryServiceImpl.insertPlayLogs(uha);
+            }
+            if(playLog.size()==1000){
+                addPlayLog(date,companyPayConfig,index+1,sdf);
+            }
 
+            log.info("获取昨天录播观看信息-----结束");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 //回看信息获取
     class MessResult{
@@ -674,7 +723,7 @@ public class TestTask {
 
 
     //录播观看记录
-    class PlayLogsResult{
+    public class  PlayLogsResult{
         private PlayLogs play_logs;
 
         public PlayLogs getPlay_logs() {
@@ -685,7 +734,7 @@ public class TestTask {
             this.play_logs = play_logs;
         }
     }
-    class PlayLogs{
+    public class PlayLogs{
     private Integer total;
     private List<PlayLog> play_log;
 
@@ -705,7 +754,7 @@ public class TestTask {
             this.play_log = play_log;
         }
     }
-    class PlayLog{
+    public class PlayLog{
         private String custom_id;
         private Integer play_duration;
         private String device;
@@ -802,6 +851,9 @@ int  n = 0 ;
         for (int n = 0; n < playLog.size(); n++) {
             PlayLog play = playLog.get(n);
             UserHistoryAllVo uha = new UserHistoryAllVo();
+            if(play.getCustom_id().indexOf("null")!=-1){
+                continue;
+            }
             String[] info = play.getCustom_id().split("_");
             uha.setUserId(Integer.parseInt(info[0]));
             uha.setCommodityId(Integer.parseInt(info[1]));

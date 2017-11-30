@@ -47,7 +47,7 @@ pipeline:
     commands:
       - cd yuxin-school-model && mvn deploy
     when:
-      branch: [master,stable,refs/tags/*]
+      branch: [develop,stable,refs/tags/*]
       
   winshare-yuxin-school:
     <<: *docker

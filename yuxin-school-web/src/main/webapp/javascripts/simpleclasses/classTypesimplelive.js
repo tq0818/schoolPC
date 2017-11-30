@@ -388,6 +388,18 @@
 				 if("back"==mark){
 					 $(".popuwinback").popup("show");
 					 /*lessonId = oid;*/
+					$("#lessonUrlId").val(oid);
+                     $.ajax({
+                         url: rootPath + "/classModule/queryLessonDetail",
+                         type: "post",
+                         data: {"lessonId": oid},
+                         dataType: "json",
+                         success: function (lesson) {
+                             $("#beforeStudyUrl").val(lesson.beforeStudyUrl);
+                             $("#afterStudyUrl").val(lesson.afterStudyUrl);
+                         }
+                     });
+
 				 }
 				 if("edit"==mark){
 					 $.ajax({
@@ -421,8 +433,7 @@
 											$("#tassitList").select2();
 											$("#lessonId").val(lesson.id);
 											$("#chaptermark").val(lesson.chapterFlag);
-                                             $("#beforeStudyUrl").val(lesson.beforeStudyUrl);
-                                             $("#afterStudyUrl").val(lesson.afterStudyUrl);
+
 											if(lesson.liveClassType){
 												$('input[value='+lesson.liveClassType+']').prop("checked","checked");
 											}else{
@@ -539,9 +550,9 @@
 			$(".addclassLesson").on('click',function(){
 				$this.saveclassLesson();
 			});
-				//添加课次
+				//课程关联
 			 $(".addclassInfo").on('click',function(){
-
+                 $this.saveclassurl();
 			});
 			//返回
 			$(".cancle").on('click',function(){
@@ -918,6 +929,33 @@
 					Form.loadData();
 				}
 			});
+		},
+		saveclassurl:function(){
+			var url,data={};
+			data.lessonId=$("#lessonUrlId").val();
+            data.beforeStudyUrl = $("#beforeStudyUrl").val();
+            data.afterStudyUrl =$("#afterStudyUrl").val();
+			url=rootPath+"/classModule/addCourseLessonUrl";
+            if($(".editson[mark=back]").hasClass("disabled")){
+                return;
+            }
+            $(".editson[mark=back]").addClass("disabled");
+            $.ajax({
+                url: url,
+                type:"post",
+                data : data,
+                dataType:"json",
+                success: function(data){
+                    $(".editson[mark=back]").removeClass("disabled");
+                    if(data.msg=="success"){
+                        $(".popuwinback").popup("hide");
+                        Form.loadData();
+                    }else{
+                        $.msg(data.msg);
+                    }
+                }
+            });
+
 		},
 		saveclassLesson : function(){
 			var classtypeId,itemOneId,itemSecondId,teachMethod,moduleId,

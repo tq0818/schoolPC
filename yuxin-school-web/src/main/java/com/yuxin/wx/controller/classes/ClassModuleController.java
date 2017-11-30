@@ -3751,6 +3751,26 @@ public class ClassModuleController {
 		return json;
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/addCourseLessonUrl",method=RequestMethod.POST)
+	public JSONObject addCourseLessonUrl(HttpServletRequest request,
+											Integer lessonId,String afterStudyUrl,String beforeStudyUrl){
+		ClassModuleLesson lesson=new ClassModuleLesson();
+		lesson.setId(lessonId);
+		lesson.setAfterStudyUrl(afterStudyUrl);
+		lesson.setBeforeStudyUrl(beforeStudyUrl);
+		JSONObject json = new JSONObject();
+		try
+		{
+			classModuleLessonServiceImpl.update(lesson);
+		}catch (Exception e){
+			e.printStackTrace();
+			json.put(JsonMsg.MSG, "预习路径或点播路径保存失败");
+			return json;
+		}
+		json.put(JsonMsg.MSG, "success");
+		return json;
+	}
 	/**
 	 *
 	 * Class Name: ClassModuleController.java

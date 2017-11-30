@@ -385,6 +385,10 @@
 						 return;
 					 }
 				 }*/
+				 if("back"==mark){
+					 $(".popuwinback").popup("show");
+					 /*lessonId = oid;*/
+				 }
 				 if("edit"==mark){
 					 $.ajax({
 							url: rootPath+"/classModule/queryLessonDetail",
@@ -535,7 +539,10 @@
 			$(".addclassLesson").on('click',function(){
 				$this.saveclassLesson();
 			});
+				//添加课次
+			 $(".addclassInfo").on('click',function(){
 
+			});
 			//返回
 			$(".cancle").on('click',function(){
 				$("#myForm").attr("action",rootPath+"/simpleClasses/updateClassTypeMessage").submit();
@@ -1232,6 +1239,7 @@
 		var isJigou = $("#isJigou").val();
 		 var isFenxiao = $("#isFenxiao").val();
 		var html = '<div class="action">'+
+			'<a href="javascript:void(0);" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="back" class="editson"><i class="iconfont">&#xe61c;</i></a>'+
  		'<a href="javascript:void(0);" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="edit" class="editson"><i class="iconfont">&#xe625;</i></a>'+
  		'<a href="javascript:void(0);" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="del" class="editson"><i class="iconfont">&#xe626;</i></a>'+
  		'<a href="javascript:void(0);" style="text-decoration: none;" pid='+moduleId+' oid='+lessonId+' teac='+teachers+' mark="chose" m="close" class="editson chosec"><i class="iconfont">&#xe623;</i></a>'+

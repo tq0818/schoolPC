@@ -1046,8 +1046,8 @@
 						data.liveClassType=$("input[name=liveClassType]:checked").val();
 						data.barrage=$("input[name=barrage]:checked").val();
 						data.modetype=$("#modetypes").val();
-						data.beforeStudyUrl = $("#beforeStudyUrl").val();
-						data.afterStudyUrl =$("#afterStudyUrl").val();
+						/*data.beforeStudyUrl = $("#beforeStudyUrl").val();
+						data.afterStudyUrl =$("#afterStudyUrl").val();*/
 						var url="";
 						if($("#chaptermark").val()==1){
 							if($("#eidtype").val()=="add"){
@@ -1109,8 +1109,8 @@
 				data.liveClassType=$("input[name=liveClassType]:checked").val();
 				data.barrage=$("input[name=barrage]:checked").val();
 				data.modetype=$("#modetypes").val();
-                data.beforeStudyUrl = $("#beforeStudyUrl").val();
-                data.afterStudyUrl =$("#afterStudyUrl").val();
+                /*data.beforeStudyUrl = $("#beforeStudyUrl").val();
+                data.afterStudyUrl =$("#afterStudyUrl").val();*/
 				var url="";
 				if($("#chaptermark").val()==1){
 					if($("#eidtype").val()=="add"){

@@ -1,6 +1,7 @@
 package com.yuxin.wx.controller.classes;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -1415,7 +1416,7 @@ public class ClassModuleLessonController {
 	//获取前一天录播观看个人信息
     @RequestMapping(value="/getPlayInfo")
 	//@Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
-	public void getPlayInfo() {
+	public void getPlayInfo(String startDate) throws ParseException {
 		log.info("获取昨天录播观看信息-----执行时间：" + new Date());
 		String a = "";
 		long b = System.currentTimeMillis()/1000L;
@@ -1425,13 +1426,16 @@ public class ClassModuleLessonController {
 
 
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DAY_OF_YEAR,-10);
-		for(int n = 0 ; n <10 ;n++){
+		//c.add(Calendar.DAY_OF_YEAR,-10);
+		Date date  = sdf.parse(startDate);
+		c.setTime(date);
+		while(!sdf.format(c.getTime()).equals(sdf.format(new Date()))){
 
-			Date date  = c.getTime();
+			 date  = c.getTime();
 
 			addPlayLog(date,companyPayConfig,1,sdf);
 			c.add(Calendar.DAY_OF_YEAR,1);
+
 		}
 //
 	}

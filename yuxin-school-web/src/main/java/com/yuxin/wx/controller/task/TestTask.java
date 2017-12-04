@@ -383,6 +383,9 @@ public class TestTask {
             for(int n  = 0 ; n < playLog.size() ; n++){
                 PlayLog  play = playLog.get(n);
                 UserHistoryAllVo uha =new UserHistoryAllVo();
+                if(play.getCustom_id().indexOf("null")!=-1 || play.getCustom_id().indexOf("NaN")!=-1){
+                    continue;
+                }
                 String  [] info = play.getCustom_id().split("_");
                 uha.setUserId(Integer.parseInt(info[0]));
                 uha.setCommodityId(Integer.parseInt(info[1]));

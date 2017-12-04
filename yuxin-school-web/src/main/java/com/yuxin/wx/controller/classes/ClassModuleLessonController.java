@@ -1425,10 +1425,14 @@ public class ClassModuleLessonController {
 
 
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DAY_OF_YEAR,-3);
-		Date date  = c.getTime();
+		c.add(Calendar.DAY_OF_YEAR,-10);
+		for(int n = 0 ; n <10 ;n++){
 
-		addPlayLog(date,companyPayConfig,1,sdf);
+			Date date  = c.getTime();
+
+			addPlayLog(date,companyPayConfig,1,sdf);
+			c.add(Calendar.DAY_OF_YEAR,1);
+		}
 //
 	}
 
@@ -1461,7 +1465,8 @@ public class ClassModuleLessonController {
 			for(int n  = 0 ; n < playLog.size() ; n++){
 				TestTask.PlayLog play = playLog.get(n);
 				UserHistoryAllVo uha =new UserHistoryAllVo();
-				if(play.getCustom_id().indexOf("null")!=-1){
+				System.out.println(play.getCustom_id());
+				if(play.getCustom_id().indexOf("null")!=-1 || play.getCustom_id().indexOf("NaN")!=-1){
 					continue;
 				}
 				String  [] info = play.getCustom_id().split("_");
@@ -1472,7 +1477,7 @@ public class ClassModuleLessonController {
 				uha.setStudyLength(play.getPlay_duration());
 				uha.setStudyTime(date);
 				uha.setDevice(play.getDevice());
-				//userHistoryServiceImpl.insertPlayLogs(uha);
+				userHistoryServiceImpl.insertPlayLogs(uha);
 			}
 			if(playLog.size()==100){
 				addPlayLog(date,companyPayConfig,index+1,sdf);
@@ -1481,6 +1486,7 @@ public class ClassModuleLessonController {
 			log.info("获取昨天录播观看信息-----结束");
 		} catch (Exception e) {
 			e.printStackTrace();
+
 		}
 	}
 

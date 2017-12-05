@@ -164,17 +164,18 @@
 	<select id="findById" resultMap="resourceListResultMap" parameterType="int" >
 		select <include refid="table_columns" />
 		from resource_list
-		where id = #{id}
+		where id = #{id}  and origin_type=0 
 	</select>
 	
 	<select id="queryAll" resultMap="resourceListResultMap">
 		select <include refid="table_columns" /> 
-		from resource_list
+		from resource_list where origin_type=0 
 	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+			and origin_type=0 
 			<if test="fileName != null and fileName != ''">and file_name like '%${fileName}%'</if>
 			<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
 			<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>
@@ -201,6 +202,7 @@
 	</sql>
 	
 	<sql id="page_wheres">
+		 and origin_type=0 
 		<if test="fileName != null and fileName != ''">and file_name like '%${fileName}%'</if>
 		<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
 		<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>
@@ -255,7 +257,7 @@
 	<select id="findUseSumStroage" parameterType="map" resultType="String">
 		select coalesce(sum(convert(file_size,signed)),0) 
 		from resource_list
-		where company_id = #{id} and
+		where company_id = #{id} and origin_type=0  and
 			upload_time = #{times} and
 			del_flag = 0
 	</select>
@@ -264,6 +266,6 @@
 	<select id="findByIdd" resultMap="resourceListResultMap" parameterType="com.yuxin.wx.model.resource.ResourceList" >
 		select <include refid="table_columns" />
 		from resource_list
-		where id = #{id} and company_id = #{companyId} 
+		where id = #{id} and origin_type=0  and company_id = #{companyId} 
 	</select>
 </mapper>

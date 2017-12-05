@@ -192,7 +192,7 @@
 						FROM
 									student_pay_slave sps
 						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
-						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
 																								OR spm.pay_status_code = 'ORDER_FINISHED'
@@ -213,7 +213,7 @@
 						FROM
 									student_pay_slave sps
 						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
-						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
 																								OR spm.pay_status_code = 'ORDER_FINISHED'
@@ -327,7 +327,7 @@
 						FROM
 									student_pay_slave sps
 						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
-						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
 																								OR spm.pay_status_code = 'ORDER_FINISHED'
@@ -348,7 +348,7 @@
 						FROM
 									student_pay_slave sps
 						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
-						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
 																								OR spm.pay_status_code = 'ORDER_FINISHED'
@@ -472,7 +472,7 @@
 						FROM
 									student_pay_slave sps
 						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
-						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
 																								OR spm.pay_status_code = 'ORDER_FINISHED'
@@ -491,7 +491,7 @@
 						FROM
 									student_pay_slave sps
 						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
-						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 AND (
+						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
 																								OR spm.pay_status_code = 'ORDER_FINISHED'

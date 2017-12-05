@@ -178,7 +178,7 @@
 	
 	<select id="getTotalConsumeBalance" parameterType="int" resultType="double" >
 		select COALESCE(sum(p.pay_price),0) from pay_order p INNER JOIN organ_invite_reward_record oirr on p.id = oirr.pay_order_id 
-		where oirr.company_id = #{companyId} and (oirr.reason = 2 or oirr.reason = 3)
+		where oirr.company_id = #{companyId} and (oirr.reason = 2 or oirr.reason = 3) and p.origin_type=0
 	</select>
 	
 	<select id="getTotalRewardBalance" parameterType="int" resultType="double" >
@@ -194,7 +194,7 @@
 		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oir on p.id = oir.pay_order_id  where oir.proxy_organ_id = oid and (oir.reason=2 or oir.reason = 3)) as consume_balance,
 		(select COALESCE(sum(rewards_money),0) from organ_invite_reward_record where proxy_organ_id = oid) as reward_balance
 		from organ_invite_reward_record oirr inner join company_config_proxy_org c on oirr.proxy_organ_id = c.id 
-		where oirr.company_id = #{companyId}
+		where oirr.company_id = #{companyId} and p.origin_type=0
 		<if test="searchDateType != null">
 			<choose>
 				<when test="searchDateType == 1">
@@ -329,10 +329,10 @@
 		IFNULL(s.mobile,uf.mobile) as mobile,
 		IFNULL(s.name,uf.username) as name,
 		oirr.reason as reason1,oirr.stu_id as stu_id1,oirr.pay_order_id as pay_order_id1,
-		if(reason=1,'',(select commodity_name from pay_order po inner join organ_invite_reward_record oir on po.id = oir.pay_order_id where oir.pay_order_id = pay_order_id1)) as commodity_name,
+		if(reason=1,'',(select commodity_name from pay_order po inner join organ_invite_reward_record oir on po.id = oir.pay_order_id where oir.pay_order_id = pay_order_id1 and po.origin_type=0)) as commodity_name,
 		if(reason=1,oirr.record_time,(SELECT oir.record_time from organ_invite_reward_record oir where oir.stu_id = stu_id1 and oir.reason = 0)) as invite_date,
 		if(reason=1,'',oirr.record_time) as consume_date,
-		if(reason=1,0,(select pay_price from pay_order po inner join organ_invite_reward_record oir on po.id = oir.pay_order_id where oir.pay_order_id = pay_order_id1)) as consume_balance,
+		if(reason=1,0,(select pay_price from pay_order po inner join organ_invite_reward_record oir on po.id = oir.pay_order_id where oir.pay_order_id = pay_order_id1 and po.origin_type=0)) as consume_balance,
 		if(reason=1,'',oirr.rewards_money) as reward_balance
 		from organ_invite_reward_record oirr inner join student s on oirr.stu_id = s.id inner join users_front uf on s.user_id = uf.id 
 		where oirr.company_id = #{companyId} and oirr.proxy_organ_id = #{proxyOrganId} and oirr.reason != 0
@@ -390,7 +390,7 @@
 	
 	<select id="getProxyDetailConsumeBalance" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="double" >
 		select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oirr on oirr.pay_order_id = p.id 
-		where oirr.company_id = #{companyId} and oirr.proxy_organ_id = #{proxyOrganId} and (oirr.reason = 2 or oirr.reason = 3)
+		where  p.origin_type=0 and oirr.company_id = #{companyId} and oirr.proxy_organ_id = #{proxyOrganId} and (oirr.reason = 2 or oirr.reason = 3)
 	</select>
 	
 	<select id="getProxyDetailRewardBalance" parameterType="com.yuxin.wx.vo.company.OrgInviteRecordDetailListVo" resultType="double" >

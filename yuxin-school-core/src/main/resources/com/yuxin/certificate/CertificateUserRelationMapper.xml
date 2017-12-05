@@ -168,7 +168,7 @@
 			ct.name as classTypeName
 		from certificate_user_relation cur left join certificate_config cc on cur.cer_id = cc.id
 										   left join users_front u on u.id = cur.user_id
-										   left join class_type ct on ct.id = cur.course_id
+										   left join class_type ct on ct.id = cur.course_id and ct.origin_type=0
 		where cur.user_id = #{userId} and cur.cer_id = #{cerId} and cur.course_id = #{classId} and cur.company_id = #{companyId}
 	</select>
 	
@@ -193,7 +193,7 @@
 		from certificate_config cc left join 
 		certificate_course_relation ccr on cc.id = ccr.cer_id
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id
@@ -226,7 +226,7 @@
 		from certificate_config cc left join 
 		certificate_course_relation ccr on cc.id = ccr.cer_id
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id
@@ -276,7 +276,7 @@
 		from certificate_config cc left join 
 		certificate_course_relation ccr on cc.id = ccr.cer_id
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id

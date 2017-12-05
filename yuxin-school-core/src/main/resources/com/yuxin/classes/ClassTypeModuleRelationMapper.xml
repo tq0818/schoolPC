@@ -136,7 +136,7 @@
 		select ctmr.module_id,ctmr.class_type_id,m.teach_method
 		from class_type_module_relation ctmr
 		inner join class_type ct 
-			on ct.id = ctmr.class_type_id
+			on ct.id = ctmr.class_type_id  and ct.origin_type=0
 		inner join class_module m 
 			on m.id = ctmr.module_id
 		where ct.id = #{classTypeId}
@@ -146,7 +146,7 @@
 		select * 
 		from class_package cp 
 		inner join class_package_relation cpr on cpr.class_package_id=cp.id
-		inner join class_type ct on ct.id=cpr.class_type_id 
+		inner join class_type ct on ct.id=cpr.class_type_id  and ct.origin_type=0
 		inner join class_type_module_relation ctmr on ct.id=ctmr.class_type_id
 		inner join class_module cm on cm.id=ctmr.module_id
 		where  cp.id=#{classPackageId}

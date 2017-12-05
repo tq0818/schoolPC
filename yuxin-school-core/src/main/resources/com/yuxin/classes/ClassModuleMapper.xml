@@ -355,7 +355,7 @@
 		select distinct m.*
 		from class_type as t,
 		class_type_module_relation as r,class_module as m
-		where
+		where  t.origin_type=0 and
 		t.id=r.class_type_id and r.module_id=m.id and t.id=#{classId} and t.create_school_id=#{schoolId}
 	</select>
 	
@@ -409,7 +409,7 @@
 			class_type c,
 			class_type_module_relation cmr
 		WHERE
-		c.id = #{id}
+		c.id = #{id}  and c.origin_type=0
 		AND m.id = cmr.module_id
 		AND c.id = cmr.class_type_id
 		ORDER BY
@@ -434,7 +434,7 @@
 		class_module_no d,
 		class_type t,
 		class_type_module_relation cmr
-		where t.id = #{id}
+		where t.id = #{id} and origin_type=0
 		and a.item_one_id = b.id
 		and c.id = a.item_second_id
 		and a.id = d.module_id
@@ -456,8 +456,8 @@
 		FROM
 		class_type_module_relation a
 		LEFT JOIN class_type b
-		ON a.class_type_id = b.id
-		WHERE module_id = #{id}
+		ON a.class_type_id = b.id and  b.origin_type=0
+		WHERE module_id = #{id} 
 		AND b.publish_status ="CLASS_ON_SALE"
 	</select>
 
@@ -483,7 +483,7 @@
 		and
 		b.module_id=c.id
 		and
-		a.id=#{payMasterId}
+		a.id=#{payMasterId} and a.origin_type=0
 		<if test="campusId != null and campusId != ''">and b.campus_id=#{campusId}</if>
 	</select>
 
@@ -1068,7 +1068,7 @@
 		resultMap="moduleListVoMap"> select d.id,a.id,a.name,a.module_type,a.total_class_hour,b.id,b.name,b.school_id 
 		from class_module a,class_module_no b,class_type_module_relation c,class_type 
 		d where a.id=b.module_id and a.id=c.module_id and c.class_type_id=d.id and 
-		d.id=#{classTypeId} </select> -->
+		d.id=#{classTypeId}  and d.origin_type=0</select> -->
 
 	<select id="findModuleByIds" parameterType="java.util.List"
 		resultMap="classModuleResultMap">
@@ -1099,7 +1099,8 @@
 	class_module c,
 	class_module_no d ,
 	class_module_no_onsale cmo 
-	where
+	where  a.origin_type=0 
+	and
 		a.id=b.class_type_id
 	and
 		b.module_id=c.id
@@ -1135,7 +1136,8 @@
 		class_module a,
 		class_type_module_relation b,
 		class_type c
-		where
+		where c.origin_type=0
+		and
 			a.id=b.module_id
 		and
 			b.class_type_id=c.id

@@ -420,7 +420,7 @@
 	<select id="selectRangeItemCourseNameById" parameterType="Integer" resultType="String">
 		select name
 		from commodity
-		where id = #{range_item_course}
+		where id = #{range_item_course}  and origin_type=0
 	</select>
 	
 	<select id="queryCouponsPatchById" resultMap="companyCouponsPatchVoResultMap" parameterType="Integer">
@@ -452,7 +452,7 @@
 		where user_id in (
 		select distinct user_id
 		from pay_order where commdity_type in('COMMODITY_CLASS','COMMODITY_PACKAGE') and company_id=#{companyId} and user_id is not null
-		) and status='1'
+		) and status='1' and origin_type=0
 	</select>
 	<select id="findCompanyCouponsPatchBySearch" resultMap="companyCouponsPatchResultMap" parameterType="com.yuxin.wx.model.company.CompanyCouponsPatch">
 		select * from company_coupons_patch where company_id = #{companyId} and del_flag=0

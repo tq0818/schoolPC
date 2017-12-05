@@ -342,24 +342,25 @@
 	<select id="findById" resultMap="payOrderResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from pay_order
-		where id = #{id}
+		where id = #{id} and origin_type=0
 	</select>
 	
 	<select id="findPayOrderVoById" resultMap="payOrderVoResultMap" parameterType="String" >
 		select pay_order.*,users_front.username as user_name,users_front.nick_name,users_front.mobile as user_mobile
 		from pay_order join users_front on pay_order.user_id = users_front.id
-		where pay_order.id = #{id}
+		where pay_order.id = #{id} and pay_order.origin_type=0
 		limit 1
 	</select>
 	
 	<select id="queryAll" resultMap="payOrderResultMap">
 		select <include refid="table_columns" /> 
-		from pay_order
+		from pay_order where origin_type=0
 	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+			and origin_type=0
 			<if test="userId != null and userId != ''">and user_id = #{userId}</if>
 			<if test="orderNum != null and orderNum != ''">and order_num = #{orderNum}</if>
 			<if test="payNum != null and payNum != ''">and pay_num = #{payNum}</if>
@@ -392,6 +393,7 @@
 	
 	<sql id="page_where_vo">
 		<trim prefix="where" prefixOverrides="and | or ">
+			and commodity.origin_type=0 and pay_order.origin_type=0
 		    and pay_order.commodity_id = commodity.id and user_id = #{userId }
 			<if test="payStatus != null and payStatus != ''">
 				<if test="payStatus == 'PAY_SUCCESS'">
@@ -425,7 +427,7 @@
 	</select>
 	<select id="findCountByCommodityId" parameterType="String" resultType="int" >
 		select count(id) from pay_order
-		where commodity_id=#{id}
+		where commodity_id=#{id} and origin_type=0
 		limit 1
 	</select>
 	
@@ -433,7 +435,7 @@
 	<select id="findPayOrderByOrderNum" resultMap="payOrderResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from pay_order
-		where order_num = #{orderNum} limit 1
+		where order_num = #{orderNum} and origin_type=0 limit 1
 	</select>
 	
 	
@@ -454,7 +456,7 @@
 				po.remark,
 				 uf.mobile as discount_no,
 				 uf.username as coupon_code
-		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId}
+		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} and po.origin_type=0 
 		<if test="payStatus != null and payStatus !=''">
 			<if test="payStatus == 1">
 				and po.pay_status = 'PAY_NON'
@@ -504,7 +506,7 @@
 	
 	<select id="findCountByParams" resultType="int" parameterType="map">
 		select  count(po.id) 
-		from pay_order po <if test="mobile != null and mobile != ''"> left join users_front uf on  uf.id = po.user_id </if> where po.company_id = #{companyId} 
+		from pay_order po <if test="mobile != null and mobile != ''"> left join users_front uf on  uf.id = po.user_id </if> where po.company_id = #{companyId}  and po.origin_type=0 
 		<if test="payStatus != null and payStatus !=''">
 			<if test="payStatus == 1">
 				and po.pay_status = 'PAY_NON'
@@ -567,7 +569,7 @@
 				po.remark,
 				uf.mobile as discount_no,
 				uf.mobile as mobile
-		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} 
+		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId}  and po.origin_type=0 
 		and po.commodity_id=#{commodityId}
 		<if test="userId != null and userId != ''">and po.user_id = #{userId}</if>
 		<if test="payStatus != null and payStatus !=''">
@@ -604,7 +606,7 @@
 	
 	<select id="findCountByWhere" resultType="int" parameterType="com.yuxin.wx.model.pay.PayOrder">
 		select  count(po.id) 
-		from pay_order po left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} 
+		from pay_order po left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId}  and po.origin_type=0 
 		and po.commodity_id=#{commodityId}
 		<if test="userId != null and userId != ''">and po.user_id = #{userId}</if>
 		<if test="payStatus != null and payStatus !=''">
@@ -654,7 +656,7 @@
 				po.remark,
 				uf.mobile as discount_no,
 				uf.mobile as mobile
-		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} 
+		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId}  and po.origin_type=0 
 		and po.commodity_id=#{commodityId}
 		<if test="userId != null and userId != ''">and po.user_id = #{userId}</if>
 		<if test="payStatus != null and payStatus !=''">
@@ -706,8 +708,8 @@
 				po.exchange_scale,
 				po.integral_num as integralNum,
 				uf.username
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id
-		where po.company_id = #{companyId} and po.commdity_type='INTEGRAL'
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id 
+		where po.company_id = #{companyId} and po.commdity_type='INTEGRAL' and po.origin_type=0 
 		<if test="timeLen !=null and timeMark != null">
 			<choose>
 				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
@@ -726,7 +728,7 @@
 	<select id="findIntegralPayOrderListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.PayOrderIntegralVo">
 		select  count(po.id)
 		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id
-		where po.company_id = #{companyId} and po.commdity_type='INTEGRAL'
+		where po.company_id = #{companyId} and po.commdity_type='INTEGRAL' and po.origin_type=0 
 		<if test="timeLen !=null and timeMark != null">
 			<choose>
 				<when test="timeMark == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
@@ -765,8 +767,8 @@
 				spm.apply_channel_code as applyChannelCode,
 				cmlc.name as orderMemberLevel,
 				po.member_length as memberLength
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id left join company_member_level_config cmlc on cmlc.id=po.member_id
-		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS'
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	    <if test="memberId != null and memberId != ''">and uf.member_id = #{memberId}</if>
@@ -788,8 +790,8 @@
 	
 	<select id="findVipPayOrderListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.PayOrderVipVo">
 		select  count(po.id)
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  left join company_member_level_config cmlc on cmlc.id=po.member_id
-		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS'
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 			<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	    <if test="memberId != null and memberId != ''">and uf.member_id = #{memberId}</if>
@@ -830,8 +832,8 @@
 				spm.apply_channel_code as applyChannelCode,
 				cmlc.name as orderMemberLevel,
 				po.member_length as memberLength
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  left join company_member_level_config cmlc on cmlc.id=po.member_id
-		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS'
+		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	    <if test="memberId != null and memberId != ''">and uf.member_id = #{memberId}</if>
@@ -852,7 +854,7 @@
 	<select id="findOrderFinishCountByUserId" resultType="int" parameterType="map" >
 		select count(id)
 		from pay_order 
-		where user_id = #{userId } and company_id = #{companyId}
+		where user_id = #{userId } and company_id = #{companyId} and origin_type=0 
 		and (pay_status = 'PAY_SUCCESS' or pay_status = 'PAY_REMIT_CONFIRM')
 		limit 1
 	</select>
@@ -860,7 +862,7 @@
 	<select id="queryOrderBuyClassCountByUserId" resultType="int" parameterType="map">
 		select count(id)
 		from pay_order
-		where user_id=#{userId} and company_id =#{companyId}
+		where user_id=#{userId} and company_id =#{companyId} and origin_type=0 
 		and (pay_status = 'PAY_SUCCESS' or pay_status = 'PAY_REMIT_CONFIRM')
 		and commdity_type='COMMODITY_CLASS'
 		limit 1

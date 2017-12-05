@@ -275,7 +275,7 @@
 	<select id="pagevo" resultMap="tikuPaperResultMapVo" parameterType="com.yuxin.wx.model.tiku.TikuPaper">
 		select
 		<include refid="table_columns_vo" />,g.tiku_name category_name,s.subject_name,d.item_value dict_name
-		from tiku_paper p left join tiku_category g on p.tiku_category_id=g.id left join tiku_subject s on p.tku_subject_id=s.id left join sys_config_dict d on p.paper_type=d.item_code and d.dict_code='TIKU_PAPER_TYPE' 
+		from tiku_paper p left join tiku_category g on p.tiku_category_id=g.id and g.origin_type=0  left join tiku_subject s on p.tku_subject_id=s.id left join sys_config_dict d on p.paper_type=d.item_code and d.dict_code='TIKU_PAPER_TYPE' 
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="paperName != null and paperName != ''">and p.paper_name LIKE '%${paperName}%'</if>
 			<if test="paperType != null and paperType != ''">and p.paper_type = #{paperType}</if>
@@ -371,7 +371,7 @@
 	
 	<select id="findCateName" parameterType="Integer" resultType="String">
 		select tiku_name cateName from tiku_category
-		where id = #{id}
+		where id = #{id} and origin_type=0 
 	</select>
 	
 	<select id="findSubName" parameterType="Integer" resultType="String">
@@ -383,7 +383,7 @@
 	<select id="containhw" resultMap="tikuPaperResultMapVo" parameterType="com.yuxin.wx.model.tiku.TikuPaper">
 		select
 		<include refid="table_columns_vo" />,g.tiku_name category_name,s.subject_name,d.item_value dict_name
-		from tiku_paper p left join tiku_category g on p.tiku_category_id=g.id left join tiku_subject s on p.tku_subject_id=s.id left join sys_config_dict d on p.paper_type=d.item_code and d.dict_code='TIKU_PAPER_TYPE' 
+		from tiku_paper p left join tiku_category g on p.tiku_category_id=g.id and g.origin_type=0  left join tiku_subject s on p.tku_subject_id=s.id left join sys_config_dict d on p.paper_type=d.item_code and d.dict_code='TIKU_PAPER_TYPE' 
 		<trim prefix="where" prefixOverrides="and | or ">
 			<if test="paperName != null and paperName != ''">and p.paper_name LIKE '%${paperName}%'</if>
 			<if test="paperType != null and paperType != ''">and p.paper_type != #{paperType}</if>

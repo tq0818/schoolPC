@@ -121,18 +121,19 @@
 		select
 		<include refid="table_columns" />
 		from tiku_category
-		where id = #{id}
+		where id = #{id} and origin_type=0 
 	</select>
 
 	<select id="queryAll" resultMap="tikuCategoryResultMap">
 		select
 		<include refid="table_columns" />
-		from tiku_category
+		from tiku_category and origin_type=0 
 	</select>
 
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+			 and origin_type=0 
 			<if test="tikuName != null and tikuName != ''">and tiku_name = #{tikuName}</if>
 			<if test="tikuDesc != null and tikuDesc != ''">and tiku_desc = #{tikuDesc}</if>
 			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
@@ -166,7 +167,8 @@
 		(select count(tt.id) from tiku_topic as tt where tt.tiku_category_id = tc.id and status = 'PAPER_STATUS_PUBLISH')
 		as topic_no
 		from tiku_category as tc
-		<if test="companyId != null and companyId != ''">where tc.company_id = #{companyId}</if>
+		where  tc.origin_type=0 
+		<if test="companyId != null and companyId != ''">and tc.company_id = #{companyId}</if>
 	</select>
 	
 	<select id="findTopCountById" parameterType="Integer" resultType="Integer">
@@ -174,13 +176,13 @@
 	</select>
 	
 	<select id="findTikuByComIdAndTName" parameterType="com.yuxin.wx.model.tiku.TikuCategory" resultType="Integer">
-		select count(id) from tiku_category where company_id = #{companyId} and tiku_name = #{tikuName} limit 1
+		select count(id) from tiku_category where company_id = #{companyId} and origin_type=0  and tiku_name = #{tikuName} limit 1
 	</select>
 	
 	<select id="findCateList" parameterType="Integer" resultMap="tikuCategoryResultMap">
 		select <include refid="table_columns"/>
 		from tiku_category
 		where company_id = #{companyId} 	
-			and del_flag = 0	
+			and del_flag = 0  and origin_type=0 	
 	</select>
 </mapper>

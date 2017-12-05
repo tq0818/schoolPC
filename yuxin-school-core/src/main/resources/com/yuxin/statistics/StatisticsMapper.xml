@@ -71,7 +71,7 @@
 		e.module_no_id
 		WHERE a.id
 		=#{classTypeId} AND cmno.classtype_id = a.id
-		and cmno.default_flag = 1
+		and cmno.default_flag = 1  and a.origin_type=0
 		and c.del_flag = 0 and e.del_flag = 0
 	</select>
 

@@ -222,24 +222,24 @@
 	</select>
 	<select id="queryMemberLevelAndClassTypeVoListByMemberId" resultMap="memberLevelAndClassTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
 		select <include refid="table_columns_memberLevelAndClassType" />
-		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id  and ct.origin_type=0
 		where ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
 	</select>
 	<select id="queryMemberLevelAndClassTypeVoListByMemberIdPage" resultMap="memberLevelAndClassTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
 		select <include refid="table_columns_memberLevelAndClassType" />
-		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id  and ct.origin_type=0
 		where ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
 		order by ctmd.id desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryMemberLevelAndClassTypeVoListByMemberIdPageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
 		select count(*)
-		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id  and ct.origin_type=0
 		where ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
 	</select>
 	<select id="queryMemberLevelAndClassTypeVoByClassId" resultMap="memberLevelAndClassTypeVoResultMap" parameterType="com.yuxin.wx.model.classes.ClassTypeMemberDiscount" >
 		select <include refid="table_columns_memberLevelAndClassType" />
-		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id
+		from class_type_member_discount ctmd left join class_type ct on ctmd.class_type_id=ct.id  and ct.origin_type=0
 		where ctmd.class_type_id = #{classTypeId} and ctmd.member_id = #{memberId} and ctmd.company_id= #{companyId}
 		limit 1
 	</select>

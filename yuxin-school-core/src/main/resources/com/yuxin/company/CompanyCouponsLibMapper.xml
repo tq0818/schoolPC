@@ -245,10 +245,10 @@
 		po.commodity_name as commodityName,
 		po.pay_price as payPrice,
 		ccp.send_date as sendDate,
-		(select c.real_price from commodity c where c.id=po.commodity_id) as originalPrice,
+		(select c.real_price from commodity c where c.id=po.commodity_id and c.origin_type=0) as originalPrice,
 		ccl.use_time as useTime
 		from company_coupons_lib ccl left join company_coupons_patch ccp on ccl.patch_id=ccp.id
-		left join pay_order po on ccl.order_id=po.id
+		left join pay_order po on ccl.order_id=po.id and po.origin_type=0
 		left join users_front uf on ccl.user_id=uf.id
 		where ccl.patch_id=#{patchId} and ccl.del_flag = '0'
 		order by 
@@ -278,7 +278,7 @@
 	<select id="queryLibsForUseOrderCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyCouponsLibVo">
 		select count(*)
 		from company_coupons_lib ccl left join company_coupons_patch ccp on ccl.patch_id=ccp.id
-		left join pay_order po on ccl.order_id=po.id
+		left join pay_order po on ccl.order_id=po.id and po.origin_type=0
 		left join users_front uf on ccl.user_id=uf.id
 		where ccl.patch_id=#{patchId} and ccl.del_flag = '0'
 		order by 

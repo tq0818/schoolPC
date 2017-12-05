@@ -272,7 +272,7 @@
 		c.buy_num as buyNum 
 		from class_package cp left join commodity_product_realtion pr on
 		pr.product_id = cp.id
-		INNER JOIN commodity c ON c.id = pr.com_id
+		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
 		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
 		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
@@ -336,10 +336,10 @@
 		cp.recommend_flag as recommendFlag,
 		c.buy_num as buyNum,
 		IFNULL((SELECT COUNT(*) from class_package_stage cps where cps.class_package_id = cp.id and cps.del_flag = 0),0) as stageCount,
-		IFNULL((SELECT count(cpr.id) FROM class_package_relation cpr,class_type d where cpr.class_package_id = cp.id and cpr.class_type_id = d.id and d.del_flag = 0  ),0) as classTypeCount
+		IFNULL((SELECT count(cpr.id) FROM class_package_relation cpr,class_type d where cpr.class_package_id = cp.id and cpr.class_type_id = d.id and d.del_flag = 0 and d.origin_type=0  ),0) as classTypeCount
 		from class_package cp left join commodity_product_realtion pr on
 		pr.product_id = cp.id
-		INNER JOIN commodity c ON c.id = pr.com_id
+		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
 		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
 		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
@@ -353,7 +353,7 @@
 		select count(cp.id)
 		from class_package cp left join commodity_product_realtion pr on
 		pr.product_id = cp.id
-		INNER JOIN commodity c ON c.id = pr.com_id
+		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
 		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
 		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
@@ -366,9 +366,9 @@
 		select b.*,(b.pay_count+b.base_num) as total_count from (
 			SELECT DISTINCT b.com_id,IFNULL(c.buy_num ,0) as pay_count,a.*,
 			IFNULL((SELECT COUNT(*) from class_package_stage b where b.class_package_id = a.id and b.del_flag = 0),0) as stage_count,
-			IFNULL((SELECT count(c.id) FROM class_package_relation c,class_type d where c.class_package_id = a.id and c.class_type_id = d.id and d.del_flag = 0  ),0) as class_type_count
+			IFNULL((SELECT count(c.id) FROM class_package_relation c,class_type d where c.class_package_id = a.id and c.class_type_id = d.id and d.del_flag = 0 and  d.origin_type=0 ),0) as class_type_count
 			FROM class_package a,commodity_product_realtion b,commodity c
-			where a.id = b.product_id AND c.id = b.com_id  and a.del_flag = 0 and a.publish_status = 'CLASS_ON_SALE' and b.product_type = '2'
+			where a.id = b.product_id AND c.id = b.com_id and c.origin_type=0 and a.del_flag = 0 and a.publish_status = 'CLASS_ON_SALE' and b.product_type = '2'
 			<if test="companyId != null and companyId != ''">and a.company_id = #{companyId}</if>
 			<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
 			<if test="name != null and name != ''">and a.name like '%${name}%'</if>
@@ -411,10 +411,10 @@
 		c.id as commodityId,
 		c.name as commodityName,
 		IFNULL((SELECT COUNT(*) from class_package_stage cps where cps.class_package_id = cp.id and cps.del_flag = 0),0) as stageCount,
-		IFNULL((SELECT count(cpr.id) FROM class_package_relation cpr,class_type d where cpr.class_package_id = cp.id and cpr.class_type_id = d.id and d.del_flag = 0  ),0) as classTypeCount
+		IFNULL((SELECT count(cpr.id) FROM class_package_relation cpr,class_type d where cpr.class_package_id = cp.id and cpr.class_type_id = d.id and d.del_flag = 0  and d.origin_type=0 ),0) as classTypeCount
 		from class_package cp left join commodity_product_realtion pr on
 		pr.product_id = cp.id
-		INNER JOIN commodity c ON c.id = pr.com_id
+		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		where cp.company_id=#{companyId} and cp.del_flag=0 and product_type=2
 		<if test="name != null and name != ''">and cp.name like '%${name}%'</if>
 		<if test="schoolId != null and schoolId !=''">and cp.school_id=#{schoolId}</if>
@@ -447,6 +447,6 @@
 		c.id as commodityId
 		from commodity c left join commodity_product_realtion cpr on c.id = cpr.com_id and cpr.product_type=2
 		left join class_package cp on cp.id = cpr.product_id
-		where c.id = #{id}
+		where c.id = #{id} and c.origin_type=0
 	</select>
 </mapper>

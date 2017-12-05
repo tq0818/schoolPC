@@ -114,7 +114,8 @@
 			class_module c,
 			course_video_chapter d
 		where
-			a.id=b.class_type_id
+			a.id=b.class_type_id  
+		and a.origin_type=0
 		and
 			b.module_id=c.id
 		and

@@ -360,7 +360,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 			</choose>
 		                and h.message_id = #{messageId} and 
 						h.send_status = #{status}
-				inner join student_pay_master m on m.stu_id = s.id
+				inner join student_pay_master m on m.stu_id = s.id and m.origin_type=0
 					and m.commodity_id = #{classTypeId} and
 					m.school_id = #{schoolId} and 
 					m.item_one_id = #{itemOneId} and 
@@ -385,7 +385,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 			</choose>
 	                and h.message_id = #{messageId} and 
 					h.send_status = #{status}
-			inner join student_pay_master m on m.stu_id = s.id
+			inner join student_pay_master m on m.stu_id = s.id and m.origin_type=0
 				and m.commodity_id = #{classTypeId} and
 				m.school_id = #{schoolId} and 
 				m.item_one_id = #{itemOneId} and 
@@ -417,7 +417,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 			</choose>
 				and h.message_id = #{messageId}
 				and h.send_status = #{status}
-			inner join student_pay_master m on m.stu_id = s.id 
+			inner join student_pay_master m on m.stu_id = s.id  and m.origin_type=0
 				and m.school_id = #{schoolId}
 				and m.item_one_id = #{itemOneId}
 				and m.item_second_id = #{itemSecondId}
@@ -443,7 +443,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 			</choose>
 				and h.message_id = #{messageId}
 				and h.send_status = #{status}
-			inner join student_pay_master m on m.stu_id = s.id 
+			inner join student_pay_master m on m.stu_id = s.id  and m.origin_type=0
 				and m.school_id = #{schoolId}
 				and m.item_one_id = #{itemOneId}
 				and m.item_second_id = #{itemSecondId}

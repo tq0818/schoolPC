@@ -189,7 +189,7 @@
 		cc.chapter_name chapter_name,
 		ss.section_name section_name,
 		p.paper_name
-		from course_exercise e left join tiku_category c on e.tiku_category_id=c.id 
+		from course_exercise e left join tiku_category c on e.tiku_category_id=c.id  and c.origin_type=0 
 		left join tiku_subject s on e.tiku_subject_id=s.id 
 		left join tiku_chapter cc on  e.tiku_chapter_id=cc.id
 		left join  tiku_section ss on e.tiku_section_id=ss.id

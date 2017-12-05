@@ -310,7 +310,7 @@
                     sys_watch_info swi
                 LEFT JOIN student s ON s.user_id = swi.user_id
                 LEFT JOIN users_front sf ON sf.id = s.user_id
-                LEFT JOIN commodity m ON m.id = swi.commodity_id
+                LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 				LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
 				LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
 				LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
@@ -360,7 +360,7 @@
                         sys_watch_info swi
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
-                        LEFT JOIN commodity m ON m.id = swi.commodity_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
 						LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
 						LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
@@ -407,7 +407,7 @@
                         sys_watch_info swi
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
-                        LEFT JOIN commodity m ON m.id = swi.commodity_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
                         LEFT JOIN edu_step_school_relation essr on essr.edu_school_code = s.edu_school
                         LEFT JOIN sys_config_dict scd1 on  scd1.item_code = essr.edu_step_new_code
                         LEFT JOIN sys_config_dict scd2 on  scd2.item_code = s.edu_school
@@ -436,12 +436,12 @@
 						select COUNT(1) from student_pay_master  spm
 						LEFT JOIN  student s on  s.id = spm.stu_id
 						LEFT JOIN users_front sf ON sf.id = s.user_id
-						LEFT JOIN  commodity c on c.id = spm.commodity_id
+						LEFT JOIN  commodity c on c.id = spm.commodity_id and c.origin_type=0
 						LEFT JOIN  edu_step_school_relation essr on essr.edu_school_code = s.edu_school
 						LEFT JOIN  commodity_product_realtion cpr on  cpr.com_id = spm.commodity_id
 						LEFT JOIN  class_module_no_onsale cmno on cmno.classtype_id = cpr.product_id
 						LEFT JOIN  class_module_lesson  cml  on cml.module_no_id = cmno.module_no_id
-						where  s.edu_identity=0
+						where  s.edu_identity=0 and spm.origin_type=0 
 						<if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
 						<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 						<if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -462,9 +462,9 @@
 						LEFT JOIN commodity_product_realtion cpr on cpr.com_id = spm.commodity_id
 						LEFT JOIN class_module_no_onsale  cmno  on cmno.classtype_id = cpr.product_id
 						LEFT JOIN class_module_lesson cml on  cml.module_no_id = cmno.module_no_id
-						LEFT JOIN commodity m ON m.id = cpr.com_id
+						LEFT JOIN commodity m ON m.id = cpr.com_id and m.origin_type=0
 						LEFT JOIN student s  on  s.id = spm.stu_id
-						WHERE
+						WHERE spm.origin_type=0  and
 						s.edu_year > 0  and s.edu_school = #{schoolId}
 						AND s.edu_identity = 0 and s.delete_flag =  0  AND m.live_flag =1
 						<if test="startDate !=null and startDate != ''">and  DATE(spm.apply_time) >= #{startDate}</if>
@@ -532,7 +532,7 @@
 							sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-						LEFT JOIN commodity m ON m.id = swi.commodity_id
+						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
@@ -552,7 +552,7 @@
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-						LEFT JOIN commodity m ON m.id = swi.commodity_id
+						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
@@ -579,7 +579,7 @@
 		sys_watch_info_history swih
 		LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 		LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-		LEFT JOIN commodity m ON m.id = swi.commodity_id
+		LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 		LEFT JOIN student s ON  s.user_id = swi.user_id
 		where s.edu_identity = 0 and s.delete_flag =  0
 		<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>

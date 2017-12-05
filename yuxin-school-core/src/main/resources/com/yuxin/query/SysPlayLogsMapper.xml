@@ -66,7 +66,7 @@
 		dr.item_value as school_step_name
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -78,7 +78,7 @@
 		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
 		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
@@ -126,7 +126,7 @@
 		from
 		sys_play_logs pl
 		left JOIN class_type t
-		on t.id = pl.class_type_id
+		on t.id = pl.class_type_id  and t.origin_type=0
 		left join student s
 		on s.user_id = pl.user_id
 		and s.edu_identity = 0
@@ -148,7 +148,7 @@
 		LEFT JOIN course_video_lecture cl
 		ON cl.id = td.`lecture_id`
 		LEFT JOIN video v
-		ON v.id = cl.video_id
+		ON v.id = cl.video_id and v.origin_type=0 
 		group by r.edu_step_new_code,td.edu_school,td.edu_step
 		order by r.edu_step_new_code,td.edu_school,td.edu_step
 		limit #{firstIndex},#{pageSize}
@@ -163,12 +163,12 @@
 		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
@@ -187,7 +187,7 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -197,7 +197,7 @@
 		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
 		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
@@ -234,7 +234,7 @@
 		dr.item_value as school_step_name
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
@@ -244,7 +244,7 @@
 		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
 		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
           AND s.`edu_school` IS NOT NULL
           and s.delete_flag = 0
@@ -271,7 +271,7 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
@@ -280,7 +280,7 @@
 		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
 		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where  s.`edu_area` IS NOT NULL
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
@@ -410,7 +410,7 @@
 		LEFT JOIN course_video_lecture cl
 		ON cl.id = pl.`lecture_id`
 		LEFT JOIN video v
-		ON v.id = cl.video_id
+		ON v.id = cl.video_id and v.origin_type=0 
 		WHERE s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
 		AND s.delete_flag = 0
@@ -419,7 +419,7 @@
 		pl.user_id) td
 		LEFT JOIN sys_config_dict d ON d.`item_code` = td.`edu_area`
 		LEFT JOIN sys_config_dict d1 ON d1.`item_code` = td.`edu_school`
-		LEFT JOIN class_type t ON t.id = td.`class_type_id`
+		LEFT JOIN class_type t ON t.id = td.`class_type_id`  and t.origin_type=0
 		LEFT JOIN sys_config_item it ON it.`item_code` = t.`item_second_code`
 		LEFT JOIN sys_config_item it1 ON it1.`item_code` = t.`item_third_code`
 		GROUP BY td.`edu_area`,
@@ -494,7 +494,7 @@
 		  FROM
 			sys_play_logs pl
 			left join class_type t
-			  on t.id = pl.`class_type_id`
+			  on t.id = pl.`class_type_id`  and t.origin_type=0
 			LEFT JOIN student s
 			  ON s.user_id = pl.user_id
 			  AND s.edu_identity = 0
@@ -523,12 +523,12 @@
         FROM
         sys_play_logs pl
         left join class_type t
-        on t.id = pl.`class_type_id`
+        on t.id = pl.`class_type_id`  and t.origin_type=0
         LEFT JOIN student s
         ON s.user_id = pl.user_id
         AND s.edu_identity = 0
         left join course_video_lecture cl on cl.id = pl.`lecture_id`
-        left join video v on v.id = cl.video_id
+        left join video v on v.id = cl.video_id and v.origin_type=0 
         WHERE s.`edu_area` IS NOT NULL
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
@@ -546,12 +546,12 @@
         FROM
         sys_play_logs pl
         left join class_type t
-        on t.id = pl.`class_type_id`
+        on t.id = pl.`class_type_id`  and t.origin_type=0
         LEFT JOIN student s
         ON s.user_id = pl.user_id
         AND s.edu_identity = 0
         left join course_video_lecture cl on cl.id = pl.`lecture_id`
-        left join video v on v.id = cl.video_id
+        left join video v on v.id = cl.video_id and v.origin_type=0 
         WHERE s.`edu_area` IS NOT NULL
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
@@ -574,8 +574,8 @@
 		left join `course_video_lecture` vl
 		on vl.`chapter_id` = vc.`id`
 		left join video v
-		on v.id = vl.video_id
-		where v.id is not null
+		on v.id = vl.video_id and v.origin_type=0 
+		where v.id is not null  and t.origin_type=0
         <if test="classId!=null and classId!=''">and t.id = #{classId}</if>
         <if test="className!=null and className!=''">and t.name = #{className}</if>
 		limit 1;
@@ -599,10 +599,10 @@
 		SUM(pl.study_length) AS totle_study_length
 		FROM
 		sys_play_logs pl
-		LEFT JOIN class_type t ON t.id = pl.class_type_id
+		LEFT JOIN class_type t ON t.id = pl.class_type_id  and t.origin_type=0
 		LEFT JOIN student s ON s.user_id = pl.user_id AND s.edu_identity = 0
 		LEFT JOIN course_video_lecture cl ON cl.id = pl.`lecture_id`
-		LEFT JOIN video v ON v.id = cl.video_id
+		LEFT JOIN video v ON v.id = cl.video_id and v.origin_type=0 
 		WHERE s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
 		AND s.delete_flag = 0
@@ -631,13 +631,13 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
 		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
-		left join video v on v.id = cl.video_id
+		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where  s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
 		and s.delete_flag = 0
@@ -664,7 +664,7 @@
 		  LEFT JOIN `course_video_lecture` cv
 		  ON cv.id = uh.`lecture_id`
 		  LEFT JOIN video v
-		  ON v.id = cv.`video_id`
+		  ON v.id = cv.`video_id` and v.origin_type=0 
 		WHERE uh.user_id IS NOT NULL
 		  AND uh.commodity_id IS NOT NULL
 		  AND uh.class_type_id IS NOT NULL

@@ -219,17 +219,18 @@
 	<select id="findById" resultMap="commodityResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from commodity
-		where id = #{id}
+		where id = #{id} and origin_type=0
 	</select>
 	
 	<select id="queryAll" resultMap="commodityResultMap">
 		select <include refid="table_columns" /> 
-		from commodity
+		from commodity where origin_type=0
 	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+ 			and origin_type=0 
 			<if test="name != null and name != ''">and name = #{name}</if>
 			<if test="coverUrl != null and coverUrl != ''">and cover_url = #{coverUrl}</if>
 			<if test="overview != null and overview != ''">and overview = #{overview}</if>
@@ -276,6 +277,7 @@
 		<if test="lableType != null and lableType != ''">and lable_type = #{lableType}</if>
 		<if test="status != null and status != ''">and status = #{status}</if>
 		</where>
+		where c.origin_type=0
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
@@ -288,6 +290,7 @@
 		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 		<if test="status != null and status != ''">and status = #{status}</if>
 		</where>
+		where c.origin_type=0
 	</select>
 	<!-- 其他自定义SQL -->
 	<select id="findProduct" resultMap="commodityVoResultMap"
@@ -296,7 +299,7 @@
 		actualNum from commodity c left join commodity_product_realtion pr on
 		c.id=pr.com_id
 		INNER JOIN class_type ct ON pr.product_id = ct.id
-		where c.status=1 and c.company_id = #{companyId} and c.type='COMMODITY_CLASS' and ct.del_flag = 0
+		where c.status=1 and c.origin_type=0 and c.company_id = #{companyId} and c.type='COMMODITY_CLASS' and ct.del_flag = 0  and ct.origin_type=0
 		<if test="schoolId != null and schoolId != ''"> and c.school_id=#{schoolId}</if>
 		<if test="itemOneIds != null and itemOneIds != ''">
 			and c.item_one_id in
@@ -318,7 +321,9 @@
 		select b.com_id
 		from class_type a,commodity_product_realtion b
 		where 
-			b.product_id = a.id
+			b.product_id = a.id  
+		and 
+			a.origin_type=0
 		and
 			a.id = #{classTypeId}
 		limit 1
@@ -326,7 +331,7 @@
 		<select id="findCommodityByClassTypeId" parameterType="map" resultMap="commodityVoResultMap">
 		select c.*,pr.product_id as classTypeId,(c.base_num + c.buy_num) as actualNum 
 		from commodity c , commodity_product_realtion pr
-		where  c.status=1
+		where  c.status=1 and c.origin_type=0
 		and c.id=pr.com_id
 		and c.company_id = #{companyId}
 		<if test="classTypeOne !=null and classTypeOne!=''">and (pr.product_id = #{classTypeOne}</if>
@@ -341,7 +346,7 @@
 	
 	<select id="querycommByCompanyId" parameterType="Integer" resultMap="commodityResultMap">
 		select <include refid="table_columns" /> 
-		from commodity where company_id=#{companyId}
+		from commodity where company_id=#{companyId}  and origin_type=0
 	</select>
 	
 	<select id="findComId" parameterType="com.yuxin.wx.model.commodity.Commodity" resultType="Integer">
@@ -350,7 +355,7 @@
 			school_id = #{schoolId} and 
 			item_one_id = #{itemOneId} and 
 			item_second_id = #{itemSecondId} and 
-			status = #{status}
+			status = #{status} and origin_type=0
 	</select>
 	<update id="updateStatus" parameterType="map">
 		update commodity set
@@ -362,13 +367,13 @@
 	</update>
 	
 	<select id="findCommodityName" parameterType="Integer" resultType="String">
-		select name from commodity where id = #{id}
+		select name from commodity where id = #{id} and origin_type=0
 	</select>
 	
 	
 	<select id="queryCourseByTeacherIds" parameterType="map" resultMap="commodityVoResultMap">
 		select temp.*,sct.school_short_name,sct.name teacher_name from (select com.*,(com.base_num + com.buy_num) as actualNum, ct.teacher_id from commodity com inner join commodity_product_realtion pr on com.id=pr.com_id inner JOIN class_type ct on ct.id=pr.product_id 
-		where com.status=1 and ct.is_sale = 1 and ct.teacher_id  in
+		where com.status=1 and  com.origin_type=0 and ct.is_sale = 1 and ct.origin_type=0 and ct.teacher_id  in
 		<foreach collection="teacherIds" item="item" open="(" separator="," close=")">
 			#{item}
 		</foreach>
@@ -399,9 +404,9 @@
 		from class_module_lesson cml
 		join class_module_no cmn on cmn.id=cml.module_no_id
 		join class_type_module_relation ctmr on ctmr.module_id=cmn.module_id
-		join class_type ct on ct.id = ctmr.class_type_id
+		join class_type ct on ct.id = ctmr.class_type_id  and ct.origin_type=0
 		JOIN commodity_product_realtion pr ON ct.id = pr.product_id
-		JOIN commodity c ON c.id = pr.com_id
+		JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		JOIN sys_config_teacher sct ON ct.teacher_id = sct.id
 		JOIN sys_config_item sci on sci.parent_code='SUBJECT' and sci.item_code=c.item_third_code
 		where c.status=1
@@ -419,7 +424,7 @@
 		group by c.id
 	</select>
 	<select id="findCommodityByItems" parameterType="com.yuxin.wx.vo.commodity.CommodityVo" resultMap="commodityVoResultMap">
-		select id,name from commodity where live_flag = 1 and company_id = #{companyId} and school_id = #{schoolId} and type = 'COMMODITY_CLASS'
+		select id,name from commodity where live_flag = 1 and company_id = #{companyId} and school_id = #{schoolId} and type = 'COMMODITY_CLASS' and origin_type=0
 		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code =#{itemOneCode}</if>
 		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code =#{itemSecondCode}</if>
 		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code =#{itemThirdCode}</if>

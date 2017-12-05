@@ -228,17 +228,18 @@
 	<select id="findById" resultMap="videoResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from video
-		where id = #{id}
+		where id = #{id}  and origin_type=0 
 	</select>
 	
 	<select id="queryAll" resultMap="videoResultMap">
 		select <include refid="table_columns" /> 
-		from video
+		from video and origin_type=0 
 	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+			 and origin_type=0 
 			<if test="videoName != null and videoName != ''">and video_name = #{videoName}</if>
 			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 			<if test="videoCcId != null and videoCcId != ''">and video_cc_id = #{videoCcId}</if>
@@ -296,7 +297,7 @@
 		select <include refid="table_school_columns" />
 		from video as v left join sys_config_school as scs on v.school_id = scs.id
 		inner join sys_config_item as sci on v.item_one_id = sci.id
-		where 1=1
+		where 1=1 and v.origin_type=0 
 			<if test="videoName != null and videoName != ''">and video_name LIKE '%${videoName}%'</if>
 			<if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
 			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
@@ -338,7 +339,7 @@
 		select count(v.id)
 		from video as v left join sys_config_school as scs on v.school_id = scs.id
 		inner join sys_config_item as sci on v.item_one_id = sci.id
-		where 1=1
+		where 1=1 and v.origin_type=0 
 			<if test="videoName != null and videoName != ''">and video_name LIKE '%${videoName}%'</if>
 			<if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
 			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
@@ -375,16 +376,16 @@
 			</if>
 	</select>
 	<select id="uploadCount" parameterType="com.yuxin.wx.vo.course.VideoVo" resultType="Integer">
-		SELECT COUNT(id) from video where company_id = #{companyId};
+		SELECT COUNT(id) from video where company_id = #{companyId} and origin_type=0 ;
 	</select>
 	
 	<select id="findSchoolIdByVId" parameterType="Integer" resultType="Integer">
-		select school_id from video where id = #{videoId}
+		select school_id from video where id = #{videoId} and origin_type=0 
 	</select>
 	<!-- 获取视频的大小 hanrb -->
 	<select id="sumVideoSize" parameterType="com.yuxin.wx.vo.course.VideoVo" resultType="String">
 		select ifnull(sum(vodeo_size),0) from video
-		where company_id = #{companyId} and
+		where company_id = #{companyId} and origin_type=0  and
 			video_status = 'VIDEO_PROCESS_NOMAL'
 		<if test="createTime != null and createTime != ''">
 			and create_time <![CDATA[<=]]> CONCAT (date_format(#{createTime}, "%Y-%m-%d")," 23:59:59")
@@ -401,7 +402,7 @@
 			date_format(create_time, "%Y-%m-%d") as create_time,
 			sum(video.vodeo_size) as vodeo_size
 		from video
-		where company_id = #{companyId} and create_time is not null
+		where company_id = #{companyId} and create_time is not null and origin_type=0 
 		GROUP BY date_format(create_time, "%Y-%m-%d")
 	</select>
     <select id="findSourceByPage" resultMap="ResourceResultMap" parameterType="com.yuxin.wx.vo.course.VideoVo">
@@ -435,7 +436,7 @@
         '' as excep
         FROM video AS v LEFT JOIN sys_config_school AS scs ON v.school_id = scs.id
         INNER JOIN sys_config_item AS sci ON v.item_one_id = sci.id
-        where 1=1
+        where 1=1 and v.origin_type=0 
         <if test="searchType != null and searchType != '' and searchType != 'video' ">and v.id is null</if><!-- 利用id不可能为空的来区分video和resource , 当传入searchType时video内容不显示-->
         <if test="videoName != null and videoName != ''">and video_name LIKE CONCAT('%',#{videoName},'%')</if>
         <if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
@@ -500,7 +501,7 @@
             LEFT JOIN sys_config_school AS scs ON rl.company_id = scs.id
             LEFT JOIN sys_file_convert_task sfct ON sfct.file_id = rl.id
             INNER JOIN sys_config_item AS sci ON rl.sys_item_one = sci.id
-            where rl.company_id = #{companyId}
+            where rl.company_id = #{companyId} and rl.origin_type=0 
             and rl.upload_type = 0
             <if test="searchType != null and searchType != ''">and rl.file_category = #{searchType}</if>
             <if test="videoName != null and videoName != ''">and rl.file_name LIKE CONCAT('%',#{videoName},'%')</if>
@@ -572,7 +573,7 @@
         v.file_path filePath
         FROM video AS v LEFT JOIN sys_config_school AS scs ON v.school_id = scs.id
         INNER JOIN sys_config_item AS sci ON v.item_one_id = sci.id
-        where 1=1
+        where 1=1 and v.origin_type=0 
         <if test="searchType != null and searchType != '' and searchType != 'video' ">and v.id is null</if><!-- 利用id不可能为空的来区分video和resource , 当传入searchType时video内容不显示-->
         <if test="videoName != null and videoName != ''">and video_name LIKE CONCAT('%',#{videoName},'%')</if>
         <if test="videoStatus != null and videoStatus != ''">and video_status = #{videoStatus}</if>
@@ -635,7 +636,7 @@
             LEFT JOIN sys_config_school AS scs ON rl.company_id = scs.id
             LEFT JOIN sys_file_convert_task sfct ON sfct.file_id = rl.id
             INNER JOIN sys_config_item AS sci ON rl.sys_item_one = sci.id
-            where rl.company_id = #{companyId}
+            where rl.company_id = #{companyId} and rl.origin_type=0 
             and rl.upload_type = 0
             <if test="searchType != null and searchType != ''">and rl.file_category = #{searchType}</if>
             <if test="videoName != null and videoName != ''">and rl.file_name LIKE CONCAT('%',#{videoName},'%')</if>
@@ -673,17 +674,17 @@
     
     <select id="findEQZero" resultMap="videoResultMap">
     	select <include refid="table_columns"/> from video
-    	where vodeo_size <![CDATA[<]]> 0 
+    	where  origin_type=0  and vodeo_size <![CDATA[<]]> 0 
     </select>
     
     <select id="findVideoByQiniuKeys" resultMap="videoResultMap" parameterType="String">
     	select * from video 
-    	where web_video_id = #{keys}
+    	where web_video_id = #{keys} and origin_type=0 
     </select>
     
     <select id="findWebVideoIdBystorageType" parameterType="com.yuxin.wx.model.course.Video" resultType="String">
     	select web_video_id from video
-    	where company_id = #{companyId}
+    	where company_id = #{companyId} and origin_type=0 
     		and storage_type = #{storageType}
     </select>
 </mapper>

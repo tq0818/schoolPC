@@ -271,7 +271,7 @@
 		(select create_date from company_config_proxy_org where id = oid) as create_date,
 		(select count(distinct(stu_id)) from organ_invite_reward_record where proxy_organ_id = oid) as invite_number,
 		(select count(id) from organ_invite_reward_record where proxy_organ_id = oid and (reason = 2 or reason = 3)) as consume_times,
-		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oir on p.id = oir.pay_order_id  where oir.proxy_organ_id = oid and (oir.reason=2 or oir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join organ_invite_reward_record oir on p.id = oir.pay_order_id  where p.origin_type=0 and oir.proxy_organ_id = oid and (oir.reason=2 or oir.reason = 3)) as consume_balance,
 		(select COALESCE(sum(rewards_money),0) from organ_invite_reward_record where proxy_organ_id = oid) as reward_balance
 		from organ_invite_reward_record oirr inner join company_config_proxy_org c on oirr.proxy_organ_id = c.id 
 		where oirr.company_id = #{companyId}

@@ -270,6 +270,7 @@
 	<select id="queryProduct"  resultMap="commodityVoResultMap" parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
 		select c.*,pr.product_id as classTypeId,(c.base_num + c.buy_num) as actualNum from commodity c left join commodity_product_realtion pr on c.id=pr.com_id
 		<where>
+		c.origin_type=0
 		<if test="schoolId != null and schoolId != ''"> and c.school_id=#{schoolId}</if> 
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
@@ -277,20 +278,19 @@
 		<if test="lableType != null and lableType != ''">and lable_type = #{lableType}</if>
 		<if test="status != null and status != ''">and status = #{status}</if>
 		</where>
-		where c.origin_type=0
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
 	<select id="queryProductCount"  resultType="int" parameterType="com.yuxin.wx.vo.commodity.CommodityVo">
 		select count(c.id) from commodity c left join commodity_product_realtion pr on c.id=pr.com_id
 		<where>
+		c.origin_type=0
 		<if test="schoolId != null and schoolId != ''"> and c.school_id=#{schoolId}</if> 
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
 		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 		<if test="status != null and status != ''">and status = #{status}</if>
 		</where>
-		where c.origin_type=0
 	</select>
 	<!-- 其他自定义SQL -->
 	<select id="findProduct" resultMap="commodityVoResultMap"

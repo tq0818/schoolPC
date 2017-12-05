@@ -133,7 +133,7 @@
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
-			 and origin_type=0 
+			 1=1 and origin_type=0 
 			<if test="tikuName != null and tikuName != ''">and tiku_name = #{tikuName}</if>
 			<if test="tikuDesc != null and tikuDesc != ''">and tiku_desc = #{tikuDesc}</if>
 			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>

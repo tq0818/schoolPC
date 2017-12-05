@@ -116,6 +116,7 @@
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+			1=1 and origin_type=0
 			<if test="comment != null and comment != ''">and comment = #{comment}</if>
 			<if test="score != null and score != ''">and score = #{score}</if>
 			<if test="videoLectureId != null and videoLectureId != ''">and video_lecture_id = #{videoLectureId}</if>
@@ -123,7 +124,6 @@
 			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
 			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 			<if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
-			and origin_type=0
 		</trim>
 	</sql>
 	

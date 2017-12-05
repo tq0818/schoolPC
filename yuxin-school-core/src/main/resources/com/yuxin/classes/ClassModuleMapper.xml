@@ -434,7 +434,7 @@
 		class_module_no d,
 		class_type t,
 		class_type_module_relation cmr
-		where t.id = #{id} and origin_type=0
+		where t.id = #{id} and t.origin_type=0
 		and a.item_one_id = b.id
 		and c.id = a.item_second_id
 		and a.id = d.module_id

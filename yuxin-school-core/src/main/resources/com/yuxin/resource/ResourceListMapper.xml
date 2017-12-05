@@ -202,7 +202,7 @@
 	</sql>
 	
 	<sql id="page_wheres">
-		 and origin_type=0 
+		 1=1 and origin_type=0 
 		<if test="fileName != null and fileName != ''">and file_name like '%${fileName}%'</if>
 		<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
 		<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>
@@ -237,14 +237,14 @@
 	<select id="pageByFilePath" resultMap="resourceListResultMap" parameterType="com.yuxin.wx.model.resource.ResourceList">
 		select <include refid="table_columns" />
 		from resource_list
-		where file_path is not null
+		where file_path is not null and origin_type=0
 		<include refid="page_wheres"/>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
 	<select id="pageByFilePathCount" resultType="int" parameterType="com.yuxin.wx.model.resource.ResourceList">
 		select count(id) from resource_list
-		where file_path is not null
+		where file_path is not null and origin_type=0
 		<include refid="page_wheres"/>
 	</select>
 	

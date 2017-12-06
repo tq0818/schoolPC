@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/administrativeClassManager")
 public class AdministrativeClassManager {
 
-    @RequestMapping(value = "administrativeClass")
+    @RequestMapping(value = "/administrativeClass")
     public String gotoAdministrativeClassManager(){
         return "company/administrativeClass";
     }

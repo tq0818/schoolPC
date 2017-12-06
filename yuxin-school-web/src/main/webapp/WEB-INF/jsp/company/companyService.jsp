@@ -867,7 +867,39 @@
 							</li>
 						</c:if>
                      </ul>
-           	    </div>	
+           	    </div>
+				<div class="q-ucont">
+					<div class="inter-set q-text">
+						<p><i class="iconfont">&#xe6c8;</i>分校行政</p>
+					</div>
+					<ul class="clear">
+						<c:if test="${requestScope.SERVICE_TIKU == null }">
+							<li class="clear">
+								<div class="left" style="width: 200px;">
+									<div>
+										<i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i>
+										<p class="s-name">
+											<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
+											<c:if test="${!empty manganger }">
+												<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
+											</c:if>
+										</p>
+									</div>
+								</div>
+								<div class="right server-infos">
+									<%--<p class="infos">行政班设置</p>--%>
+									<%--<p class="infos">随堂考试</p>--%>
+									<%--<p class="infos">模拟真实考题</p>--%>
+								</div>
+								<%--<shiro:hasPermission name="administrative_class">--%>
+									<p class="btns isok" style="height:28px">
+										<a href="<%=rootPath %>/administrativeClassManager/administrativeClass" class="btn btn-sm btn-default">行政班设置</a>
+									</p>
+								<%--</shiro:hasPermission>--%>
+							</li>
+						</c:if>
+					</ul>
+				</div>
 	 		</div>
    		 </div>
     </div>

@@ -138,5 +138,17 @@
         });
     }
 </script>
+
+<script>
+//    二级菜单加active
+    $(function(){
+        $selectSubMenu('org_service');
+    });
+</script>
+
+<script>
+    //    左侧active切换
+    $selectSubMenus('administrativeClass');
+</script>
 </body>
 </html>

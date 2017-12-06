@@ -253,7 +253,7 @@ public class WebUtils {
      *
      * Class Name: UserHolder.java
      * 
-     * @Description: 获取当前用户的公司ID
+     * @Description: 获取当前访问的公司ID
      * @author Chopin
      * @date 2015年2月2日
      * @version 1.0
@@ -263,7 +263,13 @@ public class WebUtils {
         Users user = getCurrentUser();
         return user != null ? user.getCompanyId() : null;
     }
-
+    /**
+     * @Description: 获取当前机构的类别，1代表区，2代表校，0代表数字学校
+     * @return
+     */
+    public static Integer getCurrentIsArea(){
+    	return 0;
+    }
     public static Integer getCurrentSchoolId() {
         Users user = getCurrentUser();
         return user != null ? user.getSchoolId() : null;

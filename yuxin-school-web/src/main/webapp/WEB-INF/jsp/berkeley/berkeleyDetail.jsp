@@ -78,11 +78,11 @@
         <ul class="berkeleyDetailInfo berkeleyDetailInfoRight">
             <li style="margin-bottom: 30px;">
                 <label>收费配置:</label>
-                <p style="margin-left: 75px;margin-bottom: 5px;">
+                <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>学校私有课程收费比例:</label>
                     <input type="text"  disabled="disabled" value="1%" class="editState">
                 </p>
-                <p style="margin-left: 75px;">
+                <p style="margin-left: 95px;">
                     <label>学校开放课程收费比例:</label>
                     <input type="text" disabled="disabled" value="2%" class="editState">
                 </p>
@@ -90,25 +90,25 @@
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
                     <label>流量 26,234.34/51200 GB</label><br/>
-                    <span style="margin-left: 80px;" class="showDetails showDetailsMark">增加流量</span>
+                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量</span>
                     <input type="text" class="editState showDetails " value="100" >
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>空间 365.272/700 GB </label><br/>
-                    <span style="margin-left: 80px;" class="showDetails showDetailsMark">增加空间</span>
+                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间</span>
                     <input type="text" class="editState showDetails " value="100" >
                 </p>
             </li>
             <li class="accountNumber">
                 <p style="margin-bottom: 5px;">
                     <label>CC账号:</label>
-                    <input type="text" class="editState " value="32131321" style="margin-left: 32px;margin-bottom: 5px;" disabled="disabled"><br/>
-                    <input type="password" class="editState showDetails " value="" style="margin-left: 88px;">
+                    <input type="text" class="editState " value="32131321" style="margin-left: 40px;margin-bottom: 5px;" disabled="disabled"><br/>
+                    <input type="password" class="editState showDetails " value="" style="margin-left: 95px;">
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>展示互动账号:</label>
                     <input type="text" class="editState " value="103213210" style="margin-bottom: 5px;margin-left: 2px;" disabled="disabled"><br/>
-                    <input type="password" class="editState showDetails" value="" style="margin-left: 88px;">
+                    <input type="password" class="editState showDetails" value="" style="margin-left: 95px;">
                 </p>
             </li>
         </ul>

@@ -11,7 +11,7 @@
 .berkeleyDetailInfo{padding: 5px 20px;}
 .berkeleyDetailInfo li{margin: 5px;}
 .berkeleyDetailInfo input{border: none;background: #f6f6f6;}
-.berkeleyOperate{text-align: center;margin-top: 50px;}
+.berkeleyOperate{text-align: center;margin-top: 80px;}
 .berkeleyOperate button{margin: 10px;}
 
 .createBranch,.addCourse{float: right;margin-right: 20px;}
@@ -46,3 +46,4 @@ margin-left: -400px;margin-top: -150px;background: #fff;z-index: 100;text-align:
 .berkeleyDetailInfo textarea{border-color: #f6f6f6;background: #f6f6f6; }
 input.editStateNow,textarea.editStateNow{border: 1px solid #e4e4e4;background: #fff;}
 .berkeleyDetailInfoRight{float: right;}
+.berkeleyIndex{background: #f6f6f6;height: 1000px;}

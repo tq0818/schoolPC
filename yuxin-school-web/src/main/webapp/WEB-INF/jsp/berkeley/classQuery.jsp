@@ -60,11 +60,11 @@
                     <th width="10%">课程类型</th>
                     <th width="10%">
                         报名人数
-                        <i class="icon iconfont iconUp">&#xe61a;</i>
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
                     </th>
                     <th width="10%">
                         购买人数
-                        <i class="icon iconfont iconDown">&#xe617;</i>
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
                     </th>
                     <th width="10%">课程详情</th>
                 </tr>
@@ -227,18 +227,7 @@
         $(this).hide();
     });
 
-//    点击向上向下箭头变换并排序
-    $('.iconfont').click(function(){
-        if($(this).hasClass('iconUp')){
-            $(this).removeClass('iconUp');
-            $(this).addClass('iconDown');
-            $(this).html('&#xe617;');
-        }else {
-            $(this).removeClass('iconDown');
-            $(this).addClass('iconUp');
-            $(this).html('&#xe61a;');
-        }
-    });
+
 
 </script>
 <script>

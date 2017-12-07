@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>舍弃的新增教师页面</title>
+    <title>新增老师</title>
 
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/resource.css"/>
     <link href="<%=rootPath%>/stylesheets/user.css" rel="stylesheet" type="text/css"/>
@@ -594,7 +594,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacherOld.js"></script>
 <script>
     $(function(){
-        $selectSubMenu('resource_teacher');
+        $selectSubMenu('course_class_type');
     });
 </script>
 </body>

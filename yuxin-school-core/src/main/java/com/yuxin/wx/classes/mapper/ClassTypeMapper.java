@@ -124,4 +124,25 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	int countSubjectClassOrder(String itemOenId);
 
     List<ClassType> findClassByItemRelation(Map<String, Object> map);
+    
+	/**
+	 * 查询分校公开的直播课程
+	 */
+	List<ClassTypeVo> queryLiveClassOfBranchSchool(Map<String, Object> param);
+
+	/**
+	 * 查询分校公开的直播课程
+	 */
+	int queryCountLiveClassOfBranchSchool(Map<String, Object> param);
+	
+	/**
+	 * 查询分校课程
+	 */
+	List<ClassTypeVo> queryClassOfBranchSchool(Map<String, Object> param);
+
+	/**
+	 * 查询分校课程
+	 */
+	int queryCountClassOfBranchSchool(Map<String, Object> param);
+	
 }

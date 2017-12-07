@@ -165,7 +165,7 @@
 			$(".add-layer-bg").fadeIn(200,function(){
 							$(".upload-layer").css({
 								'width': '860px',
-							    'height': '400px',
+							    'height': '480px',
 							    'left':'55%',
 							    'top':'60%',
 							    'background': '#fff',

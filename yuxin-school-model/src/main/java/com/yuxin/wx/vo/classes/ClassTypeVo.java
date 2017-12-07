@@ -77,6 +77,24 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer subjectClassOrder;//学科课程排序
 	private String  iconLable;
 	private Integer isMicroClass;	//是否微课
+	
+	private String schoolName;
+	private String teacherName;
+	private String paperDescription;//试卷描述
+	private String domain;
+	
+	public String getDomain() {
+		return domain;
+	}
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+	public String getPaperDescription() {
+		return paperDescription;
+	}
+	public void setPaperDescription(String paperDescription) {
+		this.paperDescription = paperDescription;
+	}
 	public Integer getCommodityId() {
 		return commodityId;
 	}
@@ -508,5 +526,20 @@ public class ClassTypeVo extends BaseEntity {
 
 	public void setIsMicroClass(Integer isMicroClass) {
 		this.isMicroClass = isMicroClass;
+	}
+	
+
+	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	public String getSchoolName() {
+		return schoolName;
+	}
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 }

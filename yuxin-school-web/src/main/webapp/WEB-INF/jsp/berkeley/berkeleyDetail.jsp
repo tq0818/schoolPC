@@ -103,12 +103,12 @@
             <li class="accountNumber">
                 <p style="margin-bottom: 5px;">
                     <label>CC账号:</label>
-                    <input type="text" class="editState " value="32131321" style="margin-left: 40px;margin-bottom: 5px;" disabled="disabled"><br/>
+                    <input type="text" class="editState " value="32131321" style="margin-left: 48px;margin-bottom: 5px;" disabled="disabled"><br/>
                     <input type="password" class="editState showDetails " value="" style="margin-left: 95px;">
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>展示互动账号:</label>
-                    <input type="text" class="editState " value="103213210" style="margin-bottom: 5px;margin-left: 2px;" disabled="disabled"><br/>
+                    <input type="text" class="editState " value="103213210" style="margin-bottom: 5px;margin-left: 15px;" disabled="disabled"><br/>
                     <input type="password" class="editState showDetails" value="" style="margin-left: 95px;">
                 </p>
             </li>

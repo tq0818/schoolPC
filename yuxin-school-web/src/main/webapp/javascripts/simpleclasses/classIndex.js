@@ -66,6 +66,9 @@
 	    			if($(this).hasClass('b5')){
 	    				$this.addClassType('other');
 	    			}
+	    			if($(this).hasClass('b6')){
+	    				$this.addClassType('buy');//已购课程
+	    			}
 	    		})
                 this.queryAllCommdityByItemNew(1);
 	    		//判断是否显示三级标签

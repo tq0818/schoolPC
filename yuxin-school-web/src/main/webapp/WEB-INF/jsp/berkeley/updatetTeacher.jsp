@@ -11,8 +11,8 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/jquery.datetimepicker.css" />
 <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/plugins/jcrop/css/jquery.Jcrop.css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/bootstrap-fileupload/bootstrap-fileupload.css" />
-    <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
-    <style type="text/css">
+<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
+<style type="text/css">
     	.classes .mainbackground .c-main .add-classes p.h{
     		margin-bottom: 15px;
     	}

@@ -221,7 +221,8 @@ public class TeacherManger {
             teacher = new SysConfigTeacher();
             teacher.setId(0);
             model.addAttribute("teacher", teacher);
-            return "berkeley/addTeacher";
+//            新增老师和编辑老师在一个jsp页面，所以注销了新增老师的jsp页面by z
+//            return "berkeley/addTeacher";
         } else {
             SysConfigTeacherLesson les = sysConfigTeacherLessonServiceImpl.findSysConfigTeacherLessonByTeaId(teacherId);
             if (les != null && les.getItemOneId() != null && les.getItemOneId().toString().length() > 0) {

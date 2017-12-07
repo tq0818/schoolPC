@@ -539,7 +539,9 @@
         <!--权限管理管理-->
         <pattern>/berkeley/permissionManagement</pattern>
         <!--添加分校老师-->
-        <pattern>/berkeley/addTeacher</pattern>
+        <!--<pattern>/berkeley/addTeacher</pattern>-->
+        <!--更新或者添加老师-->
+        <pattern>/teacherManger/updateOrAddTeacher/*</pattern>
         <!--去添加用户页面-->
         <pattern>/berkeley/addUsers</pattern>
         <!--去服务管理页面-->

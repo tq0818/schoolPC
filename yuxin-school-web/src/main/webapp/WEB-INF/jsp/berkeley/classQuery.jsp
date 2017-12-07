@@ -58,8 +58,14 @@
                     <th width="10%">学科</th>
                     <th width="10%">授课老师</th>
                     <th width="10%">课程类型</th>
-                    <th width="10%">报名人数</th>
-                    <th width="10%">购买人数</th>
+                    <th width="10%">
+                        报名人数
+                        <i class="icon iconfont iconUp">&#xe61a;</i>
+                    </th>
+                    <th width="10%">
+                        购买人数
+                        <i class="icon iconfont iconDown">&#xe617;</i>
+                    </th>
                     <th width="10%">课程详情</th>
                 </tr>
                 <%--<c:choose>--%>
@@ -219,6 +225,19 @@
     });
     $('.box').mouseleave(function(){
         $(this).hide();
+    });
+
+//    点击向上向下箭头变换并排序
+    $('.iconfont').click(function(){
+        if($(this).hasClass('iconUp')){
+            $(this).removeClass('iconUp');
+            $(this).addClass('iconDown');
+            $(this).html('&#xe617;');
+        }else {
+            $(this).removeClass('iconDown');
+            $(this).addClass('iconUp');
+            $(this).html('&#xe61a;');
+        }
     });
 
 </script>

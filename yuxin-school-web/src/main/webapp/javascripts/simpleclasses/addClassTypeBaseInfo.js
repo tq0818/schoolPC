@@ -39,6 +39,10 @@
 	            	number:true,
 	            	max:99999
 	            },
+	            publishPrice:{
+	            	number:true,
+	            	max:99999
+	            },
 	            baseNum:{
 	            	required: true,
 	            	digits:true,
@@ -89,6 +93,10 @@
 	            },
 	            realPrice:{
 	            	required:true,
+	            	number:true,
+	            	max:99999
+	            }, 
+	            publishPrice:{
 	            	number:true,
 	            	max:99999
 	            },

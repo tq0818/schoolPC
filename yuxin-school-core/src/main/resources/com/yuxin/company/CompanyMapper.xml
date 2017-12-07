@@ -127,6 +127,38 @@
 		<result property="registDate" column="registDate"/>
 	</resultMap>
 	
+	<resultMap type="com.yuxin.wx.model.company.CompanyVo" id="companyVResultMap">
+		<result property="companyId" column="companyId" />
+		<result property="eduAreaSchool" column="eduAreaSchool" />
+		<result property="companyName" column="companyName" />
+		<result property="eduArea" column="eduArea" />
+		<result property="registTime" column="registTime" />
+		<result property="registStudentCounts" column="registStudentCounts" />
+		<result property="classCounts" column="classCounts" />
+		<result property="classTypeCounts" column="classTypeCounts" />
+	</resultMap>
+	
+	
+	<resultMap type="com.yuxin.wx.vo.company.CompanyVo" id="companyVoNewResultMap">
+		<result property="id" column="id" />
+		<result property="companyName" column="company_name" />
+		<result property="domain" column="domain" />
+		<result property="registNo" column="regist_no" />
+		<result property="status" column="status" />
+		<result property="memberStartDate" column="member_start_date" />
+		<result property="memberEndDate" column="member_end_date" />
+		<result property="registTime" column="regist_time" />
+		<result property="linkPerson" column="link_person" />
+		<result property="linkPhone" column="link_phone" />
+		<result property="domainManage" column="domain_manage" />
+		<result property="privateCost" column="private_cost"/>
+		<result property="publicCost" column="public_cost" />
+		<result property="schoolSummary" column="school_summary" />
+		<result property="eduAreaSchool" column="edu_area_school" />
+		<result property="isArea" column="is_area" />
+		<result property="schoolProperty" column="school_property"/>
+
+	</resultMap>
 	<sql id="table_columns">
 		id,
 		member_level,
@@ -157,6 +189,62 @@
 		con_type,
 		buy_flag,
 		service_version
+		
+	</sql>
+	<sql id="table_columns_company">
+		id,
+		company_name,
+		domain,
+		status,
+		member_start_date,
+		member_end_date,
+		regist_time,
+		school_apply_flag,
+		link_person,
+		link_phone,
+		domain_manage,
+		private_cost,
+		public_cost,
+		school_summary,
+		edu_area_school,
+		is_area,
+		school_property,
+		company_logo_type,
+		company_logo,
+		member_level,
+		utm_source,
+		con_type,
+		buy_flag,
+		service_version,
+		company_name_short
+		
+	</sql>
+		<sql id="entity_properties_company">
+		#{id},
+		#{companyName},
+		#{domain},
+		#{status},
+		#{memberStartDate},
+		#{memberEndDate},
+		#{registTimes},
+		#{schoolApplyFlag},
+		#{linkPerson},
+		#{linkPhone},
+		#{domainManage},
+		#{privateCost},
+		#{publicCost},
+		#{schoolSummary},
+		#{eduAreaSchool},
+		#{isArea},
+		#{schoolProperty},
+		#{companyLogoType},
+		#{companyLogo},
+		#{memberLevel},
+		#{utmSource},
+		#{conType},
+		#{buyFlag},
+		#{serviceVersion},
+		#{companyNameShot}
 	</sql>
 
 	<sql id="entity_properties">
@@ -190,6 +278,7 @@
 		#{buyFlag},
 		#{serviceVersion}
 	</sql>
+
 	<sql id="batch_entity_properties">
 		#{item.id},
 		#{item.memberLevel},
@@ -1013,4 +1102,99 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		from sys_config_service
 		where company_id = #{companyId} and group_code = #{service}
 	</select>
+	
+	<!--分校首页学校列表-->
+	<select id="queryCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="com.yuxin.wx.model.company.CompanyVo">
+		select su.* from (
+			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			from company co
+			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
+			left join student s on s.edu_area=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
+			left join edu_master_class emc on emc.edu_area=co.edu_area_school and emc.is_used=1
+			left join commodity cc on cc.company_id=co.id
+			where co.is_area=1
+			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>
+	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{eduArea}</if>
+			GROUP BY co.id
+			union
+			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			from company co
+			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
+			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
+			left join student s on s.edu_school=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
+			left join edu_master_class emc on emc.edu_school=co.edu_area_school and emc.is_used=1
+			left join commodity cc on cc.company_id=co.id
+			where co.is_area=2 
+			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>
+	 		<if test="eduArea != null and eduArea != ''">and pss.item_code = #{eduArea}</if>
+	 		GROUP BY co.id
+		) su where su.id is not null
+		order by registStudentCounts,classCounts
+		
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<!--分校首页学校数量-->
+	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
+		select count(distinct su.id) from (
+			select co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts 
+			from company co
+			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
+			left join student s on s.edu_area=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
+			left join edu_master_class emc on emc.edu_area=co.edu_area_school and emc.is_used=1
+			left join commodity cc on cc.company_id=co.id
+			where co.is_area=1
+			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>
+	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{eduArea}</if>
+			GROUP BY co.id
+			union
+			select co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			from company co
+			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
+			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
+			left join student s on s.edu_school=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
+			left join edu_master_class emc on emc.edu_school=co.edu_area_school and emc.is_used=1
+			left join commodity cc on cc.company_id=co.id
+			where co.is_area=2
+			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>
+	 		<if test="eduArea != null and eduArea != ''">and pss.item_code = #{eduArea}</if>
+	 		GROUP BY co.id
+		) su where su.id is not null
+	</select>
+	
+	<select id="queryCompanyVoByCondition" resultType="com.yuxin.wx.model.company.CompanyVo" parameterType="map">
+		select syd.item_value companyName,psyd.item_value eduArea,syd.dict_code dictCode from sys_config_dict syd
+		inner join sys_config_dict psyd on psyd.id=syd.parent_item_id
+		left join company co on syd.item_code=co.edu_area_school
+		where syd.dict_code='EDU_SCHOOL' and co.id is null and syd.item_code=#{brachCode}
+		union
+		select syd.item_value companyName,syd.item_value eduArea,syd.dict_code dictCode from sys_config_dict syd
+		left join company co on syd.item_code=co.edu_area_school
+		where syd.dict_code='EDU_SCHOOL_AREA' and co.id is null and syd.item_code=#{brachCode}
+	</select>
+	
+	
+	<!-- 适用于主键自增类型 -->
+	<insert id="addBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo" useGeneratedKeys="true" keyProperty="id">
+		insert into company ( <include refid="table_columns_company" /> ) 
+		values ( <include refid="entity_properties_company" /> )
+	</insert>
+	
+	<!-- 分配流量，分配存储空间-->
+	<insert id="addCompanyServiceStaticDay" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay" useGeneratedKeys="true" keyProperty="id">
+		insert into company_service_static_day(id,company_id,video_total_flow,video_storage_num)
+		 VALUES(#{id},#{companyId},#{resourceFlow},#{resourceStorageNum})
+	</insert>
+	<!-- 展视互动账号-->
+	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_config(id,company_id,login_name,password,live_type)
+		 VALUES(#{id},#{companyId},#{loginName},#{password},#{liveType})
+	</insert>
 </mapper>

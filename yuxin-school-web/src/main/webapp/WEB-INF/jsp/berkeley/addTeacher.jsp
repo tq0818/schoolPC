@@ -82,7 +82,7 @@
             right: 12px;
             width: 12px;
             height: 12px;
-            background-image: url('../images/index-icons.png');
+            background-image: url('/images/index-icons.png');
             background-repeat: no-repeat;
             background-position: 0 0;
             cursor: pointer;
@@ -585,17 +585,18 @@
 <div class="loading-bg lp-units-loading-bg" style="display: none"></div>
 <!--  ajax加载中div结束 -->
 <script type="text/javascript">
-    $(function() {
-        $selectSubMenu('financial');
-        $selectSubMenus('operate_fee_confirm');
-    });
+//    $(function() {
+//        $selectSubMenu('financial');
+//        $selectSubMenus('operate_fee_confirm');
+//    });
 </script>
 <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>--%>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacherOld.js"></script>
 <script>
-    $(function(){
+//        二级菜单加active
         $selectSubMenu('course_class_type');
-    });
+//        左边菜单加active
+        $selectSubMenus('getFirstItems');
 </script>
 </body>
 </html>

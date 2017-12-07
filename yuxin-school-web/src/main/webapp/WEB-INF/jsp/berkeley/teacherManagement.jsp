@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="search">
-                            <a href="<%= rootPath %>/teacherManger/updateOrAddTeacher/0" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em> 添加教师</a>
+                            <a href="<%= rootPath %>/berkeley/addTeacher" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em> 添加教师</a>
                         </div>
                         <span class="line"></span>
                     </div>

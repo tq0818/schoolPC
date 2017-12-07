@@ -15,6 +15,7 @@ function closeBtn(companyId,itemCode,delFlag) {
 }
 
 (function ($) {
+
     var company = {
         init: function () {
             var $this = this;
@@ -142,18 +143,18 @@ function closeBtn(companyId,itemCode,delFlag) {
                                             '<td>'+stu.classTypeCounts+'</td>'+
                                             '<td>'+stu.classCounts+'</td>'+
                                             '<td class="slink">'+
-                                                '<a class="showSignUp" mobile="" uname="sdsdsd" href="<%=rootPath %>/classManager/getClassInfo/'+stu.id+'">详情</a>|'+
+                                                '<a class="showSignUp" mobile="" uname="sdsdsd" href="/classManager/getClassInfo/'+stu.id+'">详情</a>|'+
                                                 '<a class="studentDetail" mobile="" uname="sdsdsd" href="'+stu.domain+'">查看官网</a>|'+
                                                 '<a class="more" href="javascript:void(0);">更多'+
                                                 '</a>'+
                                                 '<ul class="none box" style="display: none;">'+
-                                                    '<li><a class=""  href="javascript:void(0);">订单查询</a></li>'+
-                                                    '<li><a class=""  href="javascript:void(0);">权限管理</a></li>'+
-                                                    '<li><a class=""  href="javascript:void(0);">课程管理</a></li>'+
-                                                    '<li><a class=""  href="javascript:void(0);">服务管理</a></li>'+
-                                                    '<li><a class=""  href="javascript:void(0);">老师管理</a></li>'+
-                                                    '<li><a class=""  href="javascript:void(0);">分校课程</a></li>'+
-                                                    '<li><a class=""  href="javascript:void(0);">计算资源</a></li>'+
+                                                    '<li><a class=""  href="/berkeley/berkeleyOrder">订单查询</a></li>'+
+                                                    '<li><a class=""  href="/berkeley/permissionManagement">权限管理</a></li>'+
+                                                    '<li><a class=""  href="/classManager/getClassList">课程管理</a></li>'+
+                                                    '<li><a class=""  href="/serviceManager/getServiceManager">服务管理</a></li>'+
+                                                    '<li><a class=""  href="/teacherManger/getFirstItems">老师管理</a></li>'+
+                                                    '<li><a class=""  href="/classQuery/getClassList">分校课程</a></li>'+
+                                                    '<li><a class=""  href="/computingResource/getVideoResourceAndMessageStatistics?companyId=18113">计算资源</a></li>'+
                                                 '</ul>'+
                                             '</td>'+
                                         '</tr>');

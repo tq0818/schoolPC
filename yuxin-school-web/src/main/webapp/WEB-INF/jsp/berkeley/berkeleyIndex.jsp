@@ -26,12 +26,13 @@
         }
     </style>
     <%--tob--%>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-<div class="u-wrap admin overflow">
+<div class="u-wrap admin overflow berkeleyIndex">
     <div>
         <div class="heading">
             <h2 class="h5">分校列表</h2>
@@ -57,10 +58,18 @@
                     <th width="10%">组织机构代码</th>
                     <th width="10%">分校名称</th>
                     <th width="10%">所属区域</th>
-                    <th width="10%">创建时间<img src="<%=rootPath%>/images/upDown.png" alt=""></th>
-                    <th width="10%">注册学生人数<img src="<%=rootPath%>/images/upDown.png" alt=""></th>
-                    <th width="10%">课程数<img src="<%=rootPath%>/images/upDown.png" alt=""></th>
-                    <th width="10%">班级数<img src="<%=rootPath%>/images/upDown.png" alt=""></th>
+                    <th width="10%">创建时间
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">注册学生人数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">课程数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">班级数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
                     <th width="15%">操作</th>
                 </tr>
                
@@ -236,18 +245,19 @@ $(function(){
 <!--  ajax加载中div结束 -->
 <script>
 //    点击更多显示菜单
-    $('.more').mouseenter(function(){
+    $('table').on('mouseenter','.more',function(){
         $(this).siblings('ul').show();
     });
-    $('.more').mouseleave(function(){
+    $('table').on('mouseleave','.more',function(){
         $(this).siblings('ul').hide();
     });
-    $('.box').mouseenter(function(){
+    $('table').on('mouseenter','.box',function(){
         $(this).show();
     });
-    $('.box').mouseleave(function(){
+    $('table').on('mouseleave','.box',function(){
         $(this).hide();
     });
+    console.log(rootPath);
 
 </script>
 

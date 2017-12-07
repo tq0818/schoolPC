@@ -50,3 +50,14 @@ input.editStateNow,textarea.editStateNow{border: 1px solid #e4e4e4;background: #
 .batchesShelves,.batches{float: right;margin-right: 20px;}
 .openCourseManage{display: none;position: absolute;right: 60px;border: 1px solid #797979;border-radius: 5px;padding: 0 3px;line-height: 28px;}
 .openCourseManage li{height: 28px;border-bottom: 1px solid #999999;}
+.informationCourseContent label{display: inline-block;}
+.informationCourseContent>div{padding-left: 52px;}
+.informationCourseContent h4{font-size: 16px;color: #3c3c3c;height: 34px;line-height: 34px;}
+.informationCourseContent li{font-size: 12px;color: #0c0c0c;}
+.informationContentFirst h4{margin-top: 30px;}
+.informationContentFirst li{height: 40px;line-height: 40px;margin-top: 3px;}
+.informationContentFirst label{margin-right: 136px;color: #afb0af}
+.informationContentFirst .knowledgePoint,.informationContentFirst .concessionalRate{margin-right: 122px;}
+.informationContentFirst .courseName{margin-right: 113px;}
+.informationContentSecond li p{ color: #484948;padding-left: 10px;background: #eeeeee;height: 20px;line-height: 20px;margin: 10px 0;}
+.secondContent{margin-left: 30px;}

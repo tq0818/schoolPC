@@ -568,6 +568,9 @@
 
         <!-- 分校开放课程管理 -->
         <pattern>/jsp/OpenCourse</pattern>
+        <!-- 课程基本信息 -->
+        <pattern>/jsp/basicInformationCourse</pattern>
+
 
     </decorator>
 

@@ -2,10 +2,14 @@ package com.yuxin.wx.controller.branchschool;
 
 
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.model.company.Company;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +18,8 @@ import java.util.List;
 @RequestMapping("/classManager")
 public class ClassManager {
 
+	@Autowired
+    private ICompanyService iCompanyService;
     /**
      * 获取直播课程列表
      * @param model
@@ -82,9 +88,11 @@ public class ClassManager {
      * @param companyId
      * @return
      */
-    @RequestMapping(value = "/getClassInfo")
-    public String getClassInfo(Integer classId, Integer companyId){
+    @RequestMapping(value = "/getClassInfo/{companyId}")
+    public String getClassInfo(Model model,Integer classId, Integer companyId){
 
+    	Company cp=iCompanyService.findCompanyById(companyId);
+    	model.addAttribute("company", cp);
         return "berkeley/berkeleyDetail";
     }
 

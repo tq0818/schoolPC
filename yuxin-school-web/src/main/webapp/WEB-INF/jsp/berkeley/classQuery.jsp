@@ -28,6 +28,7 @@
         }
     </style>
     <%--tob--%>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
@@ -57,8 +58,14 @@
                     <th width="10%">学科</th>
                     <th width="10%">授课老师</th>
                     <th width="10%">课程类型</th>
-                    <th width="10%">报名人数</th>
-                    <th width="10%">购买人数</th>
+                    <th width="10%">
+                        报名人数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">
+                        购买人数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
                     <th width="10%">课程详情</th>
                 </tr>
                 <%--<c:choose>--%>
@@ -219,6 +226,8 @@
     $('.box').mouseleave(function(){
         $(this).hide();
     });
+
+
 
 </script>
 <script>

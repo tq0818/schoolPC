@@ -10,7 +10,6 @@ $(function () {
     $('.submitSchoolCancel').click(function () {
         $('.popupContainer').hide();
         $('.popupOpacity').hide();
-    })
 })
 
 function addBerkeley(){
@@ -95,4 +94,3 @@ $('.sorting').click(function(){
 });
 
 
-});

@@ -86,8 +86,12 @@
             margin-left: 10px;
             margin-right: 11px;
         }
+        .teacherManagementContent{
+            padding: 0 !important;
+        }
     </style>
     <%--tob--%>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
@@ -98,7 +102,7 @@
     <div class="right-side">
             <!--  内容开始 -->
             <div class="u-wrap resource">
-                <div class="mainbackground nopadding">
+                <div class="mainbackground nopadding teacherManagementContent">
                     <div class="heading">
                         <h2 class="h5">教师</h2>
                         <div class="search" style="right: 106px;top: 	-2px;">
@@ -107,7 +111,7 @@
                         </div>
 
                         <div class="search">
-                            <a href="<%= rootPath %>/teacherManger/updateOrAddTeacher/0" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em> 添加教师</a>
+                            <a href="<%= rootPath %>/berkeley/addTeacher" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em> 添加教师</a>
                         </div>
                         <span class="line"></span>
                     </div>

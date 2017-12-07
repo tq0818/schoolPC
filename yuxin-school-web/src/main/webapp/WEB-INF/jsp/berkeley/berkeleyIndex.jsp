@@ -206,7 +206,7 @@ $(function(){
                     <textarea cols="30" rows="10" id="schoolSummary" name="schoolSummary"></textarea>
                 </li>
                 <li class="submitSchool">
-                    <button  type="button" onclick="addBerkeley()" class="btn btn-success submitSchoolSure">确定</button>
+                    <button  type="button" onclick="addBerkeley()" class="btn btn-success ">确定</button>
                     <button  type="button" class="btn btn-danger submitSchoolCancel">取消</button>
                 </li>
             </ul>

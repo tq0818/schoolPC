@@ -72,6 +72,7 @@
         .u-wrap{width: 100%;margin: 0;}
     </style>
     <%--tob--%>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
@@ -81,7 +82,6 @@
     <jsp:include page="/WEB-INF/jsp/menu/menu_berkeleyLeft.jsp"></jsp:include>
     <div class="right-side">
         <input type="hidden" id="peopleMark" value="${peoplemark }"/>
-        <jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"></jsp:include>
         <form id="myForm" method="post">
             <input type="hidden" name="type" id="type"/>
             <input type="hidden" name="userId" id="uIds"/>
@@ -94,34 +94,45 @@
                     <h2 class="h5">用户权限</h2>
                     <span class="line"></span>
                     <span class="rb">
-                <a href="javascript:Form.editUser('save');" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em>添加用户</a>
-				<a href="javascript:Form.syncOrgUser('sync');" class="btn btn-mini btn-primary" style="height:14px">同步机构账号</a>
+
+				<%--<a href="javascript:Form.syncOrgUser('sync');" class="btn btn-mini btn-primary" style="height:14px">同步机构账号</a>--%>
             </span>
                 </div>
-                <div class="clear">
-                    <p id="schoolListP" class="fl">
-                        <c:forEach items="${schoolList }" var="school" varStatus="status">
-                            <c:if test="${school.id==schoolId }">
-                                <a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school.id }">${school.schoolName }</a>
-                            </c:if>
-                            <c:if test="${school.id!=schoolId }">
-                                <a href="javascript:;" class="btn btn-sm btn-default" mark="${school.id }">${school.schoolName }</a>
-                            </c:if>
-                        </c:forEach>
-                        <c:if test="${empty schoolList }">
-                            <a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>
-                        </c:if>
-                    </p>
-                    <div class="fr">
+                <div class="clear" style="width: 100%;">
+                    <%--<p id="schoolListP" class="fl">--%>
+                        <%--<c:forEach items="${schoolList }" var="school" varStatus="status">--%>
+                            <%--<c:if test="${school.id==schoolId }">--%>
+                                <%--<a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school.id }">${school.schoolName }</a>--%>
+                            <%--</c:if>--%>
+                            <%--<c:if test="${school.id!=schoolId }">--%>
+                                <%--<a href="javascript:;" class="btn btn-sm btn-default" mark="${school.id }">${school.schoolName }</a>--%>
+                            <%--</c:if>--%>
+                        <%--</c:forEach>--%>
+                        <%--<c:if test="${empty schoolList }">--%>
+                            <%--<a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>--%>
+                        <%--</c:if>--%>
+                    <%--</p>--%>
+                    <div class="fr" style="float: left;">
                         <form>
                             <p>
-		        		<span style="border:1px solid #d7d7d7;border-radius:2px;padding: 5px;margin-right:5px;background-color: #fff;font-size: 1.2rem;">
+		        		<span style="border:1px solid #d7d7d7;border-radius:2px;padding: 5px;margin-right:5px;background-color: #fff;font-size: 1.2rem;vertical-align: middle;">
 		        			<input style="border:none;" placeholder="用户名/姓名/手机号" id="condition"/>
 		        		</span>
-                                <a class="btn btn-sm btn-primary" id="search_condition" style="cursor: pointer;">搜索</a>
+                                <select name="" style="height: 29px;">
+                                    <option value="">选择角色</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                </select>
+                                <select name="" style="height: 29px;">
+                                    <option value="">选择状态</option>
+                                    <option value="">1</option>
+                                    <option value="">1</option>
+                                </select>
+                                <a class="btn btn-sm btn-primary" id="search_condition" style="cursor: pointer;vertical-align: middle;margin-left: 10px;">搜索</a>
                             </p>
                         </form>
                     </div>
+                        <a href="javascript:Form.editUser('save');" class="btn btn-mini btn-primary" style="float: right;"><em class="iconfont">&#xe606;</em>添加用户</a>
                 </div>
                 <div class="user-list">
 

@@ -20,7 +20,7 @@ import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
-import com.yuxin.wx.model.company.CompanyServiceStaticDay;
+import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
 
@@ -173,7 +173,7 @@ public class BranchSchoolIndex {
      */
     @ResponseBody
     @RequestMapping(value = "/addBerkeley")
-    public JSONObject addBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyServiceStaticDay cssd,CompanyLiveConfig clc){
+    public JSONObject addBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc){
     	 JSONObject json = new JSONObject();
          log.info("qa：添加分校:");
          String eduAreaSchool = request.getParameter("branchCode").toString();
@@ -204,10 +204,10 @@ public class BranchSchoolIndex {
          search.setBuyFlag("1");
          search.setCompanyNameShot(companyName);
          search.setServiceVersion("ONLINE_COUNT");
-         String flowSize= request.getParameter("flowSize").toString(); 
-         cssd.setResourceFlow(flowSize);
-         String spaceSize= request.getParameter("spaceSize").toString(); 
-         cssd.setResourceStorageNum(spaceSize);
+         int flowSize= Integer.valueOf(request.getParameter("flowSize")); 
+         cms.setVideoFlow(flowSize);
+         int spaceSize= Integer.valueOf(request.getParameter("spaceSize")); 
+         cms.setVideoStorage(spaceSize);
          String zsUserName= request.getParameter("zsUserName").toString(); 
          clc.setLoginName(zsUserName);
          String zsPwd= request.getParameter("zsPwd").toString(); 
@@ -215,7 +215,7 @@ public class BranchSchoolIndex {
          //ccUserName : ccUserName,
          //ccPwd : ccPwd,
          try {
-        	 companyManageServiceImpl.addBerkeley(search,cssd,clc);
+        	 companyManageServiceImpl.addBerkeley(search,cms,clc);
              json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         } catch (Exception e) {
         	 log.info("qa：添加分校报错");

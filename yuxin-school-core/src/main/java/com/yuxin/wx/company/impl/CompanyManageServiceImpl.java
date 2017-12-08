@@ -13,7 +13,7 @@ import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
-import com.yuxin.wx.model.company.CompanyServiceStaticDay;
+import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
 @Service
 @Transactional
@@ -48,15 +48,21 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		return companyMapper.queryCompanyVoByCondition(map);
 	}
 	@Override
-    public void addBerkeley(CompanyVo search, CompanyServiceStaticDay cssd, CompanyLiveConfig clc) {
+    public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {
 	    
 		 companyMapper.addBerkeley(search);
 		 int ids=search.getId();
-		 cssd.setCompanyId(ids);
-		 companyMapper.addCompanyServiceStaticDay(cssd);
+		 cms.setCompanyId(String.valueOf(ids));
+		 companyMapper.addCompanyMemberService(cms);
 		 clc.setCompanyId(ids);
 		 clc.setLiveType(1);
 		 companyMapper.companyLiveConfig(clc);
+    }
+	@Override
+    public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {
+		companyMapper.eidtBerkeley(search);
+		companyMapper.editCompanyMemberService(cms);
+		companyMapper.editcompanyLiveConfig(clc);
     }
 	
 	

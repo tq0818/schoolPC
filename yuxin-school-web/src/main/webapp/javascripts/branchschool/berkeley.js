@@ -148,13 +148,13 @@ function closeBtn(companyId,itemCode,delFlag) {
                                                 '<a class="more" href="javascript:void(0);">更多'+
                                                 '</a>'+
                                                 '<ul class="none box" style="display: none;">'+
-                                                    '<li><a class=""  href="'+rootPath+'/berkeley/berkeleyOrder">订单查询</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/berkeley/permissionManagement">权限管理</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/classManager/getClassList">课程管理</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/serviceManager/getServiceManager">服务管理</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/teacherManger/getFirstItems">老师管理</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/classQuery/getClassList">分校课程</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/computingResource/getVideoResourceAndMessageStatistics?companyId=18113">计算资源</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/berkeley/berkeleyOrder/'+stu.id+'">订单查询</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/berkeley/permissionManagement/'+stu.id+'">权限管理</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/classManager/getClassList/'+stu.id+'">课程管理</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/serviceManager/getServiceManager/'+stu.id+'">服务管理</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/teacherManger/getFirstItems/'+stu.id+'">老师管理</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/classQuery/getClassList/'+stu.id+'">分校课程</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/computingResource/getVideoResourceAndMessageStatistics/'+stu.id+'">计算资源</a></li>'+
                                                 '</ul>'+
                                             '</td>'+
                                         '</tr>');
@@ -205,12 +205,8 @@ function closeBtn(companyId,itemCode,delFlag) {
     window.company=company;
 })(jQuery)
 
-function addBerkeley(){
-		var branchCode=$("#branchCode").val();
-		if(null==branchCode || ''==branchCode){
-			alert("分校机构代码不能为空");
-			return;
-		}
+function addBerkeley(biaoshi){
+		
 		var branchSchool=$("#branchSchool").text();
 		var isArea=$("#isArea").val();
 		var eara=$("#eara").text();
@@ -233,38 +229,74 @@ function addBerkeley(){
 		var zsUserName=$("#zsUserName").val();
 		var zsPwd=$("#zsPwd").val();
 		var schoolSummary=$("#schoolSummary").val();
-   	 	$.ajax({
-   	        type : 'post',
-   	        url : rootPath + '/berkeley/addBerkeley',
-   	        data : {
-   	        	branchCode : branchCode,
-   	        	isArea : isArea,
-   	        	branchSchool : branchSchool,
-   	        	eara : eara,
-   	        	schoolProperties : schoolProperties,
-   	        	linkPerson : linkPerson,
-   	        	linkPhone : linkPhone,
-   	        	domain : domain,
-   	        	domainManage : domainManage,
-   	        	privateCost : privateCost,
-   	        	publicCost : publicCost,
-   	        	flowSize : flowSize,
-   	        	spaceSize : spaceSize,
-   	        	ccUserName : ccUserName,
-   	        	ccPwd : ccPwd,
-   	        	zsUserName : zsUserName,
-   	        	zsPwd : zsPwd,
-   	        	schoolSummary : schoolSummary
-   	        },
-   	        success : function(data){
-   	        	if(data=="SUCCESS"){
-   	        		alert("保存成功");
-   	        		$('.popupContainer').hide();
-   	        		$('.popupOpacity').hide();
-   	        		window.location.href = rootPath+"/berkeley/berkeleyIndex";
-   	        	}else{
-   	        		alert("保存失败");
-   	        	}
-   	        }
-   	    });
+		if(biaoshi==0){
+			var branchCode=$("#branchCode").val();
+			if(null==branchCode || ''==branchCode){
+				alert("分校机构代码不能为空");
+				return;
+			}
+			$.ajax({
+	   	        type : 'post',
+	   	        url : rootPath + '/berkeley/addBerkeley',
+	   	        data : {
+	   	        	branchCode : branchCode,
+	   	        	isArea : isArea,
+	   	        	branchSchool : branchSchool,
+	   	        	eara : eara,
+	   	        	schoolProperties : schoolProperties,
+	   	        	linkPerson : linkPerson,
+	   	        	linkPhone : linkPhone,
+	   	        	domain : domain,
+	   	        	domainManage : domainManage,
+	   	        	privateCost : privateCost,
+	   	        	publicCost : publicCost,
+	   	        	flowSize : flowSize,
+	   	        	spaceSize : spaceSize,
+	   	        	ccUserName : ccUserName,
+	   	        	ccPwd : ccPwd,
+	   	        	zsUserName : zsUserName,
+	   	        	zsPwd : zsPwd,
+	   	        	schoolSummary : schoolSummary
+	   	        },
+	   	        success : function(data){
+	   	        	if(data.msg=="success"){
+	   	        		alert("保存成功");
+	   	        		$('.popupContainer').hide();
+	   	        		$('.popupOpacity').hide();
+	   	        		window.location.href = rootPath+"/berkeley/berkeleyIndex";
+	   	        	}else{
+	   	        		alert("保存失败");
+	   	        	}
+	   	        }
+	   	    });
+		}else{
+			var companyId=$("#companyId").val();
+			$.ajax({
+	   	        type : 'post',
+	   	        url : rootPath + '/classManager/editBerkeley',
+	   	        data : {
+	   	        	id : companyId,
+	   	        	linkPerson : linkPerson,
+	   	        	linkPhone : linkPhone,
+	   	        	privateCost : privateCost,
+	   	        	publicCost : publicCost,
+	   	        	flowSize : flowSize,
+	   	        	spaceSize : spaceSize,
+	   	        	ccUserName : ccUserName,
+	   	        	ccPwd : ccPwd,
+	   	        	zsUserName : zsUserName,
+	   	        	zsPwd : zsPwd,
+	   	        	schoolSummary : schoolSummary
+	   	        },
+	   	        success : function(data){
+	   	        	if(data.msg=="success"){
+	   	        		alert("保存成功");
+	   	        		window.location.href = rootPath+"/classManager/getClassInfo/"+companyId;
+	   	        	}else{
+	   	        		alert("保存失败");
+	   	        	}
+	   	        }
+	   	    });
+		}
+   	 	
 	}

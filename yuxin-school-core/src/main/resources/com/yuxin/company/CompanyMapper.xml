@@ -93,6 +93,7 @@
 	    <result property="companyLogoType" column="company_logo_type"/>
 	</resultMap>
 	
+	
 	<resultMap type="com.yuxin.wx.vo.company.CompanyOrgMessageVo" id="messageListVo">
 		<result property="id" column="id"/>
 		<result property="messageType" column="message_type"/>
@@ -139,7 +140,7 @@
 	</resultMap>
 	
 	
-	<resultMap type="com.yuxin.wx.vo.company.CompanyVo" id="companyVoNewResultMap">
+	<resultMap type="com.yuxin.wx.model.company.NewCompanyVo" id="companyVoNewResultMap">
 		<result property="id" column="id" />
 		<result property="companyName" column="company_name" />
 		<result property="domain" column="domain" />
@@ -157,8 +158,16 @@
 		<result property="eduAreaSchool" column="edu_area_school" />
 		<result property="isArea" column="is_area" />
 		<result property="schoolProperty" column="school_property"/>
+		<result property="eduAreaName" column="area_name"/>
 
 	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveConfig" id="companyLiveConfigResultMap">
+	    <result property="id" column="id"/>
+	    <result property="loginName" column="login_name"/>
+	    <result property="password" column="password"/>
+	</resultMap>
+	
 	<sql id="table_columns">
 		id,
 		member_level,
@@ -191,7 +200,8 @@
 		service_version
 		
 	</sql>
-	<sql id="table_columns_company">
+	
+	<sql id="table_columns_company_insert">
 		id,
 		company_name,
 		domain,
@@ -217,6 +227,35 @@
 		buy_flag,
 		service_version,
 		company_name_short
+	</sql>
+	
+	<sql id="table_columns_company">
+		t1.id,
+		t1.company_name,
+		t1.domain,
+		t1.status,
+		t1.member_start_date,
+		t1.member_end_date,
+		t1.regist_time,
+		t1.school_apply_flag,
+		t1.link_person,
+		t1.link_phone,
+		t1.domain_manage,
+		t1.private_cost,
+		t1.public_cost,
+		t1.school_summary,
+		t1.edu_area_school,
+		t1.is_area,
+		t1.company_logo_type,
+		t1.company_logo,
+		t1.member_level,
+		t1.utm_source,
+		t1.con_type,
+		t1.buy_flag,
+		t1.service_version,
+		t1.company_name_short,
+		t3.item_value as area_name,
+		t4.item_value as school_property
 		
 	</sql>
 		<sql id="entity_properties_company">
@@ -380,6 +419,11 @@
 			<if test="crmFlag != null">crm_flag = #{crmFlag},</if>
 			<if test="buyFlag != null">buy_flag = #{buyFlag},</if>
 			<if test="comType != null">con_type = #{comType},</if>
+			<if test="schoolSummary != null and schoolSummary != ''" >school_summary = #{schoolSummary},</if>
+			<if test="linkPerson != null and linkPerson != ''" >link_person = #{linkPerson},</if>
+			<if test="linkPhone != null and linkPhone != ''" >link_phone = #{linkPhone},</if>
+			<if test="privateCost != null and privateCost != ''" >private_cost = #{privateCost},</if>
+			<if test="publicCost != null and publicCost != ''" >public_cost = #{publicCost},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -1183,18 +1227,59 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	
 	<!-- 适用于主键自增类型 -->
 	<insert id="addBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo" useGeneratedKeys="true" keyProperty="id">
-		insert into company ( <include refid="table_columns_company" /> ) 
+		insert into company ( <include refid="table_columns_company_insert" /> ) 
 		values ( <include refid="entity_properties_company" /> )
 	</insert>
 	
 	<!-- 分配流量，分配存储空间-->
-	<insert id="addCompanyServiceStaticDay" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay" useGeneratedKeys="true" keyProperty="id">
-		insert into company_service_static_day(id,company_id,video_total_flow,video_storage_num)
-		 VALUES(#{id},#{companyId},#{resourceFlow},#{resourceStorageNum})
+	<insert id="addCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService" useGeneratedKeys="true" keyProperty="id">
+		insert into company_member_service(id,company_id,video_flow,video_storage)
+		 VALUES(#{id},#{companyId},#{videoFlow},#{videoStorage})
 	</insert>
 	<!-- 展视互动账号-->
 	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
 		insert into company_live_config(id,company_id,login_name,password,live_type)
 		 VALUES(#{id},#{companyId},#{loginName},#{password},#{liveType})
 	</insert>
+	
+	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
+		select <include refid="table_columns_company" /> from company t1
+		LEFT JOIN sys_config_dict t2 ON t2.item_code=t1.edu_area_school
+		LEFT JOIN sys_config_dict t3 ON t3.id =t2.parent_item_id
+		LEFT JOIN sys_config_dict t4 ON t4.item_code=t1.school_property
+ 		where t1.id=#{id}
+	</select>
+	<select id="findCompanyLiveConfigById" resultMap="companyLiveConfigResultMap"
+		parameterType="String">
+		select login_name,password from company_live_config where company_id=#{id} and live_type=1
+	</select>
+	
+	
+	<update id="eidtBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo">
+	  update company
+		<trim prefix="set" suffixOverrides=",">
+			<if test="linkPerson != null and linkPerson != ''">link_person = #{linkPerson},</if>
+			<if test="linkPhone != null and linkPhone != ''">link_phone = #{linkPhone},</if>
+			<if test="privateCost != null and privateCost != ''">private_cost = #{privateCost},</if>
+			<if test="publicCost != null">public_cost = #{publicCost},</if>
+			<if test="schoolSummary != null and schoolSummary != ''">school_summary = #{schoolSummary}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="editCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService">
+	  update company_member_service
+		<trim prefix="set" suffixOverrides=",">
+			<if test="videoStorage != null and videoStorage != ''">video_storage =video_storage + #{videoStorage},</if>
+			<if test="videoFlow != null and videoFlow != ''">video_flow =video_flow + #{videoFlow}</if>
+		</trim>
+		<where>company_id = #{companyId}</where>
+	</update>
+	<update id="editcompanyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig">
+	  update company_live_config
+		<trim prefix="set" suffixOverrides=",">
+			<if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
+			<if test="password != null and password != ''">password = #{password}</if>
+		</trim>
+		<where>company_id = #{companyId} and live_type=1</where>
+	</update>
 </mapper>

@@ -45,9 +45,9 @@ public class ClassQuery {
     @Autowired
     private PropertiesUtil propertiesUtil;
         
-    @RequestMapping(value = "/getClassList")
-    public String getClassList(Model model, HttpServletRequest req){
-    	model.addAttribute("companyId", req.getParameter("companyId"));
+    @RequestMapping(value = "/getClassList/{companyId}")
+    public String getClassList(Model model, HttpServletRequest req,@PathVariable Integer companyId){
+    	model.addAttribute("companyId", companyId);
         return"berkeley/classQuery/classQuery";
     }
 

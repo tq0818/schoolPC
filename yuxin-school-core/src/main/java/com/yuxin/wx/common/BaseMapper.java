@@ -3,8 +3,8 @@ package com.yuxin.wx.common;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
-import com.yuxin.wx.vo.company.ProvinceVo;
 
 public interface BaseMapper<T> {
 	
@@ -86,6 +86,16 @@ public interface BaseMapper<T> {
 	* @user by wang.zx
 	 */
 	T findById(Integer id);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月7日 下午6:27:27
+	 * @Method: findNewCompanyById 
+	 * @Description: 根据ID查询分校
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	CompanyVo findNewCompanyById(Integer id);
 	
 	/**
 	 * 

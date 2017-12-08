@@ -7,14 +7,14 @@
         <!-- <span class="iconfont return-pic hcancle">&#xe650;</span> -->
     </div>
     <ul id="course_manage" class="system_managelist">
-        <li class="subentry" code="getClassInfo" mark="/classManager/getClassInfo">详情</li>
-        <li class="subentry" code="berkeleyOrder" mark="/berkeley/berkeleyOrder">订单查询</li>
-        <li class="subentry" code="permissionManagement" mark="/berkeley/permissionManagement">权限管理</li>
-        <li class="subentry" code="classManagerGetClassList" mark="/classManager/getClassList?companyId=18113">课程管理</li>
-        <li class="subentry" code="getServiceManager" mark="/serviceManager/getServiceManager?companyId=18113">服务管理</li>
-        <li class="subentry" code="getFirstItems" mark="/teacherManger/getFirstItems">老师管理</li>
-        <li class="subentry" code="classQueryGetClassList" mark="/classQuery/getClassList?companyId=18113">分校课程查询</li>
-        <li class="subentry" code="getVideoResourceAndMessageStatistics" mark="/computingResource/getVideoResourceAndMessageStatistics?companyId=18113">计算资源查询</li>
+        <li class="subentry" code="getClassInfo" mark="/classManager/getClassInfo/${company.id}">详情</li>
+        <li class="subentry" code="berkeleyOrder" mark="/berkeley/berkeleyOrder/${company.id}">订单查询</li>
+        <li class="subentry" code="permissionManagement" mark="/berkeley/permissionManagement/${company.id}">权限管理</li>
+        <li class="subentry" code="classManagerGetClassList" mark="/classManager/getClassList/${company.id}">课程管理</li>
+        <li class="subentry" code="getServiceManager" mark="/serviceManager/getServiceManager/${company.id}">服务管理</li>
+        <li class="subentry" code="getFirstItems" mark="/teacherManger/getFirstItems/${company.id}">老师管理</li>
+        <li class="subentry" code="classQueryGetClassList" mark="/classQuery/getClassList/${company.id}">分校课程查询</li>
+        <li class="subentry" code="getVideoResourceAndMessageStatistics" mark="/computingResource/getVideoResourceAndMessageStatistics/${company.id}">计算资源查询</li>
     </ul>
 </div>
 <script>

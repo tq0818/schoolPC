@@ -549,11 +549,11 @@
         <!--去分校首页页面-->
         <pattern>/berkeley/berkeleyIndex</pattern>
         <!-- 去分校详情页面 -->
-        <pattern>/classManager/getClassInfo</pattern>
+        <pattern>/classManager/getClassInfo/*</pattern>
         <!-- 去课程管理页面 -->
-        <pattern>/classManager/getClassList</pattern>
+        <pattern>/classManager/getClassList/*</pattern>
         <!-- 去分校课程查询页面 -->
-        <pattern>/classQuery/getClassList</pattern>
+        <pattern>/classQuery/getClassList/*</pattern>
         <!-- 去行政班设置页面 -->
         <pattern>/administrativeClassManager/administrativeClass</pattern>
         <!-- 去基地校直播课页面 -->

@@ -10,7 +10,7 @@ import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
-import com.yuxin.wx.model.company.CompanyServiceStaticDay;
+import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.company.CompanyPicsVo;
@@ -162,7 +162,31 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	 * @throws
 	 */
 	public Integer addBerkeley(com.yuxin.wx.model.company.CompanyVo search);
-	public void addCompanyServiceStaticDay(CompanyServiceStaticDay cssd);
+	public void addCompanyMemberService(CompanyMemberService cms);
 	public void companyLiveConfig(CompanyLiveConfig clc);
 	
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月7日 下午6:49:33
+	 * @Method: findCompanyVoById 
+	 * @Description: 根据ID查询分校
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	public NewCompanyVo findCompanyVoById(Integer id);
+	public CompanyLiveConfig findCompanyLiveConfigById(Integer id);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月8日 上午12:14:39
+	 * @Method: eidtBerkeley 
+	 * @Description: 修改分校
+	 * @param search
+	 * @return 
+	 * @throws
+	 */
+	public void eidtBerkeley(com.yuxin.wx.model.company.CompanyVo search);
+	public void editCompanyMemberService(CompanyMemberService cms);
+	public void editcompanyLiveConfig(CompanyLiveConfig clc);
 }

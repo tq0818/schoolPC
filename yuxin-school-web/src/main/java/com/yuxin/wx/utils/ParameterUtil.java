@@ -63,4 +63,13 @@ public class ParameterUtil {
 		System.out.println(isChinese("张三3_"));
 	}
 
+	public static String GenseeMd5(Integer userId,Integer lessonId,Integer companyId
+			,long timestamp,String password){
+		String codes = "userId=" + userId + "lessonId=" + lessonId + "companyId="
+				+companyId;
+		String oneMd5 = MD5.getMD5ofStr(codes);
+		oneMd5 += "timestamp=" + timestamp + "password=" + password;
+		String twoMd5 = MD5.getMD5ofStr(oneMd5);
+		return twoMd5;
+	}
 }

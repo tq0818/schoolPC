@@ -895,4 +895,8 @@
 		where u.wx_open_id is not null and u.wx_open_id !='' and s.edu_step = #{eduStep}
 		and s.edu_year = #{eduYear}
 	</select>
+
+	<select id="findNickNameByUserFrontId" resultType="String" parameterType="String">
+		select username from users_front where id=#{userid}
+	</select>
 </mapper>

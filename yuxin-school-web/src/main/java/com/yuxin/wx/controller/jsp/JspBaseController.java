@@ -11,5 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/jsp")
 public class JspBaseController {
+    /**
+     * 分校开放课程管理
+     * @return
+     */
+    @RequestMapping(value = "/OpenCourse")
+    public String OpenCourse(){
+        return "schoolResources/openCourse";
+    }
 
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/basicInformationCourse")
+    public String basicInformationCourse(){
+        return "schoolResources/basicInformationCourse";
+    }
 }

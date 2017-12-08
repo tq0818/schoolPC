@@ -12,7 +12,7 @@
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
     <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>--%>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>
+    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
     <style type="text/css">
         .head-div {
             position: relative;

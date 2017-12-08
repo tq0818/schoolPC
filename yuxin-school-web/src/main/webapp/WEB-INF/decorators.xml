@@ -561,6 +561,17 @@
         <!-- 去基地校录播课页面 -->
         <pattern>/baseSchool/baseSchoolRecording</pattern>
 
+
+
+        <!--第二阶段-->
+
+
+        <!-- 分校开放课程管理 -->
+        <pattern>/jsp/OpenCourse</pattern>
+        <!-- 课程基本信息 -->
+        <pattern>/jsp/basicInformationCourse</pattern>
+
+
     </decorator>
 
 </decorators>

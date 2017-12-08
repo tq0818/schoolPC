@@ -233,14 +233,14 @@
 <div class="popupAddCourse">
     <h5>添加课程</h5>
     <button class="btn btn-primary closePopupAddCourse">关闭</button>
-    <div>
+    <div class="classManagementInput">
         <div>
-            <label for="">课程名称:</label>
-            <input type="text">
+            <label for="" class="classManagementInputFirst">课程名称:</label>
+            <input type="text" placeholder="请输入课程名">
         </div>
         <div>
             <label for="">课程所属学校:</label>
-            <input type="text">
+            <input type="text" placeholder="请输入课程所属学校">
         </div>
         <button class="btn btn-primary">搜索</button>
     </div>
@@ -260,7 +260,7 @@
                     <td>1</td>
                     <td>1</td>
                     <td><a href="##">点击查看</a></td>
-                    <td><button class="btn btn-primary">添加</button></td>
+                    <td><button class="btn btn-primary addClassManagement">添加</button></td>
                 </tr>
                 </tbody></table>
             <div class="pages pagination">
@@ -274,6 +274,11 @@
         $('.popupOpacity').show();
     });
     $('.closePopupAddCourse').click(function(){
+        $('.popupAddCourse').hide();
+        $('.popupOpacity').hide();
+    });
+//    点击添加隐藏弹窗
+    $('.addClassManagement').click(function(){
         $('.popupAddCourse').hide();
         $('.popupOpacity').hide();
     });

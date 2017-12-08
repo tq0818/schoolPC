@@ -103,7 +103,9 @@
                  </c:forEach>
             </table>
            	<div class="pages">
-				<div class="paginations"></div>
+				<ul class="paginations">
+
+                </ul>
 			</div>
 <script type="text/javascript">
 $(function(){

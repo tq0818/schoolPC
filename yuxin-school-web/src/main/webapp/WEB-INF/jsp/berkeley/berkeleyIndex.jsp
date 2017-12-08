@@ -26,19 +26,20 @@
         }
     </style>
     <%--tob--%>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-<div class="u-wrap admin overflow">
+<div class="u-wrap admin overflow berkeleyIndex">
     <div>
         <div class="heading">
             <h2 class="h5">分校列表</h2>
             <span class="line"></span>
         </div>
         <div style="margin-top: 10px;">
-            <input type="text" id="schoolName" name="schoolName" placeholder="分校名称"/>
+            <input type="text" id="companyName" name="companyName" placeholder="分校名称"/>
             <select name="eduArea" id="eduArea">
                 <option value="">请选择区域</option>
                 <c:forEach items="${areas}" var="area" >
@@ -57,23 +58,33 @@
                     <th width="10%">组织机构代码</th>
                     <th width="10%">分校名称</th>
                     <th width="10%">所属区域</th>
-                    <th width="10%">创建时间<img src="/images/upDown.png" alt=""></th>
-                    <th width="10%">注册学生人数<img src="/images/upDown.png" alt=""></th>
-                    <th width="10%">课程数<img src="/images/upDown.png" alt=""></th>
-                    <th width="10%">班级数<img src="/images/upDown.png" alt=""></th>
+                    <th width="10%">创建时间
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">注册学生人数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">课程数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
+                    <th width="10%">班级数
+                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    </th>
                     <th width="15%">操作</th>
                 </tr>
+               
+                <c:forEach items="${companyList.data}" var="cp" varStatus="i">
                 <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                	<td>${i.index+1}</td>
+                    <td>${cp.eduAreaSchool}</td>
+                    <td>${cp.companyName}</td>
+                    <td>${cp.eduArea}</td>
+                    <td>${cp.eduArea}</td>
+                    <td>${cp.registStudentCounts}</td>
+                    <td>${cp.classTypeCounts}</td>
+                    <td>${cp.classCounts}</td>
                     <td class="slink">
-                        <a class="showSignUp" mobile="" uname="sdsdsd" href="javascript:void(0);">详情</a>|
+                        <a class="showSignUp" mobile="" uname="sdsdsd" href="javascript:void(0);" onclick="detail(${cp.companyId})">详情</a>|
                         <a class="studentDetail" mobile="" uname="sdsdsd" href="javascript:void(0);">查看官网</a>|
                         <a class="more" href="javascript:void(0);">
                             更多
@@ -89,8 +100,31 @@
                         </ul>
                     </td>
                 </tr>
+                 </c:forEach>
             </table>
-            <div class="pages pagination">
+           	<div class="pages">
+				<ul class="paginations">
+
+                </ul>
+			</div>
+<script type="text/javascript">
+$(function(){
+	$(".paginations").html("");
+	$(".paginations").pagination('${anPage.rowCount}', {
+		next_text : "下一页",
+		prev_text : "上一页",
+		current_page : '${anPage.pageNo-1}',
+		link_to : "javascript:void(0)",
+		num_display_entries : 8,
+		items_per_page : '${anPage.pageSize}',
+		num_edge_entries : 1,
+		callback : function(page, jq) {
+			var pageNo = page + 1;
+			selOneAns(pageNo);
+		}
+	});
+});
+</script>
             </div>
         </div>
     </div>
@@ -105,6 +139,7 @@
                 <li>
                     <label>分校机构代码:</label>
                     <input type="text" name="branchCode" id="branchCode">
+                    <input type="hidden" name="isArea" id="isArea">
                     <button class="btn btn-primary" id="searchBranchSchool">搜索</button>
                 </li>
                 <li>
@@ -113,7 +148,7 @@
                 </li>
                 <li>
                     <label>所属区域:</label>
-                    <label id="eduArea" name="eduArea"></label>
+                    <label id="eara" name="eara"></label>
                 </li>
                 <li>
                     <label>学校性质:</label>
@@ -147,43 +182,43 @@
                     <label>收费配置:</label>
                     <p>
                         <label>学校私有课程收费比例:</label>
-                        <input type="text" id="privateCost" name="privateCost">
+                        <input type="text" id="privateCost" name="privateCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
                     </p>
                     <p>
                         <label>学校开放课程收费比例：</label>
-                        <input type="text" id="publicCost" name="publicCost">
+                        <input type="text" id="publicCost" name="publicCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
                     </p>
                 </li>
                 <li>
                     <label>资源分配</label>
                     <p>
                         流量
-                        <input type="text" id="flowSize" name="flowSize">
+                        <input type="text" id="flowSize" name="flowSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                         GB
                     </p>
                     <p>
                         空间
-                        <input type="text" id="spaceSize" name="spaceSize">
+                        <input type="text" id="spaceSize" name="spaceSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"">
                         GB
                     </p>
                 </li>
                 <li>
                     <label for="">cc账号:</label>
-                    <input type="text" name="ccUserName" id="ccUserName"/><br/>
-                    <input type="password" name="ccPwd" id="ccPwd"/>
+                    <input type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
+                    <input type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
                 </li>
                 <li>
                     <label for="">展视互动账号:</label>
-                    <input type="text" name="zsUserName" id="zsUserName"/>
-                    <input type="password" name="zsPwd" id="zsPwd"/>
+                    <input type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/>
+                    <input type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
                 </li>
                 <li>
                     <label>学校简介：</label>
                     <textarea cols="30" rows="10" id="schoolSummary" name="schoolSummary"></textarea>
                 </li>
                 <li class="submitSchool">
-                    <button class="btn btn-success submitSchoolSure">确定</button>
-                    <button class="btn btn-danger submitSchoolCancel">取消</button>
+                    <button  type="button" onclick="addBerkeley(0)" class="btn btn-success ">确定</button>
+                    <button  type="button" class="btn btn-danger submitSchoolCancel">取消</button>
                 </li>
             </ul>
         </div>
@@ -208,22 +243,23 @@
 	<script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 	<script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>--%>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
 <!--  ajax加载中div结束 -->
 <script>
 //    点击更多显示菜单
-    $('.more').mouseenter(function(){
+    $('table').on('mouseenter','.more',function(){
         $(this).siblings('ul').show();
     });
-    $('.more').mouseleave(function(){
+    $('table').on('mouseleave','.more',function(){
         $(this).siblings('ul').hide();
     });
-    $('.box').mouseenter(function(){
+    $('table').on('mouseenter','.box',function(){
         $(this).show();
     });
-    $('.box').mouseleave(function(){
+    $('table').on('mouseleave','.box',function(){
         $(this).hide();
     });
+    console.log(rootPath);
 
 </script>
 

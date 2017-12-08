@@ -1,7 +1,6 @@
 package com.yuxin.wx.classes.impl;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,8 +9,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.classes.mapper.ClassModuleLessonMapper;
 import com.yuxin.wx.classes.mapper.ClassModuleMapper;
@@ -510,4 +510,30 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		int count = classTypeMapper.countSubjectClassOrder(itemOneCode);
 		return count;
 	}
+
+	@Override
+	public List<ClassTypeVo> queryLiveClassOfBranchSchool(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeMapper.queryLiveClassOfBranchSchool(param);
+	}
+
+	@Override
+	public int queryCountLiveClassOfBranchSchool(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeMapper.queryCountLiveClassOfBranchSchool(param);
+	}
+	
+
+	@Override
+	public List<ClassTypeVo> queryClassOfBranchSchool(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeMapper.queryClassOfBranchSchool(param);
+	}
+
+	@Override
+	public int queryCountClassOfBranchSchool(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeMapper.queryCountClassOfBranchSchool(param);
+	}
+
 }

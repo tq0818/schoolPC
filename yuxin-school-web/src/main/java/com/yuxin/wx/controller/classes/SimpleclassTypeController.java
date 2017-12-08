@@ -328,13 +328,17 @@ public class SimpleclassTypeController {
 		model.addAttribute("itemThirdCode", classType.getItemThirdCode());
 		model.addAttribute("itemFourthCode", classType.getItemFourthCode());
 		model.addAttribute("lable", lable);
+		model.addAttribute("isArea",WebUtils.getCurrentIsArea());
+
 		//面授和直播
 		if("face".equals(lable)||"live".equals(lable)){
 			return "simpleClasses/addClassTypeFaceOrLiveMessage";
-		}else if("video".equals(lable)){
+		}else if("video".equals(lable)){//录播
 			return "simpleClasses/addClassTypeVideoMessage";
-		}else if("togther".equals(lable)){
+		}else if("togther".equals(lable)){//混合
 			return "simpleClasses/addClassTypeTogtherMessage_1";
+		}else if("buy".equals(lable)){
+			return "simpleClasses/addClassTypeOtherMessage";
 		}else{
 			return "simpleClasses/addClassTypeOtherMessage";
 		}

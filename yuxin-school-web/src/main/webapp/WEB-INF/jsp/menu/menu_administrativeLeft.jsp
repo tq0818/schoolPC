@@ -7,7 +7,7 @@
         <!-- <span class="iconfont return-pic hcancle">&#xe650;</span> -->
     </div>
     <ul id="course_manage" class="system_managelist">
-        <li class="subentry" code="operate_fee" mark="/administrativeClassManager/administrativeClass">行政班设置</li>
+        <li class="subentry" code="administrativeClass" mark="/administrativeClassManager/administrativeClass">行政班设置</li>
     </ul>
 </div>
 <script>

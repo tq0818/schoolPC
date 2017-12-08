@@ -7,9 +7,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yuxin.wx.common.BaseMapper;
-import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.company.CompanyPicsVo;
@@ -127,4 +128,65 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	List<CompanyOrgMessageVo> queryMessageServiceList(CompanyOrgMessageVo search);
 	
 	Integer queryServiceOpenFlag(Map<String, Object> map);
+
+	int getBerkeleySchoolListCount(CompanyVo companyVo);
+
+	CompanyVo getIsAreaByCompanyId(Integer companyId);
+	
+	/**
+	 * 分校首页学校列表
+	 * @param search 查询条件
+	 * @return 分校结果集
+	 */
+	public List<com.yuxin.wx.model.company.CompanyVo> queryCompanyVoListByCondition(com.yuxin.wx.model.company.CompanyVo search);
+	
+	
+	/**
+	 * 分校首页学校数据
+	 * @param search 查询条件
+	 * @return 分校结果数据
+	 */
+	public Integer queryCompanyVoListByConditionCount(com.yuxin.wx.model.company.CompanyVo search);
+	/**
+	 * 通过查询条件查询对应的机构
+	 * @param params
+	 * @return
+	 */
+	public com.yuxin.wx.model.company.CompanyVo queryCompanyVoByCondition(Map<String,Object> params);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月7日 上午9:48:46
+	 * @Method: addBerkeley 
+	 * @Description: 添加分校
+	 * @param search 
+	 * @throws
+	 */
+	public Integer addBerkeley(com.yuxin.wx.model.company.CompanyVo search);
+	public void addCompanyMemberService(CompanyMemberService cms);
+	public void companyLiveConfig(CompanyLiveConfig clc);
+	
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月7日 下午6:49:33
+	 * @Method: findCompanyVoById 
+	 * @Description: 根据ID查询分校
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	public NewCompanyVo findCompanyVoById(Integer id);
+	public CompanyLiveConfig findCompanyLiveConfigById(Integer id);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月8日 上午12:14:39
+	 * @Method: eidtBerkeley 
+	 * @Description: 修改分校
+	 * @param search
+	 * @return 
+	 * @throws
+	 */
+	public void eidtBerkeley(com.yuxin.wx.model.company.CompanyVo search);
+	public void editCompanyMemberService(CompanyMemberService cms);
+	public void editcompanyLiveConfig(CompanyLiveConfig clc);
 }

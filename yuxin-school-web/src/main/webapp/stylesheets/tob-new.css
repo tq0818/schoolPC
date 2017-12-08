@@ -17,7 +17,9 @@
 .createBranch,.addCourse{float: right;margin-right: 20px;}
 .popupContainerCourse,.popupAddCourse{display: none;width: 800px;height: 300px;position: fixed;left: 50%;top: 50%;
 margin-left: -400px;margin-top: -150px;background: #fff;z-index: 100;text-align: center;}
-.popupContainerCourse h5,.popupAddCourse h5{height: 80px;line-height: 80px;}
+.popupContainerCourse h5,.popupAddCourse h5{height: 60px;line-height: 60px;}
+.popupAddCourse{padding: 0 52px}
+.popupAddCourse h5{border-bottom: 1px solid #f6f6f6;font-size: 16px;color: #333333;}
 .popupCourseContent{height: 160px;text-align: left;overflow: auto;margin-bottom: 10px;}
 .popupAddCourse{height: 400px;}
 .popupAddCourse label{display: inline-block;}
@@ -61,3 +63,7 @@ input.editStateNow,textarea.editStateNow{border: 1px solid #e4e4e4;background: #
 .informationContentFirst .courseName{margin-right: 113px;}
 .informationContentSecond li p{ color: #484948;padding-left: 10px;background: #eeeeee;height: 20px;line-height: 20px;margin: 10px 0;}
 .secondContent{margin-left: 30px;}
+.classManagementInput>div{height: 40px;line-height: 40px;text-align: left;margin: 10px 0;}
+.classManagementInput>div input{height: 24px;width: 312px;line-height: 24px;font-size: 12px;color: #999999;}
+.classManagementInput>div label{font-size: 14px;color: #868686;margin-right: 10px;}
+.classManagementInput>div .classManagementInputFirst{margin-right: 38px;}

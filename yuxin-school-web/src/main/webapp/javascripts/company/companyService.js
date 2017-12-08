@@ -70,7 +70,9 @@ $(function(){/*
 //				$('.loading,.layer-bg').fadeIn(200);
 	         },
 			success:function(data){
-				if(data.msg == "auth"){
+				if(data.msg=="no_auth"){
+					$('<div class="c-fa">'+ '请联系数校开通此服务！' +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){$(this).remove();});
+				}else if(data.msg == "auth"){
 					$('<div class="c-fa">'+ '您没有操作权限！' +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){$(this).remove();});
 				}else if(data.msg == "error"){
 					$('<div class="c-fa">'+ '出现了一点点小意外！' +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){$(this).remove();});

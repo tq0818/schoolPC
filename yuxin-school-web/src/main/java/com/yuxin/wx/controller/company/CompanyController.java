@@ -1553,6 +1553,10 @@ public class CompanyController {
                 json.put(JsonMsg.MSG, "auth");
                 return json;
             }
+            if(0!=WebUtils.getCurrentIsArea()){
+            	json.put(JsonMsg.MSG,"no_auth");
+            	return json;
+            }
             Company company = companyServiceImpl.findCompanyById(companyId);
             if ("open".equals(actions) && (company.getMemberLevel().equals(12) || company.getMemberLevel().equals(13))) {
                 // 根据当前服务查询是否可以开启

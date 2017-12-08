@@ -3754,11 +3754,12 @@ public class ClassModuleController {
 	@ResponseBody
 	@RequestMapping(value="/addCourseLessonUrl",method=RequestMethod.POST)
 	public JSONObject addCourseLessonUrl(HttpServletRequest request,
-											Integer lessonId,String afterStudyUrl,String beforeStudyUrl){
+											Integer lessonId,String afterStudyUrl,String beforeStudyUrl,String beforeStudyName){
 		ClassModuleLesson lesson=new ClassModuleLesson();
 		lesson.setId(lessonId);
 		lesson.setAfterStudyUrl(afterStudyUrl);
 		lesson.setBeforeStudyUrl(beforeStudyUrl);
+		lesson.setBeforeStudyName(beforeStudyName);
 		JSONObject json = new JSONObject();
 		try
 		{

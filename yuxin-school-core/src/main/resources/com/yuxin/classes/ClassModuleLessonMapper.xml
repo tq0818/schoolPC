@@ -36,6 +36,7 @@
 		<result property="creator" column="creator"/>
 		<result property="barrage" column="barrage"/>
 		<result property="modetype" column="modetype"/>
+		<result property="beforeStudyName" column="before_study_name"/>
 		<result property="beforeStudyUrl" column="before_study_url"/>
 		<result property="afterStudyUrl" column="after_study_url"/>
 		<result property="tikuPaper.id" column="paperId"></result>
@@ -83,6 +84,7 @@
 		creator,
 		barrage,
 		modetype,
+		before_study_name,
 		before_study_url,
 		after_study_url
 
@@ -122,6 +124,7 @@
 		#{creator},
 		#{barrage},
 		#{modetype},
+		#{beforeStudyName},
 		#{beforeStudyUrl},
 		#{afterStudyUrl}
 	</sql>
@@ -228,6 +231,7 @@
 			<if test="modetype != null">modetype = #{modetype},</if>
 			<if test="afterStudyUrl != null  ">after_study_url = #{afterStudyUrl},</if>
 			<if test="beforeStudyUrl != null ">before_study_url = #{beforeStudyUrl},</if>
+			<if test="beforeStudyName != null ">before_study_name = #{beforeStudyName},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

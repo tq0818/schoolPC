@@ -396,6 +396,7 @@
                          dataType: "json",
                          success: function (lesson) {
                              $("#beforeStudyUrl").val(lesson.beforeStudyUrl);
+                             $("#beforeStudyName").val(lesson.beforeStudyName);
                              $("#afterStudyUrl").val(lesson.afterStudyUrl);
                          }
                      });
@@ -935,6 +936,13 @@
 			data.lessonId=$("#lessonUrlId").val();
             data.beforeStudyUrl = $("#beforeStudyUrl").val();
             data.afterStudyUrl =$("#afterStudyUrl").val();
+            if($("#beforeStudyUrl").val().trim().length>0 ){
+                if($("#beforeStudyName").val().trim().length==0){
+                	$.msg("请输入预习课程名称");
+                	return;
+				}
+			}
+            data.beforeStudyName =$("#beforeStudyName").val();
 			url=rootPath+"/classModule/addCourseLessonUrl";
             if($(".editson[mark=back]").hasClass("disabled")){
                 return;

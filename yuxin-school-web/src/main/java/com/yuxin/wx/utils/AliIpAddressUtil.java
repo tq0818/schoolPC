@@ -7,6 +7,8 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -23,6 +25,7 @@ import com.yuxin.wx.vo.address.Result;
 public class AliIpAddressUtil {
 	private static Resource resource;
 	private static Properties props;
+	private static Log logger = LogFactory.getLog("AliIpAddressUtil");
 	public static Result<Address> getAddress(String ip){
 //		System.out.println("开始等待15s");
 //        try {
@@ -77,7 +80,7 @@ public class AliIpAddressUtil {
 	    	}
 	    	return address;
 	    } catch (Exception e) {
-	    	e.printStackTrace();
+	    	logger.error("Result<Address> httpGet(String)", e);
 	    }
 	    return new Result<Address>();
 	}

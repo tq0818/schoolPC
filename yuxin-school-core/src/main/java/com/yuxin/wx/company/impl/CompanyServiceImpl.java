@@ -522,4 +522,9 @@ public class CompanyServiceImpl extends BaseServiceImpl implements ICompanyServi
 	    return clc;
     }
 
+	@Override
+	public Integer findComanyIdByRootPath(String rootPath) {
+		return companyMapper.findComanyIdByRootPath(rootPath);
+	}
+
 }

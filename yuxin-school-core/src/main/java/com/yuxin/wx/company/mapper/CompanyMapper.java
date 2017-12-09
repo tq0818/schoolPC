@@ -195,6 +195,5 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void editCompanyMemberService(CompanyMemberService cms);
 	public void editcompanyLiveConfig(CompanyLiveConfig clc);
 
-	
 	Integer findComanyIdByRootPath(String rootPath);
 }

@@ -1553,7 +1553,7 @@ public class CompanyController {
                 json.put(JsonMsg.MSG, "auth");
                 return json;
             }
-            if(0!=WebUtils.getCurrentIsArea()){
+            if("0".equals(WebUtils.getCurrentIsArea())){
             	json.put(JsonMsg.MSG,"no_auth");
             	return json;
             }

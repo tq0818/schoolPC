@@ -257,9 +257,9 @@ public interface IClassModuleLessonService  {
 	 */
 	CompanyLiveConfig queryCompanyLiveConfigByCompanyId(String companyId);
 	/**
-	 * 通过用户标识号获取用户名称
-	 * @param userid 用户标识号
-	 * @return
-	 */
-	String findNickNameByUserFrontId(String userid);
+ * 通过用户标识号获取用户名称
+ * @param userid 用户标识号
+ * @return
+ */
+String findNickNameByUserFrontId(String userid);
 }

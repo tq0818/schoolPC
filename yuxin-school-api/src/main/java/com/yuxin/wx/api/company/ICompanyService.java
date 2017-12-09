@@ -621,5 +621,10 @@ public interface ICompanyService  {
 	 */
 	NewCompanyVo findCompanyVoById(Integer id);
 	CompanyLiveConfig findCompanyLiveConfigById(Integer id);
+	/**
+	 * 通过rootPath获取companyId
+	 * @return
+	 */
+	Integer findComanyIdByRootPath(String rootPath); 
 
 }

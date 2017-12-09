@@ -1,24 +1,22 @@
 package com.yuxin.wx.common;
 
-import com.yuxin.wx.api.auth.IAuthUserRoleService;
-import com.yuxin.wx.api.company.*;
-import com.yuxin.wx.api.system.ISysConfigServiceService;
-import com.yuxin.wx.api.system.ISysServiceDredgeConfigService;
-import com.yuxin.wx.api.user.IUsersLoginSessionService;
-import com.yuxin.wx.api.user.IUsersService;
-import com.yuxin.wx.model.company.*;
-import com.yuxin.wx.model.system.SysConfigService;
-import com.yuxin.wx.model.system.SysConfigTeacher;
-import com.yuxin.wx.model.user.Users;
-import com.yuxin.wx.model.user.UsersLoginSession;
-import com.yuxin.wx.util.DateUtil;
-import com.yuxin.wx.util.FileQNUtils;
-import com.yuxin.wx.utils.*;
-import com.yuxin.wx.vo.address.Address;
-import com.yuxin.wx.vo.address.Result;
-import com.yuxin.wx.vo.company.CompanyManageLoginHistoryVo;
-import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
-import com.yuxin.wx.vo.system.SysServiceDredgeVo;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -26,6 +24,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -39,15 +38,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.yuxin.wx.api.auth.IAuthUserRoleService;
+import com.yuxin.wx.api.company.ICompanyFunctionSetService;
+import com.yuxin.wx.api.company.ICompanyLiveConcurrentService;
+import com.yuxin.wx.api.company.ICompanyMemberServiceChangelogService;
+import com.yuxin.wx.api.company.ICompanyMemberServiceService;
+import com.yuxin.wx.api.company.ICompanyNewStepService;
+import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.api.company.ICompanyServiceStaticService;
+import com.yuxin.wx.api.company.IOrganLeaveMessageService;
+import com.yuxin.wx.api.system.ISysConfigServiceService;
+import com.yuxin.wx.api.system.ISysServiceDredgeConfigService;
+import com.yuxin.wx.api.user.IUsersLoginSessionService;
+import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.company.CompanyFunctionSet;
+import com.yuxin.wx.model.company.CompanyLiveConcurrent;
+import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyMemberServiceChangelog;
+import com.yuxin.wx.model.company.CompanyNewStep;
+import com.yuxin.wx.model.company.CompanyServiceStatic;
+import com.yuxin.wx.model.company.OrganLeaveMessage;
+import com.yuxin.wx.model.system.SysConfigService;
+import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.model.user.UsersLoginSession;
+import com.yuxin.wx.shiro.service.JedisShiroCacheManager;
+import com.yuxin.wx.util.DateUtil;
+import com.yuxin.wx.util.FileQNUtils;
+import com.yuxin.wx.utils.AliIpAddressUtil;
+import com.yuxin.wx.utils.CaptchaUtil;
+import com.yuxin.wx.utils.NetworkUtil;
+import com.yuxin.wx.utils.SMSUtil;
+import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.address.Address;
+import com.yuxin.wx.vo.address.Result;
+import com.yuxin.wx.vo.company.CompanyManageLoginHistoryVo;
+import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
+import com.yuxin.wx.vo.system.SysServiceDredgeVo;
 
 /**
  * 
@@ -91,6 +118,8 @@ public class BaseWebController {
 
     @Autowired
     private ISysConfigServiceService sysConfigServiceServiceImpl;
+    @Autowired
+    private JedisShiroCacheManager jedisShiroCacheManager;
 
     @RequestMapping(value = "/index", method = { RequestMethod.POST, RequestMethod.GET })
     public ModelAndView index(HttpServletRequest request, Model model) {
@@ -227,11 +256,32 @@ public class BaseWebController {
     }
 
     @RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
-    public ModelAndView login(HttpServletRequest request, Model model) {
+    public ModelAndView login(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("../../login");
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession(true);
+        //获取当前访问域名对应的companyid
+        Integer port=(Integer)request.getServerPort();
+        String rootPath="";
+        if(80==port){
+        	rootPath=request.getServerName()+request.getContextPath();
+        }else{
+        	rootPath=request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        }
+        //通过rootPath获取CompanyId，先查缓存，缓存没有在查数据库
+        Cache<String,Integer> cache=jedisShiroCacheManager.getCache("companyInfo");
+        Integer companyId=cache.get(rootPath);
+        if(companyId==null){
+        	companyId=companyServiceImpl.findComanyIdByRootPath(rootPath);
+        	if(companyId!=null){
+        		cache.put(rootPath, companyId);
+        	}else{
+        		response.sendRedirect(request.getServletPath()+"/fonts/404.html");;
+        		return null;
+        	}
+        }
+        session.setAttribute(WebUtils.COMPANY_ID, companyId);
         if (subject.isAuthenticated()) {// 已经成功登录过,直接跳到首页
             // 已登录时，且没有选择过服务则踢到选择服务
             List<CompanyNewStep> l = companyNewStepServiceImpl.findCompanyNewStepByCompany(WebUtils.getCurrentCompanyId());
@@ -247,15 +297,15 @@ public class BaseWebController {
         String password = request.getParameter("password");
         if (userName != null && password != null) {
             password = new Md5Hash(password, ByteSource.Util.bytes(userName + "salt")).toHex();
-
             UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
             try {
                 subject.login(token);
                 Users users = usersServiceImpl.queryUserByName(userName);
-                session.setAttribute("loginUser", users);
+                session.setAttribute(WebUtils.LOGIN_USER, users);
                 // 设置公司的相关信息 add by jaler 16.11.1
                 Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
-                session.setAttribute("company", company);
+                session.setAttribute(WebUtils.CURRENT_COMAPNY, company);
+                session.setAttribute(WebUtils.CURRENT_IS_AREA,company.getIsArea());
                 if (company.getMemberLevel() < 20) {
                     List<SysServiceDredgeVo> ssdVo = sysServiceDredgeImpl.findDredgeByCom(company.getId());
                     if (ssdVo != null) {
@@ -270,7 +320,7 @@ public class BaseWebController {
                     // 将机构使用视频服务存入session
                     CompanyMemberService service = companyMemberServiceServiceImpl.findByCompanyId(WebUtils.getCurrentCompanyId());
                     if (service != null) {
-                        session.setAttribute("useVideo", service.getVideoServiceProvider());
+                        session.setAttribute(WebUtils.USE_VIDEO, service.getVideoServiceProvider());
                     }
                     // 将公司课程版本存入session(1表示简易版，0或空值表示复杂版)
                     CompanyFunctionSet search = new CompanyFunctionSet();
@@ -278,47 +328,17 @@ public class BaseWebController {
                     search.setFunctionCode("COMPANY_FUNCTION_COURSE");
                     CompanyFunctionSet functionSet = companyFunctionSetImpl.findCompanyUseCourse(search);
                     if (functionSet instanceof Object) {
-                        session.setAttribute("courseFunction", functionSet.getStatus());
+                        session.setAttribute(WebUtils.COURSE_FUNCTION, functionSet.getStatus());
                     } else {
-                        session.setAttribute("courseFunction", "");
+                        session.setAttribute(WebUtils.COURSE_FUNCTION, "");
                     }
 
                 } catch (Exception e) {
                     log.error("存入session值失败", e);
-                    e.printStackTrace();
                 }
                 try {
                 	//异步插入用户登录日志
                 	new Thread(new UserLoginThread(usersLoginSessionServiceImpl,session,users,request)).start();
-                	// 记录登录日志
-//                    UsersLoginSession loginSession = usersLoginSessionServiceImpl.findHistoryByUserId("" + users.getId());
-//                    if (loginSession != null && 1 == loginSession.getStatus()) {
-//                        loginSession.setStatus(2);
-//                        usersLoginSessionServiceImpl.update(loginSession);
-//                        // 把上个用户session踢掉，暂时不启用
-//                        // JedisUtil.deleteByKey("shiro_redis_session"+loginSession.getSessionId());
-//                    }
-//                    UsersLoginSession userSession = new UsersLoginSession();
-//                    userSession.setUserId("" + users.getId());
-//                    userSession.setLoginTime(new Date());
-//                    userSession.setStatus(1);
-//                    userSession.setSessionId(session.getId().toString());
-//                    userSession.setMacAddress(request.getRemoteAddr());
-//                    userSession.setCompanyId(WebUtils.getCurrentCompanyId());
-//                    String ip = WebUtils.getIpAddr(request);
-//                    if (ip != null) {
-//                        userSession.setIp(ip);
-//                        // Result<Address> add =
-//                        // AliIpAddressUtil.getAddress(request,ip);
-//                        // if("ok".equals(add.getMsg()) && add.getResult() !=
-//                        // null){
-//                        // userSession.setAddress(add.getResult().getArea());
-//                        // userSession.setIsp(add.getResult().getType());
-//                        // }
-//                        userSession.setAddress(AddressUtils.getAddresses("ip=" + ip, "utf-8"));
-//                        userSession.setIsp(AddressUtils.getIsp("ip=" + ip, "utf-8"));
-//                    }
-//                    usersLoginSessionServiceImpl.insert(userSession);
 
                 } catch (Exception e) {
                     log.error(e, e);
@@ -430,46 +450,17 @@ public class BaseWebController {
             try {
             	//异步插入用户登录日志
             	new Thread(new UserLoginThread(usersLoginSessionServiceImpl,session,users,request)).start();
-                // 记录登录日志
-//                UsersLoginSession loginSession = usersLoginSessionServiceImpl.findHistoryByUserId("" + users.getId());
-//                if (loginSession != null && 1 == loginSession.getStatus()) {
-//                    loginSession.setStatus(2);
-//                    usersLoginSessionServiceImpl.update(loginSession);
-//                    // 把上个用户session踢掉，暂时不启用
-//                    // JedisUtil.deleteByKey("shiro_redis_session"+loginSession.getSessionId());
-//                }
-//                UsersLoginSession userSession = new UsersLoginSession();
-//                userSession.setUserId("" + users.getId());
-//                userSession.setLoginTime(new Date());
-//                userSession.setStatus(1);
-//                userSession.setSessionId(session.getId().toString());
-//                userSession.setMacAddress(request.getRemoteAddr());
-//                userSession.setCompanyId(companyId);
-//                String ip = WebUtils.getIpAddr(request);
-//                if (ip != null) {
-//                    userSession.setIp(ip);
-//                    Result<Address> add = AliIpAddressUtil.getAddress(ip);
-//                    // userSession.setAddress(AddressUtils.getAddresses("ip="+ip,
-//                    // "utf-8"));
-//                    // userSession.setIsp(AddressUtils.getIsp("ip="+ip,
-//                    // "utf-8"));
-//                    if (add.getCode() != null && add.getCode() == 0) {
-//                        if (add.getData() != null) {
-//                            Address address = add.getData();
-//                            userSession.setAddress(address.getRegion() + "-" + address.getCity() + "-" + address.getCountry());
-//                            userSession.setIsp(address.getIsp());
-//                        }
-//                    }
-//                }
-//                usersLoginSessionServiceImpl.insert(userSession);
-
             } catch (Exception e) {
                 log.error(e, e);
             }
 
             // 瑞哥说，暂时全部跳引导页 2015-6-4
             // 瑞哥说，跳到首页 2015-8-17
-            List<CompanyNewStep> l = companyNewStepServiceImpl.findCompanyNewStepByCompany(companyId);
+            List<CompanyNewStep> l=(List<CompanyNewStep>)WebUtils.getSessionAttribute("l_companyNewSteps");
+            if(l==null){
+            		l=companyNewStepServiceImpl.findCompanyNewStepByCompany(WebUtils.getCurrentCompanyId());
+            		WebUtils.setSessionAttribute("l_companyNewSteps",l);
+            }
             if (l == null || l.isEmpty() || l.get(0).getNewStepFlag() == 0) {
                 mv.setViewName("redirect:/serviceGroup/chooseCompanyService");// 跳到选择服务页
             } else {
@@ -726,8 +717,16 @@ public class BaseWebController {
      */
     // TODO 待完善
     public void setUserStatus() {
-        Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
-        List<CompanyNewStep> l = companyNewStepServiceImpl.findCompanyNewStepByCompany(WebUtils.getCurrentCompanyId());
+        Company company=WebUtils.getCurrentCompany();
+        if(company==null){
+        	company=companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
+        	WebUtils.setSessionAttribute(WebUtils.CURRENT_COMAPNY,company);
+        }
+        List<CompanyNewStep> l=(List<CompanyNewStep>)WebUtils.getSessionAttribute("l_companyNewSteps");
+        if(l==null){
+        		l=companyNewStepServiceImpl.findCompanyNewStepByCompany(WebUtils.getCurrentCompanyId());
+        		WebUtils.setSessionAttribute("l_companyNewSteps",l);
+        }
         String status = String.valueOf(company.getStatus());
 
         WebUtils.setSessionAttribute("company_status", status);// 公司认证标记

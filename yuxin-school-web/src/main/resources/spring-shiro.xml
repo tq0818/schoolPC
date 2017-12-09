@@ -94,6 +94,20 @@
 
 </bean>
 
+	<!-- 用户缓存 -->
+	<bean id="customShiroCacheManager" class="com.yuxin.wx.shiro.service.CustomShiroCacheManager">
+	    <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
+	</bean>
+	
+	<!-- shiro 缓存实现，对ShiroCacheManager，我是采用redis的实现 -->
+	<bean id="jedisShiroCacheManager" class="com.yuxin.wx.shiro.service.JedisShiroCacheManager">
+	    <property name="jedisManager" ref="jedisManager"/>
+	</bean>
+	<!-- redis 的缓存 -->
+	<bean id="jedisManager" class="com.yuxin.wx.shiro.service.JedisManager">
+	    <property name="jedisPool" ref="jedisPool"/>
+	</bean>
+
 <!-- 会话Cookie模板 -->
 <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
     <constructor-arg value="sid"/>
@@ -128,7 +142,7 @@ class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 	<property name="realm" ref="wxRealm"/>
 	<property name="sessionManager" ref="sessionManager"/>
 	<!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
-   <!--  <property name="cacheManager" ref="cacheManager"/>   -->
+   	<property name="cacheManager" ref="customShiroCacheManager"/>
 </bean>
 <bean id="wxRealm" class="com.yuxin.wx.shiro.realm.BaseRealm"></bean>
  <bean id="sessionFilter" class="com.yuxin.wx.shiro.filter.GobalSessionFilter">

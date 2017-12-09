@@ -13,13 +13,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.yuxin.wx.api.company.ICompanyCouponsLibService;
@@ -33,6 +34,7 @@ import com.yuxin.wx.api.user.IUsersFrontMyCouponsService;
 import com.yuxin.wx.api.user.IUsersFrontService;
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.common.ViewResult;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyCouponsLib;
 import com.yuxin.wx.model.company.CompanyCouponsPatch;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
@@ -42,12 +44,9 @@ import com.yuxin.wx.model.user.UserInviteRewardsRecord;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.model.user.UsersFrontMyCoupons;
-import com.yuxin.wx.user.impl.UsersServiceImpl;
 import com.yuxin.wx.vo.address.Address;
 import com.yuxin.wx.vo.address.Result;
 import com.yuxin.wx.vo.user.UsersFrontVo;
-
-import net.sf.json.JSONObject;
 
 @Component
 public class WebUtils {
@@ -199,13 +198,31 @@ public class WebUtils {
     public static HttpServletResponse toHttp(ServletResponse response) {
         return (HttpServletResponse) response;
     }
-
-    private static final String LOGIN_USER = "loginUser";
-
-    private static final String USE_VIDEO = "useVideo";
-
-    private static final String COURSE_FUNCTION = "courseFunction";
-
+    /**
+     * 登录用户缓存key
+     */
+    public static final String LOGIN_USER = "loginUser";
+    /**
+     * 机构使用视频服务key
+     */
+    public static final String USE_VIDEO = "useVideo";
+    /**
+     * 公司课程版本key
+     */
+    public static final String COURSE_FUNCTION = "courseFunction";
+    /**
+     * 当前访问机构
+     */
+    public static final String CURRENT_COMAPNY="company";
+    /**
+     * 当前访问机构ID
+     */
+    public static final String COMPANY_ID="COMPANY_ID";
+    /**
+     * 当前访问机构类型 0数校，1区，2校
+     */
+    public static final String CURRENT_IS_AREA="CURRENT_IS_AREA";
+    
     /**
      *
      * Class Name: UserHolder.java
@@ -260,15 +277,30 @@ public class WebUtils {
      * @return
      */
     public static Integer getCurrentCompanyId() {
-        Users user = getCurrentUser();
-        return user != null ? user.getCompanyId() : null;
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null) {
+        	return (Integer) subject.getSession().getAttribute(COMPANY_ID);
+        }
+        throw new RuntimeException("您长时间没有操作，系统已经自动将您退出，要继续操作请重新登录！");
+    }
+    public static Company getCurrentCompany(){
+    	Subject subject = SecurityUtils.getSubject();
+    	if (subject != null) {
+    		Company company = (Company) subject.getSession().getAttribute(CURRENT_COMAPNY);
+            return company;
+        }
+        throw new RuntimeException("您长时间没有操作，系统已经自动将您退出，要继续操作请重新登录！");
     }
     /**
      * @Description: 获取当前机构的类别，1代表区，2代表校，0代表数字学校
      * @return
      */
-    public static Integer getCurrentIsArea(){
-    	return 0;
+    public static String getCurrentIsArea(){
+    	Subject subject = SecurityUtils.getSubject();
+    	if (subject != null) {
+    		return (String) subject.getSession().getAttribute(CURRENT_IS_AREA);
+        }
+        throw new RuntimeException("您长时间没有操作，系统已经自动将您退出，要继续操作请重新登录！");
     }
     public static Integer getCurrentSchoolId() {
         Users user = getCurrentUser();

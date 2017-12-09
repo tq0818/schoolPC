@@ -273,6 +273,46 @@
 		where username = #{userName} limit 1
 	</select>
 	
+	<select id="queryUserByCondition" resultMap="usersResultMap" parameterType="String" >
+		select distinct  u.id,
+		u.username,
+		u.password,
+		u.real_name realName,
+		u.mobile,
+		u.email,
+		u.qq_no qqNo,
+		u.phone,
+		u.user_type userType,
+		u.sex,
+		s.id schoolId,
+		u.identity_type_code identityTypeCode,
+		u.identity_id identityId,
+		u.age,
+		u.birthday,
+		u.education_code educationCode,
+		u.home_phone homePhone,
+		u.office_phone officePhone,
+		u.weixin_id weixinId,
+		u.status,
+		uc.company_id companyId,
+		u.emergency_contact_name emergencyContactName,
+		u.emergency_contact_mobile emergencyContactMobile,
+		u.hk_address,
+		u.email_auth_sign emailAuthSign,
+		u.email_auth_sendtime emailAuthSendtime,
+		u.email_auth_code emailAuthCode,
+		u.user_city userCity,
+		u.uuid,
+		u.head_pic_url headPicUrl,s.school_name,
+		u.proxy_org_id  
+		from users u
+		inner join users_comany_relation uc on uc.user_id=u.id and uc.is_used=1 and uc.company_id=#{companyId}
+		left join sys_config_school s on uc.company_id = s.company_id
+		inner join auth_user_role aur on aur.user_id=u.id
+		inner join auth_role ar on ar.id=aur.role_uid
+		where u.username =#{userName} limit 1
+	</select>
+	
 	<select id="queryAll" resultMap="usersResultMap">
 		select <include refid="table_columns" /> 
 		from users

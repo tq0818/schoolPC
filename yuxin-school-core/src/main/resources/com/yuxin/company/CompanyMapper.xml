@@ -34,6 +34,8 @@
 		<result property="crmFlag" column="crm_flag" />
 		<result property="buyFlag" column="buy_flag" />
 		<result property="comType" column="con_type"/>
+		<result property="isArea" column="is_area" />
+		<result property="eduAreaSchool" column="edu_area_school"/>
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.vo.company.CompanyVo" id="companyVoResultMap">
@@ -197,8 +199,8 @@
 		crm_flag,
 		con_type,
 		buy_flag,
-		service_version
-		
+		service_version,
+		is_area,edu_area_school
 	</sql>
 	
 	<sql id="table_columns_company_insert">
@@ -1224,6 +1226,9 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		where syd.dict_code='EDU_SCHOOL_AREA' and co.id is null and syd.item_code=#{brachCode}
 	</select>
 	
+	<select id="findComanyIdByRootPath" resultType="int" parameterType="String">
+		select id from company where domain_manage=#{rootPath}
+	</select>
 	
 	<!-- 适用于主键自增类型 -->
 	<insert id="addBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo" useGeneratedKeys="true" keyProperty="id">

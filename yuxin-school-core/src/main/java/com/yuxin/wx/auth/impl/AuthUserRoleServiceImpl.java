@@ -2,16 +2,19 @@ package com.yuxin.wx.auth.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.auth.IAuthUserRoleService;
 import com.yuxin.wx.auth.mapper.AuthRolePrivilegeMapper;
 import com.yuxin.wx.auth.mapper.AuthUserRoleMapper;
@@ -197,6 +200,20 @@ public class AuthUserRoleServiceImpl extends BaseServiceImpl implements IAuthUse
  }
  
  @Override
+public Set<String> queryUserRoles(String userName, Integer companyId) {
+	 Set<String> roles= new HashSet<String>();
+	 Integer userId=usersMapper.findIdByName(userName);
+	 List<RoleVo> al=authUserRoleMapper.findUserRoles(userId);
+	 for(RoleVo role : al){
+		 if(role.getCompanyId().intValue()!=companyId.intValue()){
+			 continue;
+		 }
+		 roles.add(role.getRoleName());
+	 }
+	 return roles;
+}
+
+@Override
  public Set<String> findUserPermissions(String userName){
 	 	Set<String> permissions=new HashSet<String>();
 	 	Set<String> filter=new HashSet<String>();
@@ -245,6 +262,58 @@ public class AuthUserRoleServiceImpl extends BaseServiceImpl implements IAuthUse
 
 	 	return permissions;
  }
+
+	@Override
+	public Set<String> findUserPermissions(String userName, Integer companyId) {
+		Set<String> permissions=new HashSet<String>();
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userName",userName);
+		params.put("companyId",companyId);
+	 	Users user=usersMapper.queryUserByCondition(params);
+	 	List<RoleVo> roles=authUserRoleMapper.findUserRoles(user.getId());
+	 	List<SysConfigService> services=sysConfigServiceMapper.findServiceByCompanyId(user.getCompanyId());
+	 	List<String> codes=new ArrayList<String>();
+	 	String tempCode="";
+	 	for(SysConfigService service :services){
+	 		if(service.getGroupSequence()==0){
+	 			codes.add(service.getGroupCode());
+	 		}else{
+	 			tempCode+=(StringUtils.isNotBlank(tempCode)?"_"+service.getGroupCode():service.getGroupCode());
+	 		}
+	 	}
+	 	if(StringUtils.isNotBlank(tempCode)){
+	 		codes.add(tempCode);
+	 	}
+	 	List<SysConfigServiceGroup> privileges=new ArrayList<SysConfigServiceGroup>();
+	 	for(String code: codes){
+	 		List<SysConfigServiceGroup> list=sysConfigServiceGroupMapper.findByCode(code);
+	 		privileges.addAll(list);
+	 	}
+	 	
+	 	SysConfigService search=new SysConfigService();
+	 	search.setCompanyId(user.getCompanyId());
+
+	 	for(RoleVo role : roles){
+	 		List<PrivilegeVo>  ps=authRolePrivilegeMapper.findUserPrivileges(role.getRoleUid());
+	 		for(PrivilegeVo p : ps){
+	 			if(p!=null){
+	 				permissions.add(p.getPrivilegeName());
+	 			}
+	 		}
+	 	}
+	 	//去掉禁用的
+	 	Set<String> sets=new HashSet<String>();
+			sets.addAll(permissions);
+		 	for(String permission : sets){
+		 		for(SysConfigServiceGroup p: privileges){
+			 		if(permission.equals(p.getPrivilegeName())){
+			 			permissions.remove(permission);
+			 		}
+			 	}
+		 	}
+
+	 	return permissions;
+	}
 
 	@Override
 	public void deleteByRoleId(Integer id) {

@@ -15,6 +15,7 @@
 		classpath*:/applicationContext.xml,
 		classpath*:/applicationContext-log4j.xml
 		classpath*:/spring-shiro.xml
+		classpath*:/spring-cache.xml
 	</param-value>
   </context-param>
   <listener>
@@ -95,10 +96,10 @@
   
   <distributable/>
   
-	<!-- <error-page>
+	<error-page>
 		<error-code>404</error-code>
 		<location>/fonts/404.html</location>
-	</error-page> -->
+	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/fonts/500.html</location>

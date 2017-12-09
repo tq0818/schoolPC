@@ -27,6 +27,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	 */
 	public Users queryByName(String userName);
 	
+	Users queryUserByCondition(Map<String,Object> params);
+	
 	/**
 	 * 
 	 * Class Name: UsersMapper.java

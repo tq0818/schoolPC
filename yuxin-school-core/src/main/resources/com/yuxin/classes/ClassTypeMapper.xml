@@ -409,7 +409,7 @@
 		FROM
 		  class_type a
 		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code and b.company_id=#{companyId} and b.del_flag=0
-		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code and b.company_id=#{companyId} and and b.del_flag=0
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code and b.company_id=#{companyId} and b.del_flag=0
 		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and b.del_flag=0 and b.company_id=#{companyId}
 		where a.id = #{classId} and a.origin_type=0
 		limit 1

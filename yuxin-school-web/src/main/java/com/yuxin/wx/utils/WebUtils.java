@@ -51,7 +51,7 @@ import com.yuxin.wx.vo.user.UsersFrontVo;
 @Component
 public class WebUtils {
 
-    private static Log log = LogFactory.getLog("log");
+    private static Log log = LogFactory.getLog("WebUtils");
     private static ICompanyCouponsPatchService companyCouponsPatchServiceImpl;
 
     @Autowired

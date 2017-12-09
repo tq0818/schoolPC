@@ -1152,7 +1152,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!--分校首页学校列表-->
 	<select id="queryCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="com.yuxin.wx.model.company.CompanyVo">
 		select su.* from (
-			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
 			left join student s on s.edu_area=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
@@ -1165,7 +1165,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{eduArea}</if>
 			GROUP BY co.id
 			union
-			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
@@ -1246,6 +1246,41 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		insert into company_live_config(id,company_id,login_name,password,live_type)
 		 VALUES(#{id},#{companyId},#{loginName},#{password},#{liveType})
 	</insert>
+	<!-- 添加服务信息-->
+	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `sys_config_service` (`group_code`, `updator`, `update_time`, `company_id`, `del_flag`,`parent_code`)
+		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
+		inner join company c on scs.company_id=c.id and c.is_area=0;
+	</insert>
+	<!-- 添加一级科目信息-->
+	<insert id="addSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
+		create_time,creator,sort,item_code,parent_code)
+		select i.item_name,i.item_type,i.parent_id,1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
+		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
+		sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.item_type in(1)  and
+		r.del_flag=0 and i.status =1  and i.company_id=18113 and r.school_id='681' and i.parent_code is not null
+	</insert>
+	<!-- 添加二级科目信息-->
+	<insert id="addTwoSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
+		create_time,creator,sort,item_code,parent_code)
+		select i.item_name,i.item_type,i.parent_id,1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
+		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
+		sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.item_type in(2)  and
+		r.del_flag=0 and i.status =1  and i.company_id=18113 and r.school_id='681' and i.parent_code is not null
+	</insert>
+	<!-- 添加科目与学校关系信息-->
+	<insert id="addSysConfigAndSchool" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_school_item_relation
+		(school_id,item_id,del_flag,create_time,creator,true_del_flag)
+		select 
+		(select t2.id from sys_config_dict t2 LEFT JOIN company t3 ON t3.edu_area_school=t2.item_code where t3.id=#{companyId}) as school_id,
+		t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
+
+	</insert>
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
 		select <include refid="table_columns_company" /> from company t1
@@ -1287,4 +1322,5 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		</trim>
 		<where>company_id = #{companyId} and live_type=1</where>
 	</update>
+	
 </mapper>

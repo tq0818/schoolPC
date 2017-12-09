@@ -30,7 +30,7 @@ public interface ICompanyManageService {
 	 * @return 
 	 * @throws
 	 */
-	public void addBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc);
+	public void addBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc,Integer userId);
 	/**
 	 * 
 	 * @author jishangyang 2017年12月8日 上午12:11:19

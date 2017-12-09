@@ -159,6 +159,16 @@ public interface ICompanyServiceStaticService  {
 	 * @return
 	 */
 	List<SystemConfigServiceVo> queryCompanyNoService(Integer companyId);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月8日 下午11:36:24
+	 * @Method: queryCompanyAllService 
+	 * @Description: 查询所有服务根据分校ID
+	 * @param companyId
+	 * @return 
+	 * @throws
+	 */
+	List<SystemConfigServiceVo> queryCompanyAllService(Integer companyId);
 	
 	
 }

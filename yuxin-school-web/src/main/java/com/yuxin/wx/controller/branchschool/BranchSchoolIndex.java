@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,6 +24,7 @@ import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.utils.WebUtils;
 
 @Controller
 @RequestMapping("/berkeley")
@@ -35,13 +37,15 @@ public class BranchSchoolIndex {
 
 	 @Autowired
 	 private ICompanyManageService companyManageServiceImpl;
+	
     /**
      * 跳转到订单列表
      *
      * @return
      */
-    @RequestMapping(value = "/berkeleyOrder")
-    public String gotobranchSchoolOrder() {
+    @RequestMapping(value = "/berkeleyOrder/{companyId}")
+    public String gotobranchSchoolOrder(Model model,@PathVariable Integer companyId) {
+    	model.addAttribute("companyId", companyId);
         return "/berkeley/berkeleyOrder";
     }
     /**
@@ -49,9 +53,9 @@ public class BranchSchoolIndex {
      *
      * @return
      */
-    @RequestMapping(value = "/teacherManagement")
-    public String gototeacherManage(){
-
+    @RequestMapping(value = "/teacherManagement/{companyId}")
+    public String gototeacherManage(Model model,@PathVariable Integer companyId){
+    	
         return "berkeley/teacherManagement";
     }
     /**
@@ -69,9 +73,9 @@ public class BranchSchoolIndex {
      *
      * @return
      */
-    @RequestMapping(value = "/permissionManagement")
-    public String gotopermissionManagement(){
-
+    @RequestMapping(value = "/permissionManagement/{companyId}")
+    public String gotopermissionManagement(Model model,@PathVariable Integer companyId){
+    	model.addAttribute("companyId", companyId);
         return "/berkeley/permissionManagement";
     }
     /**
@@ -102,7 +106,6 @@ public class BranchSchoolIndex {
      */
     @RequestMapping(value = "serviceManagement")
     public String gotoserviceManagement(){
-
         return "/berkeley/serviceManagement";
     }
     /**
@@ -215,7 +218,8 @@ public class BranchSchoolIndex {
          //ccUserName : ccUserName,
          //ccPwd : ccPwd,
          try {
-        	 companyManageServiceImpl.addBerkeley(search,cms,clc);
+        	 
+        	 companyManageServiceImpl.addBerkeley(search,cms,clc,WebUtils.getCurrentUserId(request));
              json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         } catch (Exception e) {
         	 log.info("qa：添加分校报错");

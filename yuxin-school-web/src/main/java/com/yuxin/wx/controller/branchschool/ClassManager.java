@@ -124,6 +124,7 @@ public class ClassManager {
     	model.addAttribute("css", css);
     	model.addAttribute("cms", cms);
     	model.addAttribute("clc", clc);
+    	model.addAttribute("companyId", companyId);
         return "berkeley/berkeleyDetail";
     }
     

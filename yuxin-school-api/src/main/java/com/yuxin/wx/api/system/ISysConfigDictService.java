@@ -160,4 +160,8 @@ public interface ISysConfigDictService  {
     List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict);
 
     List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map);
+    
+  //获取服务类型及服务名称
+  	List<SysConfigDict> querSysConfigDictList(Integer companyId);
+  	Integer querSysConfigDictCount(Integer companyId);
 }

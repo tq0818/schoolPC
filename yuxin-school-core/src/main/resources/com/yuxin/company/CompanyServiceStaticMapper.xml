@@ -193,4 +193,8 @@
 	<select id="queryCompanyNoService" parameterType="int" resultMap="sysConfigCompanyServiceMap">
 		select id,group_code,updator,update_time,company_id,del_flag from sys_config_service where del_flag=0 and company_id=#{companyId}
 	</select>
+	<!-- 查询公司所有开通的服务 -->
+	<select id="queryCompanyAllService" parameterType="int" resultMap="sysConfigCompanyServiceMap">
+		select id,group_code,updator,update_time,company_id,del_flag from sys_config_service where  company_id=#{companyId}
+	</select>
 </mapper>

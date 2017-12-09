@@ -9,7 +9,12 @@ function closeBtn(companyId,itemCode,delFlag) {
             delFlag : delFlag
         },
         success : function(data){
-                window.location.href = rootPath+"/serviceManager/getServiceManager?companyId=18113";
+        	if(data.msg=="success"){
+        		window.location.href = rootPath+"/serviceManager/getServiceManager?companyId="+companyId;
+    		}else{
+    			alert("操作失败");
+    			return;
+    		}
         }
     });
 }

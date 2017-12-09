@@ -223,6 +223,7 @@ public class WebUtils {
      */
     public static final String CURRENT_IS_AREA="CURRENT_IS_AREA";
     
+    public static final String COMPANY_INFO="companyInfo";
     /**
      *
      * Class Name: UserHolder.java

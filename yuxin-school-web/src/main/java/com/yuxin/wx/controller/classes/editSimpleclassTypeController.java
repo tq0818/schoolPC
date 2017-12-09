@@ -211,6 +211,7 @@ public class editSimpleclassTypeController {
         // 根据班型id查询详情
         Map<String, String> map = new HashMap<String, String>();
         map.put("classId", "" + id);
+        map.put("companyId",""+WebUtils.getCurrentCompanyId());
         ClassTypeVo classType = this.classTypeServiceImpl.findClassTypeDetail(map);
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);

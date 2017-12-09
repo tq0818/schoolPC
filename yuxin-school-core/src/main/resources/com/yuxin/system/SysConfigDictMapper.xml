@@ -12,6 +12,8 @@
 		<result property="displaySeq" column="display_seq" />
 		<result property="companyId" column="company_id" />
 		<result property="isDirectly" column="is_directly" />
+		<result property="delFlag" column="del_flag" />
+		<result property="groupCode" column="group_code" />
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -179,5 +181,20 @@
 		select  scd.item_code,scd.item_value from edu_step_school_relation  essr
 		LEFT JOIN sys_config_dict scd on  scd .item_code  = essr.edu_school_code
 		where essr.edu_step_new_code  = #{schoolType} and  scd.parent_item_id = #{area}
+	</select>
+	
+    <!--获取服务类型及服务名称-->
+    <select id="querSysConfigDictList" resultMap="sysConfigDictResultMap" parameterType="Integer">
+		select scs.group_code,scs.id,scs.company_id,scd.item_value as dict_name,scd1.item_value as item_value,scs.del_flag from sys_config_service scs 
+		LEFT JOIN sys_config_dict scd ON scs.group_code=scd.item_code
+		LEFT JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
+		where  scs.company_id = #{companyId} ORDER BY  scd.id desc;
+	</select>
+    <!--获取服务类型及服务名称-->
+    <select id="querSysConfigDictCount" resultType="Integer" parameterType="Integer">
+		select count(*) from (select scs.id,scs.company_id,scd.item_value as dict_name,scd1.item_value as item_value,scs.del_flag  from sys_config_service scs 
+		LEFT JOIN sys_config_dict scd ON scs.group_code=scd.item_code
+		LEFT JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
+		where  scs.company_id = #{companyId} ) t;
 	</select>
 </mapper>

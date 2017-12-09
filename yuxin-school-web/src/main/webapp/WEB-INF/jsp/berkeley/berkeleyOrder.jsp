@@ -11,8 +11,7 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>--%>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>
     <style type="text/css">
         .head-div {
             position: relative;
@@ -107,6 +106,7 @@
     </div>
 </div>
 <input type="hidden" value="5" id="pageSize">
+<input type="hidden"  id="companyId" value="${companyId}">
 
 
 <!-- ajax加载中div开始 -->

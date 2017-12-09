@@ -1,13 +1,14 @@
 package com.yuxin.wx.system.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.system.mapper.SysConfigDictMapper;
 
@@ -215,5 +216,18 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	public List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map) {
 		return sysConfigDictMapper.findSchoolBySchoolType(map);
 	}
+
+    @Override
+    public List<SysConfigDict> querSysConfigDictList(Integer companyId) {
+        return sysConfigDictMapper.querSysConfigDictList(companyId);
+    }
+    @Override
+    public Integer querSysConfigDictCount(Integer companyId) {
+    	return sysConfigDictMapper.querSysConfigDictCount(companyId);
+    }
+
+
+
+	
 
 }

@@ -11,6 +11,7 @@ import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.NewCompanyVo;
+import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.company.CompanyPicsVo;
@@ -164,6 +165,10 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public Integer addBerkeley(com.yuxin.wx.model.company.CompanyVo search);
 	public void addCompanyMemberService(CompanyMemberService cms);
 	public void companyLiveConfig(CompanyLiveConfig clc);
+	public void addSysConfigService(String companyId);
+	public void addSysConfigItem(SysConfigItem sci);
+	public void addTwoSysConfigItem(SysConfigItem sci);
+	public void addSysConfigAndSchool(SysConfigItem sci);
 	
 	
 	/**

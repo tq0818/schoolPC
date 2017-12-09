@@ -204,10 +204,11 @@
 			on r.item_id = i.id 
 		where r.school_id = #{schoolId} and 
 			i.company_id = #{companyId} and 
-			i.item_type = 1 and 
+			i.item_type = 2 and 
 			i.`status` = 1 and 
 			r.true_del_flag = 0 and 
-			r.del_flag = 0
+			r.del_flag = 0 and 
+			i.parent_code='SUBJECT'
 			order by i.sort ASC,i.id ASC;
 	</select>
 	<select id="queryAll" resultMap="sysConfigItemResultMap">
@@ -249,6 +250,7 @@
 		select count(id) from sys_config_item
 		<include refid="page_where" />
 	</select>
+
 
 	<!-- 其他自定义SQL -->
 	<select id="selectItem" resultMap="sysConfigItemResultMap"
@@ -583,5 +585,13 @@
 			close=")">
 			#{item}
 		</foreach>
+	</select>
+	
+	
+	
+	<select id="findschooIdByCompanyId" resultType="int" parameterType="string">
+		select t1.id from sys_config_dict t1 
+		INNER  JOIN company t2 ON t2.edu_area_school=t1.item_code
+		where t2.id=#{companyId}
 	</select>
 </mapper>

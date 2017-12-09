@@ -72,8 +72,8 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>--%>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>
     <style type="text/css">
         .head-div {
             position: relative;
@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="search">
-                            <a href="<%= rootPath %>/berkeley/addTeacher" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em> 添加教师</a>
+                            <a href="<%= rootPath %>/teacherManger/updateOrAddTeacher?teacherId=0&companyId=${companyId}" class="btn btn-mini btn-primary"><em class="iconfont">&#xe606;</em> 添加教师</a>
                         </div>
                         <span class="line"></span>
                     </div>
@@ -146,6 +146,7 @@
     </div>
 </div>
 <input type="hidden" value="5" id="pageSize">
+<input type="hidden"  id="companyId" value="${companyId}">
 
 
 <!-- ajax加载中div开始 -->

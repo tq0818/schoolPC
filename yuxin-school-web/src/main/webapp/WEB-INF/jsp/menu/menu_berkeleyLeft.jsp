@@ -7,14 +7,14 @@
         <!-- <span class="iconfont return-pic hcancle">&#xe650;</span> -->
     </div>
     <ul id="course_manage" class="system_managelist">
-        <li class="subentry" code="getClassInfo" mark="/classManager/getClassInfo/${company.id}">详情</li>
-        <li class="subentry" code="berkeleyOrder" mark="/berkeley/berkeleyOrder/${company.id}">订单查询</li>
-        <li class="subentry" code="permissionManagement" mark="/berkeley/permissionManagement/${company.id}">权限管理</li>
-        <li class="subentry" code="classManagerGetClassList" mark="/classManager/getClassList/${company.id}">课程管理</li>
-        <li class="subentry" code="getServiceManager" mark="/serviceManager/getServiceManager/${company.id}">服务管理</li>
-        <li class="subentry" code="getFirstItems" mark="/teacherManger/getFirstItems/${company.id}">老师管理</li>
-        <li class="subentry" code="classQueryGetClassList" mark="/classQuery/getClassList/${company.id}">分校课程查询</li>
-        <li class="subentry" code="getVideoResourceAndMessageStatistics" mark="/computingResource/getVideoResourceAndMessageStatistics/${company.id}">计算资源查询</li>
+        <li class="subentry" code="getClassInfo" mark="/classManager/getClassInfo/${companyId}">详情</li>
+        <li class="subentry" code="berkeleyOrder" mark="/berkeley/berkeleyOrder/${companyId}">订单查询</li>
+        <li class="subentry" code="permissionManagement" mark="/berkeley/permissionManagement/${companyId}">权限管理</li>
+        <li class="subentry" code="classManagerGetClassList" mark="/classManager/getClassList/${companyId}">课程管理</li>
+        <li class="subentry" code="getServiceManager" mark="/serviceManager/getServiceManager/${companyId}">服务管理</li>
+        <li class="subentry" code="getFirstItems" mark="/teacherManger/getFirstItems/${companyId}">老师管理</li>
+        <li class="subentry" code="classQueryGetClassList" mark="/classQuery/getClassList/${companyId}">分校课程查询</li>
+        <li class="subentry" code="getVideoResourceAndMessageStatistics" mark="/computingResource/getVideoResourceAndMessageStatistics/${companyId}">计算资源查询</li>
     </ul>
 </div>
 <script>

@@ -118,6 +118,7 @@ public interface ISysConfigItemService  {
 	 */
 	Integer findProjectBySchoolId(Integer companyId);
 	
+	
 	/**
 	 * 
 	 * Class Name: ISysConfigItemService.java
@@ -302,4 +303,14 @@ public interface ISysConfigItemService  {
 
 	List<SysConfigItem> findItemByIds(List<Integer> list);
 	List<SysConfigItem>  findByParentCode(SysConfigItem item);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月9日 下午3:10:25
+	 * @Method: findschooIdByCompanyId 
+	 * @Description:根据公司ID查询学校ID
+	 * @param companyId
+	 * @return 
+	 * @throws
+	 */
+	Integer findschooIdByCompanyId(Integer companyId);
 }

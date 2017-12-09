@@ -32,6 +32,7 @@ public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	 */
 	Integer findProjectBySchoolId(Integer schoolId);
 	
+	
 	/**
 	 * 
 	 * Class Name: ISysConfigItemService.java
@@ -192,4 +193,14 @@ public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	List<SysSchoolItemRelation> findUseByItemId(Map<String, Object> param);
 	List<SysConfigItem> findItemByIds(List<Integer> list);
 
+	/**
+	 * 
+	 * @author jishangyang 2017年12月9日 下午3:13:12
+	 * @Method: findschooIdByCompanyId 
+	 * @Description: 根据公司ID查询学校ID
+	 * @param companyId
+	 * @return 
+	 * @throws
+	 */
+	Integer findschooIdByCompanyId(Integer companyId);
 }

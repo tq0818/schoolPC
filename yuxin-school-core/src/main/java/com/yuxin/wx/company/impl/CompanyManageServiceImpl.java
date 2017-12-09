@@ -1,5 +1,6 @@
 package com.yuxin.wx.company.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
+import com.yuxin.wx.model.system.SysConfigItem;
 @Service
 @Transactional
 public class CompanyManageServiceImpl extends BaseServiceImpl implements
@@ -48,15 +50,24 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		return companyMapper.queryCompanyVoByCondition(map);
 	}
 	@Override
-    public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {
+    public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc,Integer userId) {
 	    
 		 companyMapper.addBerkeley(search);
 		 int ids=search.getId();
 		 cms.setCompanyId(String.valueOf(ids));
-		 companyMapper.addCompanyMemberService(cms);
+		 companyMapper.addCompanyMemberService(cms);//分配流量。分配存储空间
 		 clc.setCompanyId(ids);
 		 clc.setLiveType(1);
-		 companyMapper.companyLiveConfig(clc);
+		 companyMapper.companyLiveConfig(clc);//添加展示互动表
+		 companyMapper.addSysConfigService(String.valueOf(ids));
+		//添加科目
+		 SysConfigItem sci=new SysConfigItem();
+		 sci.setCompanyId(ids);
+		 sci.setCreateTime(new Date());
+		 sci.setCreator(userId);
+		 companyMapper.addSysConfigItem(sci);
+		 companyMapper.addTwoSysConfigItem(sci);
+		 companyMapper.addSysConfigAndSchool(sci);
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {

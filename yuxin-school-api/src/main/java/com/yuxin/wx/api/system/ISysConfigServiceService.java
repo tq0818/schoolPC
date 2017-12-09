@@ -145,4 +145,14 @@ public interface ISysConfigServiceService  {
 	 * @return
 	 */
 	SysConfigService findExist(SysConfigService serv);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月9日 上午1:59:11
+	 * @Method: updateDelFlagByCompanyId 
+	 * @Description:修改服务状态
+	 * @param serv
+	 * @return 
+	 * @throws
+	 */
+	Boolean updateDelFlagByCompanyId(SysConfigService serv);
 }

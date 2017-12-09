@@ -442,7 +442,7 @@
                                 <ul class="list-infos clear">
                                     <li class="long">
                                         <p class='c'>
-                                            <span class="c-title">学科</span>
+                                            <span class="c-title">学科</span> 
                                             <span class="c-content itemOneClass">
 		                                <c:forEach items="${firstItems }" var="item" varStatus="index">
                                             <c:choose>
@@ -590,7 +590,7 @@
 //        $selectSubMenus('operate_fee_confirm');
 //    });
 </script>
-<%--<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>--%>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacherOld.js"></script>
 <script>
 //        二级菜单加active

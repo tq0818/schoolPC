@@ -13,6 +13,7 @@ import com.yuxin.wx.model.system.SysConfigTeacherLesson;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
+
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
 
 /**
@@ -61,9 +64,8 @@ public class TeacherManger {
         PageFinder<SysConfigTeacher> pageFinder = null;
         if (itemOneId != null) {
             if (itemOneId == 0) {
-                Users user = WebUtils.getCurrentUser();
-                teacher.setSchoolId(user.getSchoolId());
-                teacher.setCompanyId(user.getCompanyId());
+            	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(teacher.getCompanyId());
+                teacher.setSchoolId(schoolId);
                 teacher.setTeacherType(Constant.PERSON_TEACHER);
                 pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
             } else if (itemOneId > 0) {
@@ -72,14 +74,17 @@ public class TeacherManger {
         }
 
         model.addAttribute("pageFinder", pageFinder);
+       // model.addAttribute("companyId", companyId);
         return "berkeley/teacherList";
     }
 
-    @RequestMapping(value="/getFirstItems")
-    public String getFirstItems(Model model,Integer companyId){
+    @RequestMapping(value="/getFirstItems/{companyId}")
+    public String getFirstItems(Model model,@PathVariable Integer companyId){
         // 查询当前分校中有哪些一级学科
-        List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId, WebUtils.getCurrentSchoolId());
+    	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
+        List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId, schoolId);
         model.addAttribute("items", firstItems);
+        model.addAttribute("companyId", companyId);
         return "berkeley/teacherManagement";
     }
 
@@ -165,17 +170,19 @@ public class TeacherManger {
      * @param teacherId
      * @return
      */
-    @RequestMapping(value = "/updateOrAddTeacher/{teacherId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateOrAddTeacher", method = RequestMethod.GET)
     public String toTeacherUpdate(HttpServletRequest request, Model model,
-                                  @PathVariable Integer teacherId) {
-        Users user = WebUtils.getCurrentUser(request);
+    		@RequestParam Map<String, Object> paramMap ) {
         // 根据老师ID查询对应的老师
+    	int teacherId = Integer.valueOf(paramMap.get("teacherId").toString());
+    	int companyId =Integer.valueOf(paramMap.get("companyId").toString());
+    	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
         SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findTeacherAndUserById(teacherId);
 
         // 根据老师ID查询该老师所属的公司所有的一级二级项目
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("companyId", user.getCompanyId());
-        param.put("schoolId", user.getSchoolId());
+        param.put("companyId", companyId);
+        param.put("schoolId", schoolId);
         //根据公司id 和学校id 查询 一级项目
         List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
 
@@ -221,6 +228,7 @@ public class TeacherManger {
             teacher = new SysConfigTeacher();
             teacher.setId(0);
             model.addAttribute("teacher", teacher);
+            model.addAttribute("companyId", companyId);
             return "berkeley/addTeacher";
         } else {
             SysConfigTeacherLesson les = sysConfigTeacherLessonServiceImpl.findSysConfigTeacherLessonByTeaId(teacherId);
@@ -232,6 +240,7 @@ public class TeacherManger {
             }
         }
         model.addAttribute("teacher", teacher);
+        model.addAttribute("companyId", companyId);
         return "berkeley/updatetTeacher";
     }
 

@@ -62,4 +62,6 @@ public interface SysConfigServiceMapper extends BaseMapper<SysConfigService> {
 	
 	List<SysConfigService> findServiceByCompanyId(Integer companyId);
 	
+	void updateFlag(SysConfigService serv);
+	
 }

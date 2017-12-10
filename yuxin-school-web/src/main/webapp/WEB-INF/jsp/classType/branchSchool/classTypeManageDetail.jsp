@@ -28,7 +28,17 @@
                 			 <a class="showSignUp" mobile="" uname="sdsdsd" href="javascript:void(0);">上架</a>|
                 		</c:otherwise>
                 	</c:choose>
-                    <a class="studentDetail" mobile="" uname="sdsdsd" href="javascript:void(0);">课程详情</a>|
+                	<c:choose>
+                    	<c:when test="${m.liveFlag eq '1' }">
+                    		<a class="studentDetail" href="<%=rootPath %>/branchSchool/classBaseInfo/${m.id }/live">课程详情</a>|
+                    	</c:when>
+                    	<c:when test="${m.videoFlag eq '1' }">
+                    		<a class="studentDetail" href="<%=rootPath %>/branchSchool/classBaseInfo/${m.id }/video">课程详情</a>|
+                    	</c:when>
+                    	<c:otherwise>
+                    		<a class="studentDetail" href="<%=rootPath %>/branchSchool/classBaseInfo/${m.id }/other">课程详情</a>|
+                    	</c:otherwise>
+                    	</c:choose>
                     <a class="more" href="javascript:void(0);"> 管理  </a>
                     <c:choose>
                     	<c:when test="${m.liveFlag eq '1' }">

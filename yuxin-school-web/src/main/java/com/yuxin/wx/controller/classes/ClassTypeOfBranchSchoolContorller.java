@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.classes.IClassModuleLessonService;
+import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.api.classes.IClassModuleService;
 import com.yuxin.wx.api.classes.IClassTypeMemberDiscountService;
 import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
@@ -40,14 +42,18 @@ import com.yuxin.wx.api.company.ICompanyMemberConfigService;
 import com.yuxin.wx.api.company.ICompanyMemberLevelConfigService;
 import com.yuxin.wx.api.company.ICompanyRegisterConfigService;
 import com.yuxin.wx.api.course.ICourseExerciseService;
+import com.yuxin.wx.api.course.ICourseVideoChapterService;
 import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.system.ISysConfigServiceService;
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.SysConfigConstant;
 import com.yuxin.wx.model.classes.ClassModule;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
+import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.ClassTypeMemberDiscount;
 import com.yuxin.wx.model.classes.ClassTypeResource;
@@ -73,6 +79,8 @@ import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.classes.ClassTypeResourceVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
+import com.yuxin.wx.vo.classes.ClassmNoVo;
+import com.yuxin.wx.vo.course.ChapterAndLectureListVo;
 import com.yuxin.wx.vo.course.CourseExerciseVo;
 import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
 import com.yuxin.wx.vo.student.StudentClassLeanRecordVo;
@@ -93,7 +101,11 @@ public class ClassTypeOfBranchSchoolContorller {
 	private IClassTypeMemberDiscountService classTypeMemberDiscountServiceImpl;
 	@Autowired
 	private ICompanyMemberLevelConfigService companyMemberLevelConfigServiceImpl;
-	
+
+	@Autowired
+	private ISysConfigTeacherService sysConfigTeacherServiceImpl;
+	@Autowired
+	private IClassModuleLessonService classModuleLessonServiceImpl;
     @Autowired
     private ICompanyRegisterConfigService companyRegisterConfigServiceImpl;
 	
@@ -141,6 +153,12 @@ public class ClassTypeOfBranchSchoolContorller {
     
 	@Autowired
 	private ISysConfigServiceService sysconfigServiceImpl;
+
+	@Autowired
+	private ICourseVideoChapterService courseVideoChapterServiceImpl;
+	
+	@Autowired
+	private IClassModuleNoService classModuleNoServiceImpl;
 	/**
      * 分校开放课程管理
      * @return
@@ -361,6 +379,66 @@ public class ClassTypeOfBranchSchoolContorller {
         return "classType/branchSchool/studentList";
     }
      
+    @RequestMapping(value = "/classBaseInfo/{id}/{lable}")
+    public String classBaseInfo(Model model, @PathVariable Integer id, @PathVariable String lable) {
+    	Map<String, String> map = new HashMap<String, String>();
+		map.put("classId", "" + id);
+		ClassTypeVo ct=this.classTypeOfBranchSchoolService.findClassTypeDetail(map);
+		model.addAttribute("ct", ct);
+        model.addAttribute("lable", lable);
+        if("live".equals(lable)){
+        	List<ClassModule> modulesVoList=classModuleServiceImpl.findModulesByClassTypeId(id);
+        	if(null!=modulesVoList&&modulesVoList.size()>0){
+        		for(ClassModule module:modulesVoList){
+        			if("TEACH_METHOD_LIVE".equals(module.getTeachMethod())){
+        				//查询模块对应的班号
+        				List<ClassModuleNo> list=classModuleNoServiceImpl.findByCmId(module.getId(),id);
+        				if(!list.isEmpty()&&list.size()>0){
+        					ClassModuleNo mNo=list.get(0);
+        					ClassmNoVo c=new ClassmNoVo();
+        					c.setId(mNo.getId());
+        					c.setName(mNo.getName());
+        					c.setItemOneId(mNo.getItemOneId());
+        					c.setItemSecondId(mNo.getItemSecondId());
+        					c.setModuleId(mNo.getModuleId());
+        					c.setStartDate(mNo.getStartDate());
+        					c.setLessonHour(mNo.getLessonHour());
+        					c.setEnrollYetStudents(mNo.getEnrollYetStudents());
+        					c.setPlanEnrollStudents(mNo.getPlanEnrollStudents());
+        					c.setTotalHours(mNo.getTotalHours());
+        					c.setClassTeachType(mNo.getClassTeachType());
+        					c.setSchoolId(mNo.getSchoolId());
+        					c.setCampusId(mNo.getCampusId());
+        					//查询班号对应的课次
+        					List<ClassModuleLesson> arr=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(mNo.getId());
+        					/*if(arr!=null&&arr.size()>0){
+						for(ClassModuleLesson ls:arr){
+							if(null!=ls&&null!=ls.getTeachers()&&!"".equals(ls.getTeachers())){
+								SysConfigTeacher th=sysConfigTeacherServiceImpl.findSysConfigTeacherById(Integer.parseInt(ls.getTeachers()));
+								if(null!=th&&null!=th.getDelFlag()&&th.getDelFlag()==1){
+									ls.setTeachers("del");
+								}
+							}
+						}
+					}*/
+        					c.setClassModuleLessons(arr);
+        					module.setClassmoudleNo(c);
+        				}
+        			}
+        		}
+        	}
+        	model.addAttribute("liveModuleList", modulesVoList);
+        }else if("video".equals(lable)){
+        	 ClassModule m = this.classModuleServiceImpl.queryModuleByClasstypeId(ct.getId());
+             if (null != m) {
+                model.addAttribute("moduleId", m.getId());
+                List<ChapterAndLectureListVo> chapterList= courseVideoChapterServiceImpl.findChapterAndLectureByModuleId(m.getId());
+                model.addAttribute("videoChapterList", chapterList);
+             }
+        }
+        return "classType/branchSchool/classTypeBaseInfo";
+    }
+    
     /**
 	 * 打开学员的学习进度页面
 	 */

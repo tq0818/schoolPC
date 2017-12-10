@@ -54,12 +54,15 @@ public interface ISysConfigItemRelationService {
      * @date 2015-3-17
      * @user by wangzx
      */
-    List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id);
+    List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id,Integer companyId);
+    
+    List<SysConfigItemRelation> findSysConfigItemRelationByCode(SysConfigItemRelation item);
+    
     List<SysConfigItemRelation> findRelationByLevel(Integer level);
     List<SysConfigItemRelation>  findRelationByIds(List<Integer> id);
     void deleteRelation( List<SysConfigItemRelation> list);
     void deleteById(Integer id);
-    void publishRelation();
+    void publishRelation(Integer companyId);
     List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item);
     List<SysConfigItemRelation> findAllItemFront(Integer companyId);
 

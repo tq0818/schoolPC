@@ -93,7 +93,28 @@ public class UsersFrontVo extends BaseEntity {
     private Integer isStu; //是否学生,1是。0不是
     private String wxOpenId;
     private Integer teacherFlag;
-    public Integer getIsStu() {
+    
+    private String isInSchool;//是否为校内学生，1代表校内，0代表校外
+    
+    private String isBaseSchool;//是否为基地校学生
+    
+    public String getIsInSchool() {
+		return isInSchool;
+	}
+
+	public void setIsInSchool(String isInSchool) {
+		this.isInSchool = isInSchool;
+	}
+
+	public String getIsBaseSchool() {
+		return isBaseSchool;
+	}
+
+	public void setIsBaseSchool(String isBaseSchool) {
+		this.isBaseSchool = isBaseSchool;
+	}
+
+	public Integer getIsStu() {
         return isStu;
     }
 

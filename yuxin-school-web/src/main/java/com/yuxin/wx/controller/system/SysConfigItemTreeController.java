@@ -38,7 +38,7 @@ public class SysConfigItemTreeController {
     @ResponseBody
     @RequestMapping(value="/ajaxValue")
     public  JSONObject findFirstNodes(Model model,HttpServletRequest request){
-        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(null);
+        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(null,WebUtils.getCurrentCompanyId());
         JSONObject json = new JSONObject();
         json.put("list",list);
         SysConfigItem item = new SysConfigItem();
@@ -57,6 +57,7 @@ public class SysConfigItemTreeController {
     public String insert(Model model, HttpServletRequest request,Integer level,String parentCode,Integer parentId,String codes,String levelPath){
         try{
             SysConfigItemRelation relation = new SysConfigItemRelation();
+            relation.setCompanyId(WebUtils.getCurrentCompanyId());
             relation.setLevel(level);
             relation.setParentCode(parentCode);
             relation.setParentId(parentId);
@@ -123,7 +124,7 @@ public class SysConfigItemTreeController {
     @RequestMapping(value="/delNodes")
     public  String delNodes(Model model,HttpServletRequest request,String id,String parentId){
         try {
-            List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id));
+            List<SysConfigItemRelation> oldChildren = sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id),WebUtils.getCurrentCompanyId());
             sysConfigItemRelationServieImpl.deleteRelation(oldChildren);
             sysConfigItemRelationServieImpl.deleteById(Integer.parseInt(id));
             if(parentId!=null){
@@ -146,7 +147,7 @@ public class SysConfigItemTreeController {
     @ResponseBody
     @RequestMapping(value="/getNodes")
     public JSONObject getNodes(Model model, HttpServletRequest request,String id,String level){
-        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id));
+        List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findSysConfigItemRelationById(Integer.parseInt(id),WebUtils.getCurrentCompanyId());
         JSONObject json = new JSONObject();
         json.put("list",list);
         SysConfigItem item = new SysConfigItem();
@@ -169,7 +170,7 @@ public class SysConfigItemTreeController {
     @ResponseBody
     @RequestMapping(value="/publishRelation")
     public JSONObject publishRelation(Model model, HttpServletRequest request,String name){
-        sysConfigItemRelationServieImpl.publishRelation();
+        sysConfigItemRelationServieImpl.publishRelation(WebUtils.getCurrentCompanyId());
         JSONObject json = new JSONObject();
         json.put("result","ok");
         return json;

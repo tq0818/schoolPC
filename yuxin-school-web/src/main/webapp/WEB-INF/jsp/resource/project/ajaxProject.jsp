@@ -32,7 +32,7 @@
         	<c:if test="${fn:length(one.itemName) <= 7}">
         		${one.itemName }
         	</c:if>
-				</b><i class="iconfont btn-del-pro">&#xe626;</i><i class="iconfont btn-edit-pro">&#xe625;</i></div>
+				</b><!--<i class="iconfont btn-del-pro">&#xe626;</i><i class="iconfont btn-edit-pro">&#xe625;</i>  --></div>
 				<div class="c">
 					<c:if test="${fn:length(one.remark) > 21 }">
 						<span title="${one.remark }">${fn:substring(one.remark,0,21) }......</span> 
@@ -74,7 +74,7 @@
         	<c:if test="${fn:length(one.itemName) <= 7}">
         		${one.itemName }
         	</c:if>
-				</b><i class="iconfont btn-del-pro" data-id="${one.id }">&#xe626;</i><i class="iconfont btn-edit-pro" data-id="${one.id }">&#xe625;</i></div>
+				</b><!--<i class="iconfont btn-del-pro" data-id="${one.id }">&#xe626;</i><i class="iconfont btn-edit-pro" data-id="${one.id }">&#xe625;</i>  --></div>
 				<div class="c">
 					<c:if test="${fn:length(one.remark) > 21 }">
 						<span title="${one.remark }">${fn:substring(one.remark,0,21) }......</span>
@@ -120,7 +120,7 @@
         	<c:if test="${fn:length(one.itemName) <= 7}">
         		${one.itemName }
         	</c:if>
-				</b><i class="iconfont btn-del-pro">&#xe626;</i><i class="iconfont btn-edit-pro">&#xe625;</i></div>
+				</b><!--<i class="iconfont btn-del-pro">&#xe626;</i><i class="iconfont btn-edit-pro">&#xe625;</i>  --></div>
 				<div class="c">
 					<c:if test="${fn:length(one.remark) > 21 }">
 						<span title="${one.remark }">${fn:substring(one.remark,0,21) }......</span>
@@ -147,11 +147,11 @@
 	</div>
 </c:forEach>
 </div>
-	<div class="block active project-addbtn" id="addOneItem">
+	<!-- <div class="block active project-addbtn" id="addOneItem">
 		<div class="b-btns">
 			<div class="btn-addss btn-pro" id="createPro" title="添加分类"><i class="iconfont"  style="font-size:80px">&#xe61c;</i></div>
 		</div>
-	</div>
+	</div>-->
 </div>
 
 

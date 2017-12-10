@@ -224,7 +224,11 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 
 	@Override
 	public List<SysConfigItem> findStatus(SysConfigItem item) {
-		return sysConfigItemMapper.findStatus(item);
+		if("1".equals(item.getItemType())){
+			return sysConfigItemMapper.findFirstStatus(item);
+		}else{
+			return sysConfigItemMapper.findStatus(item);
+		}
 	}
 
 	@Override

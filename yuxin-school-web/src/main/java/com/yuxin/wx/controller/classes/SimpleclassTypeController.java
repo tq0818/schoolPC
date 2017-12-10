@@ -301,6 +301,7 @@ public class SimpleclassTypeController {
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
+		relation.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());

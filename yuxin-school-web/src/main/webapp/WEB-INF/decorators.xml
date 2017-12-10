@@ -531,29 +531,30 @@
         <pattern>/companyRechargePatch/gotoRechargeCardOpenFlagPage</pattern>
 
         <!--订单查询-->
-        <pattern>/berkeley/berkeleyOrder</pattern>
+        <pattern>/berkeley/berkeleyOrder/*</pattern>
         <!--老师管理-->
-        <pattern>/teacherManger/getFirstItems</pattern>
+        <pattern>/teacherManger/getFirstItems/*</pattern>
         <!--计算资源管理-->
         <pattern>/computingResource/getVideoResourceAndMessageStatistics</pattern>
         <!--权限管理管理-->
-        <pattern>/berkeley/permissionManagement</pattern>
+        <pattern>/berkeley/permissionManagement/*</pattern>
         <!--添加分校老师-->
         <pattern>/berkeley/addTeacher</pattern>
+        <pattern>/teacherManger/addTeacher</pattern>
         <!--&lt;!&ndash;添加老师&ndash;&gt;-->
-        <!--<pattern>/teacherManger/updateOrAddTeacher/*</pattern>-->
+        <pattern>/teacherManger/updateOrAddTeacher</pattern>
         <!--去添加用户页面-->
         <pattern>/berkeley/addUsers</pattern>
         <!--去服务管理页面-->
-        <pattern>/serviceManager/getServiceManager</pattern>
+        <pattern>/serviceManager/getServiceManager/*</pattern>
         <!--去分校首页页面-->
         <pattern>/berkeley/berkeleyIndex</pattern>
         <!-- 去分校详情页面 -->
-        <pattern>/classManager/getClassInfo</pattern>
+        <pattern>/classManager/getClassInfo/*</pattern>
         <!-- 去课程管理页面 -->
-        <pattern>/classManager/getClassList</pattern>
+        <pattern>/classManager/getClassList/*</pattern>
         <!-- 去分校课程查询页面 -->
-        <pattern>/classQuery/getClassList</pattern>
+        <pattern>/classQuery/getClassList/*</pattern>
         <!-- 去行政班设置页面 -->
         <pattern>/administrativeClassManager/administrativeClass</pattern>
         <!-- 去基地校直播课页面 -->
@@ -568,11 +569,14 @@
 
         <!-- 分校开放课程管理 -->
         <pattern>/jsp/OpenCourse</pattern>
+        <!-- 课程基本信息 -->
+        <pattern>/jsp/basicInformationCourse</pattern>
         <pattern>/branchSchool/queryClassType</pattern>
         <pattern>/branchSchool/*/*/*</pattern>
         <pattern>/branchSchool/showSignUp</pattern>
         <pattern>/branchSchool/insertStudents</pattern>
         <pattern>/branchSchool/queryData</pattern>
+   
     </decorator>
 
 </decorators>

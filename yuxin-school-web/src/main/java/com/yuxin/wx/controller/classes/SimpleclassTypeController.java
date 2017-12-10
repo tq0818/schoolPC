@@ -196,7 +196,7 @@ public class SimpleclassTypeController {
 
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
-		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront();
+		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront(WebUtils.getCurrentCompanyId());
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
 		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -816,7 +816,6 @@ public class SimpleclassTypeController {
 	private ClassType addClassTypeCommMethod(HttpServletRequest request,ClassType classType,String lable,Integer courseNum){
 		Integer fla=0;
 		//如果开启标签库则将标签存库
-		
 		CompanyFunctionSet conditon=new CompanyFunctionSet();
 		conditon.setCompanyId(WebUtils.getCurrentCompanyId());
 		conditon.setFunctionCode("COURSE_THIRD_CATEGORY");

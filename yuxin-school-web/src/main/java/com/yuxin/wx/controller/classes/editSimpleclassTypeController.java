@@ -548,8 +548,7 @@ public class editSimpleclassTypeController {
         }
         ct.setItemOneId(oneId);
         ct.setItemSecondId(twoId);
-        ct.setUpdateTime(new Date());
-       
+        ct.setUpdateTime(new Date());       
         ct.setUpdator(WebUtils.getCurrentUserId(request));
 
         // 如果开启标签库则将标签存库

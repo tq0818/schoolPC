@@ -21,19 +21,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qiniu.util.Json;
-import com.yuxin.wx.api.system.*;
-import com.yuxin.wx.common.*;
-import com.yuxin.wx.controller.user.RegisterController;
-import com.yuxin.wx.model.system.*;
-import com.yuxin.wx.utils.*;
-import com.yuxin.wx.vo.user.UsersAreaRelation;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggerFactory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -53,6 +44,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import sun.misc.BASE64Encoder;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.api.classes.IClassModuleService;
@@ -69,7 +62,20 @@ import com.yuxin.wx.api.student.IStudentGroupService;
 import com.yuxin.wx.api.student.IStudentPayMasterService;
 import com.yuxin.wx.api.student.IStudentPaySlaveService;
 import com.yuxin.wx.api.student.IStudentService;
+import com.yuxin.wx.api.system.ILongitudinalTableColDefineService;
+import com.yuxin.wx.api.system.ILongitudinalTableDataService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.system.ISysConfigItemRelationService;
+import com.yuxin.wx.api.system.ISysConfigItemService;
+import com.yuxin.wx.api.system.ISysConfigSchoolService;
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.api.user.IUsersFrontService;
+import com.yuxin.wx.common.ExcelSheetEntity;
+import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.common.SysLoader;
+import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.classes.ClassModule;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassPackageCategory;
@@ -79,14 +85,27 @@ import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
-import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.student.StudentFeeRefund;
 import com.yuxin.wx.model.student.StudentFeeStage;
 import com.yuxin.wx.model.student.StudentGroup;
 import com.yuxin.wx.model.student.StudentPayMaster;
+import com.yuxin.wx.model.system.LongitudinalTableColDefine;
+import com.yuxin.wx.model.system.LongitudinalTableData;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
+import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
+import com.yuxin.wx.utils.DateUtil;
+import com.yuxin.wx.utils.EntityUtil;
+import com.yuxin.wx.utils.ExcelUtil;
+import com.yuxin.wx.utils.FileUploadUtil;
+import com.yuxin.wx.utils.ImportExcl;
+import com.yuxin.wx.utils.ParameterUtil;
+import com.yuxin.wx.utils.PropertiesUtil;
+import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
@@ -95,8 +114,6 @@ import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.student.StudentPayMaster4ClassPackageVo;
 import com.yuxin.wx.vo.student.StudentPaySlaveVo;
 import com.yuxin.wx.vo.student.StudentVo;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * Controller of Student
@@ -2448,7 +2465,7 @@ public class StudentController {
         model.addAttribute("classMoreStatus", status);
         // 根据公司id 和学校id 查询 一级项目
         //List<SysConfigItem> oneItem = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
-        List<SysConfigItemRelation> allItem = sysConfigItemRelationServiceImpl.findAllItemFront();
+        List<SysConfigItemRelation> allItem = sysConfigItemRelationServiceImpl.findAllItemFront(WebUtils.getCurrentCompanyId());
         List<SysConfigItemRelation> oneItem = new ArrayList<>();
         List<SysConfigItemRelation> twoItem = new ArrayList<>();
         List<SysConfigItemRelation> threeItem = new ArrayList<>();
@@ -4143,7 +4160,6 @@ public class StudentController {
 		model.addAttribute("msgPage", msgPage);
     	return "student/notice/affiche";
     }
-    
     /**
      * 添加公告
      * @param request

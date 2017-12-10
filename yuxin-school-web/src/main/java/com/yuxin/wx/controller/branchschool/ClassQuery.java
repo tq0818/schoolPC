@@ -45,14 +45,14 @@ public class ClassQuery {
     @Autowired
     private PropertiesUtil propertiesUtil;
         
-    @RequestMapping(value = "/getClassList")
-    public String getClassList(Model model, HttpServletRequest req){
-    	model.addAttribute("companyId", req.getParameter("companyId"));
+    @RequestMapping(value = "/getClassList/{companyId}")
+    public String getClassList(Model model, HttpServletRequest req,@PathVariable Integer companyId){
+    	model.addAttribute("companyId", companyId);
         return"berkeley/classQuery/classQuery";
     }
 
     @RequestMapping("/classQueryDetail")
-	public String classQueryDetail(Model model,HttpServletRequest req,ClassTypeVo classtype){
+	public String noticeDetail(Model model,HttpServletRequest req,ClassTypeVo classtype){
     	Map<String, Object> queryParams=new HashMap<String, Object>();
     	queryParams.put("companyId", req.getParameter("companyId"));
     	queryParams.put("name", req.getParameter("name"));

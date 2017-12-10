@@ -1,8 +1,11 @@
 /*弹窗*/
 .popupOpacity{display: none;height: 100%;width: 100%;position: fixed;top: 0;left: 0;background: rgba(0,0,0,.6);}
-.popupContainer{display: none;padding: 10px 30px;z-index: 100;height: 800px;width: 400px;position: absolute;left: 50%;top: 20%;margin-left: -200px;background: #fff;}
+.popupContainer{display: none;padding: 10px 30px;z-index: 100;height: 650px;width: 1000px;
+    position: absolute;left: 50%;top: 5%;margin-left: -500px;background: #fff;}
 .popupContainer>h3{text-align: center;border-bottom: 1px solid #e4e4e4;height: 40px;line-height: 40px;}
 .addSchool{text-align: left;}
+.addSchool ul{width: 45%;display: inline-block;}
+.addSchool ul li{line-height: 30px;}
 .addSchool label{display: inline-block;}
 .addSchool li{margin: 5px 0;}
 .submitSchool{text-align: center;}

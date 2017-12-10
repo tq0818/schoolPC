@@ -34,6 +34,8 @@
 		<result property="crmFlag" column="crm_flag" />
 		<result property="buyFlag" column="buy_flag" />
 		<result property="comType" column="con_type"/>
+		<result property="isArea" column="is_area" />
+		<result property="eduAreaSchool" column="edu_area_school"/>
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.vo.company.CompanyVo" id="companyVoResultMap">
@@ -93,6 +95,7 @@
 	    <result property="companyLogoType" column="company_logo_type"/>
 	</resultMap>
 	
+	
 	<resultMap type="com.yuxin.wx.vo.company.CompanyOrgMessageVo" id="messageListVo">
 		<result property="id" column="id"/>
 		<result property="messageType" column="message_type"/>
@@ -139,7 +142,7 @@
 	</resultMap>
 	
 	
-	<resultMap type="com.yuxin.wx.vo.company.CompanyVo" id="companyVoNewResultMap">
+	<resultMap type="com.yuxin.wx.model.company.NewCompanyVo" id="companyVoNewResultMap">
 		<result property="id" column="id" />
 		<result property="companyName" column="company_name" />
 		<result property="domain" column="domain" />
@@ -157,8 +160,16 @@
 		<result property="eduAreaSchool" column="edu_area_school" />
 		<result property="isArea" column="is_area" />
 		<result property="schoolProperty" column="school_property"/>
+		<result property="eduAreaName" column="area_name"/>
 
 	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.company.CompanyLiveConfig" id="companyLiveConfigResultMap">
+	    <result property="id" column="id"/>
+	    <result property="loginName" column="login_name"/>
+	    <result property="password" column="password"/>
+	</resultMap>
+	
 	<sql id="table_columns">
 		id,
 		member_level,
@@ -188,10 +199,11 @@
 		crm_flag,
 		con_type,
 		buy_flag,
-		service_version
-		
+		service_version,
+		is_area,edu_area_school
 	</sql>
-	<sql id="table_columns_company">
+	
+	<sql id="table_columns_company_insert">
 		id,
 		company_name,
 		domain,
@@ -217,6 +229,35 @@
 		buy_flag,
 		service_version,
 		company_name_short
+	</sql>
+	
+	<sql id="table_columns_company">
+		t1.id,
+		t1.company_name,
+		t1.domain,
+		t1.status,
+		t1.member_start_date,
+		t1.member_end_date,
+		t1.regist_time,
+		t1.school_apply_flag,
+		t1.link_person,
+		t1.link_phone,
+		t1.domain_manage,
+		t1.private_cost,
+		t1.public_cost,
+		t1.school_summary,
+		t1.edu_area_school,
+		t1.is_area,
+		t1.company_logo_type,
+		t1.company_logo,
+		t1.member_level,
+		t1.utm_source,
+		t1.con_type,
+		t1.buy_flag,
+		t1.service_version,
+		t1.company_name_short,
+		t3.item_value as area_name,
+		t4.item_value as school_property
 		
 	</sql>
 		<sql id="entity_properties_company">
@@ -380,6 +421,11 @@
 			<if test="crmFlag != null">crm_flag = #{crmFlag},</if>
 			<if test="buyFlag != null">buy_flag = #{buyFlag},</if>
 			<if test="comType != null">con_type = #{comType},</if>
+			<if test="schoolSummary != null and schoolSummary != ''" >school_summary = #{schoolSummary},</if>
+			<if test="linkPerson != null and linkPerson != ''" >link_person = #{linkPerson},</if>
+			<if test="linkPhone != null and linkPhone != ''" >link_phone = #{linkPhone},</if>
+			<if test="privateCost != null and privateCost != ''" >private_cost = #{privateCost},</if>
+			<if test="publicCost != null and publicCost != ''" >public_cost = #{publicCost},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -1106,7 +1152,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!--分校首页学校列表-->
 	<select id="queryCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="com.yuxin.wx.model.company.CompanyVo">
 		select su.* from (
-			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
 			left join student s on s.edu_area=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
@@ -1119,7 +1165,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{eduArea}</if>
 			GROUP BY co.id
 			union
-			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
@@ -1180,21 +1226,115 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		where syd.dict_code='EDU_SCHOOL_AREA' and co.id is null and syd.item_code=#{brachCode}
 	</select>
 	
+	<select id="findComanyIdByRootPath" resultType="int" parameterType="String">
+		select id from company where domain_manage=#{rootPath}
+	</select>
 	
 	<!-- 适用于主键自增类型 -->
 	<insert id="addBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo" useGeneratedKeys="true" keyProperty="id">
-		insert into company ( <include refid="table_columns_company" /> ) 
+		insert into company ( <include refid="table_columns_company_insert" /> ) 
 		values ( <include refid="entity_properties_company" /> )
 	</insert>
 	
 	<!-- 分配流量，分配存储空间-->
-	<insert id="addCompanyServiceStaticDay" parameterType="com.yuxin.wx.model.company.CompanyServiceStaticDay" useGeneratedKeys="true" keyProperty="id">
-		insert into company_service_static_day(id,company_id,video_total_flow,video_storage_num)
-		 VALUES(#{id},#{companyId},#{resourceFlow},#{resourceStorageNum})
+	<insert id="addCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService" useGeneratedKeys="true" keyProperty="id">
+		insert into company_member_service(id,company_id,video_flow,video_storage)
+		 VALUES(#{id},#{companyId},#{videoFlow},#{videoStorage})
 	</insert>
 	<!-- 展视互动账号-->
 	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
 		insert into company_live_config(id,company_id,login_name,password,live_type)
 		 VALUES(#{id},#{companyId},#{loginName},#{password},#{liveType})
 	</insert>
+	<!-- 添加服务信息-->
+	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `sys_config_service` (`group_code`, `updator`, `update_time`, `company_id`, `del_flag`,`parent_code`)
+		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
+		inner join company c on scs.company_id=c.id and c.is_area=0;
+	</insert>
+	<!-- 添加一级科目信息-->
+	<insert id="addSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
+		create_time,creator,sort,item_code,parent_code)
+		select i.item_name,i.item_type,i.parent_id,1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
+		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
+		sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.item_type in(1)  and
+		r.del_flag=0 and i.status =1  and i.company_id=18113 and r.school_id='681' and i.parent_code is not null
+	</insert>
+	<!-- 添加二级科目信息-->
+	<insert id="addTwoSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
+		create_time,creator,sort,item_code,parent_code)
+		select i.item_name,i.item_type,
+		(CASE when  i.parent_code='TYPE' THEN (select id from sys_config_item where item_code='TYPE' and company_id=#{companyId})  
+		when  i.parent_code='GRADE' THEN (select id from sys_config_item where item_code='GRADE' and company_id=#{companyId})
+		when  i.parent_code='SUBJECT' THEN (select id from sys_config_item where item_code='SUBJECT' and company_id=#{companyId}) end )as parent_id,
+		1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
+		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
+		sys_config_item i, sys_school_item_relation r
+		where i.id=r.item_id and i.item_type in(2)  and
+		r.del_flag=0 and i.status =1  and i.company_id=18113 and r.school_id='681' and i.parent_code is not null
+	</insert>
+	<!-- 添加科目与学校关系信息-->
+	<insert id="addSysConfigAndSchool" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_school_item_relation
+		(school_id,item_id,del_flag,create_time,creator,true_del_flag)
+		select 
+		(select t2.id from sys_config_dict t2 LEFT JOIN company t3 ON t3.edu_area_school=t2.item_code where t3.id=#{companyId}) as school_id,
+		t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
+
+	</insert>
+	<!-- 添加角色-->
+	<insert id="addAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		insert into  auth_role
+		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=18113)
+	</insert>
+	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
+	  update auth_role set role_uid=id where role_uid is null
+	</update>
+	
+	
+	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
+		select <include refid="table_columns_company" /> from company t1
+		LEFT JOIN sys_config_dict t2 ON t2.item_code=t1.edu_area_school
+		LEFT JOIN sys_config_dict t3 ON t3.id =t2.parent_item_id
+		LEFT JOIN sys_config_dict t4 ON t4.item_code=t1.school_property
+ 		where t1.id=#{id}
+	</select>
+	<select id="findCompanyLiveConfigById" resultMap="companyLiveConfigResultMap"
+		parameterType="String">
+		select login_name,password from company_live_config where company_id=#{id} and live_type=1
+	</select>
+	
+	
+	<update id="eidtBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo">
+	  update company
+		<trim prefix="set" suffixOverrides=",">
+			<if test="linkPerson != null and linkPerson != ''">link_person = #{linkPerson},</if>
+			<if test="linkPhone != null and linkPhone != ''">link_phone = #{linkPhone},</if>
+			<if test="privateCost != null and privateCost != ''">private_cost = #{privateCost},</if>
+			<if test="publicCost != null">public_cost = #{publicCost},</if>
+			<if test="schoolSummary != null and schoolSummary != ''">school_summary = #{schoolSummary}</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="editCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService">
+	  update company_member_service
+		<trim prefix="set" suffixOverrides=",">
+			<if test="videoStorage != null and videoStorage != ''">video_storage =video_storage + #{videoStorage},</if>
+			<if test="videoFlow != null and videoFlow != ''">video_flow =video_flow + #{videoFlow}</if>
+		</trim>
+		<where>company_id = #{companyId}</where>
+	</update>
+	<update id="editcompanyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig">
+	  update company_live_config
+		<trim prefix="set" suffixOverrides=",">
+			<if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
+			<if test="password != null and password != ''">password = #{password}</if>
+		</trim>
+		<where>company_id = #{companyId} and live_type=1</where>
+	</update>
+	
 </mapper>

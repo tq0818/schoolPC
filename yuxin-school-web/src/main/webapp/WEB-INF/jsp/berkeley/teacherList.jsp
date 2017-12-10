@@ -91,7 +91,7 @@
         <div class="r-list-content clear hide">
              <div class="r-list-content-title">
                  <span class="r-list-content-title-txt">基本信息</span>
-                 <a href="<%=request.getContextPath()%>/teacherManger/updateOrAddTeacher/${item.id}" class="btn btn-link btn-mini">编辑</a>
+                 <a href="<%=request.getContextPath()%>/teacherManger/updateOrAddTeacher?teacherId=${item.id}&companyId=${companyId}" class="btn btn-link btn-mini">编辑</a>
                  <a href="javascript:void(0)" style="margin-right: 20px;" class="btn btn-link btn-mini delTeacher" teacherId="${item.id}">删除</a>
              </div>
              <p class="c">

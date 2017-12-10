@@ -265,7 +265,7 @@ $(function() {
 					$(".loading").hide();
 					$(".loading-bg").hide();
 					window.location.href = rootPath
-						+ "/sysConfigTeacher/toTeacherIndex";
+					+ "/teacherManger/getFirstItems/"+$("#companyId").val();
 				},
 			});
 		});

@@ -77,6 +77,7 @@ function queryPageByKeys(itemId,pageNo,teaName){
 			addClassForBtn(item);
 		}
 	});
+	var companyId= $("#companyId").val();
 	var param = "";
 	if(itemId){
 		param+="&itemOneId="+itemId;
@@ -86,6 +87,9 @@ function queryPageByKeys(itemId,pageNo,teaName){
 	}
 	if(teaName){
 		param+="&name="+teaName;
+	}
+	if(companyId){
+		param+="&companyId="+companyId;
 	}
 	  $.ajax({ 
 		  type: "post", 

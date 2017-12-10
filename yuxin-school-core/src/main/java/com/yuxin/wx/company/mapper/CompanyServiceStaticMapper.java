@@ -23,4 +23,6 @@ public interface CompanyServiceStaticMapper extends BaseMapper<CompanyServiceSta
 	List<CompanyAlarmLogVo> queryCompanyServiceLogExit(CompanyAlarmLogVo alarm);
 	
 	List<SystemConfigServiceVo> queryCompanyNoService(Integer companyId);
+	
+	List<SystemConfigServiceVo> queryCompanyAllService(Integer companyId);
 }

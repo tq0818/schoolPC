@@ -100,14 +100,7 @@
                 </div>
                 <div class="clear" style="width: 100%;">
                     <%--<p id="schoolListP" class="fl">--%>
-                        <%--<c:forEach items="${schoolList }" var="school" varStatus="status">--%>
-                            <%--<c:if test="${school.id==schoolId }">--%>
-                                <%--<a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school.id }">${school.schoolName }</a>--%>
-                            <%--</c:if>--%>
-                            <%--<c:if test="${school.id!=schoolId }">--%>
-                                <%--<a href="javascript:;" class="btn btn-sm btn-default" mark="${school.id }">${school.schoolName }</a>--%>
-                            <%--</c:if>--%>
-                        <%--</c:forEach>--%>
+                        
                         <%--<c:if test="${empty schoolList }">--%>
                             <%--<a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>--%>
                         <%--</c:if>--%>
@@ -120,13 +113,14 @@
 		        		</span>
                                 <select name="" style="height: 29px;">
                                     <option value="">选择角色</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
+                                    <c:forEach items="${roleList }" var="roleList" varStatus="status">
+                           			 	<option value="${roleList.roleUid}">${roleList.roleName }</option>
+                        			</c:forEach>
                                 </select>
                                 <select name="" style="height: 29px;">
                                     <option value="">选择状态</option>
-                                    <option value="">1</option>
-                                    <option value="">1</option>
+                                    <option value="1">已启用</option>
+                                    <option value="0">禁用</option>
                                 </select>
                                 <a class="btn btn-sm btn-primary" id="search_condition" style="cursor: pointer;vertical-align: middle;margin-left: 10px;">搜索</a>
                             </p>
@@ -140,7 +134,7 @@
             </div>
         </div>
 
-        <%--<script type="text/javascript" src="<%=rootPath %>/javascripts/system/systemAuth.js"></script>--%>
+        <script type="text/javascript" src="<%=rootPath %>/javascripts/system/systemAuth.js"></script>
         <script type="text/javascript" src="<%=rootPath %>/javascripts/system/permissionManagement.js"></script>
     </div>
 </div>

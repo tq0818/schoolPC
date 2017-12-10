@@ -1,49 +1,50 @@
 package com.yuxin.wx.controller.branchschool;
 
 
-import com.yuxin.wx.api.system.ISysConfigDictService;
-import com.yuxin.wx.api.system.ISysConfigServiceService;
-import com.yuxin.wx.model.system.SysConfigDict;
-import com.yuxin.wx.model.system.SysConfigService;
-import com.yuxin.wx.utils.WebUtils;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.company.ICompanyServiceStaticService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.system.ISysConfigServiceService;
+import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.system.SysConfigService;
+import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.system.SystemConfigServiceVo;
 
 @Controller
 @RequestMapping("/serviceManager")
 public class ServiceManager {
+	@Autowired
+	private ICompanyServiceStaticService companyServiceStaticServiceImpl;
     @Autowired
     private ISysConfigDictService iSysConfigDictService;
     @Autowired
     private ISysConfigServiceService configService;
 
-    @RequestMapping(value = "/getServiceManager")
-    public String getServiceManager(Model model, Integer companyId,Integer page) {
+    @RequestMapping(value = "/getServiceManager/{companyId}")
+    public String getServiceManager(Model model,@PathVariable Integer companyId,SystemConfigServiceVo scsv){
+    	model.addAttribute("companyId", companyId);
         //获取服务类型及服务名称
-       /* List<SysConfigDict> data = iSysConfigDictService.querSysConfigDictList(companyId);
+       List<SysConfigDict> scd = iSysConfigDictService.querSysConfigDictList(companyId);
         //获取服务总数
         int count = iSysConfigDictService.querSysConfigDictCount(companyId);
 
-        int a = 1;
-        List<SysConfigDict> sysConfigDicts = new ArrayList<>();
-        for (SysConfigDict scd : data) {
-            if (!scd.getItemValue().equals("APP")) {
-                scd.setSout(a);
-                sysConfigDicts.add(scd);
-            }
-            a++;
-        }
-        //PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(search.getPage(), search.getPageSize(), count, data);
-        model.addAttribute("sysConfigDicts", sysConfigDicts);*/
+        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(scsv.getPage(),scsv.getPageSize(), count, scd);
+        model.addAttribute("sysConfigDicts", pageFinder);
 
         return "berkeley/serviceManagement";
     }
@@ -51,8 +52,9 @@ public class ServiceManager {
 
     @ResponseBody
     @RequestMapping(value = "/updateDelFlag", method = RequestMethod.POST)
-    public String updateDelFlag(HttpServletRequest request, Integer companyId, String itemCode, Integer delFlag) {
-        /*SysConfigService serv = new SysConfigService();
+    public JSONObject updateDelFlag(HttpServletRequest request, Integer companyId, String itemCode, Integer delFlag) {
+    	JSONObject json = new JSONObject();
+    	SysConfigService serv = new SysConfigService();
         if (delFlag == 0) {
             serv.setDelFlag(1);
         } else {
@@ -64,9 +66,12 @@ public class ServiceManager {
         serv.setCompanyId(companyId);
         serv.setGroupCode(itemCode);
         if(configService.updateDelFlagByCompanyId(serv)){
-            return "ok";
-        }*/
-        return "no";
+        	json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
+        }else{
+        	 //log.info("qa：添加分校报错");
+        	 json.put(JsonMsg.MSG, JsonMsg.INFORMATION);
+        }
+        return json;
     }
 
 }

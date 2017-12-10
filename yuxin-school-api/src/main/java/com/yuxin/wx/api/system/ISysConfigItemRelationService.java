@@ -61,7 +61,7 @@ public interface ISysConfigItemRelationService {
     void deleteById(Integer id);
     void publishRelation();
     List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item);
-    List<SysConfigItemRelation> findAllItemFront();
+    List<SysConfigItemRelation> findAllItemFront(Integer companyId);
 
     List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
 

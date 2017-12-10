@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
@@ -39,40 +40,42 @@
         <ul class="berkeleyDetailInfo berkeleyDetailInfoLeft">
             <li>
                 <label>学校机构代码:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" style="margin-left: 20px;">
+                <input type="text" disabled="disabled" value="${company.eduAreaSchool }" style="margin-left: 20px;">
+                <input type="hidden"  value="${company.id}" id="companyId">
             </li>
             <li>
                 <label>学校:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" style="margin-left: 70px;">
+                <input type="text" disabled="disabled" value="${company.companyName }" style="margin-left: 70px;">
             </li>
             <li>
                 <label>所属区域:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" style="margin-left: 45px;">
+                <input type="text" disabled="disabled" value="${company.eduAreaName }" style="margin-left: 45px;">
             </li>
             <li>
                 <label>学校性质:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" style="margin-left: 47px;">
+                <input type="text" disabled="disabled" value="${company.schoolProperty }" style="margin-left: 47px;">
             </li>
             <li>
                 <label>联系人:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" class="editState" style="margin-left: 60px;">
+                <input type="text" disabled="disabled" id="linkPerson" value="${company.linkPerson }" class="editState" style="margin-left: 60px;">
             </li>
             <li>
                 <label>联系方式:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" class="editState" style="margin-left: 50px;">
+                <input type="text" disabled="disabled" id="linkPhone" value="${company.linkPhone }" class="editState" style="margin-left: 50px;">
             </li>
             <li>
                 <label>分校域名:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" class="editState" style="margin-left: 50px;">
+                <input type="text" disabled="disabled" id="domain" value="${company.domain }"  style="margin-left: 50px;width: 200px;">
             </li>
             <li>
                 <label>分校后台域名:</label>
-                <input type="text" disabled="disabled" value="XXXXXX" class="editState" style="margin-left: 25px;">
+                <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 200px;">
             </li>
             <li>
                 <label>学校简介:</label>
-                <%--<input type="text" disabled="disabled" value="XXXXXX" class="editState" style="margin-left: 50px;">--%>
-                <textarea name="" id="" cols="30" rows="5" style="margin-left: 50px;" disabled="disabled">学校简介:学校简介:学校简介:学校简介:学校简介:学校简介:
+                <%--<input type="text" disabled="disabled" value="${schoolProperty }" class="editState" style="margin-left: 50px;">--%>
+                <textarea  cols="30" rows="5" id="schoolSummary" style="margin-left: 50px;" disabled="disabled">
+                ${company.schoolSummary }
                 </textarea>
             </li>
         </ul>
@@ -81,41 +84,41 @@
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>学校私有课程收费比例:</label>
-                    <input type="text"  disabled="disabled" value="1%" class="editState">
+                    <input type="text" id="privateCost" disabled="disabled" value="${company.privateCost }%" class="editState">
                 </p>
                 <p style="margin-left: 95px;">
                     <label>学校开放课程收费比例:</label>
-                    <input type="text" disabled="disabled" value="2%" class="editState">
+                    <input type="text" id="publicCost" disabled="disabled" value="${company.publicCost }%" class="editState">
                 </p>
             </li>
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
-                    <label>流量 26,234.34/51200 GB</label><br/>
+                    <label>流量 ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
                     <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量</span>
-                    <input type="text" class="editState showDetails " value="100" >
+                    <input type="text" id="flowSize" class="editState showDetails " >
                 </p>
                 <p style="margin-bottom: 5px;">
-                    <label>空间 365.272/700 GB </label><br/>
+                    <label>空间 ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
                     <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间</span>
-                    <input type="text" class="editState showDetails " value="100" >
+                    <input type="text" id="spaceSize" class="editState showDetails "  >
                 </p>
             </li>
             <li class="accountNumber">
                 <p style="margin-bottom: 5px;">
                     <label>CC账号:</label>
-                    <input type="text" class="editState " value="32131321" style="margin-left: 48px;margin-bottom: 5px;" disabled="disabled"><br/>
-                    <input type="password" class="editState showDetails " value="" style="margin-left: 95px;">
+                    <input type="text" class="editState " id="ccUserName" value="${clc.loginName }" style="margin-left: 48px;margin-bottom: 5px;" disabled="disabled"><br/>
+                    <input type="password" class="editState showDetails " id="ccPwd" value="${clc.password}" style="margin-left: 95px;">
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>展示互动账号:</label>
-                    <input type="text" class="editState " value="103213210" style="margin-bottom: 5px;margin-left: 15px;" disabled="disabled"><br/>
-                    <input type="password" class="editState showDetails" value="" style="margin-left: 95px;">
+                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 15px;" disabled="disabled"><br/>
+                    <input type="password" class="editState showDetails" id="zsPwd" value="${clc.password}" style="margin-left: 95px;">
                 </p>
             </li>
         </ul>
         <div class="berkeleyOperate">
-            <button class="btn btn-warning berkeleyDetailEdit">编辑</button>
-            <button class="btn btn-success">保存</button>
+            <button type="button" class="btn btn-warning berkeleyDetailEdit">编辑</button>
+            <button type="button" onclick="addBerkeley(1)" class="btn btn-success">保存</button>
         </div>
     </div>
 </div>

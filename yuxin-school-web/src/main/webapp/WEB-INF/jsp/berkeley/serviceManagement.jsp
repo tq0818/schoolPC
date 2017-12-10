@@ -12,7 +12,7 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
+    <%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script> --%>
     <style type="text/css">
         .head-div {
             position: relative;
@@ -50,11 +50,11 @@
                     <th width="20%">操作</th>
                 </tr>
 
-                <c:forEach items="${sysConfigDicts}" var="dict">
+                <c:forEach items="${sysConfigDicts.data}" var="dict" varStatus="status">
                     <tr data-buy="true">
-                        <th width="10%">${dict.sout}</th>
-                        <th width="10%">${dict.dictName}</th>
+                        <th width="10%">${status.index +1}</th>
                         <th width="10%">${dict.itemValue}</th>
+                        <th width="10%">${dict.dictName}</th>
                         <th width="10%">
                             <c:choose>
                                  <c:when test="${dict.delFlag==1 }">
@@ -68,10 +68,10 @@
                         <th width="10%">
                         <c:choose>
                             <c:when test="${dict.delFlag==1 }">
-                                <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.itemCode}',${dict.delFlag})" >关闭<a/>
+                                <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >关闭<a/>
                             </c:when>
                             <c:otherwise>
-                                <a  class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.itemCode}',${dict.delFlag})" >开通</a>
+                                <a  class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >开通</a>
                             </c:otherwise>
                         </c:choose>
                         </th>
@@ -89,13 +89,13 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".pagination").pagination('${pageFinder.rowCount}', {
+        $(".pagination").pagination('${sysConfigDicts.rowCount}', {
             next_text : "下一页",
             prev_text : "上一页",
-            current_page :'${pageFinder.pageNo-1}',
+            current_page :'${sysConfigDicts.pageNo-1}',
             link_to : "javascript:void(0)",
             num_display_entries : 8,
-            items_per_page : '${pageFinder.pageSize}',
+            items_per_page : '${sysConfigDicts.pageSize}',
             num_edge_entries : 1,
             callback:function(page,jq){
                 var pageNo = page + 1;
@@ -113,7 +113,30 @@
 </div>
 <div class="loading-bg lp-units-loading-bg" style="display: none"></div>
 <!--  ajax加载中div结束 -->
+<script type="text/javascript">
+function closeBtn(companyId,itemCode,delFlag) {
 
+    $.ajax({
+        type : 'post',
+        url : rootPath+'/serviceManager/updateDelFlag',
+        data : {
+            'companyId' : companyId,
+            'itemCode' : itemCode,
+            'delFlag' : delFlag
+        },
+        dataType: 'json',
+        success : function(data){
+        	if(data.msg=="success"){
+                window.location.href = rootPath+"/serviceManager/getServiceManager/"+companyId;
+        	}else{
+        		alert("操作失败");
+        		return;
+        	}
+        	
+        }
+    });
+}
+</script>
 <script>
     //    左侧active切换
     $selectSubMenus('getServiceManager');

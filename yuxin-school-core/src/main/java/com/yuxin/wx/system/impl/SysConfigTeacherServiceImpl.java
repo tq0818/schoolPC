@@ -280,12 +280,11 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 
     @Override
     public void isnertTeaAndUse(SysConfigTeacher sysConfigTeacher) {
-        // TODO Auto-generated method stub
         Users users = new Users();
         users.setUsername(sysConfigTeacher.getUserName());
         users.setPassword(sysConfigTeacher.getPwd());
-        users.setCompanyId(sysConfigTeacher.getCompanyId());
-        users.setSchoolId(sysConfigTeacher.getSchoolId());
+        //users.setCompanyId(sysConfigTeacher.getCompanyId());
+        //users.setSchoolId(sysConfigTeacher.getSchoolId());
         users.setStatus(1);
         users.setRealName(sysConfigTeacher.getName());
         users.setMobile(sysConfigTeacher.getMobile());

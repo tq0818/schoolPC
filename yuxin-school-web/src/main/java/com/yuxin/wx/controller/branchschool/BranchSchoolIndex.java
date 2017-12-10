@@ -11,18 +11,22 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.auth.IAuthRoleService;
 import com.yuxin.wx.api.company.ICompanyManageService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
-import com.yuxin.wx.model.company.CompanyServiceStaticDay;
+import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.utils.WebUtils;
 
 @Controller
 @RequestMapping("/berkeley")
@@ -35,13 +39,16 @@ public class BranchSchoolIndex {
 
 	 @Autowired
 	 private ICompanyManageService companyManageServiceImpl;
+	 @Autowired
+	 private IAuthRoleService authRoleServiceImpl;
     /**
      * 跳转到订单列表
      *
      * @return
      */
-    @RequestMapping(value = "/berkeleyOrder")
-    public String gotobranchSchoolOrder() {
+    @RequestMapping(value = "/berkeleyOrder/{companyId}")
+    public String gotobranchSchoolOrder(Model model,@PathVariable Integer companyId) {
+    	model.addAttribute("companyId", companyId);
         return "/berkeley/berkeleyOrder";
     }
     /**
@@ -49,9 +56,9 @@ public class BranchSchoolIndex {
      *
      * @return
      */
-    @RequestMapping(value = "/teacherManagement")
-    public String gototeacherManage(){
-
+    @RequestMapping(value = "/teacherManagement/{companyId}")
+    public String gototeacherManage(Model model,@PathVariable Integer companyId){
+    	
         return "berkeley/teacherManagement";
     }
     /**
@@ -69,10 +76,12 @@ public class BranchSchoolIndex {
      *
      * @return
      */
-    @RequestMapping(value = "/permissionManagement")
-    public String gotopermissionManagement(){
-
-        return "/berkeley/permissionManagement";
+    @RequestMapping(value = "/permissionManagement/{companyId}")
+    public String gotopermissionManagement(Model model,@PathVariable Integer companyId){
+    	model.addAttribute("companyId", companyId);
+    	List<AuthRole> roleList = authRoleServiceImpl.findAll();
+    	model.addAttribute("roleList", roleList);
+    	return "berkeley/permissionManagement";
     }
     /**
      * 跳转到添加用户页面
@@ -102,7 +111,6 @@ public class BranchSchoolIndex {
      */
     @RequestMapping(value = "serviceManagement")
     public String gotoserviceManagement(){
-
         return "/berkeley/serviceManagement";
     }
     /**
@@ -173,7 +181,7 @@ public class BranchSchoolIndex {
      */
     @ResponseBody
     @RequestMapping(value = "/addBerkeley")
-    public JSONObject addBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyServiceStaticDay cssd,CompanyLiveConfig clc){
+    public JSONObject addBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc){
     	 JSONObject json = new JSONObject();
          log.info("qa：添加分校:");
          String eduAreaSchool = request.getParameter("branchCode").toString();
@@ -204,10 +212,10 @@ public class BranchSchoolIndex {
          search.setBuyFlag("1");
          search.setCompanyNameShot(companyName);
          search.setServiceVersion("ONLINE_COUNT");
-         String flowSize= request.getParameter("flowSize").toString(); 
-         cssd.setResourceFlow(flowSize);
-         String spaceSize= request.getParameter("spaceSize").toString(); 
-         cssd.setResourceStorageNum(spaceSize);
+         int flowSize= Integer.valueOf(request.getParameter("flowSize")); 
+         cms.setVideoFlow(flowSize);
+         int spaceSize= Integer.valueOf(request.getParameter("spaceSize")); 
+         cms.setVideoStorage(spaceSize);
          String zsUserName= request.getParameter("zsUserName").toString(); 
          clc.setLoginName(zsUserName);
          String zsPwd= request.getParameter("zsPwd").toString(); 
@@ -215,7 +223,8 @@ public class BranchSchoolIndex {
          //ccUserName : ccUserName,
          //ccPwd : ccPwd,
          try {
-        	 companyManageServiceImpl.addBerkeley(search,cssd,clc);
+        	 
+        	 companyManageServiceImpl.addBerkeley(search,cms,clc,WebUtils.getCurrentUserId(request));
              json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         } catch (Exception e) {
         	 log.info("qa：添加分校报错");

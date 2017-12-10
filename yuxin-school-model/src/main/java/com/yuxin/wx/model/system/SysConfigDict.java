@@ -23,6 +23,8 @@ public class SysConfigDict extends BaseEntity {
 	private Integer isDirectly;		/* 是否直属校：1是，0否 */
 
 	private Integer stepId;		/* 学校所属学段 */
+	private Integer delFlag;
+	private String groupCode;
 	// Constructor
 	public SysConfigDict() {
 	}
@@ -137,6 +139,28 @@ public class SysConfigDict extends BaseEntity {
 	public void setStepId(Integer stepId) {
 		this.stepId = stepId;
 	}
+
+	
+    public Integer getDelFlag() {
+    	return delFlag;
+    }
+
+	
+    public void setDelFlag(Integer delFlag) {
+    	this.delFlag = delFlag;
+    }
+
+	
+
+	
+    public String getGroupCode() {
+    	return groupCode;
+    }
+
+	
+    public void setGroupCode(String groupCode) {
+    	this.groupCode = groupCode;
+    }
 
 	@Override
 	public String toString() {

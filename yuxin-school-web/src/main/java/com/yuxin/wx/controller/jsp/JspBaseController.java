@@ -16,7 +16,16 @@ public class JspBaseController {
      * @return
      */
     @RequestMapping(value = "/OpenCourse")
-    public String baseSchoolLive(){
+    public String OpenCourse(){
         return "schoolResources/openCourse";
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/basicInformationCourse")
+    public String basicInformationCourse(){
+        return "schoolResources/basicInformationCourse";
     }
 }

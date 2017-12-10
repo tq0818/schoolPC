@@ -165,4 +165,10 @@
 			group_code = #{groupCode}
 			limit 1
 	</select>
+	
+	<update id="updateFlag" parameterType="com.yuxin.wx.model.system.SysConfigService">
+		update sys_config_service
+		 set  del_flag = #{delFlag}
+		where company_id = #{companyId} and group_code = #{groupCode}
+	</update>
 </mapper>

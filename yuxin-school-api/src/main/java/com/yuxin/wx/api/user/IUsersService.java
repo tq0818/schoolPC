@@ -125,6 +125,13 @@ public interface IUsersService  {
 	 * @return
 	 */
 	Users queryUserByName(String userName);
+	/**
+	 * 通过用户名称和companyId查询用户
+	 * @param userName 用户名称
+	 * @param companyId 机构标识号
+	 * @return 用户
+	 */
+	Users queryUserByCondition(String userName,Integer companyId);
 	
 	/**
 	 * 

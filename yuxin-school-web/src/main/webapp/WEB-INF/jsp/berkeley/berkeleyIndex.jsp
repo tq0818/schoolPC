@@ -137,90 +137,93 @@ $(function(){
     <div class="addSchool">
             <ul>
                 <li>
-                    <label>分校机构代码:</label>
+                    <label style="margin-right: 10px;">分校机构代码:</label>
                     <input type="text" name="branchCode" id="branchCode">
                     <input type="hidden" name="isArea" id="isArea">
-                    <button class="btn btn-primary" id="searchBranchSchool">搜索</button>
+                    <button class="btn btn-primary" id="searchBranchSchool" style="margin-left: 5px;">搜索</button>
                 </li>
                 <li>
-                    <label>分校:</label>
+                    <label style="margin-right: 60px;">分校:</label>
                     <label id="branchSchool" name="branchSchool"></label>
                 </li>
                 <li>
-                    <label>所属区域:</label>
+                    <label style="margin-right: 35px;">所属区域:</label>
                     <label id="eara" name="eara"></label>
                 </li>
                 <li>
-                    <label>学校性质:</label>
-                    <select id="schoolProperties">
+                    <label style="margin-right: 35px;">学校性质:</label>
+                    <select id="schoolProperties" style="width: 164px;">
                         <c:forEach items="${schoolPros}" var="schoolPro" >
 		                    <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
 		                </c:forEach>
                     </select>
                 </li>
                 <li>
-                    <label>联系人:</label>
+                    <label style="margin-right: 47px;">联系人:</label>
                     <input type="text" name="linkPerson" id="linkPerson">
                 </li>
                 <li>
-                    <label>联系方式:</label>
+                    <label style="margin-right: 35px;">联系方式:</label>
                     <input type="text" name="linkPhone" id="linkPhone">
                 </li>
                 <li>
-                    <label>分校域名:</label>
-                    www.
+                    <label>分校域名:</label><br/>
+                    <span style="margin-left: 55px;">www.</span>
                     <input type="text" name="domain" id="domain">
-                    .cdds365.com
+                    <span>.cdds365.com</span>
                 </li>
                 <li>
-                    <label>分校后台域名:</label>
-                    www.
+                    <label>分校后台域名:</label><br/>
+                    <span style="margin-left: 55px;">www.</span>
                     <input type="text" name="domainManage" id="domainManage">
-                    .manage.cdds.com
+                    <span>.manage.cdds.com</span>
                 </li>
                 <li>
                     <label>收费配置:</label>
                     <p>
-                        <label>学校私有课程收费比例:</label>
-                        <input type="text" id="privateCost" name="privateCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
+                        <label style="margin-left: 40px;">学校私有课程收费比例:</label><br/>
+                        <input style="margin-left: 85px;" type="text" id="privateCost" name="privateCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
                     </p>
                     <p>
-                        <label>学校开放课程收费比例：</label>
-                        <input type="text" id="publicCost" name="publicCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
+                        <label style="margin-left: 40px;">学校开放课程收费比例：</label><br/>
+                        <input style="margin-left: 85px;" type="text" id="publicCost" name="publicCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
                     </p>
                 </li>
-                <li>
+            </ul>
+            <ul style="float:right;">
+                <li style="margin-bottom: 10px">
                     <label>资源分配</label>
-                    <p>
+                    <p style="margin-left: 30px;margin-bottom: 8px;">
                         流量
                         <input type="text" id="flowSize" name="flowSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                         GB
                     </p>
-                    <p>
+                    <p style="margin-left: 30px;">
                         空间
                         <input type="text" id="spaceSize" name="spaceSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"">
                         GB
                     </p>
                 </li>
-                <li>
-                    <label for="">cc账号:</label>
-                    <input type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
-                    <input type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
+                <li style="margin-bottom: 10px">
+                    <label for="">cc账号:</label><br/>
+                    <input style="margin-left: 55px;margin-bottom: 5px;" type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
+                    <input style="margin-left: 55px;" type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
+                </li>
+                <li style="margin-bottom: 10px">
+                    <label for="">展视互动账号:</label><br/>
+                    <input style="margin-left: 55px;margin-bottom: 5px;" type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/><br/>
+                    <input style="margin-left: 55px;" type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
                 </li>
                 <li>
-                    <label for="">展视互动账号:</label>
-                    <input type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/>
-                    <input type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
-                </li>
-                <li>
-                    <label>学校简介：</label>
-                    <textarea cols="30" rows="10" id="schoolSummary" name="schoolSummary"></textarea>
-                </li>
-                <li class="submitSchool">
-                    <button  type="button" onclick="addBerkeley()" class="btn btn-success ">确定</button>
-                    <button  type="button" class="btn btn-danger submitSchoolCancel">取消</button>
+                    <label>学校简介：</label><br/>
+                    <textarea style="margin-left: 55px;" cols="50" rows="10" id="schoolSummary" name="schoolSummary"></textarea>
                 </li>
             </ul>
+
+        <div class="submitSchool">
+            <button  type="button" onclick="addBerkeley(0)" class="btn btn-success ">确定</button>
+            <button  type="button" class="btn btn-danger submitSchoolCancel">取消</button>
+        </div>
         </div>
     </div>
 </div>
@@ -259,10 +262,7 @@ $(function(){
     $('table').on('mouseleave','.box',function(){
         $(this).hide();
     });
-    console.log(rootPath);
-
 </script>
-
 <script>
 //    点击更多显示菜单
     $('.more').mouseenter(function(){

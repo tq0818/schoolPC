@@ -123,6 +123,8 @@ public interface IAuthUserRoleService  {
 	 */
 	Set<String> queryUserRoles(String userName);
 	
+	Set<String> queryUserRoles(String userName,Integer companyId);
+	
  /**
   * 
   * Class Name: IAuthUserRoleService.java
@@ -142,6 +144,8 @@ public interface IAuthUserRoleService  {
   * @return
   */
  Set<String> findUserPermissions(String userName);
+ 
+ Set<String> findUserPermissions(String userName,Integer companyId);
  
  /**
   * 

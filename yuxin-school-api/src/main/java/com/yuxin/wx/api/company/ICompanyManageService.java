@@ -2,7 +2,7 @@ package com.yuxin.wx.api.company;
 
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
-import com.yuxin.wx.model.company.CompanyServiceStaticDay;
+import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
 
 public interface ICompanyManageService {
@@ -25,10 +25,21 @@ public interface ICompanyManageService {
 	 * @Method: addBerkeley 
 	 * @Description: 添加分校
 	 * @param search
-	 * @param cssd
+	 * @param cms
 	 * @param clc
 	 * @return 
 	 * @throws
 	 */
-	public void addBerkeley(CompanyVo search,CompanyServiceStaticDay cssd,CompanyLiveConfig clc);
+	public void addBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc,Integer userId);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月8日 上午12:11:19
+	 * @Method: eidtBerkeley 
+	 * @Description: 修改分校
+	 * @param search
+	 * @param cms
+	 * @param clc 
+	 * @throws
+	 */
+	public void eidtBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc);
 }

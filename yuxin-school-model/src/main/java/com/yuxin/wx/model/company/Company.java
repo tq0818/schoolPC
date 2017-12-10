@@ -72,7 +72,32 @@ public class Company extends BaseEntity {
 	
 	private String tiku;
 	private String invite;
+	/**
+	 * 是否为数校，0为数校，1为区县，2为校
+	 */
+	private String isArea;
+	/**
+	 * 机构代码
+	 */
+	private String eduAreaSchool;
 	
+	
+	public String getEduAreaSchool() {
+		return eduAreaSchool;
+	}
+
+	public void setEduAreaSchool(String eduAreaSchool) {
+		this.eduAreaSchool = eduAreaSchool;
+	}
+
+	public String getIsArea() {
+		return isArea;
+	}
+
+	public void setIsArea(String isArea) {
+		this.isArea = isArea;
+	}
+
 	// Constructor
 	public Company() {
 	}

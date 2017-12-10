@@ -34,11 +34,13 @@ import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.user.InitDataVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -237,6 +239,15 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 		Users user=usersMapper.queryByName(userName);
 		return user;
 	}
+	
+	@Override
+	public Users queryUserByCondition(String userName, Integer companyId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userName",userName);
+		params.put("companyId",companyId);
+		return usersMapper.queryUserByCondition(params);
+	}
+
 	@Override
 	public Boolean checkUserValid(Users user){
 	    Integer isValid=usersMapper.checkUser(user);

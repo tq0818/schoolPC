@@ -5,15 +5,20 @@ import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.company.mapper.CompanyMemberServiceMapper;
 import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.student.mapper.StudentPayMasterMapper;
 import com.yuxin.wx.system.mapper.SysConfigDictMapper;
 import com.yuxin.wx.vo.company.*;
 import com.yuxin.wx.vo.query.RegisterInfoVo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.yuxin.wx.common.BaseServiceImpl;
 
 import java.util.Date;
 import java.util.List;
@@ -503,6 +508,23 @@ public class CompanyServiceImpl extends BaseServiceImpl implements ICompanyServi
 	@Override
 	public Integer queryServiceOpenFlag(Map<String, Object> map) {
 		return companyMapper.queryServiceOpenFlag(map);
+	}
+
+	@Override
+    public NewCompanyVo findCompanyVoById(Integer id) {
+		NewCompanyVo companyVo=companyMapper.findCompanyVoById(id);
+	    return companyVo;
+    }
+
+	@Override
+    public CompanyLiveConfig findCompanyLiveConfigById(Integer id) {
+		CompanyLiveConfig clc=companyMapper.findCompanyLiveConfigById(id);
+	    return clc;
+    }
+
+	@Override
+	public Integer findComanyIdByRootPath(String rootPath) {
+		return companyMapper.findComanyIdByRootPath(rootPath);
 	}
 
 }

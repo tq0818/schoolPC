@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.auth.IAuthRoleService;
 import com.yuxin.wx.api.company.ICompanyManageService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
@@ -37,7 +39,8 @@ public class BranchSchoolIndex {
 
 	 @Autowired
 	 private ICompanyManageService companyManageServiceImpl;
-	
+	 @Autowired
+	 private IAuthRoleService authRoleServiceImpl;
     /**
      * 跳转到订单列表
      *
@@ -76,7 +79,9 @@ public class BranchSchoolIndex {
     @RequestMapping(value = "/permissionManagement/{companyId}")
     public String gotopermissionManagement(Model model,@PathVariable Integer companyId){
     	model.addAttribute("companyId", companyId);
-        return "/berkeley/permissionManagement";
+    	List<AuthRole> roleList = authRoleServiceImpl.findAll();
+    	model.addAttribute("roleList", roleList);
+    	return "berkeley/permissionManagement";
     }
     /**
      * 跳转到添加用户页面

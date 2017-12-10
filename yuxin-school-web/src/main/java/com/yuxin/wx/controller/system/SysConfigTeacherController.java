@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.auth.IAuthUserRoleService;
 import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.classes.IClassModuleService;
@@ -1062,23 +1063,45 @@ public class SysConfigTeacherController {
 	
 	@ResponseBody
 	@RequestMapping(value="/checkUserMobileNum",method=RequestMethod.POST)
-	public String checkUserMobileNum(HttpServletRequest request, String mobile){
+	public JSONObject checkUserMobileNum(HttpServletRequest request, String mobile,Integer companyId){
+		JSONObject obj =new JSONObject();
 		//根据当前名称/ 用户所属校区名称查询当前名称是否已经存在
 		if(null != mobile && ! "".equals(mobile)){
 			Users u = new Users();
 			u.setMobile(mobile);
+			String isArea= WebUtils.getCurrentIsArea();
 			
 			if(ParameterUtil.isMobilePhone(mobile)){
 				List<Users> userList = userServiceImpl.findUserByCondition(u);
-				if(userList != null && userList.size() > 0){
-						return "该手机号已存在";
+				if(null!=isArea && !"0".equals(isArea)){
+					if(userList != null && userList.size() > 0){
+						SysConfigTeacher teacher =new SysConfigTeacher();
+						teacher.setMobile(mobile);
+						SysConfigTeacher teachers = sysConfigTeacherServiceImpl.findTeacherIdByMobile(teacher);
+						teacher.setCompanyId(companyId);
+						if(companyId == teacher.getCompanyId()){
+							teachers=new SysConfigTeacher();
+						}
+						obj.put("teacher", teachers);
+						obj.put("msg", "1");	
+					}
+				}else{
+					SysConfigTeacher teacher =new SysConfigTeacher();
+					teacher.setMobile(mobile);
+					SysConfigTeacher teachers = sysConfigTeacherServiceImpl.findTeacherIdByMobile(teacher);
+					obj.put("teacher", teachers);
+					obj.put("user", userList);
+					obj.put("msg", "1");
 				}
-				return "true";
+				
+				return obj;
 			}else{
-				return "手机号格式不正确";
+				obj.put("msg", "手机号格式不正确");
+				return obj;
 			}
  		}else{
- 			return "手机号不能为空";
+ 			obj.put("msg", "手机号不能为空");
+ 			return obj;
  		}
 	}
 	

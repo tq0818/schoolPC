@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
@@ -169,6 +170,8 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addSysConfigItem(SysConfigItem sci);
 	public void addTwoSysConfigItem(SysConfigItem sci);
 	public void addSysConfigAndSchool(SysConfigItem sci);
+	public void addAuthRole(AuthRole rol);
+	public void updateAuthRole();
 	
 	
 	/**

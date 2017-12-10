@@ -23,8 +23,9 @@
 <script type="text/javascript" src="<%=rootPath %>/plugins/bootstrap-fileupload/bootstrap-fileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/plugins/jcrop/js/jquery.Jcrop.js"></script>
    <script type="text/javascript" src="<%=rootPath %>/javascripts/resource/teacher/headPicInit.js"></script>
-<%--<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>--%>
-	<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/updatetTeacher.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacherOld.js"></script>
+	<%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/updatetTeacher.js"></script> --%>
 <style>
 	.hide{display:none}
 	.show{display:block}
@@ -140,6 +141,7 @@ $(function(){
 		                    </span>
 		                </div>
 		                <input type="hidden" value="${teacher.id }" name="id" id="teacherId"/>
+		                <input type="hidden" value="${companyId}" name="companyId" id="companyId"/>
 		                <ul class="list-infos clear">
 		                    <li>
 		                        <p class='c'>
@@ -450,7 +452,7 @@ $(function(){
 		            <!--ceshi后台git提交  -->
 		            <div class="m-bo text-center" >
 		                <a href="javascript:;" class="btn btn-sm btn-primary">保存</a>
-		                <a href="<%=rootPath%>/teacherManger/getFirstItems" class="btn btn-sm btn-default">取消</a>
+		                <a href="<%=rootPath%>/teacherManger/getFirstItems/${companyId}" class="btn btn-sm btn-default">取消</a>
 		            </div>
 		        </div>
 		        </form>

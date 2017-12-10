@@ -264,7 +264,7 @@ public class BaseWebController {
         //获取当前访问域名对应的companyid
         Integer port=(Integer)request.getServerPort();
         String rootPath="";
-        if(80==port){
+        if(80==port.intValue()){
         	rootPath=request.getServerName()+request.getContextPath();
         }else{
         	rootPath=request.getServerName()+":"+request.getServerPort()+request.getContextPath();
@@ -277,7 +277,7 @@ public class BaseWebController {
         	if(companyId!=null){
         		cache.put(rootPath, companyId);
         	}else{
-        		response.sendRedirect(request.getServletPath()+"/fonts/404.html");;
+        		response.sendRedirect(request.getContextPath()+"/fonts/404.html");;
         		return null;
         	}
         }

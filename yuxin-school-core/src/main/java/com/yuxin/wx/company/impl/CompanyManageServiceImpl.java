@@ -13,6 +13,7 @@ import com.yuxin.wx.api.company.ICompanyManageService;
 import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.company.mapper.CompanyMapper;
+import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
@@ -68,6 +69,11 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 companyMapper.addSysConfigItem(sci);
 		 companyMapper.addTwoSysConfigItem(sci);
 		 companyMapper.addSysConfigAndSchool(sci);
+		 //添加角色
+		 AuthRole rol= new AuthRole();
+		 rol.setCreator(String.valueOf(userId));
+		 companyMapper.addAuthRole(rol);
+		 companyMapper.updateAuthRole();
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {

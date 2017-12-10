@@ -74,7 +74,7 @@ public class TeacherManger {
         }
 
         model.addAttribute("pageFinder", pageFinder);
-       // model.addAttribute("companyId", companyId);
+        model.addAttribute("companyId", teacher.getCompanyId());
         return "berkeley/teacherList";
     }
 
@@ -271,12 +271,14 @@ public class TeacherManger {
                       SysConfigTeacher sysConfigTeacher, String moduleIds) {
         sysConfigTeacher.setPwd(new Md5Hash(sysConfigTeacher.getPwd(),ByteSource.Util.bytes(sysConfigTeacher.getUserName()+"salt")).toHex());
         Users user = WebUtils.getCurrentUser(request);
-        sysConfigTeacher.setSchoolId(user.getSchoolId());
+        int companyId=sysConfigTeacher.getCompanyId();
+        int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
+        sysConfigTeacher.setSchoolId(schoolId);
         sysConfigTeacher.setCreator(user.getId());
         sysConfigTeacher.setCreateTime(new Date());
         sysConfigTeacher.setUpdateTime(new Date());
         sysConfigTeacher.setUpdator(user.getId());
-        sysConfigTeacher.setCompanyId(user.getCompanyId());
+        sysConfigTeacher.setCompanyId(companyId);
         sysConfigTeacher.setDelFlag(0);
         sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
         sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);

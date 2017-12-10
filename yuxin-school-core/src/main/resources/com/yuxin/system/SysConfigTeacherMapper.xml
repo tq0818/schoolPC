@@ -586,8 +586,9 @@
 		select
 		<include refid="table_columns" />
 		from sys_config_teacher
-		where del_flag = 0 and company_id =
-		#{companyId} and mobile = ${mobile}
+		where del_flag = 0 
+		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		 and mobile = ${mobile}
 	</select>
 	<!-- ycl-end -->
 

@@ -22,7 +22,7 @@
        </c:choose>
     </span>
 </p>
- <p class="c member_settings none">
+ <p class="c none member_settings">
      <span class="c-title">会员课程</span>
      <span class="c-content">
      	<c:choose>

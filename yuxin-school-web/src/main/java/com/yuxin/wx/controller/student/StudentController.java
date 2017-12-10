@@ -697,7 +697,6 @@ public class StudentController {
         Company com = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
         if (null != com && null != com.getServiceVersion() && "ONLINE_COUNT".equals(com.getServiceVersion())) {
             Student student = new Student();
-            student.setCompanyId(WebUtils.getCurrentCompanyId());
             student.setMobile(mobile);
             Student st = studentServiceImpl.findByMobile(student);
             return st;
@@ -711,7 +710,6 @@ public class StudentController {
                 return null;
             }
             Student student = new Student();
-            student.setCompanyId(WebUtils.getCurrentCompanyId());
             student.setMobile(mobile);
             Student st = studentServiceImpl.findByMobile(student);
             return st;

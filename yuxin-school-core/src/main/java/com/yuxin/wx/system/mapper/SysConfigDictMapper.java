@@ -25,6 +25,8 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 		List<SysConfigDict> findDictByClassroom();
 
 		List<SysConfigDict> findByDicCode(String code);
+
+		List<SysConfigDict> findByParentId(String parentId);
 		
 		List<SysConfigDict> queryConfigDictList();
 		

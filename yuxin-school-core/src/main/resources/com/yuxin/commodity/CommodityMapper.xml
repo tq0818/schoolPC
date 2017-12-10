@@ -212,6 +212,9 @@
 			<if test="itemThirdCode != null and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
 			<if test="itemFourthCode != null and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
 			<if test="isMicroClass != null">is_micro_class = #{isMicroClass},</if>
+			
+			<if test="cddsStatus != null">cdds_status = #{cddsStatus},</if>
+			<if test="cddsRecommendFlag != null">cdds_recommend_flag = #{cddsRecommendFlag},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>

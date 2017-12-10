@@ -136,13 +136,23 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	int queryCountLiveClassOfBranchSchool(Map<String, Object> param);
 	
 	/**
-	 * 查询分校课程
+	 * 查询分校课程(分校课程查询)
 	 */
 	List<ClassTypeVo> queryClassOfBranchSchool(Map<String, Object> param);
 
 	/**
-	 * 查询分校课程
+	 * 查询分校课程(分校课程查询)
 	 */
 	int queryCountClassOfBranchSchool(Map<String, Object> param);
+	
+	/**
+	 * 查询分校课程(分校课程)
+	 */
+	List<ClassTypeVo> queryClassTypeOfBranchSchool(Map<String, Object> param);
+
+	/**
+	 * 查询分校课程(分校课程)
+	 */
+	int queryCountClassTypeOfBranchSchool(Map<String, Object> param);
 	
 }

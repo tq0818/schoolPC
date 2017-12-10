@@ -165,6 +165,14 @@
                                 <h2 class="h6">账户信息</h2>
                             </div>
                             <ul class="list-infos clear">
+                           		<li>
+                                    <p class='c'>
+                                        <span class="c-title">手机号<em>*</em></span>
+                                        <span class="c-content">
+		                                <input type="text" name="mobile" value="" id="mobile">
+		                            </span>
+                                    </p>
+                                </li>
                                 <li>
                                     <p class='c'>
                                         <span class="c-title">登陆账号<em>*</em></span>
@@ -200,7 +208,7 @@
                         </div>
                         <input type="hidden" name="teaOrAdu" value="tea"/>
                         <%-- </c:if> --%>
-
+						<input type="hidden" value="" name="id" id="teacherId"/>
 
                         <div class="main-content">
                             <div class="m-title">
@@ -222,8 +230,8 @@
                                     <p class='c'>
                                         <span class="c-title">是否是名师<em>*</em></span>
                                         <span class="c-content">
-		                                <input type="radio" name="isDistinguished" value="1" checked> 是
-		                                <input type="radio" name="isDistinguished" value="0" > 否
+		                                <input type="radio" name="isDistinguished" id="isDistinguished1" value="1" checked> 是
+		                                <input type="radio" name="isDistinguished" id="isDistinguished0" value="0" > 否
 		                            </span>
                                     </p>
                                 </li>
@@ -231,7 +239,7 @@
                                     <p class='c'>
                                         <span class="c-title">教师级别<em>*</em></span>
                                         <span class="c-content">
-										<select name="teacherLevel">
+										<select name="teacherLevel" id="teacherLevel">
 											<option value="GRADE_HIGH" >小学高级</option>
 											<option value="MIDDLE_GRADE_HIGH" >中小学高级</option>
 											<option value="MIDDLE_ONE">中学一级</option>
@@ -247,7 +255,7 @@
                                     <p class='c'>
                                         <span class="c-title">所在区域<em>*</em></span>
                                         <span class="c-content">
-		                                <select name="teacherArea">
+		                                <select name="teacherArea" id="teacherArea">
 											<option value="alone" >直属直管</option>
 											<option value="qing_yang" >青羊区</option>
 											<option value="jin_niu">金牛区</option>
@@ -281,8 +289,8 @@
                                     <p class='c'>
                                         <span class="c-title">性别</span>
                                         <span class="c-content">
-		                                <input type="radio" name="sex" value="MALE" checked> 男
-		                                <input type="radio" name="sex" value="FEMALE" }> 女
+		                                <input type="radio" id="sex" name="sex" value="MALE" checked> 男
+		                                <input type="radio" id="sex1" name="sex" value="FEMALE" > 女
 		                            </span>
                                     </p>
                                 </li>
@@ -291,7 +299,7 @@
                                     <p class='c'>
                                         <span class="c-title">现居住址</span>
                                         <span class="c-content">
-		                                <input type="text" name="address" value="">
+		                                <input type="text" name="address" id="address" value="">
 		                            </span>
                                     </p>
                                 </li>
@@ -299,7 +307,7 @@
                                     <p class='c'>
                                         <span class="c-title">最高学历</span>
                                         <span class="c-content">
-		                                <select name="educationCode">
+		                                <select name="educationCode" id="educationCode">
 		                                	<option value="UNDER_JUNIOR" >大专以下</option>
 		                                	<option value="JUNIOR" >大专</option>
 		                                	<option value="BECHELOR">本科</option>
@@ -313,7 +321,7 @@
                                     <p class='c'>
                                         <span class="c-title">身份证</span>
                                         <span class="c-content">
-					                     <input type="text" name="idNumber" value="" />
+					                     <input type="text" name="idNumber" id="idNumber" value="" />
 					                 </span>
                                     </p>
                                 </li>
@@ -321,7 +329,7 @@
                                     <p class='c'>
                                         <span class="c-title">开户行</span>
                                         <span class="c-content">
-					                     <input type="text" name="bankName" value="" />
+					                     <input type="text" name="bankName" id="bankName" value="" />
 					                 </span>
                                     </p>
                                 </li>
@@ -329,7 +337,7 @@
                                     <p class='c'>
                                         <span class="c-title">开户名</span>
                                         <span class="c-content">
-					                     <input type="text" name="bankAccountName" value="" />
+					                     <input type="text" name="bankAccountName" id="bankAccountName" value="" />
 					                 </span>
                                     </p>
                                 </li>
@@ -337,7 +345,7 @@
                                     <p class='c'>
                                         <span class="c-title">银行卡号</span>
                                         <span class="c-content">
-					                     <input type="text" name="bankAccountNum" value="" />
+					                     <input type="text" name="bankAccountNum" id="bankAccountNum" value="" />
 					                 </span>
                                     </p>
                                 </li>
@@ -384,17 +392,9 @@
                             <ul class="list-infos clear">
                                 <li>
                                     <p class='c'>
-                                        <span class="c-title">手机号<em>*</em></span>
-                                        <span class="c-content">
-		                                <input type="text" name="mobile" value="" id="mobile">
-		                            </span>
-                                    </p>
-                                </li>
-                                <li>
-                                    <p class='c'>
                                         <span class="c-title">家庭电话</span>
                                         <span class="c-content">
-		                                <input type="text" name="homePhone" value="">
+		                                <input type="text" name="homePhone" id="homePhone" value="">
 		                            </span>
                                     </p>
                                 </li>
@@ -402,7 +402,7 @@
                                     <p class='c'>
                                         <span class="c-title">办公电话</span>
                                         <span class="c-content">
-		                                <input type="text" name="workPhone" value="">
+		                                <input type="text" name="workPhone" id="workPhone" value="">
 		                            </span>
                                     </p>
                                 </li>
@@ -410,7 +410,7 @@
                                     <p class='c'>
                                         <span class="c-title">紧急联系人</span>
                                         <span class="c-content">
-		                                <input type="text" name="emergencyContactName" value="">
+		                                <input type="text" name="emergencyContactName" id="emergencyContactName" value="">
 		                            </span>
                                     </p>
                                 </li>
@@ -508,11 +508,12 @@
 
                                 </div> -->
                             </div>
+                             <input type="hidden" name="companyId" value="${companyId}" id="companyId"/>
                     </form>
                     <!--ceshi后台git提交  -->
                     <div class="m-bo text-center" >
                         <a href="javascript:;" class="btn btn-sm btn-primary">保存</a>
-                        <a href="<%=rootPath%>/teacherManger/getFirstItems" class="btn btn-sm btn-default">取消</a>
+                        <a href="<%=rootPath%>/teacherManger/getFirstItems/${companyId}" class="btn btn-sm btn-default">取消</a>
                     </div>
                 </div>
             </div>
@@ -590,7 +591,7 @@
 //        $selectSubMenus('operate_fee_confirm');
 //    });
 </script>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>
+<%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script> --%>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacherOld.js"></script>
 <script>
 //        二级菜单加active

@@ -1266,7 +1266,11 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addTwoSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
 		create_time,creator,sort,item_code,parent_code)
-		select i.item_name,i.item_type,i.parent_id,1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
+		select i.item_name,i.item_type,
+		(CASE when  i.parent_code='TYPE' THEN (select id from sys_config_item where item_code='TYPE' and company_id=#{companyId})  
+		when  i.parent_code='GRADE' THEN (select id from sys_config_item where item_code='GRADE' and company_id=#{companyId})
+		when  i.parent_code='SUBJECT' THEN (select id from sys_config_item where item_code='SUBJECT' and company_id=#{companyId}) end )as parent_id,
+		1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
 		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
 		sys_config_item i, sys_school_item_relation r
 		where i.id=r.item_id and i.item_type in(2)  and
@@ -1281,6 +1285,16 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
 
 	</insert>
+	<!-- 添加角色-->
+	<insert id="addAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		insert into  auth_role
+		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=18113)
+	</insert>
+	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
+	  update auth_role set role_uid=id where role_uid is null
+	</update>
+	
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
 		select <include refid="table_columns_company" /> from company t1

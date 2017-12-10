@@ -572,6 +572,13 @@
         <!-- 课程基本信息 -->
         <pattern>/jsp/basicInformationCourse</pattern>
 
+        <pattern>/branchSchool/queryClassType</pattern>
+        <pattern>/branchSchool/*/*/*</pattern>
+        <pattern>/branchSchool/showSignUp</pattern>
+        <pattern>/branchSchool/insertStudents</pattern>
+        <pattern>/branchSchool/queryData</pattern>
+   
+
 
     </decorator>
 

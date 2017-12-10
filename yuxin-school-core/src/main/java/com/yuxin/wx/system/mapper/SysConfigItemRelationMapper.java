@@ -30,7 +30,7 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
 
     List<SysConfigItemRelation> findChildrenFront(SysConfigItemRelation item);
 
-    List<SysConfigItemRelation> findAllItemFront();
+    List<SysConfigItemRelation> findAllItemFront(Integer companyId);
 
     List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
 

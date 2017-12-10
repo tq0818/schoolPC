@@ -4,6 +4,7 @@ import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.system.mapper.SysConfigItemRelationMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +71,8 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
-    public List<SysConfigItemRelation> findAllItemFront() {
-        return sysConfigItemRelationMapper.findAllItemFront();
+    public List<SysConfigItemRelation> findAllItemFront(Integer companyId) {
+        return sysConfigItemRelationMapper.findAllItemFront(companyId);
     }
 
     @Override

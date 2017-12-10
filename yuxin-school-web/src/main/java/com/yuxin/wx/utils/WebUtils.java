@@ -51,7 +51,7 @@ import com.yuxin.wx.vo.user.UsersFrontVo;
 @Component
 public class WebUtils {
 
-    private static Log log = LogFactory.getLog("log");
+    private static Log log = LogFactory.getLog("WebUtils");
     private static ICompanyCouponsPatchService companyCouponsPatchServiceImpl;
 
     @Autowired
@@ -223,6 +223,7 @@ public class WebUtils {
      */
     public static final String CURRENT_IS_AREA="CURRENT_IS_AREA";
     
+    public static final String COMPANY_INFO="companyInfo";
     /**
      *
      * Class Name: UserHolder.java

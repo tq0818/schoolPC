@@ -270,7 +270,7 @@ public class BaseWebController {
         	rootPath=request.getServerName()+":"+request.getServerPort()+request.getContextPath();
         }
         //通过rootPath获取CompanyId，先查缓存，缓存没有在查数据库
-        Cache<String,Integer> cache=jedisShiroCacheManager.getCache("companyInfo");
+        Cache<String,Integer> cache=jedisShiroCacheManager.getCache(WebUtils.COMPANY_INFO);
         Integer companyId=cache.get(rootPath);
         if(companyId==null){
         	companyId=companyServiceImpl.findComanyIdByRootPath(rootPath);

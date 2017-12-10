@@ -65,11 +65,11 @@
             </li>
             <li>
                 <label>分校域名:</label>
-                <input type="text" disabled="disabled" id="domain" value="${company.domain }" class="editState" style="margin-left: 50px;">
+                <input type="text" disabled="disabled" id="domain" value="${company.domain }"  style="margin-left: 50px;width: 200px;">
             </li>
             <li>
                 <label>分校后台域名:</label>
-                <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }" class="editState" style="margin-left: 25px;">
+                <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 200px;">
             </li>
             <li>
                 <label>学校简介:</label>

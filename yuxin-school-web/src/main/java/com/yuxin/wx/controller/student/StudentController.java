@@ -2467,7 +2467,7 @@ public class StudentController {
         model.addAttribute("classMoreStatus", status);
         // 根据公司id 和学校id 查询 一级项目
         //List<SysConfigItem> oneItem = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
-        List<SysConfigItemRelation> allItem = sysConfigItemRelationServiceImpl.findAllItemFront();
+        List<SysConfigItemRelation> allItem = sysConfigItemRelationServiceImpl.findAllItemFront(WebUtils.getCurrentCompanyId());
         List<SysConfigItemRelation> oneItem = new ArrayList<>();
         List<SysConfigItemRelation> twoItem = new ArrayList<>();
         List<SysConfigItemRelation> threeItem = new ArrayList<>();

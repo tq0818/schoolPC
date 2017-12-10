@@ -111,9 +111,9 @@
         from sys_config_item_relation_front
         where parent_id = #{id} and origin_type=0 
     </select>
-    <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap">
+    <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="int">
         SELECT DISTINCT
-        (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code)as item_name,
+        (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code and sci.company_id=#{companyId})as item_name,
         LEVEL
           FROM
         sys_config_item_relation_front rf where rf.origin_type=0 

@@ -568,7 +568,11 @@
 
         <!-- 分校开放课程管理 -->
         <pattern>/jsp/OpenCourse</pattern>
-
+        <pattern>/branchSchool/queryClassType</pattern>
+        <pattern>/branchSchool/*/*/*</pattern>
+        <pattern>/branchSchool/showSignUp</pattern>
+        <pattern>/branchSchool/insertStudents</pattern>
+        <pattern>/branchSchool/queryData</pattern>
     </decorator>
 
 </decorators>

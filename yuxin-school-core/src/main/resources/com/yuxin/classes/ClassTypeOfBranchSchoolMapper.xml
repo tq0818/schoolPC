@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeOfBranchSchoolMapper">
+	<resultMap type="com.yuxin.wx.model.classes.ClassType" id="classTypeResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="typeCode" column="type_code" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="schoolsId" column="schools_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="description" column="description" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="isSale" column="is_sale" />
+		<result property="cover" column="cover" />
+		<result property="subTitle" column="sub_title" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+		<result property="teacherId" column="teacher_id" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="baseNum" column="base_num"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="createSchoolId" column="create_school_id"/>
+		<result property="validityDay" column="validity_day"/>
+		<result property="validityDate" column="validity_date"/>
+		<result property="videoWatchCount" column="video_watch_count"/>
+		<result property="liveWatchCount" column="live_watch_count"/>
+		<result property="commodityId" column="commodityId"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+		<result property="buyNumMax" column="buy_num_max"/>
+		<result property="protocolId" column="protocol_id"/>
+		<result property="iconLable" column="icon_lable"/>
+	    <result property="subjectClassOrder" column="subject_class_order"/>
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="paperDescription" column="paper_description" />
+		
+		<result property="isOutSource" column="is_out_source" />
+		<result property="isPublic" column="is_public" />
+		<result property="publicPrice" column="public_price" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
+		<result property="id" column="id" />
+		<result property="commodityId" column="com_id" />
+		<result property="name" column="name" />
+		<result property="typeCode" column="type_code" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="schoolsId" column="schools_id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemOneName" column="item_one_name" />
+		<result property="itemSecondName" column="item_second_name" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="itemThirdName" column="item_third_name" />
+		<result property="itemFourthName" column="item_fourthd_name" />
+		<result property="description" column="description" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="isSale" column="is_sale" />
+		<result property="cover" column="cover" />
+		<result property="companyId" column="company_id" />
+		<result property="subTitle" column="sub_title" />
+		<result property="detailDesc" column="detail_desc" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="lableType" column="lable_type" />
+		<result property="baseNum" column="base_num" />
+		<result property="actualNum" column="actualNum"/>
+		<result property="teacherId" column="teacher_id" />
+		<result property="faceFlag" column="face_flag"/>
+		<result property="liveFlag" column="live_flag"/>
+		<result property="videoFlag" column="video_flag"/>
+		<result property="remoteFlag" column="remote_flag"/>
+		<result property="recommendFlag" column="recommend_flag"/>
+		<result property="createSchoolId" column="create_school_id"/>
+		<result property="itemTag" column="item_tag"/>
+		<result property="validityDay" column="validity_day"/>
+		<result property="validityDate" column="validity_date"/>
+		<result property="videoWatchCount" column="video_watch_count"/>
+		<result property="liveWatchCount" column="live_watch_count"/>
+		<result property="relationId" column="relationId"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+		<result property="buyNumMax" column="buy_num_max"/>
+		<result property="protocolId" column="protocol_id"/>
+		<result property="iconLable" column="icon_lable"/>
+		<result property="subjectClassOrder" column="subject_class_order"/>
+		<result property="isMicroClass" column="is_micro_class"/>
+		<result property="paperDescription" column="paper_description" />
+		
+		<result property="isOutSource" column="is_out_source" />
+		<result property="isPublic" column="is_public" />
+		<result property="publicPrice" column="public_price" />
+		
+		<result property="schoolName" column="school_name"/>
+		<result property="teacherName" column="teacher_name"/>
+		<result property="domain" column="domain"/>
+		<result property="cddsStatus" column="cdds_status"/>
+		<result property="cddsRecommendFlag" column="cdds_recommend_flag"/>
+		
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.system.SysConfigItemRelation" id="sysConfigItemRelationResultMap">
+        <result property="id" column="id" />
+        <result property="itemCode" column="item_code" />
+        <result property="parentCode" column="parent_code" />
+        <result property="parentId" column="parent_id" />
+        <result property="level" column="level" />
+        <result property="levelPath" column="level_path" />
+        <result property="isParent" column="is_parent" />
+        <result property="itemName" column="item_name" />
+    </resultMap>
+    
+    <resultMap type="com.yuxin.wx.model.classes.ClassModule" id="classModuleResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="totalClassHour" column="total_class_hour" />
+		<result property="teachMethod" column="teach_method" />
+		<result property="moduleType" column="module_type" />
+		<result property="moduleDesc" column="module_desc" />
+		<result property="schoolId" column="school_id" />
+		<result property="publishStatus" column="publish_status" />
+		<result property="publishTime" column="publish_time" />
+		<result property="delFlag" column="del_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="companyId" column="company_id" />
+		<result property="chapterFlag" column="chapter_flag"/>
+		<result property="liveType" column="live_type"/>
+	</resultMap>
+    
+    <resultMap type="com.yuxin.wx.model.course.CourseVideoChapter" id="courseVideoChapterResultMap">
+		<result property="id" column="id" />
+		<result property="chapterName" column="chapter_name" />
+		<result property="moduleId" column="module_id" />
+		<result property="chapterOrder" column="chapter_order" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.course.CourseRemote" id="courseRemoteResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="major" column="major" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="delFlag" column="del_flag" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+    
+    <resultMap type="com.yuxin.wx.model.classes.ClassTypeResource" id="classTypeResourceResultMap">
+		<result property="id" column="id" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="classTypeName" column="class_type_name" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="companyId" column="company_id" />
+		<result property="lectureType" column="lecture_type"/>
+		<result property="fileId" column="file_id"/>
+	</resultMap>
+    
+    <resultMap type="com.yuxin.wx.vo.classes.ClassTypeResourceVo" 
+	 extends="classTypeResourceResultMap" id="classTypeResourceResultVoMap">
+		<result property="name" column="name"/>
+		<result property="fileSize" column="file_size"/>
+		<result property="uploadTime" column="upload_time"/>
+		<result property="uploader" column="upload_user_name"></result>
+		<result property="sourceSize" column="source_size"></result>
+		<result property="oldData" column="old_data"></result>
+	</resultMap>
+    
+	<sql id="table_columns">
+		id,
+		name,
+		type_code,
+		original_price,
+		real_price,
+		schools_id,
+		item_one_id,
+		item_second_id,
+		description,
+		publish_status,
+		publish_time,
+		is_sale,
+		cover,
+		sub_title,
+		detail_desc,
+		create_time,
+		creator,
+		update_time,
+		updator,
+		del_flag,
+		company_id,
+		lable_type,
+		base_num,
+		teacher_id,
+		face_flag,
+		live_flag,
+		video_flag,
+		remote_flag,
+		recommend_flag,
+		create_school_id,
+		item_tag,
+		validity_day,
+		validity_date,
+		video_watch_count,
+		live_watch_count,
+		integral_flag,
+		member_flag,
+		buy_num_max,
+		protocol_id,
+		icon_lable,
+		item_one_code,
+		item_second_code,
+		item_third_code,
+		item_fourth_code,
+		is_micro_class,
+		paper_description,
+		is_public,
+		public_price
+    </sql>
+
+	<sql id="entity_properties">
+		#{id},
+		#{name},
+		#{typeCode},
+		#{originalPrice},
+		#{realPrice},
+		#{schoolsId},
+		#{itemOneId},
+		#{itemSecondId},
+		#{description},
+		#{publishStatus},
+		#{publishTime},
+		#{isSale},
+		#{cover},
+		#{subTitle},
+		#{detailDesc},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updator},
+		#{delFlag},
+		#{companyId},
+		#{lableType},
+		#{baseNum},
+		#{teacherId},
+		#{faceFlag},
+		#{liveFlag},
+		#{videoFlag},
+		#{remoteFlag},
+		#{recommendFlag},
+		#{createSchoolId},
+		#{itemTag},
+		#{validityDay},
+		#{validityDate},
+		#{videoWatchCount},
+		#{liveWatchCount},
+		#{integralFlag},
+		#{memberFlag},
+		#{buyNumMax},
+		#{protocolId},
+		#{iconLable},
+		#{itemOneCode},
+		#{itemSecondCode},
+		#{itemThirdCode},
+		#{itemFourthCode},
+		#{isMicroClass},
+		#{paperDescription},
+		#{isPublic},
+		#{publicPrice}
+	</sql>
+	
+	<sql id="batch_entity_properties">
+		#{item.id},
+		#{item.name},
+		#{item.typeCode},
+		#{item.originalPrice},
+		#{item.realPrice},
+		#{item.schoolsId},
+		#{item.itemOneId},
+		#{item.itemSecondId},
+		#{item.description},
+		#{item.publishStatus},
+		#{item.publishTime},
+		#{item.isSale},
+		#{item.cover},
+		#{item.subTitle},
+		#{item.detailDesc},
+		#{item.createTime},
+		#{item.creator},
+		#{item.updateTime},
+		#{item.updator},
+		#{item.delFlag},
+		#{item.companyId},
+		#{item.lableType},
+		#{item.baseNum},
+		#{item.teacherId},
+		#{item.faceFlag},
+		#{item.liveFlag},
+		#{item.videoFlag},
+		#{item.remoteFlag},
+		#{item.recommendFlag},
+		#{item.createSchoolId},
+		#{item.itemTag},
+		#{item.validityDay},
+		#{item.validityDate},
+		#{item.videoWatchCount},
+		#{item.liveWatchCount},
+		#{item.integralFlag},
+		#{item.memberFlag},
+		#{item.buyNumMax},
+		#{item.protocolId},
+		#{item.iconLable},
+		#{item.itemOneCode},
+		#{item.itemSecondCode},
+		#{item.itemThirdCode},
+		#{item.itemFourthCode},
+		#{item.isMicroClass},
+		#{item.paperDescription},
+		#{item.isPublic},
+		#{item.publicPrice}
+	</sql>
+	
+	<select id="queryClassTypeOfBranchSchool" parameterType="map" resultMap="classTypeVoResultMap">
+		SELECT ct.id,ct.name,c1.company_name as school_name,sci1.item_name as item_one_name,
+			   ct.face_flag,ct.live_flag,ct.video_flag,ct.remote_flag,ct.recommend_flag,
+			   sci2.item_name as item_second_name,sci3.item_name as item_third_name, c.cdds_status,ct.create_time
+		from class_type ct
+		join commodity_product_realtion pr on pr.product_id=ct.id
+		JOIN commodity c on c.id=pr.com_id and c.origin_type=0
+		JOIN company c1 on c1.id=ct.company_id and c1.is_area=2
+		<if test="areaId != null and areaId != ''">
+			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
+		</if>
+		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code
+		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code
+		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code
+		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
+			<if test="schoolCode != null and schoolCode != ''">
+				and c1.edu_area_school=#{schoolCode}
+			</if>
+			<if test="firstItemCode != null and firstItemCode != ''">
+				and ct.item_one_code=#{firstItemCode}
+			</if>
+			<if test="secondItemCode != null and secondItemCode != ''">
+				and ct.item_second_code=#{secondItemCode}
+			</if>
+			<if test="thirdItemCode != null and thirdItemCode != ''">
+				and ct.item_third_code=#{thirdItemCode}
+			</if>
+			<if test="name != null and name != ''">
+				and ct.name like '%${name}%'
+			</if>
+			<if test="cddsStatus != null and cddsStatus != ''">
+				and c.cdds_status=#{cddsStatus}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[and ct.create_time >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[and ct.create_time <=#{endTime} ]]>
+			</if>
+			ORDER BY ct.create_time desc
+			limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCountClassTypeOfBranchSchool" resultType="int" parameterType="map">
+		SELECT count(ct.id)	from class_type ct
+		join commodity_product_realtion pr on pr.product_id=ct.id
+		JOIN commodity c on c.id=pr.com_id and c.origin_type=0
+		JOIN company c1 on c1.id=ct.company_id and c1.is_area=2
+		<if test="areaId != null and areaId != ''">
+			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
+		</if>
+		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
+			<if test="schoolCode != null and schoolCode != ''">
+				and c1.edu_area_school=#{schoolCode}
+			</if>
+			<if test="firstItemCode != null and firstItemCode != ''">
+				and ct.item_one_code=#{firstItemCode}
+			</if>
+			<if test="secondItemCode != null and secondItemCode != ''">
+				and ct.item_second_code=#{secondItemCode}
+			</if>
+			<if test="thirdItemCode != null and thirdItemCode != ''">
+				and ct.item_third_code=#{thirdItemCode}
+			</if>
+			<if test="name != null and name != ''">
+				and ct.name like '%${name}%'
+			</if>
+			<if test="cddsStatus != null and cddsStatus != ''">
+				and c.cdds_status=#{cddsStatus}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[and ct.create_time >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[and ct.create_time <=#{endTime} ]]>
+			</if>
+	</select>
+	
+	<select id="findItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="map">
+        select  f.id, f.item_code,i.item_name 
+        from sys_config_item_relation_front f
+		join sys_config_item i on i.item_code=f.item_code
+		join sys_school_item_relation r on i.id=r.item_id
+		join company c on c.id=i.company_id
+		where f.level = #{level} and f.origin_type=0 
+			and r.del_flag=0 and i.status = 1 and i.parent_code=#{parentCode}
+			and c.edu_area_school=#{schoolCode}
+			<if test="parentId != null and parentId != ''">
+				and f.parent_id=#{parentId}
+			</if>
+    </select>
+    <update id="battchUpOrDown" parameterType="Map">
+   	 	update commodity set cdds_status=#{type} 
+		where id in (
+			SELECT p.com_id from class_type ct,commodity_product_realtion p
+			where ct.id=p.product_id and ct.id in 
+	    	<foreach item="item" collection="cids" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		)
+    </update>
+    
+    <select id="findDetailById" resultMap="classTypeVoResultMap" parameterType="map" >
+		SELECT a.*, b.item_name AS itemOneName, c.item_name AS itemSecondName, 
+			d.item_name AS itemThirdName, a.item_fourth_code AS itemFourthName,
+			com.cdds_recommend_flag as cddsRecommendFlag,t.name as teacherName
+		FROM class_type a
+		join commodity_product_realtion pr on pr.product_id=a.id
+		JOIN commodity com on com.id=pr.com_id and com.origin_type=0
+		LEFT JOIN sys_config_teacher t on t.id=a.teacher_id
+		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
+		where a.id = #{classId} and a.origin_type=0
+	</select>
+	
+	<select id="findListByClassId" resultMap="classModuleResultMap"	parameterType="map">
+		select distinct m.*
+		from class_type as t,class_type_module_relation as r,class_module as m
+		where t.origin_type=0 and t.id=r.class_type_id and r.module_id=m.id and t.id=#{classId}
+	</select>
+    
+    <select id="findByClassId" parameterType="map" resultMap="courseVideoChapterResultMap">
+		select distinct d.* 
+		from class_type a,class_type_module_relation b,	class_module c,	course_video_chapter d
+		where	a.id=b.class_type_id  
+			and a.origin_type=0	
+			and	b.module_id=c.id
+			and	c.id=d.module_id 
+			and	a.id=#{classId}
+	</select>
+    
+    <!-- 根据班型id获取绑定远程教育 -->
+	<select id="findRemotesByClassTypeId" resultMap="courseRemoteResultMap" parameterType="map" >
+		SELECT	distinct r.id,r.NAME,r.major,r.status
+		FROM
+			course_remote r,class_type c,class_type_remote_relation cmr
+		WHERE	c.id = #{classId}  and c.origin_type=0
+			AND r.id = cmr.remote_id
+			AND c.id = cmr.class_type_id
+		order by r.id DESC
+	</select>
+	
+	<update id="setCddsRecommendFlag" parameterType="Map">
+   	 	update commodity set cdds_recommend_flag=#{flag} 
+		where id in (
+			SELECT p.com_id from class_type ct,commodity_product_realtion p
+			where ct.id=p.product_id and ct.id =#{classTypeId}
+		)
+    </update>
+    
+    <update id="setSaleOrNoSale" parameterType="Map">
+   	 	update commodity set cdds_status=#{cddsStatus} 
+		where id in (
+			SELECT p.com_id from class_type ct,commodity_product_realtion p
+			where ct.id=p.product_id and ct.id =#{id}
+		)
+    </update>
+    
+    <!-- 其他自定义SQL -->
+	<select id="findResBy" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" resultMap="classTypeResourceResultVoMap">
+		select r.id,
+			r.item_one_id,
+			r.item_second_id,
+			r.class_type_id,
+			r.class_type_name,
+			r.lecture_id,
+			r.resource_type,
+			r.company_id,
+			r.lecture_type,
+			r.file_id,
+			rl.file_name name,
+			rl.file_size,
+			rl.upload_time,
+			rl.upload_user_name,
+			rl.source_size,
+			rl.old_data
+		from class_type_resource r
+		inner join resource_list rl on rl.id = r.file_id and rl.origin_type=0 
+		where 
+			r.class_type_id = #{classTypeId} and 
+			r.item_one_id is not null and 
+			r.item_second_id is not null and 
+			r.resource_type is not null and 
+			r.resource_type != '' and 	rl.del_flag = 0
+			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
+			order by r.id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findResCountBy" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" resultType="Integer">
+		select count(r.id)
+		from class_type_resource r
+		inner join resource_list rl 
+			on rl.id = r.file_id and rl.origin_type=0 
+		where 
+			r.class_type_id = #{classTypeId} and 
+			r.item_one_id is not null and 
+			r.item_second_id is not null and 
+			r.resource_type is not null and 
+			r.resource_type != '' and rl.del_flag = 0 
+			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
+	</select>
+</mapper>

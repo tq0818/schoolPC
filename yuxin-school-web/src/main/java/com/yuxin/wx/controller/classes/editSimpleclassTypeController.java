@@ -129,7 +129,7 @@ public class editSimpleclassTypeController {
                 }
             }
         }
-
+        model.addAttribute("isArea",WebUtils.getCurrentIsArea());
         model.addAttribute("typeItems", relations);
         boolean flag = this.companyFunctionSetServiceImpl.isCurrentFuSheng(WebUtils.getCurrentCompanyId());
         Subject subject = SecurityUtils.getSubject();
@@ -549,6 +549,7 @@ public class editSimpleclassTypeController {
         ct.setItemOneId(oneId);
         ct.setItemSecondId(twoId);
         ct.setUpdateTime(new Date());
+       
         ct.setUpdator(WebUtils.getCurrentUserId(request));
 
         // 如果开启标签库则将标签存库
@@ -604,15 +605,20 @@ public class editSimpleclassTypeController {
             }
         }
         // 更新班型信息
+        if(null==ct.getIsPublic()){
+        	ct.setIsPublic(0);
+		}
         this.classTypeServiceImpl.update(ct);
 
         // 更新总课时
         try {
             ClassModule cm = this.classModuleServiceImpl.queryModuleByClasstypeId(ct.getId());
-            ClassModule module = new ClassModule();
-            module.setId(cm.getId());
-            module.setTotalClassHour(courseNum);
-            this.classModuleServiceImpl.update(module);
+            if(null!=cm){
+        	  ClassModule module = new ClassModule();
+        	  module.setId(cm.getId());
+        	  module.setTotalClassHour(courseNum);
+        	  this.classModuleServiceImpl.update(module);
+            }
         } catch (Exception e) {
             this.log.error("修改总课时失败", e);
             e.printStackTrace();
@@ -642,6 +648,10 @@ public class editSimpleclassTypeController {
         commodity.setRecommendFlag(ct.getRecommendFlag());
         if (null != sets || null != sets1) {
             commodity.setItemTag(ct.getItemTag());
+        }
+        if(0==ct.getIsPublic()){//课程不公开,自动下架
+        	commodity.setCddsStatus(0);
+        	commodity.setCddsRecommendFlag(0);
         }
         commodity.setIntegralFlag(ct.getIntegralFlag());
         commodity.setMemberFlag(ct.getMemberFlag());

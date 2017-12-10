@@ -167,6 +167,28 @@
                         </c:if>
                     </span>
                </p>
+                <c:if test="${not empty isArea and '0' ne isArea }">
+               		<p class="c ">
+	                    <span class="c-title">是否设为公开课程</span>
+	                    <span class="c-content" style="color:black;">
+	                     	<input type="radio" value="1" name="isPublic" <c:if test="${classType.isPublic==1 }"> checked="checked"</c:if>>是
+                        	<input type="radio" value="0" name="isPublic"  <c:if test="${classType.isPublic==0 or empty classType.isPublic }"> checked="checked"</c:if>>否
+	                    </span>
+	               </p>
+	                 <c:choose>
+               			<c:when test="${classType.isPublic==1 }">
+               				<p class="c publicPrice"> 
+               			</c:when>
+               			<c:otherwise>
+               				<p class="c none publicPrice"> 
+               			</c:otherwise>
+               		</c:choose>
+	               		<span class="c-title">设置公开课程价格</span>
+	                    <span class="c-content" style="color:black;">
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices" value="${classType.publicPrice }">
+	                    </span>
+	               </p>
+               </c:if>
               <p class="c text-center operator">
                 <a href="javascript:Form.addFormOne('save')" class="btn btn-primary">保存</a>
            		<a href="<%=rootPath %>/simpleClasses/showClassTypePage" class="btn btn-default">取消</a>

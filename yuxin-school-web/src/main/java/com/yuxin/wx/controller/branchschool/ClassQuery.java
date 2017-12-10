@@ -52,7 +52,7 @@ public class ClassQuery {
     }
 
     @RequestMapping("/classQueryDetail")
-	public String noticeDetail(Model model,HttpServletRequest req,ClassTypeVo classtype){
+	public String classQueryDetail(Model model,HttpServletRequest req,ClassTypeVo classtype){
     	Map<String, Object> queryParams=new HashMap<String, Object>();
     	queryParams.put("companyId", req.getParameter("companyId"));
     	queryParams.put("name", req.getParameter("name"));

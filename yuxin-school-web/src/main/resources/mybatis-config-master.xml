@@ -326,6 +326,10 @@
 		<mapper resource="com/yuxin/query/StudentStatisticsMapper.xml"/>
 		<mapper resource="com/yuxin/watchInfo/WatchInfoMapper.xml" />
 		<mapper resource="com/yuxin/query/SysPlayLogsMapper.xml" />
+		
+		<!--分校课程  -->
+		<mapper resource="com/yuxin/classes/ClassTypeOfBranchSchoolMapper.xml" />
+		
 	</mappers>
 
 </configuration>

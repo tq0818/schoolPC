@@ -180,4 +180,11 @@
 		LEFT JOIN sys_config_dict scd on  scd .item_code  = essr.edu_school_code
 		where essr.edu_step_new_code  = #{schoolType} and  scd.parent_item_id = #{area}
 	</select>
+	
+	<select id="findByParentId" parameterType="String" resultMap="sysConfigDictResultMap">
+		select <include refid="table_columns"></include>
+			from sys_config_dict
+		where parent_item_id=#{parentId} 
+		order by id
+	</select>
 </mapper>

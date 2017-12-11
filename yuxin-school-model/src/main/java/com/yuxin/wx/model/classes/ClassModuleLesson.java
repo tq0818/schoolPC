@@ -47,6 +47,7 @@ public class ClassModuleLesson extends BaseEntity {
 	private Integer	delFlag;
 	private Integer barrage;			 /* 弹幕，默认0:不开启*/
 	private Integer modetype;			 /* 模式,默认3:大班课，1:语音,5:小班课*/
+	private String beforeStudyName;		/*直播预习课名称*/
 	private String beforeStudyUrl;		/*直播预习*/
 	private String afterStudyUrl;		/*直播回看*/
 	//当前课程播放状态
@@ -563,5 +564,13 @@ public class ClassModuleLesson extends BaseEntity {
 
 	public void setAfterStudyUrl(String afterStudyUrl) {
 		this.afterStudyUrl = afterStudyUrl;
+	}
+
+	public String getBeforeStudyName() {
+		return beforeStudyName;
+	}
+
+	public void setBeforeStudyName(String beforeStudyName) {
+		this.beforeStudyName = beforeStudyName;
 	}
 }

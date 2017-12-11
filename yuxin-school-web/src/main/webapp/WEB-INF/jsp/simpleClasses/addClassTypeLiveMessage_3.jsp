@@ -410,6 +410,13 @@
 		<div class="form-body">
 			<input type="hidden" id="lessonUrlId"/>
 			<div class="form-group">
+				<label class="col-md-2 control-label">预习课程名称</label>
+				<div class="col-md-8" >
+					<input type="text" class="form-control" id="beforeStudyName" maxlength="200" name="beforeStudyName" />
+				</div>
+			</div>
+
+			<div class="form-group">
 				<label class="col-md-2 control-label">直播预习</label>
 				<div class="col-md-8" >
 					<input type="text" class="form-control" id="beforeStudyUrl" maxlength="200" name="beforeStudyUrl" />

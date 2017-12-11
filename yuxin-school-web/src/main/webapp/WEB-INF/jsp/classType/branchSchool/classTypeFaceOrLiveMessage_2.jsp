@@ -17,6 +17,8 @@
     <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.min.js"></script>
     <script type="text/javascript">
         $(function() {
+    		$selectMenu("course_class_type");
+    		$chooseMenu("detailCode");
             var editor = CKEDITOR.replace('newsContents',{ extraPlugins: 'video',uiColor: "#fafafa",allowedContent: true } );
             editor.config.width="880";
             editor.config.toolbar = [

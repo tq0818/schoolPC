@@ -90,7 +90,14 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer cddsRecommendFlag;//数校是否推荐
 	
 	private Integer companyId;
+	private String livestatus;//直播进行状态
 	
+	public String getLivestatus() {
+		return livestatus;
+	}
+	public void setLivestatus(String livestatus) {
+		this.livestatus = livestatus;
+	}
 	public Integer getCddsRecommendFlag() {
 		return cddsRecommendFlag;
 	}

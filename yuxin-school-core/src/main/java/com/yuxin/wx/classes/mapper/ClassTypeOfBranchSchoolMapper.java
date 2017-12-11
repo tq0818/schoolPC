@@ -6,6 +6,7 @@ import java.util.Map;
 import com.yuxin.wx.model.classes.ClassModule;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.ClassTypeResource;
+import com.yuxin.wx.model.commodity.Commodity;
 import com.yuxin.wx.model.course.CourseRemote;
 import com.yuxin.wx.model.course.CourseVideoChapter;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
@@ -59,4 +60,10 @@ public interface ClassTypeOfBranchSchoolMapper extends BaseMapper<ClassType> {
     List<ClassTypeResourceVo> findResBy(ClassTypeResource res);
 	
 	Integer findResCountBy(ClassTypeResource res);
+	
+	void insertClassType(ClassType classType);
+	
+	Commodity findCommodityByClassTypeId(Integer classTypeId);
+
+	void insertCommodity(Commodity commodity);
 }

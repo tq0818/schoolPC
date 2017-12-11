@@ -62,6 +62,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$chooseMenu("listCode");
+	$selectMenu("course_class_type");
 });
 function save(){
 	$.msg("保存信息成功");

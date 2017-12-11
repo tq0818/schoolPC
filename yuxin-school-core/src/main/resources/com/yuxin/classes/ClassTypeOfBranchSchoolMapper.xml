@@ -200,6 +200,41 @@
 		<result property="oldData" column="old_data"></result>
 	</resultMap>
     
+    <resultMap type="com.yuxin.wx.model.commodity.Commodity" id="commodityResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="overview" column="overview" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="type" column="type" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="cerateTime" column="cerate_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="status" column="status" />
+		<result property="lableType" column="lable_type" />
+		<result property="baseNum" column="base_num" />
+		<result property="faceFlag" column="face_flag" />
+		<result property="liveFlag" column="live_flag" />
+		<result property="videoFlag" column="video_flag" />
+		<result property="remoteFlag" column="remote_flag" />
+		<result property="recommendFlag" column="recommend_flag" />
+		<result property="buyNum" column="buy_num" />
+		<result property="itemTag" column="item_tag"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="isMicroClass" column="is_micro_class" />
+	</resultMap>
+    
 	<sql id="table_columns">
 		id,
 		name,
@@ -247,6 +282,7 @@
 		item_fourth_code,
 		is_micro_class,
 		paper_description,
+		is_out_source,
 		is_public,
 		public_price
     </sql>
@@ -298,6 +334,7 @@
 		#{itemFourthCode},
 		#{isMicroClass},
 		#{paperDescription},
+		#{isOutSource},
 		#{isPublic},
 		#{publicPrice}
 	</sql>
@@ -368,6 +405,7 @@
 		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code
 		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code
 		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
+			  and ct.is_out_source=0	
 			<if test="schoolCode != null and schoolCode != ''">
 				and c1.edu_area_school=#{schoolCode}
 			</if>
@@ -404,6 +442,7 @@
 			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
 		</if>
 		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
+			   and ct.is_out_source=0	
 			<if test="schoolCode != null and schoolCode != ''">
 				and c1.edu_area_school=#{schoolCode}
 			</if>
@@ -554,4 +593,26 @@
 			r.resource_type != '' and rl.del_flag = 0 
 			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
 	</select>
+	
+		<!-- 适用于主键自增类型 -->
+	<insert id="insertClassType" parameterType="com.yuxin.wx.model.classes.ClassType" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<select id="findCommodityByClassTypeId"  parameterType="Integer"  resultMap="commodityResultMap">
+		SELECT c.* from commodity c,commodity_product_realtion p
+		where c.id=p.com_id and p.product_id=#{classTypeId} and c.origin_type=0
+	</select>
+	
+	<insert id="insertCommodity" parameterType="com.yuxin.wx.model.commodity.Commodity" useGeneratedKeys="true" keyProperty="id">
+		INSERT into commodity (id,name,cover_url,overview,original_price,real_price,type,item_one_id,item_second_id,school_id,company_id,creator,cerate_time,
+			updator,update_time,status,lable_type,base_num,face_flag,live_flag,video_flag,remote_flag,recommend_flag,buy_num,item_tag,integral_flag,member_flag,
+			item_one_code,item_second_code,item_third_code,item_fourth_code,is_micro_class)
+		values(#{id},#{name},#{coverUrl},#{overview},#{originalPrice},#{realPrice},#{type},#{itemOneId},#{itemSecondId},#{schoolId},#{companyId},#{creator},#{cerateTime},
+			#{updator},#{updateTime},#{status},#{lableType},#{baseNum},#{faceFlag},#{liveFlag},#{videoFlag},#{remoteFlag},#{recommendFlag},#{buyNum},#{itemTag},
+			#{integralFlag},#{memberFlag},#{itemOneCode},#{itemSecondCode},#{itemThirdCode},#{itemFourthCode},#{isMicroClass})
+	</insert>
+	
+	
 </mapper>

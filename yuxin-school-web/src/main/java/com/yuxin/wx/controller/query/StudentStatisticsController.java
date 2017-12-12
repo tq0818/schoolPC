@@ -1150,8 +1150,9 @@ public class StudentStatisticsController {
             for(SysConfigDict area:areas){
                 boolean flag = false;
                 for(Map data:list){
-                    if(data.get("item_code").equals(area.getItemCode())){
+                    if(data.get("item_code")!=null && data.get("item_code").equals(area.getItemCode())){
                         newList.add(data);
+                        flag=true;
                         break;
                     }
                 }
@@ -1174,7 +1175,7 @@ public class StudentStatisticsController {
             lists.add(v);
         }
         String titles = "";
-        titles = "区县名称:item_value,累计观看人次:times,累计观看时长:watch_time";
+        titles = "区域:item_value,直播观看总人次:times,直播观看总时长:watch_time";
 
         StringBuffer title = new StringBuffer(
                 titles);

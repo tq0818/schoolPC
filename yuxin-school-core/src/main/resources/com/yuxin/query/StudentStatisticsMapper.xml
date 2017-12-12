@@ -243,7 +243,7 @@
 		<if test="role =='area'">c.dict_code = 'EDU_SCHOOL' and d.item_code = #{areaId} <if test="eduStep !=null and eduStep !=''"> and essr.edu_step_new_code=#{eduStep}</if></if>
                 GROUP BY
                     c.item_value
-                ORDER BY  c.item_code desc
+                ORDER BY  c.id desc
             </select>
             <select id="watchAllChartData" parameterType="Map" resultType="Map">
                 SELECT
@@ -284,7 +284,7 @@
 				<if test="role =='area'">c.dict_code = 'EDU_SCHOOL' and d.item_code = #{areaId} <if test="eduStep !=null and eduStep !=''"> and essr.edu_step_new_code=#{eduStep}</if></if>
                         GROUP BY
                         c.item_value
-                        ORDER BY  c.item_code desc
+                        ORDER BY  c.id desc
                     </select>
 
                 <select id="queryStudentsWatchInfoList" resultMap="watchInfoResultMap" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult">

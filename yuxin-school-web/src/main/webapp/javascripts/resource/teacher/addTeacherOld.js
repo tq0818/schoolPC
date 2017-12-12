@@ -20,7 +20,7 @@ $(function() {
 	$("#datetimepicker").datetimepicker({
 		lang : 'ch',
 		timepicker : false,
-		format : 'YYYY-mm-dd'
+		format : 'Y-m-d'
 	});
 	// 选择头像
 	$("#img1").attr("src", rootPath + "/images/headpic.png");
@@ -141,9 +141,9 @@ $(function() {
 		function() {
 //				// 获取右侧所有的模块ID
 			var moduleIds = "";
-				$(".right li").each(function() {
-					moduleIds += $(this).attr("date-id") + ",";
-				});
+//				$(".right li").each(function() {
+//					moduleIds += $(this).attr("date-id") + ",";
+//				});
 
 			var schoolShortName = $('#schoolShortName').val();
 			if($.trim(schoolShortName) == ""){
@@ -206,11 +206,11 @@ $(function() {
 			var hmobile = $("#HMobile").val();
 			var mobile = $("#mobile").val();
 			if(mobile!=hmobile){
-//				ajaxCheckMobileNum();
-//				var mobileNum = checkMobileNum();
-//				if(!mobileNum){
-//					return false;
-//				}
+				ajaxCheckMobileNum();
+				var mobileNum = checkMobileNum();
+				if(!mobileNum){
+					return false;
+				}
 			}
 			var schoolName = $.trim($("#schoolName").val());
 			if(schoolName==""){
@@ -237,11 +237,12 @@ $(function() {
 			}
 
 			if (teacherId == "" || teacherId == 0) {
-				url = rootPath + "/teacherManger/add";
+				url = rootPath + "/teacherManger/add?moduleIds="
+					+ moduleIds;
 				msg = "增加成功";
 			} else {
-				url = rootPath + "/teacherManger/update";
-					
+				url = rootPath + "/teacherManger/update?moduleIds="
+					+ moduleIds;
 				msg = "修改成功";
 			}
 
@@ -264,7 +265,7 @@ $(function() {
 					$(".loading").hide();
 					$(".loading-bg").hide();
 					window.location.href = rootPath
-						+ "/teacherManger/getFirstItems/"+$("#companyId").val();
+						+ "/teacherManger/getFirstItems";
 				},
 			});
 		});
@@ -345,7 +346,65 @@ function chooseOneItem(obj) {
 
 }
 
-
+////// 从左边移动到右边--如果左边不是当前
+////function leftToRight(obj) {
+////	var curLi = $(obj).attr("class", "").prop("outerHTML");
+////
+////	if (!judgeIsExist(obj, "left")) {
+////		$(".right ul").append(curLi);
+////		$(obj).remove();
+////	} else {
+////		$('<div class="c-fa">' + "该模块已经存在，不能重复添加！" + '</div>').appendTo('body')
+////				.fadeIn(100).delay(1000).fadeOut(200, function() {
+////					$(this).remove();
+////				});
+////		return false;
+////	}
+////}
+////// 从右边移动到左边
+////function rightToLeft(obj) {
+////	var curLi = $(obj).attr("class", "").prop("outerHTML");
+////	if (!judgeIsExist(obj, "right")) {
+////		var teacherType = $(obj).find("span:eq(1)").html();
+////		if (teacherType == "面授") {
+////			$(".left ul:eq(1)").append(curLi);
+////		} else if (teacherType == "直播") {
+////			$(".left ul:first").append(curLi);
+////		}
+////		$(obj).remove();
+////	} else {
+////		$(obj).remove();
+////	}
+////}
+//
+//function judgeIsExist(obj, direction) {
+//	var moduleId = $(obj).attr("date-id");
+//	var flag = false;
+//	if (direction == "left") {
+//		// 如果是左边，需要判断右边是否已经存在该模块
+//		var rightModules = $(".right ul li");
+//		if (rightModules) {
+//			$(rightModules).each(function() {
+//				var thisModuleId = $(this).attr("date-id");
+//				if (thisModuleId == moduleId) {
+//					flag = true;
+//				}
+//			});
+//		}
+//	} else {
+//		// 如果是右边，判断左侧所以得模块
+//		var leftModules = $(".left ul li");
+//		if (leftModules) {
+//			$(leftModules).each(function() {
+//				var thisModuleId = $(this).attr("date-id");
+//				if (thisModuleId == moduleId) {
+//					flag = true;
+//				}
+//			});
+//		}
+//	}
+//	return flag;
+//}
 
 function addModule() {
 	var postForm = document.createElement("form");// 表单对象
@@ -721,114 +780,13 @@ function ajaxCheckUserName(){
 function ajaxCheckMobileNum(){
 	var mobile = $("#mobile").val();
 	var teacherId = $("#teacherId").val();
-	var companyId = $("#companyId").val();
 	$.ajax({
 		type : "post",
 		async : false,
-		data : {"mobile" : mobile,"companyId" :companyId},
+		data : {"mobile" : mobile},
 		url : rootPath + "/sysConfigTeacher/checkUserMobileNum",
 		success : function(data) {
-			
-			if(data.msg==1){
-				if(null!=data.user && ''!=data.user){
-					var user=data.user;
-					$("#userName").val(user[0].username);	
-				}else{
-					$("#userName").val("");	
-				}
-				if(null!=data.teacher && ''!=data.teacher){
-					var teacher=data.teacher;	
-					$("#teacherName").val(teacher.name);
-					$("#teacherId").val(teacher.id);
-					
-					if(teacher.isDistinguished == 0){
-						$("#isDistinguished1").prop('checked',false);
-						$("#isDistinguished0").prop('checked',true);
-					}else{
-						$("#isDistinguished0").prop('checked',false);
-						$("#isDistinguished1").prop('checked',true);
-					}
-					var teacherLevel= document.getElementById("teacherLevel");
-					var options= teacherLevel.options;
-					var len = options.length;
-					for(i=0;i<=len;i++) {  
-						 if(teacherLevel[i].value==teacher.teacherLevel){      
-							 teacherLevel[i].selected=true;   
-							 break;
-					 	}
-					}
-					var teacherArea= document.getElementById("teacherArea");
-					var options1= teacherArea.options;
-					var len1 = options1.length;
-					for(i=0;i<=len1;i++) {  
-						 if(teacherArea[i].value==teacher.teacherArea){      
-							 teacherArea[i].selected=true;   
-							 break;
-					 	}
-					}
-					$("#datetimepicker").val(teacher.birthday);
-					
-					if(teacher.sex == 'FEMALE'){
-						$("#sex").prop('checked',false);
-						$("#sex1").prop('checked',true);
-					}else{
-						$("#sex").prop('checked',false);
-						$("#sex1").prop('checked',true);
-					}
-					$("#address").val(teacher.address);
-					var educationCode= document.getElementById("educationCode");
-					var options2= educationCode.options;
-					var len2 = options2.length;
-					for(i=0;i<=len2;i++) {  
-						 if(educationCode[i].value==teacher.educationCode){      
-							 educationCode[i].selected=true;   
-							 break;
-					 	}
-					}
-					$("#idNumber").val(teacher.idNumber);
-					$("#bankName").val(teacher.bankName);
-					$("#bankAccountName").val(teacher.bankAccountName);
-					$("#bankAccountNum").val(teacher.bankAccountNum);
-					$("#schoolName").val(teacher.schoolName);
-					$("#schoolShortName").val(teacher.schoolShortName);
-					document.getElementById("resume").innerHTML=teacher.resume;
-					document.getElementById("remark").innerHTML=teacher.remark;
-					$("#homePhone").val(teacher.homePhone);
-					$("#workPhone").val(teacher.workPhone);
-					$("#emergencyContactName").val(teacher.emergencyContactName);
-					$("#email").val(teacher.email);
-					return ;
-				}else{
-					$("#teacherId").val("");
-					$("#teacherName").val("");
-					$("#isDistinguished1").prop('checked',true);
-					var teacherLevel= document.getElementById("teacherLevel");
-					teacherLevel[0].selected=true;   
-					var teacherArea= document.getElementById("teacherArea");
-					 teacherArea[0].selected=true;   
-					$("#datetimepicker").val("");
-					$("#sex").prop('checked',true);
-					$("#address").val("");
-					var educationCode= document.getElementById("educationCode");
-					educationCode[0].selected=true;   
-					$("#idNumber").val("");
-					$("#bankName").val("");
-					$("#bankAccountName").val("");
-					$("#bankAccountNum").val("");
-					$("#schoolName").val("");
-					$("#schoolShortName").val("");
-					document.getElementById("resume").innerHTML=null;
-					document.getElementById("remark").innerHTML=null;
-					$("#homePhone").val("");
-					$("#workPhone").val("");
-					$("#emergencyContactName").val("");
-					$("#email").val("");
-				}
-				
-				mobileNum =  true;
-			}else{
-				mobileNum = data.msg;
-			}
+			mobileNum = data;
 		}
 	});
 }

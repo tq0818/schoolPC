@@ -6,17 +6,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuxin.wx.api.auth.IAuthRoleService;
-import com.yuxin.wx.auth.mapper.AuthPrivilegeMapper;
 import com.yuxin.wx.auth.mapper.AuthRoleMapper;
 import com.yuxin.wx.auth.mapper.AuthRolePrivilegeMapper;
-import com.yuxin.wx.auth.mapper.AuthUserRoleMapper;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthRolePrivilege;
-import com.yuxin.wx.model.auth.AuthUserRole;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.PrivilegeVo;
 import com.yuxin.wx.vo.privilege.TreeNode;
@@ -200,6 +198,18 @@ public class AuthRoleServiceImpl extends BaseServiceImpl implements IAuthRoleSer
 			user.setArr(arr);
 		}
 		int rowCount=authRoleMapper.queryAllUserCount(search);
+		PageFinder<UserRolesListVo> pageFinder=new PageFinder<UserRolesListVo>(search.getPage(), search.getPageSize(), rowCount, data);
+		return pageFinder;
+	}
+	@Override
+	public PageFinder<UserRolesListVo> queryNewAllUser(UserRolesListVo search) {
+		List<AuthRole> arr=null;
+		List<UserRolesListVo> data=authRoleMapper.queryNewAllUser(search);
+		for(UserRolesListVo user:data){
+			arr=authRoleMapper.findAuthRoleListByUser(user.getUserId());
+			user.setArr(arr);
+		}
+		int rowCount=authRoleMapper.queryNewAllUserCount(search);
 		PageFinder<UserRolesListVo> pageFinder=new PageFinder<UserRolesListVo>(search.getPage(), search.getPageSize(), rowCount, data);
 		return pageFinder;
 	}

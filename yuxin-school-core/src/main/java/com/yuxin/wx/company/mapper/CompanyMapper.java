@@ -13,6 +13,7 @@ import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.company.CompanyPicsVo;
@@ -172,7 +173,8 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addSysConfigAndSchool(SysConfigItem sci);
 	public void addAuthRole(AuthRole rol);
 	public void updateAuthRole();
-	
+	public void addSchool(SysConfigSchool school);
+	public void addAuthPrivilegeCategory(Integer companyId);
 	
 	/**
 	 * 

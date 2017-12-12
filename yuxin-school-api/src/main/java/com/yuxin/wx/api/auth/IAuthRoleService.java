@@ -139,6 +139,7 @@ public interface IAuthRoleService  {
   * @return
   */
  PageFinder<UserRolesListVo>  queryAllUser(UserRolesListVo search);
+ PageFinder<UserRolesListVo>  queryNewAllUser(UserRolesListVo search);
  
  /**
   * 

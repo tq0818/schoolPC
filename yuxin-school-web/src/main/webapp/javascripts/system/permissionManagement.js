@@ -78,6 +78,7 @@
 			        },
 					success : function(result) {
 						$(".user-list").html(result);
+						console.log(result);
 						$("td.status").each(function(i){
 							if($(this).text()=="禁用"){
 								$(this).css("color","red");
@@ -99,7 +100,7 @@
 					 complete:function(XMLHttpRequest,textStatus){
 							$(".loading").hide();
 				            $(".loading-bg").hide();
-				            // $.footerPosition({ cur: '.footer', pre: '.mainbackground' });
+				            $.footerPosition({ cur: '.footer', pre: '.mainbackground' });
 				     }
 				});
 			},

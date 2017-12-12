@@ -535,16 +535,17 @@
         <!--老师管理-->
         <pattern>/teacherManger/getFirstItems/*</pattern>
         <!--计算资源管理-->
-        <pattern>/computingResource/getVideoResourceAndMessageStatistics</pattern>
+        <pattern>/computingResource/getVideoResourceAndMessageStatistics/*</pattern>
         <!--权限管理管理-->
         <pattern>/berkeley/permissionManagement/*</pattern>
         <!--添加分校老师-->
         <pattern>/berkeley/addTeacher</pattern>
         <pattern>/teacherManger/addTeacher</pattern>
         <!--&lt;!&ndash;添加老师&ndash;&gt;-->
-        <pattern>/teacherManger/updateOrAddTeacher</pattern>
+        <pattern>/teacherManger/updateOrAddTeacher/*</pattern>
         <!--去添加用户页面-->
         <pattern>/berkeley/addUsers</pattern>
+        <pattern>/permissionManger/addUser</pattern>
         <!--去服务管理页面-->
         <pattern>/serviceManager/getServiceManager/*</pattern>
         <!--去分校首页页面-->

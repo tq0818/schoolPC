@@ -40,6 +40,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.yuxin.wx.common.BaseServiceImpl;
 
 import java.util.Date;
@@ -585,4 +586,5 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	public UsersAreaRelation findUsersAreaRelation(Integer id) {
 		return usersMapper.findUsersAreaRelation(id);
 	}
+
 }

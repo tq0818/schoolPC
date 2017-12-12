@@ -142,6 +142,7 @@ public interface IAuthRolePrivilegeService  {
 	 * @return
 	 */
 	List<PrivilegeVo> findUserPrivileges(String roleId);
+	List<PrivilegeVo> findNewUserPrivileges(String roleId);
 	
 	
 }

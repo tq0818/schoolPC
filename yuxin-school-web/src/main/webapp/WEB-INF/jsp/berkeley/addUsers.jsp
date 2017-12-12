@@ -212,8 +212,7 @@
             </div>
         </div>
         <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
-        <%--<script type="text/javascript" src="<%=rootPath %>/javascripts/system/editSystemAuth.js"></script>--%>
-        <script type="text/javascript" src="<%=rootPath %>/javascripts/system/addUsers.js"></script>
+        <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/editSystemAuth.js"></script>
         <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
     </div>
 </div>

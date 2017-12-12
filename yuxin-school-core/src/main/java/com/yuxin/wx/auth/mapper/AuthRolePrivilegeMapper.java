@@ -16,4 +16,5 @@ public interface AuthRolePrivilegeMapper extends BaseMapper<AuthRolePrivilege> {
 	    List<AuthRolePrivilege> findByRoleId(String roleId);
 	    void deleteByRoleId(String roleId);
 	    List<PrivilegeVo> findUserPrivileges(String roleId);
+	    List<PrivilegeVo> findNewUserPrivileges(String roleId);
 }

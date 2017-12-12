@@ -18,6 +18,7 @@ import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigSchool;
 @Service
 @Transactional
 public class CompanyManageServiceImpl extends BaseServiceImpl implements
@@ -61,6 +62,13 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 clc.setLiveType(1);
 		 companyMapper.companyLiveConfig(clc);//添加展示互动表
 		 companyMapper.addSysConfigService(String.valueOf(ids));
+		 //添加学校
+		 SysConfigSchool school = new SysConfigSchool();
+		 school.setCompanyId(ids);
+		 school.setSchoolName(search.getCompanyName());
+		 school.setSchoolDesc(search.getSchoolSummary());
+		 school.setCreator(userId);
+		 companyMapper.addSchool(school);
 		//添加科目
 		 SysConfigItem sci=new SysConfigItem();
 		 sci.setCompanyId(ids);
@@ -68,12 +76,18 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 sci.setCreator(userId);
 		 companyMapper.addSysConfigItem(sci);
 		 companyMapper.addTwoSysConfigItem(sci);
+		 sci.setSchoolId(school.getId());
 		 companyMapper.addSysConfigAndSchool(sci);
+       
+		
 		 //添加角色
 		 AuthRole rol= new AuthRole();
 		 rol.setCreator(String.valueOf(userId));
+		 rol.setCompanyId(ids);
 		 companyMapper.addAuthRole(rol);
 		 companyMapper.updateAuthRole();
+		 //添加角色对应菜单
+		 companyMapper.addAuthPrivilegeCategory(ids); 
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {

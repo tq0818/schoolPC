@@ -590,8 +590,6 @@
 	
 	
 	<select id="findschooIdByCompanyId" resultType="int" parameterType="string">
-		select t1.id from sys_config_dict t1 
-		INNER  JOIN company t2 ON t2.edu_area_school=t1.item_code
-		where t2.id=#{companyId}
+		select id from sys_config_school where company_id=#{companyId}
 	</select>
 </mapper>

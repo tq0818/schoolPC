@@ -6,6 +6,9 @@
 <title>试题</title>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/tiku/question/question.js"></script>
+<style>
+    .iconHide{display: none;}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/tiku/tikuHeader.jsp"></jsp:include>
@@ -24,9 +27,12 @@
         <div class="classes-type">
             <p class="c title-p clear">
                 <span class="t-title fl-left margin-t3">科目</span>
-                <span class="t-content fl-left">
+                <span class="t-content fl-left iconSubject">
                    	<c:forEach var="s" items="${subList }">
-                   		<a class="btn btn-mini btn-default subject" href="javascript:;" data-id="${s.id }">${s.subjectName }</a>
+                                <a class="btn btn-mini btn-default subject" href="javascript:;" data-id="${s.id }">${s.subjectName }</a>
+                                <input type="text" class="iconHide">
+                                <i class="icon iconfont iconHide">&#xe625;</i>
+                                <i class="icon iconfont iconHide">&#xe626;</i>
                    	</c:forEach>
                 </span>
             </p>
@@ -85,5 +91,12 @@
     </div>
     <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
+<script>
+//    科目编辑和删除
+    $('.iconSubject').children('a').hover(function(){
+        $(this).siblings('.iconHide').show();
+    });
+
+</script>
 </body>
 </html>

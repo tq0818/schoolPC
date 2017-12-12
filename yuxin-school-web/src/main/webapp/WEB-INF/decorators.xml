@@ -583,6 +583,11 @@
         <pattern>/classTypeManage/*/*</pattern>
 
 
+        <!-- 订单 -->
+        <pattern>/jsp/allOrder</pattern>
+
+
+
     </decorator>
 
 </decorators>

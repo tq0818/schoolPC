@@ -8,15 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yuxin.wx.common.PageFinder2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuxin.wx.api.student.IStudentService;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.company.mapper.CompanyRegisterConfigMapper;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
@@ -29,7 +30,6 @@ import com.yuxin.wx.student.mapper.StudentPayMasterMapper;
 import com.yuxin.wx.system.mapper.SysConfigSchoolMapper;
 import com.yuxin.wx.user.mapper.UsersFrontMapper;
 import com.yuxin.wx.user.mapper.UsersLoginSessionMapper;
-import com.yuxin.wx.util.FilesizeUtil;
 import com.yuxin.wx.util.ParameterUtil;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
@@ -495,6 +495,37 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		     }
 		}
 		Integer count = studentMapper.queryStudentsListCount(search);
+		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
+				search.getPage(), search.getPageSize(), count, data);
+		return pageFinder;
+	}
+	@Override
+	public PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("commodityType", "COMMODITY_CLASS");
+		List<StudentListVo> data = studentMapper.queryNewStudentsList(search);
+		for(StudentListVo stus:data){
+			if(null!=stus && null!=stus.getPaymaterCount() && stus.getPaymaterCount()>0){//已报名学员
+				map.put("stuId", stus.getId());
+				List<StudentPayMaster> pay=studentPayMasterMapper.findpayIdByStudentsId(map);
+				//代报考
+				for(StudentPayMaster spm:pay){
+					if(null!=spm&&null!=spm.getIsAgent()&&!"".equals(spm.getIsAgent())&&"1".equals(spm.getIsAgent())){
+						stus.setIsAgent(spm.getIsAgent());
+						break;
+					}
+				}
+				//分期,补费
+				for(StudentPayMaster spm:pay){
+					if(null!=spm && null!=spm.getPayStatusCode() && "ORDER_PART_PAY".equals(spm.getPayStatusCode())){
+						stus.setIspay("1");
+						break;
+					}
+				}
+				stus.setAgentFlag(search.getAgentFlag());
+			}
+		}
+		Integer count = studentMapper.queryNewStudentsListCount(search);
 		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
 				search.getPage(), search.getPageSize(), count, data);
 		return pageFinder;

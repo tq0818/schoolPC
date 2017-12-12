@@ -1,12 +1,10 @@
 package com.yuxin.wx.model.watchInfo;
 
 import com.yuxin.wx.common.BaseEntity;
-
-import java.util.Date;
-
 /**
  * Created by Administrator on 2017/10/18.
  */
+@SuppressWarnings("serial")
 public class WatchInfoResult extends BaseEntity {
     private String className;//课程名称
     private String lessonName;//课次名称
@@ -30,6 +28,10 @@ public class WatchInfoResult extends BaseEntity {
     private String schoolType;
     private String orderBy;
     private String userId;
+    private String isBaseSchool;//基地校
+    private String videoFlag;//录播
+    private String liveFlag;//直播
+    
 
     public String getUserId() {
         return userId;
@@ -206,4 +208,35 @@ public class WatchInfoResult extends BaseEntity {
     public void setSchoolType(String schoolType) {
         this.schoolType = schoolType;
     }
+
+	
+    public String getIsBaseSchool() {
+    	return isBaseSchool;
+    }
+
+	
+    public void setIsBaseSchool(String isBaseSchool) {
+    	this.isBaseSchool = isBaseSchool;
+    }
+
+	
+    public String getVideoFlag() {
+    	return videoFlag;
+    }
+
+	
+    public void setVideoFlag(String videoFlag) {
+    	this.videoFlag = videoFlag;
+    }
+
+	
+    public String getLiveFlag() {
+    	return liveFlag;
+    }
+
+	
+    public void setLiveFlag(String liveFlag) {
+    	this.liveFlag = liveFlag;
+    }
+    
 }

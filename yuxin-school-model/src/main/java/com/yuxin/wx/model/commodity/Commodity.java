@@ -51,6 +51,35 @@ public class Commodity extends BaseEntity {
 	private String itemThirdCode;
 	private String itemFourthCode;
 	private Integer isMicroClass; /* 是否属于微课标签，1:是；0：否 */
+	
+	private Integer originType;
+ 	private Integer cddsStatus;//数字学校上下架状态
+	private Integer cddsRecommendFlag;//数校推荐状态
+	
+	public Integer getOriginType() {
+		return originType;
+	}
+
+	public void setOriginType(Integer originType) {
+		this.originType = originType;
+	}
+
+	public Integer getCddsStatus() {
+		return cddsStatus;
+	}
+
+	public void setCddsStatus(Integer cddsStatus) {
+		this.cddsStatus = cddsStatus;
+	}
+
+	public Integer getCddsRecommendFlag() {
+		return cddsRecommendFlag;
+	}
+
+	public void setCddsRecommendFlag(Integer cddsRecommendFlag) {
+		this.cddsRecommendFlag = cddsRecommendFlag;
+	}
+
 	public Integer getBaseNum() {
 		return baseNum;
 	}

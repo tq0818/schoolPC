@@ -820,8 +820,7 @@
 	</select>
 	<select id="queryByMobile"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
-		from student 
-		where  delete_flag=0  and company_id=#{companyId} and mobile=#{mobile}  limit 0,1
+		from student where  delete_flag=0 and mobile=#{mobile}  limit 0,1
 	</select>
 	<select id="queryByUsername"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
@@ -1234,10 +1233,10 @@
 	(select MAX(login_time) from users_front_login_session where user_id = u.id) as lastLoginTime
 	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 LEFT JOIN users_front u on s.user_id=u.id 
 	 <if test="protocolConfig == 1">left JOIN course_potocol_user_relation cpur ON (cpur.course_id = sp.commodity_id and cpur.user_id = u.id)</if>
-	 where s.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' ) and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+	 where sp.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' ) and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
 	 <if test="protocolConfig == 1 and protocolStatus == 1"> and cpur.id is not null</if>
 	 <if test="protocolConfig == 1 and protocolStatus == 2"> and cpur.id is null</if>
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and sp.school_id=#{schoolId}</if>
 	  <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	  <if test="username != null and username != ''">and u.username like '%${username}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -1285,10 +1284,10 @@
 		select count(DISTINCT(s.id))
 	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 LEFT JOIN users_front u on s.user_id=u.id
 	 <if test="protocolConfig == 1">left JOIN course_potocol_user_relation cpur ON (cpur.course_id = sp.commodity_id and cpur.user_id = u.id)</if>
-	 where s.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS' 
+	 where sp.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS' 
 	 <if test="protocolConfig == 1 and protocolStatus == 1"> and cpur.id is not null</if>
 	 <if test="protocolConfig == 1 and protocolStatus == 2"> and cpur.id is null</if>
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and sp.school_id=#{schoolId}</if>
 	  <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	 <if test="username != null and username != ''">and u.username like '%${username}%'</if>
@@ -2889,7 +2888,7 @@ select * from (
 			uf.password as password,
 			uf.username as username
 		from student s left join users_front uf on s.user_id = uf.id
-		where s.company_id = #{companyId}
+		<!-- where s.company_id = #{companyId} -->
 	</select>
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />

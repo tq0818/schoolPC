@@ -183,6 +183,12 @@
 		where essr.edu_step_new_code  = #{schoolType} and  scd.parent_item_id = #{area}
 	</select>
 	
+	<select id="findByParentId" parameterType="String" resultMap="sysConfigDictResultMap">
+		select <include refid="table_columns"></include>
+			from sys_config_dict
+		where parent_item_id=#{parentId} 
+		order by id
+	</select>
     <!--获取服务类型及服务名称-->
     <select id="querSysConfigDictList" resultMap="sysConfigDictResultMap" parameterType="Integer">
 		select scs.group_code,scs.id,scs.company_id,scd.item_value as dict_name,scd1.item_value as item_value,scs.del_flag from sys_config_service scs 

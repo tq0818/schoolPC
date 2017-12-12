@@ -572,6 +572,15 @@
         <pattern>/jsp/OpenCourse</pattern>
         <!-- 课程基本信息 -->
         <pattern>/jsp/basicInformationCourse</pattern>
+		
+		<!-- 公开课 -->
+        <pattern>/branchSchool/queryClassType</pattern>
+        <pattern>/branchSchool/*/*/*</pattern>
+        <pattern>/branchSchool/showSignUp</pattern>
+        <pattern>/branchSchool/insertStudents</pattern>
+        <pattern>/branchSchool/queryData</pattern>
+        <!-- 分校直播课 -->
+        <pattern>/classTypeManage/*/*</pattern>
 
 
     </decorator>

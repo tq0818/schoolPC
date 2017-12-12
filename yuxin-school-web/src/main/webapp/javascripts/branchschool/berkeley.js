@@ -155,7 +155,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                                                 '<ul class="none box" style="display: none;">'+
                                                     '<li><a class=""  href="'+rootPath+'/berkeley/berkeleyOrder/'+stu.id+'">订单查询</a></li>'+
                                                     '<li><a class=""  href="'+rootPath+'/berkeley/permissionManagement/'+stu.id+'">权限管理</a></li>'+
-                                                    '<li><a class=""  href="'+rootPath+'/classManager/getClassList/'+stu.id+'">课程管理</a></li>'+
+                                                    '<li><a class=""  href="'+rootPath+'/classTypeManage/queryClassType/'+stu.id+'">课程管理</a></li>'+
                                                     '<li><a class=""  href="'+rootPath+'/serviceManager/getServiceManager/'+stu.id+'">服务管理</a></li>'+
                                                     '<li><a class=""  href="'+rootPath+'/teacherManger/getFirstItems/'+stu.id+'">老师管理</a></li>'+
                                                     '<li><a class=""  href="'+rootPath+'/classQuery/getClassList/'+stu.id+'">分校课程</a></li>'+

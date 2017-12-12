@@ -56,7 +56,6 @@
         </div>
         <div class="user-list">
             <table class="table table-center" id="tableList">
-            	<thead>
 	                <tr data-buy="true">
 	                    <th width="3%">序号</th>
 	                    <th width="16%">课程名称</th>
@@ -67,7 +66,6 @@
 	                    <th width="8%">购买人数 <i id="order_buy" class="icon iconfont unsort order_sorting">&#xe612;</i></th>
 	                    <th width="10%">课程详情</th>
 	                </tr>
-                </thead>
                 <tbody class="tbodyList">
                 	
                 </tbody>
@@ -78,7 +76,6 @@
         </div>
     </div>
 </div>
-<input type="hidden" value="5" id="pageSize">
 
 <!-- ajax加载中div开始 -->
 <div class="loading lp-units-loading" style="display: none">

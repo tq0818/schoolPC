@@ -20,6 +20,15 @@
         level_path,
         is_parent
     </sql>
+    <sql id="table_columns_sci">
+        sci.id,
+        sci.item_code,
+        sci.parent_code,
+        sci.parent_id,
+        sci.level,
+        sci.level_path,
+        sci.is_parent
+    </sql>
     <sql id="entity_properties">
         #{id},
         #{itemCode},
@@ -33,10 +42,24 @@
     <insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigItemRelation"
             useGeneratedKeys="true" keyProperty="id">
         insert into sys_config_item_relation(
-        <include refid="table_columns" />
+        id,
+        item_code,
+        parent_code,
+        parent_id,
+        level,
+        level_path,
+        is_parent,
+        company_id
         )
         values (
-        <include refid="entity_properties" />
+        	#{id},
+        	#{itemCode},
+        	#{parentCode},
+        	#{parentId},
+        	#{level},
+        	#{levelPath},
+        	#{isParent},
+        	#{companyId}
         )
     </insert>
 
@@ -57,16 +80,27 @@
     <select id="findFirstLevel" resultMap="sysConfigItemRelationResultMap"
             parameterType="String">
         select
-        <include refid="table_columns" />
-        from sys_config_item_relation
-        where level = 0
+        <include refid="table_columns_sci" />
+        from sys_config_item_relation sci
+        inner join sys_config_item syc on sci.item_code=syc.item_code and syc.company_id=#{companyId}
+        inner join sys_school_item_relation ssr on ssr.item_id=syc.id and ssr.del_flag=0
+        where sci.level = 0 and syc.status = 1 and sci.company_id=#{companyId}
     </select>
     <select id="findRelationByParentId" resultMap="sysConfigItemRelationResultMap"
-            parameterType="Integer">
+            parameterType="map">
         select
         <include refid="table_columns" />
         from sys_config_item_relation
         where parent_id = #{id}
+        <if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+    </select>
+    <select id="findRelationByCode" resultMap="sysConfigItemRelationResultMap"
+            parameterType="map">
+        select
+        <include refid="table_columns" />
+        from sys_config_item_relation
+        where item_code = #{itemCode}
+        <if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
     </select>
     <select id="findRelationByLevel" resultMap="sysConfigItemRelationResultMap"
             parameterType="Integer">
@@ -85,38 +119,41 @@
             #{item}
         </foreach>
     </select>
+    
+    
     <delete id="deleteById">
         delete from sys_config_item_relation
         where id = #{id}
     </delete>
 
-    <delete id="deleteFront">
-        delete from sys_config_item_relation_front
+    <delete id="deleteFront" parameterType="int">
+        delete from sys_config_item_relation_front where company_id=#{companyId}
     </delete>
-    <insert id="publish">
-     insert sys_config_item_relation_front  (select * from sys_config_item_relation)
+    <insert id="publish" parameterType="int">
+     insert sys_config_item_relation_front(item_code,parent_code,level,parent_id,level_path,is_parent,origin_type,company_id) 
+      (select item_code,parent_code,level,parent_id,level_path,is_parent,0,company_id from sys_config_item_relation where company_id=#{companyId})
     </insert>
 <!--发布后查询SQL-->
     <select id="findFirstLevelFront" resultMap="sysConfigItemRelationResultMap"
-            parameterType="String">
+            parameterType="int">
         select
         <include refid="table_columns" />
         from sys_config_item_relation_front
-        where level = 0  and origin_type=0 
+        where level = 0  and origin_type=0 and company_id=#{companyId}
     </select>
     <select id="findChildrenFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
         select
         <include refid="table_columns" />
         from sys_config_item_relation_front
-        where parent_id = #{id} and origin_type=0 
+        where parent_id = #{id} and origin_type=0 and company_id=#{companyId}
     </select>
     <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="int">
         SELECT DISTINCT
         (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code and sci.company_id=#{companyId})as item_name,
         LEVEL
           FROM
-        sys_config_item_relation_front rf where rf.origin_type=0 
+        sys_config_item_relation_front rf where rf.origin_type=0 and rf.company_id=#{companyId}
     </select>
 
     <select id="findItemFrontByLevel" resultMap="sysConfigItemRelationResultMap"

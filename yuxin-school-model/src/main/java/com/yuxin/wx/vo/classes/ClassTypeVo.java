@@ -77,12 +77,63 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer subjectClassOrder;//学科课程排序
 	private String  iconLable;
 	private Integer isMicroClass;	//是否微课
+
+    private Integer isOutSource;//是否购买的外校课程
+    private Integer isPublic;  //是否公开课程
+    private Double publicPrice; //公开课程价格
 	
 	private String schoolName;
 	private String teacherName;
 	private String paperDescription;//试卷描述
 	private String domain;
+	private Integer cddsStatus;//数校上下架状态
+	private Integer cddsRecommendFlag;//数校是否推荐
 	
+	private Integer companyId;
+	private String livestatus;//直播进行状态
+	
+	public String getLivestatus() {
+		return livestatus;
+	}
+	public void setLivestatus(String livestatus) {
+		this.livestatus = livestatus;
+	}
+	public Integer getCddsRecommendFlag() {
+		return cddsRecommendFlag;
+	}
+	public void setCddsRecommendFlag(Integer cddsRecommendFlag) {
+		this.cddsRecommendFlag = cddsRecommendFlag;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	public Integer getCddsStatus() {
+		return cddsStatus;
+	}
+	public void setCddsStatus(Integer cddsStatus) {
+		this.cddsStatus = cddsStatus;
+	}
+	public Integer getIsOutSource() {
+		return isOutSource;
+	}
+	public void setIsOutSource(Integer isOutSource) {
+		this.isOutSource = isOutSource;
+	}
+	public Integer getIsPublic() {
+		return isPublic;
+	}
+	public void setIsPublic(Integer isPublic) {
+		this.isPublic = isPublic;
+	}
+	public Double getPublicPrice() {
+		return publicPrice;
+	}
+	public void setPublicPrice(Double publicPrice) {
+		this.publicPrice = publicPrice;
+	}
 	public String getDomain() {
 		return domain;
 	}

@@ -231,6 +231,7 @@ public class SimpleclassTypeController {
 		model.addAttribute("secondItem", secondItem);
 		model.addAttribute("thirdItem", thirdItem);
 		model.addAttribute("fourthItem", fourthItem);
+		model.addAttribute("isArea", WebUtils.getCurrentIsArea());
 		return "simpleClasses/classIndex";
 	}
 	
@@ -301,6 +302,7 @@ public class SimpleclassTypeController {
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
+		relation.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -337,8 +339,6 @@ public class SimpleclassTypeController {
 			return "simpleClasses/addClassTypeVideoMessage";
 		}else if("togther".equals(lable)){//混合
 			return "simpleClasses/addClassTypeTogtherMessage_1";
-		}else if("buy".equals(lable)){
-			return "simpleClasses/addClassTypeOtherMessage";
 		}else{
 			return "simpleClasses/addClassTypeOtherMessage";
 		}
@@ -837,6 +837,9 @@ public class SimpleclassTypeController {
 			classType.setTypeCode("CLASS_TYPE_NOMAL");
 			classType.setCompanyId(WebUtils.getCurrentCompanyId());
 			classType.setDelFlag(0);
+			if(null==classType.getIsPublic()){
+				classType.setIsPublic(0);
+			}
 			classType.setCreateSchoolId(WebUtils.getCurrentSchoolId());
 			if(classType.getFaceFlag()!=null){
 				classType.setFaceFlag(classType.getFaceFlag());

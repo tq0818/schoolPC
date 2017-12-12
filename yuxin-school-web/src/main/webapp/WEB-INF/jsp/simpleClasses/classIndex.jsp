@@ -30,6 +30,7 @@
                <i class="tips" id="tip" style="display: none;">没有查到相关信息!</i>
                 <input type="text" id="classTypeName" placeholder="请输入课程名称">
                 <input onclick="Form.queryCommodityByName()" type="button" class="btn btn-default btn-sm" placeholder="输入商品名称" value="搜索">
+                <input type="hidden" id="isArea" value="${isArea }"/>
             </span>
         </div>
     </div>
@@ -157,6 +158,13 @@
 			type : "post",
 			dataType : 'json',
 			success : function(jsonData) {
+				var isArea=$("#isArea").val();
+				var b6="";
+				if("0"==isArea){
+					b6="<li class=\"b6 classTypeManage\">分校课程</li>";
+				}else{
+					b6="<li class=\"b6 buyClassType\">已购课程</li>";
+				}
 				var count=jsonData.length;
 				var html="";
 				if(count==1){
@@ -166,19 +174,19 @@
 					   			'<li class="b3">面授</li>'+
 						   		'<li class="b4">混合</li>'+
 						   		'<li class="b5">其他</li>'+
-						   		'<li class="b6">已购课程</li></ul>';
+						   		b6+'</ul>';
 						}else if(item.groupCode=='SERVICE_VIDEO'){
 								html+='<ul class="tabsn c4"><li class="b1">直播</li>'+
 					   			'<li class="b3">面授</li>'+
 						   		'<li class="b4">混合</li>'+
 						   		'<li class="b5">其他</li>'+
-						   		'<li class="b6">已购课程</li></ul>';
+						   		b6+'</ul>';
 						}else if(item.groupCode=='SERVICE_FACE'){
 								html+='<ul class="tabsn c4"><li class="b1">直播</li>'+
 					   			'<li class="b2">录播</li>'+
 						   		'<li class="b4">混合</li>'+
 						   		'<li class="b5">其他</li>'+
-						   		'<li class="b6">已购课程</li></ul>';
+						   		b6+'</ul>';
 						}
 					});
 				}else if(count==2){
@@ -193,29 +201,29 @@
 					if((num1=="SERVICE_LIVE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_LIVE")){
 						html+='<ul class="tabsn c2"><li class="b3">面授</li>'+
 				   		'<li class="b5">其他</li>'+
-				   		'<li class="b6">已购课程</li></ul>';
+				   		b6+'</ul>';
 					}
 					if((num1=="SERVICE_LIVE"&&num2=="SERVICE_FACE")||(num1=="SERVICE_FACE"&&num2=="SERVICE_LIVE")){
 						html+='<ul class="tabsn c2"><li class="b2">录播</li>'+
 				   		'<li class="b5">其他</li>'+
-				   		'<li class="b6">已购课程</li></ul>';
+				   		b6+'</ul>';
 					}
 					if((num1=="SERVICE_FACE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_FACE")){
 						html+='<ul class="tabsn c2"><li class="b1">直播</li>'+
 				   		'<li class="b5">其他</li>'+
-				   		'<li class="b6">已购课程</li></ul>';
+				   		b6+'</ul>';
 					}
 				}else if(count==3){
 					html+='<ul class="tabsn c8">'+
 			   		'<li class="b5">其他</li>'+
-			   		'<li class="b6">已购课程</li></ul>';
+			   		b6+'</ul>';
 				}else{
 					html+='<ul class="tabsn"><li class="b1">直播</li>'+
 					'<li class="b2">录播</li>'+
 		   			'<li class="b3">面授</li>'+
 			   		'<li class="b4">混合</li>'+
 			   		'<li class="b5">其他</li>'+
-			   		'<li class="b6">已购课程</li></ul>';
+			   		b6+'</ul>';
 				}
 				/* $("#lsOne").append(html); */
 				$(html).appendTo("#lsOne");

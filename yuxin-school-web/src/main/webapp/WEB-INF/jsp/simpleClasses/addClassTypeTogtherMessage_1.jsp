@@ -186,6 +186,21 @@
                         </c:if>
                     </span>
                </p>
+               <c:if test="${not empty isArea and '0' ne isArea }">
+               		<p class="c ">
+	                    <span class="c-title">是否设为公开课程</span>
+	                    <span class="c-content" style="color:black;">
+	                     	<input type="radio" value="1" name="isPublic">是
+                        	<input type="radio" checked="checked" value="0" name="isPublic">否
+	                    </span>
+	               </p>
+	               <p class="c none publicPrice">
+	               		<span class="c-title">设置公开课程价格</span>
+	                    <span class="c-content" style="color:black;">
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices">
+	                    </span>
+	               </p>
+               </c:if>
               <p class="c text-center">
              	<a href="javascript:Form.addFormOne('saveandtui')" class="btn btn-primary">保存并退出</a>
                 <a href="javascript:Form.addFormOne('save')" class="btn btn-primary">保存并继续</a>

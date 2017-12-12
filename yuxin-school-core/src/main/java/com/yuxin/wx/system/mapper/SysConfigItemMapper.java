@@ -153,6 +153,8 @@ public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	 * @return
 	 */
 	List<SysConfigItem> findStatus(SysConfigItem item);
+	
+	List<SysConfigItem> findFirstStatus(SysConfigItem item);
 
 	/**
 	 * 

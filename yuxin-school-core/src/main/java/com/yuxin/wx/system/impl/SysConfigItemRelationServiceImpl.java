@@ -1,16 +1,18 @@
 package com.yuxin.wx.system.impl;
 
-import com.yuxin.wx.api.system.ISysConfigItemRelationService;
-import com.yuxin.wx.common.BaseServiceImpl;
-import com.yuxin.wx.model.system.SysConfigItemRelation;
-import com.yuxin.wx.system.mapper.SysConfigItemRelationMapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.yuxin.wx.api.system.ISysConfigItemRelationService;
+import com.yuxin.wx.common.BaseServiceImpl;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
+import com.yuxin.wx.system.mapper.SysConfigItemRelationMapper;
 
 /**
  * Created by Administrator on 2017/7/31.
@@ -33,7 +35,7 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     @Override
     public void deleteSysConfigItemRelationById(Integer id) {
 
-        List<SysConfigItemRelation> list =findSysConfigItemRelationById(id);
+        List<SysConfigItemRelation> list =findSysConfigItemRelationById(id,null);
         deleteRelation(list);
     }
 
@@ -41,7 +43,7 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     public void deleteRelation( List<SysConfigItemRelation> list){
             for(int n =  0 ; n<list.size();n++){
                     SysConfigItemRelation relation = list.get(n);
-                    List<SysConfigItemRelation> newList =findSysConfigItemRelationById(relation.getId());
+                    List<SysConfigItemRelation> newList =findSysConfigItemRelationById(relation.getId(),null);
                     if(newList.size()>0) {
                         deleteRelation(newList);
                     }
@@ -56,15 +58,15 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
-    public void publishRelation() {
-        sysConfigItemRelationMapper.deleteFront();
-        sysConfigItemRelationMapper.publish();
+    public void publishRelation(Integer companyId) {
+        sysConfigItemRelationMapper.deleteFront(companyId);
+        sysConfigItemRelationMapper.publish(companyId);
     }
 
     @Override
     public List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item) {
         if(item.getId()==null){
-            return sysConfigItemRelationMapper.findFirstLevelFront();
+            return sysConfigItemRelationMapper.findFirstLevelFront(item.getCompanyId());
         }else{
             return sysConfigItemRelationMapper.findChildrenFront(item);
         }
@@ -86,17 +88,28 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
-    public List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id) {
+    public List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id,Integer companyId) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
+        Map<String,Object> params=new HashMap<String,Object>();
+        params.put("companyId",companyId);
+        params.put("id",id);
         if(id==null){
-            list =  sysConfigItemRelationMapper.findFirstLevel();
+            list =  sysConfigItemRelationMapper.findFirstLevel(params);
         }else{
-            list = sysConfigItemRelationMapper.findRelationByParentId(id);
+            list = sysConfigItemRelationMapper.findRelationByParentId(params);
         }
         return list;
     }
-
+    
     @Override
+	public List<SysConfigItemRelation> findSysConfigItemRelationByCode(SysConfigItemRelation item) {
+    	Map<String,Object> params=new HashMap<String,Object>();
+        params.put("companyId",item.getCompanyId());
+        params.put("itemCode",item.getItemCode());
+		return sysConfigItemRelationMapper.findRelationByCode(params);
+	}
+
+	@Override
 
     public List<SysConfigItemRelation> findRelationByLevel(Integer level) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();

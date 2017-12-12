@@ -165,7 +165,7 @@
 						>搜索 </span>
 					</div>
 					<div class="term-list q-term-list">
-							<table class="table table-center table-head">
+							<table class="table table-center table-head" style="margin: 0;">
 								
 								<tbody>
 									<tr class="head">
@@ -205,7 +205,7 @@
 							<a class="add-video-link" href="javascript:;">新增视频</a>
 					</div>
 					<div class="term-list q-term-list">
-						<table class="table table-center table-head">
+						<table class="table table-center table-head"  style="margin: 0;">
 							<tbody>
 							<colgroup>
                                 <col width="20%">
@@ -315,7 +315,7 @@
 				</div>
 
 				<div class="term-list q-term-list">
-					<table class="table table-center table-head">
+					<table class="table table-center table-head"  style="margin: 0;">
 						<tbody>
 						<colgroup>
                             <col width="25%">
@@ -439,7 +439,7 @@
             </div>
 
             <div class="term-list q-term-list">
-                    <table  class="table table-center table-head" style="top:0px;">
+                    <table  class="table table-center table-head" style="top:0px;margin: 0;" >
                         <colgroup>
                             <col width="20%">
                                 <col width="20%">

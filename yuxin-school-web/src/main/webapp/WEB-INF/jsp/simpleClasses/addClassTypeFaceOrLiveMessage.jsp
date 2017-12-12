@@ -213,18 +213,18 @@
                         </c:if>
                     </span>
                </p>
-               <c:if test="${empty isArea or '0' eq isArea }">
+               <c:if test="${not empty isArea or '0' ne isArea }">
                		<p class="c ">
 	                    <span class="c-title">是否设为公开课程</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="radio" value="1" name="publishFlag">是
-                        	<input type="radio" checked="checked" value="0" name="publishFlag">否
+	                     	<input type="radio" value="1" name="isPublic">是
+                        	<input type="radio" checked="checked" value="0" name="isPublic">否
 	                    </span>
 	               </p>
-	               <p class="c none">
+	               <p class="c none publicPrice">
 	               		<span class="c-title">设置公开课程价格</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="text" name="publishPrice" id="publishPrices" class="prices">
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices">
 	                    </span>
 	               </p>
                </c:if>

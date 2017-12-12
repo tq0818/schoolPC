@@ -24,7 +24,7 @@
         <div class="top"><input type="button" value="发布生效" id="publishRelation"></div>
         <div class="content">
             <div class="tree_cntr">
-                <input id="addCatg" type="button" value="添加分类">
+                <!--<input id="addCatg" type="button" value="添加分类"> -->
                 <div id="ztree" class="ztree"></div>
             </div>
             <div class="tree_setting">

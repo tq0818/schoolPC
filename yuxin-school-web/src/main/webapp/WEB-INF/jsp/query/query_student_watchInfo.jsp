@@ -39,25 +39,32 @@
 					<span class="line"></span>
 				</div>
 				<div class="content-right">
-					<p class="screen-info" style="margin-bottom: 20px;">
-						<a href="/query/statistics/watchInfoList" class="btn active">概况</a>
-						<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
-						<span class="pull-right">
-							<c:if test="${isArea}">
-								<select class="select-box" id="eduStep" name="eduStep">
-									<c:forEach items="${eduStep}" var="eduStep">
-										<option value="${eduStep.itemCode}">${eduStep.itemValue}</option>
-									</c:forEach>
-								</select>
-							</c:if>
-							<span class="date" style="margin-left: 0;">
-								<i class="text">日期</i>
-								<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>至</em>
-									<input type="text" id="endDate" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
+					<form id="searchForm">
+						<p class="screen-info" style="margin-bottom: 20px;">
+							<a href="/query/statistics/watchInfoList" class="btn active">概况</a>
+							<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
+							<span class="pull-right">
+								<c:if test="${isArea}">
+									<select class="select-box" id="eduStep" name="eduStep">
+										<c:forEach items="${eduStep}" var="eduStep">
+											<option value="${eduStep.itemCode}">${eduStep.itemValue}</option>
+										</c:forEach>
+									</select>
+								</c:if>
+
+									<span class="date" style="margin-left: 0;">
+										<i class="text">日期</i>
+										<span><input type="text" id="startDate" name="startTime" class="date-picker from" value="${startDate}" placeholder="开始时间"><em>至</em>
+											<input type="text" id="endDate" name="endTime" class="date-picker to" value="${endDate}" placeholder="结束时间"></span>
+									</span>
+
+								<button class="btns-default" type="button" id="search" onclick="queryChartData();">查询</button>
+								<c:if test="${role=='all'}">
+									<button class="btns-default" type="button"  id="export" onclick="exportData();">导出</button>
+								</c:if>
 							</span>
-							<button class="btns-default" id="search" onclick="queryChartData();">查询</button>
-						</span>
-					</p>
+						</p>
+					</form>
 					<%--<div>
 						&lt;%&ndash;<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>&ndash;%&gt;
 						&lt;%&ndash;<input type="text" id="stuusername" name="username" placeholder="用户名"/>&ndash;%&gt;
@@ -120,6 +127,21 @@
 			}
 
             queryChartData();
+
+
+			function exportData(){
+                if ($("#endDate").val() != "") {
+                    if ($("#endDate").val() < $("#startDate").val()) {
+                        $.msg("时间范围不正确");
+                        return;
+                    }
+
+                }
+                $("#searchForm").attr("action",
+                    rootPath + "/query/exportStudentsWatchInfoCountData")
+                    .submit();
+            }
+
 		</script>
 </body>
 </html>

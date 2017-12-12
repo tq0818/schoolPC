@@ -205,5 +205,10 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         return studentstatisticsMapper.exportStudentsWatchInfoCountCurrent(map);
     }
 
+    @Override
+    public List<Map> exportStudentsWatchInfoCountData(Map<String, Object> map) {
+        return studentstatisticsMapper.exportStudentsWatchInfoCountData(map);
+    }
+
 
 }

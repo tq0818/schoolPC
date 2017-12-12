@@ -1131,8 +1131,65 @@ public class StudentStatisticsController {
 
         return result;
     }
+    @RequestMapping(value = "/exportStudentsWatchInfoCountData")
+    public ModelAndView exportStudentsWatchInfoCountData(Model model,String startTime,String endTime){
+        List<Map> list = new ArrayList<>();
+        Map<String,Object> info  = new HashMap<>();
+        info.put("startDate",startTime);
+        info.put("endDate",endTime);
+        info.put("pageSize",20000);
+        list = studentStatisticsServiceImpl.exportStudentsWatchInfoCountData(info);
+        SysConfigDict search = new SysConfigDict();
+        search.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> areas =  sysConfigDictServiceImpl.queryConfigDictListByDictCode(search);
+        //如果查询结果与区县数目不等则补全对应区县且设置为0
+        //根据字典的顺序重新加入集合
+
+        List<Map> newList = new ArrayList<>();
+        if(list.size()!=areas.size()){
+            for(SysConfigDict area:areas){
+                boolean flag = false;
+                for(Map data:list){
+                    if(data.get("item_code").equals(area.getItemCode())){
+                        newList.add(data);
+                        break;
+                    }
+                }
+                if(!flag){
+                    Map map = new HashMap();
+                    map.put("item_code",area.getItemCode());
+                    map.put("item_value",area.getItemValue());
+                    map.put("times",0);
+                    map.put("watch_time","00:00:00");
+                    newList.add(map);
+                }
+            }
+        }else{
+            newList = list;
+        }
 
 
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (Map v : newList) {
+            lists.add(v);
+        }
+        String titles = "";
+        titles = "区县名称:item_value,累计观看人次:times,累计观看时长:watch_time";
+
+        StringBuffer title = new StringBuffer(
+                titles);
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "区县直播累计观看统计.xls");
+        return new ModelAndView(excel, map);
+    }
 
     @RequestMapping(value = "/exportStudentsWatchInfoCountCurrent")
     public ModelAndView exportStudentsWatchInfoCountCurrent(Model model,String startTime,String endTime,String secondItemCode,String itemThirdCode,

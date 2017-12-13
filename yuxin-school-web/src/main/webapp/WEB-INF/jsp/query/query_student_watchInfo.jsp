@@ -60,7 +60,7 @@
 
 								<button class="btns-default" type="button" id="search" onclick="queryChartData();">查询</button>
 								<c:if test="${role=='all'}">
-									<button class="btns-default" type="button"  id="export" onclick="exportData();">导出</button>
+									<button class="btns-default" type="button"  id="export" onclick="exportData();">导出人次</button>
 								</c:if>
 							</span>
 						</p>

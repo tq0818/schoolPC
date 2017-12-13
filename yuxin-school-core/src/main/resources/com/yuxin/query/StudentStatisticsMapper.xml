@@ -610,8 +610,6 @@
 		GROUP BY s.edu_area, s.edu_step
 		order by s.edu_area, s.edu_step
 	</select>
-                </mapper>
-
 
 	<select id="exportStudentsWatchInfoCountData" parameterType="Map" resultType="Map">
 		SELECT dic.item_value,dic.item_code,

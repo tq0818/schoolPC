@@ -17,7 +17,12 @@
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
+		.screen-info select{margin-right: 20px;width: 200px;margin-bottom: 10px;}
 	</style>
+	<%--tob--%>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
+	<script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
 <body>
 <input type="hidden" id="schoolId" value='${schoolId}'/>
@@ -26,17 +31,15 @@
 <input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 	<!-- 二级导航 -->
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-			<div class="mainbackground nopadding">
-				<div class="heading">
-					<h2 class="h5">基地校</h2>
+			<div class="mainbackground nopadding" style="background: #f6f6f6;margin-left: 20px;height: 700px;">
+				<div class="heading" style="height: 30px;padding-top: 10px;">
+					<h2 class="h5" style="display: inline-block;">基地校</h2>
+						<a href="<%=rootPath%>/baseSchool/baseSchoolRecording"  class="btn btn-default recordingBtn">录播课</a>
+						<a href="<%=rootPath%>/baseSchool/baseSchoolLive" class="btn btn-primary liveBtn">直播课</a>
 					<span class="line"></span>
 				</div>
 				<div class="content-right">
-					<p class="screen-info" style="margin-bottom: 20px;">
-						 <a href="<%=rootPath%>/baseSchool/baseSchoolRecording"  class="btn btn-default recordingBtn">录播课</a>
-            			 <a href="<%=rootPath%>/baseSchool/baseSchoolLive" class="btn btn-primary liveBtn">直播课</a>
 
-					</p>
 					<form method="post" id="searchForm" class="screen-info">
 						<div>
 							<input type="hidden" id="isStu" name="isStu" value="1"/>

@@ -48,7 +48,10 @@
 					<tr>
 						<th width="3%">序号</th>
 						<th width="10%">时间</th>
-						<th width="10%">总收入(元)</th>
+						<th width="10%">
+							总收入(元)
+							<i class="icon iconfont unsort sorting">&#xe612;</i>
+						</th>
 						<th width="10%">应缴费用（元）</th>
 						<th width="10%">实际收入</th>
 					</tr>

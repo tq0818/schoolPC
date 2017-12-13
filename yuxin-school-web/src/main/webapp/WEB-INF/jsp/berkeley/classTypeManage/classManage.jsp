@@ -42,15 +42,16 @@
         </div>
         <div style="margin-top: 10px;">
         	<input type="hidden" id="companyId" value="${companyId }">
+        	<input type="hidden" id="schoolId" value="${school.id }">
 			<input type="hidden" id="rowCount"/>
 			<input type="hidden" id="pageNo"/>
 			<input type="hidden" id="pageSize" value="5"/>
             <input type="text" id="name" name="name" placeholder="课程名称/科目"/>
             <select name="livestatus" id="livestatus">
                 <option value="">请选择直播课状态</option>
-                <option value="0">未开始</option>
-                <option value="1">进行中</option>
-                <option value="2">已结束</option>
+                <option value="nostart">未开始</option>
+                <option value="start">进行中</option>
+                <option value="over">已结束</option>
             </select>
          <!--    <select name="" id="">
                 <option value="">请选择权限状态</option>

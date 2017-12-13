@@ -10,9 +10,9 @@
 			    <td>${m.itemThirdName }</td>
 			    <td>${m.schoolName }</td>
 			    <td>
-			    	<a href="##">点击查看</a>
+			    	<a  target="_blank" href="http://${m.domain}/sysConfigItem/selectDetail/${m.id }">点击查看</a>
 			    </td>
-			    <td><button class="btn btn-primary addClassManagement">添加</button></td>
+			    <td><button class="btn btn-primary" data_id="${m.id }" onclick="addClassManagement(this);">添加</button></td>
 			</tr>
 		</c:forEach>
 	</c:when>

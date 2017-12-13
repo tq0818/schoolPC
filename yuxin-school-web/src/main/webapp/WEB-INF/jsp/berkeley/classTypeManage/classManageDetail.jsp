@@ -18,7 +18,7 @@
 			    	</c:choose>
 			    </td>
 			    <td class="slink">
-			        <a class="" href="javascript:void(0);">课程详情</a>|
+			        <a class=""  target="_blank" href="http://${company.domain}/sysConfigItem/selectDetail/${m.id }">课程详情</a>|
 			        <a class="classSchedule"  href="javascript:void(0);">课程表</a>|
 			    </td>
 			</tr>

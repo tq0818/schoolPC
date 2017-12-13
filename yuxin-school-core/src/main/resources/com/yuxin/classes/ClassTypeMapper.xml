@@ -811,19 +811,20 @@
 				GROUP BY 	mr.class_type_id
 			) t on t.class_type_id=ct.id
 			where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0  and ct.is_out_source=1 
-				and ct.live_flag=1 and ct.company_id = #{companyId}
+				and ct.live_flag=1 and ct.company_id = #{companyId} 
 				<if test="name != null and name != ''">and (ct.name like '%${name}%' or sd.item_name  like '%${name}%') </if>
-				<if test="livestatus != null">
+				<if test="livestatus != null and livestatus != ''">
 					<choose>
-						<when test="livestatus==0">
+						<when test="livestatus =='nostart'">
 						 	<![CDATA[and (t.min_time is null or t.max_time is null or NOW()<t.min_time)]]>
 						</when>
-						<when test="livestatus==1">
+						<when test="livestatus =='start'">
 							<![CDATA[and t.min_time is not null and t.max_time is not null and t.min_time<=NOW() and NOW()<=t.max_time]]>
 						</when>
-						<when test="livestatus==2">
+						<when test="livestatus =='over'">
 							<![CDATA[and t.min_time is not null and t.max_time is not null and t.max_time<NOW()]]>
 						</when>
+						<otherwise></otherwise>
 					</choose>
 				</if>
 			ORDER BY ct.create_time desc
@@ -848,17 +849,18 @@
 			where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0  and ct.is_out_source=1
 				 and ct.live_flag=1 and ct.company_id = #{companyId}
 				<if test="name != null and name != ''">and (ct.name like '%${name}%' or sd.item_name  like '%${name}%') </if>
-				<if test="livestatus != null">
+				<if test="livestatus != null and livestatus != ''">
 					<choose>
-						<when test="livestatus==0">
+						<when test="livestatus =='nostart'">
 						 	<![CDATA[and (t.min_time is null or t.max_time is null or NOW()<t.min_time)]]>
 						</when>
-						<when test="livestatus==1">
+						<when test="livestatus =='start'">
 							<![CDATA[and t.min_time is not null and t.max_time is not null and t.min_time<=NOW() and NOW()<=t.max_time]]>
 						</when>
-						<when test="livestatus==2">
+						<when test="livestatus =='over'">
 							<![CDATA[and t.min_time is not null and t.max_time is not null and t.max_time<NOW()]]>
 						</when>
+						<otherwise></otherwise>
 					</choose>
 				</if>
 	</select>

@@ -585,6 +585,9 @@
 
         <!-- 订单 -->
         <pattern>/jsp/allOrder</pattern>
+        <!-- 收入查询 -->
+        <pattern>/jsp/incomeQuery</pattern>
+
 
 
 

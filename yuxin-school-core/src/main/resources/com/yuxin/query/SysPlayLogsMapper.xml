@@ -332,11 +332,13 @@
 	<select id="queryTotleVideoCourse" resultType="map" parameterType="map">
 		SELECT
           COUNT(1) AS userNum,
+		  sum(t.study_length) AS studyLength,
           d.item_value AS areaName,
           d.item_code AS eduArea
         FROM
           (SELECT
             s.user_id,
+		    sum(pl.study_length) as study_length,
             s.edu_area
           FROM
             sys_play_logs pl
@@ -351,6 +353,27 @@
           GROUP BY pl.lecture_id,pl.user_id) t
           LEFT JOIN sys_config_dict d
             ON d.`item_code` = t.edu_area
+        GROUP BY d.`item_code`
+		order by d.`item_code`
+	</select>
+	<select id="queryTotleVideoCourse1" resultType="map" parameterType="map">
+		SELECT
+          COUNT(1) AS userNum,
+		  sum(study_length) AS studyLength,
+          d.item_value AS areaName,
+          d.item_code AS eduArea
+        FROM
+            sys_play_logs pl
+            LEFT JOIN student s
+              ON s.user_id = pl.user_id
+              AND s.edu_identity = 0
+            LEFT JOIN sys_config_dict d
+            ON d.`item_code` = s.edu_area
+          WHERE s.`edu_area` IS NOT NULL
+          AND s.`edu_school` IS NOT NULL
+          and s.delete_flag = 0
+		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		  <if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
         GROUP BY d.`item_code`
 		order by d.`item_code`
 	</select>

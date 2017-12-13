@@ -178,7 +178,7 @@ public class StudentStatisticsController {
 
         //查询学校所属学段
         SysConfigDict stepDict = new SysConfigDict();
-        stepDict.setDictCode("EDU_STEP_NEW");
+        stepDict.setDictCode("EDU_STEP");
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
 
@@ -220,6 +220,28 @@ public class StudentStatisticsController {
         }
         //传递参数
         return orgStuStatistics;
+    }
+
+    /**
+     * 数据查询
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/statistics/areaTotalStatistics")
+    @ResponseBody
+    public JSONObject areaTotalStatistics(Model model, HttpServletRequest request){
+        JSONObject jsonObject = new JSONObject();
+        //区域学员统计
+        String eduArea = request.getParameter("eduArea");
+        String eduStep = request.getParameter("eduStep");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("eduArea",eduArea);
+        map.put("eduStep",eduStep);
+        List<Map<String, Object>> areaStatistics = studentStatisticsServiceImpl.getAreaTotalStatistics(map);
+        //传递参数
+        jsonObject.put("data", areaStatistics);
+        return jsonObject;
     }
 
     /**
@@ -324,7 +346,7 @@ public class StudentStatisticsController {
 
         //查询学校所属学段
         SysConfigDict stepDict = new SysConfigDict();
-        stepDict.setDictCode("EDU_STEP_NEW");
+        stepDict.setDictCode("EDU_STEP");
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
 
@@ -1894,6 +1916,32 @@ public class StudentStatisticsController {
      * @return
      * @throws Exception
      */
+    @RequestMapping(value="/statistics/queryTotleVideoCourse1")
+    @ResponseBody
+    public JSONObject queryTotleVideoCourse1(HttpServletRequest request, String startTime, String endTime, String eduArea) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        papamMap.put("eduArea", eduArea);
+        //查询区域的录播观看人数
+        List<Map<String, Object>> areaVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse1(papamMap);
+
+        jsonObject.put("areaVideoList", areaVideoList);
+        return jsonObject;
+    }
+
+    /**
+     * 点播统计-概况
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/statistics/queryTotleVideoCourseForSchool")
     @ResponseBody
     public JSONObject queryTotleVideoCourseForSchool(HttpServletRequest request, String startTime, String endTime, String eduArea, String eduSchoolStep) throws Exception {
@@ -2280,6 +2328,83 @@ public class StudentStatisticsController {
         return new ModelAndView(excel, map);
     }
 
+    /**
+     * 点播统计-概况导出
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/exportVideoCourseIndexExcle1")
+    public ModelAndView exportVideoCourseIndexExcle1(Model model, String startTime, String endTime) {
+        List<UserVideoVo> al = new ArrayList<UserVideoVo>();
+        //查询区域的录播观看人数
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+        List<Map<String, Object>> totleVideoList = sysPlayLogsServiceImpl.queryTotleVideoCourse1(papamMap);
+        String[] areas = new String[]{"高新区","锦江区","青羊区","金牛区","武侯区","成华区","龙泉驿区","青白江区","新都区","温江区","双流区",
+                "郫都区","金堂县","大邑县","蒲江县","新津县","天府新区","都江堰市","彭州市","邛崃市","崇州市","简阳市"};
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        //遍历填充区域的值
+        Map<String, Object> zeroMap;
+        for(int i=0; i<areas.length; i++){
+            int num = 0;
+            for (int j=0; j<totleVideoList.size(); j++) {
+                zeroMap = totleVideoList.get(j);
+                if(areas[i].equals(zeroMap.get("areaName"))){
+                    try{
+                        zeroMap.put("studyLength", secToTime(Integer.valueOf(zeroMap.get("studyLength").toString())));
+                        lists.add(zeroMap);
+                        totleVideoList.remove(zeroMap);
+                        j--;
+                        num ++;
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if(num == 0){
+                zeroMap = new HashMap<String, Object>();
+                zeroMap.put("areaName", areas[i]);
+                zeroMap.put("userNum", "0");
+                zeroMap.put("studyLength", "00:00:00");
+                lists.add(zeroMap);
+            }
+        }
+
+        StringBuffer title = new StringBuffer(
+                "区域:areaName,点播观看总人次:userNum,点播观看总时长:studyLength");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "区域用户点播统计.xls");
+        return new ModelAndView(excel, map);
+    }
+
+    private String secToTime(Integer time){
+        StringBuffer timeStr = new StringBuffer();
+        int h=time/3600;
+        if(h < 10){
+            timeStr.append("0");
+        }
+        timeStr.append(h+":");
+        int m=(time%3600)/60;
+        if(m < 10){
+            timeStr.append("0");
+        }
+        timeStr.append(m+":");
+        int s=(time%3600)%60;
+        if(s < 10){
+            timeStr.append("0");
+        }
+        timeStr.append(s);
+        return timeStr.toString();
+    }
 
     /**
      * 单个点播详情

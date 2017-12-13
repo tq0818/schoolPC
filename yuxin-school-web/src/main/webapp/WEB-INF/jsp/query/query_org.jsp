@@ -54,13 +54,34 @@
 
 					<div style="text-align: center;font-size: 16px;width: 46%;display: none;">总计<span id="studentTotal" style="color:red"></span>人已完善教育信息</div>
 				</div>
-				<div class="biaoge-coment biaoge-left wit50">
+				<div class="biaoge-coment biaoge-left wit50" id="student-qushi">
 					<div class="biaoge-cont">
 						<div class="e-charst" id="perfect-qushi"></div>
 					</div>
 				</div>
+				<div class="user-list">
+					<table class="table table-center" id="tableList">
+						<tr data-buy="true">
+							<th width="8%">区域</th>
+							<th width="8%">注册总人数</th>
+							<th width="8%">小学人数</th>
+							<th width="6%">初中人数</th>
+							<th width="6%">高中人数</th>
+						</tr>
+						<tr><td colspan="14">暂无数据</td></tr>
+
+					</table>
+					<div class="pages pagination"></div>
+				</div>
 			</div>
 		</div>
+
+		<!-- ajax加载中div开始 -->
+		<div class="loading lp-units-loading" style="display:none">
+			<p><i></i>加载中,请稍后...</p>
+		</div>
+		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
+		<!--  ajax加载中div结束 -->
 	</div>
 
 	<script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.min.js"></script>
@@ -76,15 +97,20 @@
 			})
 		}*/
 		$selectThirdMenu('orgStuList');
+
 		function queryPerfect2(){
 			var eduArea = $('#eduArea').val();
 			var eduStep = $('#eduStep').val();
 
-			if(eduArea==null || eduArea=='' || eduStep==null || eduStep==''){
+			if((eduArea==null || eduArea=='') && (eduStep==null || eduStep=='')){
+				queryPerfect1();
+				return;
+			}else if(eduArea==null || eduArea=='' || eduStep==null || eduStep==''){
 				alert("请选择区域和学段！");
 				return;
 			}
 
+			$(".user-list").hide();
 			$.ajax({
 				url:rootPath+'/query/statistics/orgStudentTotalStatistics',
 				data:{'eduArea':eduArea, 'eduStep':eduStep},
@@ -96,8 +122,114 @@
 					}
 				}
 			});
-
+			$("#student-qushi").show();
 			$(document).statistical({}).queryPerfect2(eduArea, eduStep);
+		}
+
+		function queryPerfect1(){
+			var eduarea = $('#eduarea').val();
+			var edustep = $('#edustep').val();
+
+
+			$("#studentTotal").parent().hide();
+			$("#student-qushi").hide();
+			$(".user-list").find("table").find("tr:gt(0)").remove();
+			$(".user-list").show();
+			//代理机构权限
+			$.ajax({
+				url: rootPath + "/query/statistics/areaTotalStatistics",
+				data: {eduArea:eduarea,eduStep:edustep},
+				type: 'post',
+				beforeSend: function (XMLHttpRequest) {
+					$(".loading").show();
+					$(".loading-bg").show();
+				},
+				success: function (jsonData) {
+					if (jsonData.data.length == 0) {
+						$(".user-list")
+								.find("table")
+								.append('<tr><td colspan="5">没有查找到数据</td></tr>');
+					}else{
+						var areaList = new Array();
+						$.each(jsonData.data,function (i, area) {
+							var areaData = {};
+							//转化学段
+							switch(area.eduStep) {
+								case "STEP_01":
+									areaData.STEP_01 = area.registerNum;
+									break;
+								case "STEP_02":
+									areaData.STEP_02 = area.registerNum;
+									break;
+								case "STEP_03":
+									areaData.STEP_03 = area.registerNum;
+									break;
+							}
+							if(areaList.length>0 && areaList[areaList.length-1].eduArea == area.eduArea){
+								$.extend(areaList[areaList.length-1], areaData);
+							}else{
+								areaData.eduArea = area.eduArea;
+								switch(area.eduArea) {
+									case "510102": areaData.areaName = "高新区";break;
+									case "510104": areaData.areaName = "锦江区";break;
+									case "510105": areaData.areaName = "青羊区";break;
+									case "510106": areaData.areaName = "金牛区";break;
+									case "510107": areaData.areaName = "武侯区";break;
+									case "510108": areaData.areaName = "成华区";break;
+									case "510112": areaData.areaName = "龙泉驿区";break;
+									case "510113": areaData.areaName = "青白江区";break;
+									case "510114": areaData.areaName = "新都区";break;
+									case "510115": areaData.areaName = "温江区";break;
+									case "510116": areaData.areaName = "双流区";break;
+									case "510117": areaData.areaName = "郫都区";break;
+									case "510121": areaData.areaName = "金堂县";break;
+									case "510129": areaData.areaName = "大邑县";break;
+									case "510131": areaData.areaName = "蒲江县";break;
+									case "510132": areaData.areaName = "新津县";break;
+									case "510156": areaData.areaName = "天府新区";break;
+									case "510181": areaData.areaName = "都江堰市";break;
+									case "510182": areaData.areaName = "彭州市";break;
+									case "510183": areaData.areaName = "邛崃市";break;
+									case "510184": areaData.areaName = "崇州市";break;
+									case "510185": areaData.areaName = "简阳市";break;
+								}
+								areaList.push(areaData);
+							}
+						});
+
+						$.each(areaList,function (i, stu) {
+							$(".user-list")
+									.find("table")
+									.append(
+											'<tr>'
+											+ '<td>'
+											+ (stu.areaName ? stu.areaName
+													: "")
+											+ '</td>'
+											+ '<td>'
+											+ (Number(stu.STEP_01)+Number(stu.STEP_02)+Number(stu.STEP_03))
+											+ '</td>'
+											+ '<td>'
+											+ (stu.STEP_01 ?stu.STEP_01
+													: "")
+											+ '</td>'
+											+ '<td>'
+											+ (stu.STEP_02 ? stu.STEP_02
+													: "")
+											+ '</td>'
+											+ '<td>'
+											+ (stu.STEP_03 ? stu.STEP_03
+													: "")
+											+ '</td>'
+											+ '</tr>');
+						});
+					}
+				},
+				complete: function (XMLHttpRequest, textStatus) {
+					$(".loading").hide();
+					$(".loading-bg").hide();
+				}
+			});
 		}
 	</script>
 </body>

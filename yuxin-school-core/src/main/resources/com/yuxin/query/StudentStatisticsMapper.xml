@@ -65,13 +65,13 @@
 		edu_step IS NOT NULL AND edu_step != '' AND edu_year IS NOT NULL AND edu_year != '' AND
 		edu_class IS NOT NULL AND edu_class != ''
   		LEFT JOIN users_front u ON u.id = s.`user_id` AND s.edu_identity = 0 LEFT JOIN sys_config_dict pc ON pc.`id` = c.`parent_item_id`
-  		LEFT JOIN edu_step_school_relation e ON e.`edu_school_id` = c.`id` WHERE 1=1
+  		WHERE 1=1
   		<if test="eduArea!=null and eduArea!=''">
-			and pc.`item_code` = #{eduArea}
+			and s.edu_area = #{eduArea}
 		</if>
 		AND IFNULL(u.teacher_flag, 0)!=1
 		<if test="eduStep!=null and eduStep!=''">
-			AND e.`edu_step_new_code` = #{eduStep}
+			AND s.edu_step = #{eduStep}
 		</if>
 	</select>
 
@@ -82,13 +82,13 @@
 		edu_step IS NOT NULL AND edu_step != '' AND edu_year IS NOT NULL AND edu_year != '' AND
 		edu_class IS NOT NULL AND edu_class != ''
   		LEFT JOIN users_front u ON u.id = s.`user_id` AND s.edu_identity = 0 LEFT JOIN sys_config_dict pc ON pc.`id` = c.`parent_item_id`
-  		LEFT JOIN edu_step_school_relation e ON e.`edu_school_id` = c.`id` WHERE 1=1
+  		WHERE 1=1
   		<if test="eduArea!=null and eduArea!=''">
-			and pc.`item_code` = #{eduArea}
+			and s.edu_area = #{eduArea}
 		</if>
 		AND IFNULL(u.teacher_flag, 0)!=1
 		<if test="eduStep!=null and eduStep!=''">
-			AND e.`edu_step_new_code` = #{eduStep}
+			AND s.edu_step = #{eduStep}
 		</if>
     	GROUP BY c.`item_code`
 	</select>
@@ -591,6 +591,26 @@
 		GROUP BY swi.liveroom_id,swih.room_id
 		limit #{pageSize}
 	</select>
+
+	<select id="getAreaTotalStatistics" parameterType="map" resultType="map">
+		SELECT
+		  s.`edu_area` as eduArea,
+  		  s.`edu_step` as eduStep,
+		  IFNULL(COUNT(DISTINCT (s.id)), 0) AS registerNum
+		FROM
+		  student s
+		  left join sys_config_dict d
+		  on d.item_code = s.edu_area
+		WHERE s.`edu_identity` = 0
+		  AND edu_area IS NOT NULL AND edu_area != ''
+		  AND edu_school IS NOT NULL AND edu_school != ''
+		  AND edu_step IS NOT NULL AND edu_step != ''
+		  AND edu_year IS NOT NULL AND edu_year != ''
+		  AND edu_class IS NOT NULL AND edu_class != ''
+		GROUP BY s.edu_area, s.edu_step
+		order by s.edu_area, s.edu_step
+	</select>
+                </mapper>
 
 
 	<select id="exportStudentsWatchInfoCountData" parameterType="Map" resultType="Map">

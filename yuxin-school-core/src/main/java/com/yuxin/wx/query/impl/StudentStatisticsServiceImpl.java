@@ -210,5 +210,10 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         return studentstatisticsMapper.exportStudentsWatchInfoCountData(map);
     }
 
+    @Override
+    public List<Map<String, Object>> getAreaTotalStatistics(Map<String, Object> map) {
+        return studentstatisticsMapper.getAreaTotalStatistics(map);
+    }
+
 
 }

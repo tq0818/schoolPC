@@ -160,4 +160,10 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryHistoryAll();
+
+	/**
+	 * 查询视频资源在区域下播放情况人次
+	 * @return
+	 */
+    List<Map<String,Object>> queryTotleVideoCourse1(Map<String, Object> papamMap);
 }

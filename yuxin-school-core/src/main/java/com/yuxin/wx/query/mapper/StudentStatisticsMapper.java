@@ -99,4 +99,6 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	List<Map> exportStudentsWatchInfoCountCurrent(Map<String, Object> map);
 
     List<Map> exportStudentsWatchInfoCountData(Map<String, Object> map);
+
+    List<Map<String,Object>> getAreaTotalStatistics(Map<String, Object> map);
 }

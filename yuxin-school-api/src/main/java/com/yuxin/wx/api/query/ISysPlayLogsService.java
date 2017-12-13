@@ -154,4 +154,10 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<Map<String,Object>> queryHistoryAll();
+
+    /**
+     * 查询区域的录播观看人数
+     * @return
+     */
+    List<Map<String,Object>> queryTotleVideoCourse1(Map<String, Object> papamMap);
 }

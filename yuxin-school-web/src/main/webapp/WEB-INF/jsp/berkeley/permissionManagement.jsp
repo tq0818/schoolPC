@@ -86,6 +86,7 @@
             <input type="hidden" name="type" id="type"/>
             <input type="hidden" name="userId" id="uIds"/>
             <input type="hidden" name="schoolId" id="schoolIds"/>
+            <input type="hidden" name="companyId" id="companyId" value="${companyId}"/>
         </form>
 
         <div class="u-wrap set-system">
@@ -134,8 +135,8 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="<%=rootPath %>/javascripts/system/systemAuth.js"></script>
-        <script type="text/javascript" src="<%=rootPath %>/javascripts/system/permissionManagement.js"></script>
+       <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/systemAuth.js"></script>
+        <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/permissionManagement.js"></script>
     </div>
 </div>
 <input type="hidden" value="5" id="pageSize">

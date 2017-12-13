@@ -25,6 +25,7 @@ public interface ISysPlayLogsService {
      * @return
      */
     PageFinder<UserVideoVo> queryUserVideoPage(UserVideoVo userVideoVo);
+    PageFinder<UserVideoVo> queryNewUserVideoPage(UserVideoVo userVideoVo);
 
     /**
      * 查询用户观看视频资源情况
@@ -32,6 +33,7 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<UserVideoVo> queryUserVideoList(UserVideoVo userVideoVo);
+    List<UserVideoVo> queryNewUserVideoList(UserVideoVo userVideoVo);
 
     /**
      * 查询视频资源播放情况

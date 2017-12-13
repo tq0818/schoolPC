@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.auth.AuthRole;
-import com.yuxin.wx.model.user.Users;
-import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.privilege.UserRolesListVo;
 /**
  * Service Interface:Users
@@ -20,8 +18,10 @@ public interface AuthRoleMapper extends BaseMapper<AuthRole> {
     void deleteByIds(String[] roleUids);
     
     List<UserRolesListVo> queryAllUser(UserRolesListVo search);
+    List<UserRolesListVo> queryNewAllUser(UserRolesListVo search);
     
     int queryAllUserCount(UserRolesListVo search);
+    int queryNewAllUserCount(UserRolesListVo search);
     
     List<AuthRole> findAuthRoleListByUser(Integer userId);
     

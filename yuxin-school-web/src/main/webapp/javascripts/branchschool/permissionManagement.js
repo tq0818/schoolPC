@@ -69,7 +69,7 @@
 				if(_this.condition)
 					data.condition = _this.condition;
 				$.ajax({
-					url : rootPath + "/permissionManger/queryUserRolesByCompanyId?companyId=18113",
+					url : rootPath + "/permissionManger/queryUserRolesByCompanyId?companyId="+$('#companyId').val(),
 					type : "post",
 					data : data,
 					beforeSend:function(XMLHttpRequest){
@@ -78,7 +78,6 @@
 			        },
 					success : function(result) {
 						$(".user-list").html(result);
-						console.log(result);
 						$("td.status").each(function(i){
 							if($(this).text()=="禁用"){
 								$(this).css("color","red");
@@ -100,7 +99,7 @@
 					 complete:function(XMLHttpRequest,textStatus){
 							$(".loading").hide();
 				            $(".loading-bg").hide();
-				            $.footerPosition({ cur: '.footer', pre: '.mainbackground' });
+				            // $.footerPosition({ cur: '.footer', pre: '.mainbackground' });
 				     }
 				});
 			},

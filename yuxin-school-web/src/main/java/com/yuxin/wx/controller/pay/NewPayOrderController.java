@@ -91,14 +91,15 @@ import com.yuxin.wx.vo.user.UsersFrontVo;
 import net.sf.json.JSONObject;
 
 /**
- * 订单
- *
- * @author chopin
- * @date 2015-3-12
+ * 
+ * @author jishangyang 2017年12月10日 下午10:51:21
+ * @ClassName NewPayOrderController
+ * @Description 订单管理
+ * @version V1.0
  */
 @Controller
-@RequestMapping("/payOrder")
-public class PayOrderController {
+@RequestMapping("/newPayOrder")
+public class NewPayOrderController {
 
     @Autowired
     private IPayOrderService payOrderServiceImpl;
@@ -285,9 +286,8 @@ public class PayOrderController {
         return "system/order";
     }
     @RequestMapping("/selOrder")
-    public String selOrder(Model model, HttpServletRequest request, Integer page, String payType, String payStatus, String startDate, String endDate,
+    public String selOrder(Model model, HttpServletRequest request,Integer companyId, Integer page, String payType, String payStatus, String startDate, String endDate,
                            String mobile, String payTime) {
-        Integer companyId = WebUtils.getCurrentCompanyId();
 
         Map<String, Object> map = new HashMap<String, Object>();
         int timeLen = -1;
@@ -359,6 +359,7 @@ public class PayOrderController {
         PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, 5, count, cpoList);
 
         model.addAttribute("payPage", payPage);
+        model.addAttribute("companyId", companyId);
         return "system/orderDetail";
     }
     @ResponseBody

@@ -349,6 +349,22 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         PageFinder<SysConfigTeacher> pageFinder = new PageFinder<SysConfigTeacher>(search.getPage(), search.getPageSize(), rowCount, teachers);
         return pageFinder;
     }
+    @Override
+    public PageFinder<SysConfigTeacher> findNewTeacherPage(SysConfigTeacher search) {
+        // TODO Auto-generated method stub
+        PageFinder<SysConfigTeacher> pageFinder = null;
+        Integer itemOneId = search.getItemOneId();
+        if (itemOneId == 0) {
+            List<SysConfigTeacher> teachers = sysConfigTeacherMapper.findByNewCompany(search);
+            int rowCount = sysConfigTeacherMapper.findByCompanyCount(search);
+            pageFinder = new PageFinder<SysConfigTeacher>(search.getPage(), search.getPageSize(), rowCount, teachers);
+        } else if (itemOneId > 0) {
+            List<SysConfigTeacher> teachers = sysConfigTeacherMapper.queryAllNewTeachersWithItemOneId(search);
+            int rowCount = sysConfigTeacherMapper.queryAllTeachersCountWithItemOneId(search);
+            pageFinder = new PageFinder<SysConfigTeacher>(search.getPage(), search.getPageSize(), rowCount, teachers);
+        }
+        return pageFinder;
+    }
 
     @Override
     public PageFinder<SysConfigTeacher> findTeacherPage(SysConfigTeacher search) {

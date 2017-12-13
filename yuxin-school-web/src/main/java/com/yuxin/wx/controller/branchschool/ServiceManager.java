@@ -2,7 +2,9 @@ package com.yuxin.wx.controller.branchschool;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,15 +38,23 @@ public class ServiceManager {
     private ISysConfigServiceService configService;
 
     @RequestMapping(value = "/getServiceManager/{companyId}")
-    public String getServiceManager(Model model,@PathVariable Integer companyId,SystemConfigServiceVo scsv){
+    public String getServiceManager(Model model,@PathVariable Integer companyId,Integer page,Integer pageSize,SystemConfigServiceVo scsv){
     	model.addAttribute("companyId", companyId);
         //获取服务类型及服务名称
-       List<SysConfigDict> scd = iSysConfigDictService.querSysConfigDictList(companyId);
+    	 Map<String, Object> map = new HashMap<String, Object>();
+    	 if(null==page || page ==0){
+    		 page=1; 
+    	 }
+    	 map.put("page", (page-1) * 10);
+         map.put("pageSize", 10);
+         map.put("companyId", companyId);
+        List<SysConfigDict> scd = iSysConfigDictService.querSysConfigDictList(map);
         //获取服务总数
         int count = iSysConfigDictService.querSysConfigDictCount(companyId);
 
-        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(scsv.getPage(),scsv.getPageSize(), count, scd);
+        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(page,10, count, scd);
         model.addAttribute("sysConfigDicts", pageFinder);
+        model.addAttribute("companyId", companyId);
 
         return "berkeley/serviceManagement";
     }

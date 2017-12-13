@@ -1,16 +1,16 @@
 package com.yuxin.wx.query.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.yuxin.wx.api.query.ISysPlayLogsService;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.query.mapper.SysPlayLogsMapper;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/10/30.
@@ -28,10 +28,22 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
                 userVideoVo.getPageSize(), rowCount, al);
         return pf;
     }
+    @Override
+    public PageFinder<UserVideoVo> queryNewUserVideoPage(UserVideoVo userVideoVo) {
+    	List<UserVideoVo> al = sysPlayLogsMapper.queryNewUserVideoPage(userVideoVo);
+    	Integer rowCount = sysPlayLogsMapper.queryNewUserVideoPageCount(userVideoVo);
+    	PageFinder<UserVideoVo> pf = new PageFinder<UserVideoVo>(userVideoVo.getPage(),
+    			userVideoVo.getPageSize(), rowCount, al);
+    	return pf;
+    }
 
     @Override
     public List<UserVideoVo> queryUserVideoList(UserVideoVo userVideoVo) {
         return sysPlayLogsMapper.queryUserVideoList(userVideoVo);
+    }
+    @Override
+    public List<UserVideoVo> queryNewUserVideoList(UserVideoVo userVideoVo) {
+    	return sysPlayLogsMapper.queryNewUserVideoList(userVideoVo);
     }
 
     @Override

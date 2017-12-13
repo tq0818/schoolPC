@@ -132,6 +132,7 @@
 <input type="hidden" id="haveFlow" value="${cms.videoFlow}" />
 <input type="hidden" id="videoUsedFlow" value="${css.videoFlow}" />
 <input type="hidden" id="ResourceUsedFlow" value="${css.resourceFlow}" />
+<input type="hidden" id="companyId" value="${companyId}" />
 <!-- 购买主体结束 -->
 <!-- ajax加载中div开始 -->
 <div class="loading lp-units-loading" style="display:none">
@@ -144,7 +145,7 @@
 
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/company/videoStatistics.js"></script>--%>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/company/resourceManger.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/resourceManger.js"></script>
 <script>
     //    左侧active切换
     $selectSubMenus('getVideoResourceAndMessageStatistics');

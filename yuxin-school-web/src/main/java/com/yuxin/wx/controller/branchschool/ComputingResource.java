@@ -1,5 +1,19 @@
 package com.yuxin.wx.controller.branchschool;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.yuxin.wx.api.company.ICompanyMemberServiceService;
 import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.company.ICompanyServiceStaticDayService;
@@ -12,15 +26,6 @@ import com.yuxin.wx.model.company.CompanyServiceStaticDay;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.util.FileQNUtils;
 import com.yuxin.wx.utils.DateUtil;
-import com.yuxin.wx.utils.WebUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 @Controller
 @RequestMapping("/computingResource")
@@ -45,13 +50,14 @@ public class ComputingResource {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/getVideoResourceAndMessageStatistics")
-    public String getVideoResource(Model model, Integer companyId) {
+    @RequestMapping(value = "/getVideoResourceAndMessageStatistics/{companyId}")
+    public String getVideoResource(Model model,@PathVariable Integer companyId) {
         Map<String, Object> companyMap = queryCompany(companyId);
         model.addAllAttributes(companyMap);
 
-        List<CompanyServiceStaticDay> dayList = dayService.findInfoByCompanyId(WebUtils.getCurrentCompanyId());
+        List<CompanyServiceStaticDay> dayList = dayService.findInfoByCompanyId(companyId);
         model.addAttribute("dayList", dayList);
+        model.addAttribute("companyId", companyId);
 
         return "berkeley/resourceManagement";
     }
@@ -94,13 +100,17 @@ public class ComputingResource {
     }
 
 
-    /**
-     * 流量统计详情
-     *
-     * @param model
-     * @param cssday
-     * @return
-     */
+   /**
+    * 
+    * @author jishangyang 2017年12月12日 上午1:52:22
+    * @Method: toVsAjaxInfo 
+    * @Description: 流量统计详情
+    * @param model
+    * @param cssday
+    * @param companyId
+    * @return 
+    * @throws
+    */
     @ResponseBody
     @RequestMapping(value = "/toVsAjaxInfo")
     public Map<String, Object> toVsAjaxInfo(Model model, CompanyServiceStaticDay cssday, Integer companyId) {

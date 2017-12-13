@@ -66,10 +66,12 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
     // -------------------//
 
     public List<SysConfigTeacher> queryAllTeachersWithItemOneId(SysConfigTeacher teacher);
+    public List<SysConfigTeacher> queryAllNewTeachersWithItemOneId(SysConfigTeacher teacher);
 
     Integer queryAllTeachersCountWithItemOneId(SysConfigTeacher teacher);
 
     List<SysConfigTeacher> findByCompany(SysConfigTeacher configTeacher);
+    List<SysConfigTeacher> findByNewCompany(SysConfigTeacher configTeacher);
 
     SysConfigTeacher findTeacherIdByMobile(SysConfigTeacher search);
 

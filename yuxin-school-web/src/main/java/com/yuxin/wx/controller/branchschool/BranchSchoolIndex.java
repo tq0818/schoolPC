@@ -49,7 +49,7 @@ public class BranchSchoolIndex {
     @RequestMapping(value = "/berkeleyOrder/{companyId}")
     public String gotobranchSchoolOrder(Model model,@PathVariable Integer companyId) {
     	model.addAttribute("companyId", companyId);
-        return "/berkeley/berkeleyOrder";
+        return "/berkeley/berkeleyNewOrder";
     }
     /**
      * 跳转到老师管理
@@ -78,8 +78,8 @@ public class BranchSchoolIndex {
      */
     @RequestMapping(value = "/permissionManagement/{companyId}")
     public String gotopermissionManagement(Model model,@PathVariable Integer companyId){
+    	List<AuthRole> roleList = authRoleServiceImpl.findByCompanyId(companyId);
     	model.addAttribute("companyId", companyId);
-    	List<AuthRole> roleList = authRoleServiceImpl.findAll();
     	model.addAttribute("roleList", roleList);
     	return "berkeley/permissionManagement";
     }

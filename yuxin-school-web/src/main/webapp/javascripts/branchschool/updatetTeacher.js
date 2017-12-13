@@ -245,6 +245,7 @@ $(function() {
 					+ moduleIds;
 				msg = "修改成功";
 			}
+
 			$.ajax({
 				type : "post",
 				data : $("#teacherManageForm").serialize(),
@@ -263,7 +264,8 @@ $(function() {
 				complete : function(XMLHttpRequest, textStatus) {
 					$(".loading").hide();
 					$(".loading-bg").hide();
-					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
+					window.location.href = rootPath
+						+ "/teacherManger/getFirstItems";
 				},
 			});
 		});

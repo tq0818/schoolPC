@@ -362,6 +362,7 @@ public interface ISysConfigTeacherService {
      * @return
      */
     PageFinder<SysConfigTeacher> findByCompanyPage(SysConfigTeacher search);
+    
 
     /**
      * 
@@ -375,6 +376,7 @@ public interface ISysConfigTeacherService {
      * @return
      */
     PageFinder<SysConfigTeacher> findTeacherPage(SysConfigTeacher search);
+    PageFinder<SysConfigTeacher> findNewTeacherPage(SysConfigTeacher search);
 
     /**
      * 

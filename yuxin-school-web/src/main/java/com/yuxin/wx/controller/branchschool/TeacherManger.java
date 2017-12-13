@@ -13,7 +13,6 @@ import com.yuxin.wx.model.system.SysConfigTeacherLesson;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
-
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.*;
 
 /**
@@ -64,12 +61,13 @@ public class TeacherManger {
         PageFinder<SysConfigTeacher> pageFinder = null;
         if (itemOneId != null) {
             if (itemOneId == 0) {
-            	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(teacher.getCompanyId());
+                //Users user = WebUtils.getCurrentUser();
+                int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(teacher.getCompanyId());
                 teacher.setSchoolId(schoolId);
                 teacher.setTeacherType(Constant.PERSON_TEACHER);
-                pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
+                pageFinder = sysConfigTeacherServiceImpl.findNewTeacherPage(teacher);
             } else if (itemOneId > 0) {
-                pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
+                pageFinder = sysConfigTeacherServiceImpl.findNewTeacherPage(teacher);
             }
         }
 
@@ -82,9 +80,10 @@ public class TeacherManger {
     public String getFirstItems(Model model,@PathVariable Integer companyId){
         // 查询当前分校中有哪些一级学科
     	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
-        List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId, schoolId);
+        List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId,schoolId);
         model.addAttribute("items", firstItems);
         model.addAttribute("companyId", companyId);
+        model.addAttribute("schoolId", schoolId);
         return "berkeley/teacherManagement";
     }
 
@@ -103,12 +102,13 @@ public class TeacherManger {
                       SysConfigTeacher sysConfigTeacher) {
         sysConfigTeacher.setPwd(new Md5Hash(sysConfigTeacher.getPwd(), ByteSource.Util.bytes(sysConfigTeacher.getUserName() + "salt")).toHex());
         Users user = WebUtils.getCurrentUser(request);
-        sysConfigTeacher.setSchoolId(user.getSchoolId());
+        int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(sysConfigTeacher.getCompanyId());
+        sysConfigTeacher.setSchoolId(schoolId);
         sysConfigTeacher.setCreator(user.getId());
         sysConfigTeacher.setCreateTime(new Date());
         sysConfigTeacher.setUpdateTime(new Date());
         sysConfigTeacher.setUpdator(user.getId());
-        sysConfigTeacher.setCompanyId(user.getCompanyId());
+        sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
         sysConfigTeacher.setDelFlag(0);
         sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
         sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
@@ -170,17 +170,16 @@ public class TeacherManger {
      * @param teacherId
      * @return
      */
-    @RequestMapping(value = "/updateOrAddTeacher", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateOrAddTeacher/{teacherId}/{companyId}", method = RequestMethod.GET)
     public String toTeacherUpdate(HttpServletRequest request, Model model,
-    		@RequestParam Map<String, Object> paramMap ) {
+                                  @PathVariable Integer teacherId,
+                                  @PathVariable Integer companyId) {
         // 根据老师ID查询对应的老师
-    	int teacherId = Integer.valueOf(paramMap.get("teacherId").toString());
-    	int companyId =Integer.valueOf(paramMap.get("companyId").toString());
-    	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
         SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findTeacherAndUserById(teacherId);
 
         // 根据老师ID查询该老师所属的公司所有的一级二级项目
         Map<String, Object> param = new HashMap<String, Object>();
+        int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
         param.put("companyId", companyId);
         param.put("schoolId", schoolId);
         //根据公司id 和学校id 查询 一级项目
@@ -266,22 +265,20 @@ public class TeacherManger {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add")
     public String add(HttpServletRequest request,
                       SysConfigTeacher sysConfigTeacher, String moduleIds) {
         sysConfigTeacher.setPwd(new Md5Hash(sysConfigTeacher.getPwd(),ByteSource.Util.bytes(sysConfigTeacher.getUserName()+"salt")).toHex());
         Users user = WebUtils.getCurrentUser(request);
-        int companyId=sysConfigTeacher.getCompanyId();
-        int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
-        sysConfigTeacher.setSchoolId(schoolId);
         sysConfigTeacher.setCreator(user.getId());
         sysConfigTeacher.setCreateTime(new Date());
         sysConfigTeacher.setUpdateTime(new Date());
         sysConfigTeacher.setUpdator(user.getId());
-        sysConfigTeacher.setCompanyId(companyId);
+        sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
         sysConfigTeacher.setDelFlag(0);
         sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
         sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
+        sysConfigTeacher.setCompanyId(null);
         sysConfigTeacherServiceImpl.isnertTeaAndUse(sysConfigTeacher);
 
         SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
@@ -311,7 +308,7 @@ public class TeacherManger {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(HttpServletRequest request, Model model,
-                         SysConfigTeacher sysConfigTeacher, String moduleIds, Integer companyId) {
+                         SysConfigTeacher sysConfigTeacher, String moduleIds,Integer companyId) {
 
         String pwd = sysConfigTeacher.getPwd();
         if(pwd != null && pwd != ""){
@@ -323,8 +320,7 @@ public class TeacherManger {
         if(sysConfigTeacher.getTeaOrAdu() == null || "".equals(sysConfigTeacher.getTeaOrAdu())){
             sysConfigTeacher.setTeaOrAdu("tea");
         }
-        sysConfigTeacher.setCreator(WebUtils.getCurrentUser(request).getId());
-        sysConfigTeacher.setSchoolId(WebUtils.getCurrentSchoolId());
+        sysConfigTeacher.setCreator(companyId);
         sysConfigTeacher.setCompanyId(companyId);
         sysConfigTeacherServiceImpl.updateTeaAndUse(sysConfigTeacher);
         return "success";

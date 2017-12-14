@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.auth.AuthRole;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
@@ -199,6 +200,55 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void eidtBerkeley(com.yuxin.wx.model.company.CompanyVo search);
 	public void editCompanyMemberService(CompanyMemberService cms);
 	public void editcompanyLiveConfig(CompanyLiveConfig clc);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月13日 下午5:05:26
+	 * @Method: findClassByEduAreaSchool 
+	 * @Description: 通过学校字典码 查询班级信息
+	 * @param eduAreaSchool
+	 * @return 
+	 * @throws
+	 */
+	public List<EduMasterClass> findClassByEduAreaSchool(String  eduAreaSchool);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月14日 下午12:05:50
+	 * @Method: findIsUsedClassByEduAreaSchool 
+	 * @Description: 查询可用班级
+	 * @param eduAreaSchool
+	 * @return 
+	 * @throws
+	 */
+	public List<EduMasterClass> findIsUsedClassByEduAreaSchool(String  eduAreaSchool);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月13日 下午5:05:51
+	 * @Method: addClass 
+	 * @Description:添加班级信息
+	 * @param saveList
+	 * @return 
+	 * @throws
+	 */
+	public void addClass(List<EduMasterClass> saveList);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月14日 下午2:36:47
+	 * @Method: editClass 
+	 * @Description: 修改班级信息
+	 * @param updateList 
+	 * @throws
+	 */
+	public void editClass(List<EduMasterClass> updateList);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月13日 下午5:20:46
+	 * @Method: findEduAreaByeduAreaSchool 
+	 * @Description: 通过学校字典码获取 区信息
+	 * @param saveList
+	 * @return 
+	 * @throws
+	 */
+	public String findEduAreaByeduAreaSchool(String  eduAreaSchool);
 
 	Integer findComanyIdByRootPath(String rootPath);
 }

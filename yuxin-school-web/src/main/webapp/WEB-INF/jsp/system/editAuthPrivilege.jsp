@@ -18,6 +18,8 @@
     </script>
 	<style>
 		.editToB select{margin: 5px 0}
+		.editDelete{color: red !important;}
+		.editToB{display: none;}
 	</style>
 </head>
 <body>
@@ -162,13 +164,14 @@
 	                        </c:forEach>
                         </li>
                 </c:forEach>
-					<li  class="editToB">
+
+					<li  class="editToB headmasterToB">
 						<p class="c-title" marks="3">
 							<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
 							<span>任课老师</span>
 						</p>
 
-						<p class="c" marks="12">
+						<p class="c" >
 							<span>科目：</span>
 							<select name="" id="">
 								<option value="">语文</option>
@@ -176,58 +179,58 @@
 								<option value="">英文</option>
 							</select>
 						</p>
-						<p class="c" marks="42">
+						<p class="c">
 							<span>班级：</span><br/>
 
-								<p class="c">
-									<select name="" id="">
-										<option value="">初2017</option>
-										<option value="">初2017</option>
-										<option value="">初2017</option>
-									</select>
-									<select name="" id="">
-										<option value="">一班</option>
-										<option value="">一班</option>
-										<option value="">一班</option>
-									</select>
-								</p>
-								<p class="c">
-									<select name="" id="">
-										<option value="">初2017</option>
-										<option value="">初2017</option>
-										<option value="">初2017</option>
-									</select>
-									<select name="" id="">
-										<option value="">一班</option>
-										<option value="">一班</option>
-										<option value="">一班</option>
-									</select>
-									<a href="##" class="editDelete">删除</a>
-								</p>
-								<p class="c">
-									<select name="" id="">
-										<option value="">初2017</option>
-										<option value="">初2017</option>
-										<option value="">初2017</option>
-									</select>
-									<select name="" id="">
-										<option value="">一班</option>
-										<option value="">一班</option>
-										<option value="">一班</option>
-									</select>
-									<a href="##" class="editDelete">删除</a>
-								</p>
+						<p class="c">
+							<select name="" id="">
+								<option value="">初2017</option>
+								<option value="">初2017</option>
+								<option value="">初2017</option>
+							</select>
+							<select name="" id="">
+								<option value="">一班</option>
+								<option value="">一班</option>
+								<option value="">一班</option>
+							</select>
+						</p>
+						<p class="c">
+							<select name="" id="">
+								<option value="">初2017</option>
+								<option value="">初2017</option>
+								<option value="">初2017</option>
+							</select>
+							<select name="" id="">
+								<option value="">一班</option>
+								<option value="">一班</option>
+								<option value="">一班</option>
+							</select>
+							<a href="##" class="editDelete">删除</a>
+						</p>
+						<p class="c">
+							<select name="" id="">
+								<option value="">初2017</option>
+								<option value="">初2017</option>
+								<option value="">初2017</option>
+							</select>
+							<select name="" id="">
+								<option value="">一班</option>
+								<option value="">一班</option>
+								<option value="">一班</option>
+							</select>
+							<a href="##" class="editDelete">删除</a>
+						</p>
 
-							<p class="c"><button class="btn btn-default addEdit">+</button></p>
+						<p class="c"><button class="btn btn-default addEdit">+</button></p>
 
 					</li>
-					<li  class="editToB">
-						<p class="c-title" marks="11">
+					<li  class="editToB classTeacherToB">
+						<p class="c-title">
 							<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
 							<span>班主任</span>
 						</p>
 
-						<p class="c" marks="56">
+						<p class="c" >
 							<span>班级：</span><br/>
 							<select name="" id="">
 								<option value="">初2017级</option>
@@ -292,14 +295,22 @@
 
 	});
 //	点击任课老师，出来任课老师权限
-    $('.editToB').hide();
+
 	$('.headmaster').click(function(){
-	    if($(this).hasClass('btn-success')){
-            $('.editToB').show();
+	    if(!$(this).hasClass('btn-success')){
+            $('.classTeacherToB').show();
         }else{
-            $('.editToB').hide();
+            $('.classTeacherToB').hide();
         }
 	});
+    $('.classTeacher').click(function(){
+        if(!$(this).hasClass('btn-success')){
+            $('.headmasterToB').show();
+        }else{
+            $('.headmasterToB').hide();
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -551,8 +551,8 @@
 		JOIN commodity com on com.id=pr.com_id and com.origin_type=0
 		LEFT JOIN sys_config_teacher t on t.id=a.teacher_id
 		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code  and a.company_id=b.company_id
-		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code  and a.company_id=b.company_id
-		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and a.company_id=b.company_id
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code  and a.company_id=c.company_id
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and a.company_id=d.company_id
 		where a.id = #{classId} and a.origin_type=0
 	</select>
 	
@@ -566,8 +566,8 @@
 		join class_type ct on ct.id=st.source_class_type_id
 		LEFT JOIN sys_config_teacher t on t.id=a.teacher_id
 		LEFT JOIN sys_config_item b on b.item_code = ct.item_one_code and ct.company_id=b.company_id
-		LEFT JOIN sys_config_item c on c.item_code = ct.item_second_code and ct.company_id=b.company_id
-		LEFT JOIN sys_config_item d on d.item_code = ct.item_third_code and ct.company_id=b.company_id
+		LEFT JOIN sys_config_item c on c.item_code = ct.item_second_code and ct.company_id=c.company_id
+		LEFT JOIN sys_config_item d on d.item_code = ct.item_third_code and ct.company_id=d.company_id
 		where a.is_out_source=1 and a.origin_type=0 and a.id = #{classId} 
 	</select>
 	

@@ -31,7 +31,7 @@
 <input type="hidden" id="twoSecItemCode" value="${classType.itemSecondCode }"/>
 <input type="hidden" id="itemThirdCode" value="${classType.itemThirdCode }"/>
 <input type="hidden" id="itemFourthCode" value="${classType.itemFourthCode }"/>
-<jsp:include page="/WEB-INF/jsp/classType/commonTitle.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonTitle.jsp"></jsp:include>
 <div class="u-wrap company overflow points-use-class">
 	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonClass.jsp"></jsp:include>
 	<div class="right-side">
@@ -67,9 +67,7 @@
                         <select name="itemSecondCode" id="itemSecondCodeList" onchange="Form.queryItemThird()">
                             <option  value="" data-id="">请选择</option>
                         </select>
-                        <c:if test="${empty typeItems }">
                             <input type="text" class="readonly" id="itemSecondName" marks="${classType.itemSecondCode }" value="${classType.itemSecondName}" readonly/>
-                        </c:if>
                     </span>
                 </p>
                 <p class="c">

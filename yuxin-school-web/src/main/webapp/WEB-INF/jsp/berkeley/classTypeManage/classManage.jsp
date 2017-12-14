@@ -13,6 +13,7 @@
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/classManage.js"></script>
+	<script type="text/javascript" src="<%=rootPath %>/javascripts/common/DateUtils.js"></script>
     <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
     <style type="text/css">
         .head-div {
@@ -103,12 +104,12 @@
     <div class="user-list">
             <table class="table table-center">
                 <tr data-buy="true">
-                    <th width="5%">序号</th>
-                    <th width="10%">课程名称</th>
+                    <th width="4%">序号</th>
+                    <th width="15%">课程名称</th>
                     <th width="10%">课程</th>
-                    <th width="10%">所属学校</th>
-                    <th width="10%">课程详情</th>
-                    <th width="10%">操作</th>
+                    <th width="15%">所属学校</th>
+                    <th width="6%">课程详情</th>
+                    <th width="6%">操作</th>
                 </tr>
                <tbody class="searchList"> 
                </tbody>
@@ -118,6 +119,15 @@
             </div>
         </div>
 </div>
+
+<div class="popupShowCourse">
+    <h5>课程排课信息</h5>
+    <button class="btn btn-primary closePopupShowCourse">关闭</button>
+    <div class="item-panel courseliList">
+    sadas
+    </div>
+</div>
+
 <!-- ajax加载中div开始 -->
 <div class="loading lp-units-loading" style="display: none">
     <p>

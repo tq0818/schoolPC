@@ -18,13 +18,13 @@
 .berkeleyOperate button{margin: 10px;}
 
 .createBranch,.addCourse{float: right;margin-right: 20px;}
-.popupContainerCourse,.popupAddCourse{display: none;width: 800px;height: 300px;position: fixed;left: 50%;top: 50%;
+.popupContainerCourse,.popupAddCourse{display: none;width: 800px;height: 300px;position: fixed;left: 50%;top: 30%;
 margin-left: -400px;margin-top: -150px;background: #fff;z-index: 100;text-align: center;}
 .popupContainerCourse h5,.popupAddCourse h5{height: 60px;line-height: 60px;}
 .popupAddCourse{padding: 0 52px}
 .popupAddCourse h5{border-bottom: 1px solid #f6f6f6;font-size: 16px;color: #333333;}
 .popupCourseContent{height: 160px;text-align: left;overflow: auto;margin-bottom: 10px;}
-.popupAddCourse{height: 400px;}
+.popupAddCourse{height: 600px;}
 .popupAddCourse label{display: inline-block;}
 .closePopupAddCourse{position: absolute;right: 10px;top: 10px;}
 .classSetting{box-shadow:  0 3px 5px #999;border-radius: 3px;display: inline-block;margin: 10px 63px;width: 220px;

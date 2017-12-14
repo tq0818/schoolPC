@@ -25,7 +25,7 @@
 	<!-- 主菜单 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_class.jsp"></jsp:include>
 	<!-- 标题 -->
-	<jsp:include page="/WEB-INF/jsp/classType/commonTitle.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonTitle.jsp"></jsp:include>
 	<input type="hidden"   class="classTypeId"  value="${ct.id }">
 	<input type="hidden"   class="studentName" />
 	<input type="hidden"   class="mobile_num" />

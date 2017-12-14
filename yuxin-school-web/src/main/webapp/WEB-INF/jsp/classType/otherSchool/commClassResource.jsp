@@ -53,7 +53,7 @@
 <input type="hidden" value="${ct.name }" id="classtypeName">
 
 <jsp:include page="/WEB-INF/jsp/menu/menu_class.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/classType/commonTitle.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonTitle.jsp"></jsp:include>
 <div class="u-wrap company overflow points-use-class">
 	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonClass.jsp"></jsp:include>
 	<div class="right-side">

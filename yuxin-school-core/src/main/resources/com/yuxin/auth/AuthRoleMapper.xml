@@ -203,6 +203,28 @@
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
 	</select>
 	
+	
+	<select id="queryNewAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
+		select t2.role_name,u.id,u.username,u.real_name,u.sex,u.status,u.mobile,u.company_id,u.school_id,t2.company_id from users u
+		INNER JOIN auth_user_role t1 ON t1.user_id=u.id 
+		INNER JOIN auth_role t2 ON t2.id=t1.role_uid 
+		where t2.company_id=#{companyId} 
+		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryNewAllUserCount" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultType="int">
+		select count(u.id) from users u
+		INNER JOIN auth_user_role t1 ON t1.user_id=u.id 
+		INNER JOIN auth_role t2 ON t2.id=t1.role_uid 
+		where t2.company_id=#{companyId} 
+		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+	</select>
+	
 	<select id="findByCompanyId" resultMap="authRoleResultMap" parameterType="Integer">
 		select <include refid="table_columns" />
 		from auth_role

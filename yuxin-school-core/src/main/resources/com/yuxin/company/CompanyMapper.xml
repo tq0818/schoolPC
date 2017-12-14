@@ -1252,6 +1252,15 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
 		inner join company c on scs.company_id=c.id and c.is_area=0;
 	</insert>
+	<!-- 添加学校-->
+	<insert id="addSchool" parameterType="string" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `sys_config_school` (school_name,school_desc,create_time,
+		creator,del_flag,company_id,default_flag,overview,
+		index_domain,xzqh_code,school_type,suffix)
+		select #{schoolName},#{schoolDesc},NOW(),
+		#{creator},0,#{companyId},null,overview,
+		index_domain,xzqh_code,school_type,suffix from sys_config_school 
+	</insert>
 	<!-- 添加一级科目信息-->
 	<insert id="addSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
@@ -1280,9 +1289,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addSysConfigAndSchool" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_school_item_relation
 		(school_id,item_id,del_flag,create_time,creator,true_del_flag)
-		select 
-		(select t2.id from sys_config_dict t2 LEFT JOIN company t3 ON t3.edu_area_school=t2.item_code where t3.id=#{companyId}) as school_id,
-		t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
+		select  #{schoolId}, t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
 
 	</insert>
 	<!-- 添加角色-->
@@ -1294,7 +1301,14 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
 	  update auth_role set role_uid=id where role_uid is null
 	</update>
-	
+	<!-- 添加角色菜单关系-->
+	<insert id="addAuthPrivilegeCategory" parameterType="int" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO auth_role_privilege (role_uid,privilege_id,create_time) 
+		select t1.id,t3.privilege_id,NOW() from auth_role t1
+		INNER JOIN auth_role t2 ON t1.role_name=t2.role_name
+		INNER JOIN  auth_role_privilege t3  ON t3.role_uid=t2.role_uid
+		where t1.company_id=#{companyId} and t2.company_id=18113;
+	</insert>
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
 		select <include refid="table_columns_company" /> from company t1

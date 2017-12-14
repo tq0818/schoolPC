@@ -3,7 +3,6 @@
     <%@include file="/decorators/import.jsp" %>
 <input type="hidden" value="${payPage.rowCount }" id="rowCount"/>
 <input type="hidden" value="${payPage.pageNo }" id="pageNo"/>
-<input type="hidden" value="${companyId}" id="companyId"/>
 <ul>
 <c:forEach var="order" items="${payPage.data }">
 	<li>
@@ -12,7 +11,7 @@
             <col width="30%">
             <col width="25%">
             <tr>
-                <td> 
+                <td>
                     <span class="a-title">订单编号：</span>
                     <span class="a-content">${order.orderNum }</span>
                 </td>

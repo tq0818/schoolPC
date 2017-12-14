@@ -16,6 +16,9 @@
     		$selectSubMenu('sys_user_auth');
     	});
     </script>
+	<style>
+		.editToB select{margin: 5px 0}
+	</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"></jsp:include>
@@ -124,6 +127,9 @@
             			</c:otherwise>
             		</c:choose>
             	</c:forEach>
+				<a href="##" class="btn btn-mini btn-default headmaster">班主任</a>
+				<a href="##" class="btn btn-mini btn-default classTeacher">任课老师</a>
+
             </div>
             <div id="org-manage-list" style="display: none;">
              <div class="sm-heading">
@@ -154,8 +160,87 @@
 		                            <span>${childCategory.description }</span>
 		                        </p>
 	                        </c:forEach>
-                       </li>
+                        </li>
                 </c:forEach>
+					<li  class="editToB">
+						<p class="c-title" marks="3">
+							<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
+							<span>任课老师</span>
+						</p>
+
+						<p class="c" marks="12">
+							<span>科目：</span>
+							<select name="" id="">
+								<option value="">语文</option>
+								<option value="">数文</option>
+								<option value="">英文</option>
+							</select>
+						</p>
+						<p class="c" marks="42">
+							<span>班级：</span><br/>
+
+								<p class="c">
+									<select name="" id="">
+										<option value="">初2017</option>
+										<option value="">初2017</option>
+										<option value="">初2017</option>
+									</select>
+									<select name="" id="">
+										<option value="">一班</option>
+										<option value="">一班</option>
+										<option value="">一班</option>
+									</select>
+								</p>
+								<p class="c">
+									<select name="" id="">
+										<option value="">初2017</option>
+										<option value="">初2017</option>
+										<option value="">初2017</option>
+									</select>
+									<select name="" id="">
+										<option value="">一班</option>
+										<option value="">一班</option>
+										<option value="">一班</option>
+									</select>
+									<a href="##" class="editDelete">删除</a>
+								</p>
+								<p class="c">
+									<select name="" id="">
+										<option value="">初2017</option>
+										<option value="">初2017</option>
+										<option value="">初2017</option>
+									</select>
+									<select name="" id="">
+										<option value="">一班</option>
+										<option value="">一班</option>
+										<option value="">一班</option>
+									</select>
+									<a href="##" class="editDelete">删除</a>
+								</p>
+
+							<p class="c"><button class="btn btn-default addEdit">+</button></p>
+
+					</li>
+					<li  class="editToB">
+						<p class="c-title" marks="11">
+							<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
+							<span>班主任</span>
+						</p>
+
+						<p class="c" marks="56">
+							<span>班级：</span><br/>
+							<select name="" id="">
+								<option value="">初2017级</option>
+								<option value="">初2017级</option>
+								<option value="">初2017级</option>
+							</select>
+							<select name="" id="">
+								<option value="">十一班</option>
+								<option value="">一班</option>
+								<option value="">一班</option>
+							</select>
+						</p>
+					</li>
                 </ul>
             </div>
             <div id="contactTeacher" style="display: none;">
@@ -185,5 +270,36 @@
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/system/editSystemAuth.js"></script>
  <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
+
+
+<script>
+    <%--任课老师点击删除，删除该班级--%>
+	$('.editToB').on('click','.editDelete',function(){
+	    $(this).parent('.c').remove();
+	});
+//	点击增加，增加一行
+	$('.addEdit').click(function(){
+	    	var _html = `<p class="c">
+									<select name="" id="">
+										<option value="">初2017</option>
+									</select>
+									<select name="" id="">
+										<option value="">一班</option>
+									</select>
+									<a href="##" class="editDelete">删除</a>
+					  </p>`;
+			$(this).parent('.c').before(_html);
+
+	});
+//	点击任课老师，出来任课老师权限
+    $('.editToB').hide();
+	$('.headmaster').click(function(){
+	    if($(this).hasClass('btn-success')){
+            $('.editToB').show();
+        }else{
+            $('.editToB').hide();
+        }
+	});
+</script>
 </body>
 </html>

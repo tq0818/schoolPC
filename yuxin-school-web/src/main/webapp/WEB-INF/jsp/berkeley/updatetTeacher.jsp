@@ -7,12 +7,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>教师管理</title>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/resource.css"/>
+ <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 <link href="<%=rootPath%>/stylesheets/user.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/jquery.datetimepicker.css" />
 <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/plugins/jcrop/css/jquery.Jcrop.css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/bootstrap-fileupload/bootstrap-fileupload.css" />
-<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
-<style type="text/css">
+    <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
+    <style type="text/css">
     	.classes .mainbackground .c-main .add-classes p.h{
     		margin-bottom: 15px;
     	}
@@ -24,14 +25,13 @@
 <script type="text/javascript" src="<%=rootPath %>/plugins/jcrop/js/jquery.Jcrop.js"></script>
    <script type="text/javascript" src="<%=rootPath %>/javascripts/resource/teacher/headPicInit.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacherOld.js"></script>
-	<%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/updatetTeacher.js"></script> --%>
+<%-- 	<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley/updatetTeacher.js"></script> --%>
 <style>
 	.hide{display:none}
 	.show{display:block}
 </style>
 	<%--tob--%>
-	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
+	
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
 	<script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
@@ -64,9 +64,11 @@ $(function(){
 
 </script>
 	<!-- 二级导航开始 -->
-	<%@include file="/WEB-INF/jsp/menu/menu_resource.jsp"%>
+	<jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
+	<div class="u-wrap admin overflow">
 	<!-- 二级导航结束 -->
-	
+		<jsp:include page="/WEB-INF/jsp/menu/menu_berkeleyLeft.jsp"></jsp:include>
+	<div class="right-side">
 	<!--  内容开始 -->
 		<div class="u-wrap resource">
 		
@@ -104,7 +106,7 @@ $(function(){
                     <li>
                     	<div style="width: 130px;margin-left: 80px;    text-align: center;">
 			                <c:if test="${!empty teacher.headpicUrl }">
-		                		<img id='choiceHead' src="${imgUrl}${teacher.headpicUrl}" width='130' height=85'/>
+		                		<img id='choiceHead' src="${imgUrl}${teacher.headpicUrl}" width='130' height='85'/>
 		                	</c:if>
 		                	<c:if test="${empty teacher.headpicUrl }">
 		                		<img id='choiceHead' width='130' height='130' src="<%=rootPath%>/images/headpic.png" />
@@ -452,12 +454,14 @@ $(function(){
 		            <!--ceshi后台git提交  -->
 		            <div class="m-bo text-center" >
 		                <a href="javascript:;" class="btn btn-sm btn-primary">保存</a>
-		                <a href="<%=rootPath%>/teacherManger/getFirstItems/${companyId}" class="btn btn-sm btn-default">取消</a>
+		                <a href="<%=rootPath%>/teacherManger/getFirstItems" class="btn btn-sm btn-default">取消</a>
 		            </div>
 		        </div>
 		        </form>
 		    </div>
 		</div>
+		</div>
+	</div>	
 	<!--  内容结束 -->
 	<!-- 修改 -->
 	<div class="add-subs-layer-bg">
@@ -508,7 +512,7 @@ $(function(){
         </div>
     </div>
 	</div>
-</div>
+	
 <input type="hidden" id="imgUrl" value="${imgUrl}"/>
 <input type="hidden" value="${teaStatus}" id="teaStatus"/>
 

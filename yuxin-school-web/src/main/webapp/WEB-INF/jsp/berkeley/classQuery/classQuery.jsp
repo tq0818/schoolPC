@@ -76,7 +76,6 @@
         </div>
     </div>
 </div>
-<input type="hidden" value="5" id="pageSize">
 
 <!-- ajax加载中div开始 -->
 <div class="loading lp-units-loading" style="display: none">

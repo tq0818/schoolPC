@@ -3,15 +3,14 @@ package com.yuxin.wx.auth.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuxin.wx.api.auth.IAuthRolePrivilegeService;
 import com.yuxin.wx.auth.mapper.AuthRolePrivilegeMapper;
-import com.yuxin.wx.model.auth.AuthRole;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.model.auth.AuthRolePrivilege;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.PrivilegeVo;
@@ -178,9 +177,11 @@ public class AuthRolePrivilegeServiceImpl extends BaseServiceImpl implements IAu
 
 	@Override
 	public List<PrivilegeVo> findUserPrivileges(String roleId) {
-		// TODO Auto-generated method stub
 		return authRolePrivilegeMapper.findUserPrivileges(roleId);
 	}
- 
+	@Override
+	public List<PrivilegeVo> findNewUserPrivileges(String roleId) {
+		return authRolePrivilegeMapper.findNewUserPrivileges(roleId);
+	}
 	
 }

@@ -465,4 +465,15 @@ public interface IClassTypeService  {
 	int queryCountClassOfBranchSchool(Map<String, Object> param);
 	
 	
+	/**
+	 * 查询其他分校的直播课程
+	 */
+	List<ClassTypeVo> queryLiveClassOfOtherSchool(Map<String, Object> param);
+
+	/**
+	 * 查询其他分校的直播课程
+	 */
+	int queryCountLiveClassOfOtherSchool(Map<String, Object> param);
+	
+	
 }

@@ -133,6 +133,11 @@
 		from auth_role_privilege rp left join auth_privilege p on rp.privilege_id=p.id 
 		where rp.role_uid=#{roleUid} 
 	</select>
+	<select id="findNewUserPrivileges" resultType="com.yuxin.wx.vo.privilege.PrivilegeVo" parameterType="int">
+		select p.id, rp.role_uid roleUid,p.create_time createTime,p.creator,p.update_time updateTime,p.updator,p.privilege_name privilegeName,p.description ,p.privilege_category_id privilegeCategoryId,p.company_id companyId
+		from auth_role_privilege rp INNER join auth_privilege p on rp.privilege_id=p.id 
+		where rp.role_uid=#{roleUid} 
+	</select>
 	
 	<!-- 根据角色编号查询菜单 -->
 	<select id="findUserCatgters" resultType="com.yuxin.wx.vo.privilege.PrivilegeVo" parameterType="int">

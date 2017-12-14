@@ -102,6 +102,8 @@ public interface IClassModuleNoService  {
 	 */
 	ClassModuleNo findClassModuleNoById(Integer id);
 	
+
+	ClassModuleNo findClassModuleNoByModuleId(Integer moduleId);
 	
 	/**
 	 * 

@@ -46,4 +46,8 @@ public interface IClassTypeOfBranchSchoolService  {
 	List<ClassTypeResourceVo> findResBy(ClassTypeResource res);
 	
 	Integer findResCountBy(ClassTypeResource res);
+	
+	Integer findSchoolShareClassType(Map<String, String> param);
+	
+	String copyClassTypeToTargetCompany(Map<String, String> param) throws Exception;
 }

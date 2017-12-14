@@ -82,7 +82,13 @@
         </div>
     </div>
 </div>
-<input type="hidden" value="5" id="pageSize">
+<form id="myForm" method ="POST"  action ="<%=rootPath %>/serviceManager/getServiceManager/${companyId}" >
+<input type="hidden" name="page" id="page" >
+<input type="hidden" value="10" id="pageSize">
+<input type="hidden" name="companyId" value="${companyId}" id="companyId">
+</form>
+
+
 <%--<div class="pages">
     <ul class="pagination"></ul>
 </div>--%>
@@ -98,8 +104,9 @@
             items_per_page : '${sysConfigDicts.pageSize}',
             num_edge_entries : 1,
             callback:function(page,jq){
-                var pageNo = page + 1;
-                Form.queryUserRolesList(pageNo,"");
+            	var pageNo = page + 1;
+            	$("#page").val(pageNo);
+            	document.getElementById("myForm").submit();
             }
         });
     });
@@ -136,6 +143,7 @@ function closeBtn(companyId,itemCode,delFlag) {
         }
     });
 }
+
 </script>
 <script>
     //    左侧active切换

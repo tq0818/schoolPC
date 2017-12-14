@@ -536,4 +536,17 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		return classTypeMapper.queryCountClassOfBranchSchool(param);
 	}
 
+	@Override
+	public List<ClassTypeVo> queryLiveClassOfOtherSchool(
+			Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeMapper.queryLiveClassOfOtherSchool(param);
+	}
+
+	@Override
+	public int queryCountLiveClassOfOtherSchool(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeMapper.queryCountLiveClassOfOtherSchool(param);
+	}
+
 }

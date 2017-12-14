@@ -91,7 +91,26 @@ public class ClassType extends BaseEntity {
     private Integer isPublic;  //是否公开课程
     private Double publicPrice; //公开课程价格
     
-    public Integer getIsOutSource() {
+    private Integer sourceCompanyId;
+    private Integer sourceClassTypeId;
+    
+    public Integer getSourceCompanyId() {
+		return sourceCompanyId;
+	}
+
+	public void setSourceCompanyId(Integer sourceCompanyId) {
+		this.sourceCompanyId = sourceCompanyId;
+	}
+
+	public Integer getSourceClassTypeId() {
+		return sourceClassTypeId;
+	}
+
+	public void setSourceClassTypeId(Integer sourceClassTypeId) {
+		this.sourceClassTypeId = sourceClassTypeId;
+	}
+
+	public Integer getIsOutSource() {
 		return isOutSource;
 	}
 

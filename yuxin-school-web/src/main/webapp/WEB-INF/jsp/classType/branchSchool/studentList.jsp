@@ -402,6 +402,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$chooseMenu("studentsCode");
+	$selectMenu("course_class_type");
 });
 </script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/class/branchschool/studentlist.js"></script>

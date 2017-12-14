@@ -74,7 +74,6 @@ function selOrder(pageNo){
 	var payTime = $(".btn-sm.btn-success").eq(2).attr("mark");
 	var startDate = $("#startDate").val();
 	var endDate = $("#endDate").val();
-	var companyId = $("#companyId").val();
 	if(startDate == null || startDate ==""){
 		startDate = null;
 	}
@@ -85,7 +84,7 @@ function selOrder(pageNo){
 	$.ajax({
 		url : rootPath + "/payOrder/selOrder",
 		type:"post",
-		data:{"companyId": companyId ,"page":pageNo,"pageSize":5,"payStatus":payStatus, "payType":payType, "mobile":$("#mobile").val(), "startDate":startDate, "endDate":endDate, "payTime":payTime},
+		data:{"page":pageNo,"pageSize":5,"payStatus":payStatus, "payType":payType, "mobile":$("#mobile").val(), "startDate":startDate, "endDate":endDate, "payTime":payTime},
 		dataType:"html",
 		beforeSend:function(XMLHttpRequest){
               $(".loading").show();

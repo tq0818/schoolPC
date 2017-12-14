@@ -398,4 +398,5 @@ public interface IUsersService  {
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    
 }

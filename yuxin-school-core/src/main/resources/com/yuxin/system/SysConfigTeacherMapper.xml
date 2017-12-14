@@ -130,6 +130,50 @@
 		school_short_name,
 		remark
 	</sql>
+	<sql id="table_columns_new">
+		t1.id,
+		t1.name,
+		t1.teacher_type,
+		t1.sex,
+		t1.mobile,
+		t1.home_phone,
+		t1.birthday,
+		t1.id_number,
+		t1.email,
+		t1.job_type,
+		t1.home_address,
+		t1.address,
+		t1.company,
+		t1.post,
+		t1.work_phone,
+		t1.emergency_contact_name,
+		t1.emergency_contact_phone,
+		t1.work_time,
+		t1.school_id,
+		t1.unionpay_no,
+		t1.bank_name,
+		t1.bank_account_name,
+		t1.bank_account_num,
+		t1.status_code,
+		t1.del_flag,
+		t1.create_time,
+		t1.creator,
+		t1.update_time,
+		t1.updator,
+		t1.company_id,
+		t1.resume,
+		t1.education_code,
+		t1.headpic_url,
+		t1.user_id,
+		t1.is_distinguished,
+		t1.invite_code,
+		t1.teacher_level,
+		t1.teacher_area,
+		t1.school_name,
+		t1.sort_id,
+		t1.school_short_name,
+		t1.remark
+	</sql>
 	<sql id="entity_properties">
 		#{id},
 		#{name},
@@ -544,8 +588,8 @@
 		select
 		<include refid="table_columns" />
 		from sys_config_teacher
-		where del_flag = 0 and company_id =
-		#{companyId} and school_id = #{schoolId}
+		where del_flag = 0 and company_id = #{companyId}
+		and school_id = #{schoolId}
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
 				and (teacher_type = 'PERSON_MANAGER' or teacher_type =
@@ -560,25 +604,46 @@
 		and status_code = 'TEACHER_USERD' order by sort_id is null, sort_id asc, create_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>
+	<select id="findByNewCompany" resultMap="sysConfigTeacherResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		select t1.*  from sys_config_teacher t1
+		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
+		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id
+		where t1.del_flag = 0 and t3.company_id = #{companyId} 
+		<if test="teacherType != null and teacherType != ''">
+			<if test="teacherType == 'all'">
+				and (t1.teacher_type = 'PERSON_MANAGER' or t1.teacher_type =
+				'PERSON_ASSISTANT' or t1.teacher_type = 'PERSON_WAITER')
+			</if>
+			<if test="teacherType != 'all'">
+				and t1.teacher_type = #{teacherType}
+			</if>
+		</if>
+		<if test="mobile != null and mobile != ''">and t1.mobile = #{mobile}</if>
+		<if test="name != null and name != ''">and t1.name LIKE '%${name}%'</if>
+		and t1.status_code = 'TEACHER_USERD' order by t1.sort_id is null, t1.sort_id asc, t1.create_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
 
 	<select id="findByCompanyCount" resultType="Integer"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select count(id)
-		from sys_config_teacher
-		where del_flag = 0 and company_id = #{companyId}
-		and school_id = #{schoolId}
-		<if test="teacherType != null and teacherType != ''">
+		select count(t1.id)
+		from sys_config_teacher t1
+		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
+		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id
+		where t1.del_flag = 0 and t3.company_id = #{companyId} 
+				<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
-				and (teacher_type = 'PERSON_MANAGER' or teacher_type =
-				'PERSON_ASSISTANT' or teacher_type = 'PERSON_WAITER')
+				and (t1.teacher_type = 'PERSON_MANAGER' or t1.teacher_type =
+				'PERSON_ASSISTANT' or t1.teacher_type = 'PERSON_WAITER')
 			</if>
 			<if test="teacherType != 'all'">
-				and teacher_type = #{teacherType}
+				and t1.teacher_type = #{teacherType}
 			</if>
 		</if>
-		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
-		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		and status_code = 'TEACHER_USERD' order by sort_id is null,sort_id asc
+		<if test="mobile != null and mobile != ''">and t1.mobile = #{mobile}</if>
+		<if test="name != null and name != ''">and t1.name LIKE '%${name}%'</if>
+		and t1.status_code = 'TEACHER_USERD'  order by sort_id is null,sort_id asc
 	</select>
 
 	<select id="findTeacherIdByMobile" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -626,6 +691,40 @@
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
 		AND sct.del_flag = 0 AND sctl.item_one_id =
+		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryAllNewTeachersWithItemOneId" resultMap="sysConfigTeacherResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		SELECT
+		sct.id,
+		sct.`name`,
+		sct.mobile,
+		sct.home_phone,
+		sct.sex,
+		sct.birthday,
+		sct.id_number,
+		sct.email,
+		sct.home_address,
+		sct.address,
+		sct.bank_name,
+		sct.bank_account_name,
+		sct.bank_account_num,
+		sct.work_phone,
+		sct.emergency_contact_name,
+		sct.emergency_contact_phone,
+		sct.resume,
+		sct.sort_id,
+		sct.is_distinguished,
+		sct.remark
+		FROM
+		sys_config_teacher sct
+		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
+		sctl.teacher_id
+		WHERE
+		sct.teacher_type = 'PERSON_TEACHER'
+		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
+		AND sct.del_flag = 0 AND sctl.item_second_id =
 		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc
 		limit #{firstIndex},#{pageSize}
 	</select>

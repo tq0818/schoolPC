@@ -200,6 +200,85 @@
 		<result property="oldData" column="old_data"></result>
 	</resultMap>
     
+    <resultMap type="com.yuxin.wx.model.commodity.Commodity" id="commodityResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="coverUrl" column="cover_url" />
+		<result property="overview" column="overview" />
+		<result property="originalPrice" column="original_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="type" column="type" />
+		<result property="itemOneId" column="item_one_id" />
+		<result property="itemSecondId" column="item_second_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="cerateTime" column="cerate_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="status" column="status" />
+		<result property="lableType" column="lable_type" />
+		<result property="baseNum" column="base_num" />
+		<result property="faceFlag" column="face_flag" />
+		<result property="liveFlag" column="live_flag" />
+		<result property="videoFlag" column="video_flag" />
+		<result property="remoteFlag" column="remote_flag" />
+		<result property="recommendFlag" column="recommend_flag" />
+		<result property="buyNum" column="buy_num" />
+		<result property="itemTag" column="item_tag"/>
+		<result property="integralFlag" column="integral_flag"/>
+		<result property="memberFlag" column="member_flag"/>
+		<result property="itemOneCode" column="item_one_code" />
+		<result property="itemSecondCode" column="item_second_code" />
+		<result property="itemThirdCode" column="item_third_code" />
+		<result property="itemFourthCode" column="item_fourth_code" />
+		<result property="isMicroClass" column="is_micro_class" />
+	</resultMap>
+    
+    <resultMap type="com.yuxin.wx.vo.course.CourseExerciseVo" id="courseExerciseVoResultMap">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="resourceType" column="resource_type" />
+		<result property="resourceId" column="resource_id" />
+		<result property="exerciseType" column="exercise_type" />
+		<result property="tikuResourceType" column="tiku_resource_type" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		<result property="tikuChapterId" column="tiku_chapter_id" />
+		<result property="tikuSectionId" column="tiku_section_id" />
+		<result property="topicNum" column="topic_num" />
+		<result property="paperId" column="paper_id" />
+		<result property="companyId" column="company_id" />
+		<result property="subjectName" column="subject_name" />
+	</resultMap>
+    
+    <resultMap type="com.yuxin.wx.model.tiku.TikuTopic" id="tikuTopicResultMap">
+		<result property="id" column="id" />
+		<result property="topicName" column="topic_name" />
+		<result property="topicNameBlank" column="topic_name_blank" />
+		<result property="topicType" column="topic_type" />
+		<result property="score" column="score" />
+		<result property="answer" column="answer" />
+		<result property="difficulty" column="difficulty" />
+		<result property="analyseWord" column="analyse_word" />
+		<result property="analyseVideoUrl" column="analyse_video_url" />
+		<result property="analyseAudioUrl" column="analyse_audio_url" />
+		<result property="parentId" column="parent_id" />
+		<result property="status" column="status" />
+		<result property="tikuSubjectId" column="tiku_subject_id" />
+		<result property="tikuCategoryId" column="tiku_category_id" />
+		<result property="companyId" column="company_id" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="updator" column="updator" />
+		<result property="updateTime" column="update_time" />
+		<result property="auditor" column="auditor" />
+		<result property="auditTime" column="audit_time" />
+		<result property="paperFlag" column="paper_flag" />
+		<result property="childFlag" column="child_flag" />
+		<result property="correctFlag" column="correct_flag" />
+	</resultMap>
+    
 	<sql id="table_columns">
 		id,
 		name,
@@ -247,6 +326,7 @@
 		item_fourth_code,
 		is_micro_class,
 		paper_description,
+		is_out_source,
 		is_public,
 		public_price
     </sql>
@@ -298,6 +378,7 @@
 		#{itemFourthCode},
 		#{isMicroClass},
 		#{paperDescription},
+		#{isOutSource},
 		#{isPublic},
 		#{publicPrice}
 	</sql>
@@ -368,6 +449,7 @@
 		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code
 		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code
 		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
+			  and ct.is_out_source=0	
 			<if test="schoolCode != null and schoolCode != ''">
 				and c1.edu_area_school=#{schoolCode}
 			</if>
@@ -404,6 +486,7 @@
 			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
 		</if>
 		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
+			   and ct.is_out_source=0	
 			<if test="schoolCode != null and schoolCode != ''">
 				and c1.edu_area_school=#{schoolCode}
 			</if>
@@ -553,5 +636,98 @@
 			r.resource_type is not null and 
 			r.resource_type != '' and rl.del_flag = 0 
 			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
+	</select>
+	
+		<!-- 适用于主键自增类型 -->
+	<insert id="insertClassType" parameterType="com.yuxin.wx.model.classes.ClassType" useGeneratedKeys="true" keyProperty="id">
+		insert into class_type( <include refid="table_columns" /> ) 
+		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<select id="findCommodityByClassTypeId"  parameterType="Integer"  resultMap="commodityResultMap">
+		SELECT c.* from commodity c,commodity_product_realtion p
+		where c.id=p.com_id and p.product_id=#{classTypeId} and c.origin_type=0
+	</select>
+	
+	<insert id="insertCommodity" parameterType="com.yuxin.wx.model.commodity.Commodity" useGeneratedKeys="true" keyProperty="id">
+		INSERT into commodity (id,name,cover_url,overview,original_price,real_price,type,item_one_id,item_second_id,school_id,company_id,creator,cerate_time,
+			updator,update_time,status,lable_type,base_num,face_flag,live_flag,video_flag,remote_flag,recommend_flag,buy_num,item_tag,integral_flag,member_flag,
+			item_one_code,item_second_code,item_third_code,item_fourth_code,is_micro_class)
+		values(#{id},#{name},#{coverUrl},#{overview},#{originalPrice},#{realPrice},#{type},#{itemOneId},#{itemSecondId},#{schoolId},#{companyId},#{creator},#{cerateTime},
+			#{updator},#{updateTime},#{status},#{lableType},#{baseNum},#{faceFlag},#{liveFlag},#{videoFlag},#{remoteFlag},#{recommendFlag},#{buyNum},#{itemTag},
+			#{integralFlag},#{memberFlag},#{itemOneCode},#{itemSecondCode},#{itemThirdCode},#{itemFourthCode},#{isMicroClass})
+	</insert>
+	
+	<select id="queryResourcesByClassTypeId"  parameterType="Integer"  resultMap="classTypeResourceResultMap">
+			SELECT * from class_type_resource where class_type_id=#{classTypeId} 
+	</select>
+	
+	<insert id="insertResourceList" parameterType="com.yuxin.wx.model.resource.ResourceList" useGeneratedKeys="true" keyProperty="id">
+		insert into resource_list(id,file_name,file_type,file_path,file_size,upload_time,upload_user_id,del_flag,uuid,company_id,
+			file_category,del_time,sys_item_one,sys_item_second,school_id,tag,source_path,source_size,upload_user_name,updator,update_time,
+			upload_type,old_data,upload_front_id,origin_type)
+		SELECT null,file_name,file_type,file_path,file_size,upload_time,upload_user_id,del_flag,uuid,#{companyId},
+			file_category,del_time,#{sysItemOne},#{sysItemSecond},#{schoolId},tag,source_path,source_size,upload_user_name,updator,update_time,
+			upload_type,old_data,upload_front_id,origin_type 
+		from resource_list 	where id=#{id}
+	</insert>
+	
+	<insert id="insertClassTypeResource" parameterType="com.yuxin.wx.model.classes.ClassTypeResource" useGeneratedKeys="true" keyProperty="id">
+		INSERT into class_type_resource (id,item_one_id,item_second_id,class_type_id,class_type_name,lecture_id,resource_type,company_id,lecture_type,file_id,
+			name,size,url,uploader,upload_time,download_count,del_flag,del_time,updator,update_time)
+		SELECT null,#{itemOneId},#{itemSecondId},#{classTypeId},class_type_name,lecture_id,resource_type,#{companyId},lecture_type,#{fileId},
+			name,size,url,uploader,upload_time,download_count,del_flag,del_time,updator,update_time from class_type_resource
+		where id=#{id}
+	</insert>
+	
+	<select id="findCourseExercise" parameterType="Map" resultMap="courseExerciseVoResultMap">
+			SELECT c.*,s.subject_name FROM course_exercise c
+			LEFT JOIN tiku_subject s on c.tiku_subject_id=s.id
+			where c.class_type_id=#{classId} and c.resource_id=#{resourceId}
+	</select>
+	
+	<select id="findTikuByComIdAndTName" parameterType="com.yuxin.wx.model.tiku.TikuCategory" resultType="Integer">
+		select id from tiku_category where company_id = #{companyId} and origin_type=0  and tiku_name = #{tikuName} limit 1
+	</select>
+	
+	<select id="findTikuSubjectByCIdAndTName" parameterType="com.yuxin.wx.model.tiku.TikuSubject" resultType="Integer">
+		SELECT id from tiku_subject where category_id=#{categoryId} and subject_name=#{subjectName} limit 1
+	</select>
+	
+	<insert id="insertTikuPaperTopicType" parameterType="map" useGeneratedKeys="true">
+		insert into tiku_paper_topic_type (paper_id,topic_type,score_per_topic)
+		SELECT #{paperId},topic_type,score_per_topic from tiku_paper_topic_type
+		where paper_id=#{sourcePaperId}
+	</insert>
+	
+	<select id="findTopicsByPaperId" parameterType="Integer" resultMap="tikuTopicResultMap">
+		SELECT t.* from tiku_topic t , tiku_paper_topic p 
+		where p.topic_id=t.id and p.paper_id=#{paperId} ORDER BY p.id asc
+	</select>
+	
+	<insert id="insertTikuTopicOption" parameterType="map" useGeneratedKeys="true">
+		INSERT into tiku_topic_option(topic_id,option_no,option_name,correct_flag)
+		SELECT #{topicId},option_no,option_name,correct_flag 
+		from tiku_topic_option where topic_id=#{sourceTopicId}
+	</insert>
+	
+	<insert id="insertTikuPaperTopic" parameterType="map" useGeneratedKeys="true">
+		insert INTO tiku_paper_topic(paper_id,topic_id,topic_type,parent_id,topic_score)
+		SELECT #{parperId},#{topicId},topic_type,parent_id,topic_score
+		from tiku_paper_topic where paper_id=#{sourceParperId} and topic_id=#{sourceTopicId}
+	</insert>
+	
+	<insert id="insertSchoolShareClassType" parameterType="com.yuxin.wx.model.classes.SchoolShareClassType" useGeneratedKeys="true" keyProperty="id">
+		insert into school_share_class_type(id,source_company_id,source_class_type_id,target_company_id,target_class_type_id,is_used)
+		VALUES(null,#{sourceCompanyId},#{sourceClassTypeId},#{targetCompanyId},#{targetClassTypeId},#{isUsed})
+	</insert>
+	
+	<update id="updateClassTypeResource" >
+		update  class_type_resource set lecture_id=#{0} where lecture_id=#{1} and class_type_id=#{2}
+	</update>
+	
+	<select id="findSchoolShareClassType" parameterType="map" resultType="Integer">
+			SELECT count(id) from school_share_class_type
+			where target_company_id=#{targetCompanyId} and source_class_type_id=#{sourceClassTypeId} and is_used=1	
 	</select>
 </mapper>

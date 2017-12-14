@@ -234,6 +234,11 @@
 		where id = #{id}
 	</select>
 	
+	<select id="findByModuleId" resultMap="classModuleNoResultMap" parameterType="Integer" >
+		select <include refid="table_columns" />
+		from class_module_no where module_id = #{moduleId} limit 1
+	</select>
+	
 	<select id="queryAll" resultMap="classModuleNoResultMap">
 		select <include refid="table_columns" /> 
 		from class_module_no where del_flag = 0

@@ -111,6 +111,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	selClassResource(1);
+	$chooseMenu("classResource");
+	$selectMenu("course_class_type");
 })
 
 function selClassResource(page){

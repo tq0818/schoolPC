@@ -218,8 +218,8 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	}
 
     @Override
-    public List<SysConfigDict> querSysConfigDictList(Integer companyId) {
-        return sysConfigDictMapper.querSysConfigDictList(companyId);
+    public List<SysConfigDict> querSysConfigDictList(Map<String, Object> map) {
+        return sysConfigDictMapper.querSysConfigDictList(map);
     }
     @Override
     public Integer querSysConfigDictCount(Integer companyId) {

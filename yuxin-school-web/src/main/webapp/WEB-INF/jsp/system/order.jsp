@@ -89,8 +89,11 @@
 				</p>
 			</div>
 		</div>
+		<%--放入订单列表--%>
 		<div class="mainbackground nopadding">
-			<div class="a-list o-list"></div>
+			<div class="a-list o-list">
+
+			</div>
 		</div>
 		<div class="pages">
 			<ul class="pagination">

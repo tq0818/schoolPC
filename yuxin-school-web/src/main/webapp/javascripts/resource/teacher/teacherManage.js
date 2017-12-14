@@ -237,15 +237,14 @@ $(function() {
 			}
 
 			if (teacherId == "" || teacherId == 0) {
-				url = rootPath + "/sysConfigTeacher/add?moduleIds="
+				url = rootPath + "/teacherManger/add?moduleIds="
 					+ moduleIds;
 				msg = "增加成功";
 			} else {
-				url = rootPath + "/sysConfigTeacher/update?moduleIds="
+				url = rootPath + "/teacherManger/update?moduleIds="
 					+ moduleIds;
 				msg = "修改成功";
 			}
-
 			$.ajax({
 				type : "post",
 				data : $("#teacherManageForm").serialize(),
@@ -264,8 +263,7 @@ $(function() {
 				complete : function(XMLHttpRequest, textStatus) {
 					$(".loading").hide();
 					$(".loading-bg").hide();
-					window.location.href = rootPath
-					+ "/teacherManger/getFirstItems/"+$("#companyId").val();
+					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
 				},
 			});
 		});

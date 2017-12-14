@@ -45,6 +45,11 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 		classModuleLessonMapper.insert(classModuleLesson);
 	}
 	
+	@Override
+	public void insert1(ClassModuleLesson classModuleLesson){
+		classModuleLessonMapper.insert1(classModuleLesson);
+	}
+	
 	/**
 	 * 
 	* @Title: batchSaveClassModuleLesson 
@@ -153,6 +158,12 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 	public List<ClassModuleLesson> findClassModuleLessonByModuleNoId(
 			Integer moduleNoId) {
 		return classModuleLessonMapper.findClassModuleLessonByModuleNoId(moduleNoId);
+	}
+	
+	@Override
+	public List<ClassModuleLesson> findClassModuleLessonByModuleNoId1(
+			Integer moduleNoId) {
+		return classModuleLessonMapper.findClassModuleLessonByModuleNoId1(moduleNoId);
 	}
 	
 	@Override

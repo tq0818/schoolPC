@@ -581,8 +581,11 @@
         <pattern>/branchSchool/queryData</pattern>
         <!-- 分校直播课 -->
         <pattern>/classTypeManage/*/*</pattern>
-
-
+        <pattern>/otherSchool/queryClassType</pattern>
+		<pattern>/otherSchool/*/*/*</pattern>
+		<pattern>/otherSchool/showSignUp</pattern>
+		<pattern>/otherSchool/insertStudents</pattern>
+		<pattern>/otherSchool/queryData</pattern>
         <!-- 订单 -->
         <pattern>/jsp/allOrder</pattern>
 

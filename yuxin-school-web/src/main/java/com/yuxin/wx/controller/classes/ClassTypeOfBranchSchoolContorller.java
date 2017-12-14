@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,11 +52,8 @@ import com.yuxin.wx.common.SysConfigConstant;
 import com.yuxin.wx.model.classes.ClassModule;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.classes.ClassModuleNo;
-import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.ClassTypeMemberDiscount;
 import com.yuxin.wx.model.classes.ClassTypeResource;
-import com.yuxin.wx.model.classes.ClassTypeResourceType;
-import com.yuxin.wx.model.commodity.CommodityProductRealtion;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyIntegralConfig;
 import com.yuxin.wx.model.company.CompanyMemberConfig;
@@ -68,10 +63,8 @@ import com.yuxin.wx.model.course.CourseExercise;
 import com.yuxin.wx.model.statistics.QueryLessonByClassTypeVo;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.system.SysConfigDict;
-import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysConfigService;
-import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.FileUtil;
@@ -86,6 +79,11 @@ import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
 import com.yuxin.wx.vo.student.StudentClassLeanRecordVo;
 import com.yuxin.wx.vo.student.StudentLessTimeVo;
 
+/**
+ * 数校公开课
+ * @author cxl
+ *
+ */
 @Controller
 @RequestMapping("/branchSchool")
 public class ClassTypeOfBranchSchoolContorller {

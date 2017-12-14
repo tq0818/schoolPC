@@ -31,10 +31,10 @@
 <input type="hidden" id="twoSecItemCode" value="${classType.itemSecondCode }"/>
 <input type="hidden" id="itemThirdCode" value="${classType.itemThirdCode }"/>
 <input type="hidden" id="itemFourthCode" value="${classType.itemFourthCode }"/>
-<%@include file="/WEB-INF/jsp/classType/commonTitle.jsp" %>
+<jsp:include page="/WEB-INF/jsp/classType/commonTitle.jsp"></jsp:include>
 <div class="u-wrap company overflow points-use-class">
-	 <%@include file="/WEB-INF/jsp/simpleClasses/commonClass.jsp" %>
-    <div class="right-side">
+	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonClass.jsp"></jsp:include>
+	<div class="right-side">
        <div class="u-wrap classes">
     <div class="mainbackground nopadding">
         <div class="heading" data-ct="${classType}" data-protocol="${classType.protocolId}">
@@ -167,31 +167,9 @@
                         </c:if>
                     </span>
                </p>
-                <c:if test="${not empty isArea and '0' ne isArea }">
-               		<p class="c ">
-	                    <span class="c-title">是否设为公开课程</span>
-	                    <span class="c-content" style="color:black;">
-	                     	<input type="radio" value="1" name="isPublic" <c:if test="${classType.isPublic==1 }"> checked="checked"</c:if>>是
-                        	<input type="radio" value="0" name="isPublic"  <c:if test="${classType.isPublic==0 or empty classType.isPublic }"> checked="checked"</c:if>>否
-	                    </span>
-	               </p>
-	                 <c:choose>
-               			<c:when test="${classType.isPublic==1 }">
-               				<p class="c publicPrice"> 
-               			</c:when>
-               			<c:otherwise>
-               				<p class="c none publicPrice"> 
-               			</c:otherwise>
-               		</c:choose>
-	               		<span class="c-title">设置公开课程价格</span>
-	                    <span class="c-content" style="color:black;">
-	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices" value="${classType.publicPrice }">
-	                    </span>
-	               </p>
-               </c:if>
               <p class="c text-center operator">
                 <a href="javascript:Form.addFormOne('save')" class="btn btn-primary">保存</a>
-           		<a href="<%=rootPath %>/simpleClasses/showClassTypePage" class="btn btn-default">取消</a>
+           		<a href="<%=rootPath %>/otherSchool/queryClassType" class="btn btn-default">取消</a>
              </p>
             </div>
         </div>
@@ -214,7 +192,7 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/classes.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery-ui.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/simpleclasses/editClass/addClassTypeBaseInfo.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/class/otherSchool/addClassTypeBaseInfo.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/plugins/select2/select2.js"></script> 
 </body>
 </html>

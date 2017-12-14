@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.api.classes.IClassModuleService;
 import com.yuxin.wx.api.classes.IClassTypeModuleRelationService;
+import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.commodity.ICommodityProductRealtionService;
 import com.yuxin.wx.api.commodity.ICommodityService;
@@ -94,6 +96,9 @@ public class editSimpleclassTypeController {
     private ICoursePotocolBindHistoryService coursePotocolBindHistoryServiceImpl;
     @Autowired
     private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+
+	@Autowired
+	private IClassTypeOfBranchSchoolService classTypeOfBranchSchoolService;
     /**
      * 编辑班型(第一步)
      *
@@ -113,7 +118,7 @@ public class editSimpleclassTypeController {
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
-        SysConfigItemRelation relation = new SysConfigItemRelation();
+       /* SysConfigItemRelation relation = new SysConfigItemRelation();
         relation.setId(null);
         List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
         SysConfigItem item = new SysConfigItem();
@@ -129,7 +134,13 @@ public class editSimpleclassTypeController {
                     break;
                 }
             }
-        }
+        }*/
+        Map<String, Object> params=new HashMap<String, Object>();
+    	params.put("level", 0);
+    	params.put("parentCode", "TYPE");
+    	params.put("companyId", WebUtils.getCurrentCompanyId());
+       	List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
+        
         model.addAttribute("isArea",WebUtils.getCurrentIsArea());
         model.addAttribute("typeItems", relations);
         boolean flag = this.companyFunctionSetServiceImpl.isCurrentFuSheng(WebUtils.getCurrentCompanyId());
@@ -218,7 +229,7 @@ public class editSimpleclassTypeController {
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
         model.addAttribute("lable", lable);
-        SysConfigItemRelation relation = new SysConfigItemRelation();
+       /* SysConfigItemRelation relation = new SysConfigItemRelation();
         relation.setId(null);
         List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
         SysConfigItem item = new SysConfigItem();
@@ -234,9 +245,14 @@ public class editSimpleclassTypeController {
                     break;
                 }
             }
-        }
-
+        }*/
+        Map<String, Object> params=new HashMap<String, Object>();
+    	params.put("level", 0);
+    	params.put("parentCode", "TYPE");
+    	params.put("companyId", WebUtils.getCurrentCompanyId());
+       	List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
         model.addAttribute("typeItems", relations);
+        
         if (null != classType) {
             if (classType.getLiveFlag() == 1 && classType.getFaceFlag() == 1) {
                 model.addAttribute("ftype", "live,face");

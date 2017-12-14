@@ -167,8 +167,7 @@
 			on rl.id = r.file_id and rl.origin_type=0 
 		where r.company_id = #{companyId} and 
 			r.class_type_id = #{classTypeId} and 
-			r.item_one_id = #{itemOneId} and 
-			r.item_second_id = #{itemSecondId} and 
+			r.lecture_type is null and
 			r.resource_type is not null and 
 			r.resource_type != '' and 
 			rl.del_flag = 0
@@ -184,8 +183,7 @@
 		where r.company_id = #{companyId} and 
 			r.class_type_id = #{classTypeId} and 
 			rl.del_flag = 0 and
-			r.item_one_id = #{itemOneId} and 
-			r.item_second_id = #{itemSecondId} and 
+			r.lecture_type is null and
 			r.resource_type is not null and 
 			r.resource_type != ''
 			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>

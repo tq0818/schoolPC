@@ -79,9 +79,9 @@ $(function(){
 			$.msg("请先上传文档",1000);
 			return false;
 		}
-		var oneItem = $(".btn-success.oneItem").attr("data-id");
-		var twoItem = $(".btn-success.twoItem").attr("data-id");
-		var classid = $("#class").val();
+		/*var oneItem = $(".btn-success.oneItem").attr("data-id");
+		var twoItem = $(".btn-success.twoItem").attr("data-id");*/
+		var classid = $("#cId").val();
 		if(typeof(classid) == "undefined" || classid == null || classid == ""){
 			$.msg("请先选择课程",1000);
 			return false;
@@ -95,8 +95,9 @@ $(function(){
 		$.ajax({
 			url : rootPath + "/classTypeResource/save",
 			type:"post",
-			data:{"itemOneId":oneItem,
-				"itemSecondId":twoItem,
+			data:{
+				/*"itemOneId":oneItem,
+				"itemSecondId":twoItem,*/
 				"classTypeId":classid,
 				"resourceType":resource,
 				"classTypeName":classTypeName,
@@ -239,7 +240,7 @@ function selClass(){
 function selClassResource(page){
 	 var oneItem = $(".btn-success.oneItem").attr("data-id");
 	 var twoItem = $(".btn-success.twoItem").attr("data-id");
-	 var classid = $("#class").val();
+	 var classid = $("#cId").val();
 	 var resource = $(".btn-success.resource").attr("data-type");
 	 $.ajax({
 		 url : rootPath + "/classTypeResource/selResource",

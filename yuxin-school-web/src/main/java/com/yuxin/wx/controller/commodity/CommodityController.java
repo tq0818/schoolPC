@@ -143,7 +143,6 @@ public class CommodityController {
 	@RequestMapping(value="/loadData")
 	public List<CommodityVo> loadData(HttpServletRequest request,CommodityVo search){
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
-//		search.setSchoolId(WebUtils.getCurrentSchoolId());
 		List<Integer> list = new ArrayList<Integer>();
 		if(search.getItemOneId() != null) {
 			list.add(search.getItemOneId());
@@ -313,6 +312,7 @@ public class CommodityController {
 			special.setTeacherIds(teacherIds);
 			special.setCommodityIds(commodityIds);
 			special.setCreateTime(new Date());
+			special.setCompanyId(WebUtils.getCurrentCompanyId());
 			if(StringUtils.isBlank(specialId)){
 				special.setStatus(0);
 				commoditySpecialServiceImpl.insert(special);
@@ -347,6 +347,7 @@ public class CommodityController {
 			teacher.setItemOneId(itemOneId);
 			map.put("teacher", teacher);
 			map.put("teacherIds", teacherid);
+			map.put("companyId", WebUtils.getCurrentCompanyId());
 			List<SysConfigTeacher> teacherList = sysConfigTeacherServiceImpl.findTeacherBySubject(map);
 			json.put("teacherList", teacherList);
 		}catch(Exception e){

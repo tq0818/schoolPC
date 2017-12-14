@@ -130,8 +130,8 @@
         delete from sys_config_item_relation_front where company_id=#{companyId}
     </delete>
     <insert id="publish" parameterType="int">
-     insert sys_config_item_relation_front(item_code,parent_code,level,parent_id,level_path,is_parent,origin_type,company_id) 
-      (select item_code,parent_code,level,parent_id,level_path,is_parent,0,company_id from sys_config_item_relation where company_id=#{companyId})
+     insert sys_config_item_relation_front(id,item_code,parent_code,level,parent_id,level_path,is_parent,origin_type,company_id) 
+      (select id,item_code,parent_code,level,parent_id,level_path,is_parent,0,company_id from sys_config_item_relation where company_id=#{companyId})
     </insert>
 <!--发布后查询SQL-->
     <select id="findFirstLevelFront" resultMap="sysConfigItemRelationResultMap"

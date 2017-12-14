@@ -108,7 +108,7 @@
     	var currentBtn = document.getElementById("save");
         $('.classSetting').addClass('classSettingEdit');
         $('.classSetting').find('input').attr('disabled',false);
-        currentBtn.style.display = "block";
+        currentBtn.style.display = "inline-block";
     });
     	
    	function ObjData(key,value){

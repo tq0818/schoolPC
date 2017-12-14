@@ -521,7 +521,12 @@
 		join company c on c.id=i.company_id
 		where f.level = #{level} and f.origin_type=0 
 			and r.del_flag=0 and i.status = 1 and i.parent_code=#{parentCode}
-			and c.edu_area_school=#{schoolCode}
+			<if test="schoolCode != null and schoolCode != ''">
+				and c.edu_area_school=#{schoolCode}
+			</if>
+			<if test="companyId != null">
+				and c.id=#{companyId}
+			</if>
 			<if test="parentId != null and parentId != ''">
 				and f.parent_id=#{parentId}
 			</if>
@@ -549,6 +554,20 @@
 		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
 		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
 		where a.id = #{classId} and a.origin_type=0
+	</select>
+	
+	<select id="findDetailById1" resultMap="classTypeVoResultMap" parameterType="map" >
+		SELECT a.*, b.item_name AS itemOneName, c.item_name AS itemSecondName, 
+			d.item_name AS itemThirdName, a.item_fourth_code AS itemFourthName,
+			t.name as teacherName, c1.company_name as schoolName
+		FROM class_type a
+		join school_share_class_type st on st.target_class_type_id=a.id
+	    join company c1 on c1.id=st.source_company_id 
+		LEFT JOIN sys_config_teacher t on t.id=a.teacher_id
+		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
+		where a.is_out_source=1 and a.origin_type=0 and a.id = #{classId} 
 	</select>
 	
 	<select id="findListByClassId" resultMap="classModuleResultMap"	parameterType="map">
@@ -616,8 +635,7 @@
 		inner join resource_list rl on rl.id = r.file_id and rl.origin_type=0 
 		where 
 			r.class_type_id = #{classTypeId} and 
-			r.item_one_id is not null and 
-			r.item_second_id is not null and 
+			r.lecture_type is null and
 			r.resource_type is not null and 
 			r.resource_type != '' and 	rl.del_flag = 0
 			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
@@ -631,8 +649,7 @@
 			on rl.id = r.file_id and rl.origin_type=0 
 		where 
 			r.class_type_id = #{classTypeId} and 
-			r.item_one_id is not null and 
-			r.item_second_id is not null and 
+			r.lecture_type is null and
 			r.resource_type is not null and 
 			r.resource_type != '' and rl.del_flag = 0 
 			<if test="resourceType != null and resourceType != ''"> and r.resource_type = #{resourceType}</if>
@@ -730,4 +747,93 @@
 			SELECT count(id) from school_share_class_type
 			where target_company_id=#{targetCompanyId} and source_class_type_id=#{sourceClassTypeId} and is_used=1	
 	</select>
+	
+	
+	<select id="queryClassTypeOfOtherSchool" parameterType="map" resultMap="classTypeVoResultMap">
+		SELECT ct.id,ct.name,c1.company_name as school_name,sci1.item_name as item_one_name,
+		sci2.item_name as item_second_name,sci3.item_name as item_third_name,ct.create_time,ct.publish_status
+		from class_type ct
+		JOIN school_share_class_type st on st.target_class_type_id=ct.id and st.is_used=1
+		join company c1 on c1.id=st.source_company_id
+		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code
+		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code
+		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code
+		where ct.origin_type=0 and ct.is_out_source=1 	
+			<if test="companyId != null">
+				and ct.company_id=#{companyId}
+			</if>
+			<if test="firstItemCode != null and firstItemCode != ''">
+				and ct.item_one_code=#{firstItemCode}
+			</if>
+			<if test="secondItemCode != null and secondItemCode != ''">
+				and ct.item_second_code=#{secondItemCode}
+			</if>
+			<if test="thirdItemCode != null and thirdItemCode != ''">
+				and ct.item_third_code=#{thirdItemCode}
+			</if>
+			<if test="name != null and name != ''">
+				and ct.name like '%${name}%'
+			</if>
+			<if test="status != null and status != ''">
+				and ct.publish_status=#{status}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[and ct.create_time >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[and ct.create_time <=#{endTime} ]]>
+			</if>
+			ORDER BY ct.create_time desc
+			limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCountClassTypeOfOtherSchool" resultType="int" parameterType="map">
+		SELECT count(ct.id)	from class_type ct
+		where ct.origin_type=0 and ct.is_out_source=1 	
+			<if test="companyId != null">
+				and ct.company_id=#{companyId}
+			</if>
+			<if test="firstItemCode != null and firstItemCode != ''">
+				and ct.item_one_code=#{firstItemCode}
+			</if>
+			<if test="secondItemCode != null and secondItemCode != ''">
+				and ct.item_second_code=#{secondItemCode}
+			</if>
+			<if test="thirdItemCode != null and thirdItemCode != ''">
+				and ct.item_third_code=#{thirdItemCode}
+			</if>
+			<if test="name != null and name != ''">
+				and ct.name like '%${name}%'
+			</if>
+			<if test="status != null and status != ''">
+				and ct.publish_status=#{status}
+			</if>
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[and ct.create_time >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[and ct.create_time <=#{endTime} ]]>
+			</if>
+	</select>
+	
+	 <update id="battchSaleOrNoOfCommodity" parameterType="Map">
+   	 	update  commodity set updator = #{updator}, update_time = now(), status = #{status}
+		where id in (
+			SELECT p.com_id from class_type ct,commodity_product_realtion p
+			where ct.id=p.product_id and ct.id in 
+	    	<foreach item="item" collection="cids" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		)
+    </update>
+    <update id="battchSaleOrNoOfClassType" parameterType="Map">
+   	 	update class_type set publish_status = #{publishStatus},
+		    <if test="publishStatus == 'CLASS_STOP_SALE'">subject_class_order = null,</if>
+		     is_sale = #{isSale}, update_time =now(), updator = #{updator}
+   	 	WHERE  id in (
+	    	<foreach item="item" collection="cids" separator=",">
+				#{item}
+			</foreach>
+		)
+    </update>
+	
 </mapper>

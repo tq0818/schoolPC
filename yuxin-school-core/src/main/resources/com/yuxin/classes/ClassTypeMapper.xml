@@ -347,7 +347,7 @@
 		    <if test="isPublic != null">is_public = #{isPublic},</if>
 		    <choose>
 	        	<when test="publicPrice != null">public_price = #{publicPrice},</when>
-	        	<otherwise> public_price=null,</otherwise>
+	        	<when test="isPublic == 0">public_price = null,</when>
 	        </choose>
 		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null,</if>
 		    <if test="isMicroClass != null">is_micro_class = #{isMicroClass},</if>
@@ -428,8 +428,8 @@
 		FROM
 		  class_type a
 		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code and b.company_id=#{companyId} and b.del_flag=0
-		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code and b.company_id=#{companyId} and b.del_flag=0
-		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and b.del_flag=0 and b.company_id=#{companyId}
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code and c.company_id=#{companyId} and c.del_flag=0
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and d.del_flag=0 and d.company_id=#{companyId}
 		where a.id = #{classId} and a.origin_type=0
 		limit 1
 	</select>
@@ -477,7 +477,7 @@
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
 		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
-		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS' and a.origin_type=0
+		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS' and a.origin_type=0 and a.is_out_source=0
 		<if test="classType.name != null and classType.name != ''">and a.name like '%${classType.name}%'</if>
 		<if test="classType.itemOneId != null and classType.itemOneId != ''">and a.item_one_id = #{classType.itemOneId}</if>
 		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and a.item_second_id = #{classType.itemSecondId}</if>
@@ -505,7 +505,7 @@
 	
 	<select id="queryCounts" resultType="int" parameterType="map">
 		SELECT count(id) FROM class_type
-		where del_flag=0 and company_id = #{classType.companyId} and origin_type=0
+		where del_flag=0 and company_id = #{classType.companyId} and origin_type=0 and is_out_source=0
 		<if test="classType.name != null and classType.name != ''">and name like '%${classType.name}%'</if>
 		<if test="classType.itemOneId != null and classType.itemOneId != ''">and item_one_id = #{classType.itemOneId}</if>
 		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and item_second_id = #{classType.itemSecondId}</if>

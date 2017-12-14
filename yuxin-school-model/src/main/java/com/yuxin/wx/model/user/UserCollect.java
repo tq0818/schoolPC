@@ -20,6 +20,7 @@ public class UserCollect extends BaseEntity {
 	private Date	collectDate;		 /* 收藏日期 */ 
 	private Integer	commodityId;		 /* 商品id */ 
 	private String commodityType;
+	
 
 	// Constructor
 	public UserCollect() {

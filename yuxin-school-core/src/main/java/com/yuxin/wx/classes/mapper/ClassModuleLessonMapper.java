@@ -27,6 +27,8 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
 	
 	List<ClassModuleLesson> findClassModuleLessonByModuleNoId(Integer moduleNoId);
 
+	List<ClassModuleLesson> findClassModuleLessonByModuleNoId1(Integer moduleNoId);
+
 	List<ClassModuleLessonVo> findClassModuleLessonByKeys(ClassModuleLessonVo search);
 
 	int findClassModuleLessonByKeysCount(ClassModuleLessonVo search);
@@ -101,4 +103,6 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
     List<ClassModuleLesson> findLessonByCommodityId(Map<String, Object> id);
 
     List<ClassModuleLesson> findLessonByCommodityIdNotDel(Map<String, Object> map);
+    
+    void insert1(ClassModuleLesson classModuleLesson);
 }

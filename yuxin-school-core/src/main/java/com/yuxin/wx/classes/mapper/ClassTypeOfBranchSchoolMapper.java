@@ -35,6 +35,17 @@ public interface ClassTypeOfBranchSchoolMapper extends BaseMapper<ClassType> {
 	/**
 	 * 查询分校课程(分校课程)
 	 */
+	int queryCountClassTypeOfOtherSchool(Map<String, Object> param);
+	
+
+	/**
+	 * 查询分校课程(分校课程)
+	 */
+	List<ClassTypeVo> queryClassTypeOfOtherSchool(Map<String, Object> param);
+
+	/**
+	 * 查询分校课程(分校课程)
+	 */
 	int queryCountClassTypeOfBranchSchool(Map<String, Object> param);
 	
     /**
@@ -51,6 +62,8 @@ public interface ClassTypeOfBranchSchoolMapper extends BaseMapper<ClassType> {
      * 查询课型
      */
     ClassTypeVo findDetailById(Map<String, String> param);
+
+    ClassTypeVo findDetailById1(Map<String, String> param);
     
     /**
      * 查询课程单元
@@ -100,5 +113,8 @@ public interface ClassTypeOfBranchSchoolMapper extends BaseMapper<ClassType> {
 	void insertSchoolShareClassType(SchoolShareClassType log);
 	
 	void updateClassTypeResource(Integer targetLessonId,Integer sourceLessonId,Integer classTypeId);
+	
+	void battchSaleOrNoOfCommodity(Map<String, Object> param);
+	void battchSaleOrNoOfClassType(Map<String, Object> param);
 	
 }

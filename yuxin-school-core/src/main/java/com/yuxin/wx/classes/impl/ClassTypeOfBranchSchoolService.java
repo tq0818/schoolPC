@@ -163,6 +163,25 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		classvo.setTotalClass(totalClass);
 		return classvo;
 	}
+	
+	public ClassTypeVo findClassTypeDetail1(Map<String,String> map) {
+		ClassTypeVo classvo=classTypeOfBranchSchoolMapper.findDetailById1(map);
+		List<ClassModule> classModules=classTypeOfBranchSchoolMapper.findListByClassId(map);
+		List<CourseVideoChapter> chapters=classTypeOfBranchSchoolMapper.findByClassId(map);
+		Integer totalClass=0;
+		if(null!=classModules&&classModules.size()>0){
+			for(ClassModule classModule: classModules){
+				if(classModule.getTotalClassHour()!=null){
+					totalClass+=classModule.getTotalClassHour();
+				}
+			}
+		}
+		classvo.setModules(classModules);
+		classvo.setVideos(chapters);
+		//classvo.setRemotes(classTypeOfBranchSchoolMapper.findRemotesByClassTypeId(map));
+		classvo.setTotalClass(totalClass);
+		return classvo;
+	}
 
 	@Override
 	public void setCddsRecommendFlag(Map<String, Object> param) {
@@ -264,16 +283,16 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		    		entity.setModuleNoId(targetCmn.getId());
 		    		classModuleNoOnsaleServiceImpl.insert(entity);
 		    		//8.class_module_lesson
-		    		List<ClassModuleLesson> sourceCmlList=classModuleLessonService.findClassModuleLessonByModuleNoId(sourceCmn.getId());
+		    		List<ClassModuleLesson> sourceCmlList=classModuleLessonService.findClassModuleLessonByModuleNoId1(sourceCmn.getId());
 		    		if(null!=sourceCmlList&&sourceCmlList.size()>0){
 		    			for(ClassModuleLesson sourceCml:sourceCmlList){
 		    				ClassModuleLesson targetCml=this.getTargetClassModuleLesson(sourceCml);
 		    				targetCml.setModuleNoId(targetCmn.getId());
 		    				targetCml.setCreateTime(new Date());
+		    				targetCml.setIsOutSource(1);
 		    				classModuleLessonService.insert(targetCml);
 		    				lessonIdMap.put(sourceCml.getId(), targetCml.getId());
 		    				// 9.课后练习(试卷)
-		    				//判断是否存在课后练习
 		    				param.put("resourceId", String.valueOf(sourceCml.getId()));
 		    				this.copyTiku(param, targetCompanyId, targetCt.getId(), targetCml.getId());
 		    			}
@@ -616,5 +635,25 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 	public Integer findSchoolShareClassType(Map<String, String> param) {
 		// TODO Auto-generated method stub
 		return classTypeOfBranchSchoolMapper.findSchoolShareClassType(param);
+	}
+
+	@Override
+	public List<ClassTypeVo> queryClassTypeOfOtherSchool(
+			Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeOfBranchSchoolMapper.queryClassTypeOfOtherSchool(param);
+	}
+
+	@Override
+	public int queryCountClassTypeOfOtherSchool(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return classTypeOfBranchSchoolMapper.queryCountClassTypeOfOtherSchool(param);
+	}
+
+	@Override
+	public void battchSaleOrStopSale(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		classTypeOfBranchSchoolMapper.battchSaleOrNoOfCommodity(param);
+		classTypeOfBranchSchoolMapper.battchSaleOrNoOfClassType(param);
 	}
 }

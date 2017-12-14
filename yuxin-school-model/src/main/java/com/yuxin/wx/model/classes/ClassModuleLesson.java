@@ -75,7 +75,16 @@ public class ClassModuleLesson extends BaseEntity {
 	private CourseExercise courseExercise;
 	private TikuPaper tikuPaper;
     private Date lessonDateTime;
+    private Integer isOutSource;
     
+	public Integer getIsOutSource() {
+		return isOutSource;
+	}
+
+	public void setIsOutSource(Integer isOutSource) {
+		this.isOutSource = isOutSource;
+	}
+
 	public TikuPaper getTikuPaper() {
 		return tikuPaper;
 	}

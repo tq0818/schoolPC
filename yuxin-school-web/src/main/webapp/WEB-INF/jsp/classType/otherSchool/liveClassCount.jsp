@@ -59,7 +59,7 @@
 									</div>
 
 								<div class="count-search">
-									区域：<select name="eduArea" id="eduArea">
+									<%-- 区域：<select name="eduArea" id="eduArea">
 										<option value="">请选择区域</option>
 										<c:forEach items="${areas}" var="area" >
 											<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
@@ -67,7 +67,7 @@
 									</select>
 										学校：<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 										<option value="">请选择学校</option>
-									</select>
+									</select> --%>
 										学段：<select name="eduStep" id="eduStep">
 										<option value="">请选择学段</option>
 										<c:forEach items="${steps}" var="step" >

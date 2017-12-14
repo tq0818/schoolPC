@@ -13,8 +13,8 @@ $(function(){
         $('.popupOpacity').hide();
     });
     
-    $('.closePopupShowCourse').click(function(){
-        $('.popupShowCourse').hide();
+    $('.closeCourse').click(function(){
+        $('.popupContainerCourse').hide();
         $('.popupOpacity').hide();
     });
     
@@ -102,10 +102,10 @@ function classListOfOtherSchool(pageNo){
 }
 
 function showCourse(obj){
-	 $('.popupShowCourse').show();
+	 $('.popupContainerCourse').show();
      $('.popupOpacity').show();
      var classId=$(obj).attr("data-id");
-    // queryCourseDetail(classId);
+     queryCourseDetail(classId);
 }
 
 function queryCourseDetail(classId){

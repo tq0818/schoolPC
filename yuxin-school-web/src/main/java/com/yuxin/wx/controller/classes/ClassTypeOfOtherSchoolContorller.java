@@ -671,9 +671,9 @@ public class ClassTypeOfOtherSchoolContorller {
 
 		//查询学校所在区域
 		SysConfigDict areaDict = new SysConfigDict();
-		areaDict.setDictCode("EDU_SCHOOL_AREA");
+		/*areaDict.setDictCode("EDU_SCHOOL_AREA");
 		List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-		model.addAttribute("areas", areas);
+		model.addAttribute("areas", areas);*/
 		//学段
 		areaDict.setDictCode("EDU_STEP");
 		List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);

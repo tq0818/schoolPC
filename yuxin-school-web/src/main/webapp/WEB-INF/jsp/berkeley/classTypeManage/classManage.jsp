@@ -86,6 +86,18 @@
 
 <%--弹窗begin--%>
 <div class="popupOpacity"></div>
+
+<%--课程表弹窗--%>
+<div class="popupContainerCourse">
+    <h5>课程表</h5>
+    <div class="popupCourseContent">
+            <ul class="sortable base-sort item-panel courseliList ui-sortable">
+                
+            </ul>
+    </div>
+    <button class="btn btn-primary closeCourse">关闭</button>
+</div>
+
 <%--添加课程弹窗--%>
 <div class="popupAddCourse">
     <h5>添加课程</h5>
@@ -118,14 +130,6 @@
 
             </div>
         </div>
-</div>
-
-<div class="popupShowCourse">
-    <h5>课程排课信息</h5>
-    <button class="btn btn-primary closePopupShowCourse">关闭</button>
-    <div class="item-panel courseliList">
-    sadas
-    </div>
 </div>
 
 <!-- ajax加载中div开始 -->

@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>订单</title>
+<title>收入查询</title>
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
@@ -37,65 +37,30 @@
 	<div class="right-side">
 		<div class="mainbackground nopadding allOrderContent">
 			<div class="allOrderHeader">
-				<ul>
-						<li>
-							<label for="">订单编号：</label>
-							<input type="text">
-						</li>
-						<li  class="allOrderHeaderInput">
-							<label for="">订单时间：</label>
-							<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
-							<input type="text" id="inpend" readonly>
-						</li>
-					</ul>
-				<ul style="display: inline-block;">
-					<li>
-						<label for="">支付方式：</label>
-						<select name="" >
-							<option value="">全部</option>
-							<option value="">微信</option>
-							<option value="">支付宝</option>
-						</select>
-					</li>
-					<li class="allOrderHeaderInput">
-						<label for="">订单金额：</label>
-						<input type="text" style="margin-right: 10px">至
-						<input type="text">
-					</li>
-				</ul>
+				<label for="">请选择查询日期：</label>
+				<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
+				<input type="text" id="inpend" readonly>
 				<button class="btn btn-primary">查询</button>
-				<button class="btn btn-primary">导出</button>
-			</div>
-			<div class="allArderState">
-				<button class="btn btn-primary">全部订单</button>
-				<button class="btn btn-default">未付款</button>
-				<button class="btn btn-default">已完成</button>
-				<button class="btn btn-default">已取消</button>
-				<button class="btn btn-default">失败</button>
+				<button class="btn btn-primary">导出数据</button>
 			</div>
 			<div class="user-list allOrderTable">
 				<table class="table table-center allOrderList" >
 					<tr>
-						<th width="3%">订单编号</th>
-						<th width="10%">课程名</th>
-						<th width="10%">金额（元）</th>
-						<th width="10%">姓名</th>
-						<th width="10%">电话	</th>
-						<th width="10%">下单时间</th>
-						<th width="10%">付款时间</th>
-						<th width="10%">订单状态</th>
-						<th width="15%">操作</th>
+						<th width="3%">序号</th>
+						<th width="10%">时间</th>
+						<th width="10%">
+							总收入(元)
+							<i class="icon iconfont unsort sorting">&#xe612;</i>
+						</th>
+						<th width="10%">应缴费用（元）</th>
+						<th width="10%">实际收入</th>
 					</tr>
 					<tr>
-						<td>123456789</td>
-						<td>如何学习英语</td>
-						<td>0.00</td>
-						<td>朱胤轮</td>
-						<td>18623232323</td>
-						<td>2017-11-30 24:00</td>
-						<td>2017-11-30 24:00</td>
-						<td>已完成</td>
-						<td><a href="##">查看详情</a></td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
+						<td>1</td>
 					</tr>
 				</table>
 			</div>
@@ -114,7 +79,6 @@
 	</div>
 	<div class="loading-bg lp-units-loading-bg" style="display: none"></div>
 	<!--  ajax加载中div结束 -->
-
 
 	<script>
 //	分页
@@ -164,7 +128,7 @@ $.jeDate('#inpend',end);
 	<script type="text/javascript">
 		$(function() {
 			$selectSubMenu('financial');
-			$selectSubMenus('order');
+			$selectSubMenus('incomeQuery');
 		});
 	</script>
 </body>

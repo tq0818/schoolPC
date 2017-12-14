@@ -13,11 +13,17 @@
 	href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
-	<link rel="stylesheet" href="<%=rootPath %>/stylesheets/query/statistics.css">
+	<%--<link rel="stylesheet" href="<%=rootPath %>/stylesheets/query/statistics.css">--%>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
+		.screen-info select{margin-right: 20px;width: 180px;margin-bottom: 10px;}
+		.screen-info input{width: 163px;height: 16px;line-height: 16px;}
 	</style>
+	<%--tob--%>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
+	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
+	<script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
 <body>
 <input type="hidden" id="schoolId" value='${schoolId}'/>
@@ -26,17 +32,17 @@
 <input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 	<!-- 二级导航 -->
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-			<div class="mainbackground nopadding">
-				<div class="heading">
-					<h2 class="h5">基地校</h2>
+			<div class="mainbackground nopadding"  style="background: #f6f6f6;margin-left: 20px;height: 700px;">
+				<div class="heading" style="height: 30px;padding-top: 10px;">
+					<h2 class="h5" style="display: inline-block;">基地校</h2>
+					<a href="<%=rootPath%>/baseSchool/baseSchoolRecording"  class="btn btn-primary recordingBtn">录播课</a>
+					<a href="<%=rootPath%>/baseSchool/baseSchoolLive" class="btn  btn-default liveBtn">直播课</a>
 					<span class="line"></span>
 				</div>
 				<div class="content-right">
-					<p class="screen-info" style="margin-bottom: 20px;">
-						 <a href="<%=rootPath%>/baseSchool/baseSchoolRecording"  class="btn btn-default recordingBtn">录播课</a>
-            			 <a href="<%=rootPath%>/baseSchool/baseSchoolLive" class="btn btn-primary liveBtn">直播课</a>
-
-					</p>
+					<%--<p class="screen-info" style="margin-bottom: 20px;">--%>
+						<%----%>
+					<%--</p>--%>
 					<form method="post" id="searchForm">
 				<div class="screen-info">
 					<span>区域：</span>
@@ -74,12 +80,15 @@
 				</div>
 				<div class="screen-info margin10">
 					<span class="date" style="margin-left: 0;">
-						<i class="text">日期</i>
+						<span class="text" style="margin-right: 10px;">日期:</span>
 						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 					</span>
-					<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询"/>
-					<span><a href="javascript:;" class="btn btn-primary searchContents">查询</a></span>
-					<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>
+					<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询" style="margin-left: 70px;"/>
+					<div style="text-align: center;margin-top: 10px;">
+						<span><a href="javascript:;" class="btn btn-primary searchContents" style="margin-right: 20px;">查询</a></span>
+						<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>
+					</div>
+
 				</div>
 			</form>
 			<div class="user-list">

@@ -9,9 +9,9 @@
         <ul id="course_manage" class="system_managelist">
             <%--<li class="subentry" code="operate_fee_confirm" mark="/payOrder/toOrder">转账确认</li> --%>
             <%--<li class="subentry" code="operate_fee" mark="/query/page/fee">费用</li> --%>
-            <li class="subentry" code="order" mark="">订单</li>
-            <li class="subentry" code="incomeQuery" mark="">收入查询</li>
-            <li class="subentry" code="financialAnalysis" mark="">财务分析</li>
+            <li class="subentry" code="order" mark="/jsp/allOrder">订单</li>
+            <li class="subentry" code="incomeQuery" mark="/jsp/incomeQuery">收入查询</li>
+            <li class="subentry" code="financialAnalysis" mark="##">财务分析</li>
        </ul>
     </div>
 <script>

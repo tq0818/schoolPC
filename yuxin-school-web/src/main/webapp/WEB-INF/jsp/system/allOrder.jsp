@@ -44,8 +44,8 @@
 						</li>
 						<li  class="allOrderHeaderInput">
 							<label for="">订单时间：</label>
-							<input type="text" style="margin-right: 10px" id="inpstart">至
-							<input type="text" id="inpend">
+							<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
+							<input type="text" id="inpend" readonly>
 						</li>
 					</ul>
 				<ul style="display: inline-block;">

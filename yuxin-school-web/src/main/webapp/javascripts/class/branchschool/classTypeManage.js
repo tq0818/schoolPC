@@ -20,7 +20,7 @@ $(function(){
           }
       });
   });
-	
+ 
 	$("#areaId").change(function(){
     	selSchool();
 	});
@@ -34,6 +34,45 @@ $(function(){
     	selThreeItem();
 	});
 });
+
+function saleOnOrStop(obj){
+	   var id=$(obj).attr("data_id");
+	   var data_type=$(obj).attr("data_type");
+	   var cIds=new Array();
+	   var type;
+	   var str="";
+	   if(0==data_type){
+		   type=1;
+		   str="上架";
+	   }else{
+		   type=0; 
+		   str="下架";
+	   }
+	   cIds[0]=id;
+		$.ajax({
+	        url:rootPath + "/branchSchool/battchUpOrDown",
+			 type:"post",
+			 data:{"type":type,"cIds":cIds},
+			 dataType:"json",
+			 beforeSend:function(XMLHttpRequest){
+		              $(".loading").show();
+		              $(".loading-bg").show();
+		     },
+			 success:function(data){
+				 if("success"==data.result){
+					 $.msg(str+"操作成功");
+					 $(obj).attr("data_type",type);
+				 }else{
+					 $.msg(str+"操作失败");
+				 }
+				 classTypeDetail($("#pageNo").val());
+			 },
+	         complete:function(XMLHttpRequest,textStatus){
+	             $(".loading").hide();
+	             $(".loading-bg").hide();
+	         }
+		 });
+}
 
 function  battchUpOrDown(type){
 	var cIds=new Array();
@@ -55,15 +94,20 @@ function  battchUpOrDown(type){
 	              $(".loading-bg").show();
 	         },
 		 success:function(data){
+			 var str="";
+			 if(type==0){
+				 str="下架";
+			 }else if(type==1){
+				 str="上架";
+			 }
 			 if("success"==data.result){
-				 $.msg("操作成功");
+				 $.msg(str+"操作成功");
 			 }else{
-				 $.msg("操作失败");
+				 $.msg(str+"操作失败");
 			 }
 			 classTypeDetail($("#pageNo").val());
 		 },
          complete:function(XMLHttpRequest,textStatus){
-
              $(".loading").hide();
              $(".loading-bg").hide();
          }

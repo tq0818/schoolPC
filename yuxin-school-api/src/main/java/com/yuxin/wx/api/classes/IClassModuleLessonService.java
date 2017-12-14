@@ -28,6 +28,9 @@ public interface IClassModuleLessonService  {
 	 */
 	void insert(ClassModuleLesson classModuleLesson);
 	
+
+	void insert1(ClassModuleLesson classModuleLesson);
+	
 	/**
 	 * 
 	* @Title: batchSaveClassModuleLesson 
@@ -124,6 +127,8 @@ public interface IClassModuleLessonService  {
 	 */
 	
 	List<ClassModuleLesson> findClassModuleLessonByModuleNoId(Integer moduleNoId);
+
+	List<ClassModuleLesson> findClassModuleLessonByModuleNoId1(Integer moduleNoId);
 	
 	
 	/**

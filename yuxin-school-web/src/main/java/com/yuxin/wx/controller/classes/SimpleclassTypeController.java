@@ -1586,6 +1586,7 @@ public class SimpleclassTypeController {
 		classType.setIsSale(0);
 		classType.setUpdateTime(new Date());
 		classType.setUpdator(WebUtils.getCurrentUserId(request));
+		classType.setIsPublic(0);
 		classTypeServiceImpl.update(classType);
 		return classTypeServiceImpl.findClassTypeById(classType.getId());
 	}

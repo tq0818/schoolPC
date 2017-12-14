@@ -712,7 +712,7 @@
 				if("classTypeManage"==mark){//分校课程
 					action=rootPath+"/branchSchool/queryClassType";
 				}else if("buyClassType"==mark){//购买课程
-					action=rootPath+"/simpleClasses/addClassType";
+					action=rootPath+"/otherSchool/queryClassType";
 				}else{//新增课程
 					action=rootPath+"/simpleClasses/addClassType";
 				}

@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.classes.mapper.ClassModuleNoMapper;
 import com.yuxin.wx.model.classes.ClassModuleNo;
@@ -291,5 +291,11 @@ public class ClassModuleNoServiceImpl extends BaseServiceImpl implements IClassM
 	@Override
 	public List<Integer> findClassModuleNoIdsByModuleId(Integer id) {
 		return classModuleNoMapper.findClassModuleNoIdsByModuleId(id);
+	}
+
+	@Override
+	public ClassModuleNo findClassModuleNoByModuleId(Integer moduleId) {
+		// TODO Auto-generated method stub
+		return classModuleNoMapper.findByModuleId(moduleId);
 	}
 }

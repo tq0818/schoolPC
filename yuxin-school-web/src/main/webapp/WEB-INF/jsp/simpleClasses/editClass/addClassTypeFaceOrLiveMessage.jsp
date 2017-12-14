@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/company.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/classes.css"/>
-   <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/select2/select2.css"/>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/select2/select2.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/classedit.css"/>
     <style type="text/css">

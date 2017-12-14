@@ -20,13 +20,7 @@ $(function(){
           }
       });
   });
- 
-	$("#areaId").change(function(){
-    	selSchool();
-	});
-	$("#schoolCode").change(function(){
-    	selOneItem();
-	});
+	
 	$("#firstItemCode").change(function(){
     	selTwoItem();
 	});
@@ -35,24 +29,28 @@ $(function(){
 	});
 });
 
+
 function saleOnOrStop(obj){
 	   var id=$(obj).attr("data_id");
 	   var data_type=$(obj).attr("data_type");
 	   var cIds=new Array();
 	   var type;
+	   var publishStatus="";
 	   var str="";
 	   if(0==data_type){
 		   type=1;
+		   publishStatus="CLASS_ON_SALE";
 		   str="上架";
 	   }else{
 		   type=0; 
+	   	   publishStatus="CLASS_STOP_SALE";
 		   str="下架";
 	   }
 	   cIds[0]=id;
 		$.ajax({
-	        url:rootPath + "/branchSchool/battchUpOrDown",
+	        url:rootPath + "/otherSchool/battchUpOrDown",
 			 type:"post",
-			 data:{"type":type,"cIds":cIds},
+			 data:{"type":type,"publishStatus":publishStatus,"cIds":cIds},
 			 dataType:"json",
 			 beforeSend:function(XMLHttpRequest){
 		              $(".loading").show();
@@ -84,22 +82,25 @@ function  battchUpOrDown(type){
 		$.msg("至少选择一条记录");
 		return false;
 	}
+	  var publishStatus="";
+	  var str="";
+	  if(1==type){		  
+		   publishStatus="CLASS_ON_SALE";
+		   str="上架";
+	   }else{
+	   	   publishStatus="CLASS_STOP_SALE";
+		   str="下架";
+	   }
 	$.ajax({
-        url:rootPath + "/branchSchool/battchUpOrDown",
+        url:rootPath + "/otherSchool/battchUpOrDown",
 		 type:"post",
-		 data:{"type":type,"cIds":cIds},
+		 data:{"type":type,"cIds":cIds,"publishStatus":publishStatus},
 		 dataType:"json",
 			beforeSend:function(XMLHttpRequest){
 	              $(".loading").show();
 	              $(".loading-bg").show();
 	         },
 		 success:function(data){
-			 var str="";
-			 if(type==0){
-				 str="下架";
-			 }else if(type==1){
-				 str="上架";
-			 }
 			 if("success"==data.result){
 				 $.msg(str+"操作成功");
 			 }else{
@@ -108,92 +109,26 @@ function  battchUpOrDown(type){
 			 classTypeDetail($("#pageNo").val());
 		 },
          complete:function(XMLHttpRequest,textStatus){
-             $(".loading").hide();
-             $(".loading-bg").hide();
-         }
-	 });
-}
-
-//查询学校
-function selSchool(){
-	 $("#schoolCode").empty();
-	 $("#schoolCode").append("<option value=\"\">请选择学校</option>");
-	 var areaId =$("#areaId").val();
-	 if(!areaId){
-		 selOneItem();
-		 return false;
-	 }
-	 $.ajax({
-        url:rootPath + "/branchSchool/selSchool",
-		 type:"post",
-		 data:{"areaId":areaId},
-		 dataType:"json",
-			beforeSend:function(XMLHttpRequest){
-	              $(".loading").show();
-	              $(".loading-bg").show();
-	         },
-		 success:function(data){
-			 $.each(data.school,function(index,item){
-				 $("#schoolCode").append("<option value='" + item.itemCode + "'>" + item.itemValue + "</option>");
-			 });
-			 selOneItem();
-		 },
-         complete:function(XMLHttpRequest,textStatus){
 
              $(".loading").hide();
              $(".loading-bg").hide();
          }
 	 });
-}
-
-//查询分类
-function selOneItem(){
-	 $("#firstItemCode").empty();
-	 $("#firstItemCode").append("<option value=\"\"  data-code=''>请选择分类</option>");
-	 var schoolCode =$("#schoolCode").val();
-	 if(!schoolCode){
-		 selTwoItem();
-		 return false;
-	 }else{
-		 $.ajax({
-		      url:rootPath + "/branchSchool/selOneItem",
-				 type:"post",
-				 data:{"schoolCode":schoolCode},
-				 dataType:"json",
-				 beforeSend:function(XMLHttpRequest){
-			              $(".loading").show();
-			              $(".loading-bg").show();
-			     },
-				 success:function(data){
-					 $.each(data.oneItem,function(index,item){
-						 $("#firstItemCode").append("<option value='" + item.id + "' data-code='"+item.itemCode+"'>" + item.itemName + "</option>");
-					 });
-					 selTwoItem();
-				 },
-                 complete:function(XMLHttpRequest,textStatus){
-
-                     $(".loading").hide();
-                     $(".loading-bg").hide();
-                 }
-			 });
-	 }
-	 
 }
 
 //查询学段
 function selTwoItem(){
 	 $("#secondItemCode").empty();
-	 $("#secondItemCode").append("<option value='' data-code=''>请选择学段</option>");
-	 var schoolCode =$("#schoolCode").val();
+	 $("#secondItemCode").append("<option value='' data-code=''>学段</option>");
 	 var oneItem =$("#firstItemCode").val();
-	 if(!schoolCode||!oneItem){
+	 if(!oneItem){
 		 selThreeItem();
 		 return false;
 	 }else{
 		 $.ajax({
-		        url:rootPath + "/branchSchool/selTwoItem",
+		        url:rootPath + "/otherSchool/selTwoItem",
 				 type:"post",
-				 data:{"schoolCode":schoolCode,"parentId":oneItem},
+				 data:{"parentId":oneItem},
 				 dataType:"json",
 					beforeSend:function(XMLHttpRequest){
 			              $(".loading").show();
@@ -219,15 +154,14 @@ function selTwoItem(){
 function selThreeItem(twoItem){
 	$("#thirdItemCode").empty();
 	 $("#thirdItemCode").append("<option value=''  data-code=''>请选择学科</option>");
-	 var schoolCode =$("#schoolCode").val();
 	 var twoItem =$("#secondItemCode").val();
-	 if(!schoolCode||!twoItem){
+	 if(!twoItem){
 		 return false;
 	 }else{
 		 $.ajax({
-		        url:rootPath + "/branchSchool/selThreeItem",
+		        url:rootPath + "/otherSchool/selThreeItem",
 				 type:"post",
-				 data:{"schoolCode":schoolCode,"parentId":twoItem},
+				 data:{"parentId":twoItem},
 				 dataType:"json",
 					beforeSend:function(XMLHttpRequest){
 			              $(".loading").show();
@@ -239,7 +173,6 @@ function selThreeItem(twoItem){
 					 });
 				 },
                  complete:function(XMLHttpRequest,textStatus){
-
                      $(".loading").hide();
                      $(".loading-bg").hide();
                  }
@@ -247,18 +180,15 @@ function selThreeItem(twoItem){
 	 }
 }
 
-
 function classTypeDetail(pageNo){
 	var firstItemCode=$("#firstItemCode").find("option:selected").attr("data-code");
 	var secondItemCode=$("#secondItemCode").find("option:selected").attr("data-code");
 	var thirdItemCode=$("#thirdItemCode").find("option:selected").attr("data-code");
 	$.ajax({
-		url : rootPath + "/branchSchool/classTypeDetail",
+		url : rootPath + "/otherSchool/classTypeDetail",
 		type:"post",
-		data:{"areaId":$("#areaId").val(),"name":$("#name").val(),"schoolCode":$("#schoolCode").val(),
-			"firstItemCode":firstItemCode,"secondItemCode":secondItemCode,
-			"thirdItemCode":thirdItemCode,"cddsStatus":$("#cddsStatus").val(),
-			"startTime":$("#startTime").val(),"endTime":$("#endTime").val(),
+		data:{"areaId":$("#areaId").val(),"name":$("#name").val(),"firstItemCode":firstItemCode,"secondItemCode":secondItemCode,
+			"thirdItemCode":thirdItemCode,"status":$("#status").val(),"startTime":$("#startTime").val(),"endTime":$("#endTime").val(),
 			"page":pageNo,"pageSize":$.trim($("#pageSize").val())},
 		dataType:"html",
 		beforeSend:function(XMLHttpRequest){

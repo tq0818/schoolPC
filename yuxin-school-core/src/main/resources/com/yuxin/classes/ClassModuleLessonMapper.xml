@@ -41,6 +41,8 @@
 		<result property="tikuPaper.id" column="paperId"></result>
 		<result property="tikuPaper.paperName" column="paperName"></result>
 		<result property="courseExercise.id" column="courseExerciseId"></result>
+		
+		<result property="isOutSource" column="is_out_source"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
@@ -167,6 +169,11 @@
 	<insert id="insert" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson" useGeneratedKeys="true" keyProperty="id">
 		insert into class_module_lesson( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
+	</insert>
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert1" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson" useGeneratedKeys="true" keyProperty="id">
+		insert into class_module_lesson( <include refid="table_columns" />,is_out_source ) 
+		values ( <include refid="entity_properties" />,#{isOutSource} )
 	</insert>
 	
 	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
@@ -299,11 +306,15 @@
 		select cml.id as id,module_no_id,lesson_date,scope,week_type,lesson_name,lesson_time_start,lesson_time_end,lesson_hour,teachers,assistants,
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.teachers AND sct.del_flag = 0),'该老师被删除') as teachers_name,
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.assistants AND sct.del_flag = 0),'该助教被删除') as assistants_name,
-		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,
+		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,is_out_source,
 		barrage,modetype,ce.class_type_id,ce.id as courseExerciseId, tp.id as paperId, tp.paper_name as paperName
 		from class_module_lesson cml left join course_exercise ce on ce.resource_id = cml.id AND ce.`resource_type` = 'TEACH_METHOD_LIVE'
 		left join tiku_paper tp on tp.id = ce.paper_id
 		where module_no_id = #{moduleNoId} and del_flag = 0 order by sort asc,lesson_date asc
+	</select>
+	
+	<select id="findClassModuleLessonByModuleNoId1" resultMap="classModuleLessonResultMap" parameterType="Integer">
+		select * from class_module_lesson where module_no_id = #{moduleNoId} order by sort asc,lesson_date asc
 	</select>
 	
 	<select id="findClassModuleLessonByKeys" resultType="com.yuxin.wx.vo.classes.ClassModuleLessonVo" parameterType="com.yuxin.wx.vo.classes.ClassModuleLessonVo">

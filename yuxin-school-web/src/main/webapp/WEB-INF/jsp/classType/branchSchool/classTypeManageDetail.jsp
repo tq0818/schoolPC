@@ -22,10 +22,10 @@
                 <td>
                     <c:choose>
                 		<c:when test="${m.cddsStatus eq '1'}"> 
-                			<a class="showSignUp" mobile="" uname="sdsdsd" href="javascript:void(0);">下架</a>|
+                			<a class="saleOnOrStop" data_id="${m.id }" data_type='1' onclick="saleOnOrStop(this)";  href="javascript:void(0);">下架</a>|
                 		</c:when>
                 		<c:otherwise>
-                			 <a class="showSignUp" mobile="" uname="sdsdsd" href="javascript:void(0);">上架</a>|
+                			 <a class="saleOnOrStop" data_id="${m.id }" data_type='0' onclick="saleOnOrStop(this)";  href="javascript:void(0);">上架</a>|
                 		</c:otherwise>
                 	</c:choose>
                 	<c:choose>

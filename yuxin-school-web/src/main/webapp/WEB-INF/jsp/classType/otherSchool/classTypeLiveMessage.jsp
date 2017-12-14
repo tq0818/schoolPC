@@ -58,9 +58,7 @@
                                 </c:if>
                             </c:forEach>
                         </select>
-                         <c:if test="${empty typeItems }">
-                             <input type="text" class="readonly" id="itemOneName" marks="${classType.itemOneCode }" value="${classType.itemOneName }" readonly>
-                         </c:if>
+                        <input type="text" class="readonly" id="itemOneName" marks="${classType.itemOneCode }" value="${classType.itemOneName }" readonly>
                     </span>
                 </p>
                 <p class="c">
@@ -80,9 +78,7 @@
                         <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList(null,1)">
                             <option  value="" data-id="">请选择</option>
                         </select>
-                        <c:if test="${empty typeItems }">
-                            <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>
-                        </c:if>
+                        <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>
                     </span>
                 </p>
                 <p class="c">
@@ -91,9 +87,7 @@
                         <select name="itemFourthCode" id="itemFourthCodeList" >
                             <option  value="" data-id="">请选择</option>
                         </select>
-                        <c:if test="${empty typeItems }">
-                            <input type="text" class="readonly" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>
-                        </c:if>
+                        <input type="text" class="readonly" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>
                     </span>
                 </p>
                 <p class="c">

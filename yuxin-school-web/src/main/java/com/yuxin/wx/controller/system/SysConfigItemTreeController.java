@@ -203,6 +203,7 @@ public class SysConfigItemTreeController {
         // return sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_SECOND, pid,WebUtils.getCurrentCompanyId());
         SysConfigItemRelation relation = new SysConfigItemRelation();
         relation.setId(pid);
+        relation.setCompanyId(WebUtils.getCurrentCompanyId());
         List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findItemFront(relation);
         Map<String, Object> param = new HashMap<>();
         param.put("schoolId",WebUtils.getCurrentUserSchoolId(request));

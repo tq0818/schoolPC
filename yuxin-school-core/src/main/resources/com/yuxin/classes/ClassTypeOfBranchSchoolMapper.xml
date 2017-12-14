@@ -445,9 +445,9 @@
 		<if test="areaId != null and areaId != ''">
 			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
 		</if>
-		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code
-		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code
-		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code
+		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code and sci1.company_id=ct.company_id
+		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code and sci2.company_id=ct.company_id
+		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code and sci3.company_id=ct.company_id
 		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
 			  and ct.is_out_source=0	
 			<if test="schoolCode != null and schoolCode != ''">
@@ -516,7 +516,7 @@
 	<select id="findItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="map">
         select  f.id, f.item_code,i.item_name 
         from sys_config_item_relation_front f
-		join sys_config_item i on i.item_code=f.item_code
+		join sys_config_item i on i.item_code=f.item_code and i.company_id=f.company_id
 		join sys_school_item_relation r on i.id=r.item_id
 		join company c on c.id=i.company_id
 		where f.level = #{level} and f.origin_type=0 
@@ -550,9 +550,9 @@
 		join commodity_product_realtion pr on pr.product_id=a.id
 		JOIN commodity com on com.id=pr.com_id and com.origin_type=0
 		LEFT JOIN sys_config_teacher t on t.id=a.teacher_id
-		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
-		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
-		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
+		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code  and a.company_id=b.company_id
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code  and a.company_id=b.company_id
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and a.company_id=b.company_id
 		where a.id = #{classId} and a.origin_type=0
 	</select>
 	
@@ -562,11 +562,12 @@
 			t.name as teacherName, c1.company_name as schoolName
 		FROM class_type a
 		join school_share_class_type st on st.target_class_type_id=a.id
-	    join company c1 on c1.id=st.source_company_id 
+		join company c1 on c1.id=st.source_company_id 
+		join class_type ct on ct.id=st.source_class_type_id
 		LEFT JOIN sys_config_teacher t on t.id=a.teacher_id
-		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
-		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
-		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
+		LEFT JOIN sys_config_item b on b.item_code = ct.item_one_code and ct.company_id=b.company_id
+		LEFT JOIN sys_config_item c on c.item_code = ct.item_second_code and ct.company_id=b.company_id
+		LEFT JOIN sys_config_item d on d.item_code = ct.item_third_code and ct.company_id=b.company_id
 		where a.is_out_source=1 and a.origin_type=0 and a.id = #{classId} 
 	</select>
 	
@@ -755,9 +756,9 @@
 		from class_type ct
 		JOIN school_share_class_type st on st.target_class_type_id=ct.id and st.is_used=1
 		join company c1 on c1.id=st.source_company_id
-		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code
-		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code
-		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code
+		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code and sci1.company_id=ct.company_id
+		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code and sci2.company_id=ct.company_id
+		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code and sci3.company_id=ct.company_id
 		where ct.origin_type=0 and ct.is_out_source=1 	
 			<if test="companyId != null">
 				and ct.company_id=#{companyId}

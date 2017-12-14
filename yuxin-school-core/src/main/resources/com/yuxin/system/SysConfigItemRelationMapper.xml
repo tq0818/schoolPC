@@ -169,7 +169,7 @@
     <select id="findChildByCode"  resultMap="sysConfigItemRelationResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
 
         select   DISTINCT
-        (rf.item_code) AS item_code,(SELECT item_name FROM sys_config_item sci WHERE sci.item_code=rf.item_code)AS item_name
+        (rf.item_code) AS item_code,(SELECT item_name FROM sys_config_item sci WHERE sci.item_code=rf.item_code  and sci.company_id=rf.company_id)AS item_name
         from
          sys_config_item_relation_front rf
          where  parent_code =#{itemCode} and rf.origin_type=0 

@@ -14,6 +14,7 @@ import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.model.auth.AuthRole;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyVo;
@@ -95,6 +96,36 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		companyMapper.editCompanyMemberService(cms);
 		companyMapper.editcompanyLiveConfig(clc);
     }
-	
+
+	@Override
+	public List<EduMasterClass> findClassByEduAreaSchool(String  eduAreaSchool){
+		
+		return companyMapper.findClassByEduAreaSchool(eduAreaSchool);
+	}
+	@Override
+	public List<EduMasterClass> findIsUsedClassByEduAreaSchool(String  eduAreaSchool){
+		
+		return companyMapper.findIsUsedClassByEduAreaSchool(eduAreaSchool);
+	}
+	@Override
+	public void addClass(List<EduMasterClass> saveList) {
+		
+		companyMapper.addClass(saveList);
+	}
+	@Override
+	public void editClass(List<EduMasterClass> saveList,List<EduMasterClass> updateList) {
+		
+		if(null!=saveList && saveList.size()>0){
+			companyMapper.addClass(saveList);
+		}
+		if(null!=updateList && updateList.size()>0){
+			companyMapper.editClass(updateList);
+		}
+	}
+	@Override
+	public String findEduAreaByeduAreaSchool(String  eduAreaSchool) {
+		
+		return companyMapper.findEduAreaByeduAreaSchool(eduAreaSchool);
+	}
 	
 }

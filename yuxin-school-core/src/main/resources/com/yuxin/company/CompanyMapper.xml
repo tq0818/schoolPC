@@ -1351,4 +1351,56 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		<where>company_id = #{companyId} and live_type=1</where>
 	</update>
 	
+	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="classResultMap">
+		<result property="id" column="id" />
+		<result property="eduStep" column="edu_step" />
+		<result property="eduYear" column="edu_year" />
+		<result property="classCount" column="edu_class" />
+		
+	</resultMap>
+	<select id="findClassByEduAreaSchool" resultMap="classResultMap" parameterType="String">
+		select id,edu_step,edu_year,count(edu_class) as edu_class from edu_master_class emc 
+		where edu_year <![CDATA[ <= ]]> (select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW()) else (YEAR(NOW())-1) end)
+		and edu_year<![CDATA[ > ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
+		GROUP BY edu_step,edu_year 
+		ORDER BY edu_step ,edu_year desc
+		
+	</select>
+	
+	<sql id="entity_properties_class">
+		#{item.eduArea},
+		#{item.eduSchool},
+		#{item.eduStep},
+		#{item.eduYear},
+		#{item.eduClass},
+		#{item.isUsed}
+	</sql>
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="addClass" parameterType="java.util.List" useGeneratedKeys="true" >
+		insert into edu_master_class ( edu_area,edu_school,edu_step,edu_year,edu_class,is_used )
+		values
+		<foreach item="item" collection="list" separator=",">
+			( <include refid="entity_properties_class" /> )
+		</foreach>
+	</insert>
+	
+	<select id="findEduAreaByeduAreaSchool" resultType="String" parameterType="String">
+		select t2.item_code from sys_config_dict t1
+		LEFT JOIN sys_config_dict t2 ON t2.id=t1.parent_item_id where t1.item_code=#{eduAreaSchool}
+	</select>
+	
+	<select id="findIsUsedClassByEduAreaSchool" resultMap="classResultMap" parameterType="String">
+		select id,edu_step,edu_year,edu_class from edu_master_class emc  where is_used=1
+	</select>
+	
+	
+	<update id="editClass" parameterType="java.util.List"> 
+    		update edu_master_class set is_used=0 ,edu_class=null where
+        <foreach collection ="list" item="item" index= "index"  separator ="or">
+        	( edu_step=#{item.eduStep} 
+	        and edu_year=#{item.eduYear} 
+	        and edu_class=#{item.eduClass}) 
+        </foreach> 
+	</update>
+	
 </mapper>

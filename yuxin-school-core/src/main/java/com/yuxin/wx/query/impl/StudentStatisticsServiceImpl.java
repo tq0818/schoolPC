@@ -175,8 +175,6 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
             a.put ("watchTime",h + "小时" + m + "分" + s +"秒");
 
         }
-
-
         return result;
     }
 

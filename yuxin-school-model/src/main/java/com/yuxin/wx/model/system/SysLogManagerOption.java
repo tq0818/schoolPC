@@ -1,9 +1,10 @@
 package com.yuxin.wx.model.system;
 
 import java.util.Date;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import com.yuxin.wx.util.ShortDateSerializer;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.yuxin.wx.util.ShortDateSerializer;
 import com.yuxin.wx.common.BaseEntity;
 
 /**
@@ -22,7 +23,7 @@ public class SysLogManagerOption extends BaseEntity {
 	private String	operation;		
 	private String	dataBefore;		
 	private String	dataAfter;		
-
+	private Integer zhuCompanyId;   
 	// Constructor
 	public SysLogManagerOption() {
 	}
@@ -102,6 +103,16 @@ public class SysLogManagerOption extends BaseEntity {
 		return this;
 	}
 	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "SysLogManagerOption [" + "id=" + getId() + ", userId=" + userId + ", companyId=" + companyId + ", optionTime=" + optionTime + ", operation=" + operation + ", dataBefore=" + dataBefore + ", dataAfter=" + dataAfter +  "]";

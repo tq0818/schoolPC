@@ -36,6 +36,7 @@ public class CompanyFootInfo extends BaseEntity {
 	private String icoPath;
 	
 	private String contactNumber;
+	private String zhuCompanyId;
 
 	public String getIcoPath() {
 		return icoPath;
@@ -244,4 +245,15 @@ public class CompanyFootInfo extends BaseEntity {
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
+
+	
+    public String getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(String zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+	
 }

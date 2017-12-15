@@ -29,7 +29,7 @@ public class SysConfigIndexPageTemplate extends BaseEntity {
 	private Integer startModuleType;//支持模块段查询
 	
 	private Integer endModuleType;//支持模块段查询
-	
+	private Integer zhuCompanyId;   
 	
 	public Integer getStartModuleType() {
 		return startModuleType;
@@ -203,6 +203,16 @@ public class SysConfigIndexPageTemplate extends BaseEntity {
 		return this;
 	}
 	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "SysConfigIndexPageTemplate [" + "id=" + getId() + ", moduleName=" + moduleName + ", customName=" + customName + ", status=" + status + ", moduleType=" + moduleType + ", widthSetting=" + widthSetting + ", link=" + link + ", picPath=" + picPath + ", itemOneIdList=" + itemOneIdList + ", dataSortBy=" + dataSortBy + ", dataLimitNum=" + dataLimitNum + ", companyId=" + companyId + ", schoolId=" + schoolId + ", displaySeq=" + displaySeq +  "]";

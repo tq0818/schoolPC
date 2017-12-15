@@ -16,6 +16,7 @@ public class CompanyHeadFootConfig extends BaseEntity {
 	private Integer	companyId;		 /* 公司编号 */ 
 	private Integer	templeteId;		 /* 模板编号 */ 
 	private Integer	status;		 /* 状态 */ 
+	private Integer	zhuCompanyId;		 
 
 	// Constructor
 	public CompanyHeadFootConfig() {
@@ -63,6 +64,16 @@ public class CompanyHeadFootConfig extends BaseEntity {
 		return this;
 	}
 	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "CompanyHeadFootConfig [" + "id=" + getId() + ", companyId=" + companyId + ", templeteId=" + templeteId + ", status=" + status +  "]";

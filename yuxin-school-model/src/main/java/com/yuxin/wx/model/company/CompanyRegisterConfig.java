@@ -25,6 +25,7 @@ public class CompanyRegisterConfig extends BaseEntity {
 	private Integer registerAgreementFlag;	 /* 注册协议开启状态 */
 	private Integer validateEmailFlag;   /*邮箱验证*/
 	private Integer jjwLogFlag;   /*继教网登录开关*/
+	private Integer zhuCompanyId;   
 	// Constructor
 	public CompanyRegisterConfig() {
 	}
@@ -160,6 +161,16 @@ public class CompanyRegisterConfig extends BaseEntity {
 		return this;
 	}
 
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

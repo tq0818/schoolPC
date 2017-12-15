@@ -23,7 +23,8 @@ public class AuthRolePrivilege extends BaseEntity {
 	private Date	updateTime;		 /* 更新时间 */ 
 	private String	updator;		 /* 更新人 */ 
 	private Integer privilegeCategoryId;  /* 权限菜单*/
-
+	private Integer companyId;
+	private Integer zhuCompanyId;
 	// Constructor
 	public AuthRolePrivilege() {
 	}
@@ -110,6 +111,26 @@ public class AuthRolePrivilege extends BaseEntity {
 	public void setPrivilegeCategoryId(Integer privilegeCategoryId) {
 		this.privilegeCategoryId = privilegeCategoryId;
 	}
+
+	
+    public Integer getCompanyId() {
+    	return companyId;
+    }
+
+	
+    public void setCompanyId(Integer companyId) {
+    	this.companyId = companyId;
+    }
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

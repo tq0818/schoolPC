@@ -20,6 +20,7 @@ public class CompanyFunctionSet extends BaseEntity {
 	private String	status;		 /* 启用状态，1：启用，0：禁用 */ 
 	private String	column1;		 /* 备用字段1 */ 
 	private String	column2;		 /* 备用字段2 */ 
+	private String	zhuCompanyId;		
 
 	// Constructor
 	public CompanyFunctionSet() {
@@ -111,6 +112,16 @@ public class CompanyFunctionSet extends BaseEntity {
 		return this;
 	}
 	
+	
+    public String getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(String zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "CompanyFunctionSet [" + "id=" + getId() + ", companyId=" + companyId + ", functionCode=" + functionCode + ", functionName=" + functionName + ", content=" + content + ", status=" + status + ", column1=" + column1 + ", column2=" + column2 +  "]";

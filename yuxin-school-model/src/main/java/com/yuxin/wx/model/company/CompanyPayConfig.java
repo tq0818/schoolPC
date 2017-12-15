@@ -37,6 +37,7 @@ public class CompanyPayConfig extends BaseEntity {
 	private String letvPu;/* 乐视pu */
 	private String sxyCode;/*首信易商户编号*/
 	private String sxyKey;/*首信易密钥*/
+	private Integer zhuCompanyId;	
 	public String getLetvPu() {
 		return letvPu;
 	}
@@ -263,4 +264,15 @@ public class CompanyPayConfig extends BaseEntity {
 	public void setQiniuUid(Integer qiniuUid) {
 		this.qiniuUid = qiniuUid;
 	}
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+	
 }

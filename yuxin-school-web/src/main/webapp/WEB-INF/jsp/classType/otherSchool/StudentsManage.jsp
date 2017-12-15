@@ -42,10 +42,10 @@
 	<input type="hidden" id="stuMobiles" value="" name="stuMobiles"/>
 </form>
 
-<%@include file="/WEB-INF/jsp/classType/commonTitle.jsp" %>
+<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonTitle.jsp"></jsp:include>
 <div class="u-wrap company overflow">
-	<%@include file="/WEB-INF/jsp/simpleClasses/commonClass.jsp" %>
-    <div class="right-side" style="background-color: white;">
+	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonClass.jsp"></jsp:include>
+	<div class="right-side" style="background-color: white;">
 
 		    <div class="mainbackground nopadding" style="min-height: 546px;">
 		        <div class="heading">

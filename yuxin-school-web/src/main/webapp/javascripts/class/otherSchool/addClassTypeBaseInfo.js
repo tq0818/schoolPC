@@ -453,7 +453,6 @@
 			    if(type=="update"){
 			    	$(".firstspan").html('');
 					$("#addFormOne").validate(rule1);
-					
 			    	if($("#addFormOne").valid()){
 			    		$.ajax({
 			    			url: rootPath+"/simpleClasses/checkUpdateClassTypeName",
@@ -462,10 +461,10 @@
 	                		data:{"name":$("#classTypeName").val(),"id":$("#classtypeIds").val()},
 	                		success:function(b){
 	                			if(b){
-	                				var itemOneId=$("#itemOneName").attr("marks");
+	                				/*var itemOneId=$("#itemOneName").attr("marks");
 	        				    	var itemSecondId=$("#itemSecondName").attr("marks");
 	        				    	$("#oneId").val(itemOneId);
-	        				    	$("#twoId").val(itemSecondId);
+	        				    	$("#twoId").val(itemSecondId);*/
 	        				    	$.ajax({
 	        			    			url: rootPath+"/editSimpleCourse/updateClassTypeMessage",
 	        	                		type:"post",

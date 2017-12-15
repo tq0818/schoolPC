@@ -24,7 +24,7 @@ public class CompanyServiceStatic extends BaseEntity {
 	private Integer onlineStudent;	/*在线版人数*/
 	private String resourceStorage;
 	private String resourceFlow;
-
+	private Integer zhuCompanyId;   
 	// Constructor
 	public CompanyServiceStatic() {
 	}
@@ -154,4 +154,15 @@ public class CompanyServiceStatic extends BaseEntity {
 	public void setResourceFlow(String resourceFlow) {
 		this.resourceFlow = resourceFlow;
 	}
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+	
 }

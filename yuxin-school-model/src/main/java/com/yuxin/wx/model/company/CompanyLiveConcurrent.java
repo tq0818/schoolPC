@@ -16,6 +16,7 @@ public class CompanyLiveConcurrent extends BaseEntity {
 	private Integer	companyId;		
 	private Integer	concurrentMonth;		 /* 并发月份，例如201603 */ 
 	private Integer	concurrentMax;		 /* 最大并发数 */ 
+	private Integer	zhuCompanyId;		 
 
 	// Constructor
 	public CompanyLiveConcurrent() {
@@ -63,6 +64,16 @@ public class CompanyLiveConcurrent extends BaseEntity {
 		return this;
 	}
 	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "CompanyLiveConcurrent [" + "id=" + getId() + ", companyId=" + companyId + ", concurrentMonth=" + concurrentMonth + ", concurrentMax=" + concurrentMax +  "]";

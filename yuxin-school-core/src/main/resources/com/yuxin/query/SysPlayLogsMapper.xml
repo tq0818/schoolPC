@@ -75,8 +75,8 @@
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
@@ -194,8 +194,8 @@
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
@@ -241,8 +241,8 @@
 		left join sys_config_dict dr on dr.item_code = r.edu_step_new_code
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
@@ -277,8 +277,8 @@
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where  s.`edu_area` IS NOT NULL
@@ -420,8 +420,8 @@
 		LEFT JOIN sys_config_dict d ON d.`item_code` = td.`edu_area`
 		LEFT JOIN sys_config_dict d1 ON d1.`item_code` = td.`edu_school`
 		LEFT JOIN class_type t ON t.id = td.`class_type_id`  and t.origin_type=0
-		LEFT JOIN sys_config_item it ON it.`item_code` = t.`item_second_code`
-		LEFT JOIN sys_config_item it1 ON it1.`item_code` = t.`item_third_code`
+		LEFT JOIN sys_config_item it ON it.`item_code` = t.`item_second_code` and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 ON it1.`item_code` = t.`item_third_code` and it1.company_id=t.company_id
 		GROUP BY td.`edu_area`,
 		td.`edu_school`,
 		t.`item_second_code`,
@@ -612,8 +612,8 @@
 		<if test="companyId!=null and companyId!=''">AND t.company_id = #{companyId}</if>
 		GROUP BY pl.lecture_id,
 		pl.user_id) td
-		LEFT JOIN sys_config_item it ON it.item_code = td.item_third_code
-		LEFT JOIN sys_config_item it1 ON it1.item_code = td.item_second_code
+		LEFT JOIN sys_config_item it ON it.item_code = td.item_third_code and it.company_id= #{companyId}
+		LEFT JOIN sys_config_item it1 ON it1.item_code = td.item_second_code and it1.company_id= #{companyId}
 		GROUP BY td.`item_second_code`,
 		td.`item_third_code`
 		<choose>
@@ -634,8 +634,8 @@
 		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where  s.`edu_area` IS NOT NULL
@@ -704,8 +704,8 @@
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
@@ -747,8 +747,8 @@
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
@@ -801,8 +801,8 @@
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL

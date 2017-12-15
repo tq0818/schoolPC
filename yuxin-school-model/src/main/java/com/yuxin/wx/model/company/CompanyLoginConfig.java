@@ -29,6 +29,7 @@ public class CompanyLoginConfig extends BaseEntity {
 	private String qqValidateCode;
 	private String weiboValidateCode;
 	private Integer useLoginPage;	/*是否使用登录页面 0-否 1-是*/
+	private Integer zhuCompanyId;	
 	
 	private String wechatOpenAppid;
 	private String wechatOpenSecret;
@@ -232,6 +233,16 @@ public class CompanyLoginConfig extends BaseEntity {
 		return this;
 	}
 	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "CompanyLoginConfig [" + "id=" + getId() + ", multiOnline=" + multiOnline + ", qqLogin=" + qqLogin + ", wechatLogin=" + wechatLogin + ", weiboLogin=" + weiboLogin + ", bingMobile=" + bingMobile + ", qqAppid=" + qqAppid + ", qqKey=" + qqKey + ", wechatAppid=" + wechatAppid + ", wechatKey=" + wechatKey + ", weiboKey=" + weiboKey + ", weiboSercet=" + weiboSercet + ", companyId=" + companyId +  ", thirdLoginFlag=" + thirdLoginFlag +  ", qqValidateCode=" + qqValidateCode +  ", weiboValidateCode=" + weiboValidateCode +  "]";

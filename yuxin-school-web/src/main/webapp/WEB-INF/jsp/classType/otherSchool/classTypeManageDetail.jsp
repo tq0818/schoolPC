@@ -20,7 +20,7 @@
                 <td>
                 	<fmt:formatDate value="${m.createTime }" pattern="yyyy-MM-dd"/>
                 </td>
-                <td>
+                <td  class="slink">
                     <c:choose>
                 		<c:when test="${m.publishStatus eq 'CLASS_UNPUBLISHED' or m.publishStatus eq 'CLASS_STOP_SALE' }"> 
                 			<a  class="saleOnOrStop" data_id="${m.id }" data_type='0' onclick="saleOnOrStop(this);"  href="javascript:void(0);">上架</a>|
@@ -31,13 +31,13 @@
                 	</c:choose>
                     <a class="studentDetail" href="<%=rootPath %>/otherSchool/classBaseInfo/${m.id }/live">课程详情</a>|
                     <a class="more" href="javascript:void(0);"> 管理  </a>
-               		<ul class="none box openCourseManage" style="">
-                     <li class="subentry" mark="/otherSchool/editClassBaseInfo/${m.id }/live"><a class=""  href="javascript:void(0);">基本信息</a></li>
-                     <li class="subentry" mark="/otherSchool/editliveOrface/${m.id }/live"><a class=""  href="javascript:void(0);">排课表</a></li>
-                     <li class="subentry" mark="/otherSchool/editCourseDetail/${m.id }/live"><a class=""  href="javascript:void(0);">课程详情</a></li>
-                     <li class="subentry" mark="/otherSchool/studentList/${m.id }/live"><a class=""  href="javascript:void(0);">学员管理</a></li>
-                     <li class="subentry" mark="/otherSchool/classesResource/${m.id }/live"><a class=""  href="javascript:void(0);">课程资料</a></li>
-                     <li class="subentry" mark="/otherSchool/companyLiveStaticDetailList/${m.id }/live"><a class=""  href="javascript:void(0);">直播上课统计</a></li>
+               		<ul class="none box openCourseManage" style="width: 120px;">
+                     <li mark="/otherSchool/editClassBaseInfo/${m.id }/live"><a class=""  href="javascript:void(0);">基本信息</a></li>
+                     <li mark="/otherSchool/editliveOrface/${m.id }/live"><a class=""  href="javascript:void(0);">排课表</a></li>
+                     <li mark="/otherSchool/editCourseDetail/${m.id }/live"><a class=""  href="javascript:void(0);">课程详情</a></li>
+                     <li mark="/otherSchool/studentList/${m.id }/live"><a class=""  href="javascript:void(0);">学员管理</a></li>
+                     <li mark="/otherSchool/classesResource/${m.id }/live"><a class=""  href="javascript:void(0);">课程资料</a></li>
+                     <li mark="/otherSchool/companyLiveStaticDetailList/${m.id }/live"><a class=""  href="javascript:void(0);">直播上课统计</a></li>
                  </ul>
                 </td>
             </tr>
@@ -72,7 +72,7 @@
 		});
 		
 		//点击菜单列表
-		$(".openCourseManage").on('click','li.subentry',function(){
+		$(".openCourseManage").on('click','li',function(){
 			var mark=$(this).attr("mark");
 			window.location.href=rootPath+mark;
 		});

@@ -19,7 +19,7 @@
 			    </td>
 			    <td class="slink">
 			        <a class=""  target="_blank" href="http://${company.domain}/sysConfigItem/selectDetail/${m.id }">课程详情</a>|
-			        <a class="classSchedule"  href="javascript:void(0);">课程表</a>|
+			        <a class="classSchedule"  href="javascript:void(0);" onclick="showCourse(this);" data-id="${m.id }">课程表</a>
 			    </td>
 			</tr>
 		</c:forEach>

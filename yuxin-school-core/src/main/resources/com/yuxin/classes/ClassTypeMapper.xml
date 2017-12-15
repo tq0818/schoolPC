@@ -799,7 +799,7 @@
 			JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 			JOIN school_share_class_type s on s.target_class_type_id=ct.id
 			JOIN company c1 on c1.id=s.source_company_id
-			Left JOIN sys_config_item sd on sd.item_code=ct.item_third_code and sd.parent_code='SUBJECT'
+			Left JOIN sys_config_item sd on sd.item_code=ct.item_third_code and sd.company_id=ct.company_id and sd.parent_code='SUBJECT'
 			LEFT JOIN ( 
 				SELECT	min(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_start,':00'),'%Y-%m-%d %H:%i:%S') ) as min_time,
 						max(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_end,':00'),'%Y-%m-%d %H:%i:%S')) as max_time,
@@ -835,7 +835,7 @@
 			join commodity_product_realtion pr on pr.product_id = ct.id
 			JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 			JOIN school_share_class_type s on s.target_class_type_id=ct.id
-			Left join sys_config_item sd on sd.item_code=ct.item_third_code and sd.parent_code='SUBJECT'
+			Left join sys_config_item sd on sd.item_code=ct.item_third_code and sd.company_id=ct.company_id and sd.parent_code='SUBJECT'
 			LEFT JOIN ( 
 				SELECT	min(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_start,':00'),'%Y-%m-%d %H:%i:%S') ) as min_time,
 						max(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_end,':00'),'%Y-%m-%d %H:%i:%S')) as max_time,
@@ -874,7 +874,7 @@
 		join commodity_product_realtion pr on pr.product_id=ct.id
 		join commodity c on c.id=pr.com_id and c.origin_type=0
 		join company cp on cp.id=ct.company_id
-		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.parent_code='SUBJECT'
+		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.company_id=ct.company_id and sci.parent_code='SUBJECT'
 		LEFT JOIN sys_config_teacher t on t.id=ct.teacher_id
 		where  ct.origin_type=0  and ct.is_out_source=0 and ct.company_id=#{companyId}
 		<if test="lable != null and lable != ''">
@@ -908,7 +908,7 @@
 		SELECT count(ct.id) from class_type ct
 		join commodity_product_realtion pr on pr.product_id=ct.id
 		join commodity c on c.id=pr.com_id and c.origin_type=0
-		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.parent_code='SUBJECT'
+		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.company_id=ct.company_id and sci.parent_code='SUBJECT'
 		LEFT JOIN sys_config_teacher t on t.id=ct.teacher_id
 		where  ct.origin_type=0 and  ct.is_out_source=0  and ct.company_id=#{companyId}
 		<if test="lable != null and lable != ''">
@@ -932,7 +932,7 @@
 		JOIN commodity_product_realtion pr on pr.product_id = ct.id
 		JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		JOIN company c1 on c1.id=ct.company_id and c1.is_area=2
-		Left JOIN sys_config_item sd on sd.item_code=ct.item_third_code and sd.parent_code='SUBJECT'
+		Left JOIN sys_config_item sd on sd.item_code=ct.item_third_code and sd.company_id=ct.company_id and sd.parent_code='SUBJECT'
 		where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0  
 			  and ct.is_out_source=0 and ct.live_flag=1 and ct.company_id != #{companyId}
 			<if test="className != null and className != ''">

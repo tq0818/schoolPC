@@ -1266,7 +1266,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		index_domain,xzqh_code,school_type,suffix)
 		select #{schoolName},#{schoolDesc},NOW(),
 		#{creator},0,#{companyId},null,overview,
-		index_domain,xzqh_code,school_type,suffix from sys_config_school 
+		index_domain,xzqh_code,school_type,suffix from sys_config_school  where company_id=#{zhuCompanyId}
 	</insert>
 	<!-- 添加一级科目信息-->
 	<insert id="addSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
@@ -1276,45 +1276,177 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
 		sys_config_item i, sys_school_item_relation r
 		where i.id=r.item_id and i.item_type in(1)  and
-		r.del_flag=0 and i.status =1  and i.company_id=18113 and r.school_id='681' and i.parent_code is not null
+		r.del_flag=0 and i.status =1  and i.company_id=#{zhuCompanyId} and i.parent_code is not null
 	</insert>
 	<!-- 添加二级科目信息-->
 	<insert id="addTwoSysConfigItem" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_config_item(item_name,item_type,parent_id,status,del_flag,remark,item_pic,item_back_pic,company_id,
 		create_time,creator,sort,item_code,parent_code)
 		select i.item_name,i.item_type,
-		(CASE when  i.parent_code='TYPE' THEN (select id from sys_config_item where item_code='TYPE' and company_id=#{companyId})  
-		when  i.parent_code='GRADE' THEN (select id from sys_config_item where item_code='GRADE' and company_id=#{companyId})
-		when  i.parent_code='SUBJECT' THEN (select id from sys_config_item where item_code='SUBJECT' and company_id=#{companyId}) end )as parent_id,
+		(CASE when  i.parent_code='TYPE' THEN (select id from sys_config_item where item_code='TYPE' and company_id=#{zhuCompanyId})  
+		when  i.parent_code='GRADE' THEN (select id from sys_config_item where item_code='GRADE' and company_id=#{zhuCompanyId})
+		when  i.parent_code='SUBJECT' THEN (select id from sys_config_item where item_code='SUBJECT' and company_id=#{zhuCompanyId}) end )as parent_id,
 		1,0,i.remark,i.item_pic,i.item_back_pic,#{companyId},
 		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
 		sys_config_item i, sys_school_item_relation r
 		where i.id=r.item_id and i.item_type in(2)  and
-		r.del_flag=0 and i.status =1  and i.company_id=18113 and r.school_id='681' and i.parent_code is not null
+		r.del_flag=0 and i.status =1  and i.company_id=#{zhuCompanyId}  and i.parent_code is not null
 	</insert>
 	<!-- 添加科目与学校关系信息-->
 	<insert id="addSysConfigAndSchool" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_school_item_relation
 		(school_id,item_id,del_flag,create_time,creator,true_del_flag)
-		select  #{schoolId}, t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
+		select  #{schoolId}, t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{zhuCompanyId}
 
 	</insert>
 	<!-- 添加角色-->
 	<insert id="addAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
 		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
-		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=18113)
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=#{zhuCompanyId})
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
 	  update auth_role set role_uid=id where role_uid is null
 	</update>
 	<!-- 添加角色菜单关系-->
-	<insert id="addAuthPrivilegeCategory" parameterType="int" useGeneratedKeys="true" keyProperty="id">
+	<insert id="addAuthPrivilegeCategory" parameterType="com.yuxin.wx.model.auth.AuthRolePrivilege" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO auth_role_privilege (role_uid,privilege_id,create_time) 
 		select t1.id,t3.privilege_id,NOW() from auth_role t1
 		INNER JOIN auth_role t2 ON t1.role_name=t2.role_name
 		INNER JOIN  auth_role_privilege t3  ON t3.role_uid=t2.role_uid
-		where t1.company_id=#{companyId} and t2.company_id=18113;
+		where t1.company_id=#{companyId} and t2.company_id=#{zhuCompanyId};
+	</insert>
+	
+	<!-- 插入用户 -->
+	<insert id="addUser" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into users(username,password,real_name,user_type,status,edu_area_school,is_area) 
+		values ( #{username},#{password},#{realName},#{userType},#{status},#{eduAreaSchool},#{isArea})
+	</insert>
+	<!-- 插入用户分校关系 -->
+	<insert id="addUserCompany" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into users_comany_relation(user_id,company_id,is_used ) 
+		values ( #{id},#{companyId},1)
+	</insert>
+	<!-- 插入用户角色关系 -->
+	<insert id="addAuthUserRole" parameterType="com.yuxin.wx.model.auth.AuthUserRole" useGeneratedKeys="true" keyProperty="id">
+		insert into auth_user_role(user_id,role_uid,create_time,creator ) 
+		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId})
+	</insert>
+	<!-- company_app_auth -->
+	<insert id="addCompanyAppAuth" parameterType="com.yuxin.wx.model.company.CompanyAppAuth" useGeneratedKeys="true" keyProperty="id">
+		insert into company_app_auth(company_id,authorize_time,accessKey,status,end_time,version,platform,buy_flag ) 
+		(select #{companyId},authorize_time,accessKey,status,end_time,version,platform,buy_flag from company_app_auth where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_foot_info -->
+	<insert id="addCompanyFootInfo" parameterType="com.yuxin.wx.model.company.CompanyFootInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into company_foot_info (company_id,tencent_weibo,sina_weibo,logo_type,logo_pic,logo_text,
+		copyright,overview,icp_no,tencent_weibo_flag,sina_weibo_flag,tencent_wechat_flag,
+		tencent_wechat,themes,security_regno,security_ico,security_link,contact_number ) 
+		(select #{companyId},tencent_weibo,sina_weibo,logo_type,logo_pic,logo_text,
+		copyright,overview,icp_no,tencent_weibo_flag,sina_weibo_flag,tencent_wechat_flag,
+		tencent_wechat,themes,security_regno,security_ico,security_link,contact_number from company_foot_info where company_id=#{zhuCompanyId})
+	</insert>
+	
+	<!-- company_function_set -->
+	<insert id="addCompanyFunctionSet" parameterType="com.yuxin.wx.model.company.CompanyFunctionSet" useGeneratedKeys="true" keyProperty="id">
+		insert into company_function_set (company_id,function_code,function_name,content,status,column_1,column_2) 
+		(select #{companyId},function_code,function_name,content,status,column_1,column_2 from company_function_set where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_head_foot_config -->
+	<insert id="addCompanyHeadFootConfig" parameterType="com.yuxin.wx.model.company.CompanyHeadFootConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_head_foot_config (company_id,templete_id,status) 
+		(select #{companyId},templete_id,status from company_head_foot_config where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_live_concurrent -->
+	<insert id="addCompanyLiveConcurrent" parameterType="com.yuxin.wx.model.company.CompanyLiveConcurrent" useGeneratedKeys="true" keyProperty="id">
+		insert into company_live_concurrent (company_id,concurrent_month,concurrent_max) 
+		(select #{companyId},concurrent_month,concurrent_max from company_live_concurrent where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_login_config -->
+	<insert id="addCompanyLoginConfig" parameterType="com.yuxin.wx.model.company.CompanyLoginConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_login_config (company_id,multi_online,qq_login,wechat_login,weibo_login,bing_mobile,
+		qq_appid,qq_key,wechat_appid,wechat_key,weibo_key,weibo_sercet,third_login_flag,qq_validate_code,
+		weibo_validate_code,wechat_open_appid,wechat_open_secret,use_login_page) 
+		(select #{companyId},multi_online,qq_login,wechat_login,weibo_login,bing_mobile,
+		qq_appid,qq_key,wechat_appid,wechat_key,weibo_key,weibo_sercet,third_login_flag,qq_validate_code,
+		weibo_validate_code,wechat_open_appid,wechat_open_secret,use_login_page 
+		from company_login_config where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_new_step -->
+	<insert id="addCompanyNewStep" parameterType="com.yuxin.wx.model.company.CompanyNewStep" useGeneratedKeys="true" keyProperty="id">
+		insert into company_new_step (company_id,company_authority,school_head,school_foot,
+		school_index,item_all,user_create,new_step_flag) 
+		(select #{companyId},company_authority,school_head,school_foot,
+		school_index,item_all,user_create,new_step_flag
+		from company_new_step where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_pay_config -->
+	<insert id="addCompanyPayConfig" parameterType="com.yuxin.wx.model.company.CompanyPayConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_pay_config (company_id,zfb_account,zfb_partner_id,zfb_key,cc_user_id,cc_api_key,
+		letv_user_id,letv_api_key,letv_uuid,letv_pu,pay_type,bank_account_name,bank_account_number,bank_company_name,
+		person_name,person_zfb_account,person_zfb_url,person_wx_account,person_wx_url,qiniu_username,
+		qiniu_password,qiniu_ak,qiniu_sk,qiniu_bucket,gzh_wx_key,gzh_wx_appID,gzh_wx_appSecret,
+		gzh_wx_mchID,sxy_code,sxy_key,qiniu_uid) 
+		(select #{companyId},zfb_account,zfb_partner_id,zfb_key,cc_user_id,cc_api_key,
+		letv_user_id,letv_api_key,letv_uuid,letv_pu,pay_type,bank_account_name,bank_account_number,bank_company_name,
+		person_name,person_zfb_account,person_zfb_url,person_wx_account,person_wx_url,qiniu_username,
+		qiniu_password,qiniu_ak,qiniu_sk,qiniu_bucket,gzh_wx_key,gzh_wx_appID,gzh_wx_appSecret,
+		gzh_wx_mchID,sxy_code,sxy_key,qiniu_uid
+		from company_pay_config where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_pics -->
+	<insert id="addCompanyPics" parameterType="com.yuxin.wx.model.company.CompanyPics" useGeneratedKeys="true" keyProperty="id">
+		insert into company_pics (company_id,pic_name,pic_original_url,pic_big_url,pic_middle_url,
+		pic_small_url,pic_tag,pic_type,item_one_id) 
+		(select #{companyId},pic_name,pic_original_url,pic_big_url,pic_middle_url,
+		pic_small_url,pic_tag,pic_type,item_one_id
+		from company_pics where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_register_config -->
+	<insert id="addCompanyRegisterConfig" parameterType="com.yuxin.wx.model.company.CompanyRegisterConfig" useGeneratedKeys="true" keyProperty="id">
+		insert into company_register_config (company_id,mobile_flag,username_flag,email_flag,qq_flag,wechat_flag,
+		weibo_flag,close_flag,register_agreement,register_agreement_flag,validate_email_flag,jjw_log_flag) 
+		(select #{companyId},mobile_flag,username_flag,email_flag,qq_flag,wechat_flag,
+		weibo_flag,close_flag,register_agreement,register_agreement_flag,validate_email_flag,jjw_log_flag
+		from company_register_config where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- sys_config_campus -->
+	<insert id="addSysConfigCampus" parameterType="com.yuxin.wx.model.system.SysConfigCampus" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_campus (company_id,school_id,campus_no,campus_name,status,remark,create_time,
+		creator,update_time,updator,del_flag) 
+		(select #{companyId},#{schoolId},campus_no,campus_name,status,remark,create_time,
+		creator,update_time,updator,del_flag
+		from sys_config_campus where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- sys_config_index_page_template -->
+	<insert id="addSysConfigIndexPageTemplate" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_index_page_template (company_id,school_id,module_name,custom_name,status,module_type,
+		width_setting,link,pic_path,item_one_id_list,data_sort_by,data_limit_num,display_seq) 
+		(select #{companyId},#{schoolId},module_name,custom_name,status,module_type,
+		width_setting,link,pic_path,item_one_id_list,data_sort_by,data_limit_num,display_seq
+		from sys_config_index_page_template where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- sys_log_manager_option -->
+	<insert id="addSysLogManagerOption" parameterType="com.yuxin.wx.model.system.SysLogManagerOption" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_log_manager_option (company_id,user_id,option_time,operation,data_before,data_after) 
+		(select #{companyId},#{userId},option_time,operation,data_before,data_after
+		from sys_log_manager_option where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- sys_page_head_foot -->
+	<insert id="addSysPageHeadFoot" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_page_head_foot (company_id,school_id,name,url,parent_id,page_type,file_url,content,
+		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type) 
+		(select #{companyId},#{schoolId},name,url,parent_id,page_type,file_url,content,
+		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type
+		from sys_page_head_foot where company_id=#{zhuCompanyId})
+	</insert>
+	<!-- company_service_static -->
+	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">
+		insert into company_service_static (company_id,live_concurrent,video_storage,video_flow,face_student,
+		online_student,message_send,email_send,school_num,resource_storage,resource_flow) 
+		(select #{companyId},live_concurrent,video_storage,video_flow,face_student,
+		online_student,message_send,email_send,school_num,resource_storage,resource_flow
+		from company_service_static where company_id=#{zhuCompanyId})
 	</insert>
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
@@ -1358,4 +1490,60 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		<where>company_id = #{companyId} and live_type=1</where>
 	</update>
 	
+	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="classResultMap">
+		<result property="id" column="id" />
+		<result property="eduStep" column="edu_step" />
+		<result property="eduYear" column="edu_year" />
+		<result property="classCount" column="edu_class" />
+		
+	</resultMap>
+	<select id="findClassByEduAreaSchool" resultMap="classResultMap" parameterType="String">
+		select id,edu_step,edu_year,count(edu_class) as edu_class from edu_master_class emc 
+		where edu_year <![CDATA[ <= ]]> (select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW()) else (YEAR(NOW())-1) end)
+		and edu_year<![CDATA[ > ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
+		GROUP BY edu_step,edu_year 
+		ORDER BY edu_step ,edu_year desc
+		
+	</select>
+	
+	<sql id="entity_properties_class">
+		#{item.eduArea},
+		#{item.eduSchool},
+		#{item.eduStep},
+		#{item.eduYear},
+		#{item.eduClass},
+		#{item.isUsed}
+	</sql>
+	<!-- 批量添加 适用于主键自增类型 不支持返回主键 -->
+	<insert id="addClass" parameterType="java.util.List" useGeneratedKeys="true" >
+		insert into edu_master_class ( edu_area,edu_school,edu_step,edu_year,edu_class,is_used )
+		values
+		<foreach item="item" collection="list" separator=",">
+			( <include refid="entity_properties_class" /> )
+		</foreach>
+	</insert>
+	
+	<select id="findEduAreaByeduAreaSchool" resultType="String" parameterType="String">
+		select t2.item_code from sys_config_dict t1
+		LEFT JOIN sys_config_dict t2 ON t2.id=t1.parent_item_id where t1.item_code=#{eduAreaSchool}
+	</select>
+	
+	<select id="findIsUsedClassByEduAreaSchool" resultMap="classResultMap" parameterType="String">
+		select id,edu_step,edu_year,edu_class from edu_master_class emc  where is_used=1
+	</select>
+	
+	
+	<update id="editClass" parameterType="java.util.List"> 
+    		update edu_master_class set is_used=0 ,edu_class=null where
+        <foreach collection ="list" item="item" index= "index"  separator ="or">
+        	( edu_step=#{item.eduStep} 
+	        and edu_year=#{item.eduYear} 
+	        and edu_class=#{item.eduClass}) 
+        </foreach> 
+	</update>
+	
+	
+	<select id="searchCompany" resultType="int" parameterType="String">
+		select id from company where is_area=0
+	</select>
 </mapper>

@@ -873,7 +873,7 @@
 								</div>
 								<%--<shiro:hasPermission name="administrative_class">--%>
 									<p class="btns isok" style="height:28px">
-										<a href="javascript:void(0);" class="btn btn-sm btn-default">行政班设置</a>
+										<a href="<%=rootPath%>/administrativeClassManager/administrativeClass" class="btn btn-sm btn-default">行政班设置</a>
 									</p>
 								<%--</shiro:hasPermission>--%>
 							</li>

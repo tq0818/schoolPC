@@ -411,7 +411,7 @@
 		JOIN commodity_product_realtion pr ON ct.id = pr.product_id
 		JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		JOIN sys_config_teacher sct ON ct.teacher_id = sct.id
-		JOIN sys_config_item sci on sci.parent_code='SUBJECT' and sci.item_code=c.item_third_code
+		JOIN sys_config_item sci on sci.parent_code='SUBJECT' and sci.item_code=c.item_third_code and sci.company_id=c.company_id
 		where c.status=1
 		<if test="com.companyId != null and com.companyId != ''">
 			and c.company_id=#{com.companyId}

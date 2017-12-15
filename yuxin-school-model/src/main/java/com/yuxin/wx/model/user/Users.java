@@ -49,7 +49,8 @@ public class Users extends BaseEntity {
 	private String  schoolName;
 	private String domain;/*公司域名*/
 	private Integer proxyOrgId;
-
+	private String eduAreaSchool;
+	private String isArea;
 	// Constructor
 	public Users() {
 	}
@@ -419,4 +420,27 @@ public class Users extends BaseEntity {
 	public void setProxyOrgId(Integer proxyOrgId) {
 		this.proxyOrgId = proxyOrgId;
 	}
+
+	
+    public String getEduAreaSchool() {
+    	return eduAreaSchool;
+    }
+
+	
+    public void setEduAreaSchool(String eduAreaSchool) {
+    	this.eduAreaSchool = eduAreaSchool;
+    }
+
+	
+    public String getIsArea() {
+    	return isArea;
+    }
+
+	
+    public void setIsArea(String isArea) {
+    	this.isArea = isArea;
+    }
+
+ 
+	
 }

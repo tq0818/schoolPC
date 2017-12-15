@@ -46,7 +46,7 @@
 	                 <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_01'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="01_${ps.eduYear}" value="${ps.classCount}"  onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"   disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="01_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"   disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -58,7 +58,7 @@
                       <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_02'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="02_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"   disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="02_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -70,7 +70,7 @@
                    <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_03'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="03_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"   disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="03_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -80,7 +80,7 @@
         </div>
         <div class="classSettingBtn">
             <button class="btn btn-warning editClassNum">编辑</button>
-            <button class="btn btn-success saveClassNum" id="save" style="display:none;" >保存</button>
+            <button class="btn btn-success saveClassNum" id="save" style="display: none">保存</button>
         </div>
     </div>
 </div>
@@ -124,13 +124,16 @@
    	      if(list[i].value!="" || list[i].value!=null) {
          	var key=list[i].name;
            	var value=list[i].value;
+           	if(list[i].value==''){
+           		var value=0;
+           	}
           	var s=new ObjData(key,value); //创建键值对象
            	array.push(s); //把对象放入对象数组中
    	      	}
     	}
     	var postData =  JSON.stringify(array); 
     	$.ajax({
-    		url : rootPath + "/administrativeClassManager/addClass",
+    		url : rootPath + "/administrativeClassManager/editClass",
 			type : "post",
 		 	datatype : "json",
 			data : {postData:postData},

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +16,29 @@ import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.model.auth.AuthRole;
+import com.yuxin.wx.model.auth.AuthRolePrivilege;
+import com.yuxin.wx.model.auth.AuthUserRole;
+import com.yuxin.wx.model.classes.EduMasterClass;
+import com.yuxin.wx.model.company.CompanyAppAuth;
+import com.yuxin.wx.model.company.CompanyFootInfo;
+import com.yuxin.wx.model.company.CompanyFunctionSet;
+import com.yuxin.wx.model.company.CompanyHeadFootConfig;
+import com.yuxin.wx.model.company.CompanyLiveConcurrent;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
+import com.yuxin.wx.model.company.CompanyLoginConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyNewStep;
+import com.yuxin.wx.model.company.CompanyPayConfig;
+import com.yuxin.wx.model.company.CompanyPics;
+import com.yuxin.wx.model.company.CompanyRegisterConfig;
+import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.CompanyVo;
+import com.yuxin.wx.model.system.SysConfigCampus;
+import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigSchool;
+import com.yuxin.wx.model.system.SysPageHeadFoot;
+import com.yuxin.wx.model.user.Users;
 @Service
 @Transactional
 public class CompanyManageServiceImpl extends BaseServiceImpl implements
@@ -53,7 +73,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 	}
 	@Override
     public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc,Integer userId) {
-	    
+		 int zhuCompanyId= companyMapper.searchCompany();
 		 companyMapper.addBerkeley(search);
 		 int ids=search.getId();
 		 cms.setCompanyId(String.valueOf(ids));
@@ -68,26 +88,129 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 school.setSchoolName(search.getCompanyName());
 		 school.setSchoolDesc(search.getSchoolSummary());
 		 school.setCreator(userId);
+		 school.setZhuCompanyId(String.valueOf(zhuCompanyId));
 		 companyMapper.addSchool(school);
 		//添加科目
 		 SysConfigItem sci=new SysConfigItem();
 		 sci.setCompanyId(ids);
 		 sci.setCreateTime(new Date());
 		 sci.setCreator(userId);
+		 sci.setZhuCompanyId(String.valueOf(zhuCompanyId));
 		 companyMapper.addSysConfigItem(sci);
 		 companyMapper.addTwoSysConfigItem(sci);
 		 sci.setSchoolId(school.getId());
 		 companyMapper.addSysConfigAndSchool(sci);
        
-		
 		 //添加角色
 		 AuthRole rol= new AuthRole();
 		 rol.setCreator(String.valueOf(userId));
 		 rol.setCompanyId(ids);
+		 rol.setZhuCompanyId(String.valueOf(zhuCompanyId));
 		 companyMapper.addAuthRole(rol);
 		 companyMapper.updateAuthRole();
-		 //添加角色对应菜单
-		 companyMapper.addAuthPrivilegeCategory(ids); 
+		 //auth_role_privilege 添加角色对应菜单
+		 AuthRolePrivilege arp=new AuthRolePrivilege();
+		 arp.setCompanyId(ids);
+		 arp.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addAuthPrivilegeCategory(arp); 
+		 //添加用户
+		 Users user =new Users();
+		 user.setUsername(search.getEduAreaSchool()+"111111");
+		 user.setPassword(new Md5Hash("111111", ByteSource.Util.bytes(search.getEduAreaSchool()+"111111" + "salt")).toHex());
+		 user.setRealName("学校管理员");
+		 user.setUserType("USER_TYPE_ORG");
+		 user.setStatus(1);
+		 user.setEduAreaSchool(search.getEduAreaSchool());
+		 user.setIsArea(search.getIsArea());
+		 companyMapper.addUser(user); 
+		 //auth_user_role 添加用户角色关系
+		 AuthUserRole aur=new AuthUserRole();
+		 aur.setCreator(String.valueOf(userId));
+		 aur.setUserId(user.getId());
+		 aur.setCompanyId(search.getId());
+		 companyMapper.addAuthUserRole(aur);
+		//
+		 user.setCompanyId(ids);
+		 companyMapper.addUserCompany(user);
+		 //company_app_auth
+		 CompanyAppAuth caa = new CompanyAppAuth();
+		 caa.setCompanyId(ids);
+		 caa.setZhuCompanyId(String.valueOf(zhuCompanyId));
+		 companyMapper.addCompanyAppAuth(caa);
+		 //company_foot_info
+		 CompanyFootInfo cfi = new CompanyFootInfo();
+		 cfi.setCompanyId(ids);
+		 cfi.setZhuCompanyId(String.valueOf(zhuCompanyId));
+		 companyMapper.addCompanyFootInfo(cfi);
+		 //company_function_set
+		 CompanyFunctionSet cfs =new CompanyFunctionSet();
+		 cfs.setCompanyId(ids);
+		 cfs.setZhuCompanyId(String.valueOf(zhuCompanyId));
+		 companyMapper.addCompanyFunctionSet(cfs);
+		 //company_head_foot_config 有点问题
+		 CompanyHeadFootConfig chfc =new CompanyHeadFootConfig();
+		 chfc.setCompanyId(ids);
+		 chfc.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyHeadFootConfig(chfc);
+		 //company_live_concurrent
+		 CompanyLiveConcurrent clct=new CompanyLiveConcurrent();
+		 clct.setCompanyId(ids);
+		 clct.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyLiveConcurrent(clct);
+		 //company_login_config
+		 CompanyLoginConfig clcf=new CompanyLoginConfig();
+		 clcf.setCompanyId(ids);
+		 clcf.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyLoginConfig(clcf);
+		 //company_new_step
+		 CompanyNewStep cns =new CompanyNewStep();
+		 cns.setCompanyId(ids);
+		 cns.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyNewStep(cns);
+		 //company_pay_config
+		 CompanyPayConfig cpc=new CompanyPayConfig();
+		 cpc.setCompanyId(ids);
+		 cpc.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyPayConfig(cpc);
+		 //company_pics
+		 CompanyPics cp =new CompanyPics();
+		 cp.setCompanyId(ids);
+		 cp.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyPics(cp);
+		 //company_register_config
+		 CompanyRegisterConfig crc=new CompanyRegisterConfig();
+		 crc.setCompanyId(ids);
+		 crc.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyRegisterConfig(crc);
+		 //sys_config_campus
+		 SysConfigCampus scfc=new SysConfigCampus();
+		 scfc.setCompanyId(ids);
+		 scfc.setSchoolId(school.getId());
+		 scfc.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addSysConfigCampus(scfc);
+		 //sys_config_index_page_template
+		 SysConfigIndexPageTemplate scipt=new SysConfigIndexPageTemplate();
+		 scipt.setCompanyId(ids);
+		 scipt.setSchoolId(school.getId());
+		 scipt.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addSysConfigIndexPageTemplate(scipt);
+//		 //sys_log_manager_option
+//		 SysLogManagerOption smo=new SysLogManagerOption();
+//		 smo.setCompanyId(ids);
+//		 smo.setUserId(user.getId());
+//		 smo.setZhuCompanyId(zhuCompanyId);
+//		 companyMapper.addSysLogManagerOption(smo);
+		 //sys_page_head_foot
+		 SysPageHeadFoot sphf=new SysPageHeadFoot();
+		 sphf.setCompanyId(ids);
+		 sphf.setSchoolId(school.getId());
+		 sphf.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addSysPageHeadFoot(sphf);
+		 //company_service_static
+		 CompanyServiceStatic csc=new CompanyServiceStatic();
+		 csc.setCompanyId(ids);
+		 csc.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCompanyServiceStatic(csc);
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {
@@ -95,6 +218,36 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		companyMapper.editCompanyMemberService(cms);
 		companyMapper.editcompanyLiveConfig(clc);
     }
-	
+
+	@Override
+	public List<EduMasterClass> findClassByEduAreaSchool(String  eduAreaSchool){
+		
+		return companyMapper.findClassByEduAreaSchool(eduAreaSchool);
+	}
+	@Override
+	public List<EduMasterClass> findIsUsedClassByEduAreaSchool(String  eduAreaSchool){
+		
+		return companyMapper.findIsUsedClassByEduAreaSchool(eduAreaSchool);
+	}
+	@Override
+	public void addClass(List<EduMasterClass> saveList) {
+		
+		companyMapper.addClass(saveList);
+	}
+	@Override
+	public void editClass(List<EduMasterClass> saveList,List<EduMasterClass> updateList) {
+		
+		if(null!=saveList && saveList.size()>0){
+			companyMapper.addClass(saveList);
+		}
+		if(null!=updateList && updateList.size()>0){
+			companyMapper.editClass(updateList);
+		}
+	}
+	@Override
+	public String findEduAreaByeduAreaSchool(String  eduAreaSchool) {
+		
+		return companyMapper.findEduAreaByeduAreaSchool(eduAreaSchool);
+	}
 	
 }

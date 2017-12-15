@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+import com.qiniu.util.Json;
 import com.yuxin.wx.api.tiku.ITikuChapterService;
 import com.yuxin.wx.api.tiku.ITikuSectionService;
 import com.yuxin.wx.api.tiku.ITikuSubjectService;
+import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.model.tiku.TikuChapter;
 import com.yuxin.wx.model.tiku.TikuSection;
 import com.yuxin.wx.model.tiku.TikuSubject;
@@ -57,6 +60,21 @@ public class TikuSubjectController {
         this.tikuSubjectServiceImpl.insert(TikuSubject);
         return "success";
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/add1")
+    public JSONObject add1(TikuSubject tikuSubject) {
+    	JSONObject json=new JSONObject();
+    	try {
+    		this.tikuSubjectServiceImpl.insert(tikuSubject);
+    		json.put("subId", tikuSubject.getId());
+    		json.put(JsonMsg.RESULT, JsonMsg.SUCCESS);
+		} catch (Exception e) {
+			json.put(JsonMsg.RESULT, JsonMsg.SUCCESS);
+		}
+        return json;
+    }
+    
 
     @ResponseBody
     @RequestMapping(value = "/update")

@@ -12,7 +12,8 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     
     <style type="text/css">
-    	.tabsn li.b6{ background: chartreuse; 	}
+    	.tabsn li.b6{ background: limegreen;}
+    	.tabsn li.b6:hover{ background: chartreuse;}
     </style>
 </head>
 <body style="position:relative;">

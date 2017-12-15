@@ -34,7 +34,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_class.jsp"></jsp:include>
-<div class="u-wrap admin overflow baseSchoolBg">
+<div class="u-wrap admin overflow baseSchoolBg" style="min-height: 580px;">
     <div class="heading baseSchoolHead">
         <h2 class="h5">课程列表</h2>
         <a href="##" class="btn btn-primary batches">批量下架</a>

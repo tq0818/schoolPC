@@ -19,7 +19,7 @@
                 <td>
                 	<fmt:formatDate value="${m.createTime }" pattern="yyyy-MM-dd"/>
                 </td>
-                <td>
+                <td  class="slink">
                     <c:choose>
                 		<c:when test="${m.cddsStatus eq '1'}"> 
                 			<a class="saleOnOrStop" data_id="${m.id }" data_type='1' onclick="saleOnOrStop(this)";  href="javascript:void(0);">下架</a>|
@@ -42,23 +42,23 @@
                     <a class="more" href="javascript:void(0);"> 管理  </a>
                     <c:choose>
                     	<c:when test="${m.liveFlag eq '1' }">
-                    		<ul class="none box openCourseManage" style="">
-		                        <li class="subentry" mark="/branchSchool/editClassBaseInfo/${m.id }/live"><a class=""  href="javascript:void(0);">基本信息</a></li>
-		                        <li class="subentry" mark="/branchSchool/editliveOrface/${m.id }/live"><a class=""  href="javascript:void(0);">排课表</a></li>
-		                        <li class="subentry" mark="/branchSchool/editCourseDetail/${m.id }/live"><a class=""  href="javascript:void(0);">课程详情</a></li>
-		                        <li class="subentry" mark="/branchSchool/studentList/${m.id }/live"><a class=""  href="javascript:void(0);">学员管理</a></li>
-		                        <li class="subentry" mark="/branchSchool/classesResource/${m.id }/live"><a class=""  href="javascript:void(0);">课程资料</a></li>
-		                        <li class="subentry" mark="/branchSchool/companyLiveStaticDetailList/${m.id }/live"><a class=""  href="javascript:void(0);">直播上课统计</a></li>
+                    		<ul class="none box openCourseManage" style="width: 120px;">
+		                        <li mark="/branchSchool/editClassBaseInfo/${m.id }/live"><a class=""  href="javascript:void(0);">基本信息</a></li>
+		                        <li mark="/branchSchool/editliveOrface/${m.id }/live"><a class=""  href="javascript:void(0);">排课表</a></li>
+		                        <li mark="/branchSchool/editCourseDetail/${m.id }/live"><a class=""  href="javascript:void(0);">课程详情</a></li>
+		                        <li mark="/branchSchool/studentList/${m.id }/live"><a class=""  href="javascript:void(0);">学员管理</a></li>
+		                        <li mark="/branchSchool/classesResource/${m.id }/live"><a class=""  href="javascript:void(0);">课程资料</a></li>
+		                        <li mark="/branchSchool/companyLiveStaticDetailList/${m.id }/live"><a class=""  href="javascript:void(0);">直播上课统计</a></li>
 		                    </ul>
                     	</c:when>
                     	<c:when test="${m.videoFlag eq '1' }">
-                    		<ul class="none box openCourseManage" style="">
-		                        <li class="subentry" mark="/branchSchool/editClassBaseInfo/${m.id }/video"><a class=""  href="javascript:void(0);">基本信息</a></li>
-		                        <li class="subentry" mark="/branchSchool/editClassTypeVideo/${m.id }/video"><a class=""  href="javascript:void(0);">视频课</a></li>
-		                        <li class="subentry" mark="/branchSchool/editCourseDetail/${m.id }/video"><a class=""  href="javascript:void(0);">课程详情</a></li>
-		                        <li class="subentry" mark="/branchSchool/studentList/${m.id }/video"><a class=""  href="javascript:void(0);">学员管理</a></li>
-		                        <li class="subentry" mark="/branchSchool/classesResource/${m.id }/video"><a class=""  href="javascript:void(0);">课程资料</a></li>
-		                        <li class="subentry" mark="/branchSchool/videoDetail/${m.id }/video"><a class=""  href="javascript:void(0);">点播详情统计</a></li>
+                    		<ul class="none box openCourseManage" style="width: 120px;">
+		                        <li mark="/branchSchool/editClassBaseInfo/${m.id }/video"><a class=""  href="javascript:void(0);">基本信息</a></li>
+		                        <li mark="/branchSchool/editClassTypeVideo/${m.id }/video"><a class=""  href="javascript:void(0);">视频课</a></li>
+		                        <li mark="/branchSchool/editCourseDetail/${m.id }/video"><a class=""  href="javascript:void(0);">课程详情</a></li>
+		                        <li mark="/branchSchool/studentList/${m.id }/video"><a class=""  href="javascript:void(0);">学员管理</a></li>
+		                        <li mark="/branchSchool/classesResource/${m.id }/video"><a class=""  href="javascript:void(0);">课程资料</a></li>
+		                        <li mark="/branchSchool/videoDetail/${m.id }/video"><a class=""  href="javascript:void(0);">点播详情统计</a></li>
 		                    </ul>
                     	</c:when>
                     </c:choose>
@@ -95,7 +95,7 @@
 		});
 		
 		//点击菜单列表
-		$(".openCourseManage").on('click','li.subentry',function(){
+		$(".openCourseManage").on('click','li',function(){
 			var mark=$(this).attr("mark");
 			window.location.href=rootPath+mark;
 		});

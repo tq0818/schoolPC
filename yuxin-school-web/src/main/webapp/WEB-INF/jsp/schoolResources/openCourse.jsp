@@ -127,8 +127,7 @@
                 <td>1</td>
                 <td>1</td>
                 <td>1</td>
-                <td>1</td>
-                <td>
+                <td class="slink">
                     <a class="showSignUp" mobile="" uname="sdsdsd" href="javascript:void(0);">上架</a>|
                     <a class="studentDetail" mobile="" uname="sdsdsd" href="javascript:void(0);">课程详情</a>|
                     <a class="more" href="javascript:void(0);">

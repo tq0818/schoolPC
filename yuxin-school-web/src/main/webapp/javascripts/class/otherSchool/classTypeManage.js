@@ -60,6 +60,8 @@ function saleOnOrStop(obj){
 				 if("success"==data.result){
 					 $.msg(str+"操作成功");
 					 $(obj).attr("data_type",type);
+				 }else if("error"!=data.result){
+					 $.msg(data.result);
 				 }else{
 					 $.msg(str+"操作失败");
 				 }
@@ -103,6 +105,8 @@ function  battchUpOrDown(type){
 		 success:function(data){
 			 if("success"==data.result){
 				 $.msg(str+"操作成功");
+			 }else if("error"!=data.result){
+				 $.msg(data.result);
 			 }else{
 				 $.msg(str+"操作失败");
 			 }

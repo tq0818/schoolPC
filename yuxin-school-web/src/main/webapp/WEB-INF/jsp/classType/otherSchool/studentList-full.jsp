@@ -28,7 +28,7 @@
 <input type="hidden" id="isDelete" value="${isDelete }"/>
 <input type="hidden" value="${registConfig.mobileFlag }" id="mobileSet"/>
 <input type="hidden" value="${registConfig.usernameFlag }" id="userNameSet"/>
-<jsp:include page="/WEB-INF/jsp/classType/commonTitle.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonTitle.jsp"></jsp:include>
 <div class="u-wrap company overflow">
 	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonClass.jsp"></jsp:include>
 	<div class="right-side" style="background-color: white;">

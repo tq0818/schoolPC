@@ -428,9 +428,9 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		targetCt.setOriginalPrice(ct.getOriginalPrice());
 		targetCt.setRealPrice(ct.getRealPrice());
 		targetCt.setDescription(ct.getDescription());
-		targetCt.setPublishStatus(ct.getPublishStatus());
+		targetCt.setPublishStatus("CLASS_UNPUBLISHED");
 		targetCt.setPublishTime(ct.getPublishTime());
-		targetCt.setIsSale(ct.getIsSale());
+		targetCt.setIsSale(0);
 		targetCt.setCover(ct.getCover());
 		targetCt.setSubTitle(ct.getSubTitle());
 		targetCt.setDetailDesc(ct.getDetailDesc());
@@ -448,11 +448,11 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		targetCt.setIntegralFlag(ct.getIntegralFlag());
 		targetCt.setMemberFlag(ct.getMemberFlag());
 		targetCt.setBuyNumMax(ct.getBuyNumMax());
-		targetCt.setSubjectClassOrder(ct.getSubjectClassOrder());
+		targetCt.setSubjectClassOrder(null);
 		targetCt.setIconLable(ct.getIconLable());
-		targetCt.setItemOneCode(ct.getItemOneCode());
-		targetCt.setItemSecondCode(ct.getItemSecondCode());
-		targetCt.setItemThirdCode(ct.getItemThirdCode());
+//		targetCt.setItemOneCode(ct.getItemOneCode());
+//		targetCt.setItemSecondCode(ct.getItemSecondCode());
+//		targetCt.setItemThirdCode(ct.getItemThirdCode());
 		targetCt.setItemFourthCode(ct.getItemFourthCode());
 		targetCt.setIsMicroClass(ct.getIsMicroClass());
 		targetCt.setPaperDescription(ct.getPaperDescription());
@@ -472,7 +472,7 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		targetC.setType(c.getType());
 		targetC.setCreator(c.getCreator());
 		targetC.setUpdator(c.getUpdator());
-		targetC.setStatus(c.getStatus());
+		targetC.setStatus("0");
 		targetC.setLableType(c.getLableType());
 		targetC.setBaseNum(c.getBaseNum());
 		targetC.setFaceFlag(c.getFaceFlag());
@@ -483,9 +483,9 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		targetC.setBuyNum(c.getBuyNum());
 		targetC.setIntegralFlag(c.getIntegralFlag());
 		targetC.setMemberFlag(c.getMemberFlag());
-		targetC.setItemOneCode(c.getItemOneCode());
-		targetC.setItemSecondCode(c.getItemSecondCode());
-		targetC.setItemThirdCode(c.getItemThirdCode());
+//		targetC.setItemOneCode(c.getItemOneCode());
+//		targetC.setItemSecondCode(c.getItemSecondCode());
+//		targetC.setItemThirdCode(c.getItemThirdCode());
 		targetC.setItemFourthCode(c.getItemFourthCode());
 		targetC.setIsMicroClass(c.getIsMicroClass());
 
@@ -655,5 +655,25 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		// TODO Auto-generated method stub
 		classTypeOfBranchSchoolMapper.battchSaleOrNoOfCommodity(param);
 		classTypeOfBranchSchoolMapper.battchSaleOrNoOfClassType(param);
+	}
+
+	@Override
+	public String validateOnSale(Map<String, Object> param) {
+		String result=new String();
+		try {
+			List<ClassType> ctlist=classTypeOfBranchSchoolMapper.validateOnSaleOfModuleNoOnSale(param);
+			if(null!=ctlist&&ctlist.size()>0){
+				result="课程("+ctlist.get(0).getName()+")没有在售班号，暂时不能上架";
+			}else{
+				List<ClassType> ctlist1 =classTypeOfBranchSchoolMapper.validateOnSaleOfSubject(param);
+				if(null!=ctlist1&&ctlist1.size()>0){
+					result="课程("+ctlist1.get(0).getName()+")的学科为空，暂时不能上架";
+				}
+			}
+		} catch (Exception e) {
+			result="课程上架校验失败";
+			log.error(e.getMessage());
+		}
+		return result;
 	}
 }

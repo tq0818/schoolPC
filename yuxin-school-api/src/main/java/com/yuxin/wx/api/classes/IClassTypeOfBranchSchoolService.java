@@ -73,4 +73,11 @@ public interface IClassTypeOfBranchSchoolService  {
 	Integer findSchoolShareClassType(Map<String, String> param);
 	
 	String copyClassTypeToTargetCompany(Map<String, String> param) throws Exception;
+	
+	/**
+	 * 课程上架校验
+	 * @param param
+	 * @return
+	 */
+	String validateOnSale(Map<String, Object> param);
 }

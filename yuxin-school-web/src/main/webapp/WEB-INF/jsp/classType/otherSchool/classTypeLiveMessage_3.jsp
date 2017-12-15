@@ -38,7 +38,7 @@
 	<input type="hidden" name="lable" value="${lable }"/>
 	<input type="hidden" name="type" value="update"/>
 </form>
-<jsp:include page="/WEB-INF/jsp/classType/commonTitle.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonTitle.jsp"></jsp:include>
 <div class="u-wrap company overflow">
 	<jsp:include page="/WEB-INF/jsp/classType/otherSchool/commonClass.jsp"></jsp:include>
 	<div class="right-side">

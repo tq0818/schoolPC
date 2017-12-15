@@ -590,6 +590,9 @@
         <pattern>/jsp/allOrder</pattern>
         <!-- 收入查询 -->
         <pattern>/jsp/incomeQuery</pattern>
+        <!-- 课程查询 -->
+        <pattern>/classManager/getClassList</pattern>
+
 
 
 

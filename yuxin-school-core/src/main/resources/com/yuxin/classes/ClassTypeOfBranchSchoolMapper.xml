@@ -836,5 +836,23 @@
 			</foreach>
 		)
     </update>
+	<select id="validateOnSaleOfSubject" parameterType="Map" resultMap="classTypeResultMap">
+		select  id,name from class_type
+		WHERE  (item_one_code is null or  item_second_code is null or item_third_code is null) 
+			and id in 
+	    	<foreach item="item" collection="cids"  open="("  separator="," close=")">
+				#{item}
+			</foreach>
+	</select>
 	
+	<!-- 根据模块号查询班号 -->
+	<select id="validateOnSaleOfModuleNoOnSale" parameterType="Map" resultMap="classTypeResultMap">
+		SELECT ct.id,ct.name from class_type ct
+		LEFT JOIN class_module_no_onsale mn on mn.classtype_id=ct.id
+		where mn.id is null  and ct.live_flag=1 and ct.origin_type=0
+		 	and ct.id in
+			<foreach item="item" collection="cids" open="("  separator="," close=")">
+				#{item}
+			</foreach>
+	</select>
 </mapper>

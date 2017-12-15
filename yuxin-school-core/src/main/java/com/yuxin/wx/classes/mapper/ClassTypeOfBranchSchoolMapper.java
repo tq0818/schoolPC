@@ -117,4 +117,7 @@ public interface ClassTypeOfBranchSchoolMapper extends BaseMapper<ClassType> {
 	void battchSaleOrNoOfCommodity(Map<String, Object> param);
 	void battchSaleOrNoOfClassType(Map<String, Object> param);
 	
+	List<ClassType> validateOnSaleOfModuleNoOnSale(Map<String, Object> param);
+	List<ClassType> validateOnSaleOfSubject(Map<String, Object> param);
+	
 }

@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.classes.IClassModuleLessonService;
+import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.api.classes.IClassModuleService;
 import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
 import com.yuxin.wx.api.classes.IClassTypeResourceTypeService;
@@ -41,6 +43,8 @@ import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModule;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
+import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.ClassTypeResourceType;
 import com.yuxin.wx.model.commodity.Commodity;
@@ -58,6 +62,8 @@ import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
+import com.yuxin.wx.vo.classes.ClassmNoVo;
+import com.yuxin.wx.vo.course.ChapterAndLectureListVo;
 
 /**
  * 分校间课程分享
@@ -104,6 +110,11 @@ public class ClassTypeOfOtherSchoolContorller {
     @Autowired
     private ICommodityProductRealtionService commodityProductRealtionServiceImpl;
 
+	@Autowired
+	private IClassModuleNoService classModuleNoServiceImpl;
+	
+	@Autowired
+	private IClassModuleLessonService classModuleLessonServiceImpl;
 
     @Autowired
     private ICompanyRegisterConfigService companyRegisterConfigServiceImpl;
@@ -159,6 +170,57 @@ public class ClassTypeOfOtherSchoolContorller {
     	return "classType/otherSchool/classTypeManageDetail";
     }
 
+   @RequestMapping(value = "/classBaseInfo/{id}/{lable}")
+   public String classBaseInfo(Model model, @PathVariable Integer id, @PathVariable String lable) {
+   	Map<String, String> map = new HashMap<String, String>();
+		map.put("classId", "" + id);
+		ClassTypeVo ct=this.classTypeOfBranchSchoolService.findClassTypeDetail(map);
+		model.addAttribute("ct", ct);
+       model.addAttribute("lable", lable);
+       	List<ClassModule> modulesVoList=classModuleServiceImpl.findModulesByClassTypeId(id);
+       	if(null!=modulesVoList&&modulesVoList.size()>0){
+   		for(ClassModule module:modulesVoList){
+   			if("TEACH_METHOD_LIVE".equals(module.getTeachMethod())){
+   				//查询模块对应的班号
+   				List<ClassModuleNo> list=classModuleNoServiceImpl.findByCmId(module.getId(),id);
+   				if(!list.isEmpty()&&list.size()>0){
+   					ClassModuleNo mNo=list.get(0);
+   					ClassmNoVo c=new ClassmNoVo();
+   					c.setId(mNo.getId());
+   					c.setName(mNo.getName());
+   					c.setItemOneId(mNo.getItemOneId());
+   					c.setItemSecondId(mNo.getItemSecondId());
+   					c.setModuleId(mNo.getModuleId());
+   					c.setStartDate(mNo.getStartDate());
+   					c.setLessonHour(mNo.getLessonHour());
+   					c.setEnrollYetStudents(mNo.getEnrollYetStudents());
+   					c.setPlanEnrollStudents(mNo.getPlanEnrollStudents());
+   					c.setTotalHours(mNo.getTotalHours());
+   					c.setClassTeachType(mNo.getClassTeachType());
+   					c.setSchoolId(mNo.getSchoolId());
+   					c.setCampusId(mNo.getCampusId());
+   					//查询班号对应的课次
+   					List<ClassModuleLesson> arr=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(mNo.getId());
+   					/*if(arr!=null&&arr.size()>0){
+					for(ClassModuleLesson ls:arr){
+						if(null!=ls&&null!=ls.getTeachers()&&!"".equals(ls.getTeachers())){
+							SysConfigTeacher th=sysConfigTeacherServiceImpl.findSysConfigTeacherById(Integer.parseInt(ls.getTeachers()));
+							if(null!=th&&null!=th.getDelFlag()&&th.getDelFlag()==1){
+								ls.setTeachers("del");
+							}
+						}
+					}
+				}*/
+   					c.setClassModuleLessons(arr);
+   					module.setClassmoudleNo(c);
+   				}
+   			}
+   		}
+       	model.addAttribute("liveModuleList", modulesVoList);
+       }
+       return "classType/branchSchool/classTypeBaseInfo";
+   }
+   
     @ResponseBody
   	@RequestMapping("/selOneItem")
   	public JSONObject selOneItem(HttpServletRequest request){
@@ -212,6 +274,13 @@ public class ClassTypeOfOtherSchoolContorller {
         	params.put("isSale", request.getParameter("type"));
     		String[] ids=request.getParameterValues("cIds[]");
     		params.put("cids", Arrays.asList(ids));
+    		if("1".equals(request.getParameter("type"))){
+    			String	result=classTypeOfBranchSchoolService.validateOnSale(params);
+    			if(StringUtils.isNotEmpty(result)){
+    				json.put(JsonMsg.RESULT, result);
+    				return json;
+    			}
+    		}
     		classTypeOfBranchSchoolService.battchSaleOrStopSale(params);
         	json.put(JsonMsg.RESULT, JsonMsg.SUCCESS);
 		} catch (Exception e) {
@@ -602,9 +671,9 @@ public class ClassTypeOfOtherSchoolContorller {
 
 		//查询学校所在区域
 		SysConfigDict areaDict = new SysConfigDict();
-		areaDict.setDictCode("EDU_SCHOOL_AREA");
+		/*areaDict.setDictCode("EDU_SCHOOL_AREA");
 		List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-		model.addAttribute("areas", areas);
+		model.addAttribute("areas", areas);*/
 		//学段
 		areaDict.setDictCode("EDU_STEP");
 		List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);

@@ -21,11 +21,32 @@ public class JspBaseController {
     }
 
     /**
-     *
+     *课程基本信息
      * @return
      */
     @RequestMapping(value = "/basicInformationCourse")
     public String basicInformationCourse(){
         return "schoolResources/basicInformationCourse";
     }
+
+    /**
+     *财务-订单
+     * @return
+     */
+    @RequestMapping(value = "/allOrder")
+    public String allOrder(){
+        return "system/allOrder";
+    }
+
+
+
+    /**
+     *财务-收入查询
+     * @return
+     */
+    @RequestMapping(value = "/incomeQuery")
+    public String incomeQuery(){
+        return "system/incomeQuery";
+    }
+
 }

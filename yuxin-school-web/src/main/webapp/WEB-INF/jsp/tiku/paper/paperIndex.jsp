@@ -89,15 +89,27 @@ a:hover {
         <div class="classes-type">
             <p class="c title-p clear">
                 <span class="t-title fl-left margin-t3">科目</span>
-                <span class="t-content fl-left" id="subList">
-                	<c:forEach items="${subList}" var="sub" varStatus="index">
-                		<c:if test="${index.index == 0}">
-                			<a href="javascript:;" class="btn btn-mini btn-default btn-success subject" subId="${sub.id}">${sub.subjectName}</a>
-                		</c:if>
-                		<c:if test="${index.index != 0}">
-                			<a href="javascript:;" class="btn btn-mini btn-default subject" subId="${sub.id}">${sub.subjectName}</a>
-                		</c:if>
-                	</c:forEach>
+                <span class="t-content fl-left">
+                <span class="subList" id="subList" style="width: auto;">
+	                	<c:forEach items="${subList}" var="sub" varStatus="index">
+	                		<c:if test="${index.index == 0}">
+	                			<a href="javascript:;" class="btn btn-mini btn-success subject" subId="${sub.id}">${sub.subjectName}</a>
+	                		</c:if>
+	                		<c:if test="${index.index != 0}">
+	                			<a href="javascript:;" class="btn btn-mini btn-default subject" subId="${sub.id}">${sub.subjectName}</a>
+	                		</c:if>
+	                	</c:forEach>
+                	</span>
+                	<span  class="editorbtn "style="width: auto;margin-left: 10px;">
+	                 	<i class="icon iconfont icon-edit">&#xe625;</i>
+	                    <i class="icon iconfont icon-del">&#xe626;</i>
+	                	<a href="javascript:;" class="btn btn-sm btn-success btn-add">添加科目</a>
+	                </span>
+	                <span  class="editorContent" style="width: auto;display: none;margin-left: 10px;">
+	                	<input type="text" maxlength="22" id="subName" style="width: 153px;"/>
+	                    <a href="javascript:;" class="btn btn-mini btn-success btn-save" data-id="">保存</a>
+	                    <a href="javascript:;" class="btn btn-mini btn-default btn-cancle">取消</a>
+	                </span>
                 </span>
             </p>
             <p class="c">

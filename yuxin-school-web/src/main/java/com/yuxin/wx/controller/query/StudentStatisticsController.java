@@ -1058,7 +1058,7 @@ public class StudentStatisticsController {
             model.addAttribute("startTime",startTime);
 
 
-            List<SysConfigItemRelation> seconds = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+            List<SysConfigItemRelation> seconds = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1,WebUtils.getCurrentCompanyId());
             model.addAttribute("secondItem",seconds);
             //sysConfigItemRelationServiceImpl.findItem
 
@@ -1073,7 +1073,7 @@ public class StudentStatisticsController {
     @RequestMapping(value="/statistics/findItemByPid")
 
     public List<SysConfigItemRelation> findItemByPid( SysConfigItemRelation relation, HttpServletRequest request){
-
+    	relation.setCompanyId(WebUtils.getCurrentCompanyId());
         List<SysConfigItemRelation> list =sysConfigItemRelationServiceImpl.findChildByCode(relation);
 
 
@@ -1192,7 +1192,7 @@ public class StudentStatisticsController {
         model.addAttribute("stepNews", stepNews);
 
         //学校所属学科
-        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);//查询学科
+        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());//查询学科
         model.addAttribute("subjectItem", subjectItem);
 
         //计算时间
@@ -1276,10 +1276,10 @@ public class StudentStatisticsController {
         model.addAttribute( "years", years);
 
         //课程学段
-        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1,WebUtils.getCurrentCompanyId());
         model.addAttribute( "stepItem", stepList);
         //课程科目
-        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
         model.addAttribute( "subjectItem", subjectList);
 
         //计算时间
@@ -1333,10 +1333,10 @@ public class StudentStatisticsController {
         model.addAttribute( "years", years);
 
         //课程学段
-        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);
+        List<SysConfigItemRelation> stepList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1,WebUtils.getCurrentCompanyId());
         model.addAttribute( "stepItem", stepList);
         //课程科目
-        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
         model.addAttribute( "subjectItem", subjectList);
 
         //计算时间
@@ -1931,7 +1931,7 @@ public class StudentStatisticsController {
         papamMap.put("endTime", endTime);
         papamMap.put("eduArea", eduArea);
         papamMap.put("pageSize", 5);
-        List<SysConfigItemRelation> itemList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);
+        List<SysConfigItemRelation> itemList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
         List<Map<String, Object>> subjectTotleList = new ArrayList<Map<String, Object>>();
         Map<String, Object> subjectTotleMap;
         for(SysConfigItemRelation item : itemList){
@@ -1971,11 +1971,11 @@ public class StudentStatisticsController {
         model.addAttribute("startTime" ,startTime);
 
         //学校所属学科
-        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2);//查询学科
+        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());//查询学科
         model.addAttribute("subjectItem", subjectItem);
 
         //学校所属学段
-        List<SysConfigItemRelation> stepItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1);//查询学段
+        List<SysConfigItemRelation> stepItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1,WebUtils.getCurrentCompanyId());//查询学段
         model.addAttribute("stepItem", stepItem);
 
         return "/queVideo/videoCourseDetail";

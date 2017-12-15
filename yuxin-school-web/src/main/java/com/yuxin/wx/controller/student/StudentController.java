@@ -853,7 +853,9 @@ public class StudentController {
         if (companyFunctionSetList != null && companyFunctionSetList.size() > 0) {
             model.addAttribute("sgOpen", companyFunctionSetList.get(0).getStatus());
         }
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+        sysConfigItemRelation.setCompanyId(WebUtils.getCurrentCompanyId());
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(sysConfigItemRelation);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -929,6 +931,7 @@ public class StudentController {
         JSONObject jsObject = new JSONObject();
         SysConfigItemRelation relation = new SysConfigItemRelation();
         relation.setId(id);
+        relation.setCompanyId(WebUtils.getCurrentCompanyId());
         List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());

@@ -62,7 +62,6 @@
 						</span>
 						</c:if>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
-						<span><a href="javascript:;" class="btn btn-primary searchContents">导出</a></span>
 					</div>
 				</form>
 				<div class="user-list">

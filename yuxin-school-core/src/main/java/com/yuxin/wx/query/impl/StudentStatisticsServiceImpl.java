@@ -189,7 +189,7 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         }
 
         PageFinder2<Map> pageFinder = new PageFinder2<Map>(
-                (Integer)map.get("firstPage"), (Integer)map.get("pageSize"), count, data);
+                (Integer)map.get("page"), (Integer)map.get("pageSize"), count, data);
         return pageFinder;
 
         //return studentstatisticsMapper.queryStudentsWatchInfoCountCurrent(map);

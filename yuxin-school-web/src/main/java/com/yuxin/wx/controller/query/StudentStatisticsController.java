@@ -1118,7 +1118,7 @@ public class StudentStatisticsController {
         map.put("comId",comId);
         map.put("lesson",lesson);
         map.put("firstPage",(page-1)*10);
-
+        map.put("page",page);
         map.put("pageSize",10);
         map.put("orderBy",orderBy);
 

@@ -205,7 +205,7 @@
 			class_type c,
 			class_type_remote_relation cmr
 		WHERE
-			c.id = #{id}
+			c.id = #{id}  and c.origin_type=0
 		AND r.id = cmr.remote_id
 		AND c.id = cmr.class_type_id
 		order by r.id DESC
@@ -252,7 +252,7 @@
 		    ON a.id=d.remote_id
 		LEFT JOIN 
 		    class_type c
-		    ON d.class_type_id=c.id
+		    ON d.class_type_id=c.id  and c.origin_type=0
 		  WHERE a.id = #{id}
 		  AND c.publish_status='CLASS_ON_SALE'
 		  GROUP BY a.id  

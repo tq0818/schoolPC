@@ -172,7 +172,7 @@
 		select count(*) from (
 			select DISTINCT sps.stu_id,sps.resource_id,sps.module_id
 			from student_pay_slave sps 
-			INNER JOIN student_pay_master spm on sps.pay_master_id = spm.id
+			INNER JOIN student_pay_master spm on sps.pay_master_id = spm.id and spm.origin_type=0
 			LEFT  JOIN class_package_relation cpr on spm.commodity_id = cpr.class_package_id
 			where sps.module_id = #{moduleId}
 			and sps.resource_id = #{morl}

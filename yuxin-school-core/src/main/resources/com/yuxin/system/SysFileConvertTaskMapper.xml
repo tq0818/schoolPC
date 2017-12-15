@@ -162,7 +162,7 @@
 			ct.file_path,
 			rl.company_id
 		from sys_file_convert_task ct
-		inner join resource_list rl on rl.id = ct.file_id
+		inner join resource_list rl on rl.id = ct.file_id and rl.origin_type=0 
 			and rl.del_flag = 0
 		where ct.version = #{version}
 			<if test="version == 0">
@@ -182,7 +182,7 @@
 			ct.file_path,
 			rl.company_id
 		from sys_file_convert_task ct
-		inner join resource_list rl on rl.id = ct.file_id
+		inner join resource_list rl on rl.id = ct.file_id and rl.origin_type=0 
 			and rl.del_flag = 0
 		where ct.version = #{version}
 			<if test="version == 0">

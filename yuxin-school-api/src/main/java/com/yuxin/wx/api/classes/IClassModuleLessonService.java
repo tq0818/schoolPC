@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
+import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.system.SysConfigClassroom;
 import com.yuxin.wx.vo.classes.ClassModuleLessonVo;
 import com.yuxin.wx.vo.classes.CmlVo;
@@ -248,4 +249,17 @@ public interface IClassModuleLessonService  {
 
     List<ClassModuleLesson> findLessonByCommodityId(Integer id);
 	List<ClassModuleLesson> findLessonByCommodityIdNotDel(Integer id);
+
+	/**
+	 * 通过companyId获取直播配置
+	 * @param companyId 机构标识号
+	 * @return
+	 */
+	CompanyLiveConfig queryCompanyLiveConfigByCompanyId(String companyId);
+	/**
+ * 通过用户标识号获取用户名称
+ * @param userid 用户标识号
+ * @return
+ */
+String findNickNameByUserFrontId(String userid);
 }

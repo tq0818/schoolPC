@@ -179,7 +179,7 @@
 	
 	<select id="getTotalConsumeBalance" parameterType="int" resultType="double" >
 		select COALESCE(sum(p.pay_price),0) from pay_order p INNER JOIN teacher_invite_reward_record tirr on p.id = tirr.pay_order_id 
-		where tirr.company_id = #{companyId} and (tirr.reason = 2 or tirr.reason = 3)
+		where tirr.company_id = #{companyId} and (tirr.reason = 2 or tirr.reason = 3) and p.origin_type=0
 	</select>
 	
 	<select id="getTotalRewardBalance" parameterType="int" resultType="double" >
@@ -191,7 +191,7 @@
 		(select name from sys_config_teacher where id = tid) as name,(select mobile from sys_config_teacher where id = tid) as mobile,
 		(select count(distinct(stu_id)) from teacher_invite_reward_record where teacher_id = tid) as invite_number,
 		(select count(id) from teacher_invite_reward_record where teacher_id = tid and (reason = 2 or reason = 3)) as consume_times,
-		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tir on p.id = tir.pay_order_id where tir.teacher_id = tid and (tir.reason=2 or tir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tir on p.id = tir.pay_order_id where tir.teacher_id = tid and (tir.reason=2 or tir.reason = 3)  and p.origin_type=0) as consume_balance,
 		(select COALESCE(sum(rewards_money),0) from teacher_invite_reward_record where teacher_id = tid) as reward_balance
 		from teacher_invite_reward_record tirr inner join sys_config_teacher s on tirr.teacher_id = s.id 
 		where tirr.company_id = #{companyId}
@@ -270,7 +270,7 @@
 		(select name from sys_config_teacher where id = tid) as name,(select mobile from sys_config_teacher where id = tid) as mobile,
 		(select count(distinct(stu_id)) from teacher_invite_reward_record where teacher_id = tid) as invite_number,
 		(select count(id) from teacher_invite_reward_record where teacher_id = tid and (reason = 2 or reason = 3)) as consume_times,
-		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tir on p.id = tir.pay_order_id where tir.teacher_id = tid and (tir.reason=2 or tir.reason = 3)) as consume_balance,
+		(select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tir on p.id = tir.pay_order_id where tir.teacher_id = tid and (tir.reason=2 or tir.reason = 3) and p.origin_type=0) as consume_balance,
 		(select COALESCE(sum(rewards_money),0) from teacher_invite_reward_record where teacher_id = tid) as reward_balance
 		from teacher_invite_reward_record tirr inner join sys_config_teacher s on tirr.teacher_id = s.id 
 		where tirr.company_id = #{companyId}
@@ -329,10 +329,10 @@
 		IFNULL(s.mobile,uf.mobile) as mobile,
 		IFNULL(s.name,uf.username) as name,
 		tirr.reason as reason,tirr.stu_id as stu_id1,tirr.pay_order_id as pay_order_id1,
-		if(reason=1,'',(select commodity_name from pay_order po inner join teacher_invite_reward_record tir on po.id = tir.pay_order_id where tir.pay_order_id = pay_order_id1)) as commodity_name,
+		if(reason=1,'',(select commodity_name from pay_order po inner join teacher_invite_reward_record tir on po.id = tir.pay_order_id where tir.pay_order_id = pay_order_id1) and po.origin_type=0) as commodity_name,
 		if(reason=1,tirr.record_time,(SELECT tir.record_time from teacher_invite_reward_record tir where tir.stu_id = stu_id1 and tir.reason = 0)) as invite_date,
 		if(reason=1,'',tirr.record_time) as consume_date,
-		if(reason=1,0,(select pay_price from pay_order po inner join teacher_invite_reward_record tir on po.id = tir.pay_order_id where tir.pay_order_id = pay_order_id1)) as consume_balance,
+		if(reason=1,0,(select pay_price from pay_order po inner join teacher_invite_reward_record tir on po.id = tir.pay_order_id where tir.pay_order_id = pay_order_id1) and po.origin_type=0) as consume_balance,
 		if(reason=1,'',tirr.rewards_money) as reward_balance
 		from teacher_invite_reward_record tirr inner join student s on tirr.stu_id = s.id inner join users_front uf on s.user_id = uf.id 
 		where tirr.company_id = #{companyId} and tirr.teacher_id = #{teacherId} and tirr.reason != 0
@@ -390,7 +390,7 @@
 	
 	<select id="getTeacherConsumeBalance" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="double" >
 		select COALESCE(sum(p.pay_price),0) from pay_order p inner join teacher_invite_reward_record tirr on tirr.pay_order_id = p.id 
-		where tirr.company_id = #{companyId} and tirr.teacher_id = #{teacherId} and (tirr.reason =2 or tirr.reason = 3)
+		where tirr.company_id = #{companyId} and tirr.teacher_id = #{teacherId} and (tirr.reason =2 or tirr.reason = 3) and p.origin_type=0
 	</select>
 	
 	<select id="getTeacherRewardBalance" parameterType="com.yuxin.wx.vo.company.TeacherInviteRecordDetailListVo" resultType="double" >

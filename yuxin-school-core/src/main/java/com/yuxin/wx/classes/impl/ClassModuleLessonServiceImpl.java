@@ -1,5 +1,8 @@
 package com.yuxin.wx.classes.impl;
 
+import com.yuxin.wx.company.mapper.CompanyLiveConfigMapper;
+import com.yuxin.wx.model.company.CompanyLiveConfig;
+import com.yuxin.wx.user.mapper.UsersFrontMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
@@ -29,6 +32,14 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 
 	@Autowired
 	private ClassModuleLessonMapper classModuleLessonMapper;
+
+	@Autowired
+	private CompanyLiveConfigMapper companyLiveConfigMapper;
+
+	@Autowired
+	private UsersFrontMapper usersFrontMapper;
+
+
 	
 	/**
 	 * 
@@ -244,6 +255,17 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 		Map<String,Object> map = new HashMap<>();
 		map.put("id",id);
 		return classModuleLessonMapper.findLessonByCommodityIdNotDel(map);
+	}
+
+	@Override
+	public CompanyLiveConfig queryCompanyLiveConfigByCompanyId(String companyId) {
+		if(companyId==null||companyId=="") return null;
+		return companyLiveConfigMapper.findByCompanyId(Integer.valueOf(companyId));
+	}
+
+	@Override
+	public String findNickNameByUserFrontId(String userid) {
+		return usersFrontMapper.findNickNameByUserFrontId(userid);
 	}
 
 }

@@ -191,7 +191,7 @@
 	<select id="findCateNameByPaperId" parameterType="Integer" resultType="String">
 		select c.tiku_name cateName from tiku_category c
 			inner join tiku_paper p on p.tiku_category_id = c.id
-		where p.id = #{id}
+		where p.id = #{id} and c.origin_type=0 
 	</select>
 	
 	<!-- 查询题库分类名根据试卷id -->

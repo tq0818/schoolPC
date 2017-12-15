@@ -802,7 +802,7 @@
 		class_type
 		WHERE
 		is_sale = 1
-		AND del_flag = 0
+		AND del_flag = 0 and origin_type=0
 		group by teacher_id
 		) as class_type on class_type.teacher_id = a.id
 		left join (
@@ -812,8 +812,8 @@
 		FROM
 		commodity com
 		INNER JOIN commodity_product_realtion pr ON com.id = pr.com_id
-		INNER JOIN class_type ct ON ct.id = pr.product_id
-		WHERE com. STATUS = 1
+		INNER JOIN class_type ct ON ct.id = pr.product_id and ct.origin_type=0
+		WHERE com. STATUS = 1 and com.origin_type=0
 		GROUP BY ct.teacher_id
 		) as commodity on commodity.teacher_id = a.id
 		WHERE a.status_code = "TEACHER_USERD"
@@ -843,8 +843,8 @@
 			</otherwise>
 	 </choose>
       <if test="cusorder != null and cusorder != '' and cusorder=='all'">
-      	 ORDER BY (select ROUND((select sum(score) from video_course_comment where teacher_id=a.id and del_flag=0 and is_distinguished=1)/(select count(id) from video_course_comment where teacher_id=a.id and del_flag=0 and is_distinguished=1),0)) DESC,(select sum(com.base_num + com.buy_num) from commodity com inner join commodity_product_realtion pr on com.id=pr.com_id inner JOIN class_type ct on ct.id=pr.product_id 
-where com.status=1 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct.company_id=#{companyId}) DESC
+      	 ORDER BY (select ROUND((select sum(score) from video_course_comment where teacher_id=a.id and del_flag=0 and origin_type=0 and is_distinguished=1)/(select count(id) from video_course_comment where teacher_id=a.id and origin_type=0 and del_flag=0 and is_distinguished=1),0)) DESC,(select sum(com.base_num + com.buy_num) from commodity com inner join commodity_product_realtion pr on com.id=pr.com_id inner JOIN class_type ct on ct.id=pr.product_id and ct.origin_type=0 
+where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_id=#{companyId} and ct.company_id=#{companyId}) DESC
       </if>
 	</select>
 	<update id="updateSortId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">

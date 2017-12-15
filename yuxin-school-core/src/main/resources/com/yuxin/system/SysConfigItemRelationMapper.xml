@@ -102,21 +102,21 @@
         select
         <include refid="table_columns" />
         from sys_config_item_relation_front
-        where level = 0
+        where level = 0  and origin_type=0 
     </select>
     <select id="findChildrenFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
         select
         <include refid="table_columns" />
         from sys_config_item_relation_front
-        where parent_id = #{id}
+        where parent_id = #{id} and origin_type=0 
     </select>
     <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap">
         SELECT DISTINCT
         (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code)as item_name,
         LEVEL
           FROM
-        sys_config_item_relation_front rf
+        sys_config_item_relation_front rf where rf.origin_type=0 
     </select>
 
     <select id="findItemFrontByLevel" resultMap="sysConfigItemRelationResultMap"
@@ -126,7 +126,7 @@
         LEVEL
           FROM
         sys_config_item_relation_front rf
-        WHERE LEVEL = #{level}
+        WHERE LEVEL = #{level} and rf.origin_type=0 
     </select>
 
     <select id="findChildByCode"  resultMap="sysConfigItemRelationResultMap" parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
@@ -135,7 +135,7 @@
         (rf.item_code) AS item_code,(SELECT item_name FROM sys_config_item sci WHERE sci.item_code=rf.item_code)AS item_name
         from
          sys_config_item_relation_front rf
-         where  parent_code =#{itemCode}
+         where  parent_code =#{itemCode} and rf.origin_type=0 
     </select>
 
 </mapper>

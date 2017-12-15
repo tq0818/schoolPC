@@ -139,7 +139,7 @@
 			left join course_potocol_user_relation cp 
 			on cpc.id = cp.potocol_id 
 			inner join users u on c.creator = u.id
-			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
+			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}  and c.origin_type=0
 			order by cp.id desc  
 			</when >
 			<when test="type !=null and type== 1">
@@ -164,7 +164,7 @@
 			left join course_potocol_user_relation cp 
 			on cpc.id = cp.potocol_id 
 			inner join users u on c.creator = u.id
-			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
+			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}  and c.origin_type=0
 			order by cp.id desc  
 			</when >
 			<when test="type !=null and type== 1">
@@ -186,7 +186,7 @@
 			 select cpbh.course_id cid,c.name cname,c.updator update_userId,u.username update_userName,cpbh.bind_date ctime,
 			(select count(id) from course_potocol_user_relation cpur where cpur.potocol_id = #{id} and cpur.course_id = cid) count
 			from course_potocol_bind_history cpbh inner join course_protocol_config cpc on cpbh.potocol_id = cpc.id
-			inner join class_type c on cpbh.course_id = c.id 
+			inner join class_type c on cpbh.course_id = c.id   and c.origin_type=0
 			inner join users u on c.creator = u.id
 			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
 			</when >
@@ -207,7 +207,7 @@
 			<when test="type !=null and type== 0">
 			 select count(cpbh.course_id)
 			from course_potocol_bind_history cpbh inner join course_protocol_config cpc on cpbh.potocol_id = cpc.id
-			inner join class_type c on cpbh.course_id = c.id 
+			inner join class_type c on cpbh.course_id = c.id   and c.origin_type=0
 			inner join users u on c.creator = u.id
 			where cpc.id = #{id} and cpc.type = 0 and cpc.company_id = #{companyId}
 			</when >

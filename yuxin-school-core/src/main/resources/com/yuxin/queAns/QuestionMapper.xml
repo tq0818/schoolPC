@@ -249,9 +249,9 @@
 	<select id="findTeacherQuestion" resultMap="QuestionVoResultMap" parameterType="map">
 		select q.* from class_type ct 
 		INNER JOIN commodity_product_realtion cpr ON ct.id = cpr.product_id
-		INNER JOIN commodity c ON cpr.com_id = c.id
+		INNER JOIN commodity c ON cpr.com_id = c.id and c.origin_type=0
 		INNER JOIN question q ON c.id = q.course_id
-		where ct.company_id = #{companyId}
+		where ct.company_id = #{companyId}  and ct.origin_type=0
 		<if test="teacherId != null">and ct.teacher_id = #{teacherId}</if>
 		<if test="courseFlag != null">and q.course_flag = #{courseFlag}</if>
 		<if test="answerCount != null">and q.answer_count = #{answerCount}</if>

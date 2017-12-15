@@ -105,17 +105,18 @@
 	<select id="findById" resultMap="videoCourseCommentResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from video_course_comment
-		where id = #{id}
+		where id = #{id} and origin_type=0
 	</select>
 	
 	<select id="queryAll" resultMap="videoCourseCommentResultMap">
 		select <include refid="table_columns" /> 
-		from video_course_comment
+		from video_course_comment where origin_type=0
 	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
+			1=1 and origin_type=0
 			<if test="comment != null and comment != ''">and comment = #{comment}</if>
 			<if test="score != null and score != ''">and score = #{score}</if>
 			<if test="videoLectureId != null and videoLectureId != ''">and video_lecture_id = #{videoLectureId}</if>
@@ -140,7 +141,7 @@
 	<select id="findByTeacherId" resultMap="teacherCommentVoResultMap" parameterType="com.yuxin.wx.vo.system.TeacherCommentVo">
 		select vcc.id,teacher_id,comment,source,score,video_chapter_id,video_lecture_id,vcc.user_id,vcc.create_time,vcc.class_type_id,(select nick_name from users_front where id=vcc.user_id) as userName from video_course_comment vcc
 		inner join sys_config_teacher syt on vcc.teacher_id = syt.id 
-		where vcc.del_flag=0 and syt.del_flag =0
+		where vcc.del_flag=0 and syt.del_flag =0 and vcc.origin_type=0
 		<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
 		<if test="companyId != null and companyId != ''">and vcc.company_id = #{companyId}</if>
 		<if test="schoolId != null and schoolId != ''">and vcc.school_id = #{schoolId}</if>
@@ -149,7 +150,7 @@
 	</select>
 	<select id="commentCount" resultType="int" parameterType="com.yuxin.wx.vo.system.TeacherCommentVo">
 		select count(vcc.id) from video_course_comment vcc inner join sys_config_teacher sct on vcc.teacher_id = sct.id
-		where vcc.del_flag=0 and sct.del_flag = 0
+		where vcc.del_flag=0 and sct.del_flag = 0 and vcc.origin_type=0
 		<if test="teacherId != null and teacherId != ''">and teacher_id = #{teacherId}</if>
 		<if test="companyId != null and companyId != ''">and vcc.company_id = #{companyId}</if>
 		<if test="id != null and id != ''">and vcc.id = #{id}</if>

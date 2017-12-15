@@ -163,7 +163,7 @@
 		FROM
 			student_pay_master spm
 		WHERE
-			spm.company_id = #{companyId}
+			spm.company_id = #{companyId} and spm.origin_type=0
 		AND spm.commodity_id = #{classTypeId}
 		AND spm.commodity_type = 'COMMODITY_CLASS'
 		AND (
@@ -221,7 +221,7 @@ FROM
 		FROM
 			student_pay_master spm
 		WHERE
-			spm.company_id = #{companyId}
+			spm.company_id = #{companyId} and spm.origin_type=0
 		AND spm.commodity_id =  #{classTypeId}
 		AND spm.commodity_type = 'COMMODITY_CLASS'
 		AND (
@@ -279,7 +279,7 @@ AND s.user_id = uf.id
 		inner join class_module cm on cm.id = b.module_id		
 		INNER JOIN class_module_no cmn ON cmn.module_id = cm.id
 		INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id
-		WHERE a.id =#{classTypeId}
+		WHERE a.id =#{classTypeId}  and a.origin_type=0
 		and cmn.del_flag = 0 and cmn.publish_status='MODULE_NO_ON_SALE' and e.del_flag = 0
 		and  cm.teach_method='TEACH_METHOD_LIVE'
 	</select>
@@ -295,7 +295,7 @@ AND s.user_id = uf.id
 		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
 		INNER JOIN users_front uf ON uf.id = clsr.user_id
 		INNER JOIN student s on s.user_id = uf.id
-		WHERE spm.commodity_id =  #{classTypeId}
+		WHERE spm.commodity_id =  #{classTypeId} and spm.origin_type=0
 		AND spm.commodity_type = 'COMMODITY_CLASS'
 		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
 		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
@@ -314,7 +314,7 @@ AND s.user_id = uf.id
 		INNER JOIN company_live_static_record clsr ON e.id = clsr.class_lesson_id
 		INNER JOIN users_front uf ON uf.id = clsr.user_id
 		INNER JOIN student s on s.user_id = uf.id
-		WHERE spm.commodity_id =  #{classTypeId}
+		WHERE spm.commodity_id =  #{classTypeId} and spm.origin_type=0
 		AND spm.commodity_type = 'COMMODITY_CLASS'
 		AND (sps.resource_type = 'TEACH_METHOD_LIVE' or sps.resource_type = 'TEACH_METHOD_FACE') 
 		and (spm.pay_status_code='ORDER_PAID' or spm.pay_status_code='ORDER_PART_PAY' or spm.pay_status_code='ORDER_FINISHED' or spm.pay_status_code='ORDER_PAID_NO_COURSE') 
@@ -328,7 +328,7 @@ AND s.user_id = uf.id
 			SELECT DISTINCT e.id
 			FROM users_front uf 
 			INNER JOIN student s ON uf.id = s.user_id
-			INNER JOIN student_pay_master spm ON spm.stu_id = s.id
+			INNER JOIN student_pay_master spm ON spm.stu_id = s.id and spm.origin_type=0
 			INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
 			INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
 			INNER JOIN class_module_lesson e ON cmn.id = e.module_no_id

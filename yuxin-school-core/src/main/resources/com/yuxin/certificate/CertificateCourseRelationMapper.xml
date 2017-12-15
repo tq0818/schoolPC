@@ -130,13 +130,13 @@
 		ON d.module_id = c.id
 		INNER JOIN course_video_lecture f
 		ON d.id = f.chapter_id
-		WHERE a.id = courseId) as tln,
+		WHERE a.id = courseId and a.origin_type=0) as tln,
 		(SELECT count(*) from user_history as uh where uh.class_type_id = courseId and uh.user_id = uid and uh.study_status = 3) as rln,
 		(select count(*) from certificate_user_relation where user_id = uid and cer_id = #{cerId}) as um,
 		(select receive_time from certificate_user_relation as cur where cur.user_id = uid and cer_id = #{cerId}) as receiveTime
 		from certificate_course_relation ccr 
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id
@@ -177,12 +177,12 @@
 		ON d.module_id = c.id
 		INNER JOIN course_video_lecture f
 		ON d.id = f.chapter_id
-		WHERE a.id = courseId) as tln,
+		WHERE a.id = courseId and a.origin_type=0) as tln,
 		(SELECT count(*) from user_history as uh where uh.class_type_id = courseId and uh.user_id = uid and uh.study_status = 3) as rln,
 		(select count(*) from certificate_user_relation where user_id = uid and cer_id = #{cerId}) as um
 		from certificate_course_relation ccr 
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id 
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id

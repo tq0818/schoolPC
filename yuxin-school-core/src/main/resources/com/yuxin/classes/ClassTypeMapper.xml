@@ -336,18 +336,18 @@
 	<select id="findById" resultMap="classTypeResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from class_type
-		where id = #{id}
+		where id = #{id} and origin_type=0
 	</select>
 	
 	<select id="queryAll" resultMap="classTypeResultMap">
 		select <include refid="table_columns" /> 
-		from class_type
+		from class_type where origin_type=0
 	</select>
 	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">
-		    1=1
+		    1=1 and origin_type=0
 			<if test="name != null and name != ''">and name like '%${name}%'</if>
 			<if test="typeCode != null and typeCode != ''">and type_code = #{typeCode}</if>
 			<if test="originalPrice != null and originalPrice != ''">and original_price = #{originalPrice}</if>
@@ -383,14 +383,14 @@
 	
 	<select id="page" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
 		select <include refid="table_columns" />
-		from class_type
-		<include refid="page_where" />
+		from class_type 
+		<include refid="page_where" /> 
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
 	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.model.classes.ClassType">
 		select count(id) from class_type
-		<include refid="page_where" />
+		<include refid="page_where" /> 
 	</select>
 	
 	<!-- 其他自定义SQL -->
@@ -407,7 +407,7 @@
 		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
 		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
 		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
-		where a.id = #{classId}
+		where a.id = #{classId} and a.origin_type=0
 		limit 1
 	</select>
 	<select id="findListByItem" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
@@ -442,6 +442,7 @@
 		  sys_config_item c 
 		  <include refid="page_where" />
 		  and a.item_one_id = b.id 
+		  and a.origin_type=0
 		  and c.id = a.item_second_id 
 		  ORDER BY a.update_time DESC
 		  limit #{firstIndex},#{pageSize}
@@ -452,8 +453,8 @@
 		SELECT a.*, c.buy_num as actualNum
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
-		INNER JOIN commodity c ON c.id = pr.com_id 
-		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS'
+		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
+		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS' and a.origin_type=0
 		<if test="classType.name != null and classType.name != ''">and a.name like '%${classType.name}%'</if>
 		<if test="classType.itemOneId != null and classType.itemOneId != ''">and a.item_one_id = #{classType.itemOneId}</if>
 		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and a.item_second_id = #{classType.itemSecondId}</if>
@@ -481,7 +482,7 @@
 	
 	<select id="queryCounts" resultType="int" parameterType="map">
 		SELECT count(id) FROM class_type
-		where del_flag=0 and company_id = #{classType.companyId}
+		where del_flag=0 and company_id = #{classType.companyId} and origin_type=0
 		<if test="classType.name != null and classType.name != ''">and name like '%${classType.name}%'</if>
 		<if test="classType.itemOneId != null and classType.itemOneId != ''">and item_one_id = #{classType.itemOneId}</if>
 		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and item_second_id = #{classType.itemSecondId}</if>
@@ -507,7 +508,8 @@
 	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">
 		select a.*
 		from class_type a,student_pay_master b
-		where 
+		where  a.origin_type=0 and b.origin_type=0
+		and
 			b.stu_id=#{id}
 		and
 			a.company_id=#{companyId}
@@ -526,7 +528,7 @@
 	<select id="findByItem" parameterType="map" resultMap="classTypeResultMap">
 		select <include refid="table_columns" />
 		from class_type where 
-		publish_status='CLASS_ON_SALE'
+		publish_status='CLASS_ON_SALE' and origin_type=0
 		and company_id=#{companyId}
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemTwoId != null and itemTwoId != ''">and item_second_id = #{itemTwoId}</if>
@@ -537,7 +539,7 @@
 	<select id="findClassByItem" parameterType="map" resultMap="classTypeResultMap">
 		select id,name
 		from class_type where 
-		 company_id=#{companyId}
+		 company_id=#{companyId} and origin_type=0
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemTwoId != null and itemTwoId != ''">and item_second_id = #{itemTwoId}</if>
 		<if test="createSchoolId != null and createSchoolId != ''">and create_school_id = #{createSchoolId}</if>
@@ -547,7 +549,7 @@
 	<select id="findClassByItemRelation" parameterType="map" resultMap="classTypeResultMap">
 		select id,name
 		from class_type where
-		company_id=#{companyId}
+		company_id=#{companyId} and origin_type=0
 		<if test="itemOneCode != null and itemOneCode != ''">and item_one_code = #{itemOneCode}</if>
 		<if test="itemSecondCode != null and itemSecondCode != ''">and item_second_code = #{itemSecondCode}</if>
 		<if test="itemThirdCode != null and itemThirdCode != ''">and item_third_code = #{itemThirdCode}</if>
@@ -567,7 +569,8 @@
 		and
 			b.class_type_id=c.id
 		and
-			a.id=#{id}
+			a.id=#{id} 
+		and c.origin_type=0
 		group by a.id
 	</select>
 	<select id="findByModule" parameterType="String" resultMap="classTypeResultMap">
@@ -581,12 +584,13 @@
 			b.class_type_id=c.id
 		and
 			a.id=#{id}
+		and c.origin_type=0
 		group by c.id
 	</select>
 	
 	<select id="queryClassTypeByName" parameterType="String" resultMap="classTypeResultMap">
 	    select <include refid="table_columns" />
-		from class_type where name=#{name}
+		from class_type where name=#{name} and origin_type=0
 		limit 1
 	</select>
 	
@@ -597,17 +601,17 @@
 		where create_school_id in (#{schoolId}) and 
 			company_id in (#{companyId}) and 
 			publish_status = 'CLASS_ON_SALE' and 
-			del_flag = 0
+			del_flag = 0 and origin_type=0
 	</select>
 	<select id="findClassTypeList3" parameterType="String" resultMap="classTypeResultMap">
 		select <include refid="table_columns" /> 
 		from class_type 
-		where company_id=#{companyId} and del_flag=0
+		where company_id=#{companyId} and del_flag=0 and origin_type=0
 	</select>
 	<select id="findClassTypeList4" parameterType="String" resultMap="classTypeResultMap">
 		select id,name 
 		from class_type 
-		where company_id=#{companyId} and del_flag=0 and publish_status = 'CLASS_ON_SALE';
+		where company_id=#{companyId} and del_flag=0 and publish_status = 'CLASS_ON_SALE' and origin_type=0;
 	</select>
 	<select id="findByItemOne" parameterType="map" resultMap="classTypeResultMap">
 		select <include refid="table_columns" /> 
@@ -615,7 +619,7 @@
 		where
 		company_id=#{companyId} and del_flag=0
 		and item_one_id=#{itemOneId}
-		and publish_status='CLASS_ON_SALE'
+		and publish_status='CLASS_ON_SALE' and origin_type=0
 	</select>
 	
 	<update id="changClassTypeCollectStatus" parameterType="com.yuxin.wx.model.classes.ClassType">
@@ -628,13 +632,14 @@
 		<if test="name != null and name != ''">and name = #{name}</if>
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
-		and del_flag=0
+		and del_flag=0 and origin_type=0
 	</select>
 	
 	<select id="queryClassBycondition" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
-		select ct.*,c.id as commodityId from commodity c left join commodity_product_realtion pr on
-		c.id=pr.com_id left join class_type ct on ct.id=pr.product_id and ct.del_flag=0 and pr.product_type=1 and c.type='COMMODITY_CLASS'
-		where ct.company_id=#{companyId} and publish_status='CLASS_ON_SALE'
+		select ct.*,c.id as commodityId from commodity c 
+		left join commodity_product_realtion pr on c.id=pr.com_id  and pr.product_type=1 
+		left join class_type ct on ct.id=pr.product_id and ct.del_flag=0  and ct.origin_type=0
+		where ct.company_id=#{companyId} and publish_status='CLASS_ON_SALE' and c.origin_type=0 and c.type='COMMODITY_CLASS'
 		<if test="itemOneId != null and itemOneId != ''">and ct.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and ct.item_second_id = #{itemSecondId}</if>
 		<if test="createSchoolId != null and createSchoolId != ''">and ct.create_school_id = #{createSchoolId}</if>
@@ -642,7 +647,7 @@
 	
 	<select id="findClassTypeBycompanyId" parameterType="Integer" resultMap="classTypeResultMap">
 		select <include refid="table_columns" />
-		from class_type where company_id=#{companyId} and del_flag=0
+		from class_type where company_id=#{companyId} and del_flag=0 and origin_type=0
 	</select>
 	<select id="findClassTypeByCommodity" parameterType="int" resultMap="classTypeResultMap">
 		SELECT
@@ -658,7 +663,7 @@
 			class_type a,
 			commodity_product_realtion b
 		WHERE
-			b.product_id = a.id
+			b.product_id = a.id  and a.origin_type=0
 		AND b.com_id = #{id}
 		<!-- AND b.product_type = 1 -->
 		AND a.del_flag = 0;
@@ -670,7 +675,7 @@
 			create_school_id = #{createSchoolId} and 
 			item_one_id = #{itemOneId} and 
 			item_second_id = #{itemSecondId} and 
-			del_flag = #{delFlag}
+			del_flag = #{delFlag} and origin_type=0
 	</select>
 	
 	<update id="updateDeflag" parameterType="map">
@@ -687,8 +692,8 @@
 	<select id="queryClassTypesByClassPackage" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.vo.classes.ClassPackageConditionVo">
 		SELECT ct.*, c.buy_num as actualNum,cpr.id as relationId 
         from class_type ct,class_package_relation cpr,class_package cp,commodity_product_realtion cr,commodity c
-        where ct.id=cpr.class_type_id and cpr.class_package_id=cp.id and ct.id=cr.product_id and cr.com_id=c.id and cr.product_type=1 and ct.del_flag=0 
-        and cp.company_id=#{companyId} 
+        where ct.id=cpr.class_type_id and cpr.class_package_id=cp.id and ct.id=cr.product_id and cr.com_id=c.id and cr.product_type=1 and ct.del_flag=0 and c.origin_type=0 
+        and cp.company_id=#{companyId}   and ct.origin_type=0 and c.origin_type=0
         and cpr.class_package_id=#{id}
         <choose>
         	<when test="stageId != null">and cpr.class_package_stage_id=#{stageId}</when>
@@ -703,7 +708,7 @@
 		ct.live_flag,
 		ct.video_flag,
 		ct.remote_flag from class_type ct,class_package_relation cpr,class_package cp
-        where ct.id=cpr.class_type_id and cpr.class_package_id=cp.id and ct.del_flag=0 
+        where ct.id=cpr.class_type_id and cpr.class_package_id=cp.id and ct.del_flag=0  and ct.origin_type=0
         and cp.company_id=#{companyId} 
         and cpr.class_package_id=#{id} 
         <if test="classTypeId != null and classTypeId != ''">
@@ -714,7 +719,7 @@
 	<!-- 查询可以添加到会员课程的课程 -->
 	<select id="queryClassTypeForMember" resultMap="classTypeVoResultMap" parameterType="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo">
 		select <include refid="table_columns" />
-		from class_type where company_id=#{companyId} and del_flag=0 and id not in (select class_type_id from class_type_member_discount where company_id =#{companyId} and member_id = #{memberId})
+		from class_type where company_id=#{companyId} and del_flag=0  and origin_type=0 and id not in (select class_type_id from class_type_member_discount where company_id =#{companyId} and member_id = #{memberId})
 		<if test="name != null and name != ''">and name like '%${name}%'</if>
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
@@ -723,14 +728,14 @@
 	</select>
 	<select id="queryClassTypeForMemberCount" resultType="int" parameterType="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo">
 		select count(*)
-		from class_type where company_id=#{companyId} and del_flag=0 and id not in (select class_type_id from class_type_member_discount where company_id =#{companyId} and member_id = #{memberId})
+		from class_type where company_id=#{companyId} and del_flag=0 and origin_type=0 and id not in (select class_type_id from class_type_member_discount where company_id =#{companyId} and member_id = #{memberId})
 		<if test="name != null and name != ''">and name like '%${name}%'</if>
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
 	</select>
 	<select id="queryClassTypeByOneAndTwoItem" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo">
 		select id,name
-		from class_type where company_id=#{companyId} and del_flag=0 and video_flag = 1
+		from class_type where company_id=#{companyId} and del_flag=0 and video_flag = 1  and origin_type=0
 		<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
 	</select>
@@ -740,13 +745,13 @@
 		select ct.*,cpr.product_id as com_id
 		from class_type ct inner join commodity_product_realtion cpr 
 		on ct.id = cpr.product_id
-		where ct.id = #{classTypeId} and cpr.product_type = 1
+		where ct.id = #{classTypeId} and cpr.product_type = 1  and ct.origin_type=0
 	</select>
 	<!-- 查找机构所有的课程 -->
 	<select id="findAllclassType" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType" >
 		select id,name
 		from class_type 
-		where company_id = #{companyId} and del_flag=0
+		where company_id = #{companyId} and del_flag=0  and origin_type=0
 		<if test="schoolsId != null and schoolsId != ''">and schools_id = #{schoolsId}</if>
 		order by id desc
 	</select>
@@ -756,6 +761,6 @@
 	</update>
 	
 	<select id="countSubjectClassOrder" resultType="Integer" parameterType="String">
-	     select count(id) from class_type  where  item_one_code = #{itemOneCode}  and del_flag = 0  and publish_status = 'CLASS_ON_SALE' and  subject_class_order > 0
+	     select count(id) from class_type  where  item_one_code = #{itemOneCode}  and del_flag = 0  and origin_type=0 and publish_status = 'CLASS_ON_SALE' and  subject_class_order > 0
 	</select>
 </mapper>

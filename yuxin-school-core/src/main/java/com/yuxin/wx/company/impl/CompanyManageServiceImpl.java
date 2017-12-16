@@ -72,16 +72,21 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		return companyMapper.queryCompanyVoByCondition(map);
 	}
 	@Override
-    public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc,Integer userId) {
+    public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc,CompanyPayConfig cpc,Integer userId) {
 		 int zhuCompanyId= companyMapper.searchCompany();
 		 companyMapper.addBerkeley(search);
 		 int ids=search.getId();
+		//分配流量。分配存储空间
 		 cms.setCompanyId(String.valueOf(ids));
-		 companyMapper.addCompanyMemberService(cms);//分配流量。分配存储空间
+		 companyMapper.addCompanyMemberService(cms);
+		//添加展示互动表
 		 clc.setCompanyId(ids);
 		 clc.setLiveType(1);
-		 companyMapper.companyLiveConfig(clc);//添加展示互动表
+		 companyMapper.companyLiveConfig(clc);
+		
+		 //添加服务信息
 		 companyMapper.addSysConfigService(String.valueOf(ids));
+		
 		 //添加学校
 		 SysConfigSchool school = new SysConfigSchool();
 		 school.setCompanyId(ids);
@@ -107,7 +112,12 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 rol.setCompanyId(ids);
 		 rol.setZhuCompanyId(String.valueOf(zhuCompanyId));
 		 companyMapper.addAuthRole(rol);
+		 if("2".equals(search.getIsArea())){
+			 companyMapper.insertHeadmasterRole(rol);
+			 companyMapper.insertTeacherRole(rol);
+		 }
 		 companyMapper.updateAuthRole();
+		
 		 //auth_role_privilege 添加角色对应菜单
 		 AuthRolePrivilege arp=new AuthRolePrivilege();
 		 arp.setCompanyId(ids);
@@ -167,8 +177,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 cns.setCompanyId(ids);
 		 cns.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addCompanyNewStep(cns);
-		 //company_pay_config
-		 CompanyPayConfig cpc=new CompanyPayConfig();
+		 //company_pay_config cc账号
 		 cpc.setCompanyId(ids);
 		 cpc.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addCompanyPayConfig(cpc);

@@ -108,8 +108,36 @@ public class CommodityVo extends BaseEntity {
     private String limitTimeTwo;
     
     private String expiredFlag;
+    
+    private Double publicPrice;//分校公开课程价格
+    private Integer cddsStatus;//课程上架状态(数校)
+    private Integer cddsRecommendFlag;//课程推荐状态(数校)
+    
+    public Double getPublicPrice() {
+		return publicPrice;
+	}
 
-    public String getExpiredFlag() {
+	public void setPublisPrice(Double publicPrice) {
+		this.publicPrice = publicPrice;
+	}
+
+	public Integer getCddsStatus() {
+		return cddsStatus;
+	}
+
+	public void setCddsStatus(Integer cddsStatus) {
+		this.cddsStatus = cddsStatus;
+	}
+
+	public Integer getCddsRecommendFlag() {
+		return cddsRecommendFlag;
+	}
+
+	public void setCddsRecommendFlag(Integer cddsRecommendFlag) {
+		this.cddsRecommendFlag = cddsRecommendFlag;
+	}
+
+	public String getExpiredFlag() {
 		return expiredFlag;
 	}
 

@@ -1158,7 +1158,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	
 	<!--分校首页学校列表-->
 	<select id="queryCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="com.yuxin.wx.model.company.CompanyVo">
-		select su.* from (
+		select * from (select su.* from (
 			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
@@ -1186,9 +1186,12 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="eduArea != null and eduArea != ''">and pss.item_code = #{eduArea}</if>
 	 		GROUP BY co.id
 		) su where su.id is not null
-		order by registStudentCounts,classCounts
-		
-		limit #{firstIndex},#{pageSize}
+		limit #{firstIndex},#{pageSize}) sss
+		order by  
+		sss.registTime <if test="paixu != null and paixu == 2"> DESC </if> ,
+		sss.registStudentCounts <if test="paixu != null and paixu == 4"> DESC </if> ,
+		sss.classCounts <if test="paixu != null and paixu == 6"> DESC </if> ,
+		sss.classTypeCounts <if test="paixu != null and paixu == 8"> DESC </if> 
 	</select>
 	<!--分校首页学校数量-->
 	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
@@ -1296,25 +1299,35 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addSysConfigAndSchool" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_school_item_relation
 		(school_id,item_id,del_flag,create_time,creator,true_del_flag)
-		select  #{schoolId}, t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{zhuCompanyId}
+		select  #{schoolId}, t1.id,0,NOW(),#{creator},0 from sys_config_item t1 where t1.company_id=#{companyId}
 
 	</insert>
 	<!-- 添加角色-->
 	<insert id="addAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
 		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
-		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=#{zhuCompanyId})
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=#{zhuCompanyId} and role_name<![CDATA[ <>]]>'总校管理员')
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
 	  update auth_role set role_uid=id where role_uid is null
 	</update>
+	<!-- 添加班主任-->
+	<insert id="insertHeadmasterRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO auth_role (role_name, description, parent_id, company_id, creator, create_time, role_flag)
+		VALUES('班主任', '班主任', NULL, #{companyId}, #{creator}, NOW(), 1)
+	</insert>
+	<!-- 添加任课教师-->
+	<insert id="insertTeacherRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO auth_role (role_name, description, parent_id, company_id, creator, create_time, role_flag)
+		VALUES('任课老师', '任课老师', NULL, #{companyId}, #{creator}, NOW(), 1)
+	</insert>
 	<!-- 添加角色菜单关系-->
 	<insert id="addAuthPrivilegeCategory" parameterType="com.yuxin.wx.model.auth.AuthRolePrivilege" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO auth_role_privilege (role_uid,privilege_id,create_time) 
 		select t1.id,t3.privilege_id,NOW() from auth_role t1
 		INNER JOIN auth_role t2 ON t1.role_name=t2.role_name
 		INNER JOIN  auth_role_privilege t3  ON t3.role_uid=t2.role_uid
-		where t1.company_id=#{companyId} and t2.company_id=#{zhuCompanyId};
+		where t1.company_id=#{companyId} and (t2.company_id=#{zhuCompanyId} or (t2.company_id=0 and t2.role_name in('班主任','任课老师')));
 	</insert>
 	
 	<!-- 插入用户 -->
@@ -1330,7 +1343,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- 插入用户角色关系 -->
 	<insert id="addAuthUserRole" parameterType="com.yuxin.wx.model.auth.AuthUserRole" useGeneratedKeys="true" keyProperty="id">
 		insert into auth_user_role(user_id,role_uid,create_time,creator ) 
-		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId})
+		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId} and role_name='分校管理员')
 	</insert>
 	<!-- company_app_auth -->
 	<insert id="addCompanyAppAuth" parameterType="com.yuxin.wx.model.company.CompanyAppAuth" useGeneratedKeys="true" keyProperty="id">
@@ -1387,7 +1400,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		person_name,person_zfb_account,person_zfb_url,person_wx_account,person_wx_url,qiniu_username,
 		qiniu_password,qiniu_ak,qiniu_sk,qiniu_bucket,gzh_wx_key,gzh_wx_appID,gzh_wx_appSecret,
 		gzh_wx_mchID,sxy_code,sxy_key,qiniu_uid) 
-		(select #{companyId},zfb_account,zfb_partner_id,zfb_key,cc_user_id,cc_api_key,
+		(select #{companyId},zfb_account,zfb_partner_id,zfb_key,#{ccUserId},#{ccApiKey},
 		letv_user_id,letv_api_key,letv_uuid,letv_pu,pay_type,bank_account_name,bank_account_number,bank_company_name,
 		person_name,person_zfb_account,person_zfb_url,person_wx_account,person_wx_url,qiniu_username,
 		qiniu_password,qiniu_ak,qiniu_sk,qiniu_bucket,gzh_wx_key,gzh_wx_appID,gzh_wx_appSecret,

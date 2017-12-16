@@ -58,17 +58,17 @@
                     <th width="10%">组织机构代码</th>
                     <th width="10%">分校名称</th>
                     <th width="10%">所属区域</th>
-                    <th width="10%">创建时间
-                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    <th width="10%" class="btn-sort time" >
+                   		创建时间<input type="hidden" id="time" value="1"/>
                     </th>
-                    <th width="10%">注册学生人数
-                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    <th width="10%" class="btn-sort penNum">
+                   		注册学生人数<input type="hidden" id="penNum" value="4"/>
                     </th>
-                    <th width="10%">课程数
-                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    <th width="10%" class="btn-sort lessNum">
+                    	课程数<input type="hidden" id="lessNum" value="6"/>
                     </th>
-                    <th width="10%">班级数
-                        <i class="icon iconfont unsort sorting">&#xe612;</i>
+                    <th width="10%" class="btn-sort clasNum">
+                    	班级数<input type="hidden" id="clasNum" value="8"/>
                     </th>
                     <th width="15%">操作</th>
                 </tr>
@@ -102,33 +102,10 @@
                 </tr>
                  </c:forEach>
             </table>
-           	<div class="pages">
-				<ul class="paginations">
-
-                </ul>
-			</div>
-<script type="text/javascript">
-$(function(){
-	$(".paginations").html("");
-	$(".paginations").pagination('${anPage.rowCount}', {
-		next_text : "下一页",
-		prev_text : "上一页",
-		current_page : '${anPage.pageNo-1}',
-		link_to : "javascript:void(0)",
-		num_display_entries : 8,
-		items_per_page : '${anPage.pageSize}',
-		num_edge_entries : 1,
-		callback : function(page, jq) {
-			var pageNo = page + 1;
-			selOneAns(pageNo);
-		}
-	});
-});
-</script>
+           	<div class="pages pagination"></div>
             </div>
         </div>
     </div>
-</div>
 <input type="hidden" value="5" id="pageSize">
 
 <%--弹窗begin--%>
@@ -137,7 +114,7 @@ $(function(){
     <div class="addSchool">
             <ul>
                 <li>
-                    <label style="margin-right: 10px;">分校机构代码:</label>
+                    <label style="margin-right: 10px;">分校机构代码<i style="color: red;" class="iconfont ico"></i></label>
                     <input type="text" name="branchCode" id="branchCode">
                     <input type="hidden" name="isArea" id="isArea">
                     <button class="btn btn-primary" id="searchBranchSchool" style="margin-left: 5px;">搜索</button>
@@ -151,7 +128,7 @@ $(function(){
                     <label id="eara" name="eara"></label>
                 </li>
                 <li>
-                    <label style="margin-right: 35px;">学校性质:</label>
+                    <label style="margin-right: 35px;">学校性质<i style="color: red;" class="iconfont ico"></i></label>
                     <select id="schoolProperties" style="width: 164px;">
                         <c:forEach items="${schoolPros}" var="schoolPro" >
 		                    <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
@@ -159,33 +136,33 @@ $(function(){
                     </select>
                 </li>
                 <li>
-                    <label style="margin-right: 47px;">联系人:</label>
+                    <label style="margin-right: 47px;">联系人<i style="color: red;" class="iconfont ico"></i></label>
                     <input type="text" name="linkPerson" id="linkPerson">
                 </li>
                 <li>
-                    <label style="margin-right: 35px;">联系方式:</label>
+                    <label style="margin-right: 35px;">联系方式<i style="color: red;" class="iconfont ico"></i></label>
                     <input type="text" name="linkPhone" id="linkPhone">
                 </li>
                 <li>
-                    <label>分校域名:</label><br/>
-                    <span style="margin-left: 55px;">www.</span>
+                    <label>分校域名<i style="color: red;" class="iconfont ico"></i></label><br/>
+                    <span style="margin-left: 55px;">http://</span>
                     <input type="text" name="domain" id="domain">
                     <span>.cdds365.com</span>
                 </li>
                 <li>
-                    <label>分校后台域名:</label><br/>
-                    <span style="margin-left: 55px;">www.</span>
+                    <label>分校后台域名<i style="color: red;" class="iconfont ico"></i></label><br/>
+                    <span style="margin-left: 55px;">http://</span>
                     <input type="text" name="domainManage" id="domainManage">
                     <span>.manage.cdds.com</span>
                 </li>
                 <li>
                     <label>收费配置:</label>
                     <p>
-                        <label style="margin-left: 40px;">学校私有课程收费比例:</label><br/>
+                        <label style="margin-left: 40px;">学校私有课程收费比例<i style="color: red;" class="iconfont ico"></i></label><br/>
                         <input style="margin-left: 85px;" type="text" id="privateCost" name="privateCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
                     </p>
                     <p>
-                        <label style="margin-left: 40px;">学校开放课程收费比例：</label><br/>
+                        <label style="margin-left: 40px;">学校开放课程收费比例<i style="color: red;" class="iconfont ico"></i></label><br/>
                         <input style="margin-left: 85px;" type="text" id="publicCost" name="publicCost" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">%
                     </p>
                 </li>
@@ -194,28 +171,28 @@ $(function(){
                 <li style="margin-bottom: 10px">
                     <label>资源分配</label>
                     <p style="margin-left: 30px;margin-bottom: 8px;">
-                        流量
+                        流量<i style="color: red;" class="iconfont ico"></i>
                         <input type="text" id="flowSize" name="flowSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                         GB
                     </p>
                     <p style="margin-left: 30px;">
-                        空间
+                        空间<i style="color: red;" class="iconfont ico"></i>
                         <input type="text" id="spaceSize" name="spaceSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"">
                         GB
                     </p>
                 </li>
                 <li style="margin-bottom: 10px">
                     <label for="">cc账号:</label><br/>
-                    <input style="margin-left: 55px;margin-bottom: 5px;" type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
-                    <input style="margin-left: 55px;" type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
+                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;margin-bottom: 5px;" type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
+                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;" type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
                 </li>
                 <li style="margin-bottom: 10px">
                     <label for="">展视互动账号:</label><br/>
-                    <input style="margin-left: 55px;margin-bottom: 5px;" type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/><br/>
-                    <input style="margin-left: 55px;" type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
+                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;margin-bottom: 5px;" type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/><br/>
+                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;" type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
                 </li>
                 <li>
-                    <label>学校简介：</label><br/>
+                    <label>学校简介<i style="color: red;" class="iconfont ico"></i></label><br/>
                     <textarea style="margin-left: 55px;" cols="50" rows="10" id="schoolSummary" name="schoolSummary"></textarea>
                 </li>
             </ul>

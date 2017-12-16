@@ -32,10 +32,50 @@ function closeBtn(companyId,itemCode,delFlag) {
                 language: "zh-CN"
             });
             // 初始化数据
-            $this.search(1);
+            $this.search(1,null);
             //搜索
             $(".searchContents").on('click', function () {
-                $this.search(1);
+                $this.search(1,null);
+            });
+            $(".time").on('click', function () {
+            	if($("#time").val()==1){
+            		//2 asc 1 desc
+            		$("#time").val("2")
+            		$this.search($("#pageNo").val(),1);
+            	}else{
+            		$("#time").val("1")
+            		$this.search($("#pageNo").val(),2);
+            	}
+            });
+            $(".penNum").on('click', function () {
+            	if($("#penNum").val()==3){
+            		//2 asc 1 desc
+            		$("#penNum").val("4")
+            		$this.search($("#pageNo").val(),3);
+            	}else{
+            		$("#penNum").val("3")
+            		$this.search($("#pageNo").val(),4);
+            	}
+            });
+            $(".lessNum").on('click', function () {
+            	if($("#lessNum").val()==5){
+            		//2 asc 1 desc
+            		$("#lessNum").val("6")
+            		$this.search($("#pageNo").val(),5);
+            	}else{
+            		$("#lessNum").val("5")
+            		$this.search($("#pageNo").val(),6);
+            	}
+            });
+            $(".clasNum").on('click', function () {
+            	if($("#clasNum").val()==7){
+            		//2 asc 1 desc
+            		$("#clasNum").val("8")
+            		$this.search($("#pageNo").val(),7);
+            	}else{
+            		$("#clasNum").val("7")
+            		$this.search($("#pageNo").val(),8);
+            	}
             });
             //全选 取消全选
             $(".checkboxAll").on('change', function () {
@@ -65,7 +105,9 @@ function closeBtn(companyId,itemCode,delFlag) {
                     success: function (jsonData) {
                     	if(jsonData==null || jsonData==''){
                     		alert("输入错误");
-                    		/*$.msg('输入错误');*/
+                    		$("#branchCode").val("");
+                    		$("#branchSchool").text("");
+                    		$("#eara").text("");
                     		return;
                     	}
                     	var companyName=jsonData.companyName;
@@ -100,15 +142,18 @@ function closeBtn(companyId,itemCode,delFlag) {
         },
         searchCount: function(){
         	$("#selectCounts").val($("#selectCount").val());
-        	$this.search(1);
+        	$this.search(1,null);
         },
-        search: function (page) {
+        search: function (page,paixu) {
             var $this = this;
             var data = {};
             data.eduArea=$("#eduArea").val();
             data.companyName=$("#companyName").val();
             data.startTime=$("#startTime").val();
             data.endTime=$("#endTime").val();
+            data.page = page ? page : 1;
+            data.pageSize=$("#selectCounts").val() || 10;
+            data.paixu=paixu;
             if ($(".to").val() != "") {
                 if ($(".to").val() < $(".from").val()) {
                     $.msg("时间范围不正确");
@@ -179,7 +224,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                                     num_edge_entries: 1,
                                     callback: function (page, jq) {
                                         var pageNo = page + 1;
-                                        $this.search(pageNo);
+                                        $this.search(pageNo,null);
                                     }
                                 });
                             $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
@@ -211,29 +256,84 @@ function closeBtn(companyId,itemCode,delFlag) {
 })(jQuery)
 
 function addBerkeley(biaoshi){
-		
-		var branchSchool=$("#branchSchool").text();
+		var branchCode=$("#branchCode").val();
+		if(null==branchCode || ''==branchCode){
+			alert("分校机构代码不能为空");
+			return;
+		}
+		var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
 		var isArea=$("#isArea").val();
 		var eara=$("#eara").text();
 		var schoolProperties=$("#schoolProperties").val();
 		var linkPerson=$("#linkPerson").val();
+		if(null==linkPerson || ''==linkPerson){
+			alert("联系人不能为空");
+			return;
+		}
 		var linkPhone=$("#linkPhone").val();
+		if(null==linkPhone || ''==linkPhone){
+			alert("联系方式不能为空");
+			return;
+		}
+		
 		var domain=$("#domain").val();
-		if(null!=$("#domain").val() && ''!=$("#domain").val()){
-			var domain=$("#domain").val()+'.cdds365.com';
+		if(null!=domain && ''!=domain){
+			 domain=domain+'.cdds365.com';
+		}else{
+			alert("分校域名不能为空");
+			return;
 		}
 		if(null!=$("#domainManage").val() && ''!=$("#domainManage").val()){
 			var domainManage=$("#domainManage").val()+'.cdds365.manage.com';
+		}else{
+			alert("分校后台域名不能为空");
+			return;
 		}
 		var privateCost=$("#privateCost").val();
+		if(null==privateCost || ''==privateCost){
+			alert("学校私有课程收费比例不能为空");
+			return;
+		}
 		var publicCost=$("#publicCost").val();
+		if(null==publicCost || ''==publicCost){
+			alert("学校开放课程收费比例不能为空");
+			return;
+		}
 		var flowSize=$("#flowSize").val();
+		if(null==flowSize || ''==flowSize){
+			alert("流量不能为空");
+			return;
+		}
 		var spaceSize=$("#spaceSize").val();
+		if(null==spaceSize || ''==spaceSize){
+			alert("空间不能为空");
+			return;
+		}
 		var ccUserName=$("#ccUserName").val();
+		if(null==ccUserName || ''==ccUserName){
+			alert("cc账号不能为空");
+			return;
+		}
 		var ccPwd=$("#ccPwd").val();
+		if(null==ccPwd || ''==ccPwd){
+			alert("cc密码不能为空");
+			return;
+		}
 		var zsUserName=$("#zsUserName").val();
+		if(null==zsUserName || ''==zsUserName){
+			alert("展视互动账号不能为空");
+			return;
+		}
 		var zsPwd=$("#zsPwd").val();
+		if(null==zsPwd || ''==zsPwd){
+			alert("展视互动密码不能为空");
+			return;
+		}
 		var schoolSummary=$("#schoolSummary").val();
+		if(null==schoolSummary || ''==schoolSummary){
+			alert("学校简介不能为空");
+			return;
+		}
 		if(biaoshi==0){
 			var branchCode=$("#branchCode").val();
 			if(null==branchCode || ''==branchCode){

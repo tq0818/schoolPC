@@ -6,6 +6,7 @@ import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.CompanyVo;
 
 public interface ICompanyManageService {
@@ -33,7 +34,7 @@ public interface ICompanyManageService {
 	 * @return 
 	 * @throws
 	 */
-	public void addBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc,Integer userId);
+	public void addBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc,CompanyPayConfig cpc,Integer userId);
 	/**
 	 * 
 	 * @author jishangyang 2017年12月8日 上午12:11:19

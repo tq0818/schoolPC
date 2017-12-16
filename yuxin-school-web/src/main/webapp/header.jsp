@@ -339,8 +339,8 @@ button.cloze {
             <shiro:hasPermission name="statistics_org">
                 <li code="statistics_org"><a href="<%=rootPath %>/company/orgstatistics/firstTransferStation" >总览</a></li>
             </shiro:hasPermission>
-             <shiro:hasPermission name="statistics_all">
-                <li code="berkeley"><a href="<%=rootPath %>/berkeley/berkeleyIndex" >分校</a></li>
+             <shiro:hasPermission name="brach_school">
+                <li code="brach_school"><a href="<%=rootPath %>/berkeley/berkeleyIndex" >分校</a></li>
             </shiro:hasPermission>
         </ul>
         <ul class="nav nav-right">

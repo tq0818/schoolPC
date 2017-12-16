@@ -98,8 +98,10 @@
 					min: jQuery.validator.format("请输入一个最小为{0} 的值"),
 					isMobile : "不是有效的手机号"
 				});
-				//$(".footer").addClass("footer-fixed");
 				var type=$("#type").val();
+				if("save"==type){
+					$('#userName').val('');
+				}
 				if(type=="update"){
 					$("#pcOne").css("display","none");
 					var userId=$("#uId").val();

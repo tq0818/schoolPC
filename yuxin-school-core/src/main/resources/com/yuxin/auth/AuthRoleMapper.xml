@@ -187,23 +187,31 @@
 	</select>
 	
 	<select id="queryAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
-		select u.id,u.username,u.real_name,u.sex,u.status,u.mobile,ur.company_id,scs.id school_id 
+		select distinct u.id,u.username,u.real_name,u.sex,u.status,u.mobile,ur.company_id,scs.id school_id 
 		from users u
-		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1
+		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1 and ur.company_id=#{companyId}
+		left join auth_user_role aur on aur.user_id=u.id
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		where 1=1
 		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
+		<if test="statusStr != null and statusStr != ''">and u.status=#{statusStr}</if>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
 	<select id="queryAllUserCount" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultType="int">
-		select count(u.id) from users u
+		select count(distinct u.id) from users u
+		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1 and ur.company_id=#{companyId}
+		left join auth_user_role aur on aur.user_id=u.id
+		inner join sys_config_school scs on scs.company_id=ur.company_id
 		where 1=1
 		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
+		<if test="status != null and status != ''">and u.status=#{status}</if>
 	</select>
 	
 	

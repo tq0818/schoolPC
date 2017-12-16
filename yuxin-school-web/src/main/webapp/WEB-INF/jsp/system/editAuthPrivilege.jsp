@@ -44,29 +44,11 @@
   				<input type="hidden" name="proxyOrgId" id="proxyOrgId" value="${user.proxyOrgId }"/>
   				<input type="hidden" value="${user.userType }" id="userType_status"/>
 	            <div class="users-infos-list">
-	                <p class="c" id="pcOne">
-	                    <span class="c-title">所属分校</span>
-	                    <span class="c-content">
-	                    	<select name="schoolId" id="schoolId">
-				       			<c:forEach items="${schoolList }" var="school">
-				       				<c:if test="${school.id==schoolId }">
-				       					<option value="${school.id }" selected="selected">${school.schoolName }</option>
-				       				</c:if>
-				       				<c:if test="${school.id!=schoolId }">
-				       					<option value="${school.id }">${school.schoolName }</option>
-				       				</c:if>
-				       			</c:forEach>
-				       			<c:if test="${empty schoolList }">
-				       				<option value="${school1.id }" selected="selected">${school1.schoolName }</option>
-				       		    </c:if>
-				       		</select>
-	                    </span>
-	                </p>
 	                <p class="c">
 	                    <span class="c-title">登录账号&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
-	                    <span class="c-content">
+	                    <span class="c-content" id="ucontent">
 	                    	<c:if test="${type=='save' }">
-	                    	  <input id="userName" name="username" type="text">
+	                    	  <input id="userName" name="username" type="text"/>
 	                    	</c:if>
 	                    	<c:if test="${type!='save' }">
 	                    	  <input id="nameMark" disabled="disabled" name="usernames" type="text" value="${user.username }" disabled/>
@@ -95,7 +77,10 @@
 	                </p>
 	                <p class="c">
 	                    <span class="c-title">密码&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
-	                    <span class="c-content"><input id="password" name="password" type="password"></span>
+	                    <span class="c-content" id="pcontent">
+	                    	<input id="password1" name="password1" type="password" style="display:none;"/>
+	                    	<input id="password" name="password" type="password"/>
+	                    </span>
 	                </p>
 	                <p class="c">
 	                    <span class="c-title">确认密码&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
@@ -158,7 +143,6 @@
                 <c:forEach items="${privilegeList }" var="category">
                 		<li style="display: none;">
 	                        <p class="c-title" marks="${category.id }">
-<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
 	                            <span>${category.categoryName }</span>
 	                        </p>
 	                        <c:forEach items="${category.arr }" var="childCategory">
@@ -172,7 +156,6 @@
 
 					<li  class="editToB headmasterToB">
 						<p class="c-title" marks="3">
-							<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
 							<span>任课老师</span>
 						</p>
 
@@ -231,7 +214,6 @@
 					</li>
 					<li  class="editToB classTeacherToB">
 						<p class="c-title">
-							<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
 							<span>班主任</span>
 						</p>
 

@@ -26,8 +26,16 @@ public class UserRolesListVo extends BaseEntity{
     private String roleName;
     private String roleNames;
     
+    private String statusStr;
+    
     private List<AuthRole> arr;
     
+	public String getStatusStr() {
+		return statusStr;
+	}
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
+	}
 	public Integer getUserId() {
 		return userId;
 	}

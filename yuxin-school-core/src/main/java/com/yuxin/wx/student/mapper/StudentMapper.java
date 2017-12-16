@@ -8,6 +8,7 @@ import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
 import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
@@ -298,4 +299,14 @@ public interface StudentMapper extends BaseMapper<Student> {
 	Student findStudentOnlyByUserId(Integer id);
 	
 	List<StudentListVo> queryStudentsListByIds(Integer[] ids);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月16日 下午6:02:08
+	 * @Method: eduAreaExistenceCount 
+	 * @Description: 检查区域是否存在
+	 * @param str
+	 * @return 
+	 * @throws
+	 */
+	List<SysConfigDict> findEduAreaList();
 }

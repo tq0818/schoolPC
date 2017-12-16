@@ -8,6 +8,7 @@ import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
 import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
@@ -717,4 +718,14 @@ public interface IStudentService  {
 	List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId);
 	
 	List<StudentListVo> queryStudentsListByIds(String ids);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月16日 下午6:02:08
+	 * @Method: eduAreaExistenceCount 
+	 * @Description: 检查区域
+	 * @param str
+	 * @return 
+	 * @throws
+	 */
+	List<SysConfigDict> findEduAreaList();
 }

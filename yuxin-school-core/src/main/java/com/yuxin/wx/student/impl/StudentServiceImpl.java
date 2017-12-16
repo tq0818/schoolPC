@@ -23,6 +23,7 @@ import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.student.StudentPayMaster;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.student.mapper.StudentMapper;
@@ -1542,6 +1543,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		return studentMapper.findStudentCountOnlyByMobile(search);
 	}
 
+
 	@Override
 	public List<StudentImportVo> queryAllStudentsByCompanyId(Integer companyId) {
 		return studentMapper.queryAllStudentsByCompanyId(companyId);
@@ -1810,4 +1812,8 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		return data;
 	}
 	
+	@Override
+	public List<SysConfigDict> findEduAreaList() {
+		return studentMapper.findEduAreaList();
+	}
 }

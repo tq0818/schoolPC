@@ -89,6 +89,7 @@ public class CompanyVo extends BaseEntity implements Serializable {
 	private String schoolApplyFlag;//申请开通更多分校状态
 	private String isArea;//分校类型
 	private String companyNameShot;//公司简称
+	private String paixu;
 	
 	
 	
@@ -346,6 +347,16 @@ public class CompanyVo extends BaseEntity implements Serializable {
 	
     public void setServiceVersion(String serviceVersion) {
     	this.serviceVersion = serviceVersion;
+    }
+
+	
+    public String getPaixu() {
+    	return paixu;
+    }
+
+	
+    public void setPaixu(String paixu) {
+    	this.paixu = paixu;
     }
 	
 	

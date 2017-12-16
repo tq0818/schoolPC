@@ -245,6 +245,13 @@
 		<result property="weibo" column="weibo" />
 		<result property="invitCode" column="invite_code"/>
 	</resultMap>
+	<resultMap type="com.yuxin.wx.model.system.SysConfigDict" id="sysConfigDict">
+		<result property="id" column="id"/>
+		<result property="dictCode" column="dict_code"/>
+		<result property="itemCode" column="item_code"/>
+		<result property="itemValue" column="item_value"/>
+		<result property="parentItemId" column="parent_item_id"/>
+	</resultMap>
 	
 	<sql id="table_columns">
 		id,
@@ -3056,5 +3063,10 @@ select * from (
 			#{ids}
 		</foreach>
 	 order by s.id DESC
+	</select>
+	
+	
+	<select id="findEduAreaList" resultMap="sysConfigDict" parameterType="string">
+		select id,parent_item_id,dict_code,item_code,item_value from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL'
 	</select>
 </mapper>

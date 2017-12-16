@@ -24,6 +24,7 @@ import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.utils.WebUtils;
@@ -150,6 +151,15 @@ public class BranchSchoolIndex {
     @ResponseBody
     @RequestMapping(value = "/queryCompanyList")
     public PageFinder2<CompanyVo> queryCompanyList(Model model,CompanyVo search){
+    	if(search.getPage()==0){
+    		search.setPage(1);
+    	}
+    	if(search.getPageSize()==12){
+    		search.setPageSize(10);
+    	}
+    	if(null==search.getPaixu()){
+    		search.setPaixu("2");
+    	}
     	return companyManageServiceImpl.queryCompanyVoListByCondition(search);
     }
     /**
@@ -221,11 +231,14 @@ public class BranchSchoolIndex {
          clc.setLoginName(zsUserName);
          String zsPwd= request.getParameter("zsPwd").toString(); 
          clc.setPassword(zsPwd);
-         //ccUserName : ccUserName,
-         //ccPwd : ccPwd,
+         CompanyPayConfig cpc =new CompanyPayConfig();
+         String ccUserName= request.getParameter("ccUserName").toString(); 
+         String ccPwd= request.getParameter("ccPwd").toString(); 
+         cpc.setCcUserId(ccUserName);
+         cpc.setCcApiKey(ccPwd);
          try {
         	 
-        	 companyManageServiceImpl.addBerkeley(search,cms,clc,WebUtils.getCurrentUserId(request));
+        	 companyManageServiceImpl.addBerkeley(search,cms,clc,cpc,WebUtils.getCurrentUserId(request));
              json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         } catch (Exception e) {
         	 log.info("qa：添加分校报错");

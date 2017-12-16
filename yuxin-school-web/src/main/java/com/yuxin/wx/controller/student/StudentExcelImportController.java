@@ -2,10 +2,10 @@ package com.yuxin.wx.controller.student;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,17 +16,13 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonArray;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.company.ICompanyRegisterConfigService;
 import com.yuxin.wx.api.student.IStudentService;
@@ -34,6 +30,8 @@ import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.utils.CheckImportUtil;
 import com.yuxin.wx.utils.FileUploadUtil;
 import com.yuxin.wx.utils.ImportExcl;
 import com.yuxin.wx.utils.ParameterUtil;
@@ -142,10 +140,69 @@ public class StudentExcelImportController {
 	 */
 	private JSONObject validateDatas2In( List<Student> list ){
 		JSONObject json = new JSONObject();
-		
- 		List<String> errorMsg  = new ArrayList<String>();		/* 错误信息 */
+		List<String> errorMsg  = new ArrayList<String>();		/* 错误信息 */
  		List<Student> students = new ArrayList<Student>(); 		/* 验证，去重后的student */
+		Map <String, String> eduAreaMap=new HashMap<String, String>();
+		Map <String, String> eduSchoolMap=new HashMap<String, String>();
+		Map <String, String> dictMap=new HashMap<String, String>();
+		List<SysConfigDict> dictAreaList=studentServiceImpl.findEduAreaList();
+		if(null!=dictAreaList && dictAreaList.size()>0){
+			for(SysConfigDict vo : dictAreaList){
+				dictMap.put(vo.getItemValue(), vo.getItemCode());
+				if("EDU_SCHOOL_AREA".equals(vo.getDictCode())){
+					eduAreaMap.put(vo.getItemCode(),vo.getItemValue());
+				}else{
+					eduSchoolMap.put(vo.getItemCode(),vo.getItemValue());
+				}
+			}
+		}
  		
+ 		String isArea=WebUtils.getCurrentIsArea();
+		Map<String,String>isAreaHava=new HashMap<String, String>();//存放对比区域
+		Map<String,String>isSchoolHava=new HashMap<String, String>();//存放对比学校
+		if("0".equals(isArea)){
+			isAreaHava.putAll(eduAreaMap);
+			isSchoolHava.putAll(eduSchoolMap);
+		}else if("1".equals(isArea)){
+			//学区  区域
+			String eduArea=WebUtils.getCurrentCompany().getEduAreaSchool();
+			if(eduAreaMap.containsValue(eduArea)){
+				isAreaHava.put(eduArea, eduAreaMap.get(eduArea));
+			}
+			//学区  学校
+			int areaCode=0;
+			for(int k=0;k<dictAreaList.size();k++){
+				if(eduArea.equals(dictAreaList.get(k).getItemCode())){
+					areaCode=dictAreaList.get(k).getId();
+				}
+			}
+			for(int k=0;k<dictAreaList.size();k++){
+				if(String.valueOf(areaCode).equals(dictAreaList.get(k).getParentItemId())){
+					isSchoolHava.put(dictAreaList.get(k).getItemValue(), dictAreaList.get(k).getItemCode());
+				}
+			}
+		}else{
+			//学校用户 学校
+			String eduArea=WebUtils.getCurrentCompany().getEduAreaSchool();
+			if(eduSchoolMap.containsKey(eduArea)){
+				isSchoolHava.put(eduArea, eduSchoolMap.get(eduArea));
+			}
+			//学校用户  区域
+			int parentId=0;
+			for(int k=0;k<dictAreaList.size();k++){
+				if(eduArea.equals(dictAreaList.get(k).getItemCode())){
+					 parentId=dictAreaList.get(k).getParentItemId();
+				}
+			}
+			for(int k=0;k<dictAreaList.size();k++){
+				if(String.valueOf(parentId).equals(dictAreaList.get(k).getId())){
+					isAreaHava.put(dictAreaList.get(k).getItemValue(), dictAreaList.get(k).getItemCode());
+				}
+			}
+			
+		}
+		
+		
 		String flag = getCompanyRegisterFlag();					/* 机构注册方式 */
 		
 		for (int i = list.size() - 1; i >= 0; i--) {			/* 倒叙，保留第一个*/
@@ -235,6 +292,49 @@ public class StudentExcelImportController {
 					}
 				}
 			}
+			
+			//学区
+			if( list.get(i).getEduArea() != null && !eduAreaMap.containsValue(list.get(i).getEduArea())){
+				error.add("第" + (i + 2) + "行中区域不存在!");
+			}else{
+				if(list.get(i).getEduArea() != null && !isAreaHava.containsValue(list.get(i).getEduArea())){
+					error.add("第" + (i + 2) + "行中无权输入该区域!");
+				}
+			}
+			//学校
+			if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsValue(list.get(i).getEduSchool())){
+				error.add("第" + (i + 2) + "行中学校不存在!");
+			}else{
+				if(list.get(i).getEduSchool() != null && !isSchoolHava.containsValue(list.get(i).getEduSchool())){
+					error.add("第" + (i + 2) + "行中无权输入该学校!");
+				}
+			}
+			//学段
+			if(list.get(i).getEduStep() != null && "小学".equals(list.get(i).getEduStep())){
+				list.get(i).setEduStep("STEP_01");
+			}else if(list.get(i).getEduStep() != null && "初中中学".equals(list.get(i).getEduStep())){
+				list.get(i).setEduStep("STEP_02");
+			}else if(list.get(i).getEduStep() != null && "高中中学".equals(list.get(i).getEduStep())){
+				list.get(i).setEduStep("STEP_03");
+			}else{
+				error.add("第" + (i + 2) + "行中无效学段!");
+			}
+			//入学年份
+			if( list.get(i).getEduYear() != null ){
+				if( CheckImportUtil.isNum(list.get(i).getEduYear()) || list.get(i).getEduYear().length() > 4 ){
+					
+				} else {
+					error.add("第" + (i + 2) + "行中无效年份!");
+				}
+			}
+			if( list.get(i).getEduClass() != null ){
+				if( CheckImportUtil.isNum(list.get(i).getEduClass())){
+					
+				} else {
+					error.add("第" + (i + 2) + "行中无效班级!");
+				}
+			}
+			
 			if( error.size() > 0 ){
 				list.set(i, null);
 				errorMsg.addAll(getSortDesc(error));
@@ -242,7 +342,12 @@ public class StudentExcelImportController {
 		}
 		
 		students = getUnEmptyStudents(list);	/* 非空student */
-		
+		if(null!=students && students.size()>0){
+			for(Student s : students){
+				s.setEduArea(dictMap.get(s.getEduArea()));
+				s.setEduSchool(dictMap.get(s.getEduSchool()));
+			}
+		}
 		json.put(JsonMsg.RESULT, errorMsg.size() > 0 ? false : true);
 		json.put(JsonMsg.MSG, getSortDesc(errorMsg));
 		json.put("students", students);
@@ -316,25 +421,30 @@ public class StudentExcelImportController {
 				
 				s = new Student();
 				if (!"".equals(studentList.get(0)))  s.setMobile(studentList.get(0)); 
-				if (!"".equals(studentList.get(1)))  s.setName(studentList.get(1)); 
-				if (!"".equals(studentList.get(2)))  {
+				if (!"".equals(studentList.get(1)))  s.setUsername(studentList.get(1)); 
+				if (!"".equals(studentList.get(2)))  s.setName(studentList.get(2)); 
+				if (!"".equals(studentList.get(3)))  {
 					s.setIdentityTypeCode("ID_IDCARD");
-					s.setIdentityId(studentList.get(2)); 
+					s.setIdentityId(studentList.get(3)); 
 				}
-				if (!"".equals(studentList.get(3)))  s.setEmail(studentList.get(3)); 
-				if (!"".equals(studentList.get(4)))  s.setQq(studentList.get(4)); 
-				if (!"".equals(studentList.get(5)))  s.setEmergencyContact(studentList.get(5)); 
-				if (!"".equals(studentList.get(6)))  s.setEmergencyPhone(studentList.get(6)); 
-				if (!"".equals(studentList.get(7))) { 
-					s.setPassword(new Md5Hash(studentList.get(7)).toHex()); 
+				if (!"".equals(studentList.get(4)))  s.setEmail(studentList.get(4)); 
+				if (!"".equals(studentList.get(5)))  s.setQq(studentList.get(5)); 
+				if (!"".equals(studentList.get(6)))  s.setEmergencyContact(studentList.get(6)); 
+				if (!"".equals(studentList.get(7)))  s.setEmergencyPhone(studentList.get(7)); 
+				if (!"".equals(studentList.get(8))) { 
+					s.setPassword(new Md5Hash(studentList.get(8)).toHex()); 
 				} else {
 					if ("".equals(studentList.get(0))) {
-						s.setPassword(new Md5Hash("111111").toHex());
+						s.setPassword(new Md5Hash("123456").toHex());
 					} else {
 						s.setPassword(new Md5Hash(studentList.get(0).substring(5, 11)).toHex());
 					}
 				}
-				if (!"".equals(studentList.get(8)))  s.setUsername(studentList.get(8)); 
+				if (!"".equals(studentList.get(9)))  s.setEduArea(studentList.get(9)); 
+				if (!"".equals(studentList.get(10)))  s.setEduSchool(studentList.get(10)); 
+				if (!"".equals(studentList.get(11)))  s.setEduStep(studentList.get(11)); 
+				if (!"".equals(studentList.get(12)))  s.setEduYear(studentList.get(12)); 
+				if (!"".equals(studentList.get(13)))  s.setEduClass(studentList.get(13)); 
 
 				s.setCompanyId(companyId);
 				s.setSchoolId(WebUtils.getCurrentSchoolId());

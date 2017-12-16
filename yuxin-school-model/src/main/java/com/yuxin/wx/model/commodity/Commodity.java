@@ -55,7 +55,16 @@ public class Commodity extends BaseEntity {
 	private Integer originType;
  	private Integer cddsStatus;//数字学校上下架状态
 	private Integer cddsRecommendFlag;//数校推荐状态
+	private Double publicPrice;
 	
+	public Double getPublicPrice() {
+		return publicPrice;
+	}
+
+	public void setPublicPrice(Double publicPrice) {
+		this.publicPrice = publicPrice;
+	}
+
 	public Integer getOriginType() {
 		return originType;
 	}

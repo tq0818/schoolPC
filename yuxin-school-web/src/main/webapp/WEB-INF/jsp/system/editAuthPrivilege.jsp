@@ -120,18 +120,23 @@
             </div>
             <div class="people-list">
             	<c:forEach items="${authRoleList }" var="role">
-            		<c:choose>
-            			<c:when test="${role.roleName == '代理机构' }">
-            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
-            			</c:when>
-            			<c:otherwise>
-            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
-            			</c:otherwise>
-            		</c:choose>
+            		<c:if test="${role.roleName ne '班主任' and role.roleName ne '任课老师'}">
+	            		<c:choose>
+	            			<c:when test="${role.roleName == '代理机构' }">
+	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
+	            			</c:when>
+	            			<c:otherwise>
+	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
+	            			</c:otherwise>
+	            		</c:choose>
+            		</c:if>
+            		<c:if test="${role.roleName=='班主任'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default headmaster">班主任</a>
+            		</c:if>
+            		<c:if test="${role.roleName=='任课老师'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default classTeacher">任课老师</a>
+            		</c:if>
             	</c:forEach>
-				<a href="##" class="btn btn-mini btn-default headmaster">班主任</a>
-				<a href="##" class="btn btn-mini btn-default classTeacher">任课老师</a>
-
             </div>
             <div id="org-manage-list" style="display: none;">
              <div class="sm-heading">

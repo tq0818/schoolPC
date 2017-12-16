@@ -189,8 +189,9 @@
 						u.mobile mobile
 					FROM
 						users u
+						inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1
 					WHERE
-						u.company_id = #{companyId}
+						ur.company_id = #{companyId}
 					AND u. STATUS = 1
 				) AS susers ON aur.user_id = susers.userId
 			) s_aur_susers

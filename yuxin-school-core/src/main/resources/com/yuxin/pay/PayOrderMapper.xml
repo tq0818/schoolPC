@@ -767,7 +767,11 @@
 				spm.apply_channel_code as applyChannelCode,
 				cmlc.name as orderMemberLevel,
 				po.member_length as memberLength
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		from pay_order po  
+		left join users_front uf on  uf.id = po.user_id 
+		left join student s on s.user_id=uf.id 
+		left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  
+		left join company_member_level_config cmlc on cmlc.id=po.member_id
 		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -790,7 +794,10 @@
 	
 	<select id="findVipPayOrderListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.PayOrderVipVo">
 		select  count(po.id)
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		from pay_order po  left join users_front uf on  uf.id = po.user_id 
+		left join student s on s.user_id=uf.id 
+		left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  
+		left join company_member_level_config cmlc on cmlc.id=po.member_id
 		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 			<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -832,7 +839,9 @@
 				spm.apply_channel_code as applyChannelCode,
 				cmlc.name as orderMemberLevel,
 				po.member_length as memberLength
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		from pay_order po  left join users_front uf on  uf.id = po.user_id 
+		left join student s on s.user_id=uf.id 
+		left join student_pay_master spm on spm.pay_order_id=po.id  and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
 		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>

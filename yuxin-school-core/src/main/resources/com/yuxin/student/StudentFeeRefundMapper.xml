@@ -182,7 +182,11 @@
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.apply_channel_code as applyChannelCode, p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id,f.stu_id as stuId,f.pay_master_id as payMasterId,f.refund_date as refundDate,f.refund_fee as refundFee,f.pos_refund as posRefund,f.cash_refund as cashRefund,f.check_refund as checkRefund,f.remit_refund as remitRefund,f.remark,f.create_type createType,f.create_time as createTime,f.creator,
-		(select school_name from sys_config_school where id=p.school_id) as schoolName from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id and p.origin_type=0  LEFT JOIN student s on  f.stu_id=s.id
+		(select school_name from sys_config_school where id=p.school_id) as schoolName from student_fee_refund f 
+		left join  student_pay_master p on f.pay_master_id=p.id and p.origin_type=0  
+		LEFT JOIN student s on f.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where p.pay_status_code is not null and p.commodity_type='COMMODITY_CLASS'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
 		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_second_Id = #{itemSecondId} </if>
@@ -193,7 +197,7 @@
 		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
 		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
 		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -207,7 +211,10 @@
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id,f.pay_master_id as payMasterId,f.refund_date as refundDate,f.refund_fee as refundFee,f.pos_refund as posRefund,f.cash_refund cashRefund,f.check_refund as checkRefund,f.remit_refund as remitRefund,f.remark,f.create_type createType,f.create_time as createTime,f.creator
-		from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on  f.stu_id=s.id
+		from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on  f.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where p.pay_status_code is not null and p.commodity_type='COMMODITY_CLASS'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
 		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_second_Id = #{itemSecondId} </if>
@@ -218,7 +225,7 @@
 		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
 		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
 		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -239,7 +246,10 @@
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id,f.pay_master_id as payMasterId,f.refund_date as refundDate,f.refund_fee as refundFee,f.pos_refund as posRefund,f.cash_refund cashRefund,f.check_refund as checkRefund,f.remit_refund as remitRefund,f.remark,f.create_type createType,f.create_time as createTime,f.creator
-		from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on  f.stu_id=s.id
+		from student_fee_refund f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on  f.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where p.pay_status_code is not null and p.commodity_type='COMMODITY_CLASS'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
 		<if test="itemSecondId != null and itemSecondId != ''"> and p.item_second_Id = #{itemSecondId} </if>
@@ -250,7 +260,7 @@
 		<if test="stuName != null and stuName != ''"> and s.name = #{stuName} </if>
 		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
 		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null"> and date_format(f.refund_date, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>

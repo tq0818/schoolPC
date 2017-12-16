@@ -111,13 +111,16 @@
 	<select id="getAreaStudentCountList" resultType="Map" parameterType="Map">
 		select IFNULL(d1.item_value,'') as eduSchool,IFNULL(d2.item_value,'') as eduStep,IFNULL(count(distinct(s.id )), 0) as registerNum,
 		sum(u.vip_flag) as paymaterCount
-		from student s INNER JOIN users_front u on s.user_id=u.id
+		from student s 
+		INNER JOIN users_front u on s.user_id=u.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		inner join sys_config_school scs on scs.company_id=c.id 
 		left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
 		LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
 		where 1=1
-		<if test="schoolId != null">and s.school_id=#{schoolId}</if>
+		<if test="schoolId != null">and scs.id=#{schoolId}</if>
 		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
 		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>

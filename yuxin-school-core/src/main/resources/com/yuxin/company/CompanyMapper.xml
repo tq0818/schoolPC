@@ -544,8 +544,8 @@ FROM
 			</if>
 		FROM
 			company AS c
-		inner JOIN
-		users AS u ON u.company_id = c.id
+		inner join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		inner JOIN users AS u ON ur.user_id=u.id
 	AND u.user_type = 'USER_TYPE_ORG'
 	<if test="myType == 'group'">
 		inner join crm_company as cc on cc.company_id = c.id
@@ -604,9 +604,8 @@ FROM
 			u.mobile
 		FROM
 			company AS c
-		inner JOIN
-		users AS u ON u.company_id = c.id
-	AND u.user_type = 'USER_TYPE_ORG'
+		left join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		left join users u on u.id=ur.user_id AND u.user_type = 'USER_TYPE_ORG'
 	<if test="myType == 'group'">
 		inner join crm_company as cc on cc.company_id = c.id
 		inner join crm_sales_group as csg on csg.id = cc.group_id
@@ -1009,7 +1008,9 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		c.buy_flag buyFlag,
 		u.mobile,
 		u.username
-		from company c left join users u on c.id=u.company_id
+		from company c 
+		inner join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		left join users u on u.id=ur.user_id
 		<where>
 		   1=1 and u.user_type='USER_TYPE_ORG'
 		  	<if test="sourceType != null and sourceType != ''">and c.utm_source = #{sourceType}</if>
@@ -1087,7 +1088,9 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			   c.regist_time as registTime,
 			   c.company_name as companyName,
 			   u.username as userName
-		from company c LEFT JOIN users u on c.id=u.company_id and u.user_type='USER_TYPE_ORG'
+		from company c 
+		left join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		left join users u on u.id=ur.user_id and u.user_type='USER_TYPE_ORG'
 		where c.utm_url is not NULL and utm_url != ''
 		<if test="timeLen !=null and marks != null">
 			<choose>
@@ -1105,8 +1108,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</select>
 	
 	<select id="queryRegisterInfoCount" resultType="int" parameterType="com.yuxin.wx.vo.query.RegisterInfoVo">
-		select count(*)
-		from company c LEFT JOIN users u on c.id=u.company_id and u.user_type='USER_TYPE_ORG'
+		select count(1)
+		from company c
+		inner join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		left join users u on u.id=ur.user_id and u.user_type='USER_TYPE_ORG'
 		where c.utm_url is not NULL and utm_url != ''
 		<if test="timeLen !=null and marks != null">
 			<choose>
@@ -1127,7 +1132,9 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			   c.regist_time as registTime,
 			   c.company_name as companyName,
 			   u.username as userName
-		from company c LEFT JOIN users u on c.id=u.company_id and u.user_type='USER_TYPE_ORG'
+		from company c 
+		inner join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		left join users u on u.id=ur.user_id and u.user_type='USER_TYPE_ORG'
 		where c.utm_url is not NULL and utm_url != ''
 		<if test="timeLen !=null and marks != null">
 			<choose>

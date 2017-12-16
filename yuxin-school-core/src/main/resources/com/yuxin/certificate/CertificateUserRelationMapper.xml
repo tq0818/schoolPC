@@ -188,16 +188,16 @@
 		s.name  sname,
 		uf.mobile  umobile,
 		uf.username  username,
-		(select count(*) from certificate_user_relation where user_id = uid and cer_id = cerId)  um,
+		(select count(1) from certificate_user_relation where user_id = uid and cer_id = cerId)  um,
 		(select receive_time from certificate_user_relation as cur where cur.user_id = uid and cer_id = cerId)  receiveTime
 		from certificate_config cc left join 
 		certificate_course_relation ccr on cc.id = ccr.cer_id
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0 and sp.company_id = #{companyId}
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id
-		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 
 		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
 		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
 		or sp.pay_status_code='ORDER_CREATED') 
@@ -222,15 +222,15 @@
 	SELECT 
 		distinct(uf.id) uid,
 		cc.id  cerId,
-		(select count(*) from certificate_user_relation where user_id = uid and cer_id = cerId)  um
+		(select count(1) from certificate_user_relation where user_id = uid and cer_id = cerId)  um
 		from certificate_config cc left join 
 		certificate_course_relation ccr on cc.id = ccr.cer_id
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0 and sp.company_id = #{companyId}
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id
-		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0
 		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
 		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
 		or sp.pay_status_code='ORDER_CREATED') 
@@ -271,16 +271,16 @@
 		s.name  sname,
 		uf.mobile  umobile,
 		uf.username  username,
-		(select count(*) from certificate_user_relation where user_id = uid and cer_id = cerId)  um,
+		(select count(1) from certificate_user_relation where user_id = uid and cer_id = cerId)  um,
 		(select receive_time from certificate_user_relation as cur where cur.user_id = uid and cer_id = cerId)  receiveTime
 		from certificate_config cc left join 
 		certificate_course_relation ccr on cc.id = ccr.cer_id
 		inner JOIN commodity_product_realtion cpr on ccr.course_id = cpr.com_id 
-		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0
+		inner JOIN student_pay_master sp on cpr.com_id = sp.commodity_id  and sp.origin_type=0 and sp.company_id = #{companyId}
 		inner JOIN student s on sp.stu_id = s.id 
 		inner JOIN users_front uf on s.user_id = uf.id
 		left join certificate_user_relation cure on s.id = cure.user_id
-		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 and s.company_id = #{companyId}
+		where cpr.product_type = 1 and cc.del_flag = 0 and uf.status = 1 and s.delete_flag = 0 
 		and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' 
 		or sp.pay_status_code='ORDER_PAID_NO_COURSE' 
 		or sp.pay_status_code='ORDER_CREATED') 

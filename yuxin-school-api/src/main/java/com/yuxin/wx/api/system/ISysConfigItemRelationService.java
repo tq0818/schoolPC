@@ -58,7 +58,7 @@ public interface ISysConfigItemRelationService {
     
     List<SysConfigItemRelation> findSysConfigItemRelationByCode(SysConfigItemRelation item);
     
-    List<SysConfigItemRelation> findRelationByLevel(Integer level);
+    List<SysConfigItemRelation> findRelationByLevel(Integer level,Integer companyId);
     List<SysConfigItemRelation>  findRelationByIds(List<Integer> id);
     void deleteRelation( List<SysConfigItemRelation> list);
     void deleteById(Integer id);
@@ -66,7 +66,7 @@ public interface ISysConfigItemRelationService {
     List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item);
     List<SysConfigItemRelation> findAllItemFront(Integer companyId);
 
-    List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
+    List<SysConfigItemRelation> findItemFrontByLevel(Integer level,Integer companyId);
 
     List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation);
 }

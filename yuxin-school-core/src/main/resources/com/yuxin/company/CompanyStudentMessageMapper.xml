@@ -433,9 +433,9 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 	<select id="findStudentMsgCountByModuleId" resultType="Integer" 
 
 parameterType="com.yuxin.wx.vo.student.StuMessageVo">
-		select count(*)
+		select count(1)
 		from(
-			select count(*)
+			select count(1)
 			from student s 
 			<choose>
 				<when test="messageMethod == 'STUDENT_MESSAGE_EMAIL'">inner join company_email_history h on s.user_id = h.receiver_user_id</when>
@@ -496,7 +496,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 	<select id="findNoticeList" resultMap="stuMessageVoResultMap" parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 		select h.id,
 			s.name,
-			s.company_id,
+			h.company_id,
 			h.send_time as apply_time,
 		 <choose>
 			<when test="messageMethod == 'STUDENT_MESSAGE_EMAIL'">
@@ -516,7 +516,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="findNoticeListCount" resultType="Integer" parameterType="com.yuxin.wx.vo.student.StuMessageVo">
-		select count(*)
+		select count(1)
 		 <choose>
 			<when test="messageMethod == 'STUDENT_MESSAGE_EMAIL'">
 				from company_email_history h

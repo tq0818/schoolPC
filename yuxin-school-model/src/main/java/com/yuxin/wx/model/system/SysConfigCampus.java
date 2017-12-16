@@ -27,7 +27,7 @@ public class SysConfigCampus extends BaseEntity {
 	private Integer	updator;		
 	private Integer	delFlag;		 /* 删除标记：1：已删除；0：未删除 */ 
 	private Integer companyId;		/* 公司ID */
-
+	private Integer zhuCompanyId;   
 
 	// Constructor
 	public SysConfigCampus() {
@@ -160,6 +160,16 @@ public class SysConfigCampus extends BaseEntity {
 	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
 	}
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

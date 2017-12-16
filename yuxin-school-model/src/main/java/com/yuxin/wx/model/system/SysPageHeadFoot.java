@@ -36,7 +36,7 @@ public class SysPageHeadFoot extends BaseEntity {
 	
 	private Integer configId;
 	private String urlType;
-
+	private Integer zhuCompanyId;   
 	// Constructor
 	public SysPageHeadFoot() {
 	}
@@ -233,6 +233,16 @@ public class SysPageHeadFoot extends BaseEntity {
 	public void setUrlType(String urlType) {
 		this.urlType = urlType;
 	}
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

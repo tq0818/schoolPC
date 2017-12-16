@@ -439,11 +439,11 @@
 	
 	<select id="queryAllUsers" parameterType="Integer" resultType="com.yuxin.wx.model.user.UsersFront">
 		select id,mobile
-		from users_front where company_id=#{companyId} and status='1'
+		from users_front where status='1'
 	</select>
 	<select id="queryMemberUsers" parameterType="com.yuxin.wx.model.user.UsersFront" resultType="com.yuxin.wx.model.user.UsersFront">
 		select id,mobile
-		from users_front where company_id=#{companyId}  and member_id=#{memberId} and status='1' and member_status = '1' and (member_buy_length>0 || member_buy_length=-1)
+		from users_front where member_id=#{memberId} and status='1' and member_status = '1' and (member_buy_length>0 || member_buy_length=-1)
 		and (TO_DAYS(date_format(NOW(), "%Y-%m-%d"))-TO_DAYS(member_end_time) <![CDATA[<]]> 0 || member_end_time is null)
 	</select>
 	<select id="queryAlreadyBuyClassUsers" parameterType="Integer" resultType="com.yuxin.wx.model.user.UsersFront">

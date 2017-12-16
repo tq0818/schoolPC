@@ -26,7 +26,7 @@ public class CompanyAppAuth extends BaseEntity {
 	private String	platform;		 /* 平台 0-ios&Android 1-ios 2-android  */ 
 	private String	domain;		 /* 公司域名 */ 
 	public Integer buyFlag;
-
+	private String zhuCompanyId;
 	// Constructor
 	public CompanyAppAuth() {
 	}
@@ -143,6 +143,20 @@ public class CompanyAppAuth extends BaseEntity {
 		return this;
 	}
 	
+	
+    public String getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+
+
+	
+    public void setZhuCompanyId(String zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
+
+
 	@Override
 	public String toString() {
 		return "CompanyAppAuth [" + "id=" + getId() + ", companyId=" + companyId + ", authorizeTime=" + authorizeTime + ", accessKey=" + accessKey + ", status=" + status + ", endTime=" + endTime + ", version=" + version + ", platform=" + platform + ", domain=" + domain +  "]";

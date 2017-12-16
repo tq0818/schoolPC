@@ -220,10 +220,10 @@ function addBerkeley(biaoshi){
 		var linkPhone=$("#linkPhone").val();
 		var domain=$("#domain").val();
 		if(null!=$("#domain").val() && ''!=$("#domain").val()){
-			var domain='www.'+$("#domain").val()+'.cdds365.com';
+			var domain=$("#domain").val()+'.cdds365.com';
 		}
 		if(null!=$("#domainManage").val() && ''!=$("#domainManage").val()){
-			var domainManage='www.'+$("#domainManage").val()+'.cdds365.manage.com';
+			var domainManage=$("#domainManage").val()+'.cdds365.manage.com';
 		}
 		var privateCost=$("#privateCost").val();
 		var publicCost=$("#publicCost").val();

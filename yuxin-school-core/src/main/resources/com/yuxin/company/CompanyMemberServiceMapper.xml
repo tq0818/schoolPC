@@ -409,9 +409,9 @@
 		company AS c,
 		company_member_service AS cms,
 		company_service_static AS css,
-		company_standerd_servie AS ss
+		company_standerd_servie AS ss,users_comany_relation ur
 		WHERE
-		c.id = u.company_id
+		ur.company_id=c.id and u.id=ur.user_id and ur.is_used=1
 		AND c.id = cms.company_id
 		AND c.id = css.company_id
 		AND c.member_level = ss.service_level
@@ -471,9 +471,9 @@
 		company AS c,
 		company_member_service AS cms,
 		company_service_static AS css,
-		company_standerd_servie AS ss
+		company_standerd_servie AS ss,users_comany_relation ur
 		WHERE
-		c.id = u.company_id
+		ur.company_id=c.id and u.id=ur.user_id and ur.is_used=1
 		AND c.id = cms.company_id
 		AND c.id = css.company_id
 		AND c.member_level = ss.service_level

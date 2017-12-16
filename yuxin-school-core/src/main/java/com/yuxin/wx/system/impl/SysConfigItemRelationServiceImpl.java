@@ -78,8 +78,11 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
-    public List<SysConfigItemRelation> findItemFrontByLevel(Integer level) {
-        return sysConfigItemRelationMapper.findItemFrontByLevel(level);
+    public List<SysConfigItemRelation> findItemFrontByLevel(Integer level,Integer companyId) {
+    	Map<String,Object> params=new HashMap<String,Object>();
+    	params.put("level", level);
+    	params.put("companyId",companyId);
+        return sysConfigItemRelationMapper.findItemFrontByLevel(params);
     }
 
     @Override
@@ -111,9 +114,12 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
 
 	@Override
 
-    public List<SysConfigItemRelation> findRelationByLevel(Integer level) {
+    public List<SysConfigItemRelation> findRelationByLevel(Integer level,Integer companyId) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
-        list = sysConfigItemRelationMapper.findRelationByLevel(level);
+        Map<String,Object> params=new HashMap<String,Object>();
+        params.put("level", level);
+        params.put("companyId", companyId);
+        list = sysConfigItemRelationMapper.findRelationByLevel(params);
         return list;
     }
 

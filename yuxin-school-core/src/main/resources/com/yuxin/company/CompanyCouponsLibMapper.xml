@@ -276,7 +276,7 @@
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryLibsForUseOrderCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyCouponsLibVo">
-		select count(*)
+		select count(1)
 		from company_coupons_lib ccl left join company_coupons_patch ccp on ccl.patch_id=ccp.id
 		left join pay_order po on ccl.order_id=po.id and po.origin_type=0
 		left join users_front uf on ccl.user_id=uf.id

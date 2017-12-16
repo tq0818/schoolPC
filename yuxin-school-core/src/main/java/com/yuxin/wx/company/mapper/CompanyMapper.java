@@ -8,13 +8,31 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.auth.AuthRole;
+import com.yuxin.wx.model.auth.AuthRolePrivilege;
+import com.yuxin.wx.model.auth.AuthUserRole;
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.company.CompanyAppAuth;
+import com.yuxin.wx.model.company.CompanyFootInfo;
+import com.yuxin.wx.model.company.CompanyFunctionSet;
+import com.yuxin.wx.model.company.CompanyHeadFootConfig;
+import com.yuxin.wx.model.company.CompanyLiveConcurrent;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
+import com.yuxin.wx.model.company.CompanyLoginConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyNewStep;
+import com.yuxin.wx.model.company.CompanyPayConfig;
+import com.yuxin.wx.model.company.CompanyPics;
+import com.yuxin.wx.model.company.CompanyRegisterConfig;
+import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.NewCompanyVo;
+import com.yuxin.wx.model.system.SysConfigCampus;
+import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigSchool;
+import com.yuxin.wx.model.system.SysLogManagerOption;
+import com.yuxin.wx.model.system.SysPageHeadFoot;
+import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.company.CompanyPicsVo;
@@ -165,6 +183,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	 * @param search 
 	 * @throws
 	 */
+	public Integer searchCompany();
 	public Integer addBerkeley(com.yuxin.wx.model.company.CompanyVo search);
 	public void addCompanyMemberService(CompanyMemberService cms);
 	public void companyLiveConfig(CompanyLiveConfig clc);
@@ -175,7 +194,26 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addAuthRole(AuthRole rol);
 	public void updateAuthRole();
 	public void addSchool(SysConfigSchool school);
-	public void addAuthPrivilegeCategory(Integer companyId);
+	public void addAuthPrivilegeCategory(AuthRolePrivilege arp);
+	public void addUser(Users user);
+	public void addUserCompany(Users user);
+	public void addAuthUserRole( AuthUserRole aur);
+	public void addCompanyAppAuth(CompanyAppAuth caa);
+	public void addCompanyFootInfo(CompanyFootInfo cfi);
+	public void addCompanyFunctionSet(CompanyFunctionSet cfs);
+	public void addCompanyHeadFootConfig(CompanyHeadFootConfig chfc);
+	public void addCompanyLiveConcurrent(CompanyLiveConcurrent clct);
+	public void addCompanyLoginConfig(CompanyLoginConfig clcf);
+	public void addCompanyNewStep(CompanyNewStep cns);
+	public void addCompanyPayConfig(CompanyPayConfig cpc);
+	public void addCompanyPics(CompanyPics cp);
+	public void addCompanyRegisterConfig(CompanyRegisterConfig crc);
+	public void addSysConfigCampus(SysConfigCampus scfc);
+	public void addSysConfigIndexPageTemplate(SysConfigIndexPageTemplate scipt);
+	public void addCompanyRegisterConfig(SysConfigIndexPageTemplate scipt);
+	public void addSysLogManagerOption(SysLogManagerOption smo);
+	public void addSysPageHeadFoot(SysPageHeadFoot sphf);
+	public void addCompanyServiceStatic(CompanyServiceStatic csc);
 	
 	/**
 	 * 
@@ -187,6 +225,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	 * @throws
 	 */
 	public NewCompanyVo findCompanyVoById(Integer id);
+	
 	public CompanyLiveConfig findCompanyLiveConfigById(Integer id);
 	/**
 	 * 

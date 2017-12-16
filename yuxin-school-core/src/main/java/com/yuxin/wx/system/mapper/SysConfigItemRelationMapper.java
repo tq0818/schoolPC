@@ -21,7 +21,7 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
     
     List<SysConfigItemRelation> findRelationByCode(Map<String,Object> params);
 
-    List<SysConfigItemRelation> findRelationByLevel(Integer level);
+    List<SysConfigItemRelation> findRelationByLevel(Map<String,Object> params);
 
     List<SysConfigItemRelation> findRelationByIds(List<Integer> ids);
 
@@ -35,7 +35,7 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
 
     List<SysConfigItemRelation> findAllItemFront(Integer companyId);
 
-    List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
+    List<SysConfigItemRelation> findItemFrontByLevel(Map<String,Object> params);
 
     List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation);
 }

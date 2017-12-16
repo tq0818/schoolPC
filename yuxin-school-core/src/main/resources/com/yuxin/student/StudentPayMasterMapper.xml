@@ -471,9 +471,11 @@
 		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,p.school_id as schoolId,
 		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
 		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,p.updator,p.delete_flag  as deleteFlag
-		from student as s,student_pay_master as p 
+		from student as s,student_pay_master as p,users_front u,company c,sys_config_school scs
 		where s.id=p.stu_id and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS' and p.origin_type=0 
-		and p.item_one_id=#{itemOneId} and s.school_id=#{schoolId}
+		and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
+		and scs.company_id=c.id and s.user_id=u.id 
+		and p.item_one_id=#{itemOneId} and scs.id=#{schoolId}
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="isAgentMaterialComplete != null and isAgentMaterialComplete != ''"> and p.is_agent_material_complete=#{isAgentMaterialComplete}</if>
@@ -487,9 +489,9 @@
 		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,p.school_id as schoolId,
 		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
 		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,(select real_name from users where id=p.updator) as updator,p.delete_flag  as deleteFlag
-		from student as s,student_pay_master as p 
+		from student as s,student_pay_master as p,company c,sys_config_school scs
 		where s.id=p.stu_id and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS' and p.origin_type=0 
-		 and s.school_id=#{schoolId} and s.company_id=#{companyId} and p.is_agent=1
+		 and scs.id=#{schoolId} and c.id=#{companyId} and p.is_agent=1 and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
@@ -497,7 +499,7 @@
 		<if test="isAgentMaterialComplete != null and isAgentMaterialComplete != ''"> and p.is_agent_material_complete=#{isAgentMaterialComplete}</if>
 	</select>
 	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentVo">
-		select count(*) from (select distinct s.id, s.name,s.sex,s.identity_id as identityId ,s.identity_type_code as identityTypeCode,s.age,s.birthday,s.education_code as educationCode,s.hk_address as hkAddress,s.mobile,s.email,s.qq,s.home_phone as homePhone,s.office_phone as officePhone,s.weixin_id as weixinId,s.emergency_contact as emergencyContact,s.emergency_phone as emergencyPhone,
+		select count(1) from (select distinct s.id, s.name,s.sex,s.identity_id as identityId ,s.identity_type_code as identityTypeCode,s.age,s.birthday,s.education_code as educationCode,s.hk_address as hkAddress,s.mobile,s.email,s.qq,s.home_phone as homePhone,s.office_phone as officePhone,s.weixin_id as weixinId,s.emergency_contact as emergencyContact,s.emergency_phone as emergencyPhone,
 		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,p.school_id as schoolId,
 		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
 		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,p.updator,p.delete_flag  as deleteFlag
@@ -542,7 +544,7 @@
 		limit #{firstIndex},#{pageSize}
 	</select>
 		<select id="pageCountClassType2" resultType="Integer" parameterType="com.yuxin.wx.model.student.StudentPayMaster">
-		select count(*) from (select s.id as stuId ,s.name,s.mobile,s.sex,s.age,s.education_code as educationCode,p.apply_time as applyTime,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.total_amount as  totalAmount,p.updator from student_pay_master as p,student as s  where 	p.stu_id=s.id and p.school_id=#{schoolId} and  p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'  and p.origin_type=0 
+		select count(1) from (select s.id as stuId ,s.name,s.mobile,s.sex,s.age,s.education_code as educationCode,p.apply_time as applyTime,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.total_amount as  totalAmount,p.updator from student_pay_master as p,student as s  where 	p.stu_id=s.id and p.school_id=#{schoolId} and  p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'  and p.origin_type=0 
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="classTypeId != null and classTypeId != ''">and p.commodity_id=#{classTypeId}</if>
@@ -1003,12 +1005,17 @@ and sp.commodity_id=#{commodityId} and sp.company_id=#{companyId}
 		select p.id,p.stu_id, p.commodity_id,p.class_type_name,
 	     po.pay_type,po.pay_price,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	p.apply_time,s.creator,s.delete_flag,s.school_id as schoolId,s.company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,(select count(*)
+	p.apply_time,s.creator,s.delete_flag,scs.id as schoolId,c.id company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,(select count(1)
 	from student_pay_master where  origin_type=0 and stu_id = s.id and (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE')
- and delete_flag=0 and commodity_type='COMMODITY_CLASS') as paymaterCount
-	 from student_pay_master p LEFT JOIN student s  on s.id=p.stu_id LEFT JOIN users_front u on s.user_id=u.id left join pay_order po on po.id=p.pay_order_id and po.origin_type=0 
-	 where p.company_id=#{companyId} and p.origin_type=0  and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
+ 	and delete_flag=0 and commodity_type='COMMODITY_CLASS') as paymaterCount
+	 from student_pay_master p 
+	 LEFT JOIN student s  on s.id=p.stu_id 
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 left join pay_order po on po.id=p.pay_order_id and po.origin_type=0 
+	 where c.id=#{companyId} and p.origin_type=0  and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' 
     or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>

@@ -22,7 +22,7 @@ public class CompanyPics extends BaseEntity {
 	private String	picType;		 /* 图片类型：班型 */ 
 	private Integer	itemOneId;		 /* 图片所属项目，私有图片使用该字段 */ 
 	private Integer	companyId;		 /* 所属公司id，默认值为0，属于所有公司公有图片 */ 
-
+	private Integer zhuCompanyId;	
 	// Constructor
 	public CompanyPics() {
 	}
@@ -135,6 +135,16 @@ public class CompanyPics extends BaseEntity {
 		return this;
 	}
 	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+
 	@Override
 	public String toString() {
 		return "CompanyPics [" + "id=" + getId() + ", picName=" + picName + ", picOriginalUrl=" + picOriginalUrl + ", picBigUrl=" + picBigUrl + ", picMiddleUrl=" + picMiddleUrl + ", picSmallUrl=" + picSmallUrl + ", picTag=" + picTag + ", picType=" + picType + ", itemOneId=" + itemOneId + ", companyId=" + companyId +  "]";

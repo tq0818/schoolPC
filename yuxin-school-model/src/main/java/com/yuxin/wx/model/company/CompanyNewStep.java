@@ -21,6 +21,7 @@ public class CompanyNewStep extends BaseEntity {
 	private Integer	userCreate;		 /* 创建用户 */ 
 	private Integer companyId;		/*所属公司*/
 	private Integer newStepFlag;   /*第一次登录标记*/
+	private Integer zhuCompanyId;	
 	
 
 	public Integer getCompanyId() {
@@ -119,6 +120,16 @@ public class CompanyNewStep extends BaseEntity {
 	public void setNewStepFlag(Integer newStepFlag) {
 		this.newStepFlag = newStepFlag;
 	}
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

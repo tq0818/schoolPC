@@ -182,6 +182,7 @@ public class BranchSchoolIndex {
     @ResponseBody
     @RequestMapping(value = "/addBerkeley")
     public JSONObject addBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc){
+    	 
     	 JSONObject json = new JSONObject();
          log.info("qa：添加分校:");
          String eduAreaSchool = request.getParameter("branchCode").toString();
@@ -207,7 +208,7 @@ public class BranchSchoolIndex {
          search.setMemberLevel("80");
          search.setStatus("1");
          search.setSchoolApplyFlag("0");
-         search.setUtmSource("u");
+         search.setUtmSource("n");
          search.setConType("company");
          search.setBuyFlag("1");
          search.setCompanyNameShot(companyName);

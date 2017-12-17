@@ -105,18 +105,19 @@ public class AuthPrivilegeController {
 	public String showAuthPrivilegePage(Model model,HttpServletRequest request){
 		Integer userId=WebUtils.getCurrentUserId(request);
 		Integer companyId=WebUtils.getCurrentCompanyId();
-		Integer schoolId=WebUtils.getCurrentSchoolId();
 		if(authRoleServiceImpl.hasRoleFlag(userId)){
 			model.addAttribute("peoplemark", "admin");
-			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
-			model.addAttribute("schoolId", schoolId);
-			model.addAttribute("schoolList", schoolList);
+//			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
+//			model.addAttribute("schoolId", schoolId);
+//			model.addAttribute("schoolList", schoolList);
 		}else{
 			model.addAttribute("peoplemark", "schooladmin");
-			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(schoolId);
-			model.addAttribute("school1",school);
+//			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(schoolId);
+//			model.addAttribute("school1",school);
 		}
-		
+		//根据companyId查询对应的角色
+		List<AuthRole> roles=authRoleServiceImpl.findByCompanyId(companyId);
+		model.addAttribute("roles",roles);
 		return "system/authPrivilegeIndex";
 	} 
 	
@@ -132,15 +133,11 @@ public class AuthPrivilegeController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryUserRoles",method=RequestMethod.POST)
-	public String queryUserRoleListsByPage(Model model,Integer page, Integer schoolId,String condition,HttpServletRequest request){
+	public String queryUserRoleListsByPage(Model model,Integer page, Integer schoolId,String condition,String roleUid,String status,HttpServletRequest request){
 		Integer userId=WebUtils.getCurrentUserId(request);
 		if(authRoleServiceImpl.hasRoleFlag(userId)){
 			model.addAttribute("peoplemark", "admin");
 		}
-//		Subject subject = SecurityUtils.getSubject();
-//		if(subject.hasRole("机构管理员")){
-//			model.addAttribute("peoplemark", "admin");
-//		}
 		UserRolesListVo search=new UserRolesListVo();
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
 		if(StringUtils.isNotBlank(condition)) {
@@ -151,6 +148,12 @@ public class AuthPrivilegeController {
 			}else {
 				search.setRealName(condition);
 			}
+		}
+		if(StringUtils.isNotBlank(roleUid)) {
+			search.setRoleId(Integer.valueOf(roleUid));
+		}
+		if(StringUtils.isNotBlank(status)) {
+			search.setStatusStr(status);
 		}
 		search.setSchoolId(schoolId);
 		search.setPage(page);
@@ -225,31 +228,6 @@ public class AuthPrivilegeController {
 				}
 				model.addAttribute("authRoleList", authRoleList);
 			}
-//			Subject subject = SecurityUtils.getSubject();
-//			if(subject.hasRole("机构管理员")){
-//				model.addAttribute("peoplemark", "admin");
-//				List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
-//				model.addAttribute("schoolId", schoolId);
-//				model.addAttribute("schoolList", schoolList);
-//				List<AuthRole> authRoleList= authRoleServiceImpl.findByCompanyId(companyId);
-//				if(authRoleList.size()<=0){
-//					authRoleList=authRoleServiceImpl.findByCompanyId(0);
-//				}
-//				model.addAttribute("authRoleList", authRoleList);
-//			}else if(subject.hasRole("分校管理员")){
-//				model.addAttribute("peoplemark", "schooladmin");
-//				SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(Integer.parseInt(schoolId));
-//				model.addAttribute("school1",school);
-//				AuthRole search=new AuthRole();
-//				search.setRoleUid(1+"");
-//				search.setCompanyId(companyId);
-//				List<AuthRole> authRoleList= authRoleServiceImpl.queryRolesByCondition(search);
-//				if(authRoleList.size()<=0){
-//					search.setCompanyId(0);
-//					authRoleList=authRoleServiceImpl.queryRolesByCondition(search);
-//				}
-//				model.addAttribute("authRoleList", authRoleList);
-//			}
 		}else{
 			Integer companyId=WebUtils.getCurrentCompanyId();
 			Users user= userServiceImpl.findUsersById(userId);
@@ -273,27 +251,6 @@ public class AuthPrivilegeController {
 				}
 				model.addAttribute("authRoleList", authRoleList);
 			}
-//			Subject subject = SecurityUtils.getSubject();
-//			if(subject.hasRole("机构管理员")){
-//				model.addAttribute("peoplemark", "admin");
-//				List<AuthRole> authRoleList= authRoleServiceImpl.findByCompanyId(companyId);
-//				if(authRoleList.size()<=0){
-//					authRoleList=authRoleServiceImpl.findByCompanyId(0);
-//				}
-//				model.addAttribute("authRoleList", authRoleList);
-//			}else if(subject.hasRole("分校管理员")){
-//				model.addAttribute("peoplemark", "schooladmin");
-//				AuthRole search=new AuthRole();
-//				search.setRoleUid(1+"");
-//				List<AuthRole> authRoleList= authRoleServiceImpl.queryRolesByCondition(search);
-//				if(authRoleList.size()<=0){
-//					search.setCompanyId(0);
-//					authRoleList=authRoleServiceImpl.queryRolesByCondition(search);
-//				}
-//				model.addAttribute("authRoleList", authRoleList);
-//			}else{
-//				
-//			}
 			SysConfigTeachersVo sysConfigTeacher=new SysConfigTeachersVo();
 			sysConfigTeacher.setUserId(userId);
 			List<SysConfigTeachersVo> arr= sysConfigTeacherServiceImpl.findSysConfigTeachersByName(sysConfigTeacher);
@@ -309,7 +266,6 @@ public class AuthPrivilegeController {
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<CompanyConfigProxyOrg> proxyOrgs = this.companyConfigProxyOrgServiceImpl.queryProxyByCompanyId(search);
 		model.addAttribute("proxyOrgs", proxyOrgs);
-		
 		return "system/editAuthPrivilege";
 	}
 	

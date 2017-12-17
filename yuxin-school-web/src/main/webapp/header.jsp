@@ -346,11 +346,11 @@ button.cloze {
         <ul class="nav nav-right">
             <c:choose>
             	<c:when test="${sessionScope.loginUser.realName != null && sessionScope.loginUser.realName != ''}">
-            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.loginUser.schoolName}&nbsp;${sessionScope.loginUser.realName}</a><i class="iii">
+            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.company.companyName}&nbsp;${sessionScope.loginUser.realName}</a><i class="iii">
             		</i>	<ul class="dropdown" style="display: none;overflow: hidden;"></ul></li>
             	</c:when>
             	<c:otherwise>
-            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.loginUser.schoolName}&nbsp;${sessionScope.loginUser.username}</a><i class="iii">
+            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.company.companyName}&nbsp;${sessionScope.loginUser.username}</a><i class="iii">
             		</i>	<ul class="dropdown" style="display: none;overflow: hidden;"></ul></li>
             	</c:otherwise>
             </c:choose>

@@ -197,6 +197,11 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	* @user by wangzx
 	 */
 	@Override
+	public Users findUsersById(Map<String, Object> param){
+		return usersMapper.findUsersById(param);
+	}
+	
+	@Override
 	public Users findUsersById(Integer id){
 		return usersMapper.findById(id);
 	}
@@ -403,7 +408,8 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	@Override
 	public void updateStatus(Users users) {
 		// TODO Auto-generated method stub
-		usersMapper.updateStatus(users);
+//		usersMapper.updateStatus(users);
+		usersMapper.updateUsersComanyRelationStatus(users);
 	}
 	
 	/**
@@ -585,6 +591,13 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	@Override
 	public UsersAreaRelation findUsersAreaRelation(Integer id) {
 		return usersMapper.findUsersAreaRelation(id);
+	}
+
+	@Override
+	public void deleteByUserId(Integer userId, Integer companyId) {
+		// TODO Auto-generated method stub
+		usersMapper.deleteAuthUserRole(userId, companyId);
+		usersMapper.deleteUsersComanyRelation(userId, companyId);
 	}
 
 }

@@ -61,6 +61,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	
 	List<Users> findUsersByRoleId (RoleVo roleVo);
 	
+	Users findUsersById(Map<String, Object> param);
+	
 	Integer findIdByName(String userName);
 	
 	Users findUserByName(String userName);
@@ -74,6 +76,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	public int selectCount(Integer companyId);
 	
 	void updateStatus(Users users);
+	
+	void updateUsersComanyRelationStatus(Users users);
 	
 	 Users findByUserTypeAndCompanyId(Users users);
 	 
@@ -137,4 +141,9 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @param ucr
      */
     void insertUsersComanyRelation(UsersComanyRelation ucr);
+    
+
+    void deleteAuthUserRole(Integer userId, Integer companyId);
+
+    void deleteUsersComanyRelation(Integer userId, Integer companyId);
 }

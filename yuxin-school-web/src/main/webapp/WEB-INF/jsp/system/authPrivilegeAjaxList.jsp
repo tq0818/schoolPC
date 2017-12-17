@@ -51,7 +51,7 @@
 	        	<c:if test="${userId != user.userId }">
 	        		<a href="javascript:Form.changUserStatus(${user.userId })" id="com${user.userId }" marks="${user.status }" class="btn btn-mini btn-primary">${user.status==1?'禁用':'启用' }</a>
 	        	</c:if>
-		        <c:if test="${peoplemark=='admin' }">
+		        <c:if test="${peoplemark=='admin' and userId != user.userId }">
 		        	<a href="javascript:Form.deleteUser(${user.userId })" class="btn btn-mini btn-primary">删除</a>
 		        </c:if>
 		    </td>

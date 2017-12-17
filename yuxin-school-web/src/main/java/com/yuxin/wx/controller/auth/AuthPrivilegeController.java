@@ -181,8 +181,12 @@ public class AuthPrivilegeController {
 	@ResponseBody
 	@RequestMapping(value="/changeStatus",method=RequestMethod.POST)
 	public Users changeStatusStatus(Users users,HttpServletRequest request){
+		users.setCompanyId(WebUtils.getCurrentCompanyId());
 		userServiceImpl.updateStatus(users);
-		return userServiceImpl.findUsersById(users.getId());
+		Map<String, Object> params=new HashMap<String, Object>();
+		params.put("userId", users.getId());
+		params.put("companyId", WebUtils.getCurrentCompanyId());
+		return userServiceImpl.findUsersById(params);
 	}
 	
 	/**
@@ -449,8 +453,9 @@ public class AuthPrivilegeController {
 	@RequestMapping(value="/deleteById")
 	public String deleteUserById(Integer id,HttpServletRequest request){
 		Integer uId=WebUtils.getCurrentUserId(request);
+		Integer companyId=WebUtils.getCurrentCompanyId();
 		if(authRoleServiceImpl.hasRoleFlag(uId)){
-			Users user= userServiceImpl.findUsersById(id);
+			/*Users user= userServiceImpl.findUsersById(id);
 			if(null!=user&&null!=user.getId()){
 				userServiceImpl.deleteUsersById(user.getId());
 				List<AuthUserRole> arr=authUserRoleServiceImpl.findByRoleId(user.getId()+"");
@@ -462,7 +467,8 @@ public class AuthPrivilegeController {
 						}
 					}
 				}
-			}
+			}*/
+			userServiceImpl.deleteByUserId(id, companyId);
 			return "success";
 		}
 //		Subject subject = SecurityUtils.getSubject();

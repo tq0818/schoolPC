@@ -278,7 +278,8 @@ public class TeacherManger {
         sysConfigTeacher.setDelFlag(0);
         sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
         sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
-        sysConfigTeacher.setCompanyId(null);
+        sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
+        sysConfigTeacher.setEduAreaSchool(request.getParameter("schoolCode"));
         sysConfigTeacherServiceImpl.isnertTeaAndUse(sysConfigTeacher);
 
         SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
@@ -321,7 +322,9 @@ public class TeacherManger {
             sysConfigTeacher.setTeaOrAdu("tea");
         }
         sysConfigTeacher.setCreator(companyId);
-        sysConfigTeacher.setCompanyId(companyId);
+//        sysConfigTeacher.setCompanyId(companyId);
+        sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
+        sysConfigTeacher.setEduAreaSchool(request.getParameter("schoolCode"));
         sysConfigTeacherServiceImpl.updateTeaAndUse(sysConfigTeacher);
         return "success";
     }

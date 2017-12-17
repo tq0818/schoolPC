@@ -155,6 +155,13 @@
 		insert into users( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
 	</insert>
+		
+	<insert id="insertUsersComanyRelation" parameterType="com.yuxin.wx.model.teacher.UsersComanyRelation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO users_comany_relation(id,user_id,company_id,is_used)
+		SELECT null,#{userId},#{companyId},#{isUsed} from DUAL
+		where NOT EXISTS (SELECT 1 from users_comany_relation 
+			where user_id=#{userId} and company_id=#{companyId} and is_used=#{isUsed})
+	</insert>
 	
 	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
 	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">

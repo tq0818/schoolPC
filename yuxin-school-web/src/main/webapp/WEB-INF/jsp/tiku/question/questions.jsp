@@ -31,13 +31,10 @@
                 	<span class="subList" style="width: auto;">
 	                   	<c:forEach var="s" items="${subList }">
 	                          <a class="btn btn-mini btn-default subject" href="javascript:;" data-id="${s.id }">${s.subjectName }</a>
-	                      <!-- <input type="text" class="iconHide">
-	                        <i class="icon iconfont iconHide">&#xe625;</i>
-	                        <i class="icon iconfont iconHide">&#xe626;</i> -->
 	                   	</c:forEach>
                    	</span>
                    	
-	                <span  class="editorbtn "style="width: auto;margin-left: 10px;">
+	               <!--  <span  class="editorbtn "style="width: auto;margin-left: 10px;">
 	                 	<i class="icon iconfont icon-edit">&#xe625;</i>
 	                    <i class="icon iconfont icon-del">&#xe626;</i>
 	                	<a href="javascript:;" class="btn btn-sm btn-success btn-add">添加科目</a>
@@ -46,7 +43,7 @@
 	                	<input type="text" maxlength="22" id="subName" style="width: 153px;"/>
 	                    <a href="javascript:;" class="btn btn-mini btn-success btn-save" data-id="">保存</a>
 	                    <a href="javascript:;" class="btn btn-mini btn-default btn-cancle">取消</a>
-	                </span>
+	                </span> -->
 	                
                 </span>
                 

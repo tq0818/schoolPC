@@ -81,8 +81,19 @@ public class SysConfigTeacher extends BaseEntity {
 	 * 学校简称
 	 */
 	private String schoolShortName;
+
+	private String schoolName;
 	
+	private String eduAreaSchool;
 	
+	public String getEduAreaSchool() {
+		return eduAreaSchool;
+	}
+
+	public void setEduAreaSchool(String eduAreaSchool) {
+		this.eduAreaSchool = eduAreaSchool;
+	}
+
 	public String getSchoolShortName() {
 		return schoolShortName;
 	}
@@ -115,7 +126,6 @@ public class SysConfigTeacher extends BaseEntity {
 		this.teacherArea = teacherArea;
 	}
 
-	private String schoolName;
 
 	public String getInviteCode() {
 		return inviteCode;

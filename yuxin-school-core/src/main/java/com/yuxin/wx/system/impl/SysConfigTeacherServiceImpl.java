@@ -8,14 +8,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.auth.mapper.AuthUserRoleMapper;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.auth.AuthUserRole;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.system.SysConfigTeacherLesson;
+import com.yuxin.wx.model.teacher.UsersComanyRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.system.mapper.SysConfigTeacherLessonMapper;
 import com.yuxin.wx.system.mapper.SysConfigTeacherMapper;
@@ -274,6 +275,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         authUserRole.setCreateTime(sysConfigTeacher.getCreateTime());
         authUserRole.setCreator(sysConfigTeacher.getCreator().toString());
         authUserRoleMapper.insert(authUserRole);
+        //添加教师学校关系表
+        UsersComanyRelation ucr=new UsersComanyRelation();
+        ucr.setUserId(users.getId());
+        ucr.setCompanyId(users.getCompanyId());
+        ucr.setIsUsed(1);
+        usersMapper.insertUsersComanyRelation(ucr);
         sysConfigTeacherLesson.setTeacherId(sysConfigTeacher.getId());
         sysConfigTeacherLessonMapper.insert(sysConfigTeacherLesson);
     }
@@ -283,12 +290,19 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         Users users = new Users();
         users.setUsername(sysConfigTeacher.getUserName());
         users.setPassword(sysConfigTeacher.getPwd());
-        //users.setCompanyId(sysConfigTeacher.getCompanyId());
-        //users.setSchoolId(sysConfigTeacher.getSchoolId());
+        users.setCompanyId(sysConfigTeacher.getCompanyId());
+        users.setSchoolId(sysConfigTeacher.getSchoolId());
         users.setStatus(1);
         users.setRealName(sysConfigTeacher.getName());
         users.setMobile(sysConfigTeacher.getMobile());
         usersMapper.insert(users);
+        //添加教师学校关系表
+        UsersComanyRelation ucr=new UsersComanyRelation();
+        ucr.setUserId(users.getId());
+        ucr.setCompanyId(users.getCompanyId());
+        ucr.setIsUsed(1);
+        usersMapper.insertUsersComanyRelation(ucr);
+        
         sysConfigTeacher.setUserId(users.getId());
         sysConfigTeacherMapper.insert(sysConfigTeacher);
         AuthUserRole authUserRole = new AuthUserRole();
@@ -332,6 +346,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         teacher.setStatusCode("TEACHER_USERD");
         teacher.setSchoolId(user.getSchoolId());
         sysConfigTeacherMapper.insert(teacher);
+        //添加教师学校关系表
+        UsersComanyRelation ucr=new UsersComanyRelation();
+        ucr.setUserId(user.getId());
+        ucr.setCompanyId(user.getCompanyId());
+        ucr.setIsUsed(1);
+        usersMapper.insertUsersComanyRelation(ucr);
         return teacher.getId();
     }
 
@@ -458,8 +478,14 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
                     users.setRealName(sysConfigTeacher.getName());
                     users.setMobile(sysConfigTeacher.getMobile());
                     usersMapper.insert(users);
-
+                    //添加教师学校关系表
+                    UsersComanyRelation ucr=new UsersComanyRelation();
+                    ucr.setUserId(users.getId());
+                    ucr.setCompanyId(users.getCompanyId());
+                    ucr.setIsUsed(1);
+                    usersMapper.insertUsersComanyRelation(ucr);
                     AuthUserRole authUserRole = new AuthUserRole();
+                    
                     authUserRole.setUserId(users.getId());
                     String ttype = sysConfigTeacher.getTeaOrAdu();
                     if ("tea".equals(ttype)) {

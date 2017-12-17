@@ -44,6 +44,8 @@
 		<result property="schoolName" column="school_name" />
 		<result property="sortId" column="sort_id" />
 		<result property="schoolShortName" column="school_short_name" />
+		<result property="eduAreaSchool" column="edu_area_school" />
+		
 		<result property="remark" column="remark" />
 	</resultMap>
 
@@ -256,10 +258,10 @@
 	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into sys_config_teacher(
-		<include refid="table_columns" />
+		<include refid="table_columns" />,edu_area_school
 		)
 		values (
-		<include refid="entity_properties" />
+		<include refid="entity_properties" />,#{eduAreaSchool}
 		)
 	</insert>
 
@@ -336,6 +338,8 @@
 			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
 			<if test="schoolShortName != null and schoolShortName !=''">school_short_name = #{schoolShortName},</if>
 			<if test="remark != null ">remark = #{remark},</if>
+			<if test="eduAreaSchool != null ">edu_area_school = #{eduAreaSchool},</if>
+			
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -859,7 +863,7 @@
 	<select id="queryTeachersBycondition" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
 		select DISTINCT a.id,a.name,a.teacher_type from sys_config_teacher a
-		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_teacher_lesson b on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
 		a.del_flag=0 and ur.company_id=#{companyId}

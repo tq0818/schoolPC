@@ -348,6 +348,7 @@ public class StudentExcelImportController {
 				s.setEduSchool(dictMap.get(s.getEduSchool()));
 			}
 		}
+		
 		json.put(JsonMsg.RESULT, errorMsg.size() > 0 ? false : true);
 		json.put(JsonMsg.MSG, getSortDesc(errorMsg));
 		json.put("students", students);

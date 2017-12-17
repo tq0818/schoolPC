@@ -284,7 +284,8 @@
 		edu_school,
 		edu_step,
 		edu_year,
-		edu_class
+		edu_class,
+		is_in_school
     </sql>
     <sql id="table_columns_s">
 		s.id,
@@ -426,7 +427,8 @@
 		#{eduSchool},
 		#{eduStep},
 		#{eduYear},
-		#{eduClass}
+		#{eduClass},
+		#{isInSchool}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -3124,7 +3126,7 @@ select * from (
 			uf.password as password,
 			uf.username as username
 		from student s 
-		left join users_front uf on s.user_id = uf.id
+		left join users_front uf on s.user_id = uf.id LIMIT 10000
 	</select>
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />

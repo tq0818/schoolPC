@@ -170,30 +170,22 @@ public class SysConfigServiceServiceImpl extends BaseServiceImpl implements ISys
 
 	@Override
 	public Boolean updateDelFlagByCompanyId(SysConfigService serv) {
-
-		sysConfigServiceMapper.updateFlag(serv);
-
-		return true;
-	}
-	@Override
-	public void addConfigService(SysConfigService serv) {
 		int zhuCompanyId= companyMapper.searchCompany();
 		serv.setZhuCompanyId(zhuCompanyId);
-		sysConfigServiceMapper.addConfigService(serv);
 		
-	}
-	@Override
-	public void deletConfigService(SysConfigService serv) {
-		
-		sysConfigServiceMapper.deletConfigService(serv);
-		
+		if(sysConfigServiceMapper.finConfigServiceSet(serv)>0){
+			if(sysConfigServiceMapper.deletConfigService(serv)>0){
+				sysConfigServiceMapper.updateFlag(serv);
+			}
+    	}else{
+    		if(sysConfigServiceMapper.addConfigService(serv)>0){
+    			sysConfigServiceMapper.updateFlag(serv);
+    		}
+    		
+    	}
+		return true;
 	}
 
-	@Override
-    public Integer finConfigServiceSet(SysConfigService serv) {
-			
-	    return sysConfigServiceMapper.finConfigServiceSet(serv);
-    }
 	
 	
 }

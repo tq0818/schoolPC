@@ -155,17 +155,5 @@ public interface ISysConfigServiceService  {
 	 * @throws
 	 */
 	Boolean updateDelFlagByCompanyId(SysConfigService serv);
-	/**
-	 * 
-	 * @author jishangyang 2017年12月18日 下午1:32:49
-	 * @Method: addConfigService 
-	 * @Description: 添加服务
-	 * @param serv
-	 * @return 
-	 * @throws
-	 */
-	void addConfigService(SysConfigService serv);
-	void deletConfigService(SysConfigService serv);
 	
-	Integer finConfigServiceSet(SysConfigService serv);
 }

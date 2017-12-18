@@ -47,9 +47,6 @@
 					</c:forEach>
 				</select>
 			</c:if>
-		 	<c:if test="${isArea !=0 }">
-				${area.itemValue}
-			</c:if> 
 			<c:if test="${isArea ==0 }">
 				<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 					<option value="">请选择学校</option>
@@ -63,9 +60,6 @@
 					</c:forEach>
 				</select>
 			</c:if>
-			<c:if test="${isArea ==2 }">
-				${schoolName}
-			</c:if> 
 			<select id="registStatus" name="status">
 				<option value="">前台账号状态</option>
 				<option value="1">启用</option>

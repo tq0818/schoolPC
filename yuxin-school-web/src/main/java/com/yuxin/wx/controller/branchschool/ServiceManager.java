@@ -83,11 +83,6 @@ public class ServiceManager {
         serv.setGroupCode(itemCode);
         
         if(configService.updateDelFlagByCompanyId(serv)){
-        	if(configService.finConfigServiceSet(serv)>0){
-        		configService.deletConfigService(serv);
-        	}else{
-        		configService.addConfigService(serv);
-        	}
         	json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         }else{
         	 //log.info("qa：添加分校报错");

@@ -183,7 +183,7 @@
 		select count(id) from tiku_set where company_id=#{companyId}
 	</select>
 		<!--根据主键删除 -->
-	<delete id="deletConfigService">
+	<delete id="deletConfigService" >
 		delete from tiku_set
 		where company_id=#{companyId}
 	</delete>

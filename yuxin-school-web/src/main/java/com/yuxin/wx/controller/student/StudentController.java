@@ -248,34 +248,37 @@ public class StudentController {
         if("0".equals(WebUtils.getCurrentIsArea())){
            
         }else if("1".equals(WebUtils.getCurrentIsArea())){
-        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
-             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-             if(null!=areas && areas.size()>0){
-            	 for(SysConfigDict vo : areas){
-            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
-            			 model.addAttribute("area", vo);	
-            		 }
-            	 }
-             }
+//        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
+//             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+//             if(null!=areas && areas.size()>0){
+//            	 for(SysConfigDict vo : areas){
+//            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
+//            			 model.addAttribute("area", vo);	
+//            		 }
+//            	 }
+//             }
              SysConfigDict Dict = new SysConfigDict();
              Dict.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
              List<SysConfigDict> schools = sysConfigDictServiceImpl.querySchoolByArea(Dict);
              model.addAttribute("schoolList", schools);
         }else{
-        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
-        	 
-             model.addAttribute("area", areas.get(0));	
-             areaDict.setDictCode("EDU_SCHOOL");
-             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-             if(null!=schools && schools.size()>0){
-            	String schoolName="";
-            	 for(int i=0;i<schools.size();i++){
-            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
-            			 schoolName=schools.get(i).getItemValue();
-            		 }
-            	 }
-            	 model.addAttribute("schoolName", schoolName);	
-             }
+//        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+//        	 
+//             model.addAttribute("area", areas.get(0));	
+//             areaDict.setDictCode("EDU_SCHOOL");
+//             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+//             if(null!=schools && schools.size()>0){
+//            	String schoolName="";
+//            	 for(int i=0;i<schools.size();i++){
+//            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
+//            			 schoolName=schools.get(i).getItemValue();
+//            		 }
+//            	 }
+//            	 model.addAttribute("schoolName", schoolName);	
+//             }
+        	if (subject.hasRole("机构管理员") || subject.hasRole("代理机构")) {
+                model.addAttribute("proxyOrgRole", 1);
+            }
         }
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());	
         areaDict.setDictCode("EDU_STEP");

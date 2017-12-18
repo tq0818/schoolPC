@@ -1110,7 +1110,7 @@
 	inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 	inner join sys_config_school scs on scs.company_id=c.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
-	 where 1=1
+	 where 1=1 and s.is_in_school=1
 	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
 	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
 	 <if test="eduStep != null and eduStep != ''">and s.edu_step in (#{eduStep})</if>

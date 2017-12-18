@@ -122,7 +122,7 @@
 				});
 			},
 			changUserStatus : function(id){
-				var kg=0;
+				/*var kg=0;
 				$.ajax({
 					url : rootPath + "/authRole/queryRoleFlag/"+id,
 					type : "post",
@@ -136,7 +136,7 @@
 				if(kg>0){
 					$.msg("该用户不能被禁用");
 					return;
-				}
+				}*/
 				var status=$("#com"+id).attr("marks");
 				if(status=="0"){
 					status=1;
@@ -148,7 +148,7 @@
 					type : "post",
 					data : {"id":id,"status":status},
 					success : function(result) {
-						if(result.status==1){
+						if(result.isUsed==1){
 							$("#status"+id).text("启用").css("color","black");
 							$("#com"+id).attr("marks",1).text("禁用");
 						}else{
@@ -195,7 +195,7 @@
 				});
 			},
 			deleteUser : function(id){
-				var kg=0;
+				/*var kg=0;
 				$.ajax({
 					url : rootPath + "/authRole/queryRoleFlag/"+id,
 					type : "post",
@@ -209,7 +209,7 @@
 				if(kg>0){
 					$.msg("该用户不能删除");
 					return;
-				}
+				}*/
 				$.confirm("您确定要删除吗?",function(b){
 					if(b){
 						$.ajax({

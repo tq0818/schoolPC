@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.teacher.UsersComanyRelation;
 import com.yuxin.wx.model.user.UserLoginSession;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
@@ -60,6 +61,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	
 	List<Users> findUsersByRoleId (RoleVo roleVo);
 	
+	Users findUsersById(Map<String, Object> param);
+	
 	Integer findIdByName(String userName);
 	
 	Users findUserByName(String userName);
@@ -73,6 +76,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	public int selectCount(Integer companyId);
 	
 	void updateStatus(Users users);
+	
+	void updateUsersComanyRelationStatus(Users users);
 	
 	 Users findByUserTypeAndCompanyId(Users users);
 	 
@@ -130,4 +135,15 @@ public interface UsersMapper extends BaseMapper<Users> {
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    
+    /**
+     * 添加教师学校关系表
+     * @param ucr
+     */
+    void insertUsersComanyRelation(UsersComanyRelation ucr);
+    
+
+    void deleteAuthUserRole(Integer userId, Integer companyId);
+
+    void deleteUsersComanyRelation(Integer userId, Integer companyId);
 }

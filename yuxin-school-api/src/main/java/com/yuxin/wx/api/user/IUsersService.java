@@ -6,7 +6,6 @@ import java.util.Map;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.Company;
-
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
@@ -101,6 +100,8 @@ public interface IUsersService  {
 	* @date 2014-12-5
 	* @user by wangzx
 	 */
+	Users findUsersById(Map<String, Object> param);
+
 	Users findUsersById(Integer id);
 	
 	/**
@@ -398,5 +399,7 @@ public interface IUsersService  {
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+
+    void deleteByUserId(Integer userId, Integer companyId);
     
 }

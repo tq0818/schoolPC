@@ -777,7 +777,10 @@ public class SysConfigTeacherController {
 			}
 		}
 
+		List<SysConfigDict> schools=sysConfigDictServiceImpl.findByDicCode("EDU_SCHOOL");
 		model.addAttribute("firstItems", firstItems);
+		model.addAttribute("schools", schools);
+		model.addAttribute("companyId", WebUtils.getCurrentCompanyId());
 		model.addAttribute("secondItemMap", secondItemMap);
 		model.addAttribute("imgUrl", "http://"+properties.getProjectImageUrl()+"/");
 		if(teacher == null){

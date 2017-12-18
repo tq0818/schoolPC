@@ -16,6 +16,15 @@ $(function() {
 		$("#itemSecondId").val(itemTwoId);
 	});
 
+	$("#schoolCode").change(function(){
+		var schoolCode=$(this).val();
+		if(schoolCode){
+			$("#schoolName").val($.trim($(this).find("option:selected").text()));
+		}else{
+			$("#schoolName").val("");
+		}
+	})
+	
 	// 加载日期控件
 	$("#datetimepicker").datetimepicker({
 		lang : 'ch',
@@ -212,8 +221,8 @@ $(function() {
 					return false;
 				}
 			}
-			var schoolName = $.trim($("#schoolName").val());
-			if(schoolName==""){
+			var schoolCode = $.trim($("#schoolCode").val());
+			if(schoolCode==""){
 				alertMsg("请填写学校名称");
 				return false;
 			}
@@ -263,7 +272,8 @@ $(function() {
 				complete : function(XMLHttpRequest, textStatus) {
 					$(".loading").hide();
 					$(".loading-bg").hide();
-					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
+//					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
+					window.location.href = rootPath + "/sysConfigTeacher/toTeacherIndex";
 				},
 			});
 		});

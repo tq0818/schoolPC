@@ -14,8 +14,11 @@ public class EduMasterClass extends BaseEntity {
 	
 	
 	private String	eduArea;		 /* 所在学校字典代码 */ 
+	private String eduAreaName;		/* 名称*/ 
 	private String	eduSchool;		 /* 所在学校字典代码 */ 
+	private String	eduSchoolName;		 /* 名称 */ 
 	private String	eduStep;		 /* 所在学段代码 */ 
+	private String	eduStepName;		 /* 名称 */ 
 	private String	eduYear;		 /* 所在入学年 */ 
 	private String	eduClass;		 /* 所在班级号 */ 
 	private String	userId;		 
@@ -89,10 +92,34 @@ public class EduMasterClass extends BaseEntity {
     }
 
 	
- 
+    public String getEduAreaName() {
+    	return eduAreaName;
+    }
 
 	
- 
+    public void setEduAreaName(String eduAreaName) {
+    	this.eduAreaName = eduAreaName;
+    }
+
 	
+    public String getEduSchoolName() {
+    	return eduSchoolName;
+    }
+
+	
+    public void setEduSchoolName(String eduSchoolName) {
+    	this.eduSchoolName = eduSchoolName;
+    }
+
+	
+    public String getEduStepName() {
+    	return eduStepName;
+    }
+
+	
+    public void setEduStepName(String eduStepName) {
+    	this.eduStepName = eduStepName;
+    }
+
 	
 }

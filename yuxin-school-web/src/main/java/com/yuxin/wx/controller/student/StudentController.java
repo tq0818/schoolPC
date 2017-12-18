@@ -242,9 +242,42 @@ public class StudentController {
         //查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
         areaDict.setDictCode("EDU_SCHOOL_AREA");
-        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-        model.addAttribute("areas", areas);
-
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", area);	
+        if("0".equals(WebUtils.getCurrentIsArea())){
+           
+        }else if("1".equals(WebUtils.getCurrentIsArea())){
+        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
+             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+             if(null!=areas && areas.size()>0){
+            	 for(SysConfigDict vo : areas){
+            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
+            			 model.addAttribute("area", vo);	
+            		 }
+            	 }
+             }
+             SysConfigDict Dict = new SysConfigDict();
+             Dict.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
+             List<SysConfigDict> schools = sysConfigDictServiceImpl.querySchoolByArea(Dict);
+             model.addAttribute("schoolList", schools);
+        }else{
+        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        	 
+             model.addAttribute("area", areas.get(0));	
+             areaDict.setDictCode("EDU_SCHOOL");
+             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+             if(null!=schools && schools.size()>0){
+            	String schoolName="";
+            	 for(int i=0;i<schools.size();i++){
+            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
+            			 schoolName=schools.get(i).getItemValue();
+            		 }
+            	 }
+            	 model.addAttribute("schoolName", schoolName);	
+             }
+        }
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());	
         areaDict.setDictCode("EDU_STEP");
         List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("steps", steps);
@@ -2609,6 +2642,11 @@ public class StudentController {
         crc = companyRegisterConfigServiceImpl.queryByCompanyId(crc);
         // 插入学员数据
         String result = "";
+        if("0".equals(WebUtils.getCurrentIsArea())){
+        	
+        }else{
+        	student.setIsInSchool(1);
+        }
         String password = student.getMobile();
         if (null != password && !"".equals(password)) {
             student.setPassword(new Md5Hash(password.substring(password.length() - 6)).toHex());
@@ -2747,25 +2785,77 @@ public class StudentController {
      */
     @ResponseBody
     @RequestMapping(value = "/queryStudentsList")
-    public PageFinder2<StudentListVo> queryStudentsListData(StudentListVo search) {
-        String flag = "";
-        search.setCompanyId(WebUtils.getCurrentCompanyId());
-        // 分页调整
-        if (search.getPageSize() == 12) {
-            search.setPageSize(10);
-        }
-        // 代报考
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isPermitted("student_agent")) {
-            flag = "1";
-        }
-        search.setAgentFlag(flag);
+    public PageFinder2<StudentListVo> queryStudentsListData(HttpServletRequest request,StudentListVo search) {
+    	 String flag = "";
+         search.setCompanyId(WebUtils.getCurrentCompanyId());
+         if("1".equals(WebUtils.getCurrentIsArea())){
+         	if(null==search.getEduArea() || "".equals(search.getEduArea())){
+         		search.setEduArea(WebUtils.getCurrentCompany().getEduAreaSchool());	
+         	}
+         	
+         }
+         if("2".equals(WebUtils.getCurrentIsArea())){
+         	Subject subject = SecurityUtils.getSubject();
+     		if(subject.hasRole("班主任")){
+     			int userId=WebUtils.getCurrentUserId(request);
+     			List<Student> list=studentServiceImpl.findClassByTeacherId(userId);
+     			if(null!=list && list.size()>1){
+     				String eduStep="'";
+     				String eduYear="";
+     				String eduClass="";
+     				for(int i=0;i<list.size();i++){
+     					eduStep+=list.get(i).getEduStep()+"','";
+     					eduYear+=list.get(i).getEduYear()+",";
+     					eduClass+=list.get(i).getEduClass()+",";
+     				}
+     				eduStep=eduStep.substring(0, eduStep.lastIndexOf(","));
+     				eduYear=eduYear.substring(0, eduYear.lastIndexOf(","));
+     				eduClass=eduClass.substring(0, eduClass.lastIndexOf(","));
+     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
+     					search.setEduStep(eduStep);
+         			}
+     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
+     					search.setEduYear(eduYear);
+     				}
+     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
+     					search.setEduClass(eduClass);
+     				}
+     				
+     			}else if(null!=list && list.size()==1){
+     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
+     					search.setEduStep(list.get(0).getEduStep());
+         			}
+     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
+     					search.setEduYear(list.get(0).getEduYear());
+     				}
+     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
+     					search.setEduClass(list.get(0).getEduClass());
+     				}
+     			}
+     		}else{
+     			 if(null!=search.getEduSchool()){
+     				 
+     			 }else{
+     				 search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());	
+     			 }
+     		}
+         }
+         // 分页调整
+         if (search.getPageSize() == 12) {
+             search.setPageSize(10);
+         }
+         // 代报考
+         Subject subject = SecurityUtils.getSubject();
+         if (subject.isPermitted("student_agent")) {
+             flag = "1";
+         }
+         search.setAgentFlag(flag);
 
-        if (subject.hasRole("代理机构")) {
-            search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
-        }
-        PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
-        return pageFinder;
+         if (subject.hasRole("代理机构")) {
+             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
+         }
+         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
+         return pageFinder;
     }
 
     @ResponseBody
@@ -3449,7 +3539,15 @@ public class StudentController {
         } else if ("0".equals(status)) {
             userFront.setStatus(1);
         }
-        usersFrontServiceImpl.update(userFront);
+        if("0".equals(WebUtils.getCurrentIsArea())){
+        	usersFrontServiceImpl.update(userFront);
+        }else{
+        	Student student=new Student();
+        	student.setId(userId);
+        	student.setIsMoveOut(1);
+        	studentServiceImpl.update(student);
+        }
+        
         log_student.info(">>> [学员启用/禁用] " + "状态：success" + ", 信息：" + "公司ID = " + WebUtils.getCurrentCompanyId() + ", 操作人ID = "
                 + WebUtils.getCurrentUser().getId() + ", 用户ID = " + userId + ", userFront.status 更改为 = " + userFront.getStatus());
         return JsonMsg.SUCCESS;

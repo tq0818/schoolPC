@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yuxin.wx.common.BaseServiceImpl;
+import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.api.system.ISysConfigServiceService;
 import com.yuxin.wx.model.system.SysConfigService;
 import com.yuxin.wx.system.mapper.SysConfigServiceMapper;
@@ -23,7 +24,8 @@ public class SysConfigServiceServiceImpl extends BaseServiceImpl implements ISys
 
 	@Autowired
 	private SysConfigServiceMapper sysConfigServiceMapper;
-	
+	@Autowired
+	private CompanyMapper companyMapper;
 	/**
 	 * 
 	* @Title: saveSysConfigService
@@ -173,4 +175,25 @@ public class SysConfigServiceServiceImpl extends BaseServiceImpl implements ISys
 
 		return true;
 	}
+	@Override
+	public void addConfigService(SysConfigService serv) {
+		int zhuCompanyId= companyMapper.searchCompany();
+		serv.setZhuCompanyId(zhuCompanyId);
+		sysConfigServiceMapper.addConfigService(serv);
+		
+	}
+	@Override
+	public void deletConfigService(SysConfigService serv) {
+		
+		sysConfigServiceMapper.deletConfigService(serv);
+		
+	}
+
+	@Override
+    public Integer finConfigServiceSet(SysConfigService serv) {
+			
+	    return sysConfigServiceMapper.finConfigServiceSet(serv);
+    }
+	
+	
 }

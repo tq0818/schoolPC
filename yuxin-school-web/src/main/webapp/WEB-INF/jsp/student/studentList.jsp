@@ -19,6 +19,7 @@
 </head>
 
 <body>
+<input type="hidden" value="${isArea}" id="isArea"/>
 <input type="hidden" value="${isDelete }" id="isDelete"/>
 <input type="hidden" value="${registConfig.mobileFlag }" id="mobileSet"/>
 <input type="hidden" value="${registConfig.usernameFlag }" id="userNameSet"/>
@@ -38,18 +39,33 @@
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
         	<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
-
-			<select name="eduArea" id="eduArea">
-				<option value="">请选择区域</option>
-				<c:forEach items="${areas}" var="area" >
-					<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
-				</c:forEach>
-			</select>
-
-			<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
-				<option value="">请选择学校</option>
-			</select>
-
+			<c:if test="${isArea ==0 }">
+				<select name="eduArea" id="eduArea">
+					<option value="">请选择区域</option>
+					<c:forEach items="${areas}" var="area" >
+						<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+					</c:forEach>
+				</select>
+			</c:if>
+		 	<c:if test="${isArea !=0 }">
+				${area.itemValue}
+			</c:if> 
+			<c:if test="${isArea ==0 }">
+				<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+					<option value="">请选择学校</option>
+				</select>
+			</c:if>	
+			<c:if test="${isArea ==1 }">
+				<select name="eduSchool" id="eduSchool">
+					<option value="">请选择学校</option>
+					<c:forEach items="${schoolList}" var="schoolList" >
+						<option value="${schoolList.itemCode}" data-id="${schoolList.id}" ${student.eduArea==schoolList.itemValue?"selected":""}>${schoolList.itemValue}</option>
+					</c:forEach>
+				</select>
+			</c:if>
+			<c:if test="${isArea ==2 }">
+				${schoolName}
+			</c:if> 
 			<select id="registStatus" name="status">
 				<option value="">前台账号状态</option>
 				<option value="1">启用</option>

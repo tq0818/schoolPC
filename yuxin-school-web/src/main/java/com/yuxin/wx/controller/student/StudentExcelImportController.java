@@ -166,8 +166,8 @@ public class StudentExcelImportController {
 		}else if("1".equals(isArea)){
 			//学区  区域
 			String eduArea=WebUtils.getCurrentCompany().getEduAreaSchool();
-			if(eduAreaMap.containsValue(eduArea)){
-				isAreaHava.put(eduArea, eduAreaMap.get(eduArea));
+			if(eduAreaMap.containsKey(eduArea)){
+				isAreaHava.put(eduAreaMap.get(eduArea),eduArea);
 			}
 			//学区  学校
 			int areaCode=0;
@@ -177,8 +177,8 @@ public class StudentExcelImportController {
 				}
 			}
 			for(int k=0;k<dictAreaList.size();k++){
-				if(String.valueOf(areaCode).equals(dictAreaList.get(k).getParentItemId())){
-					isSchoolHava.put(dictAreaList.get(k).getItemValue(), dictAreaList.get(k).getItemCode());
+				if(null!=dictAreaList.get(k).getParentItemId() && areaCode==dictAreaList.get(k).getParentItemId()){
+					isSchoolHava.put(dictAreaList.get(k).getItemCode(),dictAreaList.get(k).getItemValue());
 				}
 			}
 		}else{
@@ -195,7 +195,7 @@ public class StudentExcelImportController {
 				}
 			}
 			for(int k=0;k<dictAreaList.size();k++){
-				if(String.valueOf(parentId).equals(dictAreaList.get(k).getId())){
+				if(parentId==dictAreaList.get(k).getId()){
 					isAreaHava.put(dictAreaList.get(k).getItemValue(), dictAreaList.get(k).getItemCode());
 				}
 			}
@@ -297,7 +297,7 @@ public class StudentExcelImportController {
 			if( list.get(i).getEduArea() != null && !eduAreaMap.containsValue(list.get(i).getEduArea())){
 				error.add("第" + (i + 2) + "行中区域不存在!");
 			}else{
-				if(list.get(i).getEduArea() != null && !isAreaHava.containsValue(list.get(i).getEduArea())){
+				if(list.get(i).getEduArea() != null && !isAreaHava.containsKey(list.get(i).getEduArea())){
 					error.add("第" + (i + 2) + "行中无权输入该区域!");
 				}
 			}

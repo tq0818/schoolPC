@@ -301,12 +301,13 @@ public interface StudentMapper extends BaseMapper<Student> {
 	List<StudentListVo> queryStudentsListByIds(Integer[] ids);
 	/**
 	 * 
-	 * @author jishangyang 2017年12月16日 下午6:02:08
-	 * @Method: eduAreaExistenceCount 
-	 * @Description: 检查区域是否存在
-	 * @param str
+	 * @author jishangyang 2017年12月17日 下午5:52:45
+	 * @Method: findClassByTeacherId 
+	 * @Description: 通过班主任ID 查询班级
+	 * @param id
 	 * @return 
 	 * @throws
 	 */
+	List<Student> findClassByTeacherId(Integer id);
 	List<SysConfigDict> findEduAreaList();
 }

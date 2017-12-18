@@ -1,18 +1,21 @@
 package com.yuxin.wx.controller.branchschool;
 
 
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.common.Constant;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.SysConfigConstant;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.system.SysConfigTeacherLesson;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
+
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
 
 /**
@@ -41,7 +45,8 @@ public class TeacherManger {
     private ISysConfigTeacherLessonService sysConfigTeacherLessonServiceImpl;
     @Autowired
     private PropertiesUtil properties;
-
+    @Autowired
+   	private ICompanyService companyService ;
     /**
      * @param request 请求
      * @param model   向页面中需要添加的数据
@@ -54,7 +59,7 @@ public class TeacherManger {
     @RequestMapping(value = "/getTeacherList", method = RequestMethod.POST)
     public String getTeacherList(HttpServletRequest request, Model model,
                                  SysConfigTeacher teacher) {
-
+    	
         // 根据项目ID查询所有的老师
         teacher.setPageSize(10);
         Integer itemOneId = teacher.getItemOneId();
@@ -79,6 +84,8 @@ public class TeacherManger {
     @RequestMapping(value="/getFirstItems/{companyId}")
     public String getFirstItems(Model model,@PathVariable Integer companyId){
         // 查询当前分校中有哪些一级学科
+    	Company company=companyService.findCompanyById(companyId);
+     	model.addAttribute("company", company);
     	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
         List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId,schoolId);
         model.addAttribute("items", firstItems);

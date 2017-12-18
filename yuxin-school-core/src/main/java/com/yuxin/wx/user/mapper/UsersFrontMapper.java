@@ -85,4 +85,5 @@ public interface UsersFrontMapper extends BaseMapper<UsersFront> {
     UsersFront findUsersFrontOnlyByUsername(SelectStudentOrUsersfrontVo search);
 
     List<UsersFrontVo> findUserFrontAndStudent(Student student);
+    
 }

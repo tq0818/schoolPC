@@ -73,6 +73,7 @@ public class Student extends BaseEntity {
 	private String eduStep;
 	private String eduYear;
 	private Integer isInSchool;
+	private Integer isMoveOut;
 
 	public Integer getTeacherFlag() {
 		return teacherFlag;
@@ -678,6 +679,16 @@ public class Student extends BaseEntity {
 	
     public void setIsInSchool(Integer isInSchool) {
     	this.isInSchool = isInSchool;
+    }
+
+	
+    public Integer getIsMoveOut() {
+    	return isMoveOut;
+    }
+
+	
+    public void setIsMoveOut(Integer isMoveOut) {
+    	this.isMoveOut = isMoveOut;
     }
 
 }

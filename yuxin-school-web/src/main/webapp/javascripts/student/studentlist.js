@@ -278,7 +278,7 @@
                         $(".loading-bg").show();
                     },
                     success: function (jsonData) {
-                       
+                       var isArea=$("#eduArea").val();
                         if (jsonData.data.length == 0) {
                         	if(userorg_roleopenflag == 1 && proxyOrgRole == 1){
 	                            $(".user-list")
@@ -292,6 +292,7 @@
 	                                '<tr><td colspan="14">没有查找到数据</td></tr>');
                         	}
                         }
+                        var html;
                         $.each(jsonData.data,function (i, stu) {
                             var eduIdentity = null;
                             if(stu.teacherFlag!=null){
@@ -302,10 +303,8 @@
                             if(eduIdentity==null){
                                 eduIdentity = (stu.eduIdentity!=null ? (stu.eduIdentity==0?"学生":"普通用户"): "")
                             }
-                                $(".user-list")
-                                    .find("table")
-                                    .append(
-                                    '<tr data-buy="'+(stu.paymaterCount>0)+'">'
+                                
+                                    html+= '<tr data-buy="'+(stu.paymaterCount>0)+'">'
                                     + '<td>'
                                     + '<input type="checkbox" class="signUpMany" uName="'+(stu.username?stu.username:"")+'" value="' + (stu.mobile?stu.mobile:"") + '">'
                                     + '</td>'
@@ -362,10 +361,13 @@
                                     + '<a class="more" href="javascript:void(0);">更多</a>'
                                     + '<ul class="none box">'
                                     + ' <li><a class="updateStudentMsg" stuId="' + stu.id + '" href="javascript:void(0);">修改信息</a></li>'
-                                    +(($("#isDelete").val()==1)?((stu.paymaterCount > 0)?' <li><a class="delStudent" stuId="'+stu.id+'" href="javascript:void(0);">取消报名</a></li>':""):"")
-                                    + (stu.userId ? (stu.status == 1 ? '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">禁用用户</a></li>'
-                                        : '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">启用用户</a></li>' ) : '')
-                                    + (stu.status == 1 ? '<li><a class="changePwd" userId="' + stu.userId + '" href="javascript:void(0);">修改密码</a></li>' : '')
+                                    +(($("#isDelete").val()==1)?((stu.paymaterCount > 0)?' <li><a class="delStudent" stuId="'+stu.id+'" href="javascript:void(0);">取消报名</a></li>':""):"");
+                                    if(isArea==0){
+                                    	 html+= (stu.userId ? (stu.status == 1 ? '<li><a class="updateStatus"  userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">禁用用户</a></li>' : '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">启用用户</a></li>' ) : '');	
+                                    }else{
+                                    	 html+='<li><a class="updateStuStatus" stuId="' + stu.id+ '" href="javascript:void(0);">移除用户</a></li>';	
+                                    }
+                                    html+=  '<li><a class="changePwd" userId="' + stu.userId + '" href="javascript:void(0);">修改密码</a></li>' ;
                                     +(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportStudyRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllCl?stuId='+stu.id+'" target="_blank">学习记录</a></li>' : '')
 									+(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportExcleRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllExt?stuId='+stu.id+'" target="_blank">做题记录</a></li>' : '')
                                     + ((stu.paymaterCount > 0 && stu.commodityType!='COMMODITY_PACKAGE') ? '<li><a class="toTransaction" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">异动</a></li>' : '')
@@ -378,8 +380,12 @@
                                             : '')
                                         : '')
                                     + '</ul></td>'
-                                    + '</tr>');
+                                    + '</tr>'
+                                   
                             });
+                        $(".user-list")
+                        .find("table")
+                        .append(html);
                         $("#rowCount").remove();
                         $("#pageNo").remove();
                         $.ajax({
@@ -932,6 +938,7 @@
                         data: {
                             "userId": userId,
                             "status": status,
+                            
                         },
                         dataType: 'json',
                         success: function (jsonData) {
@@ -945,6 +952,29 @@
                             }
                         }
                     });
+                })
+                .on("click", ".updateStuStatus", function () {
+                	var userId = $(this).attr("stuId");
+                	$.ajax({
+                		type: 'post',
+                		url: rootPath + "/student/updateStatus",
+                		data: {
+                			"userId": userId,
+                			"status": null,
+                			
+                		},
+                		dataType: 'json',
+                		success: function (jsonData) {
+                			if (jsonData == "success") {
+                				$.msg("修改成功");
+                				var pageNo=$("#pageNo").val();
+                				student.search(pageNo);
+                			}
+                			else {
+                				$.msg("发生错误，请重新修改");
+                			}
+                		}
+                	});
                 })
                 .on("mouseenter.link", ".slink .more", function () {
                     $(this).nextAll("ul").show();

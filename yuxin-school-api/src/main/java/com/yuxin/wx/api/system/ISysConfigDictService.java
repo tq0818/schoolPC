@@ -3,6 +3,7 @@ package com.yuxin.wx.api.system;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.system.SysConfigDict;
 /**
  * Service Interface:SysConfigDict
@@ -155,6 +156,9 @@ public interface ISysConfigDictService  {
     List<SysConfigDict> findAll();
     
     List<SysConfigDict> queryConfigDictListByDictCode(SysConfigDict sysConfigDict);
+    List<SysConfigDict> querySchoolByArea(SysConfigDict sysConfigDict);
+    List<SysConfigDict> queryAreaBySchool(String str);
+ 
 	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
 
     List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict);
@@ -164,4 +168,14 @@ public interface ISysConfigDictService  {
   //获取服务类型及服务名称
   	List<SysConfigDict> querSysConfigDictList(Map<String, Object> map);
   	Integer querSysConfigDictCount(Integer companyId);
+  	 /**
+  	  * 
+  	  * @author jishangyang 2017年12月17日 下午4:09:11
+  	  * @Method: queryEduMasterClass 
+  	  * @Description: 查询学段，学年，班级
+  	  * @param ems
+  	  * @return 
+  	  * @throws
+  	  */
+    List<EduMasterClass> queryEduMasterClass(EduMasterClass ems);
 }

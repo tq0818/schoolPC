@@ -452,6 +452,7 @@ public interface IStudentService  {
 	 */
 	Integer queryMaxIdByCompany(Integer id);
 	
+	
 	/**
 	 * 
 	 * Class Name: IStudentService.java
@@ -718,14 +719,16 @@ public interface IStudentService  {
 	List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId);
 	
 	List<StudentListVo> queryStudentsListByIds(String ids);
+	
 	/**
 	 * 
-	 * @author jishangyang 2017年12月16日 下午6:02:08
-	 * @Method: eduAreaExistenceCount 
-	 * @Description: 检查区域
-	 * @param str
+	 * @author jishangyang 2017年12月17日 下午5:47:36
+	 * @Method: findClassByTeacherId 
+	 * @Description: TODO
+	 * @param 查询班主任所在班级
 	 * @return 
 	 * @throws
 	 */
+	List<Student> findClassByTeacherId(Integer id);
 	List<SysConfigDict> findEduAreaList();
 }

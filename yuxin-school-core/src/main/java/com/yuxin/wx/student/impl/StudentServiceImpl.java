@@ -1818,7 +1818,13 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	}
 	
 	@Override
-	public List<SysConfigDict> findEduAreaList() {
-		return studentMapper.findEduAreaList();
+	public List<Student> findClassByTeacherId(Integer id) {
+		return studentMapper.findClassByTeacherId(id);
 	}
+
+	@Override
+    public List<SysConfigDict> findEduAreaList() {
+		
+		return studentMapper.findEduAreaList();
+    }
 }

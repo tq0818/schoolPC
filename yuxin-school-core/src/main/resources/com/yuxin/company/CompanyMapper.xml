@@ -1295,7 +1295,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		NOW(),#{creator},i.sort,i.item_code,i.parent_code from 
 		sys_config_item i, sys_school_item_relation r
 		where i.id=r.item_id and i.item_type in(2)  and
-		r.del_flag=0 and i.status =1  and i.company_id=#{zhuCompanyId}  and i.parent_code is not null
+		r.del_flag=0 and i.status =1  and i.company_id=#{zhuCompanyId}  and i.parent_code is not null and i.parent_code<![CDATA[<>]]>'type'
 	</insert>
 	<!-- 添加科目与学校关系信息-->
 	<insert id="addSysConfigAndSchool" parameterType="com.yuxin.wx.model.system.SysConfigItem" useGeneratedKeys="true" keyProperty="id">

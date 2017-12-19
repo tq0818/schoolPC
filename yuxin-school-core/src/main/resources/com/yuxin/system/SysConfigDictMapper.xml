@@ -15,6 +15,17 @@
 		<result property="delFlag" column="del_flag" />
 		<result property="groupCode" column="group_code" />
 	</resultMap>
+	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="eduMasterClassResultMap">
+		<result property="id" column="id" />
+		<result property="eduArea" column="edu_area" />
+		<result property="eduSchool" column="edu_school" />
+		<result property="eduStep" column="edu_step" />
+		<result property="eduYear" column="edu_year" />
+		<result property="eduClass" column="edu_class" />
+		<result property="eduAreaName" column="edu_area_name" />
+		<result property="eduSchoolName" column="edu_school_name" />
+		<result property="eduStepName" column="edu_step_name" />
+	</resultMap>
 	
 	<sql id="table_columns">
 		id,
@@ -142,17 +153,27 @@
 		where dict_code=#{code} 
 		order by id
 	</select>
+	<select id="queryAreaBySchool" parameterType="String" resultMap="sysConfigDictResultMap">
+		select t2.id,t2.dict_code,t2.item_code,t2.item_value from sys_config_dict t1
+		LEFT JOIN sys_config_dict t2 ON t1.parent_item_id=t2.id where t1.item_code=#{str}
+	</select>
 	
 	<select id="queryConfigDictList" resultMap="sysConfigDictResultMap">
 	    select item_code,item_value from sys_config_dict where dict_code='SYS_NEWS_TYPE'
 	</select>
 	<select id="queryConfigDictListByDictCode" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
-		select item_code,item_value,id from sys_config_dict
+		select item_code,item_value,id,parent_item_id from sys_config_dict
 		where dict_code=#{dictCode} and item_status_code = '1'
 		<if test="parentItemId != null and parentItemId != ''">and parent_item_id = #{parentItemId}</if>
 		<if test="itemCode != null and itemCode != ''">and item_code = #{itemCode}</if>
 		<if test="itemValue != null and itemValue != ''">and item_value = #{itemValue}</if>
 		ORDER by display_seq asc
+	</select>
+	<select id="querySchoolByArea" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select t2.item_code,t2.item_value,t2.id,t2.parent_item_id from sys_config_dict t1 
+		LEFT JOIN sys_config_dict t2 ON t2.parent_item_id=t1.id  
+		where t1.item_code=#{itemCode}
+		ORDER by t2.display_seq asc
 	</select>
 	<select id="findByCompanyId" resultMap="sysConfigDictResultMap" parameterType="Integer">
 		select <include refid="table_columns"></include>
@@ -202,5 +223,17 @@
 		LEFT JOIN sys_config_dict scd ON scs.group_code=scd.item_code
 		LEFT JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
 		where  scs.company_id = #{companyId} ) t;
+	</select>
+	
+	
+	
+	<select id="queryEduMasterClass" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">
+		select emc.*,scd.item_value as edu_area_name,scd1.item_value as edu_school_name,scd2.item_value as edu_step_name from edu_master_class emc 
+		LEFT JOIN sys_config_dict scd ON emc.edu_area=scd.item_code
+		LEFT JOIN sys_config_dict scd1 ON emc.edu_school=scd1.item_code
+		LEFT JOIN sys_config_dict scd2 ON emc.edu_step=scd2.item_code
+		where 1=1
+		<if test="eduArea != null and eduArea != ''">and edu_area = #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and edu_school = #{eduSchool}</if>
 	</select>
 </mapper>

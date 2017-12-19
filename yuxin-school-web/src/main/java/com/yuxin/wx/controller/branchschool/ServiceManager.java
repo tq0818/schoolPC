@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigServiceService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigService;
 import com.yuxin.wx.utils.WebUtils;
@@ -36,9 +38,13 @@ public class ServiceManager {
     private ISysConfigDictService iSysConfigDictService;
     @Autowired
     private ISysConfigServiceService configService;
+    @Autowired
+   	private ICompanyService companyService ;
 
     @RequestMapping(value = "/getServiceManager/{companyId}")
     public String getServiceManager(Model model,@PathVariable Integer companyId,Integer page,Integer pageSize,SystemConfigServiceVo scsv){
+    	Company company=companyService.findCompanyById(companyId);
+     	model.addAttribute("company", company);
     	model.addAttribute("companyId", companyId);
         //获取服务类型及服务名称
     	 Map<String, Object> map = new HashMap<String, Object>();
@@ -75,6 +81,7 @@ public class ServiceManager {
         serv.setUpdateTime(new Date());
         serv.setCompanyId(companyId);
         serv.setGroupCode(itemCode);
+        
         if(configService.updateDelFlagByCompanyId(serv)){
         	json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         }else{

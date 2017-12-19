@@ -52,7 +52,7 @@
 
                 <c:forEach items="${sysConfigDicts.data}" var="dict" varStatus="status">
                     <tr data-buy="true">
-                        <th width="10%">${status.index +1}</th>
+                        <th width="10%">${(sysConfigDicts.pageNo-1)*sysConfigDicts.pageSize+status.index+1 }</th>
                         <th width="10%">${dict.itemValue}</th>
                         <th width="10%">${dict.dictName}</th>
                         <th width="10%">
@@ -71,7 +71,7 @@
                                 <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >关闭<a/>
                             </c:when>
                             <c:otherwise>
-                                <a  class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >开通</a>
+                                <a class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >开通</a>
                             </c:otherwise>
                         </c:choose>
                         </th>

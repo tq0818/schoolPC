@@ -155,4 +155,5 @@ public interface ISysConfigServiceService  {
 	 * @throws
 	 */
 	Boolean updateDelFlagByCompanyId(SysConfigService serv);
+	
 }

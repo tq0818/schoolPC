@@ -72,6 +72,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
     public void update(UsersFront entity) {
         this.usersFrontMapper.update(entity);
     };
+ 
 
     /**
      * 
@@ -325,4 +326,5 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	public Integer findUsersfrontCountByMobileOrUsername(SelectStudentOrUsersfrontVo search) {
 		return usersFrontMapper.findUsersfrontCountByMobileOrUsername(search);
 	}
+
 }

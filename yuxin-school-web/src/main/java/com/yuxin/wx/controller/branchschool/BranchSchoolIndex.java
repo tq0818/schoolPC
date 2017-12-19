@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.auth.IAuthRoleService;
 import com.yuxin.wx.api.company.ICompanyManageService;
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.model.auth.AuthRole;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyPayConfig;
@@ -42,6 +44,8 @@ public class BranchSchoolIndex {
 	 private ICompanyManageService companyManageServiceImpl;
 	 @Autowired
 	 private IAuthRoleService authRoleServiceImpl;
+	 @Autowired
+   	 private ICompanyService companyService ;
     /**
      * 跳转到订单列表
      *
@@ -49,6 +53,8 @@ public class BranchSchoolIndex {
      */
     @RequestMapping(value = "/berkeleyOrder/{companyId}")
     public String gotobranchSchoolOrder(Model model,@PathVariable Integer companyId) {
+    	Company company=companyService.findCompanyById(companyId);
+     	model.addAttribute("company", company);
     	model.addAttribute("companyId", companyId);
         return "/berkeley/berkeleyNewOrder";
     }
@@ -59,7 +65,8 @@ public class BranchSchoolIndex {
      */
     @RequestMapping(value = "/teacherManagement/{companyId}")
     public String gototeacherManage(Model model,@PathVariable Integer companyId){
-    	
+    	Company company=companyService.findCompanyById(companyId);
+     	model.addAttribute("company", company);
         return "berkeley/teacherManagement";
     }
     /**
@@ -82,6 +89,8 @@ public class BranchSchoolIndex {
     	List<AuthRole> roleList = authRoleServiceImpl.findByCompanyId(companyId);
     	model.addAttribute("companyId", companyId);
     	model.addAttribute("roleList", roleList);
+    	Company company=companyService.findCompanyById(companyId);
+     	model.addAttribute("company", company);
     	return "berkeley/permissionManagement";
     }
     /**
@@ -101,7 +110,7 @@ public class BranchSchoolIndex {
      */
     @RequestMapping(value = "/resourceManagement")
     public String gotoresourceManagement(){
-
+    	
         return "/berkeley/resourceManagement";
     }
 

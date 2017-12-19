@@ -284,7 +284,8 @@
 		edu_school,
 		edu_step,
 		edu_year,
-		edu_class
+		edu_class,
+		is_in_school
     </sql>
     <sql id="table_columns_s">
 		s.id,
@@ -426,7 +427,8 @@
 		#{eduSchool},
 		#{eduStep},
 		#{eduYear},
-		#{eduClass}
+		#{eduClass},
+		#{isInSchool}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -502,6 +504,7 @@
 			<if test="eduStep != null">edu_step = #{eduStep},</if>
 			<if test="eduYear != null">edu_year = #{eduYear},</if>
 			<if test="eduClass != null">edu_class = #{eduClass},</if>
+			<if test="isMoveOut != null">is_move_out = #{isMoveOut},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -1015,7 +1018,12 @@
 	 LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
 	 LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
 	 LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
-	 where 1=1
+	 where 1=1 and s.is_in_school=1
+	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
+	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+	 <if test="eduStep != null and eduStep != ''">and s.edu_step in (#{eduStep})</if>
+	 <if test="eduYear != null and eduYear != ''">and s.edu_year in (#{eduYear})</if>
+	 <if test="eduClass != null and eduClass != ''">and s.edu_class in (#{eduClass})</if>
 	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -1102,7 +1110,12 @@
 	inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 	inner join sys_config_school scs on scs.company_id=c.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
-	 where 1=1
+	 where 1=1 and s.is_in_school=1
+	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
+	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+	 <if test="eduStep != null and eduStep != ''">and s.edu_step in (#{eduStep})</if>
+	 <if test="eduYear != null and eduYear != ''">and s.edu_year in (#{eduYear})</if>
+	 <if test="eduClass != null and eduClass != ''">and s.edu_class in (#{eduClass})</if>
 	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -3124,7 +3137,7 @@ select * from (
 			uf.password as password,
 			uf.username as username
 		from student s 
-		left join users_front uf on s.user_id = uf.id
+		left join users_front uf on s.user_id = uf.id LIMIT 10000
 	</select>
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />
@@ -3147,7 +3160,12 @@ select * from (
 	</select>
 	
 	
-	<select id="findEduAreaList" resultMap="sysConfigDict" parameterType="string">
-		select id,parent_item_id,dict_code,item_code,item_value from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL'
+	<select id="findClassByTeacherId" resultMap="studentResultMap" parameterType="int">
+		select edu_step,edu_year,edu_class from edu_master_class where user_id=#{id} and is_used=1
+	</select>
+	
+	
+	<select id="sysConfigDict" resultType="com.yuxin.wx.model.system.SysConfigDict"  parameterType="int"> 
+		select * from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL'
 	</select>
 </mapper>

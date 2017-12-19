@@ -251,4 +251,5 @@ public interface IUsersFrontService {
     UsersFront findUserFrontByStudentId(Integer id);
     
     Integer findUsersfrontCountByMobileOrUsername(SelectStudentOrUsersfrontVo search);
+    
 }

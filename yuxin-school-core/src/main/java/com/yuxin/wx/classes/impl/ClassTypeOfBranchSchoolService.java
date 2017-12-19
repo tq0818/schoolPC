@@ -290,7 +290,7 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		    				targetCml.setModuleNoId(targetCmn.getId());
 		    				targetCml.setCreateTime(new Date());
 		    				targetCml.setIsOutSource(1);
-		    				classModuleLessonService.insert(targetCml);
+		    				classModuleLessonService.insert1(targetCml);
 		    				lessonIdMap.put(sourceCml.getId(), targetCml.getId());
 		    				// 9.课后练习(试卷)
 		    				param.put("resourceId", String.valueOf(sourceCml.getId()));

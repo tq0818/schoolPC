@@ -1606,13 +1606,18 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 					if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
 					if(student.getCompanyId() != null) s.setCompanyId(student.getCompanyId());
 					if(student.getSchoolId() != null) s.setSchoolId(student.getSchoolId());
+					if(student.getEduArea() != null) s.setEduArea(student.getEduArea());
+					if(student.getEduSchool() != null) s.setEduSchool(student.getEduSchool());
+					if(student.getEduStep() != null) s.setEduStep(student.getEduStep());
+					if(student.getEduYear() != null) s.setEduYear(student.getEduYear());
+					if(student.getEduClass() != null) s.setEduClass(student.getEduClass());
 					if(student.getDeleteFlag() != null) s.setDeleteFlag(student.getDeleteFlag());
 					if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
 					if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
 					s.setCreateTime(date);
 					s.setCreator(userId);
 					s.setDeleteFlag(0);
-					
+					s.setIsInSchool(1);
 					this.studentMapper.insert(s);
 					
 					/* 生成usersfront */
@@ -1813,7 +1818,13 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	}
 	
 	@Override
-	public List<SysConfigDict> findEduAreaList() {
-		return studentMapper.findEduAreaList();
+	public List<Student> findClassByTeacherId(Integer id) {
+		return studentMapper.findClassByTeacherId(id);
 	}
+
+	@Override
+    public List<SysConfigDict> findEduAreaList() {
+		
+		return studentMapper.findEduAreaList();
+    }
 }

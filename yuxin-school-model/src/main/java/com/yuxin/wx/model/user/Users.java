@@ -71,6 +71,7 @@ public class Users extends BaseEntity {
 		this.errorMsg = errorMsg;
 	}
 
+	private Integer IsUsed;
 	// Constructor
 	public Users() {
 	}
@@ -116,6 +117,14 @@ public class Users extends BaseEntity {
 	
 	public String getUsername() {
 		return username;
+	}
+
+	public Integer getIsUsed() {
+		return IsUsed;
+	}
+
+	public void setIsUsed(Integer isUsed) {
+		IsUsed = isUsed;
 	}
 
 	public Users setUsername(String username) {

@@ -51,6 +51,26 @@ public class Users extends BaseEntity {
 	private Integer proxyOrgId;
 	private String eduAreaSchool;
 	private String isArea;
+	//返回状态码，0代表未查询到对应的用户，1代表查询到非本校用户，2代表查询到本校用户
+	private String statusCode;
+	//错误信息
+	private String errorMsg;
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+
 	// Constructor
 	public Users() {
 	}

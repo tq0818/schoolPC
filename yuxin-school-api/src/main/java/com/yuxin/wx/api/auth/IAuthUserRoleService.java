@@ -159,5 +159,20 @@ public interface IAuthUserRoleService  {
   * @param id
   */
  void deleteByRoleId(Integer id);
+ /**
+  * 
+  * @param earaCode 区县负责人对应的区域
+  * @param schoolAaraCode 学校负责人对应的区域
+  * @param schoolCode 学校负责人对应的学校
+  * @param gradeCode 班主任对应的年级代码
+  * @param classCode 班主任对应的班级代码
+  * @param subjectCode 任课老师对应的科目
+  * @param subJectGradeCode 任课老师对应的年级
+  * @param subjectClassCode 任课老师对应的班级
+  * @param roles 角色集合
+  */
+ void insertOrUpdateAreaInfo(String areaCompanyCode,String earaCode,String schoolAaraCode,String schoolCode,
+						String gradeCode,String classCode,String subjectCode,
+						String[] subJectGradeCode,String[] subjectClassCode,String roles,Integer userId);
 	
 }

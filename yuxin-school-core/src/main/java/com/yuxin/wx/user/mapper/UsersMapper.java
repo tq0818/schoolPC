@@ -123,11 +123,26 @@ public interface UsersMapper extends BaseMapper<Users> {
 	  Users findUsersByConfition(Users user);
 	  
 	  List<Users> queryuserIsExist(Users user);
-
+	  /**
+	   * 根据用户名或手机号查询用户
+	   * @param user
+	   * @return
+	   */
+	  List<Users> queryuserByUserNameOrMobile(Users user);
 	/**
 	 * 通过用户id获取对应区域信息
 	 * @param id
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    /**
+     * 授权当前用户在当前学校为合法用户
+     * @param params
+     */
+    void grantUserInCompany(Map<String,Object> params);
+    /**
+     * 插入用户关系表
+     * @param params 插入用户关系表
+     */
+    void insertUserCompanyRalation(Map<String,Object> params);
 }

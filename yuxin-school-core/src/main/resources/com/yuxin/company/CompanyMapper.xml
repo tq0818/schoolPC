@@ -1239,7 +1239,9 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<select id="findComanyIdByRootPath" resultType="int" parameterType="String">
 		select id from company where domain_manage=#{rootPath}
 	</select>
-	
+	<select id="findSchoolIdByCompanyId" resultType="int" parameterType="int">
+		select id from sys_config_school where company_id=#{companyId}
+	</select>
 	<!-- 适用于主键自增类型 -->
 	<insert id="addBerkeley" parameterType="com.yuxin.wx.model.company.CompanyVo" useGeneratedKeys="true" keyProperty="id">
 		insert into company ( <include refid="table_columns_company_insert" /> ) 

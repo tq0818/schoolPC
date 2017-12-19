@@ -272,16 +272,20 @@ public class BaseWebController {
         //通过rootPath获取CompanyId，先查缓存，缓存没有在查数据库
         Cache<String,Integer> cache=jedisShiroCacheManager.getCache(WebUtils.COMPANY_INFO);
         Integer companyId=cache.get(rootPath);
+        Integer schoolId=cache.get("schoolId_"+rootPath);
         if(companyId==null){
         	companyId=companyServiceImpl.findComanyIdByRootPath(rootPath);
+        	schoolId=companyServiceImpl.findSchoolIdByCompanyId(companyId);
         	if(companyId!=null){
         		cache.put(rootPath, companyId);
+        		cache.put("schoolId_"+rootPath,schoolId);
         	}else{
         		response.sendRedirect(request.getContextPath()+"/fonts/404.html");;
         		return null;
         	}
         }
         session.setAttribute(WebUtils.COMPANY_ID, companyId);
+        session.setAttribute(WebUtils.SCHOOL_ID, schoolId);
         if (subject.isAuthenticated()) {// 已经成功登录过,直接跳到首页
             // 已登录时，且没有选择过服务则踢到选择服务
             List<CompanyNewStep> l = companyNewStepServiceImpl.findCompanyNewStepByCompany(WebUtils.getCurrentCompanyId());
@@ -301,6 +305,9 @@ public class BaseWebController {
             try {
                 subject.login(token);
                 Users users = usersServiceImpl.queryUserByName(userName);
+                users.setCompanyId(WebUtils.getCurrentCompanyId());
+                Integer sessionSchoolId=session.getAttribute(WebUtils.SCHOOL_ID)==null?null:(Integer)session.getAttribute(WebUtils.SCHOOL_ID);
+                users.setSchoolId(sessionSchoolId);
                 session.setAttribute(WebUtils.LOGIN_USER, users);
                 // 设置公司的相关信息 add by jaler 16.11.1
                 Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());

@@ -583,8 +583,31 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	}
 
 	@Override
+	public List<Users> queryuserByUserNameOrMobile(Users user) {
+		// TODO Auto-generated method stub
+		return usersMapper.queryuserByUserNameOrMobile(user);
+	}
+
+	@Override
 	public UsersAreaRelation findUsersAreaRelation(Integer id) {
 		return usersMapper.findUsersAreaRelation(id);
+	}
+
+	@Override
+	public void grantUserInCompany(String id, Integer companyId) {
+		// TODO Auto-generated method stub
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userId", id);
+		params.put("companyId",companyId);
+		usersMapper.grantUserInCompany(params);
+	}
+
+	@Override
+	public void insertUserCompanyRalation(Integer userId, Integer companyId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userId", userId);
+		params.put("companyId",companyId);
+		usersMapper.insertUserCompanyRalation(params);
 	}
 
 }

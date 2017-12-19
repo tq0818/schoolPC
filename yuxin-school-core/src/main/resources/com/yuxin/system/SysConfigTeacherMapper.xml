@@ -859,7 +859,7 @@
 	<select id="queryTeachersBycondition" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
 		select DISTINCT a.id,a.name,a.teacher_type from sys_config_teacher a
-		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_teacher_lesson b on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
 		a.del_flag=0 and ur.company_id=#{companyId}

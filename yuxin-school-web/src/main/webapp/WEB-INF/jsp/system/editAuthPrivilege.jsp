@@ -9,7 +9,7 @@
      <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
-     <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
+     <script type="text/javascript" src="<%=rootPath %>/javascripts/my.jquery.validate.js"></script>
     
      <script type="text/javascript">
     	$(function(){
@@ -19,7 +19,6 @@
 	<style>
 		.editToB select{margin: 5px 0}
 		.editDelete{color: red !important;}
-		.editToB{display: none;}
 	</style>
 </head>
 <body>
@@ -30,11 +29,11 @@
             <h2 class="h5">${type=='save'?'新增用户':'编辑用户' }</h2>
             <span class="line"></span>
         </div>
-        <div class="users-infos">            
+        <div class="users-infos">
+        <form id="saveUserForm" method="post" onsubmit="return Form.editUserMsg();">            
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>
-            <form id="saveUserForm" method="post">
             	<input id="uId" type="hidden" name="id" value="${user.id }"/>
   				<input type="hidden" name="type" id="type" value="${type }"/>
   				<input type="hidden" name="teachersId" id="teachersId"/>
@@ -48,7 +47,7 @@
 	                    <span class="c-title">登录账号&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
 	                    <span class="c-content" id="ucontent">
 	                    	<c:if test="${type=='save' }">
-	                    	  <input id="userName" name="username" type="text"/>
+	                    	  <input id="userName" name="username" type="text" placeholder="输入账号或手机号搜索"/>
 	                    	</c:if>
 	                    	<c:if test="${type!='save' }">
 	                    	  <input id="nameMark" disabled="disabled" name="usernames" type="text" value="${user.username }" disabled/>
@@ -99,13 +98,12 @@
 	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile }"></span>
 	                </p>
 	            </div>
-            </form>
             <div class="sm-heading">
                 <h2 class="h6">角色选择</h2>
             </div>
             <div class="people-list">
             	<c:forEach items="${authRoleList }" var="role">
-            		<c:if test="${role.roleName ne '班主任' and role.roleName ne '任课老师'}">
+            		<c:if test="${role.roleName ne '班主任' and role.roleName ne '任课老师' and role.roleName ne '区县负责人' and role.roleName ne '学校负责人'}">
 	            		<c:choose>
 	            			<c:when test="${role.roleName == '代理机构' }">
 	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
@@ -114,6 +112,12 @@
 	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
 	            			</c:otherwise>
 	            		</c:choose>
+            		</c:if>
+            		<c:if test="${role.roleName=='区县负责人'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default areamaster">区县负责人</a>
+            		</c:if>
+            		<c:if test="${role.roleName=='学校负责人'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default schoolmaster">学校负责人</a>
             		</c:if>
             		<c:if test="${role.roleName=='班主任'}">
             			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default headmaster">班主任</a>
@@ -139,7 +143,7 @@
             </div>
             </div>
             <div class="pri-list">
-                <ul class="clear">
+                <ul class="clear" id="menuList">
                 <c:forEach items="${privilegeList }" var="category">
                 		<li style="display: none;">
 	                        <p class="c-title" marks="${category.id }">
@@ -153,84 +157,10 @@
 	                        </c:forEach>
                         </li>
                 </c:forEach>
-
-					<li  class="editToB headmasterToB">
-						<p class="c-title" marks="3">
-							<span>任课老师</span>
-						</p>
-
-						<p class="c" >
-							<span>科目：</span>
-							<select name="" id="">
-								<option value="">语文</option>
-								<option value="">数文</option>
-								<option value="">英文</option>
-							</select>
-						</p>
-						<p class="c">
-							<span>班级：</span><br/>
-
-						<p class="c">
-							<select name="" id="">
-								<option value="">初2017</option>
-								<option value="">初2017</option>
-								<option value="">初2017</option>
-							</select>
-							<select name="" id="">
-								<option value="">一班</option>
-								<option value="">一班</option>
-								<option value="">一班</option>
-							</select>
-						</p>
-						<p class="c">
-							<select name="" id="">
-								<option value="">初2017</option>
-								<option value="">初2017</option>
-								<option value="">初2017</option>
-							</select>
-							<select name="" id="">
-								<option value="">一班</option>
-								<option value="">一班</option>
-								<option value="">一班</option>
-							</select>
-							<a href="##" class="editDelete">删除</a>
-						</p>
-						<p class="c">
-							<select name="" id="">
-								<option value="">初2017</option>
-								<option value="">初2017</option>
-								<option value="">初2017</option>
-							</select>
-							<select name="" id="">
-								<option value="">一班</option>
-								<option value="">一班</option>
-								<option value="">一班</option>
-							</select>
-							<a href="##" class="editDelete">删除</a>
-						</p>
-
-						<p class="c"><button class="btn btn-default addEdit">+</button></p>
-
-					</li>
-					<li  class="editToB classTeacherToB">
-						<p class="c-title">
-							<span>班主任</span>
-						</p>
-
-						<p class="c" >
-							<span>班级：</span><br/>
-							<select name="" id="">
-								<option value="">初2017级</option>
-								<option value="">初2017级</option>
-								<option value="">初2017级</option>
-							</select>
-							<select name="" id="">
-								<option value="">十一班</option>
-								<option value="">一班</option>
-								<option value="">一班</option>
-							</select>
-						</p>
-					</li>
+                <li class="editToB areamasterToB"></li>
+                <li class="editToB schoolmasterToB"></li>
+                <li class="editToB classTeacherToB"></li>
+                <li class="editToB headmasterToB"></li>
                 </ul>
             </div>
             <div id="contactTeacher" style="display: none;">
@@ -250,10 +180,11 @@
             </div>
             <div class="t-btns">
                 <p class="text-center">
-                    <a href="javascript:Form.editUserMsg();" class="btn btn-primary">保存</a>
+                    <input type="submit" class="btn btn-primary" value="保存"></input>
                     <a href="javascript:history.go(-1);" class="btn btn-default">取消</a>
                 </p>
             </div>
+             </form>
         </div>
     </div>
 </div>
@@ -264,40 +195,35 @@
 
 <script>
     <%--任课老师点击删除，删除该班级--%>
-	$('.editToB').on('click','.editDelete',function(){
+	 $('.editToB').on('click','.editDelete',function(){
 	    $(this).parent('.c').remove();
 	});
-//	点击增加，增加一行
-	$('.addEdit').click(function(){
-	    	var _html = `<p class="c">
-									<select name="" id="">
-										<option value="">初2017</option>
-									</select>
-									<select name="" id="">
-										<option value="">一班</option>
-									</select>
-									<a href="##" class="editDelete">删除</a>
-					  </p>`;
-			$(this).parent('.c').before(_html);
-
-	});
-//	点击任课老师，出来任课老师权限
-
+	//	点击任课老师，出来任课老师权限
 	$('.headmaster').click(function(){
 	    if(!$(this).hasClass('btn-success')){
-            $('.classTeacherToB').show();
         }else{
-            $('.classTeacherToB').hide();
+            $('.areamasterToB').empty();
         }
 	});
     $('.classTeacher').click(function(){
         if(!$(this).hasClass('btn-success')){
-            $('.headmasterToB').show();
         }else{
-            $('.headmasterToB').hide();
+            $('.headmasterToB').empty();
         }
     });
-
+    
+    $('.areamaster').click(function(){
+        if(!$(this).hasClass('btn-success')){
+        }else{
+            $('.areamasterToB').empty();
+        }
+    });
+    $('.schoolmaster').click(function(){
+	    if(!$(this).hasClass('btn-success')){
+        }else{
+            $('.schoolmasterToB').empty();
+        }
+	});
 </script>
 </body>
 </html>

@@ -219,6 +219,10 @@ public class WebUtils {
      */
     public static final String COMPANY_ID="COMPANY_ID";
     /**
+     * 当前学校标识号
+     */
+    public static final String SCHOOL_ID="SCHOOL_ID";
+    /**
      * 当前访问机构类型 0数校，1区，2校
      */
     public static final String CURRENT_IS_AREA="CURRENT_IS_AREA";

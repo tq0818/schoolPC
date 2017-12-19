@@ -625,6 +625,8 @@ public interface ICompanyService  {
 	 * 通过rootPath获取companyId
 	 * @return
 	 */
-	Integer findComanyIdByRootPath(String rootPath); 
+	Integer findComanyIdByRootPath(String rootPath);
+	
+	Integer findSchoolIdByCompanyId(Integer companyId);
 
 }

@@ -14,7 +14,7 @@
 	                required: true,
 	                maxlength:12,
 	                remote: {
-                		url: rootPath+"/authPrivilege/checkUserName",
+                		url: rootPath+"/authPrivilege/checkUserNameOrMobile",
                 		type:"post",
                 		dataType:"json",
                 		data:{
@@ -117,12 +117,14 @@
 									if(id==role.roleUid){
 										$(this).addClass("btn-success");
 									}
-									var statu=$(this).hasClass("btn-success");
-									if(statu){
-										var cid=$(this).attr("ids");
-										window.Form.addCatgory(cid);
-									}
 								});
+							});
+							$(".people-list").find("a").each(function(i){
+								var statu=$(this).hasClass("btn-success");
+								if(statu){
+									var cid=$(this).attr("ids");
+									window.Form.addCatgory(cid);
+								}
 							});
 							//代理机构管理员初始化
 							if($('#org-manage').hasClass('btn-success')){
@@ -263,6 +265,9 @@
 				});
 			},
 			editUserMsg : function(){
+				if(!$("#saveUserForm").valid()){
+					return;
+				}
 				$(".loading-bg").show();
 				var b=true;
 				var count=0;
@@ -348,7 +353,7 @@
 						return;
 					}
 					if($("#saveUserForm").valid()){
-						$("#saveUserForm").attr("action",rootPath+"/authPrivilege/saveUser").submit();
+						$("#saveUserForm").attr("action",rootPath+"/authPrivilege/saveUser");
 					}else{
 						$(".loading-bg").hide();
 						return;
@@ -359,37 +364,242 @@
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
-								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser").submit();
+								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();
 								return;
 							}
 						}else{
-							 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser").submit();
+							 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 						}
 						$(".loading-bg").hide();
 				}
 				
 			},
+			getSchool:function(){
+				var areaCode=$('#schoolAaraCode').val();
+				var areaInfoVos=sessionStorage.getItem("schoolData");
+				var optionSchoolStr="";
+				$.each(JSON.parse(areaInfoVos),function(i,data){
+					if(data.areaCode==areaCode){
+						$.each(data.schoolInfos,function(i,dt){
+							optionSchoolStr+='<option value="'+dt.schoolCode+'" >'+dt.schoolName+'</option>';
+						});
+					}
+				});
+				$('#schoolCode').empty();
+				$('#schoolCode').append(optionSchoolStr);
+			},
+			deleteElement:function(obj){
+				$(obj).parent().remove();
+			},
+			getClassInfo:function(obj){
+				var gradeName=$(obj).val();
+				var gradeInfos=sessionStorage.getItem("gradeInfo");
+				var optionSchoolStr="";
+				$.each(JSON.parse(gradeInfos),function(i,data){
+					if(data.gradeName==gradeName){
+						$.each(data.classInfos,function(i,dt){
+							optionSchoolStr+='<option value="'+dt.className+'" >'+dt.className+'班</option>';
+						});
+					}
+				});
+				$(obj).next().empty();
+				$(obj).next().append(optionSchoolStr);
+			},
+			addClassInfo:function(){
+				var gradeInfos=sessionStorage.getItem("gradeInfo");
+				var gradeInfos1=JSON.parse(gradeInfos);
+				$(".addEdit").parent().remove();
+				var optionStr='<p class="c"><select name="subJectGradeCode" onChange="Form.getClassInfo(this);">';
+				//循环年级
+				$.each(JSON.parse(gradeInfos),function(i,dt){
+					optionStr+='<option value="'+dt.gradeName+'">'+dt.gradeName+'级</option>';
+				});
+				//循环班级
+				optionStr+='</select><select name="subjectClassCode">';
+				$.each(gradeInfos1[0].classInfos,function(i,dat){
+					optionStr+='<option value="'+dat.className+'" >'+dat.className+'班</option>';
+				});
+				optionStr+='</select><a href="##" class="editDelete" onClick="Form.deleteElement(this);">删除</a></p>';
+				optionStr+='<p class="c"><button class="btn btn-default addEdit" onClick="Form.addClassInfo(this)">+</button></p></li>';
+				$('.headmasterToB').append(optionStr);
+			},
 			addCatgory : function(cid){
+				var data={};
+				data.roleId=cid;
+				data.userId=$("#uId").val();
 				$.ajax({
-					url : rootPath + "/authRolePrivilege/Category/"+cid,
+					url : rootPath +"/authRolePrivilege/getCategorysInfo",
 					type : "post",
 					dataType : "json",
+					data:data,
 					success : function(result) {
-						$.each(result,function(i,tree){
+						$.each(result.privilegeVos,function(i,tree){
 							if(tree && tree.id){
 								$(".clear li").find("p.c").each(function(i){
 									var mark=$(this).attr("marks");
 									if(tree.id==mark){
-										//$(this).children("i").html("&#xe60a;");
 										$(this).children("i").html("&#xe60a;").prev().html("&#xe60a;");
 										$(this).parent().css("display","block");
 									}
 								});
 							}
 						});
-						
+						//获取所选角色
+						var roleName=result.roleName;
+						//获得区、校
+						if("区县负责人"==roleName){
+							$('.areamasterToB').attr("style","display:block");
+							var areaInfoVos=result.areaInfoVos;
+							//填充区
+							var htmlContent='<p class="c-title" marks="3"><span>区县负责人</span></p><p class="c"><span>选择区域：</span><br/>'+
+											'<select name="earaCode" id="earaCode">';
+							var optionStr="";
+							$.each(areaInfoVos,function(i,data){
+								if(data.selected){
+									optionStr+='<option value="'+data.areaCode+'" selected ="selected">'+data.areaName+'</option>';
+								}else{
+									optionStr+='<option value="'+data.areaCode+'">'+data.areaName+'</option>';
+								}
+							});
+							htmlContent+=optionStr+'</select></p>';
+							$('.areamasterToB').html(htmlContent);
+							return;
+						}
+						if("学校负责人"==roleName){
+							$('.schoolmasterToB').attr("style","display:block");
+							//填充学校
+							var areaInfoVos=result.areaInfoVos;
+							var str = JSON.stringify(areaInfoVos); 
+							sessionStorage.setItem("schoolData",str);
+							var htmlContent='<p class="c-title" marks="3"><span>学校负责人</span></p>'+
+											'<p class="c" ><span>选择学校：</span><br/><select name="schoolAaraCode" id="schoolAaraCode" onChange="Form.getSchool()">';
+							var optionStr="";
+							var selectCount=0;
+							//填充区
+							$.each(areaInfoVos,function(i,data){
+								if(data.selected){
+									optionStr+='<option value="'+data.areaCode+'" selected ="selected">'+data.areaName+'</option>';
+									selectCount=i;
+								}else{
+									optionStr+='<option value="'+data.areaCode+'">'+data.areaName+'</option>';
+								}
+							});
+							htmlContent+=optionStr+'</select><select name="schoolCode" id="schoolCode" style="width:200px;">';
+							//填充学校
+							var optionSchoolStr="";
+							$.each(areaInfoVos[selectCount].schoolInfos,function(i,data){
+								if(data.selected){
+									optionSchoolStr+='<option value="'+data.schoolCode+'" selected ="selected">'+data.schoolName+'</option>';
+								}else{
+									optionSchoolStr+='<option value="'+data.schoolCode+'" >'+data.schoolName+'</option>';
+								}
+							});
+							htmlContent+=optionSchoolStr+'</select></p>';
+							$('.schoolmasterToB').append(htmlContent);
+							return;
+						}
+						if("班主任"==roleName){
+							$('.classTeacherToB').attr("style","display:block");
+							//获取年级、班级
+							var gradeInfoVos=result.gradeInfoVos;
+							//填充年级、班级
+							//填充学校
+							var gradeInfo = JSON.stringify(gradeInfoVos); 
+							sessionStorage.setItem("gradeInfo",gradeInfo);
+							var classInfoStr='<p class="c-title"><span>班主任</span></p><p class="c" ><span>班级：</span><br/><select name="gradeCode" id="gradeCode" onChange="Form.getClassInfo(this);">';
+							var optionStr="";
+							var selectCount=0;
+							//填充区
+							$.each(gradeInfoVos,function(i,data){
+								if(data.selected){
+									optionStr+='<option value="'+data.gradeName+'" selected ="selected">'+data.gradeName+'级</option>';
+									selectCount=i;
+								}else{
+									optionStr+='<option value="'+data.gradeName+'">'+data.gradeName+'级</option>';
+								}
+							});
+							classInfoStr+=optionStr+'</select><select name="classCode" id="classCode">';
+							//填充学校
+							var optionSchoolStr="";
+							$.each(gradeInfoVos[selectCount].classInfos,function(i,data){
+								if(data.selected){
+									optionSchoolStr+='<option value="'+data.classId+'" selected ="selected">'+data.className+'班</option>';
+								}else{
+									optionSchoolStr+='<option value="'+data.classId+'" >'+data.className+'班</option>';
+								}
+							});
+							classInfoStr+=optionSchoolStr+'</select></p>';
+							$('.classTeacherToB').html(classInfoStr);
+							return;
+						}
+						if("任课老师"==roleName){
+							$('.headmasterToB').attr("style","display:block");
+							//获取年级、班级
+							var gradeInfoVos=result.gradeInfoVos;
+							var gradeInfo = JSON.stringify(gradeInfoVos); 
+							sessionStorage.setItem("gradeInfo",gradeInfo);
+							var optionStr='<p class="c-title" marks="3"><span>任课老师</span></p><p class="c" ><span>科目：</span>'+
+										'<select name="subjectCode" id="subjectCode">';
+							//获取科目
+							var subjectInfoVos=result.subjectInfoVos;
+							
+							//填充科目
+							$.each(subjectInfoVos,function(i,data){
+								if(data.selected){
+									optionStr+='<option value="'+data.subjectCode+'" selected ="selected">'+data.subjectName+'</option>';
+								}else{
+									optionStr+='<option value="'+data.subjectCode+'">'+data.subjectName+'</option>';
+								}
+							});
+							optionStr+='</select></p><p class="c"><span>班级：</span><br/>';
+							//填充年级班级
+							var eduSubjectClassTeacherInfos=result.eduSubjectClassTeacherInfos;
+							if(eduSubjectClassTeacherInfos!=''){
+								$.each(eduSubjectClassTeacherInfos,function(i,data){
+									var gradeName=data.gradeName;
+									var classNo=data.eduClass;
+									optionStr+='<p class="c"><select name="subJectGradeCode" onChange="Form.getClassInfo(this);">';
+									//循环年级
+									var selectCount=0;
+									$.each(gradeInfoVos,function(i,dt){
+										if(gradeName==dt.gradeName){
+											optionStr+='<option value="'+dt.gradeName+'" selected ="selected">'+dt.gradeName+'级</option>';
+											selectCount=i;
+										}else{
+											optionStr+='<option value="'+dt.gradeName+'">'+dt.gradeName+'级</option>';
+										}
+									});
+									
+									//循环班级
+									optionStr+='</select><select name="subjectClassCode">';
+									$.each(gradeInfoVos[selectCount].classInfos,function(i,dat){
+										if(dat.className==classNo){
+											optionStr+='<option value="'+dat.className+'" selected ="selected">'+dat.className+'班</option>';
+										}else{
+											optionStr+='<option value="'+dat.className+'" >'+dat.className+'班</option>';
+										}
+									});
+									optionStr+='</select><a href="##" class="editDelete" onClick="Form.deleteElement(this);">删除</a></p>';
+								});
+							}else{
+								optionStr+='<p class="c"><select name="subJectGradeCode" onChange="Form.getClassInfo(this);">';
+								//循环年级
+								var selectCount=0;
+								$.each(gradeInfoVos,function(i,dt){
+									optionStr+='<option value="'+dt.gradeName+'">'+dt.gradeName+'级</option>';
+								});
+								//循环班级
+								optionStr+='</select><select name="subjectClassCode">';
+								$.each(gradeInfoVos[selectCount].classInfos,function(i,dat){
+									optionStr+='<option value="'+dat.className+'" >'+dat.className+'班</option>';
+								});
+								optionStr+='</select><a href="##" class="editDelete" onClick="Form.deleteElement(this);">删除</a></p>';
+							}
+							optionStr+='<p class="c"><button class="btn btn-default addEdit" onClick="Form.addClassInfo(this)">+</button></p>';
+							$('.headmasterToB').html(optionStr);
+						}
 					}
 				});
 				if(cid==6){

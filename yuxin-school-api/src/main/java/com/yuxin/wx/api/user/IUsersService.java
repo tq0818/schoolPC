@@ -392,6 +392,26 @@ public interface IUsersService  {
    * @return
    */
   List<Users> queryuserIsExist(Users user);
+  
+  /**
+   * 
+   * Class Name: IUsersService.java
+   * @Description: 根据用户名或者手机号查询用户
+   * @author zhang.zx
+   * @date 2015年11月5日 下午6:00:21
+   * @modifier
+   * @modify-date 2015年11月5日 下午6:00:21
+   * @version 1.0
+   * @param user
+   * @return
+   */
+  List<Users> queryuserByUserNameOrMobile(Users user);
+  /**
+   * 授权当前用户
+   * @param id 用户标识号
+   * @param companyId 机构标识号
+   */
+  void grantUserInCompany(String id,Integer companyId);
 
 	/**
 	 * 根据用户名获取对应区域信息
@@ -399,6 +419,12 @@ public interface IUsersService  {
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    /**
+     * 用户标识号
+     * @param userId 用户标识号
+     * @param companyId 机构标识号
+     */
+    void insertUserCompanyRalation(Integer userId,Integer companyId);
 
     void deleteByUserId(Integer userId, Integer companyId);
     

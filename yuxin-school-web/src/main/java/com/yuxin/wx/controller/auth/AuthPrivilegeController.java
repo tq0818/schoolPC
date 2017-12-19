@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.model.system.SysConfigDict;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
@@ -36,6 +39,7 @@ import com.yuxin.wx.model.auth.AuthPrivilege;
 import com.yuxin.wx.model.auth.AuthPrivilegeCategory;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyConfigProxyOrg;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigSchool;
@@ -67,7 +71,7 @@ import com.yuxin.wx.common.PageFinder;
 @Controller
 @RequestMapping("/authPrivilege")
 public class AuthPrivilegeController {
-	
+	private static Log logger = LogFactory.getLog("AuthPrivilegeController");
 	@Autowired
 	private IAuthPrivilegeService authPrivilegeServiceImpl;
 	@Autowired
@@ -288,13 +292,19 @@ public class AuthPrivilegeController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="/saveUser",method=RequestMethod.POST)
-	public void saveUser(Users user,String rolesId,String teachersId,HttpServletRequest request,HttpServletResponse response, Model model) throws IOException{
+	public void saveUser(Users user,String rolesId,String teachersId,
+						String earaCode,String schoolAaraCode,String schoolCode,
+						String gradeCode,String classCode,String subjectCode,
+						String[] subJectGradeCode,String[] subjectClassCode,
+						HttpServletRequest request,HttpServletResponse response, Model model) throws IOException{
 		user.setCompanyId(WebUtils.getCurrentCompanyId());
 		user.setStatus(1);
 		user.setPassword(new Md5Hash(user.getPassword(),ByteSource.Util.bytes(user.getUsername()+"salt")).toHex());	
 		
 		//添加用户信息
 		userServiceImpl.insert(user);
+		//添加用户关系表
+		userServiceImpl.insertUserCompanyRalation(user.getId(),WebUtils.getCurrentCompanyId());
 		//添加用户角色权限信息
 		if(rolesId!=null&&!"".equals(rolesId)){
 			String r=rolesId.substring(0, rolesId.length()-1);
@@ -309,6 +319,11 @@ public class AuthPrivilegeController {
 			    authUserRole.setUpdator(WebUtils.getCurrentUserId(request)+"");
 				authUserRoleServiceImpl.insert(authUserRole);
 			}
+			//管理用户关系范围
+			Company company=WebUtils.getCurrentCompany();
+			authUserRoleServiceImpl.insertOrUpdateAreaInfo("2151004533",earaCode, schoolAaraCode, 
+					schoolCode, gradeCode, classCode, subjectCode, 
+					subJectGradeCode, subjectClassCode,r,user.getId());
 		}
 		
 		//修改教师信息
@@ -333,22 +348,6 @@ public class AuthPrivilegeController {
 			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user.getSchoolId());
 			model.addAttribute("school1",school);
 		}
-//		Subject subject = SecurityUtils.getSubject();
-//		if(subject.hasRole("机构管理员")){
-//			model.addAttribute("peoplemark", "admin");
-//			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-//			model.addAttribute("schoolId", user.getSchoolId());
-//			model.addAttribute("schoolList", schoolList);
-//		}else if(subject.hasRole("分校管理员")){
-//			model.addAttribute("peoplemark", "schooladmin");
-//			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user.getSchoolId());
-//			model.addAttribute("school1",school);
-//		}
-//		Integer companyId=WebUtils.getCurrentCompanyId();
-//		List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
-//		model.addAttribute("schoolId", user.getSchoolId());
-//		model.addAttribute("schoolList", schoolList);
-		//return "system/authPrivilegeIndex";
 		response.sendRedirect("showAuth");
 	}
 	
@@ -366,7 +365,11 @@ public class AuthPrivilegeController {
 	 * @return
 	 */
 	@RequestMapping(value="/updateUser",method=RequestMethod.POST)
-	public String updateUser(Users user,String usernames, String rolesId,String teachersId,HttpServletRequest request,Model model){	
+	public String updateUser(Users user,String usernames, String rolesId,String teachersId,
+			String earaCode,String schoolAaraCode,String schoolCode,
+			String gradeCode,String classCode,String subjectCode,
+			String[] subJectGradeCode,String[] subjectClassCode,
+			HttpServletRequest request,Model model){	
 		//修改用户
 		if(user.getPassword()!=null&&!"".equals(user.getPassword())){
 			user.setUsername(usernames);
@@ -388,7 +391,12 @@ public class AuthPrivilegeController {
 			     authUserRole.setUpdateTime(new Date());
 			     authUserRole.setUpdator(WebUtils.getCurrentUserId(request)+"");
 				 authUserRoleServiceImpl.insert(authUserRole);
-			}	
+			}
+			//管理用户关系范围
+			Company company=WebUtils.getCurrentCompany();
+			company.setEduAreaSchool("2151004533");
+			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
+					schoolCode, gradeCode, classCode, subjectCode, subJectGradeCode, subjectClassCode,r,user.getId());
 		}
 		//修改教师
 		if(teachersId!=null&&!"".equals(teachersId)){
@@ -562,7 +570,6 @@ public class AuthPrivilegeController {
              nodes.add(subnode);
          }
      }
-     System.out.println(JSONArray.toJSONString(nodes));
      return nodes;
  }
 
@@ -587,6 +594,59 @@ public class AuthPrivilegeController {
  			return "用户名不能为空";
  		}
 		
+	}
+ 	@ResponseBody
+	@RequestMapping(value="/checkUserNameOrMobile",method=RequestMethod.POST)
+	public Users checkUserNameOrMobile(String userName,HttpServletRequest request){
+ 		Users users=new Users();
+ 		if(null!=userName&&!"".equals(userName)){
+ 			if(ParameterUtil.isUserName(userName)||ParameterUtil.isMobilePhone(userName)){
+ 				Users u=new Users();
+ 				u.setUsername(userName);
+ 				List<Users> arr=userServiceImpl.queryuserByUserNameOrMobile(u);
+ 	 			if(null!=arr&&arr.size()>0){
+ 	 				Users resultU=arr.get(0);
+ 	 				Integer companyId=WebUtils.getCurrentCompanyId();
+ 	 				if(resultU.getCompanyId()!=null&&companyId.intValue()==resultU.getCompanyId().intValue()){
+ 	 					users.setStatusCode("2");
+ 	 	 				users.setErrorMsg("在本校已存在该用户，无法再次添加");
+ 	 	 				return users;
+ 	 				}else{
+ 	 					users.setStatusCode("1");
+ 	 					users.setUsername(resultU.getUsername());
+ 	 					users.setEmail(resultU.getEmail());
+ 	 					users.setId(resultU.getId());
+ 	 					users.setSex(resultU.getSex());
+ 	 					users.setMobile(resultU.getMobile());
+ 	 					users.setRealName(resultU.getRealName());
+ 	 					return users;
+ 	 				}
+ 	 			}else{
+ 	 				users.setStatusCode("0");
+ 	 				return users;
+ 	 			}
+ 			}else{
+ 				users.setStatusCode("2");
+	 			users.setErrorMsg("用户名只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成或者11位手机号");
+	 			return users;
+ 			}
+ 			
+ 		}else{
+ 			users.setStatusCode("0");
+			return users;
+ 		}
+		
+	}
+ 	@ResponseBody
+	@RequestMapping(value="/grantUserInCompany",method=RequestMethod.POST)
+	public Boolean grantUserInCompany(String id,HttpServletRequest request){
+ 		try{
+	 		userServiceImpl.grantUserInCompany(id, WebUtils.getCurrentCompanyId());
+	 		return true;
+ 		}catch(Exception e){
+ 			logger.error("grantUserInCompany(String,HttpServletRequest)", e);
+ 			return false;
+ 		}
 	}
  
 	/**

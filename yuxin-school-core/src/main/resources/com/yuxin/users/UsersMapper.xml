@@ -35,6 +35,16 @@
 		<result property="proxyOrgId" column="proxy_org_id" />
 	</resultMap>
 	
+	<resultMap type="com.yuxin.wx.model.user.Users" id="usersCompanyIdResultMap">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="sex" column="sex" />
+		<result property="companyId" column="company_id" />
+		<result property="realName" column="real_name" />
+	</resultMap>
+	
 	<resultMap type="com.yuxin.wx.vo.user.UsersAreaRelation" id="usersAreaRelationMap">
 		<result property="id" column="id"/>
 		<result property="userId" column="user_id"/>
@@ -154,6 +164,11 @@
 	<insert id="insert" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
 		insert into users( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<insert id="grantUserInCompany" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into users_comany_relation(user_id,company_id) 
+		values (#{userId},#{companyId})
 	</insert>
 		
 	<insert id="insertUsersComanyRelation" parameterType="com.yuxin.wx.model.teacher.UsersComanyRelation" useGeneratedKeys="true" keyProperty="id">
@@ -564,8 +579,18 @@
 		select <include refid="table_columns" /> 
 		from users where username = #{username}
 	</select>
+	
+	<select id="queryuserByUserNameOrMobile" resultMap="usersCompanyIdResultMap" parameterType="com.yuxin.wx.model.user.Users">
+		select u.id,u.sex,u.email,u.mobile,uc.company_id,u.real_name,u.username from users u
+		left join users_comany_relation uc on u.id=uc.user_id and uc.is_used=1
+		where username =#{username} or u.mobile=#{username}
+	</select>
 
 	<select id="findUsersAreaRelation" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
 		select * from users_area_relation where user_id = #{id}
 	</select>
+	<insert id="insertUserCompanyRalation" parameterType="map" useGeneratedKeys="true">
+		insert into users_comany_relation(user_id,company_id,is_used)
+		values(#{userId},#{companyId},1)
+	</insert>
 </mapper>

@@ -213,7 +213,7 @@
                         </c:if>
                     </span>
                </p>
-               <c:if test="${not empty isArea or '0' ne isArea }">
+               <c:if test="${not empty isArea and '0' ne isArea }">
                		<p class="c ">
 	                    <span class="c-title">是否设为公开课程</span>
 	                    <span class="c-content" style="color:black;">

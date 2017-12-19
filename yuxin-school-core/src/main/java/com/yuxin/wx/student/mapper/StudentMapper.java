@@ -309,5 +309,5 @@ public interface StudentMapper extends BaseMapper<Student> {
 	 * @throws
 	 */
 	List<Student> findClassByTeacherId(Integer id);
-	List<SysConfigDict> findEduAreaList();
+	List<SysConfigDict> sysConfigDict();
 }

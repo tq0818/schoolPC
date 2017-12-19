@@ -716,7 +716,7 @@ public interface IStudentService  {
 	
 	List<StudentImportVo> queryAllStudentsByCompanyId(Integer companyId);
 	
-	List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId);
+	List<Integer> insertMoreStudents(List<StudentImportVo> students,List<StudentImportVo> updateListstudents,String groupOneId,String groupTwoId,Integer userId);
 	
 	List<StudentListVo> queryStudentsListByIds(String ids);
 	

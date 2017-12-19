@@ -504,7 +504,7 @@
 			<if test="eduStep != null">edu_step = #{eduStep},</if>
 			<if test="eduYear != null">edu_year = #{eduYear},</if>
 			<if test="eduClass != null">edu_class = #{eduClass},</if>
-			<if test="isMoveOut != null">is_move_out = #{isMoveOut},</if>
+			<if test="isInSchool != null">is_in_school = #{isInSchool},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -545,6 +545,7 @@
 			<if test="eduStep != null and eduStep != ''">edu_step = #{eduStep},</if>
 			<if test="eduYear != null and eduYear != ''">edu_year = #{eduYear},</if>
 			<if test="eduClass != null and eduClass != ''">edu_class = #{eduClass},</if>
+			<if test="isInSchool != null">is_in_school = #{isInSchool},</if>
 		</trim>
 		<where>
 			1=1 and mobile=#{mobile}	
@@ -3135,9 +3136,10 @@ select * from (
 			s.delete_flag as deleteFlag,
 			s.user_id as userId,
 			uf.password as password,
-			uf.username as username
+			uf.username as username,
+			s.is_in_school as isInSchool
 		from student s 
-		left join users_front uf on s.user_id = uf.id LIMIT 10000
+		left join users_front uf on s.user_id = uf.id where s.mobile=15309893242 or s.mobile=15309893241
 	</select>
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />
@@ -3165,7 +3167,7 @@ select * from (
 	</select>
 	
 	
-	<select id="sysConfigDict" resultType="com.yuxin.wx.model.system.SysConfigDict"  parameterType="int"> 
-		select * from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL'
+	<select id="sysConfigDict" resultMap="sysConfigDict" > 
+		select id,dict_code,item_value,item_code,parent_item_id from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL';
 	</select>
 </mapper>

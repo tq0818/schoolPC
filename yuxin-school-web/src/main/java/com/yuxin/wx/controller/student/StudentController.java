@@ -248,37 +248,49 @@ public class StudentController {
         if("0".equals(WebUtils.getCurrentIsArea())){
            
         }else if("1".equals(WebUtils.getCurrentIsArea())){
-//        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
-//             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-//             if(null!=areas && areas.size()>0){
-//            	 for(SysConfigDict vo : areas){
-//            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
-//            			 model.addAttribute("area", vo);	
-//            		 }
-//            	 }
-//             }
+        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
+             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+             if(null!=areas && areas.size()>0){
+            	 for(SysConfigDict vo : areas){
+            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
+            			 model.addAttribute("area", vo);	
+            		 }
+            	 }
+             }
              SysConfigDict Dict = new SysConfigDict();
              Dict.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
              List<SysConfigDict> schools = sysConfigDictServiceImpl.querySchoolByArea(Dict);
              model.addAttribute("schoolList", schools);
         }else{
-//        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
-//        	 
-//             model.addAttribute("area", areas.get(0));	
-//             areaDict.setDictCode("EDU_SCHOOL");
-//             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-//             if(null!=schools && schools.size()>0){
-//            	String schoolName="";
-//            	 for(int i=0;i<schools.size();i++){
-//            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
-//            			 schoolName=schools.get(i).getItemValue();
-//            		 }
-//            	 }
-//            	 model.addAttribute("schoolName", schoolName);	
-//             }
-        	if (subject.hasRole("机构管理员") || subject.hasRole("代理机构")) {
-                model.addAttribute("proxyOrgRole", 1);
+        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        	 
+             model.addAttribute("area", areas.get(0));	
+             areaDict.setDictCode("EDU_SCHOOL");
+             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+             if(null!=schools && schools.size()>0){
+            	 SysConfigDict schoolName =new SysConfigDict();
+            	 for(int i=0;i<schools.size();i++){
+            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
+            			 schoolName.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
+            			 schoolName.setItemValue(schools.get(i).getItemValue());
+            			 break;
+            		 }
+            	 }
+            	 model.addAttribute("schoolName", schoolName);	
+             }
+            //年份列表
+            List<Integer> years = new ArrayList<Integer>();
+            int curYear = DateUtil.getCurYear();
+            for(int year = 0;year<6;year++){
+                years.add(curYear-year);
             }
+            model.addAttribute( "years", years);
+        	if (subject.hasRole("班主任")  ) {
+                model.addAttribute("roleType", 1);
+            }
+        	if (subject.hasRole("任课教师") ) {
+        		model.addAttribute("roleType", 2);
+        	}
         }
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());	
         areaDict.setDictCode("EDU_STEP");
@@ -3547,7 +3559,7 @@ public class StudentController {
         }else{
         	Student student=new Student();
         	student.setId(userId);
-        	student.setIsMoveOut(1);
+        	student.setIsInSchool(0);
         	studentServiceImpl.update(student);
         }
         

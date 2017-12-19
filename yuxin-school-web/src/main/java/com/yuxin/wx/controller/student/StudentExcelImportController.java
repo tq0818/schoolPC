@@ -131,6 +131,7 @@ public class StudentExcelImportController {
 				return json;
 			}
 			json.put( "students4Insert", (List<Student>)json2Out.get("students") );
+			json.put( "updateList", (List<Student>)json2Out.get("updateList") );
 		}
 		return json;
 	}
@@ -293,20 +294,35 @@ public class StudentExcelImportController {
 				}
 			}
 			
-			//学区
-			if( list.get(i).getEduArea() != null && !eduAreaMap.containsValue(list.get(i).getEduArea())){
-				error.add("第" + (i + 2) + "行中区域不存在!");
-			}else{
-				if(list.get(i).getEduArea() != null && !isAreaHava.containsKey(list.get(i).getEduArea())){
-					error.add("第" + (i + 2) + "行中无权输入该区域!");
-				}
-			}
+//			//学区
+//			if( list.get(i).getEduArea() != null && !eduAreaMap.containsValue(list.get(i).getEduArea())){
+//				error.add("第" + (i + 2) + "行中区域不存在!");
+//			}else{
+//				if(list.get(i).getEduArea() != null && !isAreaHava.containsKey(list.get(i).getEduArea())){
+//					error.add("第" + (i + 2) + "行中无权输入该区域!");
+//				}
+//			}
 			//学校
-			if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsValue(list.get(i).getEduSchool())){
+			if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(list.get(i).getEduSchool())){
 				error.add("第" + (i + 2) + "行中学校不存在!");
 			}else{
-				if(list.get(i).getEduSchool() != null && !isSchoolHava.containsValue(list.get(i).getEduSchool())){
+				if(list.get(i).getEduSchool() != null && !isSchoolHava.containsKey(list.get(i).getEduSchool())){
 					error.add("第" + (i + 2) + "行中无权输入该学校!");
+				}else{
+					//反推  给一条信息添加学区编号
+					int parentId=0;
+					for(int k=0 ;k<dictAreaList.size();k++){
+						if(list.get(i).getEduSchool().equals(dictAreaList.get(k).getItemCode())){
+							 parentId=dictAreaList.get(k).getParentItemId();
+							 break;
+						}
+					}
+					for(int k=0 ;k<dictAreaList.size();k++){
+						if(parentId == dictAreaList.get(k).getId()){
+							list.get(i).setEduArea(dictAreaList.get(k).getItemCode());
+							 break;
+						}
+					}
 				}
 			}
 			//学段
@@ -342,12 +358,6 @@ public class StudentExcelImportController {
 		}
 		
 		students = getUnEmptyStudents(list);	/* 非空student */
-		if(null!=students && students.size()>0){
-			for(Student s : students){
-				s.setEduArea(dictMap.get(s.getEduArea()));
-				s.setEduSchool(dictMap.get(s.getEduSchool()));
-			}
-		}
 		
 		json.put(JsonMsg.RESULT, errorMsg.size() > 0 ? false : true);
 		json.put(JsonMsg.MSG, getSortDesc(errorMsg));
@@ -367,28 +377,39 @@ public class StudentExcelImportController {
  		List<Student> students = new ArrayList<Student>(); 		/* 验证，去重后的student */
 		
 		Integer companyId = WebUtils.getCurrentCompanyId();
-		
+		List<Student> updateList = new ArrayList<Student>();
 		StudentAll4CompanyVo allStudents = getCompanyAllStudents(companyId);
-		
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = list.size(); i > 0; i--) {
 			List<String> error = new ArrayList<String>();
-			Student student = list.get(i);
+			Student student = list.get(i-1);
+			boolean flag=false;
+			boolean flag1=false;
 			if( student != null ){
-				if( student.getMobile() != null && allStudents.getMobiles().contains(student.getMobile()) ){
-					error.add("第" + (i + 2) + "行中手机号已存在！");
+				//每个手机号 必定对应一个账号
+				if( student.getMobile() != null && allStudents.getMobiles().containsKey(student.getMobile())){
+					if("1".equals(allStudents.getMobiles().get(student.getMobile()).getIsInSchool())){
+						error.add("第" + (i-1 + 2) + "行中手机号已存在！");	
+					}else{
+						flag=true;
+					}
 				}
-				if( student.getUsername() != null && allStudents.getUsernames().contains(student.getUsername()) ){
-					error.add("第" + (i + 2) + "行中用户名已存在！");
+				if( student.getUsername() != null && allStudents.getUsernames().containsKey(student.getUsername()) ){
+					if("1".equals(allStudents.getUsernames().get(student.getUsername()).getIsInSchool())){
+						error.add("第" + (i-1 + 2) + "行中用户名已存在！");
+					}else{
+						flag=true;
+					}
 				}
-				if( student.getIdentityId() != null && allStudents.getIdentityIds().contains(student.getIdentityId()) ){
-					error.add("第" + (i + 2) + "行中身份证号已存在！");
+				if( student.getIdentityId() != null && allStudents.getIdentityIds().containsKey(student.getIdentityId()) ){
+					if("1".equals(allStudents.getIdentityIds().get(student.getIdentityId()).getIsInSchool())){
+						error.add("第" + (i-1 + 2) + "行中身份证号已存在！");
+					}
 				}
-				if( student.getEmail() != null && allStudents.getEmails().contains(student.getEmail()) ){
-					error.add("第" + (i + 2) + "行中邮箱已存在！");
-				}
-				if( student.getQq() != null && allStudents.getQqs().contains(student.getQq()) ){
-					error.add("第" + (i + 2) + "行中QQ已存在！");
-				}
+				
+			}
+			if(flag || flag1){
+				updateList.add(list.get(i-1));
+				list.remove(i-1);
 			}
 			if(error.size() > 0){
 				list.set(i, null);
@@ -401,6 +422,7 @@ public class StudentExcelImportController {
 		json.put(JsonMsg.RESULT, errorMsg.size() > 0 ? false : true);
 		json.put(JsonMsg.MSG, errorMsg);
 		json.put("students", students);
+		json.put("updateList", updateList);
 		
 		return json;
 	}
@@ -441,11 +463,11 @@ public class StudentExcelImportController {
 						s.setPassword(new Md5Hash(studentList.get(0).substring(5, 11)).toHex());
 					}
 				}
-				if (!"".equals(studentList.get(9)))  s.setEduArea(studentList.get(9)); 
-				if (!"".equals(studentList.get(10)))  s.setEduSchool(studentList.get(10)); 
-				if (!"".equals(studentList.get(11)))  s.setEduStep(studentList.get(11)); 
-				if (!"".equals(studentList.get(12)))  s.setEduYear(studentList.get(12)); 
-				if (!"".equals(studentList.get(13)))  s.setEduClass(studentList.get(13)); 
+				//if (!"".equals(studentList.get(9)))  s.setEduArea(studentList.get(9)); 
+				if (!"".equals(studentList.get(9)))  s.setEduSchool(studentList.get(9)); 
+				if (!"".equals(studentList.get(10)))  s.setEduStep(studentList.get(10)); 
+				if (!"".equals(studentList.get(11)))  s.setEduYear(studentList.get(11)); 
+				if (!"".equals(studentList.get(12)))  s.setEduClass(studentList.get(12)); 
 
 				s.setCompanyId(companyId);
 				s.setSchoolId(WebUtils.getCurrentSchoolId());
@@ -514,20 +536,15 @@ public class StudentExcelImportController {
 		
 		for (int i = 0; i < studentslist.size(); i++) {
 			if( studentslist.get(i).getMobile() != null ){
-				allStudents.getMobiles().add(studentslist.get(i).getMobile());
+				allStudents.getMobiles().put(studentslist.get(i).getMobile(), studentslist.get(i));
 			}
 			if( studentslist.get(i).getUsername() != null ){
-				allStudents.getUsernames().add(studentslist.get(i).getUsername());
+				allStudents.getUsernames().put(studentslist.get(i).getUsername(), studentslist.get(i));
 			}
 			if( studentslist.get(i).getIdentityId() != null && "ID_IDCARD".equals(studentslist.get(i).getIdentityTypeCode()) ){
-				allStudents.getIdentityIds().add(studentslist.get(i).getIdentityId());
+				allStudents.getIdentityIds().put(studentslist.get(i).getIdentityId(),studentslist.get(i));
 			}
-			if( studentslist.get(i).getEmail() != null ){
-				allStudents.getEmails().add(studentslist.get(i).getEmail());
-			}
-			if(  studentslist.get(i).getQq() != null ){
-				allStudents.getQqs().add(studentslist.get(i).getQq());
-			}
+			
 		}
 		return allStudents;
 	}
@@ -545,17 +562,18 @@ public class StudentExcelImportController {
 	 */
 	@ResponseBody
 	@RequestMapping( value = "/insertMoreStudents", method = RequestMethod.POST )
-	public JSONObject insertMoreStudents(String data,String groupOneId,String groupTwoId,HttpServletRequest request){
+	public JSONObject insertMoreStudents(String data,String groupOneId,String groupTwoId,String updateList,HttpServletRequest request){
 		JSONObject json = new JSONObject();
 		Integer userId = WebUtils.getCurrentUserId(request);
 		
 		/* 待导入学员 */
  		List<StudentImportVo> students = JSONObject.parseArray(data, com.yuxin.wx.vo.student.StudentImportVo.class);
+ 		List<StudentImportVo> updateListstudents = JSONObject.parseArray(updateList, com.yuxin.wx.vo.student.StudentImportVo.class);
  		
  		if("".equals(groupOneId)) groupOneId = null;
  		if("".equals(groupTwoId)) groupTwoId = null;
  		
-		List<Integer> studentIds = this.studentServiceImpl.insertMoreStudents(students,groupOneId,groupTwoId,userId);
+		List<Integer> studentIds = this.studentServiceImpl.insertMoreStudents(students,updateListstudents,groupOneId,groupTwoId,userId);
 		
 		json.put(JsonMsg.RESULT, studentIds.size()>0?JsonMsg.SUCCESS:JsonMsg.ERROR);
 		json.put("studentIds", studentIds);

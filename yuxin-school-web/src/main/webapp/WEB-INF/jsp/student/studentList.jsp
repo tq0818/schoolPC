@@ -60,6 +60,26 @@
 					</c:forEach>
 				</select>
 			</c:if>
+			<c:if test="${roleType ==1 || roleType ==2}">
+				<select name="EduSteps" id="EduSteps">
+					<option value="">请选择学段</option>
+					<option value="STEP_01" >小学</option>
+					<option value="STEP_02" >初中中学</option>
+					<option value="STEP_03" >高中中学</option>
+				</select>
+				<select name="EduYears" id="EduYears">
+					<option value="">请选择年级</option>
+					<c:forEach items="${years}" var="item" >
+							<option value="${item}" >${item}</option>
+					</c:forEach>
+				</select>
+				<select name="EduClasses" id="EduClasses">
+					<option value="">请选择班级</option>
+					<c:forEach begin="1" end="30" varStatus="index">
+							<option value="${index.index}">${index.index}班</option>
+					</c:forEach>
+				</select>
+			</c:if>
 			<select id="registStatus" name="status">
 				<option value="">前台账号状态</option>
 				<option value="1">启用</option>
@@ -199,24 +219,40 @@
 						<input type="radio" value="1" name="addeduIdentity" id="add_eduIdentity_normal">普通用户
 					</div>
 				</div>
-
 				<div class="form-group" id="add_div_school">
 					<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
-					<div class="col-md-2">
-						<select name="eduArea" id="addEduArea">
-							<option value="">请选择所在区域</option>
-							<c:forEach items="${areas}" var="area" >
-								<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
-							</c:forEach>
-						</select>
-					</div>
+					
+						<div class="col-md-2">
+							<select name="eduArea" id="addEduArea">
+								<option value="">请选择所在区域</option>
+								<c:if test="${isArea ==0 }">
+									<c:forEach items="${areas}" var="area" >
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+									</c:forEach>
+								</c:if>
+								<c:if test="${isArea ==1 }">
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+								</c:if>
+								<c:if test="${isArea ==2 }">
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+								</c:if>
+							</select>
+						</div>
 					<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
-					<div class="col-md-2">
-						<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
-							<option value="">请选择所在学校</option>
+					<c:if test="${isArea !=2 }">
+						<div class="col-md-2">
+							<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
+								<option value="">请选择所在学校</option>
+							</select>
+							<span class="tips" style="color:red;"></span>
+						</div>
+					</c:if>	
+					<c:if test="${isArea ==2 }">
+						<select name="eduSchool" id="addEduSchools" data-id="${student.eduSchool}">
+							<option value="">请选择所在学校</option>	
+							<option value="${schoolName.itemCode}" >${schoolName.itemValue}</option>
 						</select>
-						<span class="tips" style="color:red;"></span>
-					</div>
+					</c:if>
 				</div>
 				<div class="form-group" id="add_div_class">
 					<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>

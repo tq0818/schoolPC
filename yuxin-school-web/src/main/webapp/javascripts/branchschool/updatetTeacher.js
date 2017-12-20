@@ -16,6 +16,15 @@ $(function() {
 		$("#itemSecondId").val(itemTwoId);
 	});
 
+	$("#schoolCode").change(function(){
+		var schoolCode=$(this).val();
+		if(schoolCode){
+			$("#schoolName").val($.trim($(this).find("option:selected").text()));
+		}else{
+			$("#schoolName").val("");
+		}
+	})
+	
 	// 加载日期控件
 	$("#datetimepicker").datetimepicker({
 		lang : 'ch',
@@ -212,8 +221,8 @@ $(function() {
 					return false;
 				}
 			}
-			var schoolName = $.trim($("#schoolName").val());
-			if(schoolName==""){
+			var schoolCode = $.trim($("#schoolCode").val());
+			if(schoolCode==""){
 				alertMsg("请填写学校名称");
 				return false;
 			}
@@ -235,19 +244,17 @@ $(function() {
 			if (!birthday) {
 				$("#datetimepicker").attr("name", "");
 			}
-
+			$('#moduleIds').val(moduleIds);
 			if (teacherId == "" || teacherId == 0) {
-				url = rootPath + "/teacherManger/add?moduleIds="
-					+ moduleIds;
+				url = rootPath + "/teacherManger/add";
 				msg = "增加成功";
 			} else {
-				url = rootPath + "/teacherManger/update?moduleIds="
-					+ moduleIds;
+				url = rootPath + "/teacherManger/update";
 				msg = "修改成功";
 			}
-
 			$.ajax({
 				type : "post",
+				dataType:"JSON",
 				data : $("#teacherManageForm").serialize(),
 				url : url,
 				beforeSend : function(XMLHttpRequest) {
@@ -264,8 +271,8 @@ $(function() {
 				complete : function(XMLHttpRequest, textStatus) {
 					$(".loading").hide();
 					$(".loading-bg").hide();
-					window.location.href = rootPath
-						+ "/teacherManger/getFirstItems";
+					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
+					//window.location.href = rootPath + "/sysConfigTeacher/toTeacherIndex";
 				},
 			});
 		});

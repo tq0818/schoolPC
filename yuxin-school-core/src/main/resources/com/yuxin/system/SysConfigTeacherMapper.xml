@@ -625,7 +625,6 @@
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		where sct.del_flag = 0 and scs.company_id = #{companyId}
-		and scs.id = #{schoolId}
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
 				and (sct.teacher_type = 'PERSON_MANAGER' or sct.teacher_type =
@@ -644,7 +643,9 @@
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select t1.*  from sys_config_teacher t1
 		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
-		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id
+		inner join users u on u.id=t1.user_id
+		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id 
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=t1.user_id and ucr.is_used=1
 		where t1.del_flag = 0 and t3.company_id = #{companyId} 
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
@@ -665,8 +666,10 @@
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select count(t1.id)
 		from sys_config_teacher t1
+		inner join users u on u.id=t1.user_id
 		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
 		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=t1.user_id and ucr.is_used=1
 		where t1.del_flag = 0 and t3.company_id = #{companyId} 
 				<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
@@ -679,7 +682,7 @@
 		</if>
 		<if test="mobile != null and mobile != ''">and t1.mobile = #{mobile}</if>
 		<if test="name != null and name != ''">and t1.name LIKE '%${name}%'</if>
-		and t1.status_code = 'TEACHER_USERD'  order by sort_id is null,sort_id asc
+		and t1.status_code = 'TEACHER_USERD'
 	</select>
 
 	<select id="findTeacherIdByMobile" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"
@@ -724,6 +727,8 @@
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
 		sctl.teacher_id
+		inner join users u on u.id=sct.user_id
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=sct.user_id and ucr.is_used=1
 		WHERE
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
@@ -775,6 +780,8 @@
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON
 		sct.id = sctl.teacher_id
+		inner join users u on u.id=sct.user_id
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=sct.user_id and ucr.is_used=1
 		WHERE
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
@@ -799,12 +806,10 @@
 		select distinct a.id,a.name,a.sex,a.mobile 
 		from sys_config_teacher a
 		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
-		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_teacher_lesson b on a.id=b.teacher_id
 		where status_code='TEACHER_USERD' and a.del_flag=0
 		<if test="teacherName != null and teacherName != ''">and a.name LIKE '%${teacherName}%'</if>
 		<if test="userId != null and userId != ''">and a.user_id = #{userId}</if>
-		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if>
 		<if test="teacherType ==6  and teacherType != null">and a.teacher_type = 'PERSON_TEACHER'</if>
 		<if test="teacherType ==7  and teacherType != null">and a.teacher_type != 'PERSON_TEACHER'</if>

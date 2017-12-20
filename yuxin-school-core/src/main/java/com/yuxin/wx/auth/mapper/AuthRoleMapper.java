@@ -29,7 +29,7 @@ public interface AuthRoleMapper extends BaseMapper<AuthRole> {
     int queryAllUserCount(UserRolesListVo search);
     int queryNewAllUserCount(UserRolesListVo search);
     
-    List<AuthRole> findAuthRoleListByUser(Integer userId);
+    List<AuthRole> findAuthRoleListByUser(Map<String,Object> params);
     
     List<AuthRole> findByCompanyId(Integer companyId);
     

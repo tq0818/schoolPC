@@ -68,6 +68,7 @@
 				data.schoolId = schoolId;
 				if(_this.condition)
 					data.condition = _this.condition;
+				data.companyId=$('#companyId').val();
 				$.ajax({
 					url : rootPath + "/permissionManger/queryUserRoles",
 					type : "post",

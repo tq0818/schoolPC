@@ -11,15 +11,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yuxin.wx.api.system.ISysConfigDictService;
-import com.yuxin.wx.model.system.SysConfigDict;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -31,37 +26,36 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.auth.IAuthPrivilegeCategoryService;
+import com.yuxin.wx.api.auth.IAuthPrivilegeService;
+import com.yuxin.wx.api.auth.IAuthRoleService;
+import com.yuxin.wx.api.auth.IAuthUserRoleService;
+import com.yuxin.wx.api.company.ICompanyConfigProxyOrgService;
+import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.system.ISysConfigItemService;
+import com.yuxin.wx.api.system.ISysConfigSchoolService;
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
+import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.auth.AuthPrivilege;
 import com.yuxin.wx.model.auth.AuthPrivilegeCategory;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyConfigProxyOrg;
-import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
-import com.yuxin.wx.user.mapper.UsersMapper;
 import com.yuxin.wx.utils.ParameterUtil;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.privilege.PrivilegeListVo;
 import com.yuxin.wx.vo.privilege.TreeNode;
 import com.yuxin.wx.vo.privilege.UserRolesListVo;
 import com.yuxin.wx.vo.system.SysConfigTeachersVo;
-import com.yuxin.wx.api.auth.IAuthPrivilegeCategoryService;
-import com.yuxin.wx.api.auth.IAuthPrivilegeService;
-import com.yuxin.wx.api.auth.IAuthRoleService;
-import com.yuxin.wx.api.auth.IAuthUserRoleService;
-import com.yuxin.wx.api.company.ICompanyConfigProxyOrgService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
-import com.yuxin.wx.api.system.ISysConfigSchoolService;
-import com.yuxin.wx.api.system.ISysConfigTeacherService;
-import com.yuxin.wx.api.user.IUsersService;
-import com.yuxin.wx.common.PageFinder;
 
 /**
  * Controller of AuthPrivilege
@@ -92,6 +86,8 @@ public class AuthPrivilegeController {
 	private ICompanyConfigProxyOrgService companyConfigProxyOrgServiceImpl;
 	@Autowired
 	private ISysConfigDictService sysConfigDictService;
+	@Autowired
+	private ICompanyService companyServiceImpl;
 	/**
 	 * 
 	 * Class Name: AuthPrivilegeController.java
@@ -109,7 +105,7 @@ public class AuthPrivilegeController {
 	public String showAuthPrivilegePage(Model model,HttpServletRequest request){
 		Integer userId=WebUtils.getCurrentUserId(request);
 		Integer companyId=WebUtils.getCurrentCompanyId();
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,companyId)){
 			model.addAttribute("peoplemark", "admin");
 //			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
 //			model.addAttribute("schoolId", schoolId);
@@ -139,7 +135,7 @@ public class AuthPrivilegeController {
 	@RequestMapping(value="/queryUserRoles",method=RequestMethod.POST)
 	public String queryUserRoleListsByPage(Model model,Integer page, Integer schoolId,String condition,String roleUid,String status,HttpServletRequest request){
 		Integer userId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");
 		}
 		UserRolesListVo search=new UserRolesListVo();
@@ -184,13 +180,15 @@ public class AuthPrivilegeController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/changeStatus",method=RequestMethod.POST)
-	public Users changeStatusStatus(Users users,HttpServletRequest request){
-		users.setCompanyId(WebUtils.getCurrentCompanyId());
+	public Users changeStatusStatus(Users users,HttpServletRequest request,Integer companyId){
+		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+		users.setCompanyId(ccompanyId);
 		userServiceImpl.updateStatus(users);
-		Map<String, Object> params=new HashMap<String, Object>();
-		params.put("userId", users.getId());
-		params.put("companyId", WebUtils.getCurrentCompanyId());
-		return userServiceImpl.findUsersById(params);
+//		Map<String, Object> params=new HashMap<String, Object>();
+//		params.put("userId", users.getId());
+//		params.put("companyId",ccompanyId);
+//		return userServiceImpl.findUsersById(params);
+		return users;
 	}
 	
 	/**
@@ -209,10 +207,10 @@ public class AuthPrivilegeController {
 	@RequestMapping(value="/addAuthPrivilage",method=RequestMethod.POST)
 	public String addAuthPrivilage(Model model,HttpServletRequest request,String type,Integer userId,String schoolId){
 		Integer uId=WebUtils.getCurrentUserId(request);
+		Integer companyId=WebUtils.getCurrentCompanyId();
 		if("save".equals(type)){
 			//查询校区列表
-			Integer companyId=WebUtils.getCurrentCompanyId();
-			if(authRoleServiceImpl.hasRoleFlag(uId)){
+			if(authRoleServiceImpl.hasRoleFlag(uId,companyId)){
 				model.addAttribute("peoplemark", "admin");
 				List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
 				model.addAttribute("schoolId", schoolId);
@@ -237,10 +235,9 @@ public class AuthPrivilegeController {
 				model.addAttribute("authRoleList", authRoleList);
 			}
 		}else{
-			Integer companyId=WebUtils.getCurrentCompanyId();
 			Users user= userServiceImpl.findUsersById(userId);
 			model.addAttribute("user", user);
-			if(authRoleServiceImpl.hasRoleFlag(uId)){
+			if(authRoleServiceImpl.hasRoleFlag(uId,companyId)){
 				model.addAttribute("peoplemark", "admin");
 				List<AuthRole> authRoleList= authRoleServiceImpl.findByCompanyId(companyId);
 				if(authRoleList.size()<=0){
@@ -295,16 +292,16 @@ public class AuthPrivilegeController {
 	public void saveUser(Users user,String rolesId,String teachersId,
 						String earaCode,String schoolAaraCode,String schoolCode,
 						String gradeCode,String classCode,String subjectCode,
-						String[] subJectGradeCode,String[] subjectClassCode,
+						String[] subJectGradeCode,String[] subjectClassCode,Integer companyId,
 						HttpServletRequest request,HttpServletResponse response, Model model) throws IOException{
-		user.setCompanyId(WebUtils.getCurrentCompanyId());
+		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+		user.setCompanyId(ccompanyId);
 		user.setStatus(1);
 		user.setPassword(new Md5Hash(user.getPassword(),ByteSource.Util.bytes(user.getUsername()+"salt")).toHex());	
-		
 		//添加用户信息
 		userServiceImpl.insert(user);
 		//添加用户关系表
-		userServiceImpl.insertUserCompanyRalation(user.getId(),WebUtils.getCurrentCompanyId());
+		userServiceImpl.insertUserCompanyRalation(user.getId(),ccompanyId);
 		//添加用户角色权限信息
 		if(rolesId!=null&&!"".equals(rolesId)){
 			String r=rolesId.substring(0, rolesId.length()-1);
@@ -320,8 +317,13 @@ public class AuthPrivilegeController {
 				authUserRoleServiceImpl.insert(authUserRole);
 			}
 			//管理用户关系范围
-			Company company=WebUtils.getCurrentCompany();
-			authUserRoleServiceImpl.insertOrUpdateAreaInfo("2151004533",earaCode, schoolAaraCode, 
+			Company company=null;
+			if(companyId==null){
+				company=WebUtils.getCurrentCompany();
+			}else{
+				company=companyServiceImpl.findCompanyById(ccompanyId);
+			}
+			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
 					schoolCode, gradeCode, classCode, subjectCode, 
 					subJectGradeCode, subjectClassCode,r,user.getId());
 		}
@@ -338,15 +340,15 @@ public class AuthPrivilegeController {
 			}
 		}
 		Integer uId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(uId)){
+		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");
-			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-			model.addAttribute("schoolId", user.getSchoolId());
-			model.addAttribute("schoolList", schoolList);
+//			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
+//			model.addAttribute("schoolId", user.getSchoolId());
+//			model.addAttribute("schoolList", schoolList);
 		}else{
 			model.addAttribute("peoplemark", "schooladmin");
-			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user.getSchoolId());
-			model.addAttribute("school1",school);
+//			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user.getSchoolId());
+//			model.addAttribute("school1",school);
 		}
 		response.sendRedirect("showAuth");
 	}
@@ -368,8 +370,9 @@ public class AuthPrivilegeController {
 	public String updateUser(Users user,String usernames, String rolesId,String teachersId,
 			String earaCode,String schoolAaraCode,String schoolCode,
 			String gradeCode,String classCode,String subjectCode,
-			String[] subJectGradeCode,String[] subjectClassCode,
-			HttpServletRequest request,Model model){	
+			String[] subJectGradeCode,String[] subjectClassCode,Integer companyId,
+			HttpServletRequest request,Model model){
+		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
 		//修改用户
 		if(user.getPassword()!=null&&!"".equals(user.getPassword())){
 			user.setUsername(usernames);
@@ -393,8 +396,12 @@ public class AuthPrivilegeController {
 				 authUserRoleServiceImpl.insert(authUserRole);
 			}
 			//管理用户关系范围
-			Company company=WebUtils.getCurrentCompany();
-			company.setEduAreaSchool("2151004533");
+			Company company=null;
+			if(companyId==null){
+				company=WebUtils.getCurrentCompany();
+			}else{
+				company=companyServiceImpl.findCompanyById(ccompanyId);
+			}
 			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
 					schoolCode, gradeCode, classCode, subjectCode, subJectGradeCode, subjectClassCode,r,user.getId());
 		}
@@ -417,15 +424,15 @@ public class AuthPrivilegeController {
 		}
 		Users user1=userServiceImpl.findUsersById(user.getId());
 		Integer uId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(uId)){
+		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");
 			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-			model.addAttribute("schoolId", user1.getSchoolId());
-			model.addAttribute("schoolList", schoolList);
+//			model.addAttribute("schoolId", user1.getSchoolId());
+//			model.addAttribute("schoolList", schoolList);
 		}else{
 			model.addAttribute("peoplemark", "schooladmin");
-			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user1.getSchoolId());
-			model.addAttribute("school1",school);
+//			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user1.getSchoolId());
+//			model.addAttribute("school1",school);
 		}
 //		Subject subject = SecurityUtils.getSubject();
 //		if(subject.hasRole("机构管理员")){
@@ -462,7 +469,7 @@ public class AuthPrivilegeController {
 	public String deleteUserById(Integer id,HttpServletRequest request){
 		Integer uId=WebUtils.getCurrentUserId(request);
 		Integer companyId=WebUtils.getCurrentCompanyId();
-		if(authRoleServiceImpl.hasRoleFlag(uId)){
+		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			/*Users user= userServiceImpl.findUsersById(id);
 			if(null!=user&&null!=user.getId()){
 				userServiceImpl.deleteUsersById(user.getId());
@@ -597,7 +604,7 @@ public class AuthPrivilegeController {
 	}
  	@ResponseBody
 	@RequestMapping(value="/checkUserNameOrMobile",method=RequestMethod.POST)
-	public Users checkUserNameOrMobile(String userName,HttpServletRequest request){
+	public Users checkUserNameOrMobile(String userName,Integer curcompanyId,HttpServletRequest request){
  		Users users=new Users();
  		if(null!=userName&&!"".equals(userName)){
  			if(ParameterUtil.isUserName(userName)||ParameterUtil.isMobilePhone(userName)){
@@ -606,7 +613,7 @@ public class AuthPrivilegeController {
  				List<Users> arr=userServiceImpl.queryuserByUserNameOrMobile(u);
  	 			if(null!=arr&&arr.size()>0){
  	 				Users resultU=arr.get(0);
- 	 				Integer companyId=WebUtils.getCurrentCompanyId();
+ 	 				Integer companyId=curcompanyId==null?WebUtils.getCurrentCompanyId():curcompanyId;
  	 				if(resultU.getCompanyId()!=null&&companyId.intValue()==resultU.getCompanyId().intValue()){
  	 					users.setStatusCode("2");
  	 	 				users.setErrorMsg("在本校已存在该用户，无法再次添加");
@@ -639,9 +646,10 @@ public class AuthPrivilegeController {
 	}
  	@ResponseBody
 	@RequestMapping(value="/grantUserInCompany",method=RequestMethod.POST)
-	public Boolean grantUserInCompany(String id,HttpServletRequest request){
+	public Boolean grantUserInCompany(String id,Integer ccompanyId,HttpServletRequest request){
  		try{
-	 		userServiceImpl.grantUserInCompany(id, WebUtils.getCurrentCompanyId());
+ 			Integer companyId=ccompanyId==null?WebUtils.getCurrentCompanyId():ccompanyId;
+	 		userServiceImpl.grantUserInCompany(id,companyId);
 	 		return true;
  		}catch(Exception e){
  			logger.error("grantUserInCompany(String,HttpServletRequest)", e);

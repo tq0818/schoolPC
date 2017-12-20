@@ -38,6 +38,7 @@
   				<input type="hidden" name="type" id="type" value="${type }"/>
   				<input type="hidden" name="teachersId" id="teachersId"/>
   				<input type="hidden" name="rolesId" id="rolsesId"/>
+  				<input type="hidden" name="companyId" id="companyId"/>
   				<input type="hidden" name="usernames" id="usernames"/>
   				<input type="hidden" name="tId" id="tsId"/>
   				<input type="hidden" name="proxyOrgId" id="proxyOrgId" value="${user.proxyOrgId }"/>

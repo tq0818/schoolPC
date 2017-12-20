@@ -32,6 +32,7 @@ import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyConfigProxyOrg;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigSchool;
@@ -51,6 +52,8 @@ public class PermissionManger {
 
     @Autowired
     private IAuthRoleService authRoleServiceImpl;
+    @Autowired
+	private ICompanyService companyServiceImpl;
     @Autowired
     private ISysConfigDictService sysConfigDictService;
     @Autowired
@@ -72,7 +75,7 @@ public class PermissionManger {
 
 
     @RequestMapping(value = "/queryUserRolesByCompanyId", method = RequestMethod.POST)
-    public String queryUserRolesByCompanyId(Model model, Integer page, String condition, HttpServletRequest request, Integer companyId) {
+    public String queryUserRolesByCompanyId(Model model, Integer page, String condition,String roleUid,String status, HttpServletRequest request, Integer companyId) {
         //从session中取值
     	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
         Integer userId = WebUtils.getCurrentUserId(request);
@@ -80,7 +83,7 @@ public class PermissionManger {
          * 根据用户id查询用户角色，根据角色标记判断当前用户是否可跨分校
          * true:当前可跨分校，false:当前不可跨分校
          */
-        if (authRoleServiceImpl.hasRoleFlag(userId)) {
+        if (authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())) {
             model.addAttribute("peoplemark", "admin");
         }
         UserRolesListVo search = new UserRolesListVo();
@@ -94,11 +97,17 @@ public class PermissionManger {
                 search.setRealName(condition);
             }
         }
-        
+        if(StringUtils.isNotBlank(roleUid)) {
+			search.setRoleId(Integer.valueOf(roleUid));
+		}
+		if(StringUtils.isNotBlank(status)) {
+			search.setStatusStr(status);
+		}
         search.setSchoolId(schoolId);
         search.setPage(page);
+        
         //获取用户列表
-        PageFinder<UserRolesListVo> pageFinder = authRoleServiceImpl.queryNewAllUser(search);
+        PageFinder<UserRolesListVo> pageFinder = authRoleServiceImpl.queryAllUser(search);
         model.addAttribute("pageFinder", pageFinder);
         model.addAttribute("userId", userId);
         //判断用户性别
@@ -135,98 +144,106 @@ public class PermissionManger {
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String addUser(Model model, HttpServletRequest request, String type, Integer userId, String schoolId, Integer companyId) {
-        Integer uId = WebUtils.getCurrentUserId(request);
-        if ("save".equals(type)) {
-            //查询校区列表
-//            Integer companyId=WebUtils.getCurrentCompanyId();
-            if (authRoleServiceImpl.hasRoleFlag(uId)) {
-                model.addAttribute("peoplemark", "admin");
-                List<SysConfigSchool> schoolList = sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
-                model.addAttribute("schoolId", schoolId);
-                model.addAttribute("schoolList", schoolList);
-                List<AuthRole> authRoleList = authRoleServiceImpl.findByCompanyId(companyId);
-                if (authRoleList.size() <= 0) {
-                    authRoleList = authRoleServiceImpl.findByCompanyId(0);
-                }
-                model.addAttribute("authRoleList", authRoleList);
-            } else {
-                model.addAttribute("peoplemark", "schooladmin");
-                SysConfigSchool school = sysConfigSchoolServiceImpl.findSysConfigSchoolById(Integer.parseInt(schoolId));
-                model.addAttribute("school1", school);
-                AuthRole search = new AuthRole();
-                search.setRoleUid(1 + "");
-                search.setCompanyId(companyId);
-                List<AuthRole> authRoleList = authRoleServiceImpl.queryRolesByCondition(search);
-                if (authRoleList.size() <= 0) {
-                    search.setCompanyId(0);
-                    authRoleList = authRoleServiceImpl.queryRolesByCondition(search);
-                }
-                model.addAttribute("authRoleList", authRoleList);
-            }
-        } else {
-            Users user = userServiceImpl.findUsersById(userId);
-            model.addAttribute("user", user);
-            if (authRoleServiceImpl.hasRoleFlag(uId)) {
-                model.addAttribute("peoplemark", "admin");
-                List<AuthRole> authRoleList = authRoleServiceImpl.findByCompanyId(companyId);
-                if (authRoleList.size() <= 0) {
-                    authRoleList = authRoleServiceImpl.findByCompanyId(0);
-                }
-                model.addAttribute("authRoleList", authRoleList);
-            } else {
-                model.addAttribute("peoplemark", "schooladmin");
-                AuthRole search = new AuthRole();
-                search.setRoleUid(1 + "");
-                search.setCompanyId(WebUtils.getCurrentCompanyId());
-                List<AuthRole> authRoleList = authRoleServiceImpl.queryRolesByCondition(search);
-                if (authRoleList.size() <= 0) {
-                    search.setCompanyId(0);
-                    authRoleList = authRoleServiceImpl.queryRolesByCondition(search);
-                }
-                model.addAttribute("authRoleList", authRoleList);
-            }
-            SysConfigTeachersVo sysConfigTeacher = new SysConfigTeachersVo();
-            sysConfigTeacher.setUserId(userId);
-            List<SysConfigTeachersVo> arr = sysConfigTeacherServiceImpl.findSysConfigTeachersByName(sysConfigTeacher);
-            model.addAttribute("teacherList", arr);
-        }
-        //查询菜单列表
-        PrivilegeListVo privilege = new PrivilegeListVo();
-        List<PrivilegeListVo> privilegeList = authPrivilegeCategoryServiceImpl.queryOnePrivilege(privilege);
-        model.addAttribute("privilegeList", privilegeList);
-        model.addAttribute("type", type);
-        //代理机构
-        CompanyConfigProxyOrg search = new CompanyConfigProxyOrg();
-        search.setCompanyId(WebUtils.getCurrentCompanyId());
-        List<CompanyConfigProxyOrg> proxyOrgs = this.companyConfigProxyOrgServiceImpl.queryProxyByCompanyId(search);
-        model.addAttribute("proxyOrgs", proxyOrgs);
-        model.addAttribute("companyId", companyId);
-
+    	Integer uId=WebUtils.getCurrentUserId(request);
+    	model.addAttribute("companyId",companyId);
+    	Company company=null;
+		if(companyId==null){
+			company=WebUtils.getCurrentCompany();
+		}else{
+			company=companyServiceImpl.findCompanyById(companyId);
+		}
+		model.addAttribute("company",company);
+		if("save".equals(type)){
+			//查询校区列表
+//			if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
+//				model.addAttribute("peoplemark", "admin");
+//				List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
+//				model.addAttribute("schoolId", schoolId);
+//				model.addAttribute("schoolList", schoolList);
+//				List<AuthRole> authRoleList= authRoleServiceImpl.findByCompanyId(companyId);
+//				if(authRoleList.size()<=0){
+//					authRoleList=authRoleServiceImpl.findByCompanyId(0);
+//				}
+//				model.addAttribute("authRoleList", authRoleList);
+//			}else{
+				//model.addAttribute("peoplemark", "schooladmin");
+				AuthRole search=new AuthRole();
+				search.setRoleUid(1+"");
+				search.setCompanyId(companyId);
+				List<AuthRole> authRoleList= authRoleServiceImpl.queryRolesByCondition(search);
+				if(authRoleList.size()<=0){
+					search.setCompanyId(0);
+					authRoleList=authRoleServiceImpl.queryRolesByCondition(search);
+				}
+				model.addAttribute("authRoleList", authRoleList);
+//			}
+		}else{
+			Users user= userServiceImpl.findUsersById(userId);
+			model.addAttribute("user", user);
+//			if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
+//				model.addAttribute("peoplemark", "admin");
+//				List<AuthRole> authRoleList= authRoleServiceImpl.findByCompanyId(companyId);
+//				if(authRoleList.size()<=0){
+//					authRoleList=authRoleServiceImpl.findByCompanyId(0);
+//				}
+//				model.addAttribute("authRoleList", authRoleList);
+//			}else{
+//				model.addAttribute("peoplemark", "schooladmin");
+				AuthRole search=new AuthRole();
+				search.setRoleUid(1+"");
+				search.setCompanyId(companyId);
+				List<AuthRole> authRoleList= authRoleServiceImpl.queryRolesByCondition(search);
+				if(authRoleList.size()<=0){
+					search.setCompanyId(0);
+					authRoleList=authRoleServiceImpl.queryRolesByCondition(search);
+				}
+				model.addAttribute("authRoleList", authRoleList);
+//			}
+			SysConfigTeachersVo sysConfigTeacher=new SysConfigTeachersVo();
+			sysConfigTeacher.setUserId(userId);
+			List<SysConfigTeachersVo> arr= sysConfigTeacherServiceImpl.findSysConfigTeachersByName(sysConfigTeacher);
+			model.addAttribute("teacherList", arr);
+		}
+		//查询菜单列表
+		PrivilegeListVo privilege=new PrivilegeListVo();
+		List<PrivilegeListVo> privilegeList=authPrivilegeCategoryServiceImpl.queryOnePrivilege(privilege);
+		model.addAttribute("privilegeList", privilegeList);
+		model.addAttribute("type", type);
+		//代理机构
+		CompanyConfigProxyOrg search = new CompanyConfigProxyOrg();
+		search.setCompanyId(companyId);
+		List<CompanyConfigProxyOrg> proxyOrgs = this.companyConfigProxyOrgServiceImpl.queryProxyByCompanyId(search);
+		model.addAttribute("proxyOrgs", proxyOrgs);
         return "berkeley/addUsers";
     }
-
-/**
- * 
- * @author jishangyang 2017年12月11日 下午10:50:40
- * @Method: saveUser 
- * @Description:保存
- * @param user
- * @param rolesId
- * @param teachersId
- * @param request
- * @param response
- * @param model
- * @throws IOException 
- * @throws
- */
+	/**
+	 * 
+	 * Class Name: AuthPrivilegeController.java
+	 * @Description: 添加用户
+	 * @author zhang.zx
+	 * @date 2015年5月20日 上午10:49:23
+	 * @modifier
+	 * @modify-date 2015年5月20日 上午10:49:23
+	 * @version 1.0
+	 * @param user
+	 * @param
+	 * @return
+	 * @throws IOException 
+	 */
 	@RequestMapping(value="/saveUser",method=RequestMethod.POST)
-	public void saveUser(Users user,String rolesId,String teachersId,HttpServletRequest request,HttpServletResponse response, Model model) throws IOException{
-		user.setCompanyId(WebUtils.getCurrentCompanyId());
+	public void saveUser(Users user,String rolesId,String teachersId,
+						String earaCode,String schoolAaraCode,String schoolCode,
+						String gradeCode,String classCode,String subjectCode,
+						String[] subJectGradeCode,String[] subjectClassCode,Integer companyId,
+						HttpServletRequest request,HttpServletResponse response, Model model) throws IOException{
+		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+		user.setCompanyId(ccompanyId);
 		user.setStatus(1);
 		user.setPassword(new Md5Hash(user.getPassword(),ByteSource.Util.bytes(user.getUsername()+"salt")).toHex());	
-		
 		//添加用户信息
 		userServiceImpl.insert(user);
+		//添加用户关系表
+		userServiceImpl.insertUserCompanyRalation(user.getId(),ccompanyId);
 		//添加用户角色权限信息
 		if(rolesId!=null&&!"".equals(rolesId)){
 			String r=rolesId.substring(0, rolesId.length()-1);
@@ -241,6 +258,16 @@ public class PermissionManger {
 			    authUserRole.setUpdator(WebUtils.getCurrentUserId(request)+"");
 				authUserRoleServiceImpl.insert(authUserRole);
 			}
+			//管理用户关系范围
+			Company company=null;
+			if(companyId==null){
+				company=WebUtils.getCurrentCompany();
+			}else{
+				company=companyServiceImpl.findCompanyById(ccompanyId);
+			}
+			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
+					schoolCode, gradeCode, classCode, subjectCode, 
+					subJectGradeCode, subjectClassCode,r,user.getId());
 		}
 		
 		//修改教师信息
@@ -255,51 +282,35 @@ public class PermissionManger {
 			}
 		}
 		Integer uId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(uId)){
+		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");
-			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-			model.addAttribute("schoolId", user.getSchoolId());
-			model.addAttribute("schoolList", schoolList);
 		}else{
 			model.addAttribute("peoplemark", "schooladmin");
-			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user.getSchoolId());
-			model.addAttribute("school1",school);
 		}
-//		Subject subject = SecurityUtils.getSubject();
-//		if(subject.hasRole("机构管理员")){
-//			model.addAttribute("peoplemark", "admin");
-//			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-//			model.addAttribute("schoolId", user.getSchoolId());
-//			model.addAttribute("schoolList", schoolList);
-//		}else if(subject.hasRole("分校管理员")){
-//			model.addAttribute("peoplemark", "schooladmin");
-//			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user.getSchoolId());
-//			model.addAttribute("school1",school);
-//		}
-//		Integer companyId=WebUtils.getCurrentCompanyId();
-//		List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
-//		model.addAttribute("schoolId", user.getSchoolId());
-//		model.addAttribute("schoolList", schoolList);
-		//return "system/authPrivilegeIndex";
-		response.sendRedirect("showAuth");
+		response.sendRedirect("/berkeley/permissionManagement/"+companyId);
 	}
-    
-    /**
-     * 
-     * @author jishangyang 2017年12月11日 下午10:49:38
-     * @Method: updateUser 
-     * @Description: 保存修改用户
-     * @param user
-     * @param usernames
-     * @param rolesId
-     * @param teachersId
-     * @param request
-     * @param model
-     * @return 
-     * @throws
-     */
-    @RequestMapping(value="/updateUser",method=RequestMethod.POST)
-	public String updateUser(Users user,String usernames, String rolesId,String teachersId,HttpServletRequest request,Model model){	
+	
+	/**
+	 * 
+	 * Class Name: AuthPrivilegeController.java
+	 * @Description: 修改用户
+	 * @author zhang.zx
+	 * @date 2015年5月20日 上午10:49:38
+	 * @modifier
+	 * @modify-date 2015年5月20日 上午10:49:38
+	 * @version 1.0
+	 * @param user
+	 * @param
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping(value="/updateUser",method=RequestMethod.POST)
+	public void updateUser(Users user,String usernames, String rolesId,String teachersId,
+			String earaCode,String schoolAaraCode,String schoolCode,
+			String gradeCode,String classCode,String subjectCode,
+			String[] subJectGradeCode,String[] subjectClassCode,Integer companyId,HttpServletResponse response,
+			HttpServletRequest request,Model model) throws IOException{
+		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
 		//修改用户
 		if(user.getPassword()!=null&&!"".equals(user.getPassword())){
 			user.setUsername(usernames);
@@ -321,7 +332,16 @@ public class PermissionManger {
 			     authUserRole.setUpdateTime(new Date());
 			     authUserRole.setUpdator(WebUtils.getCurrentUserId(request)+"");
 				 authUserRoleServiceImpl.insert(authUserRole);
-			}	
+			}
+			//管理用户关系范围
+			Company company=null;
+			if(companyId==null){
+				company=WebUtils.getCurrentCompany();
+			}else{
+				company=companyServiceImpl.findCompanyById(ccompanyId);
+			}
+			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
+					schoolCode, gradeCode, classCode, subjectCode, subJectGradeCode, subjectClassCode,r,user.getId());
 		}
 		//修改教师
 		if(teachersId!=null&&!"".equals(teachersId)){
@@ -340,40 +360,20 @@ public class PermissionManger {
 				sysConfigTeacherServiceImpl.updateauthTeacher(sysConfigTeacher);
 			}
 		}
-		Users user1=userServiceImpl.findUsersById(user.getId());
 		Integer uId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(uId)){
+		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");
-			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-			model.addAttribute("schoolId", user1.getSchoolId());
-			model.addAttribute("schoolList", schoolList);
 		}else{
 			model.addAttribute("peoplemark", "schooladmin");
-			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user1.getSchoolId());
-			model.addAttribute("school1",school);
 		}
-//		Subject subject = SecurityUtils.getSubject();
-//		if(subject.hasRole("机构管理员")){
-//			model.addAttribute("peoplemark", "admin");
-//			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(WebUtils.getCurrentCompanyId());
-//			model.addAttribute("schoolId", user1.getSchoolId());
-//			model.addAttribute("schoolList", schoolList);
-//		}else if(subject.hasRole("分校管理员")){
-//			model.addAttribute("peoplemark", "schooladmin");
-//			SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(user1.getSchoolId());
-//			model.addAttribute("school1",school);
-//		}
-//		Integer companyId=WebUtils.getCurrentCompanyId();
-//		List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
-//		model.addAttribute("schoolId", user1.getSchoolId());
-//		model.addAttribute("schoolList", schoolList);
-		return "system/authPrivilegeIndex";
+		response.sendRedirect("/berkeley/permissionManagement/"+companyId);
 	}
+	
     
  	@ResponseBody
 	@RequestMapping(value="/queryRolesById/{userId}",method=RequestMethod.POST)
-	public List<AuthRole> queryAuthRoleListByUser(@PathVariable Integer userId){
- 		List<AuthRole> arr= authRoleServiceImpl.queryAuthRoleListByUser(userId);
+	public List<AuthRole> queryAuthRoleListByUser(@PathVariable Integer userId,Integer companyId){
+ 		List<AuthRole> arr= authRoleServiceImpl.queryAuthRoleListByUser(userId,companyId);
 		return arr;
 	}
  	
@@ -398,9 +398,9 @@ public class PermissionManger {
  * @throws
  */
 	@RequestMapping(value="/queryUserRoles",method=RequestMethod.POST)
-	public String queryUserRoleListsByPage(Model model,Integer page, Integer schoolId,String condition,HttpServletRequest request){
+	public String queryUserRoleListsByPage(Model model,Integer page,Integer companyId,Integer schoolId,String condition,HttpServletRequest request){
 		Integer userId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");
 		}
 //		Subject subject = SecurityUtils.getSubject();
@@ -408,7 +408,7 @@ public class PermissionManger {
 //			model.addAttribute("peoplemark", "admin");
 //		}
 		UserRolesListVo search=new UserRolesListVo();
-		search.setCompanyId(WebUtils.getCurrentCompanyId());
+		search.setCompanyId(companyId);
 		if(StringUtils.isNotBlank(condition)) {
 			if(ParameterUtil.isMobilePhone(condition)) {
 				search.setMobile(condition);
@@ -447,7 +447,7 @@ public class PermissionManger {
 		if("save".equals(type)){
 			//查询校区列表
 			Integer companyId=WebUtils.getCurrentCompanyId();
-			if(authRoleServiceImpl.hasRoleFlag(uId)){
+			if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 				model.addAttribute("peoplemark", "admin");
 				List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
 				model.addAttribute("schoolId", schoolId);
@@ -500,7 +500,7 @@ public class PermissionManger {
 			Integer companyId=WebUtils.getCurrentCompanyId();
 			Users user= userServiceImpl.findUsersById(userId);
 			model.addAttribute("user", user);
-			if(authRoleServiceImpl.hasRoleFlag(uId)){
+			if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 				model.addAttribute("peoplemark", "admin");
 				List<AuthRole> authRoleList= authRoleServiceImpl.findByCompanyId(companyId);
 				if(authRoleList.size()<=0){

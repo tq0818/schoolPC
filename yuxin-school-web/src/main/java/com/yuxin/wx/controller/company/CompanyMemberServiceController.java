@@ -627,7 +627,7 @@ public class CompanyMemberServiceController {
 	public String toUpdatePwd(HttpServletRequest request, Model model) {
 		Integer userId = WebUtils.getCurrentUserId(request);
 		Integer isMaxRole = 0;
-		if (userId != null && authRoleServiceImpl.hasRoleFlag(userId)) {
+		if (userId != null && authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())) {
 			// 相当于原来的机构管理员
 			isMaxRole = 1;
 		}

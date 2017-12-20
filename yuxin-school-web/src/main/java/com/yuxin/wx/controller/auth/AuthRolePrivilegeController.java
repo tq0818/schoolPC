@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.auth.IAuthRolePrivilegeService;
 import com.yuxin.wx.api.auth.IAuthRoleService;
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthRolePrivilege;
 import com.yuxin.wx.model.company.Company;
@@ -46,6 +47,8 @@ public class AuthRolePrivilegeController {
 	private IAuthRolePrivilegeService authRolePrivilegeServiceImpl;
 	@Autowired
 	private IAuthRoleService authRoleServiceImpl;
+	@Autowired
+	private ICompanyService companyServiceImpl;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Model model, AuthRolePrivilege search){
@@ -95,27 +98,33 @@ public class AuthRolePrivilegeController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/getCategorysInfo", method = RequestMethod.POST)
-	public UserInfoVo getCategorysInfo(HttpServletRequest request,String roleId,String userId){
+	public UserInfoVo getCategorysInfo(HttpServletRequest request,String roleId,String userId,Integer companyId){
 		UserInfoVo userInfoVo=new UserInfoVo();
+		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
 		//查询对应的权限
 		List<PrivilegeVo> privilegeVos=authRolePrivilegeServiceImpl.findUserPrivileges(roleId);
 		userInfoVo.setPrivilegeVos(privilegeVos);
 		//先根据角色标识号查询角色名称
 		AuthRole search=new AuthRole();
 		search.setRoleUid(roleId);
-		search.setCompanyId(WebUtils.getCurrentCompanyId());
+		search.setCompanyId(ccompanyId);
+		Company company=null;
+		if(companyId==null){
+			company=WebUtils.getCurrentCompany();
+		}else{
+			company=companyServiceImpl.findCompanyById(ccompanyId);
+		}
 		List<AuthRole> authRoles=authRoleServiceImpl.queryRolesByConditionInfo(search);
 		if(authRoles!=null&&authRoles.size()>0){
 			AuthRole authRole=authRoles.get(0);
 			String roleName=authRole.getRoleName();
-			Company company=WebUtils.getCurrentCompany();
 			String eduAreaSchool=null;
 			if(company!=null){
 				eduAreaSchool=company.getEduAreaSchool();
 			}
 			//获取行政区域
 			if("区县负责人".equals(roleName)||"学校负责人".equals(roleName)){
-				List<AreaInfoVo> areaInfoVos=authRoleServiceImpl.queryAreaSchoolInfo(userId,WebUtils.getCurrentIsArea(),eduAreaSchool,roleName);
+				List<AreaInfoVo> areaInfoVos=authRoleServiceImpl.queryAreaSchoolInfo(userId,company.getIsArea(),eduAreaSchool,roleName);
 				userInfoVo.setAreaInfoVos(areaInfoVos);
 			}
 			//if("2".equals(WebUtils.getCurrentIsArea())&&("任课老师".equals(roleName)||"班主任".equals(roleName))){
@@ -123,15 +132,13 @@ public class AuthRolePrivilegeController {
 				//校级用户，查询科目，年级，班级
 				//2、查询所有的年级
 				List<GradeInfoVo>gradeInfoVos=authRoleServiceImpl.queryAllGradeInfos(eduAreaSchool, userId, roleName);
-				//List<GradeInfoVo>gradeInfoVos=authRoleServiceImpl.queryAllGradeInfos("2151004533", "", roleName);
 				userInfoVo.setGradeInfoVos(gradeInfoVos);
 				//3、任课老师独有
 				if("任课老师".equals(roleName)){
 					//1、查询所有的科目
-					List<SubjectInfoVo> subjectInfoVos=authRoleServiceImpl.queryAllSubjectInfo(WebUtils.getCurrentCompanyId()+"");
+					List<SubjectInfoVo> subjectInfoVos=authRoleServiceImpl.queryAllSubjectInfo(ccompanyId+"");
 					//2、查询出任课教师对应的任课班级
 					List<EduSubjectClassTeacherInfo>eduSubjectClassTeacherInfos=authRoleServiceImpl.queryEduSubjectClassTeacherInfo(eduAreaSchool,userId);
-					//List<EduSubjectClassTeacherInfo>eduSubjectClassTeacherInfos=authRoleServiceImpl.queryEduSubjectClassTeacherInfo("2151004533",userId);
 					if(subjectInfoVos!=null&&subjectInfoVos.size()>0){
 						for(SubjectInfoVo vo:subjectInfoVos){
 							if(eduSubjectClassTeacherInfos!=null&&eduSubjectClassTeacherInfos.size()>0){

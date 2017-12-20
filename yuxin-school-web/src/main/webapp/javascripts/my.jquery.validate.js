@@ -1294,6 +1294,7 @@ $.extend( $.validator, {
 									var id=response.id;
 									var datas={};
 									datas.id=response.id;
+									datas.ccompanyId=$('#companyId').val();
 									$.ajax({
 										url : rootPath+"/authPrivilege/grantUserInCompany",
 										type : "post",

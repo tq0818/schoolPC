@@ -73,7 +73,7 @@ public class QuestionAnswerController {
 		questionAnswer.setAnswerLevel(1);
 		questionAnswer.setCommentCount(0);
 		questionAnswer.setReadFlag(0);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			questionAnswer.setAnswerType("QUESTION_ANSWER_MANAGE");
 		}else{  
 			questionAnswer.setAnswerType("QUESTION_ANSWER_TEACHER");

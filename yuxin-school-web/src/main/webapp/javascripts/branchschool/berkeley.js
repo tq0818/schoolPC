@@ -194,7 +194,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                                             '<td>'+stu.classCounts+'</td>'+
                                             '<td class="slink">'+
                                                 '<a class="showSignUp" mobile="" uname="sdsdsd" href="'+rootPath+'/classManager/getClassInfo/'+stu.id+'">详情</a>|'+
-                                                '<a class="studentDetail" mobile="" uname="sdsdsd" href="'+stu.domain+'">查看官网</a>|'+
+                                                '<a class="studentDetail" mobile="" uname="sdsdsd"  target="_Blank" href="'+stu.domain+'">查看官网</a>|'+
                                                 '<a class="more" href="javascript:void(0);">更多'+
                                                 '</a>'+
                                                 '<ul class="none box" style="display: none;">'+

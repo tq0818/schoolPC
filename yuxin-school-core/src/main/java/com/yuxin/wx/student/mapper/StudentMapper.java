@@ -6,6 +6,7 @@ import java.util.Map;
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.system.SysConfigDict;
@@ -308,6 +309,16 @@ public interface StudentMapper extends BaseMapper<Student> {
 	 * @return 
 	 * @throws
 	 */
-	List<Student> findClassByTeacherId(Integer id);
-	List<SysConfigDict> findEduAreaList();
+	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月20日 下午5:57:30
+	 * @Method: findClassByRKTeacherId 
+	 * @Description: 查询任课教师
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findClassByRKTeacherId(Integer id);
+	List<SysConfigDict> sysConfigDict();
 }

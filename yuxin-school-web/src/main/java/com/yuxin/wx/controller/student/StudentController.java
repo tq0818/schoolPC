@@ -80,6 +80,7 @@ import com.yuxin.wx.model.classes.ClassModule;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassPackageCategory;
 import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyMemberService;
@@ -186,7 +187,7 @@ public class StudentController {
     
     // 跳转到学员列表页面
     @RequestMapping(value = "/studentList")
-    public String forwardStudentList(Model model) {
+    public String forwardStudentList(HttpServletRequest request,Model model) {
         // 查询课程的多课程单元和多班号功能
         CompanyFunctionSet search = new CompanyFunctionSet();
         search.setFunctionCode("COMPANY_FUNCTION_COURSE");
@@ -242,43 +243,92 @@ public class StudentController {
         //查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
         areaDict.setDictCode("EDU_SCHOOL_AREA");
-        areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("areas", area);	
         if("0".equals(WebUtils.getCurrentIsArea())){
-           
+        	model.addAttribute("roleType", 0);
         }else if("1".equals(WebUtils.getCurrentIsArea())){
-//        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
-//             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-//             if(null!=areas && areas.size()>0){
-//            	 for(SysConfigDict vo : areas){
-//            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
-//            			 model.addAttribute("area", vo);	
-//            		 }
-//            	 }
-//             }
+        	 areaDict.setDictCode("EDU_SCHOOL_AREA");
+             List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+             if(null!=areas && areas.size()>0){
+            	 for(SysConfigDict vo : areas){
+            		 if(vo.getItemCode().equals(WebUtils.getCurrentCompany().getEduAreaSchool())){
+            			 model.addAttribute("area", vo);	
+            		 }
+            	 }
+             }
              SysConfigDict Dict = new SysConfigDict();
              Dict.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
              List<SysConfigDict> schools = sysConfigDictServiceImpl.querySchoolByArea(Dict);
              model.addAttribute("schoolList", schools);
+             model.addAttribute("roleType", 0);
         }else{
-//        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
-//        	 
-//             model.addAttribute("area", areas.get(0));	
-//             areaDict.setDictCode("EDU_SCHOOL");
-//             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-//             if(null!=schools && schools.size()>0){
-//            	String schoolName="";
-//            	 for(int i=0;i<schools.size();i++){
-//            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
-//            			 schoolName=schools.get(i).getItemValue();
-//            		 }
-//            	 }
-//            	 model.addAttribute("schoolName", schoolName);	
-//             }
-        	if (subject.hasRole("机构管理员") || subject.hasRole("代理机构")) {
-                model.addAttribute("proxyOrgRole", 1);
+        	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        	 
+             model.addAttribute("area", areas.get(0));	
+             areaDict.setDictCode("EDU_SCHOOL");
+             List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+             if(null!=schools && schools.size()>0){
+            	 SysConfigDict schoolName =new SysConfigDict();
+            	 for(int i=0;i<schools.size();i++){
+            		 if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(schools.get(i).getItemCode())){
+            			 schoolName.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
+            			 schoolName.setItemValue(schools.get(i).getItemValue());
+            			 break;
+            		 }
+            	 }
+            	 model.addAttribute("schoolName", schoolName);	
+             }
+            //年份列表
+            List<Integer> years = new ArrayList<Integer>();
+            int curYear = DateUtil.getCurYear();
+            for(int year = 0;year<6;year++){
+                years.add(curYear-year);
             }
+            model.addAttribute( "years", years);
+        	if (subject.hasRole("班主任")  ) {
+        		//班主任
+        		EduMasterClass ets =new EduMasterClass();
+        		ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+        		List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(ets);
+        		if(null!=list && list.size()>0){
+        			model.addAttribute("materTeacher", list.get(0));	
+        		}
+                model.addAttribute("roleType", 1);
+            }else if (subject.hasRole("任课老师") ) {
+            	//任课教师
+            	EduMasterClass ets =new EduMasterClass();
+        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        		ets.setEduStep("1");
+        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		ets.setEduStep("");
+        		ets.setEduYear("1");
+        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		ets.setEduYear("");
+        		ets.setEduClass("1");
+        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		model.addAttribute("roleType", 2);
+        		model.addAttribute("eduStepGLY", eduStepGLY);
+        		model.addAttribute("eduYearGLY", eduYearGLY);
+        		model.addAttribute("eduClassGLY", eduClassGLY);
+        	}else{
+        		//学校管理员
+        		EduMasterClass ets =new EduMasterClass();
+        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        		ets.setEduStep("1");
+        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		ets.setEduStep("");
+        		ets.setEduYear("1");
+        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		ets.setEduYear("");
+        		ets.setEduClass("1");
+        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		
+        		model.addAttribute("roleType", 3);
+        		model.addAttribute("eduStepGLY", eduStepGLY);
+        		model.addAttribute("eduYearGLY", eduYearGLY);
+        		model.addAttribute("eduClassGLY", eduClassGLY);
+        	}
         }
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());	
         areaDict.setDictCode("EDU_STEP");
@@ -424,7 +474,7 @@ public class StudentController {
             } else {
                 student.setPassword(new Md5Hash("111111").toHex());
             }
-
+            student.setIsInSchool(0);
             studentServiceImpl.insert(student);
         }
         Integer stuId = student.getId();
@@ -2640,16 +2690,13 @@ public class StudentController {
     public String insertStudent(HttpServletRequest request, Student student, Boolean isUserFront, Model model) {
         log_student.info("===");
         // 查询公司注册设置
+        student.setEduIdentity(0);
         CompanyRegisterConfig crc = new CompanyRegisterConfig();
         crc.setCompanyId(WebUtils.getCurrentCompanyId());
         crc = companyRegisterConfigServiceImpl.queryByCompanyId(crc);
         // 插入学员数据
         String result = "";
-        if("0".equals(WebUtils.getCurrentIsArea())){
-        	
-        }else{
-        	student.setIsInSchool(1);
-        }
+        student.setIsInSchool(1);
         String password = student.getMobile();
         if (null != password && !"".equals(password)) {
             student.setPassword(new Md5Hash(password.substring(password.length() - 6)).toHex());
@@ -2799,21 +2846,15 @@ public class StudentController {
          }
          if("2".equals(WebUtils.getCurrentIsArea())){
          	Subject subject = SecurityUtils.getSubject();
-     		if(subject.hasRole("班主任")){
+     		if(subject.hasRole("班主任") ){
      			int userId=WebUtils.getCurrentUserId(request);
-     			List<Student> list=studentServiceImpl.findClassByTeacherId(userId);
-     			if(null!=list && list.size()>1){
-     				String eduStep="'";
-     				String eduYear="";
-     				String eduClass="";
-     				for(int i=0;i<list.size();i++){
-     					eduStep+=list.get(i).getEduStep()+"','";
-     					eduYear+=list.get(i).getEduYear()+",";
-     					eduClass+=list.get(i).getEduClass()+",";
-     				}
-     				eduStep=eduStep.substring(0, eduStep.lastIndexOf(","));
-     				eduYear=eduYear.substring(0, eduYear.lastIndexOf(","));
-     				eduClass=eduClass.substring(0, eduClass.lastIndexOf(","));
+     			EduMasterClass etc=new EduMasterClass();
+     			etc.setUserId(String.valueOf(userId));
+     			List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc);
+     			if(null!=list && list.size()>0){
+     				String eduStep=list.get(0).getEduStep();
+     				String eduYear=list.get(0).getEduYear();
+     				String eduClass=list.get(0).getEduClass();
      				if(null==search.getEduStep() || "".equals(search.getEduStep())){
      					search.setEduStep(eduStep);
          			}
@@ -2824,6 +2865,13 @@ public class StudentController {
      					search.setEduClass(eduClass);
      				}
      				
+     			}
+     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+     		}else if(subject.hasRole("任课老师")){
+     			int userId=WebUtils.getCurrentUserId(request);
+     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+     			if(null!=list && list.size()>1){
+     				search.setRenke(list);
      			}else if(null!=list && list.size()==1){
      				if(null==search.getEduStep() || "".equals(search.getEduStep())){
      					search.setEduStep(list.get(0).getEduStep());
@@ -2835,6 +2883,7 @@ public class StudentController {
      					search.setEduClass(list.get(0).getEduClass());
      				}
      			}
+     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
      		}else{
      			 if(null!=search.getEduSchool()){
      				 
@@ -3547,7 +3596,7 @@ public class StudentController {
         }else{
         	Student student=new Student();
         	student.setId(userId);
-        	student.setIsMoveOut(1);
+        	student.setIsInSchool(0);
         	studentServiceImpl.update(student);
         }
         
@@ -4103,7 +4152,7 @@ public class StudentController {
     @RequestMapping(value = "/checkFrontUserName")
     public boolean checkUserFrontName(UsersFront u) {
         u.setCompanyId(WebUtils.getCurrentCompanyId());
-        List<UsersFront> arr = usersFrontServiceImpl.findConponsUsersByCondition(u);
+        List<UsersFront> arr = usersFrontServiceImpl.findConponsUsersByConditionIn(u);
         if (null != arr && arr.size() > 0) {
             return false;
         }

@@ -237,6 +237,7 @@ public interface IUsersFrontService {
      * @return
      */
     List<UsersFront> findConponsUsersByCondition(UsersFront u);
+    List<UsersFront> findConponsUsersByConditionIn(UsersFront u);
 
     UsersFront findUsersFrontByUsername(UsersFront uf);
 

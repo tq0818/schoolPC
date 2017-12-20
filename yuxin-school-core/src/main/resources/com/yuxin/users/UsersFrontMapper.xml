@@ -852,12 +852,18 @@
 		from users_front u
 		left join student s	on u.id = s.user_id
 		left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
-		where c.id=#{companyId}
+		where c.id=#{companyId} 
 		<if test="status != null">and u.status = #{status}</if>
 		<if test="vipFlag != null"> and u.vip_flag = #{vipFlag}</if>
 		<if test="memberLevel != null">and u.member_id in(${memberLevel}) and u.member_status=1 and (u.member_buy_length>0 || u.member_buy_length=-1) and (TO_DAYS(date_format(NOW(), "%Y-%m-%d"))-TO_DAYS(u.member_end_time) <![CDATA[<]]> 0 || u.member_end_time is null)</if>
 		<if test="username != null and username != ''">and u.username = #{username}</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+	</select>
+	<select id="findConponsUsersByConditionIn" resultMap="usersFrontResultMap" parameterType="com.yuxin.wx.model.user.UsersFront" >
+		select u.id,u.username,u.mobile
+		from users_front u
+		left join student s	on u.id = s.user_id
+		where u.username=#{username}  and s.is_in_school=1
 	</select>
 	<!-- 根据邀请码查找userFrontVo -->
 	<select id="findUserVoByInvitCode" resultMap="usersFrontVoResultMap" parameterType="map">

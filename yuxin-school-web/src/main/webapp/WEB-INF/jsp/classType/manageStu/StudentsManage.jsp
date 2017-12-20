@@ -95,8 +95,8 @@
 		          		<div>
 		          			<span>
 		          				<a href="javascript:;" class="btn btn-primary chooseFile none">重新选择</a>
-		          				<a href="javascript:;" mark="update" class="btn btn-primary allupdate student-import none">全部更新并导入</a>
-		          				<a href="javascript:;" mark="insert" class="btn btn-primary newinsert student-import none">只导入新增学员</a>
+		          			<!-- 	<a href="javascript:;" mark="update" class="btn btn-primary allupdate student-import none">全部更新并导入</a>
+		          				<a href="javascript:;" mark="insert" class="btn btn-primary newinsert student-import none">只导入新增学员</a> -->
 		          				<a href="javascript:;" mark="insert" class="btn btn-primary chooseInsert student-import none">确认导入</a>
 		          			</span>
 		          		</div>

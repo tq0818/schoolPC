@@ -89,7 +89,7 @@
                     $(".loading.check").show();
     	            $(".loading-bg").show();
                     $.ajaxFileUpload({
-                        url : rootPath + "/excelImportStudents/studentsValidate",
+                        url : rootPath + "/excelImportStudents/studentsValidateNo",
                         secureuri : false,  // 安全协议
                         async : false,
                         fileElementId : 'imgData',

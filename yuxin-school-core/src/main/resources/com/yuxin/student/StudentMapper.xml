@@ -504,7 +504,7 @@
 			<if test="eduStep != null">edu_step = #{eduStep},</if>
 			<if test="eduYear != null">edu_year = #{eduYear},</if>
 			<if test="eduClass != null">edu_class = #{eduClass},</if>
-			<if test="isMoveOut != null">is_move_out = #{isMoveOut},</if>
+			<if test="isInSchool != null">is_in_school = #{isInSchool},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -545,6 +545,7 @@
 			<if test="eduStep != null and eduStep != ''">edu_step = #{eduStep},</if>
 			<if test="eduYear != null and eduYear != ''">edu_year = #{eduYear},</if>
 			<if test="eduClass != null and eduClass != ''">edu_class = #{eduClass},</if>
+			<if test="isInSchool != null">is_in_school = #{isInSchool},</if>
 		</trim>
 		<where>
 			1=1 and mobile=#{mobile}	
@@ -861,7 +862,7 @@
 	</select>
 	<select id="queryByMobile"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
-		from student where  delete_flag=0 and mobile=#{mobile}  limit 0,1
+		from student where  delete_flag=0 and mobile=#{mobile} and is_in_school=1 limit 0,1
 	</select>
 	<select id="queryByUsername"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
@@ -1021,9 +1022,12 @@
 	 where 1=1 and s.is_in_school=1
 	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
 	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
-	 <if test="eduStep != null and eduStep != ''">and s.edu_step in (#{eduStep})</if>
-	 <if test="eduYear != null and eduYear != ''">and s.edu_year in (#{eduYear})</if>
-	 <if test="eduClass != null and eduClass != ''">and s.edu_class in (#{eduClass})</if>
+	 <if test="renke != null and renke != ''">
+	 	and  
+	 	<foreach item="renke" collection="renke" open="(" separator="or" close=")">
+			(s.edu_step=#{renke.eduStep} and s.edu_year=#{renke.eduYear} and s.edu_class=#{renke.eduClass})
+		</foreach>
+	 </if>
 	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -1113,9 +1117,12 @@
 	 where 1=1 and s.is_in_school=1
 	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
 	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
-	 <if test="eduStep != null and eduStep != ''">and s.edu_step in (#{eduStep})</if>
-	 <if test="eduYear != null and eduYear != ''">and s.edu_year in (#{eduYear})</if>
-	 <if test="eduClass != null and eduClass != ''">and s.edu_class in (#{eduClass})</if>
+	 <if test="renke != null and renke != ''">
+	 	and  
+	 	<foreach item="renke" collection="renke" open="(" separator="or" close=")">
+			(s.edu_step=#{renke.eduStep} and s.edu_year=#{renke.eduYear} and s.edu_class=#{renke.eduClass})
+		</foreach>
+	 </if>
 	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -3135,9 +3142,10 @@ select * from (
 			s.delete_flag as deleteFlag,
 			s.user_id as userId,
 			uf.password as password,
-			uf.username as username
+			uf.username as username,
+			s.is_in_school as isInSchool
 		from student s 
-		left join users_front uf on s.user_id = uf.id LIMIT 10000
+		left join users_front uf on s.user_id = uf.id ORDER BY s.id desc  
 	</select>
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />
@@ -3159,13 +3167,34 @@ select * from (
 	 order by s.id DESC
 	</select>
 	
-	
-	<select id="findClassByTeacherId" resultMap="studentResultMap" parameterType="int">
-		select edu_step,edu_year,edu_class from edu_master_class where user_id=#{id} and is_used=1
+	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="eduMasterClassResultMap">
+		<result property="id" column="id" />
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="eduYear" column="edu_year"/>
+		<result property="eduClass" column="edu_class"/>
+		<result property="eduStepName" column="eduStepName"/>
+	</resultMap>
+	<select id="findClassByTeacherId" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">
+		select scd.item_value as eduStepName ,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass 
+		from edu_master_class t1
+		LEFT JOIN sys_config_dict scd ON scd.item_code=t1.edu_step 
+		where t1.is_used=1
+		<if test="userId != null and userId != ''"> and t1.user_id=#{userId}</if>
+	 	<if test="eduSchool != null and eduSchool != ''"> and t1.edu_school=#{eduSchool}</if>
+	 	<if test="eduStep != null and eduStep != ''"> GROUP BY t1.edu_step</if>
+	 	<if test="eduYear != null and eduYear != ''"> GROUP BY t1.edu_year</if>
+	 	<if test="eduClass != null and eduClass != ''"> GROUP BY t1.edu_class</if>
+	</select>
+	<select id="findClassByRKTeacherId" resultMap="eduMasterClassResultMap" parameterType="int">
+		select emc.edu_area ,emc.edu_school,edu_step,edu_year,edu_class from edu_subject_class_teacher esc
+		LEFT JOIN edu_master_class emc ON esc.class_id=emc.id
+		where esc.user_id=#{id} and esc.is_used=1
 	</select>
 	
 	
-	<select id="sysConfigDict" resultType="com.yuxin.wx.model.system.SysConfigDict"  parameterType="int"> 
-		select * from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL'
+	<select id="sysConfigDict" resultMap="sysConfigDict" > 
+		select id,dict_code,item_value,item_code,parent_item_id from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL';
 	</select>
 </mapper>

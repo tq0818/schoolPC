@@ -511,7 +511,7 @@
 							var classInfoStr='<p class="c-title"><span>班主任</span></p><p class="c" ><span>班级：</span><br/><select name="gradeCode" id="gradeCode" onChange="Form.getClassInfo(this);">';
 							var optionStr="";
 							var selectCount=0;
-							//填充区
+							//年级
 							$.each(gradeInfoVos,function(i,data){
 								if(data.selected){
 									optionStr+='<option value="'+data.gradeName+'" selected ="selected">'+data.gradeName+'级</option>';
@@ -521,7 +521,7 @@
 								}
 							});
 							classInfoStr+=optionStr+'</select><select name="classCode" id="classCode">';
-							//填充学校
+							//班级
 							var optionSchoolStr="";
 							$.each(gradeInfoVos[selectCount].classInfos,function(i,data){
 								if(data.selected){

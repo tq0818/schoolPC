@@ -26,7 +26,7 @@ public class StudentImportVo extends BaseEntity {
 	private String eduYear;
 	private String eduClass;
 	private String isInSchool;
-	
+	private Integer updateB;
 
 	public String getName() {
 		return name;
@@ -198,6 +198,16 @@ public class StudentImportVo extends BaseEntity {
 	
     public void setIsInSchool(String isInSchool) {
     	this.isInSchool = isInSchool;
+    }
+
+	
+    public Integer getUpdateB() {
+    	return updateB;
+    }
+
+	
+    public void setUpdateB(Integer updateB) {
+    	this.updateB = updateB;
     }
 
 	@Override

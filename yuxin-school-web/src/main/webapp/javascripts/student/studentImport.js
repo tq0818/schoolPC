@@ -89,7 +89,7 @@
                     $(".loading.check").show();
     	            $(".loading-bg").show();
                     $.ajaxFileUpload({
-                        url : rootPath + "/excelImportStudents/studentsValidate",
+                        url : rootPath + "/excelImportStudents/studentsValidateNo",
                         secureuri : false,  // 安全协议
                         async : false,
                         fileElementId : 'imgData',
@@ -135,7 +135,6 @@
 								$(".chooseInsert").removeClass("none");
 								$("#markUrl").val(JSON.stringify(jsonData.excelPath));
 								_$.setData("students4Insert",JSON.stringify(jsonData.students4Insert));
-								_$.setData("updateList",JSON.stringify(jsonData.updateList));
                         	}
                         	$("#returnInfo").html(html);
                         },
@@ -157,7 +156,7 @@
     					return;
     				}
     				_$.ajax({ url: '/excelImportStudents/insertMoreStudents', 
-    						  data: {"data":mark=="insert"?_$.getData("students4Insert"):_$.getData("students4Update"),"groupOneId":$("#studentG1").val(),"groupTwoId":$("#studentG2").val(),"updateList":_$.getData("updateList")}, 
+    						  data: {"data":mark=="insert"?_$.getData("students4Insert"):_$.getData("students4Update"),"groupOneId":$("#studentG1").val(),"groupTwoId":$("#studentG2").val()}, 
     						  beforeSend: function () { $(".loading.insert").show(); $(".loading-bg").show(); }, 
     						  lazy: true, 
     						  success: function ( jsonData ) {

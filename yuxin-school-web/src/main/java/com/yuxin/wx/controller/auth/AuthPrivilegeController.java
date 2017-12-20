@@ -321,7 +321,7 @@ public class AuthPrivilegeController {
 			}
 			//管理用户关系范围
 			Company company=WebUtils.getCurrentCompany();
-			authUserRoleServiceImpl.insertOrUpdateAreaInfo("2151004533",earaCode, schoolAaraCode, 
+			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
 					schoolCode, gradeCode, classCode, subjectCode, 
 					subJectGradeCode, subjectClassCode,r,user.getId());
 		}
@@ -394,7 +394,6 @@ public class AuthPrivilegeController {
 			}
 			//管理用户关系范围
 			Company company=WebUtils.getCurrentCompany();
-			company.setEduAreaSchool("2151004533");
 			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 
 					schoolCode, gradeCode, classCode, subjectCode, subJectGradeCode, subjectClassCode,r,user.getId());
 		}

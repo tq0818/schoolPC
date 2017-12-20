@@ -119,7 +119,7 @@ public class AuthRolePrivilegeController {
 				userInfoVo.setAreaInfoVos(areaInfoVos);
 			}
 			//if("2".equals(WebUtils.getCurrentIsArea())&&("任课老师".equals(roleName)||"班主任".equals(roleName))){
-			if("2".equals("2")&&("任课老师".equals(roleName)||"班主任".equals(roleName))){
+			if("2".equals(WebUtils.getCurrentIsArea())&&("任课老师".equals(roleName)||"班主任".equals(roleName))){
 				//校级用户，查询科目，年级，班级
 				//2、查询所有的年级
 				List<GradeInfoVo>gradeInfoVos=authRoleServiceImpl.queryAllGradeInfos(eduAreaSchool, userId, roleName);

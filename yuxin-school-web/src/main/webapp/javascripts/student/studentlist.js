@@ -234,6 +234,9 @@
 			data.groupTwoId=$("#studentG2").val();
             data.eduArea=$("#eduArea").val();
             data.eduSchool=$("#eduSchool").val();
+            data.eduStep=$("#EduSteps").val();
+            data.eduYear=$("#EduYears").val();
+            data.eduClass=$("#EduClasses").val();
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
             data.proxyOrgName = $('#proxyOrgName').val();
@@ -279,6 +282,7 @@
                     },
                     success: function (jsonData) {
                        var isArea=$("#eduArea").val();
+                       var roleType=$("#roleType").val();
                         if (jsonData.data.length == 0) {
                         	if(userorg_roleopenflag == 1 && proxyOrgRole == 1){
 	                            $(".user-list")
@@ -354,8 +358,9 @@
                                     + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'
                                         : '未报名')
-                                    + '</td>'
-                                    + '<td class="slink">'
+                                    + '</td>';
+                                    if(roleType==1 || roleType==0 || roleType==3){
+                                	html+= '<td class="slink">'
                                     + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
                                     + '<a class="studentDetail" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">详情</a>|'
                                     + '<a class="more" href="javascript:void(0);">更多</a>'
@@ -379,8 +384,9 @@
                                                 : '')
                                             : '')
                                         : '')
-                                    + '</ul></td>'
-                                    + '</tr>'
+                                    + '</ul></td>';
+                                    }
+                                   html+= '</tr>';
                                    
                             });
                         $(".user-list")
@@ -1133,16 +1139,9 @@
         addTeacher: function () {
             if ($("#addStudentForm").valid()) {
                 var add_eduIdentity = 1;
-                if($('input:radio[name="addeduIdentity"]:checked').val()=="0"){
-                    add_eduIdentity = 0;
-                }else{
-                    $("#addEduStep").find("option[value='']").prop("selected","true");
-                    //$("#addEduArea").find("option[value='']").attr("selected","true");
-                    $("#addEduSchool").find("option[value='']").prop("selected","true");
-                    $("#addEduYear").find("option[value='']").prop("selected","true");
-                }
-
+                
             	var data={};
+            	data.roleType=$("#roleType").val()
                 data.name = $("#sName").val();
                 data.sex = $('input:radio[name="sSex"]:checked').val();
                 data.birthday = $("#sBirth").val();
@@ -1164,38 +1163,46 @@
                 data.city=$("#sAddress").find("#city").val();
                 data.county=$("#sAddress").find("#dist").val();
                 data.addressDetail=$("#sAddressDetail").val();
-                data.isUserFront = $('input:radio[name="sUserFront"]:checked').val()==1;
                 data.username=$("#suserName").val();
                 data.groupOneId=$("#studentG1_add").val();
                 data.groupTwoId=$("#studentG2_add").val();
-
-                data.eduIdentity=add_eduIdentity;
                 data.eduArea=$("#addEduArea").val();
-                data.eduSchool=$("#addEduSchool").val();
-                data.eduStep=$("#addEduStep").val();
-                data.eduYear=$("#addEduYear").val();
-                data.eduClass=$("#addEduClass").val();
-
-
-                if(add_eduIdentity==0){
-                    if(data.eduArea==""){
-                        $.msg("请选择所在区域");
-                        return;
-                    }
-                    if(data.eduSchool==""){
-                        $.msg("请选择学校");
-                        return;
-                    }
-                    if(data.eduStep=="" || data.eduYear==""){
-                        $.msg("请选择班级");
-                        return;
+                if(null==$("#addEduArea").val() ||''==$("#addEduArea").val()){
+                	 $.msg("请选择所在区域");
+                    return;
+               }
+                if(data.roleType==1){
+                	 data.eduSchool=$("#addEduSchool").val();
+                	 if(null==$("#addEduSchool").val() ||''==$("#addEduSchool").val()){
+                    	 $.msg("请选择学校");
+                         return;
                     }
                 }else{
-                    if(data.eduArea==""){
-                        $.msg("请选择所在区域");
-                        return;
+        			data.eduSchool=$("#addEduSchools").val();
+        			if(null==$("#addEduSchools").val() ||''==$("#addEduSchools").val()){
+                    	 $.msg("请选择学校");
+                         return;
                     }
                 }
+               
+                data.eduStep=$("#addEduStep").val();
+                if(null==$("#addEduStep").val() ||''==$("#addEduStep").val()){
+                	$.msg("请选择学段");
+                	return;
+                }
+                data.eduYear=$("#addEduYear").val();
+                if(null==$("#addEduYear").val() ||''==$("#addEduYear").val()){
+                	$.msg("请选择学年");
+                	return;
+                }
+                data.eduClass=$("#addEduClass").val();
+                if(null==$("#addEduClass").val() ||''==$("#addEduClass").val()){
+                	$.msg("请选择班级");
+                	return;
+                }
+                data.isUserFront = $('input:radio[name="sUserFront"]:checked').val()==1;
+                data.eduIdentity=add_eduIdentity;
+               
                 $(".customData").find(".field").each(function(){
                 	data[$(this).attr("name")]=$(this).val();
                 });

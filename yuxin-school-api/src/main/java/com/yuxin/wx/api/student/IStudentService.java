@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
@@ -716,7 +717,7 @@ public interface IStudentService  {
 	
 	List<StudentImportVo> queryAllStudentsByCompanyId(Integer companyId);
 	
-	List<Integer> insertMoreStudents(List<StudentImportVo> students,List<StudentImportVo> updateListstudents,String groupOneId,String groupTwoId,Integer userId);
+	List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId);
 	
 	List<StudentListVo> queryStudentsListByIds(String ids);
 	
@@ -729,6 +730,16 @@ public interface IStudentService  {
 	 * @return 
 	 * @throws
 	 */
-	List<Student> findClassByTeacherId(Integer id);
+	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月20日 下午5:56:41
+	 * @Method: findClassByRKTeacherId 
+	 * @Description: 查询任课教师
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findClassByRKTeacherId(Integer id);
 	List<SysConfigDict> findEduAreaList();
 }

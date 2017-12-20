@@ -1,10 +1,12 @@
 package com.yuxin.wx.vo.student;
 
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.util.LongDateSerializer;
 import com.yuxin.wx.util.ShortDateSerializer;
 
@@ -100,7 +102,7 @@ public class StudentListVo extends BaseEntity{
 	private String eduStep;
 	private String eduYear;
 	private Integer isStu; //是否学生，1是。0否
-
+	private List<EduMasterClass> renke;
 	public Integer getIsStu() {
 		return isStu;
 	}
@@ -679,5 +681,15 @@ public class StudentListVo extends BaseEntity{
 	public void setProxyOrgName(String proxyOrgName) {
 		this.proxyOrgName = proxyOrgName;
 	}
+
 	
+    public List<EduMasterClass> getRenke() {
+    	return renke;
+    }
+
+	
+    public void setRenke(List<EduMasterClass> renke) {
+    	this.renke = renke;
+    }
+
 }

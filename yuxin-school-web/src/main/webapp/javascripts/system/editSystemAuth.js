@@ -453,7 +453,8 @@
 							$('.areamasterToB').attr("style","display:block");
 							var areaInfoVos=result.areaInfoVos;
 							//填充区
-							var htmlContent='<p class="c-title" marks="3"><span>区县负责人</span></p><p class="c"><span>选择区域：</span><br/>'+
+							// var htmlContent='<p class="c-title" marks="3"><span>区县负责人</span></p><p class="c"><span>选择区域：</span><br/>'+
+							var htmlContent='<p class="c-title" marks="3"><span>区县负责人</span></p><p class="c">'+
 											'<select name="earaCode" id="earaCode">';
 							var optionStr="";
 							$.each(areaInfoVos,function(i,data){
@@ -474,7 +475,8 @@
 							var str = JSON.stringify(areaInfoVos); 
 							sessionStorage.setItem("schoolData",str);
 							var htmlContent='<p class="c-title" marks="3"><span>学校负责人</span></p>'+
-											'<p class="c" ><span>选择学校：</span><br/><select name="schoolAaraCode" id="schoolAaraCode" onChange="Form.getSchool()">';
+											// '<p class="c" ><span>选择学校：</span><br/><select name="schoolAaraCode" id="schoolAaraCode" onChange="Form.getSchool()">';
+											'<p class="c" ><select name="schoolAaraCode" id="schoolAaraCode" onChange="Form.getSchool()">';
 							var optionStr="";
 							var selectCount=0;
 							//填充区

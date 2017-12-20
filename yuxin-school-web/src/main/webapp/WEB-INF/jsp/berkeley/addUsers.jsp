@@ -9,6 +9,7 @@
      <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
+<<<<<<< HEAD
      <script type="text/javascript" src="<%=rootPath %>/javascripts/my.jquery.validate.js"></script>
     
      <script type="text/javascript">
@@ -21,6 +22,11 @@
 		.editDelete{color: red !important;}
 	</style>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
+=======
+    <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
+>>>>>>> branch 'feature_tob_upgrade_new' of http://git.winshare-edu.com:80/winshare/winshare-yuxin-school.git
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
@@ -204,7 +210,7 @@
  <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 
 
-<script>
+<script type="text/javascript">
     <%--任课老师点击删除，删除该班级--%>
 	 $('.editToB').on('click','.editDelete',function(){
 	    $(this).parent('.c').remove();
@@ -221,8 +227,14 @@
         }else{
             $('.headmasterToB').empty();
         }
+</script>
+<div class="loading-bg lp-units-loading-bg" style="display: none"></div>
+<!--  ajax加载中div结束 -->
+<script type="text/javascript">
+    $(function() {
+        $selectSubMenu('course_class_type');
+        $selectSubMenus('permissionManagement');
     });
-    
     $('.areamaster').click(function(){
         if(!$(this).hasClass('btn-success')){
         }else{

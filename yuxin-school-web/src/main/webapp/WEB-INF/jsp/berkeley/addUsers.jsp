@@ -10,12 +10,6 @@
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
     <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
 
-    <script type="text/javascript">
-        $(function(){
-            $selectSubMenu('sys_user_auth');
-        });
-    </script>
-
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
@@ -229,8 +223,8 @@
 <!--  ajax加载中div结束 -->
 <script type="text/javascript">
     $(function() {
-        $selectSubMenu('financial');
-        $selectSubMenus('operate_fee_confirm');
+        $selectSubMenu('course_class_type');
+        $selectSubMenus('permissionManagement');
     });
 </script>
 </body>

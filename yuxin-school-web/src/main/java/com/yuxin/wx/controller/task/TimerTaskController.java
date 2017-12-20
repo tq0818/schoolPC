@@ -29,6 +29,7 @@ import com.yuxin.wx.util.officeConvert.OfficeTransform;
 import com.yuxin.wx.utils.*;
 import com.yuxin.wx.utils.sendMSG4ServiceWarning.TimerTaskSendMSG4ServiceWarning;
 import com.yuxin.wx.vo.course.VideoVo;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,9 +41,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import sun.net.ftp.FtpClient;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -141,7 +144,7 @@ public class TimerTaskController {
 	public String manage(HttpServletRequest request){
 		Integer userId = WebUtils.getCurrentUserId(request);
 		String privilegeCode = "system_privilege_config";
-		boolean b =authRoleServiceImpl.checkUserHasPrivilege(userId, privilegeCode);
+		boolean b =authRoleServiceImpl.checkUserHasPrivilege(userId, privilegeCode,WebUtils.getCurrentCompanyId());
 		if(!b){
 			return "redirect:/";
 		}

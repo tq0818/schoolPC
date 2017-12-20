@@ -15,36 +15,6 @@
     <script type="text/javascript">
     	$(function(){
     		$selectSubMenu('sys_user_auth');
-    		  $.ajax({
-    			  url: rootPath+"/checkPermition",
-    			  type: "post",
-    			  dataType: "text",
-    			  success: function(data){
-    				  if(data){
-    					  setTimeout(function(){
-    			    			var ehint = new EnjoyHint({
-    			        			onStart:function(){
-    			        				status = 1;
-    			        			},
-    			        			onEnd:function(){
-    			        				status = 0;
-    			        			}
-    			        		});
-    			        		var config=new Array();
-    			        		$("[data-auth-enjoyhint]").each(function(){
-    			        			var data={};
-    			        			data.selector=$(this);
-    			        			data.event_type=$(this).data("event_type");
-    			        			data.description=$(this).data("description");
-    			        			data.next_url=$(this).data("next_url");
-    			        			config.push(data);
-    			        		})
-    			        		ehint.setScript(config);
-    			        		ehint.runScript();
-    			    		},500)
-    				  }
-    			  }
-    		  })
     	});
     </script>
 </head>
@@ -67,19 +37,6 @@
             </span>
         </div>
         <div class="clear">
-        	<!--<p id="schoolListP" class="fl">
-	        	<c:forEach items="${schoolList }" var="school" varStatus="status">
-	        		<c:if test="${school.id==schoolId }">
-	        			<a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school.id }">${school.schoolName }</a>
-	        		</c:if>
-	        		<c:if test="${school.id!=schoolId }">
-	        			<a href="javascript:;" class="btn btn-sm btn-default" mark="${school.id }">${school.schoolName }</a>
-	        		</c:if>
-	            </c:forEach>
-	            <c:if test="${empty schoolList }">
-	            	<a href="javascript:;" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>
-	            </c:if>
-	        </p> -->
 	        <div class="fr">
 	        	<form>
 	        		<p>

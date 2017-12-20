@@ -577,7 +577,7 @@ public class ClassModuleController {
 	@RequestMapping("/show")
 	public String show(Model model,HttpServletRequest request) throws ParseException{
 		Integer userId = WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("role", "admin");
 		}else{
 			model.addAttribute("role", "teacher");
@@ -604,7 +604,7 @@ public class ClassModuleController {
 		Integer userId = WebUtils.getCurrentUserId(request);
 		//当前用户 是否是 老师
 		SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(userId);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			mlv.setSchoolId(schoolId);
 			if(teacher != null){
 				model.addAttribute("roles", "adminAndTeacher");
@@ -1382,7 +1382,7 @@ public class ClassModuleController {
 		String rols = "";
 		String role = "";
 
-		if(authRoleServiceImpl.hasRoleFlag(user.getId())){
+		if(authRoleServiceImpl.hasRoleFlag(user.getId(),WebUtils.getCurrentCompanyId())){
 			rol = "admin";
 		}
 		if(teacher != null && "PERSON_TEACHER".equals(teacher.getTeacherType())){

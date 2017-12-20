@@ -123,7 +123,7 @@ import com.yuxin.wx.vo.system.SysNewsVo;
 			Integer companyId=WebUtils.getCurrentCompanyId();
 			Integer schoolId=WebUtils.getCurrentSchoolId();
 			Integer uId=WebUtils.getCurrentUserId(request);
-			if(authRoleServiceImpl.hasRoleFlag(uId)){
+			if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 				List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
 				model.addAttribute("schoolId", schoolId);
 				model.addAttribute("schoolList", schoolList);

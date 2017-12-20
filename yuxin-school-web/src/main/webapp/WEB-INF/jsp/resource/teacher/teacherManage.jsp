@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>教师管理</title>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/resource.css"/>
+<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 <link href="<%=rootPath%>/stylesheets/user.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/jquery.datetimepicker.css" />
 <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/plugins/jcrop/css/jquery.Jcrop.css"/>
@@ -69,14 +70,11 @@ $(function(){
 		    <div class="mainbackground">
 		        <div class="heading">
 		            <h2 class="h5">老师</h2>
-		            <!-- <div class="search">
-		                <input type="text" class="input-ctrl">
-		                <input type="button" class="btn btn-sm" value="搜索">
-		            </div> -->
 		            <span class="line"></span>
 		        </div>
 		        <form method="post" id="teacherManageForm">
-		        <input type="hidden" id="companyId" value="${companyId }"/>
+		        <input type="hidden" id="companyId" name="companyId" value="${companyId}"/>
+		        <input type="hidden" id="moduleIds" name="moduleIds"/>
 		        <div class="main-content" style="margin-bottom: -100px;">
                 <div class="m-title">
                     <h2 class="h6">账户信息</h2>
@@ -276,7 +274,7 @@ $(function(){
 								<p class="c">
 									<span class="c-title">学校名称<em>*</em></span>
 										<span class="c-content" style="width: 60%">
-											<select name="schoolCode" id="schoolCode" style="width:350px">
+											<select name="schoolCode" id="schoolCode" style="width:250px">
 												<option value="" >请选择学校</option>
 												<c:forEach items="${schools }" var="sch">
 													<option value="${sch.itemCode }" <c:if test="${sch.itemValue eq teacher.schoolName}">selected="selected"</c:if> >${sch.itemValue }</option>

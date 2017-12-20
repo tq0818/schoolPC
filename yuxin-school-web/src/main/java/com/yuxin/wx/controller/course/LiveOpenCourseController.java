@@ -987,7 +987,7 @@ public class LiveOpenCourseController {
         Integer schoolId = WebUtils.getCurrentSchoolId();
 
         Subject subject = SecurityUtils.getSubject();
-        if (authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUser().getId())) {
+        if (authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUser().getId(),WebUtils.getCurrentCompanyId())) {
             List<SysConfigSchool> schoolList = sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
             model.addAttribute("schoolId", schoolId);
             model.addAttribute("schoolList", schoolList);

@@ -13,37 +13,6 @@
     <script type="text/javascript">
         $(function(){
             $selectSubMenu('sys_user_auth');
-            $.ajax({
-//                url: rootPath+"/checkPermition",
-                url: rootPath+"/checkPermition",
-                type: "post",
-                dataType: "text",
-                success: function(data){
-                    if(data){
-                        setTimeout(function(){
-                            var ehint = new EnjoyHint({
-                                onStart:function(){
-                                    status = 1;
-                                },
-                                onEnd:function(){
-                                    status = 0;
-                                }
-                            });
-                            var config=new Array();
-                            $("[data-auth-enjoyhint]").each(function(){
-                                var data={};
-                                data.selector=$(this);
-                                data.event_type=$(this).data("event_type");
-                                data.description=$(this).data("description");
-                                data.next_url=$(this).data("next_url");
-                                config.push(data);
-                            })
-                            ehint.setScript(config);
-                            ehint.runScript();
-                        },500)
-                    }
-                }
-            })
         });
     </script>
     
@@ -54,8 +23,6 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>--%>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
     <style type="text/css">
         .head-div {
             position: relative;
@@ -112,13 +79,13 @@
 		        		<span style="border:1px solid #d7d7d7;border-radius:2px;padding: 5px;margin-right:5px;background-color: #fff;font-size: 1.2rem;vertical-align: middle;">
 		        			<input style="border:none;" placeholder="用户名/姓名/手机号" id="condition"/>
 		        		</span>
-                                <select name="" style="height: 29px;">
+                                <select name="roleUid" id="roleUid" style="height: 29px;">
                                     <option value="">选择角色</option>
                                     <c:forEach items="${roleList }" var="roleList" varStatus="status">
                            			 	<option value="${roleList.roleUid}">${roleList.roleName }</option>
                         			</c:forEach>
                                 </select>
-                                <select name="" style="height: 29px;">
+                                <select name="status" id="status" style="height: 29px;">
                                     <option value="">选择状态</option>
                                     <option value="1">已启用</option>
                                     <option value="0">禁用</option>
@@ -135,7 +102,7 @@
             </div>
         </div>
 
-       <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/systemAuth.js"></script>
+       <%-- <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/systemAuth.js"></script> --%>
         <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/permissionManagement.js"></script>
     </div>
 </div>

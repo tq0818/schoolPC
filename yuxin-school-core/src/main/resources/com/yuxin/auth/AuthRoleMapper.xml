@@ -213,8 +213,9 @@
 		select r.id roleId,r.role_name roleName,ul.create_time from auth_role r,auth_user_role ul where ul.role_id=r.id and ul.user_id=#{userId}
 	</select>
 	
-	<select id="findAuthRoleListByUser" resultMap="authRoleList" parameterType="int">
-		select distinct r.id,r.role_uid,r.role_name roleName,r.role_flag roleFlag,ul.create_time from auth_role r,auth_user_role ul where ul.role_uid=r.role_uid and ul.user_id=#{userId}
+	<select id="findAuthRoleListByUser" resultMap="authRoleList" parameterType="map">
+		select distinct r.id,r.role_uid,r.role_name roleName,r.role_flag roleFlag,ul.create_time 
+		from auth_role r,auth_user_role ul where ul.role_uid=r.role_uid and ul.user_id=#{userId} and r.company_id=#{companyId}
 	</select>
 	
 	<select id="queryAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
@@ -247,8 +248,9 @@
 	
 	
 	<select id="queryNewAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
-		select t2.role_name,u.id,u.username,u.real_name,u.sex,u.status,u.mobile,u.company_id,u.school_id,t2.company_id from users u
-		INNER JOIN auth_user_role t1 ON t1.user_id=u.id 
+		select t2.role_name,u.id,u.username,u.real_name,u.sex,u.status,u.mobile,t2.company_id company_id,t2.company_id 
+		from users u
+		INNER JOIN auth_user_role t1 ON t1.user_id=u.id
 		INNER JOIN auth_role t2 ON t2.id=t1.role_uid 
 		where t2.company_id=#{companyId} 
 		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>

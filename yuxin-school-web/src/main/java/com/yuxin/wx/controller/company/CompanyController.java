@@ -348,7 +348,7 @@ public class CompanyController {
             }
         }
 
-        if (authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUserId(request))) {
+        if (authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUserId(request),WebUtils.getCurrentCompanyId())) {
             model.addAttribute("manganger", "manager");
         }
         Date date = new Date();
@@ -1815,7 +1815,7 @@ public class CompanyController {
      * @return
      */
     private Boolean validauth(Integer userId) {
-        if (authRoleServiceImpl.hasRoleFlag(userId)) {
+        if (authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())) {
             return true;
         } else {
             return false;

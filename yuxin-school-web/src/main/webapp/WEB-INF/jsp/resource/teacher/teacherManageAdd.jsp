@@ -71,7 +71,7 @@ $(function(){
 		        </div>
 		        <div class="mark-more">
 		        <form method="post" id="teacherManageForm">
-		        <input type="hidden" id="companyId" value="${companyId }"/>
+		        <input type="hidden" id="companyId" value="${companyId }" name="companyId"/>
 		        <%-- <c:if test="${empty teacher.id}"> --%>
 		        <div class="main-content" style="margin-bottom: -100px;">
                 <div class="m-title">

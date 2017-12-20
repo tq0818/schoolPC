@@ -155,7 +155,7 @@ public class SysBodyController {
 	public String show(Model model){
 		model.addAttribute("schoolId",WebUtils.getCurrentSchoolId());
 		model.addAttribute("schoolName",WebUtils.getCurrentUser().getSchoolName());
-		if(authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUser().getId())){
+		if(authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUser().getId(),WebUtils.getCurrentCompanyId())){
 			model.addAttribute("isAdmin",true);
 		}else{
 			model.addAttribute("isSubAdmin",true);

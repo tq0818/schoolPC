@@ -4,7 +4,7 @@
 <%@include file="/decorators/import.jsp"%>
 <script>
     $(function(){
-        $selectMenu('berkeley');
+        $selectMenu('brach_school');
         $.ajax({
             url : rootPath + "/serviceGroup/couseMethod",
             type : "post",

@@ -587,7 +587,7 @@
 	</select>
 
 	<select id="findUsersAreaRelation" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
-		select * from users_area_relation where user_id = #{id}
+		select * from users_area_relation where user_id = #{id} limit 1
 	</select>
 	<insert id="insertUserCompanyRalation" parameterType="map" useGeneratedKeys="true">
 		insert into users_comany_relation(user_id,company_id,is_used)

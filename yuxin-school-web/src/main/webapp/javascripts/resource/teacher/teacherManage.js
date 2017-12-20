@@ -244,18 +244,17 @@ $(function() {
 			if (!birthday) {
 				$("#datetimepicker").attr("name", "");
 			}
-
+			$('#moduleIds').val(moduleIds);
 			if (teacherId == "" || teacherId == 0) {
-				url = rootPath + "/teacherManger/add?moduleIds="
-					+ moduleIds;
+				url = rootPath + "/teacherManger/add";
 				msg = "增加成功";
 			} else {
-				url = rootPath + "/teacherManger/update?moduleIds="
-					+ moduleIds;
+				url = rootPath + "/teacherManger/update";
 				msg = "修改成功";
 			}
 			$.ajax({
 				type : "post",
+				dataType:"JSON",
 				data : $("#teacherManageForm").serialize(),
 				url : url,
 				beforeSend : function(XMLHttpRequest) {

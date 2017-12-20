@@ -1,21 +1,18 @@
 package com.yuxin.wx.controller.branchschool;
 
 
-import com.yuxin.wx.api.company.ICompanyService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
-import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
-import com.yuxin.wx.api.system.ISysConfigTeacherService;
-import com.yuxin.wx.common.Constant;
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.common.SysConfigConstant;
-import com.yuxin.wx.model.company.Company;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigTeacher;
-import com.yuxin.wx.model.system.SysConfigTeacherLesson;
-import com.yuxin.wx.model.user.Users;
-import com.yuxin.wx.utils.PropertiesUtil;
-import com.yuxin.wx.utils.WebUtils;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +23,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.util.*;
+import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.system.ISysConfigItemService;
+import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
+import com.yuxin.wx.api.system.ISysConfigTeacherService;
+import com.yuxin.wx.common.Constant;
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.SysConfigConstant;
+import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigTeacher;
+import com.yuxin.wx.model.system.SysConfigTeacherLesson;
+import com.yuxin.wx.model.system.SysConfigTeacherModel;
+import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.utils.PropertiesUtil;
+import com.yuxin.wx.utils.WebUtils;
 
 /**
  * 分校教师管理
@@ -36,7 +47,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/teacherManger")
 public class TeacherManger {
-
+	
+	@Autowired
+	private ISysConfigDictService sysConfigDictServiceImpl;
     @Autowired
     private ISysConfigTeacherService sysConfigTeacherServiceImpl;
     @Autowired
@@ -59,20 +72,19 @@ public class TeacherManger {
     @RequestMapping(value = "/getTeacherList", method = RequestMethod.POST)
     public String getTeacherList(HttpServletRequest request, Model model,
                                  SysConfigTeacher teacher) {
-    	
         // 根据项目ID查询所有的老师
         teacher.setPageSize(10);
         Integer itemOneId = teacher.getItemOneId();
         PageFinder<SysConfigTeacher> pageFinder = null;
         if (itemOneId != null) {
             if (itemOneId == 0) {
-                //Users user = WebUtils.getCurrentUser();
-                int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(teacher.getCompanyId());
-                teacher.setSchoolId(schoolId);
-                teacher.setTeacherType(Constant.PERSON_TEACHER);
-                pageFinder = sysConfigTeacherServiceImpl.findNewTeacherPage(teacher);
+                teacher.setCompanyId(teacher.getCompanyId());
+				teacher.setTeacherType(Constant.PERSON_TEACHER);
+                pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
             } else if (itemOneId > 0) {
-                pageFinder = sysConfigTeacherServiceImpl.findNewTeacherPage(teacher);
+            	teacher.setCompanyId(teacher.getCompanyId());
+				teacher.setTeacherType(Constant.PERSON_TEACHER);
+                pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
             }
         }
 
@@ -227,6 +239,8 @@ public class TeacherManger {
                 secondItemMap.put(keyMap, dateList);
             }
         }
+        List<SysConfigDict> schools=sysConfigDictServiceImpl.findByDicCode("EDU_SCHOOL");
+		model.addAttribute("schools", schools);
         model.addAttribute("firstItems", firstItems);
         model.addAttribute("secondItemMap", secondItemMap);
         model.addAttribute("imgUrl", "http://" + properties.getProjectImageUrl() + "/");
@@ -270,24 +284,28 @@ public class TeacherManger {
      * @param sysConfigTeacher
      * @param moduleIds
      * @return
+     * @throws ParseException 
      */
     @ResponseBody
     @RequestMapping(value = "/add")
-    public String add(HttpServletRequest request,
-                      SysConfigTeacher sysConfigTeacher, String moduleIds) {
+    public String add(HttpServletRequest request,Model model,
+                      SysConfigTeacherModel sysConfigTeacher, String moduleIds) throws ParseException {
         sysConfigTeacher.setPwd(new Md5Hash(sysConfigTeacher.getPwd(),ByteSource.Util.bytes(sysConfigTeacher.getUserName()+"salt")).toHex());
         Users user = WebUtils.getCurrentUser(request);
         sysConfigTeacher.setCreator(user.getId());
         sysConfigTeacher.setCreateTime(new Date());
         sysConfigTeacher.setUpdateTime(new Date());
         sysConfigTeacher.setUpdator(user.getId());
-        sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
+        Integer companyId=request.getParameter("companyId")==null?WebUtils.getCurrentCompanyId():Integer.valueOf(request.getParameter("companyId"));
+        sysConfigTeacher.setCompanyId(companyId);
         sysConfigTeacher.setDelFlag(0);
         sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
         sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
-        sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
         sysConfigTeacher.setEduAreaSchool(request.getParameter("schoolCode"));
-        sysConfigTeacherServiceImpl.isnertTeaAndUse(sysConfigTeacher);
+        if(StringUtils.isNotEmpty((String)request.getParameter("birthday"))){
+        	sysConfigTeacher.setBirthday((String)request.getParameter("birthday"));
+        }
+        sysConfigTeacherServiceImpl.isnertTeaAndUse(copySysConfigTeacher(sysConfigTeacher));
 
         SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
         Integer teaId = sysConfigTeacher.getId();
@@ -303,8 +321,7 @@ public class TeacherManger {
         sysConfigTeacherLessonServiceImpl.insert(lesson);
         return "success";
     }
-
-
+    
     /**
      * 保存修改教师信息
      * @param request
@@ -312,11 +329,12 @@ public class TeacherManger {
      * @param sysConfigTeacher
      * @param moduleIds
      * @return
+     * @throws ParseException 
      */
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(HttpServletRequest request, Model model,
-                         SysConfigTeacher sysConfigTeacher, String moduleIds,Integer companyId) {
+    		SysConfigTeacherModel sysConfigTeacher) throws ParseException {
 
         String pwd = sysConfigTeacher.getPwd();
         if(pwd != null && pwd != ""){
@@ -328,12 +346,74 @@ public class TeacherManger {
         if(sysConfigTeacher.getTeaOrAdu() == null || "".equals(sysConfigTeacher.getTeaOrAdu())){
             sysConfigTeacher.setTeaOrAdu("tea");
         }
-        sysConfigTeacher.setCreator(companyId);
-//        sysConfigTeacher.setCompanyId(companyId);
-        sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
+        sysConfigTeacher.setCreator(sysConfigTeacher.getCompanyId());
+        sysConfigTeacher.setCompanyId(Integer.valueOf(request.getParameter("companyId")));
         sysConfigTeacher.setEduAreaSchool(request.getParameter("schoolCode"));
-        sysConfigTeacherServiceImpl.updateTeaAndUse(sysConfigTeacher);
+        if(request.getParameter("birthday")!=null)
+        	sysConfigTeacher.setBirthday(request.getParameter("birthday"));
+        sysConfigTeacherServiceImpl.updateTeaAndUse(copySysConfigTeacher(sysConfigTeacher));
         return "success";
     }
-
+    private SysConfigTeacher copySysConfigTeacher(SysConfigTeacherModel sysConfigTeacherModel){
+    	SysConfigTeacher sysConfigTeacher=new SysConfigTeacher();
+    	if(sysConfigTeacherModel==null) return sysConfigTeacher;
+    	sysConfigTeacher.setId(sysConfigTeacherModel.getId());
+    	sysConfigTeacher.setAddress(sysConfigTeacherModel.getAddress());
+    	sysConfigTeacher.setBankAccountName(sysConfigTeacherModel.getBankAccountName());
+    	sysConfigTeacher.setBankAccountNum(sysConfigTeacherModel.getBankAccountNum());
+    	sysConfigTeacher.setBankName(sysConfigTeacherModel.getBankName());
+    	sysConfigTeacher.setBirthday(sysConfigTeacherModel.getBirthday());
+    	sysConfigTeacher.setCompany(sysConfigTeacherModel.getCompany());
+    	sysConfigTeacher.setCompanyId(sysConfigTeacherModel.getCompanyId());
+    	sysConfigTeacher.setCourseCount(sysConfigTeacherModel.getCourseCount());
+    	sysConfigTeacher.setCreateTime(sysConfigTeacherModel.getCreateTime());
+    	sysConfigTeacher.setCreator(sysConfigTeacherModel.getCreator());
+    	sysConfigTeacher.setDelFlag(sysConfigTeacherModel.getDelFlag());
+    	sysConfigTeacher.setEduAreaSchool(sysConfigTeacherModel.getEduAreaSchool());
+    	sysConfigTeacher.setEducationCode(sysConfigTeacherModel.getEducationCode());
+    	sysConfigTeacher.setEmail(sysConfigTeacherModel.getEmail());
+    	sysConfigTeacher.setEmergencyContactName(sysConfigTeacherModel.getEmergencyContactName());
+    	sysConfigTeacher.setEmergencyContactPhone(sysConfigTeacherModel.getEmergencyContactPhone());
+    	sysConfigTeacher.setHeadpicUrl(sysConfigTeacherModel.getHeadpicUrl());
+    	sysConfigTeacher.setHomeAddress(sysConfigTeacherModel.getHomeAddress());
+    	sysConfigTeacher.setHomePhone(sysConfigTeacherModel.getHomePhone());
+    	sysConfigTeacher.setId(sysConfigTeacherModel.getId());
+    	sysConfigTeacher.setIdNumber(sysConfigTeacherModel.getIdNumber());
+    	sysConfigTeacher.setInviteCode(sysConfigTeacherModel.getInviteCode());
+    	sysConfigTeacher.setIsDistinguished(sysConfigTeacherModel.getIsDistinguished());
+    	sysConfigTeacher.setItemOneId(sysConfigTeacherModel.getItemOneId());
+    	sysConfigTeacher.setItemSecondId(sysConfigTeacherModel.getItemSecondId());
+    	sysConfigTeacher.setJobType(sysConfigTeacherModel.getJobType());
+    	sysConfigTeacher.setMobile(sysConfigTeacherModel.getMobile());
+    	sysConfigTeacher.setModuleId(sysConfigTeacherModel.getModuleId());
+    	sysConfigTeacher.setName(sysConfigTeacherModel.getName());
+    	sysConfigTeacher.setPage(sysConfigTeacherModel.getPage());
+    	sysConfigTeacher.setPageSize(sysConfigTeacherModel.getPageSize());
+    	sysConfigTeacher.setPost(sysConfigTeacherModel.getPost());
+    	sysConfigTeacher.setPwd(sysConfigTeacherModel.getPwd());
+    	sysConfigTeacher.setPwdNext(sysConfigTeacherModel.getPwdNext());
+    	sysConfigTeacher.setRemark(sysConfigTeacherModel.getRemark());
+    	sysConfigTeacher.setResume(sysConfigTeacherModel.getResume());
+    	sysConfigTeacher.setSchoolId(sysConfigTeacherModel.getSchoolId());
+    	sysConfigTeacher.setSchoolName(sysConfigTeacherModel.getSchoolName());
+    	sysConfigTeacher.setSchoolShortName(sysConfigTeacherModel.getSchoolShortName());
+    	sysConfigTeacher.setSex(sysConfigTeacherModel.getSex());
+    	sysConfigTeacher.setSortId(sysConfigTeacherModel.getSortId());
+    	sysConfigTeacher.setStatusCode(sysConfigTeacherModel.getStatusCode());
+    	sysConfigTeacher.setStuCount(sysConfigTeacherModel.getStuCount());
+    	sysConfigTeacher.setTeacherArea(sysConfigTeacherModel.getTeacherArea());
+    	sysConfigTeacher.setTeacherId(sysConfigTeacherModel.getTeacherId());
+    	sysConfigTeacher.setTeacherLevel(sysConfigTeacherModel.getTeacherLevel());
+    	sysConfigTeacher.setTeaOrAdu(sysConfigTeacherModel.getTeaOrAdu());
+    	sysConfigTeacher.setTotalRecords(sysConfigTeacherModel.getTotalRecords());
+    	sysConfigTeacher.setTeacherType(sysConfigTeacherModel.getTeacherType());
+    	sysConfigTeacher.setUnionpayNo(sysConfigTeacherModel.getUnionpayNo());
+    	sysConfigTeacher.setUpdateTime(sysConfigTeacherModel.getUpdateTime());
+    	sysConfigTeacher.setUpdator(sysConfigTeacherModel.getUpdator());
+    	sysConfigTeacher.setUserId(sysConfigTeacherModel.getUserId());
+    	sysConfigTeacher.setUserName(sysConfigTeacherModel.getUserName());
+    	sysConfigTeacher.setWorkPhone(sysConfigTeacherModel.getWorkPhone());
+    	sysConfigTeacher.setWorkTime(sysConfigTeacherModel.getWorkTime());
+    	return sysConfigTeacher;
+    }
 }

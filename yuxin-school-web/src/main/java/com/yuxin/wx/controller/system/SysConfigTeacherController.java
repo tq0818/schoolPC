@@ -135,7 +135,7 @@ public class SysConfigTeacherController {
 		sysConfigTeacher.setCreateTime(new Date());
 		sysConfigTeacher.setUpdateTime(new Date());
 		sysConfigTeacher.setUpdator(user.getId());
-		sysConfigTeacher.setCompanyId(user.getCompanyId());
+		sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
 		sysConfigTeacher.setDelFlag(0);
 		sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
 		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
@@ -201,7 +201,7 @@ public class SysConfigTeacherController {
 		sysConfigTeacher.setCreateTime(new Date());
 		sysConfigTeacher.setUpdateTime(new Date());
 		sysConfigTeacher.setUpdator(user.getId());
-		sysConfigTeacher.setCompanyId(user.getCompanyId());
+		sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
 		sysConfigTeacher.setDelFlag(0);
 		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
 		sysConfigTeacherServiceImpl.isnertTeaAndUse(sysConfigTeacher);
@@ -677,11 +677,13 @@ public class SysConfigTeacherController {
 		if(itemOneId != null){
 			if(itemOneId == 0){
 				Users user = WebUtils.getCurrentUser();
-				teacher.setSchoolId(user.getSchoolId());
 				teacher.setCompanyId(user.getCompanyId());
 				teacher.setTeacherType(Constant.PERSON_TEACHER);
 				pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
 			}else if(itemOneId > 0){
+				Users user = WebUtils.getCurrentUser();
+				teacher.setCompanyId(user.getCompanyId());
+				teacher.setTeacherType(Constant.PERSON_TEACHER);
 				pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
 			}
 		}
@@ -735,6 +737,7 @@ public class SysConfigTeacherController {
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("companyId", user.getCompanyId());
 		param.put("schoolId", user.getSchoolId());
+		param.put("itemType","1");
 		//根据公司id 和学校id 查询 一级项目
 		List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
 		
@@ -784,7 +787,6 @@ public class SysConfigTeacherController {
 		model.addAttribute("secondItemMap", secondItemMap);
 		model.addAttribute("imgUrl", "http://"+properties.getProjectImageUrl()+"/");
 		if(teacher == null){
-
 			teacher = new SysConfigTeacher();
 			teacher.setId(0);
 			model.addAttribute("teacher", teacher);
@@ -953,27 +955,13 @@ public class SysConfigTeacherController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/queryTeacherDetail",method=RequestMethod.POST)
-	public List<SysConfigTeachersVo> queryTeacherDetailByName(String teacherName,Integer teacherType, HttpServletRequest request){
+	public List<SysConfigTeachersVo> queryTeacherDetailByName(String teacherName,Integer ccompanyId,Integer teacherType, HttpServletRequest request){
 		SysConfigTeachersVo sysConfigTeacher=new SysConfigTeachersVo();
-		sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
-		sysConfigTeacher.setSchoolId(WebUtils.getCurrentSchoolId());
+		Integer companyId=ccompanyId==null?WebUtils.getCurrentCompanyId():ccompanyId;
+		sysConfigTeacher.setCompanyId(companyId);
 		sysConfigTeacher.setTeacherType(teacherType);
 		sysConfigTeacher.setTeacherName(teacherName);
 		List<SysConfigTeachersVo> arr= sysConfigTeacherServiceImpl.findSysConfigTeachersByName(sysConfigTeacher);
-//		for(SysConfigTeachersVo teacher:arr){
-//			if(teacher.getItemOneId()!=null){
-//				SysConfigItem itemOne=sysConfigItemServiceImpl.findSysConfigItemById(teacher.getItemOneId());
-//				teacher.setItemOneName(itemOne.getItemName());
-//			}else{
-//				teacher.setItemOneName("");
-//			}
-//			if(teacher.getItemSecondId()!=null){
-//				SysConfigItem itemTwo=sysConfigItemServiceImpl.findSysConfigItemById(teacher.getItemSecondId());
-//				teacher.setItemSecondName(itemTwo.getItemName());
-//			}else{
-//				teacher.setItemSecondName("");
-//			}
-//		}
 		return arr;
 	}
 	

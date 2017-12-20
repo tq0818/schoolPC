@@ -206,7 +206,10 @@ public class AuthRoleServiceImpl extends BaseServiceImpl implements IAuthRoleSer
 		List<AuthRole> arr=null;
 		List<UserRolesListVo> data=authRoleMapper.queryAllUser(search);
 		for(UserRolesListVo user:data){
-			arr=authRoleMapper.findAuthRoleListByUser(user.getUserId());
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("userId",user.getUserId());
+			params.put("companyId",search.getCompanyId());
+			arr=authRoleMapper.findAuthRoleListByUser(params);
 			user.setArr(arr);
 		}
 		int rowCount=authRoleMapper.queryAllUserCount(search);
@@ -218,7 +221,10 @@ public class AuthRoleServiceImpl extends BaseServiceImpl implements IAuthRoleSer
 		List<AuthRole> arr=null;
 		List<UserRolesListVo> data=authRoleMapper.queryNewAllUser(search);
 		for(UserRolesListVo user:data){
-			arr=authRoleMapper.findAuthRoleListByUser(user.getUserId());
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("userId",search.getUserId());
+			params.put("companyId",search.getCompanyId());
+			arr=authRoleMapper.findAuthRoleListByUser(params);
 			user.setArr(arr);
 		}
 		int rowCount=authRoleMapper.queryNewAllUserCount(search);
@@ -227,9 +233,11 @@ public class AuthRoleServiceImpl extends BaseServiceImpl implements IAuthRoleSer
 	}
 
 	@Override
-	public List<AuthRole> queryAuthRoleListByUser(Integer userId) {
-		
-		return authRoleMapper.findAuthRoleListByUser(userId);
+	public List<AuthRole> queryAuthRoleListByUser(Integer userId,Integer companyId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userId",userId);
+		params.put("companyId",companyId);
+		return authRoleMapper.findAuthRoleListByUser(params);
 	}
 
 	@Override
@@ -298,8 +306,11 @@ public class AuthRoleServiceImpl extends BaseServiceImpl implements IAuthRoleSer
 	 * true:当前可跨分校，false:当前不可跨分校
 	 */
 	@Override
-	public boolean hasRoleFlag(Integer userId) {
-		List<AuthRole> list=authRoleMapper.findAuthRoleListByUser(userId);
+	public boolean hasRoleFlag(Integer userId,Integer companyId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userId",userId);
+		params.put("companyId",companyId);
+		List<AuthRole> list=authRoleMapper.findAuthRoleListByUser(params);
 		if(null!=list){
 			for(AuthRole auth:list){
 				if(null!=auth && null!=auth.getRoleFlag() && auth.getRoleFlag() ==1){
@@ -311,8 +322,11 @@ public class AuthRoleServiceImpl extends BaseServiceImpl implements IAuthRoleSer
 	}	
 
 	@Override
-	public boolean checkUserHasPrivilege(Integer userId, String privilegeCode) {
-		List<AuthRole> roleArr=authRoleMapper.findAuthRoleListByUser(userId);
+	public boolean checkUserHasPrivilege(Integer userId, String privilegeCode,Integer companyId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("userId",userId);
+		params.put("companyId",companyId);
+		List<AuthRole> roleArr=authRoleMapper.findAuthRoleListByUser(params);
 		if(null!=roleArr){
 			for(AuthRole role:roleArr){
 				if(null!=role){

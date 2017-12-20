@@ -156,7 +156,7 @@ public interface IAuthRoleService  {
   * @param userId
   * @return
   */
- List<AuthRole> queryAuthRoleListByUser(Integer userId);
+ List<AuthRole> queryAuthRoleListByUser(Integer userId,Integer companyId);
  /**
   * 
   * Class Name: IAuthRoleService.java
@@ -256,7 +256,7 @@ public interface IAuthRoleService  {
   */
  List<AuthRole> queryRolesByUid(String rUids);
  
- 	boolean hasRoleFlag(Integer userId);
+ 	boolean hasRoleFlag(Integer userId,Integer companyId);
  	
  	/**
  	 * 
@@ -271,7 +271,7 @@ public interface IAuthRoleService  {
  	 * @param privilegeCode 权限名称
  	 * @return true:有此权限，false:无此权限
  	 */
- 	boolean checkUserHasPrivilege(Integer userId,String privilegeCode);
+ 	boolean checkUserHasPrivilege(Integer userId,String privilegeCode,Integer companyId);
  	/**
  	 * 查询该分校所有的科目
  	 * @return

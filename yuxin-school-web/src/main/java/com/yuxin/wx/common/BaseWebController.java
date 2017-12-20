@@ -284,6 +284,15 @@ public class BaseWebController {
         		return null;
         	}
         }
+        if(schoolId==null){
+        	schoolId=companyServiceImpl.findSchoolIdByCompanyId(companyId);
+        	if(schoolId!=null){
+        		cache.put("schoolId_"+rootPath,schoolId);
+        	}else{
+        		response.sendRedirect(request.getContextPath()+"/fonts/404.html");;
+        		return null;
+        	}
+        }
         session.setAttribute(WebUtils.COMPANY_ID, companyId);
         session.setAttribute(WebUtils.SCHOOL_ID, schoolId);
         if (subject.isAuthenticated()) {// 已经成功登录过,直接跳到首页

@@ -152,6 +152,7 @@
                     <c:when test="${item.teacherArea=='xin_du'}"><c:set var="teacherArea" value="新都区"></c:set></c:when>
                     <c:when test="${item.teacherArea=='du_jiang_yan'}"><c:set var="teacherArea" value="都江堰市"></c:set></c:when>
                     <c:when test="${item.teacherArea=='pi_du'}"><c:set var="teacherArea" value="郫都区"></c:set></c:when>
+                    <c:when test="${item.teacherArea=='peng_zhou'}"><c:set var="teacherArea" value="彭州市"></c:set></c:when>
                     <c:when test="${item.teacherArea=='qing_bai_jiang'}"><c:set var="teacherArea" value="青白江区"></c:set></c:when>
                     <c:when test="${item.teacherArea=='jin_tang_xian'}"><c:set var="teacherArea" value="金堂县"></c:set></c:when>
                 </c:choose>

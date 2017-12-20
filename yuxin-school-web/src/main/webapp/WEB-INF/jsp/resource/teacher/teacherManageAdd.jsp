@@ -173,6 +173,7 @@ $(function(){
 											<option value="xin_du">新都区</option>
 											<option value="du_jiang_yan">都江堰市</option>
 											<option value="pi_du">郫都区</option>
+											<option value="peng_zhou">彭州市</option>
 											<option value="qing_bai_jiang">青白江区</option>
 											<option value="jin_tang_xian">金堂县</option>
 										</select>

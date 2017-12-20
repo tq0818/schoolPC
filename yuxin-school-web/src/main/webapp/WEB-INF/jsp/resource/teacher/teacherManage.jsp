@@ -206,6 +206,7 @@ $(function(){
 											<option value="xin_du" ${teacher.teacherArea=='xin_du'?'selected':''}>新都区</option>
 											<option value="du_jiang_yan" ${teacher.teacherArea=='du_jiang_yan'?'selected':''}>都江堰市</option>
 											<option value="pi_du" ${teacher.teacherArea=='pi_du'?'selected':''}>郫都区</option>
+											<option value="peng_zhou" ${teacher.teacherArea=='peng_zhou'?'selected':''}>彭州市</option>
 											<option value="qing_bai_jiang" ${teacher.teacherArea=='qing_bai_jiang'?'selected':''}>青白江区</option>
 											<option value="jin_tang_xian" ${teacher.teacherArea=='jin_tang_xian'?'selected':''}>金堂县</option>
 										</select>

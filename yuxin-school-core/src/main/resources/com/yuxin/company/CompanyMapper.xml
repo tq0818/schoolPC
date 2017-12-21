@@ -1475,11 +1475,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</insert>
 	<!-- company_service_static -->
 	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">
-		insert into company_service_static (company_id,live_concurrent,video_storage,video_flow,face_student,
-		online_student,message_send,email_send,school_num,resource_storage,resource_flow) 
-		(select #{companyId},live_concurrent,video_storage,video_flow,face_student,
-		online_student,message_send,email_send,school_num,resource_storage,resource_flow
-		from company_service_static where company_id=#{zhuCompanyId})
+		insert into company_service_static (company_id)  values (#{companyId})
 	</insert>
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
@@ -1534,6 +1530,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		select id,edu_step,edu_year,count(edu_class) as edu_class from edu_master_class emc 
 		where edu_year <![CDATA[ <= ]]> (select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW()) else (YEAR(NOW())-1) end)
 		and edu_year<![CDATA[ > ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
+		and edu_school=#{eduAreaSchool}
 		GROUP BY edu_step,edu_year 
 		ORDER BY edu_step ,edu_year desc
 		

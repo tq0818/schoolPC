@@ -265,6 +265,7 @@ function closeBtn(companyId,itemCode,delFlag) {
 })(jQuery)
 
 function addBerkeley(biaoshi){
+    
 		var branchCode=$("#branchCode").val();
 		if(null==branchCode || ''==branchCode){
 			alert("分校机构代码不能为空");

@@ -141,8 +141,8 @@
                     <input type="text" name="linkPerson" id="linkPerson">
                 </li>
                 <li>
-                    <label style="margin-right: 35px;">联系方式<i style="color: red;" class="iconfont ico"></i></label>
-                    <input type="text" name="linkPhone" id="linkPhone">
+                    <label style="margin-right: 35px;">联系方式<i style="color: red;" class="iconfont ico" ></i></label>
+                    <input type="text" name="linkPhone" id="linkPhone" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="11" >
                 </li>
                 <li>
                     <label>分校域名<i style="color: red;" class="iconfont ico"></i></label><br/>

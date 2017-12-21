@@ -153,7 +153,7 @@
 						<div class="btn-center margin10">
 
 						</div>
-                        <div  class="btn-center margin10">
+                        <div  class=" margin10" style="text-align: right">
                             <span>总报名人数</span><span id="total"></span><span>，实际观课人数</span><span id="watch"></span>
                         </div>
 					</form>

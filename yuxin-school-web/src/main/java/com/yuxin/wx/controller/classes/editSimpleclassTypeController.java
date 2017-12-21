@@ -252,6 +252,7 @@ public class editSimpleclassTypeController {
     	params.put("companyId", WebUtils.getCurrentCompanyId());
        	List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
         model.addAttribute("typeItems", relations);
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
         
         if (null != classType) {
             if (classType.getLiveFlag() == 1 && classType.getFaceFlag() == 1) {

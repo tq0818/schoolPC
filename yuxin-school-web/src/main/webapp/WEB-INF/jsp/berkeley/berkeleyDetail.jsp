@@ -44,7 +44,7 @@
                 <input type="hidden"  value="${company.id}" id="companyId">
             </li>
             <li>
-                <label>学校:</label>
+                <label>分校:</label>
                 <input type="text" disabled="disabled" value="${company.companyName }" style="margin-left: 70px;">
             </li>
             <li>

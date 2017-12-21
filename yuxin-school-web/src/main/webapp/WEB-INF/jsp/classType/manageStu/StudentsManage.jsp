@@ -39,6 +39,7 @@
 <form action="<%=rootPath %>/classStu/queryData" id="DataForm" method="post">
 	<input type="hidden" value="${classType.id }" id="stuClassTypeId" name="id"/>
 	<input type="hidden" value="${lable }" id="lableTypes" name="lable"/>
+	<input type="hidden" value="2" id="keche" name="keche"/>
 	<input type="hidden" id="stuMobiles" value="" name="stuMobiles"/>
 </form>
 
@@ -49,7 +50,7 @@
 
 		    <div class="mainbackground nopadding" style="min-height: 546px;">
 		        <div class="heading">
-		            <h2 class="h5">导入用户</h2>
+		            <h2 class="h5">导入用户2</h2>
 		            <span class="line"></span>
 		        </div>
 		        <div class="main-content">

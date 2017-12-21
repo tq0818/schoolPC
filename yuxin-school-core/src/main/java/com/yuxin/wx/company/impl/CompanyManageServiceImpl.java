@@ -132,7 +132,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 Users user =new Users();
 		 user.setUsername(search.getEduAreaSchool()+"111111");
 		 user.setPassword(new Md5Hash("111111", ByteSource.Util.bytes(search.getEduAreaSchool()+"111111" + "salt")).toHex());
-		 user.setRealName("学校管理员");
+		 user.setRealName("机构管理员");
 		 user.setUserType("USER_TYPE_ORG");
 		 user.setStatus(1);
 		 user.setEduAreaSchool(search.getEduAreaSchool());

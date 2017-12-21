@@ -1266,7 +1266,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO `sys_config_service` (`group_code`, `updator`, `update_time`, `company_id`, `del_flag`,`parent_code`)
 		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
-		inner join company c on scs.company_id=c.id and c.is_area=0;
+		inner join company c on scs.company_id=c.id and c.is_area=0 and parent_code is not null;
 	</insert>
 	<!-- 添加学校-->
 	<insert id="addSchool" parameterType="string" useGeneratedKeys="true" keyProperty="id">
@@ -1317,8 +1317,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		and role_name<![CDATA[ <>]]>'总校管理员' 
 		and role_name<![CDATA[ <>]]>'课程顾问'
 		and role_name<![CDATA[ <>]]>'教科院'
-		and role_name<![CDATA[ <>]]>'文轩教育'
-		and role_name<![CDATA[ <>]]>'机构管理员')
+		and role_name<![CDATA[ <>]]>'文轩教育')
 	</insert>
 	<insert id="addAuth2Role" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
@@ -1329,7 +1328,6 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		and role_name<![CDATA[ <>]]>'课程顾问'
 		and role_name<![CDATA[ <>]]>'教科院'
 		and role_name<![CDATA[ <>]]>'文轩教育'
-		and role_name<![CDATA[ <>]]>'机构管理员'
 		and role_name<![CDATA[ <>]]>'区县负责人')
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
@@ -1367,7 +1365,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- 插入用户角色关系 -->
 	<insert id="addAuthUserRole" parameterType="com.yuxin.wx.model.auth.AuthUserRole" useGeneratedKeys="true" keyProperty="id">
 		insert into auth_user_role(user_id,role_uid,create_time,creator ) 
-		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId} and role_name='分校管理员')
+		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId} and role_name='机构管理员')
 	</insert>
 	<!-- company_app_auth -->
 	<insert id="addCompanyAppAuth" parameterType="com.yuxin.wx.model.company.CompanyAppAuth" useGeneratedKeys="true" keyProperty="id">

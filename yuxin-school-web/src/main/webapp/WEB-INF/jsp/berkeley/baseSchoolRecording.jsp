@@ -150,6 +150,8 @@
 			student.search(1,data);
 		}
 	});
+//        二级菜单加active
+$selectSubMenu('baseSchoolLive');
 </script>
 </body>
 </html>

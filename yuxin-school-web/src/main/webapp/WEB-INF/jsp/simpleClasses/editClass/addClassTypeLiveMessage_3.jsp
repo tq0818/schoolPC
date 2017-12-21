@@ -82,6 +82,7 @@
 </div>
     </div>
 </div>
+
 <%--保存直播预习..回放信息--%>
 <div class="popupwin popuwinback add-fix" data-pupwin="modal" style="top:15%;left:18%;width:55%;height:auto;">
 	<div class="popupwin-title">
@@ -91,6 +92,12 @@
 	<div class="main form-horizontal">
 		<div class="form-body">
 			<input type="hidden" id="lessonUrlId"/>
+			<div class="form-group">
+				<label class="col-md-2 control-label">预习课程名称</label>
+				<div class="col-md-8" >
+					<input type="text" class="form-control" id="beforeStudyName" maxlength="200" name="beforeStudyName" />
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="col-md-2 control-label">直播预习</label>
 				<div class="col-md-8" >

@@ -130,6 +130,7 @@
                 <li>
                     <label style="margin-right: 35px;">学校性质<i style="color: red;" class="iconfont ico"></i></label>
                     <select id="schoolProperties" style="width: 164px;">
+                    	<option value="">无</option>
                         <c:forEach items="${schoolPros}" var="schoolPro" >
 		                    <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
 		                </c:forEach>

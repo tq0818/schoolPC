@@ -1159,7 +1159,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!--分校首页学校列表-->
 	<select id="queryCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="com.yuxin.wx.model.company.CompanyVo">
 		select * from (select su.* from (
-			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
 			left join student s on s.edu_area=co.edu_area_school and s.edu_identity=0 and s.is_in_school=1
@@ -1172,7 +1172,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{eduArea}</if>
 			GROUP BY co.id
 			union
-			select co.domain,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
@@ -1308,7 +1308,25 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
 		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
-		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=#{zhuCompanyId} and role_name<![CDATA[ <>]]>'总校管理员')
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role 
+		where  company_id=#{zhuCompanyId} 
+		and role_name<![CDATA[ <>]]>'总校管理员' 
+		and role_name<![CDATA[ <>]]>'课程顾问'
+		and role_name<![CDATA[ <>]]>'教科院'
+		and role_name<![CDATA[ <>]]>'文轩教育'
+		and role_name<![CDATA[ <>]]>'机构管理员')
+	</insert>
+	<insert id="addAuth2Role" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		insert into  auth_role
+		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role 
+		where company_id=#{zhuCompanyId} 
+		and role_name<![CDATA[ <>]]>'总校管理员'
+		and role_name<![CDATA[ <>]]>'课程顾问'
+		and role_name<![CDATA[ <>]]>'教科院'
+		and role_name<![CDATA[ <>]]>'文轩教育'
+		and role_name<![CDATA[ <>]]>'机构管理员'
+		and role_name<![CDATA[ <>]]>'区县负责人')
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
 	  update auth_role set role_uid=id where role_uid is null

@@ -116,6 +116,15 @@ function closeBtn(companyId,itemCode,delFlag) {
                     	$('#branchSchool').text(companyName);
                     	$('#eara').text(eduArea);
                     	$('#isArea').val(dictCode);
+                    	if(companyName==eduArea){
+                    		var options = document.getElementById('schoolProperties').children;
+                        	options[0].selected=true;
+                        	document.getElementById("schoolProperties").disabled=true;	
+                    	}else{
+                    		document.getElementById("schoolProperties").disabled=false;	
+                    	}
+                    	
+                    	
                     },
                     complete: function (XMLHttpRequest, textStatus) {
                     }
@@ -194,7 +203,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                                             '<td>'+stu.classCounts+'</td>'+
                                             '<td class="slink">'+
                                                 '<a class="showSignUp" mobile="" uname="sdsdsd" href="'+rootPath+'/classManager/getClassInfo/'+stu.id+'">详情</a>|'+
-                                                '<a class="studentDetail" mobile="" uname="sdsdsd" href="'+stu.domain+'">查看官网</a>|'+
+                                                '<a class="studentDetail" mobile="" uname="sdsdsd"  target="_Blank" href="'+stu.domain+'">查看官网</a>|'+
                                                 '<a class="more" href="javascript:void(0);">更多'+
                                                 '</a>'+
                                                 '<ul class="none box" style="display: none;">'+
@@ -260,6 +269,40 @@ function addBerkeley(biaoshi){
 		if(null==branchCode || ''==branchCode){
 			alert("分校机构代码不能为空");
 			return;
+		}else{
+			var data={};
+	    	data.brachCode=branchCode;
+			   $.ajax({
+	               url: rootPath + "/berkeley/queryCompanyVo",
+	               data: data,
+	               type: 'post',
+	               beforeSend: function (XMLHttpRequest) {
+	               },
+	               success: function (jsonData) {
+	               	if(jsonData==null || jsonData==''){
+	               		alert("输入错误");
+	               		$("#branchCode").val("");
+	               		$("#branchSchool").text("");
+	               		$("#eara").text("");
+	               		return;
+	               	}
+	               	var companyName=jsonData.companyName;
+	               	var eduArea=jsonData.eduArea;
+	               	var dictCode=jsonData.dictCode;
+	               	$('#branchSchool').text(companyName);
+	               	$('#eara').text(eduArea);
+	               	$('#isArea').val(dictCode);
+	               	if(companyName==eduArea){
+                		var options = document.getElementById('schoolProperties').children;
+                    	options[0].selected=true;
+                    	document.getElementById("schoolProperties").disabled=true;	
+                	}else{
+                		document.getElementById("schoolProperties").disabled=false;	
+                	}
+	               },
+	               complete: function (XMLHttpRequest, textStatus) {
+	               }
+	           });
 		}
 		var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
 		var isArea=$("#isArea").val();

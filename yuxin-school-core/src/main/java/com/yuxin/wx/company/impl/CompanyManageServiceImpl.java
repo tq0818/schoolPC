@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,8 +113,12 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 rol.setCreator(String.valueOf(userId));
 		 rol.setCompanyId(ids);
 		 rol.setZhuCompanyId(String.valueOf(zhuCompanyId));
-		 companyMapper.addAuthRole(rol);
+		 if("1".equals(search.getIsArea())){
+			 companyMapper.addAuthRole(rol);
+		 }
+		 
 		 if("2".equals(search.getIsArea())){
+			 companyMapper.addAuth2Role(rol);
 			 companyMapper.insertHeadmasterRole(rol);
 			 companyMapper.insertTeacherRole(rol);
 		 }

@@ -1308,7 +1308,25 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
 		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
-		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role where company_id=#{zhuCompanyId} and role_name<![CDATA[ <>]]>'总校管理员')
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role 
+		where  company_id=#{zhuCompanyId} 
+		and role_name<![CDATA[ <>]]>'总校管理员' 
+		and role_name<![CDATA[ <>]]>'课程顾问'
+		and role_name<![CDATA[ <>]]>'教科院'
+		and role_name<![CDATA[ <>]]>'文轩教育'
+		and role_name<![CDATA[ <>]]>'机构管理员')
+	</insert>
+	<insert id="addAuth2Role" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
+		insert into  auth_role
+		(role_name,description,parent_id,company_id,create_time,creator,role_flag)
+		(select role_name,description,parent_id,#{companyId},NOW(),#{creator},1 from auth_role 
+		where company_id=#{zhuCompanyId} 
+		and role_name<![CDATA[ <>]]>'总校管理员'
+		and role_name<![CDATA[ <>]]>'课程顾问'
+		and role_name<![CDATA[ <>]]>'教科院'
+		and role_name<![CDATA[ <>]]>'文轩教育'
+		and role_name<![CDATA[ <>]]>'机构管理员'
+		and role_name<![CDATA[ <>]]>'区县负责人')
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
 	  update auth_role set role_uid=id where role_uid is null

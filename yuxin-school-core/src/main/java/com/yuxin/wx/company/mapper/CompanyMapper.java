@@ -192,6 +192,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addTwoSysConfigItem(SysConfigItem sci);
 	public void addSysConfigAndSchool(SysConfigItem sci);
 	public void addAuthRole(AuthRole rol);
+	public void addAuth2Role(AuthRole rol);
 	public void updateAuthRole();
 	public void insertHeadmasterRole(AuthRole rol);
 	public void insertTeacherRole(AuthRole rol);

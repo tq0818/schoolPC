@@ -84,23 +84,23 @@
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>学校私有课程收费比例:</label>
-                    <input type="text" id="privateCost" disabled="disabled" value="${company.privateCost }%" class="editState">
+                    <input type="text" id="privateCost" disabled="disabled" value="${company.privateCost }%" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">
                 </p>
                 <p style="margin-left: 95px;">
                     <label>学校开放课程收费比例:</label>
-                    <input type="text" id="publicCost" disabled="disabled" value="${company.publicCost }%" class="editState">
+                    <input type="text" id="publicCost" disabled="disabled" value="${company.publicCost }%" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">
                 </p>
             </li>
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
                     <label>流量 ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
                     <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量</span>
-                    <input type="text" id="flowSize" class="editState showDetails " >
+                    <input type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>空间 ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
                     <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间</span>
-                    <input type="text" id="spaceSize" class="editState showDetails "  >
+                    <input type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                 </p>
             </li>
             <li class="accountNumber">

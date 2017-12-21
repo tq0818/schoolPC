@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +36,7 @@ import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigCampus;
 import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
 import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigPageRedirect;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.user.Users;
@@ -226,6 +225,12 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 csc.setCompanyId(ids);
 		 csc.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addCompanyServiceStatic(csc);
+		 //sys_config_page_redirect
+		 SysConfigPageRedirect scpr =new SysConfigPageRedirect();
+		 scpr.setCompanyId(ids);
+		 scpr.setZhuCompanyId(zhuCompanyId);
+		 scpr.setSchoolId(school.getId());
+		 companyMapper.addSysConfigPageRedirect(scpr);
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {

@@ -20,7 +20,7 @@ public class SysConfigPageRedirect extends BaseEntity {
 	private String	bussinessType;		 /* 业务类型：字典表 */ 
 	private Integer	sysType;		 /* 系统类型：0-前台 1-后台 */
 	private Integer schoolId;		/*分校id*/
-
+	private Integer zhuCompanyId;
 	// Constructor
 	public SysConfigPageRedirect() {
 	}
@@ -126,4 +126,19 @@ public class SysConfigPageRedirect extends BaseEntity {
 	public void setSchoolId(Integer schoolId) {
 		this.schoolId = schoolId;
 	}
+
+
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
+	
 }

@@ -1481,6 +1481,14 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">
 		insert into company_service_static (company_id)  values (#{companyId})
 	</insert>
+	<!-- sys_config_page_redirect -->
+	<insert id="addSysConfigPageRedirect" parameterType="com.yuxin.wx.model.system.SysConfigPageRedirect" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_page_redirect (school_id,company_id,link,status,template_id,
+		bussiness_type,sys_type) 
+		(select #{schoolId},#{companyId},link,status,template_id,
+		bussiness_type,sys_type
+		from sys_config_page_redirect where company_id=#{zhuCompanyId})
+	</insert>
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
 		select <include refid="table_columns_company" /> from company t1

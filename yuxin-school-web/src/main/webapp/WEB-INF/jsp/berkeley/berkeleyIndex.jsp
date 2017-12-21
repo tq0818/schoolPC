@@ -65,10 +65,10 @@
                    		注册学生人数<input type="hidden" id="penNum" value="4"/>
                     </th>
                     <th width="10%" class="btn-sort lessNum">
-                    	课程数<input type="hidden" id="lessNum" value="6"/>
+                    	课程数<input type="hidden" id="lessNum" value="8"/>
                     </th>
                     <th width="10%" class="btn-sort clasNum">
-                    	班级数<input type="hidden" id="clasNum" value="8"/>
+                    	班级数<input type="hidden" id="clasNum" value="6"/>
                     </th>
                     <th width="15%">操作</th>
                 </tr>

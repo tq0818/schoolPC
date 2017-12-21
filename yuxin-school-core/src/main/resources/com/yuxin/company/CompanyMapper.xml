@@ -1188,10 +1188,14 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		) su where su.id is not null
 		limit #{firstIndex},#{pageSize}) sss
 		order by  
-		sss.registTime <if test="paixu != null and paixu == 2"> DESC </if> ,
-		sss.registStudentCounts <if test="paixu != null and paixu == 4"> DESC </if> ,
-		sss.classCounts <if test="paixu != null and paixu == 6"> DESC </if> ,
-		sss.classTypeCounts <if test="paixu != null and paixu == 8"> DESC </if> 
+		 <if test="paixu != null and paixu == 1">sss.registTime ASC </if> 
+		 <if test="paixu != null and paixu == 2">sss.registTime DESC </if> 
+		 <if test="paixu != null and paixu == 3">sss.registStudentCounts ASC </if> 
+		<if test="paixu != null and paixu == 4">sss.registStudentCounts  DESC  </if>
+		<if test="paixu != null and paixu == 5">sss.classCounts ASC </if> 
+		 <if test="paixu != null and paixu == 6">sss.classCounts DESC </if> 
+		 <if test="paixu != null and paixu == 7">sss.classTypeCounts ASC </if> 
+		 <if test="paixu != null and paixu == 8">sss.classTypeCounts DESC </if> 
 	</select>
 	<!--分校首页学校数量-->
 	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
@@ -1270,7 +1274,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		creator,del_flag,company_id,default_flag,overview,
 		index_domain,xzqh_code,school_type,suffix)
 		select #{schoolName},#{schoolDesc},NOW(),
-		#{creator},0,#{companyId},null,overview,
+		#{creator},0,#{companyId},1,overview,
 		index_domain,xzqh_code,school_type,suffix from sys_config_school  where company_id=#{zhuCompanyId}
 	</insert>
 	<!-- 添加一级科目信息-->

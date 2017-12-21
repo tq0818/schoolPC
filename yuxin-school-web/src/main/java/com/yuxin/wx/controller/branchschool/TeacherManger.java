@@ -99,6 +99,7 @@ public class TeacherManger {
     	Company company=companyService.findCompanyById(companyId);
      	model.addAttribute("company", company);
     	int schoolId=sysConfigItemServiceImpl.findschooIdByCompanyId(companyId);
+        //List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId,schoolId);
         List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId,schoolId);
         model.addAttribute("items", firstItems);
         model.addAttribute("companyId", companyId);
@@ -202,47 +203,49 @@ public class TeacherManger {
         param.put("companyId", companyId);
         param.put("schoolId", schoolId);
         //根据公司id 和学校id 查询 一级项目
-        List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+        //List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+        
+        List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, companyId,schoolId);
 
-        List<SysConfigItem> firstItems = new ArrayList<SysConfigItem>();
-        List<SysConfigItem> secondItems = new ArrayList<SysConfigItem>();
-
-        if (items != null && items.size() > 0) {
-            for (SysConfigItem item : items) {
-                if (item.getItemType().equals("1")) {
-                    firstItems.add(item);
-                } else if (item.getItemType().equals("2")) {
-                    secondItems.add(item);
-                }
-            }
-        }
+//        List<SysConfigItem> firstItems = new ArrayList<SysConfigItem>();
+//        List<SysConfigItem> secondItems = new ArrayList<SysConfigItem>();
+//
+//        if (items != null && items.size() > 0) {
+//            for (SysConfigItem item : items) {
+//                if (item.getItemType().equals("1")) {
+//                    firstItems.add(item);
+//                } else if (item.getItemType().equals("2")) {
+//                    secondItems.add(item);
+//                }
+//            }
+//        }
 
         // 循环二级项目放入map中
         //Map<Integer,List<SysConfigItem>> secondItemMap = new TreeMap<Integer, List<SysConfigItem>>();
         //指定排序器
-        TreeMap<Integer, List<SysConfigItem>> secondItemMap = new TreeMap<Integer, List<SysConfigItem>>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer arg0, Integer arg1) {
-                return arg0.compareTo(arg1);
-            }
-        });
+//        TreeMap<Integer, List<SysConfigItem>> secondItemMap = new TreeMap<Integer, List<SysConfigItem>>(new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer arg0, Integer arg1) {
+//                return arg0.compareTo(arg1);
+//            }
+//        });
 
-        List<SysConfigItem> dateList = null;
-        for (SysConfigItem item : secondItems) {
-            Integer keyMap = item.getParentId();
-            if (secondItemMap.containsKey(keyMap)) {
-                dateList = secondItemMap.get(keyMap);
-                dateList.add(item);
-            } else {
-                dateList = new ArrayList<SysConfigItem>();
-                dateList.add(item);
-                secondItemMap.put(keyMap, dateList);
-            }
-        }
+//        List<SysConfigItem> dateList = null;
+//        for (SysConfigItem item : secondItems) {
+//            Integer keyMap = item.getParentId();
+//            if (secondItemMap.containsKey(keyMap)) {
+//                dateList = secondItemMap.get(keyMap);
+//                dateList.add(item);
+//            } else {
+//                dateList = new ArrayList<SysConfigItem>();
+//                dateList.add(item);
+//                secondItemMap.put(keyMap, dateList);
+//            }
+//        }
         List<SysConfigDict> schools=sysConfigDictServiceImpl.findByDicCode("EDU_SCHOOL");
 		model.addAttribute("schools", schools);
         model.addAttribute("firstItems", firstItems);
-        model.addAttribute("secondItemMap", secondItemMap);
+       // model.addAttribute("secondItemMap", secondItemMap);
         model.addAttribute("imgUrl", "http://" + properties.getProjectImageUrl() + "/");
         if (teacher == null) {
             teacher = new SysConfigTeacher();
@@ -255,9 +258,10 @@ public class TeacherManger {
             if (les != null && les.getItemOneId() != null && les.getItemOneId().toString().length() > 0) {
                 teacher.setItemOneId(les.getItemOneId());
             }
-            if (les != null && les.getItemSecondId() != null && les.getItemSecondId().toString().length() > 0) {
-                teacher.setItemSecondId(les.getItemSecondId().toString());
-            }
+            
+//            if (les != null && les.getItemSecondId() != null && les.getItemSecondId().toString().length() > 0) {
+//                teacher.setItemSecondId(les.getItemSecondId().toString());
+//            }
         }
         model.addAttribute("teacher", teacher);
         model.addAttribute("companyId", companyId);
@@ -306,19 +310,6 @@ public class TeacherManger {
         	sysConfigTeacher.setBirthday((String)request.getParameter("birthday"));
         }
         sysConfigTeacherServiceImpl.isnertTeaAndUse(copySysConfigTeacher(sysConfigTeacher));
-
-        SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
-        Integer teaId = sysConfigTeacher.getId();
-        Integer itemOneId = sysConfigTeacher.getItemOneId();
-        String strTwoId = sysConfigTeacher.getItemSecondId();
-        if(strTwoId == null || strTwoId == ""){
-            strTwoId = "0";
-        }
-        Integer itemTwoId = Integer.parseInt(strTwoId);
-        lesson.setItemOneId(itemOneId);
-        lesson.setItemSecondId(itemTwoId);
-        lesson.setTeacherId(teaId);
-        sysConfigTeacherLessonServiceImpl.insert(lesson);
         return "success";
     }
     

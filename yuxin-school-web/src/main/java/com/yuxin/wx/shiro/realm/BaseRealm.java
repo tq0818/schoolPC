@@ -64,7 +64,7 @@ public class BaseRealm extends AuthorizingRealm{
         Set set=principals.asSet();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(authUserRoleServiceImpl.queryUserRoles(username,WebUtils.getCurrentCompanyId()));
-        Set<String> ss=authUserRoleServiceImpl.findUserPermissions(username);
+        Set<String> ss=authUserRoleServiceImpl.findUserPermissions(username,WebUtils.getCurrentCompanyId());
         authorizationInfo.setStringPermissions(ss);
         return authorizationInfo;
     }

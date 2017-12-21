@@ -17,6 +17,21 @@
             margin-bottom: 15px;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
+    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/select2/select2.css"/>
+
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.cookie.js"></script>
+    <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/common/message.js"></script>
+    <script type="text/javascript" src="<%=rootPath %>/javascripts/resource/teacher/teacher.js"></script>
+
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
+    <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
+    <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
+    
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.min.js"></script>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.datetimepicker.js"></script>
 
@@ -112,23 +127,6 @@
         }
         .u-wrap .mainbackground{padding: 0;}
     </style>
-    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
-    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
-    <link rel="stylesheet" href="<%=rootPath%>/stylesheets/bootstrap-datetimepicker.css"/>
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/select2/select2.css"/>
-
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/resource.css"/>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.cookie.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/common/message.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/javascripts/resource/teacher/teacher.js"></script>
-
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
-    <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
-    <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
-    <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>--%>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
     <style type="text/css">
         .head-div {
             position: relative;
@@ -456,7 +454,6 @@
 		                                	<c:choose>
 											       <c:when test="${index.index == 0}">
 											             <a href="javascript:;" itemOneId="${item.id }" onclick="chooseOneItem(this, ${item.id})" class="btn btn-mini btn-success itemOne">${item.itemName }</a>
-											                <input type="hidden" value="${item.id}" name="itemOneId" id="itemOneId"/>
 											       </c:when>
 											       <c:otherwise>
 											            <a href="javascript:;" itemOneId="${item.id }" onclick="chooseOneItem(this, ${item.id})"  class="btn btn-mini btn-default itemOne">${item.itemName }</a>
@@ -465,7 +462,7 @@
 		                                </c:forEach>
 		                            </span>
 		                        </p>
-                                <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
+                                <%-- <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
                                 	<c:choose>
 									       <c:when test="${index.index == 0}">
 									              <p class='c secondItem show' item-one-id=${secondMap.key }>
@@ -488,8 +485,8 @@
 										    </c:forEach>
 									    </span>
 								    </p>
-								</c:forEach>
-								<input type="hidden" value="" name="itemSecondId" id="itemSecondId"/>
+								</c:forEach> --%>
+								<input type="hidden" value="" name="itemOneId" id="itemOneId"/>
 		                    </li>
 		                </ul>
 		                <!-- <div class="box-config">
@@ -604,6 +601,7 @@
 <script>
     $(function(){
         $selectSubMenu('resource_teacher');
+        $("#schoolCode").select2();
     });
 </script>
 </body>

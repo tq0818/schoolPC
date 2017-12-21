@@ -383,7 +383,6 @@ $(function(){
 		                                	<c:choose>
 											       <c:when test="${item.id== teacher.itemOneId}">
 											                <a href="javascript:;" itemOneId="${item.id }"  class="btn btn-mini btn-success itemOne">${item.itemName }</a>
-											                <input type="hidden" value="${item.id}" name="itemOneId" id="itemOneId"/>
 											       </c:when>
 											       <c:otherwise>
 											                <a href="javascript:;" itemOneId="${item.id }"  class="btn btn-mini btn-default itemOne">${item.itemName }</a>
@@ -392,7 +391,7 @@ $(function(){
 		                                </c:forEach>
 		                            </span>
 		                        </p>
-                                <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
+                               <%--  <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
                                 	<c:choose>
 									       <c:when test="${secondMap.key == teacher.itemOneId}">
 									              <p class='c secondItem show' item-one-id=${secondMap.key }>
@@ -415,8 +414,9 @@ $(function(){
 										    </c:forEach>
 									    </span>
 								    </p>
-								</c:forEach>
-								<input type="hidden" value="" name="itemSecondId" id="itemSecondId"/>
+								</c:forEach> --%>
+								<input type="hidden" value="" name="itemOneId" id="itemOneId"/>
+								
 		                    </li>
 		                </ul>
 		                <%-- <div class="box-config">

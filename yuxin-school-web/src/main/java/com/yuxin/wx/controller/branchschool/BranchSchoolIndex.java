@@ -203,7 +203,6 @@ public class BranchSchoolIndex {
     public JSONObject addBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc){
     	 
     	 JSONObject json = new JSONObject();
-         log.info("qa：添加分校:");
          String eduAreaSchool = request.getParameter("branchCode").toString();
          search.setEduAreaSchool(eduAreaSchool);
          if(null == request.getParameter("isArea") || "" ==request.getParameter("isArea")){

@@ -9,7 +9,6 @@
      <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
-<<<<<<< HEAD
      <script type="text/javascript" src="<%=rootPath %>/javascripts/my.jquery.validate.js"></script>
     
      <script type="text/javascript">
@@ -22,11 +21,6 @@
 		.editDelete{color: red !important;}
 	</style>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
-=======
-    <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
->>>>>>> branch 'feature_tob_upgrade_new' of http://git.winshare-edu.com:80/winshare/winshare-yuxin-school.git
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
@@ -217,16 +211,15 @@
 	});
 	//	点击任课老师，出来任课老师权限
 	$('.headmaster').click(function(){
-	    if(!$(this).hasClass('btn-success')){
-        }else{
+	    if($(this).hasClass('btn-success')){
             $('.areamasterToB').empty();
         }
 	});
     $('.classTeacher').click(function(){
-        if(!$(this).hasClass('btn-success')){
-        }else{
+        if($(this).hasClass('btn-success')){
             $('.headmasterToB').empty();
         }
+    });
 </script>
 <div class="loading-bg lp-units-loading-bg" style="display: none"></div>
 <!--  ajax加载中div结束 -->
@@ -236,14 +229,12 @@
         $selectSubMenus('permissionManagement');
     });
     $('.areamaster').click(function(){
-        if(!$(this).hasClass('btn-success')){
-        }else{
+        if($(this).hasClass('btn-success')){
             $('.areamasterToB').empty();
         }
     });
     $('.schoolmaster').click(function(){
-	    if(!$(this).hasClass('btn-success')){
-        }else{
+	    if($(this).hasClass('btn-success')){
             $('.schoolmasterToB').empty();
         }
 	});

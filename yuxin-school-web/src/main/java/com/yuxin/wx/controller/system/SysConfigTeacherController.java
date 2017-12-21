@@ -665,11 +665,6 @@ public class SysConfigTeacherController {
 	@RequestMapping(value = "/teacherAjaxList", method = RequestMethod.POST)
 	public String teacherAjaxList(HttpServletRequest request, Model model,
 								  SysConfigTeacher teacher) {
-		// sysConfigTeacher.setSchoolId(WebUtils.getCurrentSchoolId());
-		// PageFinder<SysConfigTeacher>
-		// pageFinder=sysConfigTeacherServiceImpl.queryTeachersByKeys(sysConfigTeacher);
-		// model.addAttribute("pageFinder",pageFinder);
-
 		// 根据项目ID查询所有的老师
 		teacher.setPageSize(10);
 		Integer itemOneId = teacher.getItemOneId();
@@ -737,24 +732,28 @@ public class SysConfigTeacherController {
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("companyId", user.getCompanyId());
 		param.put("schoolId", user.getSchoolId());
-		param.put("itemType","1");
+		param.put("itemType","2");
 		//根据公司id 和学校id 查询 一级项目
-		List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+		//List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+		
+		//List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+		
+		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, user.getCompanyId(), WebUtils.getCurrentSchoolId());
 		
 //		List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(null, user.getCompanyId());
 
-		List<SysConfigItem> firstItems = new ArrayList<SysConfigItem>();
-		List<SysConfigItem> secondItems = new ArrayList<SysConfigItem>();
+//		List<SysConfigItem> firstItems = new ArrayList<SysConfigItem>();
+//		List<SysConfigItem> secondItems = new ArrayList<SysConfigItem>();
 
-		if (items != null && items.size() > 0) {
-			for (SysConfigItem item : items) {
-				if (item.getItemType().equals("1")) {
-					firstItems.add(item);
-				} else if (item.getItemType().equals("2")) {
-					secondItems.add(item);
-				}
-			}
-		}
+//		if (items != null && items.size() > 0) {
+//			for (SysConfigItem item : items) {
+//				if (item.getItemType().equals("2")) {
+//					firstItems.add(item);
+//				} else if (item.getItemType().equals("2")) {
+//					secondItems.add(item);
+//				}
+//			}
+//		}
 
 		// 循环二级项目放入map中
 //		Map<Integer,List<SysConfigItem>> secondItemMap = new TreeMap<Integer, List<SysConfigItem>>();
@@ -766,25 +765,25 @@ public class SysConfigTeacherController {
 			}     
         });
         
-		List<SysConfigItem> dateList = null;
+		//List<SysConfigItem> dateList = null;
 		
-		for (SysConfigItem item : secondItems) {
-			Integer keyMap = item.getParentId();
-			if (secondItemMap.containsKey(keyMap)) {
-				dateList = secondItemMap.get(keyMap);
-				dateList.add(item);
-			} else {
-				dateList = new ArrayList<SysConfigItem>();
-				dateList.add(item);
-				secondItemMap.put(keyMap, dateList);
-			}
-		}
+//		for (SysConfigItem item : secondItems) {
+//			Integer keyMap = item.getParentId();
+//			if (secondItemMap.containsKey(keyMap)) {
+//				dateList = secondItemMap.get(keyMap);
+//				dateList.add(item);
+//			} else {
+//				dateList = new ArrayList<SysConfigItem>();
+//				dateList.add(item);
+//				secondItemMap.put(keyMap, dateList);
+//			}
+//		}
 
 		List<SysConfigDict> schools=sysConfigDictServiceImpl.findByDicCode("EDU_SCHOOL");
 		model.addAttribute("firstItems", firstItems);
 		model.addAttribute("schools", schools);
-		model.addAttribute("companyId", WebUtils.getCurrentCompanyId());
-		model.addAttribute("secondItemMap", secondItemMap);
+		model.addAttribute("companyId", user.getCompanyId());
+		//model.addAttribute("secondItemMap", secondItemMap);
 		model.addAttribute("imgUrl", "http://"+properties.getProjectImageUrl()+"/");
 		if(teacher == null){
 			teacher = new SysConfigTeacher();
@@ -796,9 +795,9 @@ public class SysConfigTeacherController {
 			if(les != null && les.getItemOneId() != null && les.getItemOneId().toString().length() > 0){
 				teacher.setItemOneId(les.getItemOneId());
 			}
-			if(les != null && les.getItemSecondId() != null && les.getItemSecondId().toString().length() > 0){
-				teacher.setItemSecondId(les.getItemSecondId().toString());
-			}
+//			if(les != null && les.getItemSecondId() != null && les.getItemSecondId().toString().length() > 0){
+//				teacher.setItemSecondId(les.getItemSecondId().toString());
+//			}
 		}
 //		// 根据老师ID查询老师对应的可以授课的模块
 //		List<SysConfigTeacherLessonVo> sysConfigTeacherLessonVos = sysConfigTeacherLessonServiceImpl

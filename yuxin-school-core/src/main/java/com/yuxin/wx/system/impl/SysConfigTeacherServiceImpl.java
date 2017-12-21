@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yuxin.wx.common.BaseServiceImpl;
+import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.auth.mapper.AuthRoleMapper;
 import com.yuxin.wx.auth.mapper.AuthUserRoleMapper;
@@ -45,6 +46,9 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 
     @Autowired
     private UsersMapper usersMapper;
+    
+    @Autowired
+    private ISysConfigTeacherLessonService sysConfigTeacherLessonServiceImpl;
 
     @Autowired
     private AuthUserRoleMapper authUserRoleMapper;
@@ -335,6 +339,13 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         }
         sysConfigTeacher.setUserId(users.getId());
         sysConfigTeacherMapper.insert(sysConfigTeacher);
+        
+        SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
+        Integer teaId = sysConfigTeacher.getId();
+        Integer itemOneId = sysConfigTeacher.getItemOneId();
+        lesson.setItemOneId(itemOneId);
+        lesson.setTeacherId(teaId);
+        sysConfigTeacherLessonServiceImpl.insert(lesson);
         AuthUserRole authUserRole = new AuthUserRole();
         authUserRole.setUserId(users.getId());
         String ttype = sysConfigTeacher.getTeaOrAdu();

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
+import com.yuxin.wx.vo.privilege.RoleVo;
 
 /**
  * Service Interface:AuthUserRole
@@ -125,6 +126,7 @@ public interface IAuthUserRoleService  {
 	
 	Set<String> queryUserRoles(String userName,Integer companyId);
 	
+	List<RoleVo> queryRolesByConttion(Integer userId,Integer companyId);
  /**
   * 
   * Class Name: IAuthUserRoleService.java

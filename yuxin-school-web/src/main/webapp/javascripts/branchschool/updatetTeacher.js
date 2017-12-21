@@ -5,16 +5,15 @@ var mobileNum = null;
 var arrMsg = ['登陆账号不能为空', '登陆账号已存在', '登陆账号只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成', '老师名称不能为空', '该老师姓名已存在', '老师姓名由汉字、字母 、数字、下划线组成', '手机号不能为空','该手机号已存在','手机号格式不正确','请输入密码','请输入确认密码','两次密码不一致','老师简介不能超过500个字','学校简称不能为空','老师摘要不能超过500个字'];
 $(function() {
 	//给二级学科id赋值
-	var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
-	$("#itemSecondId").val(itemTwoId);
-
+	var itemOneId = $(".itemOneClass").find("a.btn-success").attr("itemoneid");
+	$("#itemOneId").val(itemOneId);
 	//二级学科点击
-	$(".itemTwo").click(function(){
-		$(this).attr("class", "btn btn-mini itemTwo btn-success").siblings().attr("class",
-			"btn btn-mini itemTwo btn-default");
-		var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
-		$("#itemSecondId").val(itemTwoId);
-	});
+//	$(".itemTwo").click(function(){
+//		$(this).attr("class", "btn btn-mini itemTwo btn-success").siblings().attr("class",
+//			"btn btn-mini itemTwo btn-default");
+//		var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
+//		$("#itemSecondId").val(itemTwoId);
+//	});
 
 	$("#schoolCode").change(function(){
 		var schoolCode=$(this).val();
@@ -272,7 +271,6 @@ $(function() {
 					$(".loading").hide();
 					$(".loading-bg").hide();
 					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
-					//window.location.href = rootPath + "/sysConfigTeacher/toTeacherIndex";
 				},
 			});
 		});
@@ -307,49 +305,49 @@ $(function() {
 //根据学科选择对应的学科小类
 function chooseOneItem(obj) {
 	$(obj).attr("class", "btn btn-mini btn-success").siblings().attr("class", "btn btn-mini btn-default");
-	var itemOneId = $(obj).attr("itemOneId");
+	var itemOneId = $(obj).attr("itemoneid");
 	$("#itemOneId").val(itemOneId);
-	var flag = false;
-	var isSecondItem = false;
-	var secondObj = null;
-	$(".secondItem").each(function() {
-		// 查找当前与imteOneId，对应的学科小类
-		var firstId = $(this).attr("item-one-id");
-
-		if (itemOneId == firstId) {
-			flag = true;
-			$(this).removeClass("hide").addClass("show");
-			$(this).find(".itemTwoClass a").each(function(index){
-				if(index == 0){
-					secondObj = $(this);
-				}
-				var classValue = $(this).attr("class");
-				if(classValue.indexOf("btn-success") > 0){
-					console.log($(this).attr("class"));
-					isSecondItem = true;
-					secondObj = null;
-				}
-			});
-		} else {
-			if ($(this).hasClass("show")) {
-				$(this).removeClass("show").addClass("hide");
-			}
-		}
-
-
-		//给二级学科id赋值
-		var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
-		$("#itemSecondId").val(itemTwoId);
-	});
-	//如果已经存在学科小类，则不再执行
-	if(!isSecondItem && secondObj != null){
-		$(secondObj).click();
-	}
-	if (!flag) {
-		$(".left").find("ul").each(function() {
-			$(this).html("<p class='nomodule'>该学科下还没有学科小类,请您先添加学科小类</p>");
-		});
-	}
+//	var flag = false;
+//	var isSecondItem = false;
+//	var secondObj = null;
+//	$(".secondItem").each(function() {
+//		// 查找当前与imteOneId，对应的学科小类
+//		var firstId = $(this).attr("item-one-id");
+//
+//		if (itemOneId == firstId) {
+//			flag = true;
+//			$(this).removeClass("hide").addClass("show");
+//			$(this).find(".itemTwoClass a").each(function(index){
+//				if(index == 0){
+//					secondObj = $(this);
+//				}
+//				var classValue = $(this).attr("class");
+//				if(classValue.indexOf("btn-success") > 0){
+//					console.log($(this).attr("class"));
+//					isSecondItem = true;
+//					secondObj = null;
+//				}
+//			});
+//		} else {
+//			if ($(this).hasClass("show")) {
+//				$(this).removeClass("show").addClass("hide");
+//			}
+//		}
+//
+//
+//		//给二级学科id赋值
+//		var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr("itemTwoId");
+//		$("#itemSecondId").val(itemTwoId);
+//	});
+//	//如果已经存在学科小类，则不再执行
+//	if(!isSecondItem && secondObj != null){
+//		$(secondObj).click();
+//	}
+//	if (!flag) {
+//		$(".left").find("ul").each(function() {
+//			$(this).html("<p class='nomodule'>该学科下还没有学科小类,请您先添加学科小类</p>");
+//		});
+//	}
 
 }
 
@@ -413,33 +411,33 @@ function chooseOneItem(obj) {
 //	return flag;
 //}
 
-function addModule() {
-	var postForm = document.createElement("form");// 表单对象
-	postForm.method = "post";
-	postForm.action = rootPath + '/classModule/toAddModule2';
-	postForm.target = "_blank";
-	var itemOneId = $(".itemOneClass").find("a.btn-success").attr("itemOneId");
-	var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr(
-		"itemTwoId");
-	var teachMethod = $(".tabs").find("a.btn-success").attr("teachMethod");
-
-	var itemOneInput = document.createElement("input"); // 学科 input
-	itemOneInput.setAttribute("name", "itemOneId");
-	itemOneInput.setAttribute("value", itemOneId);
-	postForm.appendChild(itemOneInput);
-	var itemTwoInput = document.createElement("input");// 学科小类 input
-	itemTwoInput.setAttribute("name", "itemTwoId");
-	itemTwoInput.setAttribute("value", itemTwoId);
-	postForm.appendChild(itemTwoInput);
-	var teachMethodInput = document.createElement("input");// 模块学科 input
-	teachMethodInput.setAttribute("name", "teachMethod");
-	teachMethodInput.setAttribute("value", teachMethod);
-	postForm.appendChild(teachMethodInput);
-
-	document.body.appendChild(postForm);
-	postForm.submit();
-	document.body.removeChild(postForm);
-}
+//function addModule() {
+//	var postForm = document.createElement("form");// 表单对象
+//	postForm.method = "post";
+//	postForm.action = rootPath + '/classModule/toAddModule2';
+//	postForm.target = "_blank";
+//	var itemOneId = $(".itemOneClass").find("a.btn-success").attr("itemOneId");
+//	var itemTwoId = $(".show .itemTwoClass").find("a.btn-success").attr(
+//		"itemTwoId");
+//	var teachMethod = $(".tabs").find("a.btn-success").attr("teachMethod");
+//
+//	var itemOneInput = document.createElement("input"); // 学科 input
+//	itemOneInput.setAttribute("name", "itemOneId");
+//	itemOneInput.setAttribute("value", itemOneId);
+//	postForm.appendChild(itemOneInput);
+//	var itemTwoInput = document.createElement("input");// 学科小类 input
+//	itemTwoInput.setAttribute("name", "itemTwoId");
+//	itemTwoInput.setAttribute("value", itemTwoId);
+//	postForm.appendChild(itemTwoInput);
+//	var teachMethodInput = document.createElement("input");// 模块学科 input
+//	teachMethodInput.setAttribute("name", "teachMethod");
+//	teachMethodInput.setAttribute("value", teachMethod);
+//	postForm.appendChild(teachMethodInput);
+//
+//	document.body.appendChild(postForm);
+//	postForm.submit();
+//	document.body.removeChild(postForm);
+//}
 
 //// 根据学科小类的ID获取对应的模块
 //function secondItemForModule(obj, num) {

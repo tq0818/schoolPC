@@ -175,7 +175,7 @@ public class AuthUserRoleServiceImpl extends BaseServiceImpl implements IAuthUse
 	 * @param userId
 	 * @return
 	 */
- @Override
+	@Override
 	public String findUserRoles(Integer userId){
 	    String roles="";
 	    List<AuthUserRole> al=authUserRoleMapper.findListByUserId(userId);
@@ -211,7 +211,18 @@ public Set<String> queryUserRoles(String userName, Integer companyId) {
 	 }
 	 return roles;
 }
-
+ @Override
+ public List<RoleVo> queryRolesByConttion(Integer userId, Integer companyId) {
+ 	 List<RoleVo> roles= new ArrayList<RoleVo>();
+ 	 List<RoleVo> al=authUserRoleMapper.findUserRoles(userId);
+ 	 for(RoleVo role : al){
+ 		 if(role.getCompanyId().intValue()!=companyId.intValue()){
+ 			 continue;
+ 		 }
+ 		 roles.add(role);
+ 	 }
+ 	 return roles;
+ }
 @Override
  public Set<String> findUserPermissions(String userName){
 	 	Set<String> permissions=new HashSet<String>();
@@ -269,7 +280,7 @@ public Set<String> queryUserRoles(String userName, Integer companyId) {
 		params.put("userName",userName);
 		params.put("companyId",companyId);
 	 	Users user=usersMapper.queryUserByCondition(params);
-	 	List<RoleVo> roles=authUserRoleMapper.findUserRoles(user.getId());
+	 	List<RoleVo> roles=queryRolesByConttion(user.getId(),companyId);
 	 	List<SysConfigService> services=sysConfigServiceMapper.findServiceByCompanyId(user.getCompanyId());
 	 	List<String> codes=new ArrayList<String>();
 	 	String tempCode="";

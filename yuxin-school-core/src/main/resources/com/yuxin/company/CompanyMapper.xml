@@ -1254,8 +1254,20 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	
 	<!-- 分配流量，分配存储空间-->
 	<insert id="addCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService" useGeneratedKeys="true" keyProperty="id">
-		insert into company_member_service(id,company_id,video_flow,video_storage)
-		 VALUES(#{id},#{companyId},#{videoFlow},#{videoStorage})
+		insert into company_member_service (company_id,video_flow,video_storage,live_concurrent_max,
+		live_start_date,live_end_date,video_start_date,video_end_date,face_student_all,message_total,
+		email_total,school_total,give_live,give_live_date,give_video_storage,give_video_storage_date,
+		give_video_flow,give_message,give_email,video_service_provider,live_service_provider,
+		live_service_template,video_flow_price,video_storage_price,message_price,email_price,
+		live_concurrent_price,member_price,doc_storge,doc_flow,resource_storge,resource_flow,
+		resource_storage_price,resource_flow_price )
+		select #{companyId},#{videoFlow},#{videoStorage},live_concurrent_max,
+		live_start_date,live_end_date,video_start_date,video_end_date,face_student_all,message_total,
+		email_total,school_total,give_live,give_live_date,give_video_storage,give_video_storage_date,
+		give_video_flow,give_message,give_email,video_service_provider,live_service_provider,
+		live_service_template,video_flow_price,video_storage_price,message_price,email_price,
+		live_concurrent_price,member_price,doc_storge,doc_flow,resource_storge,resource_flow,
+		resource_storage_price,resource_flow_price from company_member_service where company_id=#{zhuCompanyId}
 	</insert>
 	<!-- 展视互动账号-->
 	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">

@@ -79,6 +79,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 int ids=search.getId();
 		//分配流量。分配存储空间
 		 cms.setCompanyId(String.valueOf(ids));
+		 cms.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addCompanyMemberService(cms);
 		//添加展示互动表
 		 clc.setCompanyId(ids);

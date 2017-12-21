@@ -1141,7 +1141,8 @@
                 var add_eduIdentity = 1;
                 
             	var data={};
-            	data.roleType=$("#roleType").val()
+            	data.roleType=$("#roleType").val();
+            	data.isArea=$("#isArea").val();
                 data.name = $("#sName").val();
                 data.sex = $('input:radio[name="sSex"]:checked').val();
                 data.birthday = $("#sBirth").val();
@@ -1171,7 +1172,7 @@
                 	 $.msg("请选择所在区域");
                     return;
                }
-                if(data.roleType==1){
+                if(data.isArea==1||data.isArea==0){
                 	 data.eduSchool=$("#addEduSchool").val();
                 	 if(null==$("#addEduSchool").val() ||''==$("#addEduSchool").val()){
                     	 $.msg("请选择学校");

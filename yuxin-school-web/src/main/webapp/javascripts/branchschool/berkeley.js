@@ -58,23 +58,23 @@ function closeBtn(companyId,itemCode,delFlag) {
             	}
             });
             $(".lessNum").on('click', function () {
-            	if($("#lessNum").val()==5){
+            	if($("#lessNum").val()==7){
             		//2 asc 1 desc
-            		$("#lessNum").val("6")
-            		$this.search($("#pageNo").val(),5);
+            		$("#lessNum").val("8")
+            		$this.search($("#pageNo").val(),7);
             	}else{
-            		$("#lessNum").val("5")
-            		$this.search($("#pageNo").val(),6);
+            		$("#lessNum").val("7")
+            		$this.search($("#pageNo").val(),8);
             	}
             });
             $(".clasNum").on('click', function () {
-            	if($("#clasNum").val()==7){
+            	if($("#clasNum").val()==5){
             		//2 asc 1 desc
-            		$("#clasNum").val("8")
-            		$this.search($("#pageNo").val(),7);
+            		$("#clasNum").val("6")
+            		$this.search($("#pageNo").val(),5);
             	}else{
-            		$("#clasNum").val("7")
-            		$this.search($("#pageNo").val(),8);
+            		$("#clasNum").val("5")
+            		$this.search($("#pageNo").val(),6);
             	}
             });
             //全选 取消全选
@@ -265,6 +265,7 @@ function closeBtn(companyId,itemCode,delFlag) {
 })(jQuery)
 
 function addBerkeley(biaoshi){
+    
 		var branchCode=$("#branchCode").val();
 		if(null==branchCode || ''==branchCode){
 			alert("分校机构代码不能为空");

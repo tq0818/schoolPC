@@ -1188,10 +1188,14 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		) su where su.id is not null
 		limit #{firstIndex},#{pageSize}) sss
 		order by  
-		sss.registTime <if test="paixu != null and paixu == 2"> DESC </if> ,
-		sss.registStudentCounts <if test="paixu != null and paixu == 4"> DESC </if> ,
-		sss.classCounts <if test="paixu != null and paixu == 6"> DESC </if> ,
-		sss.classTypeCounts <if test="paixu != null and paixu == 8"> DESC </if> 
+		 <if test="paixu != null and paixu == 1">sss.registTime ASC </if> 
+		 <if test="paixu != null and paixu == 2">sss.registTime DESC </if> 
+		 <if test="paixu != null and paixu == 3">sss.registStudentCounts ASC </if> 
+		<if test="paixu != null and paixu == 4">sss.registStudentCounts  DESC  </if>
+		<if test="paixu != null and paixu == 5">sss.classCounts ASC </if> 
+		 <if test="paixu != null and paixu == 6">sss.classCounts DESC </if> 
+		 <if test="paixu != null and paixu == 7">sss.classTypeCounts ASC </if> 
+		 <if test="paixu != null and paixu == 8">sss.classTypeCounts DESC </if> 
 	</select>
 	<!--分校首页学校数量-->
 	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
@@ -1250,8 +1254,20 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	
 	<!-- 分配流量，分配存储空间-->
 	<insert id="addCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService" useGeneratedKeys="true" keyProperty="id">
-		insert into company_member_service(id,company_id,video_flow,video_storage)
-		 VALUES(#{id},#{companyId},#{videoFlow},#{videoStorage})
+		insert into company_member_service (company_id,video_flow,video_storage,live_concurrent_max,
+		live_start_date,live_end_date,video_start_date,video_end_date,face_student_all,message_total,
+		email_total,school_total,give_live,give_live_date,give_video_storage,give_video_storage_date,
+		give_video_flow,give_message,give_email,video_service_provider,live_service_provider,
+		live_service_template,video_flow_price,video_storage_price,message_price,email_price,
+		live_concurrent_price,member_price,doc_storge,doc_flow,resource_storge,resource_flow,
+		resource_storage_price,resource_flow_price )
+		select #{companyId},#{videoFlow},#{videoStorage},live_concurrent_max,
+		live_start_date,live_end_date,video_start_date,video_end_date,face_student_all,message_total,
+		email_total,school_total,give_live,give_live_date,give_video_storage,give_video_storage_date,
+		give_video_flow,give_message,give_email,video_service_provider,live_service_provider,
+		live_service_template,video_flow_price,video_storage_price,message_price,email_price,
+		live_concurrent_price,member_price,doc_storge,doc_flow,resource_storge,resource_flow,
+		resource_storage_price,resource_flow_price from company_member_service where company_id=#{zhuCompanyId}
 	</insert>
 	<!-- 展视互动账号-->
 	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
@@ -1262,7 +1278,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO `sys_config_service` (`group_code`, `updator`, `update_time`, `company_id`, `del_flag`,`parent_code`)
 		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
-		inner join company c on scs.company_id=c.id and c.is_area=0;
+		inner join company c on scs.company_id=c.id and c.is_area=0 and parent_code is not null;
 	</insert>
 	<!-- 添加学校-->
 	<insert id="addSchool" parameterType="string" useGeneratedKeys="true" keyProperty="id">
@@ -1270,7 +1286,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		creator,del_flag,company_id,default_flag,overview,
 		index_domain,xzqh_code,school_type,suffix)
 		select #{schoolName},#{schoolDesc},NOW(),
-		#{creator},0,#{companyId},null,overview,
+		#{creator},0,#{companyId},1,overview,
 		index_domain,xzqh_code,school_type,suffix from sys_config_school  where company_id=#{zhuCompanyId}
 	</insert>
 	<!-- 添加一级科目信息-->
@@ -1313,8 +1329,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		and role_name<![CDATA[ <>]]>'总校管理员' 
 		and role_name<![CDATA[ <>]]>'课程顾问'
 		and role_name<![CDATA[ <>]]>'教科院'
-		and role_name<![CDATA[ <>]]>'文轩教育'
-		and role_name<![CDATA[ <>]]>'机构管理员')
+		and role_name<![CDATA[ <>]]>'文轩教育')
 	</insert>
 	<insert id="addAuth2Role" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
@@ -1325,7 +1340,6 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		and role_name<![CDATA[ <>]]>'课程顾问'
 		and role_name<![CDATA[ <>]]>'教科院'
 		and role_name<![CDATA[ <>]]>'文轩教育'
-		and role_name<![CDATA[ <>]]>'机构管理员'
 		and role_name<![CDATA[ <>]]>'区县负责人')
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
@@ -1363,7 +1377,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- 插入用户角色关系 -->
 	<insert id="addAuthUserRole" parameterType="com.yuxin.wx.model.auth.AuthUserRole" useGeneratedKeys="true" keyProperty="id">
 		insert into auth_user_role(user_id,role_uid,create_time,creator ) 
-		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId} and role_name='分校管理员')
+		(select #{userId},role_uid,NOW(),#{creator} from auth_role where company_id=#{companyId} and role_name='机构管理员')
 	</insert>
 	<!-- company_app_auth -->
 	<insert id="addCompanyAppAuth" parameterType="com.yuxin.wx.model.company.CompanyAppAuth" useGeneratedKeys="true" keyProperty="id">
@@ -1475,11 +1489,15 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</insert>
 	<!-- company_service_static -->
 	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">
-		insert into company_service_static (company_id,live_concurrent,video_storage,video_flow,face_student,
-		online_student,message_send,email_send,school_num,resource_storage,resource_flow) 
-		(select #{companyId},live_concurrent,video_storage,video_flow,face_student,
-		online_student,message_send,email_send,school_num,resource_storage,resource_flow
-		from company_service_static where company_id=#{zhuCompanyId})
+		insert into company_service_static (company_id)  values (#{companyId})
+	</insert>
+	<!-- sys_config_page_redirect -->
+	<insert id="addSysConfigPageRedirect" parameterType="com.yuxin.wx.model.system.SysConfigPageRedirect" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_config_page_redirect (school_id,company_id,link,status,template_id,
+		bussiness_type,sys_type) 
+		(select #{schoolId},#{companyId},link,status,template_id,
+		bussiness_type,sys_type
+		from sys_config_page_redirect where company_id=#{zhuCompanyId})
 	</insert>
 	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
@@ -1534,6 +1552,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		select id,edu_step,edu_year,count(edu_class) as edu_class from edu_master_class emc 
 		where edu_year <![CDATA[ <= ]]> (select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW()) else (YEAR(NOW())-1) end)
 		and edu_year<![CDATA[ > ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
+		and edu_school=#{eduAreaSchool}
 		GROUP BY edu_step,edu_year 
 		ORDER BY edu_step ,edu_year desc
 		

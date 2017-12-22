@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
-		.screen-info select{margin-right: 20px;width: 180px;margin-bottom: 10px;}
+		.screen-info select{margin-right: 50px;width: 180px;margin-bottom: 10px;}
 		.screen-info input{width: 163px;height: 16px;line-height: 16px;}
 	</style>
 	<%--tob--%>
@@ -70,6 +70,8 @@
 							<option value="${item}" >${item}</option>
 						</c:forEach>
 					</select>
+				</div>
+				<div class="screen-info margin10">
 					<span>班级：</span>
 					<select name="eduClass" id="eduClass">
 						<option value="">请选择班级</option>
@@ -77,17 +79,16 @@
 							<option value="${index.index}">${index.index}班</option>
 						</c:forEach>
 					</select>
-				</div>
-				<div class="screen-info margin10">
 					<span class="date" style="margin-left: 0;">
 						<span class="text" style="margin-right: 10px;">日期:</span>
-						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em>至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
+						<span><input type="text" name="startTime" class="date-picker from" value="${startTime}"/><em style="margin: 0 20px 0 20px">至</em><input type="text" name="endTime" class="date-picker to" value="${endTime}"/></span>
 					</span>
-					<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询" style="margin-left: 70px;"/>
-					<div style="text-align: center;margin-top: 10px;">
-						<span><a href="javascript:;" class="btn btn-primary searchContents" style="margin-right: 20px;">查询</a></span>
-						<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>
-					</div>
+					<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询" style="margin-left: 113px;"/>
+					<%--<div style="text-align: center;margin-top: 10px;">--%>
+						<%----%>
+					<%--</div>--%>
+					<span><a href="javascript:;" class="btn btn-primary searchContents" style="margin-right: 20px;">查询</a></span>
+					<span><a href="javascript:;" class="btn btn-primary exportexcle">导出数据</a></span>
 
 				</div>
 			</form>
@@ -149,6 +150,8 @@
 			student.search(1,data);
 		}
 	});
+//        二级菜单加active
+$selectSubMenu('baseSchoolLive');
 </script>
 </body>
 </html>

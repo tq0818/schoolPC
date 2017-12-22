@@ -598,7 +598,7 @@ public class StudentExcelImportController {
 		
 		Integer companyId = WebUtils.getCurrentCompanyId();
 		StudentAll4CompanyVo allStudents = getCompanyAllStudents(companyId);
-		for (int i = list.size()-1; i > 0; i--) {
+		for (int i = list.size()-1; i >=0; i--) {
 			List<String> error = new ArrayList<String>();
 			Student student = list.get(i);
 			boolean flag=false;
@@ -626,9 +626,9 @@ public class StudentExcelImportController {
 				}
 				
 			}
-			if(flag || flag1){
+			if(null!=student && (flag || flag1)){
 				student.setUpdateB(1);
-			}else{
+			}else if(null!=student && (!flag && !flag1)){
 				student.setUpdateB(0);
 			}
 			if(error.size() > 0){

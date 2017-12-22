@@ -1,6 +1,9 @@
 package com.yuxin.wx.controller.branchschool;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -220,7 +223,13 @@ public class BranchSchoolIndex {
          search.setSchoolProperty(schoolProperties);
          search.setRegistTimes(new Date());
          search.setMemberStartDate(new Date());
-         search.setMemberEndDate(new Date());
+         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
+        try {
+        	Date date = sdf.parse("2099-04-24");
+	        search.setMemberEndDate(date);
+        } catch (ParseException e1) {
+	        e1.printStackTrace();
+        }
          search.setCompanyLogoType("picture");
          search.setCompanyLogo("company/18113/20170604/a964ec80-0647-4fd7-99cf-f454f3daf74a.png");
          search.setMemberLevel("80");

@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +36,7 @@ import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.system.SysConfigCampus;
 import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
 import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigPageRedirect;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.user.Users;
@@ -80,6 +79,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 int ids=search.getId();
 		//分配流量。分配存储空间
 		 cms.setCompanyId(String.valueOf(ids));
+		 cms.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addCompanyMemberService(cms);
 		//添加展示互动表
 		 clc.setCompanyId(ids);
@@ -133,7 +133,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 Users user =new Users();
 		 user.setUsername(search.getEduAreaSchool()+"111111");
 		 user.setPassword(new Md5Hash("111111", ByteSource.Util.bytes(search.getEduAreaSchool()+"111111" + "salt")).toHex());
-		 user.setRealName("学校管理员");
+		 user.setRealName("机构管理员");
 		 user.setUserType("USER_TYPE_ORG");
 		 user.setStatus(1);
 		 user.setEduAreaSchool(search.getEduAreaSchool());
@@ -226,6 +226,12 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 csc.setCompanyId(ids);
 		 csc.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addCompanyServiceStatic(csc);
+		 //sys_config_page_redirect
+		 SysConfigPageRedirect scpr =new SysConfigPageRedirect();
+		 scpr.setCompanyId(ids);
+		 scpr.setZhuCompanyId(zhuCompanyId);
+		 scpr.setSchoolId(school.getId());
+		 companyMapper.addSysConfigPageRedirect(scpr);
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {

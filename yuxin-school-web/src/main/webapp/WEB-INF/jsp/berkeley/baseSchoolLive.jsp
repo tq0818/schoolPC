@@ -17,7 +17,8 @@
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
-		.screen-info select{margin-right: 20px;width: 200px;margin-bottom: 10px;}
+		.screen-info select{margin-right: 50px;width: 200px;margin-bottom: 10px;}
+		.screen-info .text{font-style:normal;}
 	</style>
 	<%--tob--%>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
@@ -55,7 +56,7 @@
 									<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 										<option value="">请选择学校</option>
 									</select>
-									<span>学段</span>
+									<span style="margin-right: 23px;">学段</span>
 									<select name="eduStep" id="eduStep">
 										<option value="">请选择学段</option>
 										<c:forEach items="${steps}" var="steps" >
@@ -89,42 +90,42 @@
 								<select name="eduYear" id="eduYear">
 									<option value="">请选择入学年份</option>
 								</select>
-							<span>班级</span>
-								<select name="eduClass" id="eduClass">
-									<option value="">请选择班级</option>
-									<option value="1">1班</option>
-									<option value="2">2班</option>
-									<option value="3">3班</option>
-									<option value="4">4班</option>
-									<option value="5">5班</option>
-									<option value="6">6班</option>
-									<option value="7">7班</option>
-									<option value="8">8班</option>
-									<option value="9">9班</option>
-									<option value="10">10班</option>
-									<option value="11">11班</option>
-									<option value="12">12班</option>
-									<option value="13">13班</option>
-									<option value="14">14班</option>
-									<option value="15">15班</option>
-									<option value="16">16班</option>
-									<option value="17">17班</option>
-									<option value="18">18班</option>
-									<option value="19">19班</option>
-									<option value="20">20班</option>
-									<option value="21">21班</option>
-									<option value="22">22班</option>
-									<option value="23">23班</option>
-									<option value="24">24班</option>
-									<option value="25">25班</option>
-									<option value="26">26班</option>
-									<option value="27">27班</option>
-									<option value="28">28班</option>
-									<option value="29">29班</option>
-									<option value="30">30班</option>
-								</select>
 						</div>
 						<div style="margin-top: 10px;">
+							<span>班级</span>
+							<select name="eduClass" id="eduClass">
+								<option value="">请选择班级</option>
+								<option value="1">1班</option>
+								<option value="2">2班</option>
+								<option value="3">3班</option>
+								<option value="4">4班</option>
+								<option value="5">5班</option>
+								<option value="6">6班</option>
+								<option value="7">7班</option>
+								<option value="8">8班</option>
+								<option value="9">9班</option>
+								<option value="10">10班</option>
+								<option value="11">11班</option>
+								<option value="12">12班</option>
+								<option value="13">13班</option>
+								<option value="14">14班</option>
+								<option value="15">15班</option>
+								<option value="16">16班</option>
+								<option value="17">17班</option>
+								<option value="18">18班</option>
+								<option value="19">19班</option>
+								<option value="20">20班</option>
+								<option value="21">21班</option>
+								<option value="22">22班</option>
+								<option value="23">23班</option>
+								<option value="24">24班</option>
+								<option value="25">25班</option>
+								<option value="26">26班</option>
+								<option value="27">27班</option>
+								<option value="28">28班</option>
+								<option value="29">29班</option>
+								<option value="30">30班</option>
+							</select>
 							<span>学科</span>
 							<select name="itemThirdCode" id="subject">
 								<option value="">请选择学科</option>
@@ -136,7 +137,7 @@
 							<select name="commodityId" id="class">
 
 							</select>
-							<span>课次</span>
+							<span style="margin-right: 23px;">课次</span>
 							<select name="lessonId" id="lesson">
 
 							</select>
@@ -144,16 +145,15 @@
 								<i class="text">观看时间</i>
 								<span><input type="text" name="startTime" id="startTime"  class="date-picker from" value="${startTime}" style="width: 110px"><em>至</em><input type="text" id="endTime" name="endTime" class="date-picker to" value="${endTime}" style="width: 110px"></span>
 							</span>
-                            <input id="userOrMobile" name="userNameOrMobile" placeholder="学员手机号/用户名查询" type="text" style="height: 20px;"/>
+                            <input id="userOrMobile" name="userNameOrMobile" placeholder="学员手机号/用户名查询" type="text" style="height: 20px;width: 160px;"/>
 
+							<button class="btns-default" id="" onclick="searchbtn();" type="button" style="margin-left: 50px;">查询</button>
+							<button class="btns-default exportExcleStudent" id="search" type="button">导出数据</button>
 						</div>
 						<div class="btn-center margin10">
-							<button class="btns-default" id="search" onclick="searchbtn();" type="button">查询</button>
-							<button class="btns-default exportExcleStudent" id="search" type="button">导出数据</button>
-
 
 						</div>
-                        <div  class="btn-center margin10">
+                        <div  class=" margin10" style="text-align: right">
                             <span>总报名人数</span><span id="total"></span><span>，实际观课人数</span><span id="watch"></span>
                         </div>
 					</form>
@@ -238,6 +238,10 @@
             search(1,data);
         }
     });
+
+//        二级菜单加active
+    $selectSubMenu('baseSchoolLive');
+
 </script>
 </body>
 </html>

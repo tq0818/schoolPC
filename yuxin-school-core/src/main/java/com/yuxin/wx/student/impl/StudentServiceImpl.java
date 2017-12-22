@@ -1626,7 +1626,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		UsersFront usersFront = null;
 		Date date = new Date();
 		for (StudentImportVo student : students) {
-			if(student.getUpdateB()==0){
+			if( student.getUpdateB()==0){
 				//新增学生集合
 				s = new Student();
 				if(student.getMobile() != null) s.setMobile(student.getMobile());

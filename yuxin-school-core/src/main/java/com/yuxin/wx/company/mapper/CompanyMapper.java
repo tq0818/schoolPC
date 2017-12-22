@@ -29,6 +29,7 @@ import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.model.system.SysConfigCampus;
 import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
 import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigPageRedirect;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysLogManagerOption;
 import com.yuxin.wx.model.system.SysPageHeadFoot;
@@ -217,6 +218,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addSysLogManagerOption(SysLogManagerOption smo);
 	public void addSysPageHeadFoot(SysPageHeadFoot sphf);
 	public void addCompanyServiceStatic(CompanyServiceStatic csc);
+	public void addSysConfigPageRedirect(SysConfigPageRedirect scpr);
 	
 	/**
 	 * 

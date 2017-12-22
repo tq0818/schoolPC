@@ -218,6 +218,7 @@ public class CommodityController {
 			if(StringUtils.isNotBlank(pageSize)){
 				special.setPageSize(Integer.parseInt(pageSize));
 			}
+			special.setCompanyId(WebUtils.getCurrentCompanyId());
 			List<CommoditySpecial> specialList = commoditySpecialServiceImpl.findSpecialByPage(special);
 			int count = commoditySpecialServiceImpl.findSpecialByPageCount();
 			model.addAttribute("specialList", specialList);
@@ -246,7 +247,8 @@ public class CommodityController {
 			search.setItemType("1");
 			search.setCompanyId(user.getCompanyId());
 			search.setSchoolId(user.getSchoolId());
-			subjectList = sysConfigItemServiceImpl.findItem(search);
+			subjectList = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, user.getCompanyId(),user.getSchoolId());
+			//subjectList = sysConfigItemServiceImpl.findItem(search);
 			String id = request.getParameter("id");
 			if(StringUtils.isNotBlank(id)){
 				CommoditySpecial cs = new CommoditySpecial();

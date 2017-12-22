@@ -1255,7 +1255,7 @@ public class CompanyController {
                     sysPageHeadFootServiceImpl.update(head);
                 }
             }
-            relogin();
+            //relogin();
             json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
             return json;
         } catch (Exception e) {
@@ -1553,7 +1553,7 @@ public class CompanyController {
                 json.put(JsonMsg.MSG, "auth");
                 return json;
             }
-            if("0".equals(WebUtils.getCurrentIsArea())){
+            if(!"0".equals(WebUtils.getCurrentIsArea())){
             	json.put(JsonMsg.MSG,"no_auth");
             	return json;
             }

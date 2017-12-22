@@ -26,7 +26,10 @@
 
     <select id="findSpecialByPage" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" resultMap="commoditySpecialMap">
         select 
-        id,title,label,order_flag,status from commodity_special order by status desc, order_flag is null,order_flag asc limit #{firstIndex},#{pageSize}
+        id,title,label,order_flag,status 
+        from commodity_special 
+        where company_id=#{companyId}
+        order by status desc, order_flag is null,order_flag asc limit #{firstIndex},#{pageSize}
     </select>
 
     <select id="findSpecialByPageCount"  resultType="int">

@@ -1575,6 +1575,9 @@ public class SimpleclassTypeController {
 		commodity.setStatus("0");
 		
 		commodityServiceImpl.update(commodity);
+		//pc端下架的课程，app端也下架
+		Integer comid = commodity.getId();
+		commodityServiceImpl.updateShelves(comid);
 		
 		classType.setIsSale(0);
 		classType.setUpdateTime(new Date());

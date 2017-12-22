@@ -343,6 +343,10 @@
 		update commodity set buy_num=buy_num+1
 		where id = #{id}
 	</update>
+	<update id="updateShelves" parameterType="Integer">
+		update app_shelves set is_shelves = 0
+		where comdity_id = #{comId}
+	</update>
 	
 	<select id="querycommByCompanyId" parameterType="Integer" resultMap="commodityResultMap">
 		select <include refid="table_columns" /> 

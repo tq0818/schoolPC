@@ -48,6 +48,11 @@ public interface ICommodityService  {
 	* @user by wangzx
 	 */
 	void update(Commodity T);
+	/**
+	 * pc端下架，app也下架
+	 * @param comId
+	 */
+	void updateShelves(Integer comId);
 	
 	/**
 	 * 

@@ -55,6 +55,11 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
 	 * @param param
 	 */
 	void updateStatus(Map<String, Object> param);
+	/**
+	 * pc下架，app也下架
+	 * @param comId
+	 */
+	void updateShelves(Integer comId);
 	
 	Integer findCommodityIdByClassTypeId(Integer classTypeId);
 	

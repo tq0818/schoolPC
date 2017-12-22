@@ -249,4 +249,9 @@ public class CommodityServiceImpl extends BaseServiceImpl implements ICommodityS
         return commodityMapper.findCommodityByItems(search);
     }
 
+	@Override
+	public void updateShelves(Integer comId) {
+		commodityMapper.updateShelves(comId);
+	}
+
 }

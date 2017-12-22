@@ -59,7 +59,16 @@ public class QuestionVo extends BaseEntity {
 	private Integer readFlag;       /*当前question中是否 */
 	private List<QuestionClassifyRelation> relList;/*问题所含标签*/
 	private List<QuestionAnswer> answerList;
-	
+	private String headPicMax;
+
+	public String getHeadPicMax() {
+		return headPicMax;
+	}
+
+	public void setHeadPicMax(String headPicMax) {
+		this.headPicMax = headPicMax;
+	}
+
 	// Constructor
 	public QuestionVo() {
 	}

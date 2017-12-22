@@ -60,7 +60,7 @@ public interface IAuthUserRoleService  {
 	* @date 2015-1-26
 	* @user by wangzx
 	 */
-	void deleteAuthUserRoleById(Integer id);
+	void deleteAuthUserRoleById(AuthUserRole role);
 	
 	/**
 	 * 

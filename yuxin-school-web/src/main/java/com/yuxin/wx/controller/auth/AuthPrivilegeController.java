@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -382,9 +380,12 @@ public class AuthPrivilegeController {
 		//修改用户角色
 		if(rolesId!=null&&!"".equals(rolesId)){
 			//清除原来用户角色
-			authUserRoleServiceImpl.deleteAuthUserRoleById(user.getId());
 			String r=rolesId.substring(0, rolesId.length()-1);
 			String[] roles=r.split(",");
+			AuthUserRole role=new AuthUserRole();
+			role.setUserId(user.getId());
+			role.setRoles(roles);
+			authUserRoleServiceImpl.deleteAuthUserRoleById(role);
 			for(int i=0;i<roles.length;i++){
 				 AuthUserRole authUserRole=new AuthUserRole();
 			     authUserRole.setUserId(user.getId());

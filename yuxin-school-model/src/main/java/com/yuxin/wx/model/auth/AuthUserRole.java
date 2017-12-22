@@ -23,6 +23,7 @@ public class AuthUserRole extends BaseEntity {
 	private Date	updateTime;		 /* 更新时间 */ 
 	private String	updator;		 /* 更新人 */ 
 	private Integer companyId;
+	private String[]roles;
 	// Constructor
 	public AuthUserRole() {
 	}
@@ -113,6 +114,16 @@ public class AuthUserRole extends BaseEntity {
 	
     public void setCompanyId(Integer companyId) {
     	this.companyId = companyId;
+    }
+
+	
+    public String[] getRoles() {
+    	return roles;
+    }
+
+	
+    public void setRoles(String[] roles) {
+    	this.roles = roles;
     }
 
 	@Override

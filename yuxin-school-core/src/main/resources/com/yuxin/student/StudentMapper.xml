@@ -850,7 +850,7 @@
 			u.username,
 			u.teacher_flag as teacherFlag
 		from student a 
-		inner join company c on c.is_area=0 or c.is_area=1 and a.edu_area=c.edu_area_school or c.is_area=2 and a.edu_area_school=s.edu_school
+		inner join company c on c.is_area=0 or c.is_area=1 and a.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=a.edu_school
 		LEFT JOIN users_front u on a.user_id=u.id
 		where 
 			a.delete_flag=0

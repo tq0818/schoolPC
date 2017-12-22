@@ -140,6 +140,13 @@
 		delete from auth_user_role
 		where user_id = #{userId}
 	</delete>
+	<!-- 其他自定义SQL -->
+	<delete id="deleteByUsers" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		delete from auth_user_role where user_id = #{userId} and role_uid in 
+		<foreach item="item" collection="roles" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 	<select id="findByRoleId" parameterType="String" resultMap="authUserRoleResultMap">
 		select <include refid="table_columns"/>
 		from auth_user_role

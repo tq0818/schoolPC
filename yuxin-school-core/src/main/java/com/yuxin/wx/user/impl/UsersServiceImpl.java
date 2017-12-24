@@ -623,11 +623,12 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	}
 	public void deleteByUserId(Integer userId, Integer companyId,String[]roleUid) {
 		// TODO Auto-generated method stub
-		AuthUserRole role =new AuthUserRole();
-		role.setUserId(userId);
-		role.setRoles(roleUid);
-		authUserRoleMapper.deleteByUsers(role);
-		//usersMapper.deleteAuthUserRole(userId,companyId);
+		if(roleUid!=null){
+			AuthUserRole role =new AuthUserRole();
+			role.setUserId(userId);
+			role.setRoles(roleUid);
+			authUserRoleMapper.deleteByUsers(role);
+		}
 		usersMapper.deleteUsersComanyRelation(userId, companyId);
 	}
 

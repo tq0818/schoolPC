@@ -148,7 +148,7 @@
 					type : "post",
 					data : {"id":id,"status":status},
 					success : function(result) {
-						if(result.isUsed==1){
+						if(result.status==1){
 							$("#status"+id).text("启用").css("color","black");
 							$("#com"+id).attr("marks",1).text("禁用");
 						}else{

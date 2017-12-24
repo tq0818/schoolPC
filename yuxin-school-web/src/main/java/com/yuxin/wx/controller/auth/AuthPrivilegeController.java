@@ -502,6 +502,8 @@ public class AuthPrivilegeController {
 					roleUid[i]=list.get(i).getRoleUid();
 				}
 				userServiceImpl.deleteByUserId(id, companyId,roleUid);
+			}else{
+				userServiceImpl.deleteByUserId(id, companyId,null);
 			}
 			return "success";
 		}

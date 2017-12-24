@@ -1598,4 +1598,13 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<select id="searchCompany" resultType="int" parameterType="String">
 		select id from company where is_area=0
 	</select>
+	
+	
+	<!--分校首页学校数量-->
+	<select id="checkDomain" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
+		select COUNT(id) from  company where 1=1
+		<if test="domain != null and domain != ''">and domain = #{domain}</if>
+		<if test="domainManage != null and domainManage != ''"> and domain_manage = #{domainManage}</if>
+		
+	</select>
 </mapper>

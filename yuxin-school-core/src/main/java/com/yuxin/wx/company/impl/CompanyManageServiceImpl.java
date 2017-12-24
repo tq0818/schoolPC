@@ -66,6 +66,11 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 				search.getPage(), search.getPageSize(),counts,companyVoList);
 	}
 	@Override
+	public Integer checkDomain(CompanyVo search) {
+		
+		return companyMapper.checkDomain(search);
+	}
+	@Override
 	public CompanyVo queryCompanyVoByCondition(String brachCode) {
 		if(brachCode==null||brachCode=="") return null;
 		Map<String,Object> map=new HashMap<String,Object>();

@@ -170,6 +170,8 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	 * @return 分校结果数据
 	 */
 	public Integer queryCompanyVoListByConditionCount(com.yuxin.wx.model.company.CompanyVo search);
+	
+	public Integer checkDomain(com.yuxin.wx.model.company.CompanyVo search);
 	/**
 	 * 通过查询条件查询对应的机构
 	 * @param params

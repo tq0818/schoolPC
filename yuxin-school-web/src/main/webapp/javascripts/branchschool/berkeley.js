@@ -321,14 +321,56 @@ function addBerkeley(biaoshi){
 		}
 		
 		var domain=$("#domain").val();
+		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
+		domain = domain.replace(/\s/g,"");
 		if(null!=domain && ''!=domain){
-			 domain=domain+'.cdds365.com';
+			var data={};
+	    	data.domain=domain+'.cdds365.com';
+			$.ajax({
+	               url: rootPath + "/berkeley/checkDomain",
+	               data: data,
+	               type: 'post',
+	               beforeSend: function (XMLHttpRequest) {
+	               },
+	               success: function (data) {
+	            	   if(data.msg=="success"){
+	            		   domain=domain+'.cdds365.com';
+   	        			}else{
+   	        				alert("分校域名重复");
+   	        				$("#domain").val('');
+   	        				return;
+	   	        		}
+	               },
+	              
+	           });
 		}else{
 			alert("分校域名不能为空");
 			return;
 		}
-		if(null!=$("#domainManage").val() && ''!=$("#domainManage").val()){
-			var domainManage=$("#domainManage").val()+'.cdds365.manage.com';
+		var domainManage=$("#domainManage").val();
+		domainManage=domainManage.replace(/(^\s+)|(\s+$)/g,"");
+		domainManage = domainManage.replace(/\s/g,"");
+		if(null!=domainManage && ''!= domainManage){
+			var data={};
+	    	data.domainManage=domainManage+'.cdds365.manage.com';
+			$.ajax({
+	               url: rootPath + "/berkeley/checkDomain",
+	               data: data,
+	               type: 'post',
+	               beforeSend: function (XMLHttpRequest) {
+	               },
+	               success: function (data) {
+	            	   if(data.msg=="success"){
+	            		   domainManage=domainManage+'.cdds365.manage.com';
+	        			}else{
+	        				alert("分校后台域名重复");
+	        				$("#domainManage").val('');
+	        				return;
+	   	        		}
+	               },
+	              
+	           })
+			
 		}else{
 			alert("分校后台域名不能为空");
 			return;

@@ -265,50 +265,56 @@ function closeBtn(companyId,itemCode,delFlag) {
 })(jQuery)
 
 function addBerkeley(biaoshi){
-    
-		var branchCode=$("#branchCode").val();
-		if(null==branchCode || ''==branchCode){
-			alert("分校机构代码不能为空");
-			return;
-		}else{
-			var data={};
-	    	data.brachCode=branchCode;
-			   $.ajax({
-	               url: rootPath + "/berkeley/queryCompanyVo",
-	               data: data,
-	               type: 'post',
-	               beforeSend: function (XMLHttpRequest) {
-	               },
-	               success: function (jsonData) {
-	               	if(jsonData==null || jsonData==''){
-	               		alert("输入错误");
-	               		$("#branchCode").val("");
-	               		$("#branchSchool").text("");
-	               		$("#eara").text("");
-	               		return;
-	               	}
-	               	var companyName=jsonData.companyName;
-	               	var eduArea=jsonData.eduArea;
-	               	var dictCode=jsonData.dictCode;
-	               	$('#branchSchool').text(companyName);
-	               	$('#eara').text(eduArea);
-	               	$('#isArea').val(dictCode);
-	               	if(companyName==eduArea){
-                		var options = document.getElementById('schoolProperties').children;
-                    	options[0].selected=true;
-                    	document.getElementById("schoolProperties").disabled=true;	
-                	}else{
-                		document.getElementById("schoolProperties").disabled=false;	
-                	}
-	               },
-	               complete: function (XMLHttpRequest, textStatus) {
-	               }
-	           });
-		}
-		var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
-		var isArea=$("#isArea").val();
-		var eara=$("#eara").text();
-		var schoolProperties=$("#schoolProperties").val();
+    	if(biaoshi==0){
+    		var branchCode=$("#branchCode").val();
+    		if(null==branchCode || ''==branchCode){
+    			alert("分校机构代码不能为空");
+    			return;
+    		}else{
+    			var data={};
+    	    	data.brachCode=branchCode;
+    			   $.ajax({
+    	               url: rootPath + "/berkeley/queryCompanyVo",
+    	               data: data,
+    	               type: 'post',
+    	               beforeSend: function (XMLHttpRequest) {
+    	               },
+    	               success: function (jsonData) {
+    	               	if(jsonData==null || jsonData==''){
+    	               		alert("输入错误");
+    	               		$("#branchCode").val("");
+    	               		$("#branchSchool").text("");
+    	               		$("#eara").text("");
+    	               		return;
+    	               	}
+    	               	var companyName=jsonData.companyName;
+    	               	var eduArea=jsonData.eduArea;
+    	               	var dictCode=jsonData.dictCode;
+    	               	$('#branchSchool').text(companyName);
+    	               	$('#eara').text(eduArea);
+    	               	$('#isArea').val(dictCode);
+    	               	if(companyName==eduArea){
+                    		var options = document.getElementById('schoolProperties').children;
+                        	options[0].selected=true;
+                        	document.getElementById("schoolProperties").disabled=true;	
+                    	}else{
+                    		document.getElementById("schoolProperties").disabled=false;	
+                    	}
+    	               },
+    	               complete: function (XMLHttpRequest, textStatus) {
+    	               }
+    	           });
+    		}
+    		var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
+    		var isArea=$("#isArea").val();
+    		var eara=$("#eara").text();
+    		var schoolProperties=$("#schoolProperties").val();
+    		if(null== schoolProperties || ''==schoolProperties){
+    			alert("学校性质不能为空");
+    			return;
+    		}
+    	}
+		
 		var linkPerson=$("#linkPerson").val();
 		if(null==linkPerson || ''==linkPerson){
 			alert("联系人不能为空");
@@ -321,14 +327,56 @@ function addBerkeley(biaoshi){
 		}
 		
 		var domain=$("#domain").val();
+		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
+		domain = domain.replace(/\s/g,"");
 		if(null!=domain && ''!=domain){
-			 domain=domain+'.cdds365.com';
+			var data={};
+	    	data.domain=domain+'.cdds365.com';
+			$.ajax({
+	               url: rootPath + "/berkeley/checkDomain",
+	               data: data,
+	               type: 'post',
+	               beforeSend: function (XMLHttpRequest) {
+	               },
+	               success: function (data) {
+	            	   if(data.msg=="success"){
+	            		   domain=domain+'.cdds365.com';
+   	        			}else{
+   	        				alert("分校域名重复");
+   	        				$("#domain").val('');
+   	        				return;
+	   	        		}
+	               },
+	              
+	           });
 		}else{
 			alert("分校域名不能为空");
 			return;
 		}
-		if(null!=$("#domainManage").val() && ''!=$("#domainManage").val()){
-			var domainManage=$("#domainManage").val()+'.cdds365.manage.com';
+		var domainManage=$("#domainManage").val();
+		domainManage=domainManage.replace(/(^\s+)|(\s+$)/g,"");
+		domainManage = domainManage.replace(/\s/g,"");
+		if(null!=domainManage && ''!= domainManage){
+			var data={};
+	    	data.domainManage=domainManage+'.cdds365.manage.com';
+			$.ajax({
+	               url: rootPath + "/berkeley/checkDomain",
+	               data: data,
+	               type: 'post',
+	               beforeSend: function (XMLHttpRequest) {
+	               },
+	               success: function (data) {
+	            	   if(data.msg=="success"){
+	            		   domainManage=domainManage+'.cdds365.manage.com';
+	        			}else{
+	        				alert("分校后台域名重复");
+	        				$("#domainManage").val('');
+	        				return;
+	   	        		}
+	               },
+	              
+	           })
+			
 		}else{
 			alert("分校后台域名不能为空");
 			return;
@@ -377,6 +425,9 @@ function addBerkeley(biaoshi){
 		if(null==schoolSummary || ''==schoolSummary){
 			alert("学校简介不能为空");
 			return;
+		}else{
+			schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
+			schoolSummary = schoolSummary.replace(/\s/g,"");
 		}
 		if(biaoshi==0){
 			var branchCode=$("#branchCode").val();

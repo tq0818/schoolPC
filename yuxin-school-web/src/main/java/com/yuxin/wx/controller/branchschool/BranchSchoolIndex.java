@@ -264,4 +264,25 @@ public class BranchSchoolIndex {
         
          return json;
     } 
+    
+    @ResponseBody
+    @RequestMapping(value = "/checkDomain")
+    public JSONObject checkDomain(Model model,String domain,String domainManage){
+    	JSONObject json = new JSONObject();
+    	  try {
+    		  CompanyVo search =new CompanyVo();
+    		  search.setDomain(domain);
+    		  search.setDomainManage(domainManage);
+    		  int count=companyManageServiceImpl.checkDomain(search);
+    		  if(count==0){
+    			  json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
+    		  }else{
+    			  json.put(JsonMsg.MSG, JsonMsg.INFORMATION);
+    		  }
+         } catch (Exception e) {
+         	 log.info("qa：添加分校报错");
+         	 json.put(JsonMsg.MSG, JsonMsg.INFORMATION);
+         }
+    	return json;
+    }
 }

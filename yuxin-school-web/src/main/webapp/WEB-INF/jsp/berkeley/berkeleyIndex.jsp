@@ -204,7 +204,6 @@
         </div>
         </div>
     </div>
-</div>
 <div class="popupOpacity"></div>
 <%--弹窗end --%>
 <input type="hidden" id="selectCounts" value="10">

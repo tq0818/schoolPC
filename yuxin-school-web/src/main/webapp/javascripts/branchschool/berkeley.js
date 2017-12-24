@@ -265,50 +265,56 @@ function closeBtn(companyId,itemCode,delFlag) {
 })(jQuery)
 
 function addBerkeley(biaoshi){
-    
-		var branchCode=$("#branchCode").val();
-		if(null==branchCode || ''==branchCode){
-			alert("分校机构代码不能为空");
-			return;
-		}else{
-			var data={};
-	    	data.brachCode=branchCode;
-			   $.ajax({
-	               url: rootPath + "/berkeley/queryCompanyVo",
-	               data: data,
-	               type: 'post',
-	               beforeSend: function (XMLHttpRequest) {
-	               },
-	               success: function (jsonData) {
-	               	if(jsonData==null || jsonData==''){
-	               		alert("输入错误");
-	               		$("#branchCode").val("");
-	               		$("#branchSchool").text("");
-	               		$("#eara").text("");
-	               		return;
-	               	}
-	               	var companyName=jsonData.companyName;
-	               	var eduArea=jsonData.eduArea;
-	               	var dictCode=jsonData.dictCode;
-	               	$('#branchSchool').text(companyName);
-	               	$('#eara').text(eduArea);
-	               	$('#isArea').val(dictCode);
-	               	if(companyName==eduArea){
-                		var options = document.getElementById('schoolProperties').children;
-                    	options[0].selected=true;
-                    	document.getElementById("schoolProperties").disabled=true;	
-                	}else{
-                		document.getElementById("schoolProperties").disabled=false;	
-                	}
-	               },
-	               complete: function (XMLHttpRequest, textStatus) {
-	               }
-	           });
-		}
-		var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
-		var isArea=$("#isArea").val();
-		var eara=$("#eara").text();
-		var schoolProperties=$("#schoolProperties").val();
+    	if(biaoshi==0){
+    		var branchCode=$("#branchCode").val();
+    		if(null==branchCode || ''==branchCode){
+    			alert("分校机构代码不能为空");
+    			return;
+    		}else{
+    			var data={};
+    	    	data.brachCode=branchCode;
+    			   $.ajax({
+    	               url: rootPath + "/berkeley/queryCompanyVo",
+    	               data: data,
+    	               type: 'post',
+    	               beforeSend: function (XMLHttpRequest) {
+    	               },
+    	               success: function (jsonData) {
+    	               	if(jsonData==null || jsonData==''){
+    	               		alert("输入错误");
+    	               		$("#branchCode").val("");
+    	               		$("#branchSchool").text("");
+    	               		$("#eara").text("");
+    	               		return;
+    	               	}
+    	               	var companyName=jsonData.companyName;
+    	               	var eduArea=jsonData.eduArea;
+    	               	var dictCode=jsonData.dictCode;
+    	               	$('#branchSchool').text(companyName);
+    	               	$('#eara').text(eduArea);
+    	               	$('#isArea').val(dictCode);
+    	               	if(companyName==eduArea){
+                    		var options = document.getElementById('schoolProperties').children;
+                        	options[0].selected=true;
+                        	document.getElementById("schoolProperties").disabled=true;	
+                    	}else{
+                    		document.getElementById("schoolProperties").disabled=false;	
+                    	}
+    	               },
+    	               complete: function (XMLHttpRequest, textStatus) {
+    	               }
+    	           });
+    		}
+    		var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
+    		var isArea=$("#isArea").val();
+    		var eara=$("#eara").text();
+    		var schoolProperties=$("#schoolProperties").val();
+    		if(null== schoolProperties || ''==schoolProperties){
+    			alert("学校性质不能为空");
+    			return;
+    		}
+    	}
+		
 		var linkPerson=$("#linkPerson").val();
 		if(null==linkPerson || ''==linkPerson){
 			alert("联系人不能为空");

@@ -54,7 +54,13 @@ public class AuthUserRoleController {
 	
 	@RequestMapping(value="/del/{id}", method = RequestMethod.GET)
 	public String del(Model model, @PathVariable Integer id) {
-		authUserRoleServiceImpl.deleteAuthUserRoleById(id);
+//		String r=rolesId.substring(0, rolesId.length()-1);
+//		String[] roles=r.split(",");
+		AuthUserRole role=new AuthUserRole();
+		role.setUserId(id);
+//		role.setRoles(roles);
+		authUserRoleServiceImpl.deleteAuthUserRoleById(role);
+		//authUserRoleServiceImpl.deleteAuthUserRoleById(id);
 		return "redirect:/authUserRole";
 	}
 	

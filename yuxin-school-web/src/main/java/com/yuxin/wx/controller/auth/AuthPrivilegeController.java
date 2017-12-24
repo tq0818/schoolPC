@@ -220,7 +220,11 @@ public class AuthPrivilegeController {
 				model.addAttribute("authRoleList", authRoleList);
 			}else{
 				model.addAttribute("peoplemark", "schooladmin");
-				SysConfigSchool school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(Integer.parseInt(schoolId));
+				List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
+				SysConfigSchool school=new SysConfigSchool();
+				if(null!=schoolList && schoolList.size()>0){
+					school=sysConfigSchoolServiceImpl.findSysConfigSchoolById(schoolList.get(0).getId());
+				}
 				model.addAttribute("school1",school);
 				AuthRole search=new AuthRole();
 				search.setRoleUid(1+"");
@@ -467,9 +471,11 @@ public class AuthPrivilegeController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteById")
-	public String deleteUserById(Integer id,HttpServletRequest request){
+	public String deleteUserById(Integer id,HttpServletRequest request,Integer companyId){
 		Integer uId=WebUtils.getCurrentUserId(request);
-		Integer companyId=WebUtils.getCurrentCompanyId();
+		if(null==companyId){
+			 companyId=WebUtils.getCurrentCompanyId();
+		}
 		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			/*Users user= userServiceImpl.findUsersById(id);
 			if(null!=user&&null!=user.getId()){
@@ -484,7 +490,19 @@ public class AuthPrivilegeController {
 					}
 				}
 			}*/
-			userServiceImpl.deleteByUserId(id, companyId);
+			
+			AuthUserRole role=new AuthUserRole();
+			role.setCompanyId(companyId);
+			role.setUserId(id);
+			List<AuthUserRole>list = authUserRoleServiceImpl.findAuthUserRoleByCompanyAndUserId(role);
+			
+			if(null!=list && list.size()>0){
+				String [] roleUid=new String[list.size()];
+				for(int i=0;i<list.size();i++){
+					roleUid[i]=list.get(i).getRoleUid();
+				}
+				userServiceImpl.deleteByUserId(id, companyId,roleUid);
+			}
 			return "success";
 		}
 //		Subject subject = SecurityUtils.getSubject();

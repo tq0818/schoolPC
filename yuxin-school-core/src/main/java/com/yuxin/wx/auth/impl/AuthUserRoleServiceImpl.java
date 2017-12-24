@@ -148,6 +148,10 @@ public class AuthUserRoleServiceImpl extends BaseServiceImpl implements IAuthUse
 	public List<AuthUserRole> findByRoleId(String id){
 	    return authUserRoleMapper.findByRoleId(id);
 	}
+ @Override
+ public List<AuthUserRole> findAuthUserRoleByCompanyAndUserId(AuthUserRole role){
+	 return authUserRoleMapper.findAuthUserRoleByCompanyAndUserId(role);
+ }
 	
 	/**
 	 * 

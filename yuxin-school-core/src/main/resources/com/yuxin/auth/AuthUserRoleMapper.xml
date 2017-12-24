@@ -152,6 +152,10 @@
 		from auth_user_role
 		where user_id = #{id}
 	</select>
+	<select id="findAuthUserRoleByCompanyAndUserId" parameterType="com.yuxin.wx.model.auth.AuthUserRole" resultMap="authUserRoleResultMap">
+		select t2.role_uid as role_uid from auth_user_role t
+		LEFT JOIN auth_role t2 ON t.role_uid=t2.id where t2.company_id=#{companyId} and t.user_id=#{userId}
+	</select>
 	<select id="findRoleName" parameterType="java.util.List" resultMap="authRoleMap">
 		select role_name from auth_role where id in(
 			<foreach item="item" collection="list" separator="," >

@@ -138,6 +138,7 @@ public interface IAuthUserRoleService  {
   * @return
   */
  List<AuthUserRole> findByRoleId(String userId);
+ List<AuthUserRole> findAuthUserRoleByCompanyAndUserId(AuthUserRole role);
  /**
   * Class Name: IAuthUserRoleService.java
   * @Description: 获取用户权限列表

@@ -107,6 +107,7 @@
     </div>
 </div>
 <input type="hidden" value="5" id="pageSize">
+<input type="hidden" value="${companyId}" id="companyId">
 
 
 <!-- ajax加载中div开始 -->

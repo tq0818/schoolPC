@@ -4,16 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.Company;
-import com.yuxin.wx.model.company.CompanyMemberService;
-import com.yuxin.wx.model.company.CompanyPayConfig;
-import com.yuxin.wx.model.company.CompanyServiceStatic;
-import com.yuxin.wx.model.system.SysCcAccount;
 import com.yuxin.wx.model.system.SysConfigSchool;
-import com.yuxin.wx.model.system.SysCyclePic;
-import com.yuxin.wx.model.system.SysNews;
-import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.user.UserLoginSession;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
@@ -426,6 +418,6 @@ public interface IUsersService  {
      */
     void insertUserCompanyRalation(Integer userId,Integer companyId);
 
-    void deleteByUserId(Integer userId, Integer companyId);
+    void deleteByUserId(Integer userId, Integer companyId,String[]roleUid);
     
 }

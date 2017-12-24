@@ -209,10 +209,11 @@
 				}
 				$.confirm("您确定要删除吗?",function(b){
 					if(b){
+						var companyId=$("#companyId").val();
 						$.ajax({
 							url : rootPath + "/authPrivilege/deleteById",
 							type : "post",
-							data : {"id":id},
+							data : {"id":id,"companyId":companyId},
 							dataType : 'json',
 							success : function(result) {
 								if(result=="success"){

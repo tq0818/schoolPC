@@ -203,7 +203,7 @@
 	
 	<delete id="deleteAuthUserRole">
 		delete from auth_user_role 
-		where user_id=#{0} and role_uid in (SELECT id from auth_role where company_id=#{1})
+		where user_id=#{0} and role_uid in (#{1})
 	</delete>
 	<delete id="deleteUsersComanyRelation">
 		delete from users_comany_relation where user_id=#{0} and company_id=#{1}

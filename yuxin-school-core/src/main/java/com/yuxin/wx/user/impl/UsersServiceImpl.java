@@ -591,7 +591,13 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	@Override
 	public List<Users> queryuserByUserNameOrMobile(Users user) {
 		// TODO Auto-generated method stub
-		return usersMapper.queryuserByUserNameOrMobile(user);
+		List<Users> users=usersMapper.queryuserByUserNameOrMobile(user);
+		if(users!=null&&users.size()>0){
+			for(Users u:users){
+				u.setCompanyIds(usersMapper.queryCompanyByUserId(u.getId()));
+			}
+		}
+		return users;
 	}
 
 	@Override

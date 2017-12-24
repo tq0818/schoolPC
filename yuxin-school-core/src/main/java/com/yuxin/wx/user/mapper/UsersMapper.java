@@ -146,6 +146,12 @@ public interface UsersMapper extends BaseMapper<Users> {
      */
     void grantUserInCompany(Map<String,Object> params);
     /**
+     * 通过用户查询用户所在机构集合
+     * @param userId
+     * @return
+     */
+    List<Integer> queryCompanyByUserId(Integer userId);
+    /**
      * 插入用户关系表
      * @param params 插入用户关系表
      */

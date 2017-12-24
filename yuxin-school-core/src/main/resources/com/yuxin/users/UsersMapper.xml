@@ -569,6 +569,10 @@
 		where id = #{id}
 	</select>
 	
+	<select id="queryCompanyByUserId" resultType="Integer" parameterType="Integer">
+		select company_id from users_comany_relation where user_id=#{userId}
+	</select>
+	
 	<select id="findUsersByConfition" resultMap="usersResultMap" parameterType="com.yuxin.wx.model.user.Users" >
 		select <include refid="table_columns" />
 		from users

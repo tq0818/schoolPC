@@ -19,6 +19,7 @@
 	<style>
 		.editToB select{margin: 5px 0}
 		.editDelete{color: red !important;}
+		.Confirm_Close{display:none;}
 	</style>
 </head>
 <body>

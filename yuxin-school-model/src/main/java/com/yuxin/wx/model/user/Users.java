@@ -1,10 +1,12 @@
 package com.yuxin.wx.model.user;
 
 import java.util.Date;
+import java.util.List;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import com.yuxin.wx.util.ShortDateSerializer;
 
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.util.ShortDateSerializer;
 
 /**
  * POJO:Users
@@ -55,7 +57,16 @@ public class Users extends BaseEntity {
 	private String statusCode;
 	//错误信息
 	private String errorMsg;
-
+	
+	//用户所有合法分校集合
+	private List<Integer> companyIds;
+	
+	public List<Integer> getCompanyIds() {
+		return companyIds;
+	}
+	public void setCompanyIds(List<Integer> companyIds) {
+		this.companyIds = companyIds;
+	}
 	public String getStatusCode() {
 		return statusCode;
 	}

@@ -425,6 +425,9 @@ function addBerkeley(biaoshi){
 		if(null==schoolSummary || ''==schoolSummary){
 			alert("学校简介不能为空");
 			return;
+		}else{
+			schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
+			schoolSummary = schoolSummary.replace(/\s/g,"");
 		}
 		if(biaoshi==0){
 			var branchCode=$("#branchCode").val();

@@ -118,7 +118,7 @@
         </ul>
         <div class="berkeleyOperate">
             <button type="button" class="btn btn-warning berkeleyDetailEdit">编辑</button>
-            <button type="button" onclick="addBerkeley(1)" class="btn btn-success">保存</button>
+            <button type="button" onclick="addBerkeley(1)" id="save" class="btn btn-success" style="display: none">保存</button>
         </div>
     </div>
 </div>
@@ -141,6 +141,8 @@
         $('.editState').addClass('editStateNow').attr('disabled',false);
         $('.showDetails').removeClass('showDetails');
         $('textarea').addClass('editStateNow').attr('disabled',false);
+        var currentBtn = document.getElementById("save");
+        currentBtn.style.display = 'inline-block';
 
     });
 </script>

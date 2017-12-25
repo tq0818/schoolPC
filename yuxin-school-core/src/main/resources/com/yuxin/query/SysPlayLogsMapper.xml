@@ -255,7 +255,7 @@
 		  <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		  <if test="teaName!=null and teaName!=''">and ut.name like '%${teaName}%'</if>
 		  <if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
-		group by pl.lecture_id
+		group by pl.lecture_id,d1.item_value
 		<choose>
 			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
 			<otherwise>order by ut.name</otherwise>

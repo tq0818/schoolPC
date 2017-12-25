@@ -177,6 +177,8 @@
 
 	<select id="watchInfoIndex"  parameterType="Map" resultType="Map">
 		select sum(a.times) as times from (select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
+		JOIN commodity m ON m.id = swf.commodity_id
+		AND m.origin_type = 0
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
 		where s.edu_identity=0
@@ -191,6 +193,8 @@
 
 	<select id="watchInfoAll" parameterType="Map" resultType="Map">
 		select COUNT(1) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
+		JOIN commodity m ON m.id = swf.commodity_id
+		AND m.origin_type = 0
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
 		where s.edu_identity=0

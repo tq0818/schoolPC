@@ -141,7 +141,7 @@
         </p>
     </div>
 </div>
-<div class="add-layer w800 none" style="z-index:1001;">
+<div class="add-layer w800 none" style="z-index:1001;margin-top:-260px">
     <h3 class="add-layer-tit tabs">
 				<span class="tab1 active" ids="neibu">内部视频</span> 
 				<span class="tab2" ids="outside">外部视频</span>

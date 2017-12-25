@@ -2596,7 +2596,10 @@ public class StudentController {
 
         model.addAttribute("classMoreStatus", status);
 
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+        sysConfigItemRelation.setCompanyId(companyId);
+        
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(sysConfigItemRelation);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));

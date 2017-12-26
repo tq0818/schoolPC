@@ -19,6 +19,7 @@
 	<style>
 		.editToB select{margin: 5px 0}
 		.editDelete{color: red !important;}
+		.Confirm_Close{display:none;}
 	</style>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
@@ -38,7 +39,7 @@
             <span class="line"></span>
         </div>
         <div class="users-infos">
-        <form id="saveUserForm" method="post" onsubmit="return Form.editUserMsg();">            
+        <form id="saveUserForm" method="post"  onsubmit="return Form.editUserMsg();">            
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>
@@ -49,6 +50,7 @@
   				<input type="hidden" name="usernames" id="usernames"/>
   				<input type="hidden" name="companyId" id="companyId" value="${companyId}"/>
   				<input type="hidden" name="tId" id="tsId"/>
+  				<input type="hidden" name="isGrant" id="isGrant"/>
   				<input type="hidden" name="proxyOrgId" id="proxyOrgId" value="${user.proxyOrgId }"/>
   				<input type="hidden" value="${user.userType }" id="userType_status"/>
 	            <div class="users-infos-list">

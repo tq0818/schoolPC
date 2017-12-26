@@ -502,6 +502,8 @@ public class AuthPrivilegeController {
 					roleUid[i]=list.get(i).getRoleUid();
 				}
 				userServiceImpl.deleteByUserId(id, companyId,roleUid);
+			}else{
+				userServiceImpl.deleteByUserId(id, companyId,null);
 			}
 			return "success";
 		}
@@ -633,9 +635,18 @@ public class AuthPrivilegeController {
  	 			if(null!=arr&&arr.size()>0){
  	 				Users resultU=arr.get(0);
  	 				Integer companyId=curcompanyId==null?WebUtils.getCurrentCompanyId():curcompanyId;
- 	 				if(resultU.getCompanyId()!=null&&companyId.intValue()==resultU.getCompanyId().intValue()){
+ 	 				Boolean isExsit=false;
+ 	 				List<Integer> companyIds=resultU.getCompanyIds();
+ 	 				if(companyIds!=null&&companyIds.size()>0){
+ 	 					for(Integer cId:companyIds){
+ 	 						if(cId!=null&&cId.intValue()==companyId.intValue()){
+ 	 							isExsit=true;
+ 	 						}
+ 	 					}
+ 	 				}
+ 	 				if(isExsit){
  	 					users.setStatusCode("2");
- 	 	 				users.setErrorMsg("在本校已存在该用户，无法再次添加");
+ 	 	 				users.setErrorMsg("在本校已存在该用户，无法再次添加！");
  	 	 				return users;
  	 				}else{
  	 					users.setStatusCode("1");
@@ -661,7 +672,6 @@ public class AuthPrivilegeController {
  			users.setStatusCode("0");
 			return users;
  		}
-		
 	}
  	@ResponseBody
 	@RequestMapping(value="/grantUserInCompany",method=RequestMethod.POST)

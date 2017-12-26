@@ -294,14 +294,18 @@
 		<if test="itemThirdCode != null and  itemThirdCode !=''">
 			and item_second_code = #{itemThirdCode}
 		</if>
-		<if test="messageType != null and messageType != '' and messageType != 'all'">
+		<if test="messageType != null and messageType != '' and messageType != 'all' and messageType!='brachAll'">
 			and message_type = #{messageType}
 		</if>
+		<if test="messageType=='brachAll'">
+			and message_type in('STUDENT_MESSAGE_CLASSTYPE','STUDENT_MESSAGE_AFFICHE')
+		</if>
 		<if
-			test="messageMethod != null and messageMethod != '' and 
-
-messageMethod != 'all'">
+			test="messageMethod != null and messageMethod != '' and messageMethod != 'all' and messageMethod!='brachAll'">
 			and message_method = #{messageMethod}
+		</if>
+		<if test="messageMethod=='brachAll'">
+			and message_method in('STUDENT_MESSAGE_WEB')
 		</if>
 		order by create_time desc
 		limit #{firstIndex},#{pageSize}
@@ -330,11 +334,17 @@ messageMethod != 'all'">
 		<if test="messageType != null and messageType != '' and messageType != 'all'">
 			and message_type = #{messageType}
 		</if>
+		<if test="messageType=='brachAll'">
+			and message_type in('STUDENT_MESSAGE_CLASSTYPE','STUDENT_MESSAGE_AFFICHE')
+		</if>
 		<if
 			test="messageMethod != null and messageMethod != '' and 
 
 messageMethod != 'all'">
 			and message_method = #{messageMethod}
+		</if>
+		<if test="messageMethod=='brachAll'">
+			and message_method in('STUDENT_MESSAGE_WEB')
 		</if>
 	</select>
 	

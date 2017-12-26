@@ -177,9 +177,10 @@ public class AuthRoleController {
 	}
  	
  	@ResponseBody
- 	@RequestMapping(value="/queryRoleFlag/{userId}")
- 	public boolean queryAuthRoleFlag(@PathVariable Integer userId){
- 		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
+ 	@RequestMapping(value="/queryRoleFlag/{userId}/{companyId}")
+ 	public boolean queryAuthRoleFlag(@PathVariable Integer userId,@PathVariable Integer companyId){
+ 		Integer cId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+ 		if(authRoleServiceImpl.hasRoleFlag(userId,cId)){
  			return true;
  		}
  		return false;

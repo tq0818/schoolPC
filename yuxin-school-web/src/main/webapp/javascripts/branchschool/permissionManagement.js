@@ -121,7 +121,7 @@
 			changUserStatus : function(id){
 				var kg=0;
 				$.ajax({
-					url : rootPath + "/authRole/queryRoleFlag/"+id,
+					url : rootPath + "/authRole/queryRoleFlag/"+id+"/"+$('#companyId').val(),
 					type : "post",
 					async:false,
 					success : function(result) {
@@ -194,7 +194,7 @@
 			deleteUser : function(id){
 				var kg=0;
 				$.ajax({
-					url : rootPath + "/authRole/queryRoleFlag/"+id,
+					url : rootPath + "/authRole/queryRoleFlag/"+id+"/"+$('#companyId').val(),
 					type : "post",
 					async:false,
 					success : function(result) {

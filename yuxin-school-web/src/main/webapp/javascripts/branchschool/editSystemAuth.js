@@ -377,7 +377,6 @@
 						}
 						$(".loading-bg").hide();
 				}
-				
 			},
 			getSchool:function(){
 				var areaCode=$('#schoolAaraCode').val();

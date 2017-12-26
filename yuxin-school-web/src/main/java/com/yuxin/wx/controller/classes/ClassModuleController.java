@@ -1864,6 +1864,7 @@ public class ClassModuleController {
 //		List<SysConfigItem> item = sysConfigItemServiceImpl.findSysConfigItemByPid("2", oneItem, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request));
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(pid);
+		relation.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());

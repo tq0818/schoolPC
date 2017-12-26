@@ -74,9 +74,7 @@
             <li>
                 <label>学校简介:</label>
                 <%--<input type="text" disabled="disabled" value="${schoolProperty }" class="editState" style="margin-left: 50px;">--%>
-                <textarea  cols="30" rows="5" id="schoolSummary" style="margin-left: 50px;" disabled="disabled">
-                ${company.schoolSummary }
-                </textarea>
+                <textarea  cols="30" rows="5" id="schoolSummary" style="margin-left: 50px;" disabled="disabled">${company.schoolSummary }</textarea>
             </li>
         </ul>
         <ul class="berkeleyDetailInfo berkeleyDetailInfoRight">
@@ -84,11 +82,11 @@
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>学校私有课程收费比例:</label>
-                    <input type="text" id="privateCost" disabled="disabled" value="${company.privateCost }%" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">
+                    <input type="text" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
                 </p>
                 <p style="margin-left: 95px;">
                     <label>学校开放课程收费比例:</label>
-                    <input type="text" id="publicCost" disabled="disabled" value="${company.publicCost }%" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">
+                    <input type="text" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
                 </p>
             </li>
             <li style="margin-bottom: 30px;">

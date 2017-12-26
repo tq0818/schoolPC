@@ -1278,7 +1278,11 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO `sys_config_service` (`group_code`, `updator`, `update_time`, `company_id`, `del_flag`,`parent_code`)
 		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
-		inner join company c on scs.company_id=c.id and c.is_area=0 and parent_code is not null;
+		LEFT JOIN  sys_config_dict scd ON scs.group_code=scd.item_code
+		inner join company c on scs.company_id=c.id and c.is_area=0 and parent_code is not null
+		where  scs.group_code in ('SERVICE_ONLINE_SET','SERVICE_BRANCH_SCHOOL_SET','SERVICE_MICROSCHOOL',
+		'SERVICE_COURSE_SET','SERVICE_PAY_SET','SERVICE_MARKETING_SET','SERVICE_MSG_SET','SERVICE_STUDENT_SET',
+		'SERVICE_TIKU','SERVICE_QUESTION_ANSWER','SERVICE_VIDEO','SERVICE_LIVE')
 	</insert>
 	<!-- 添加学校-->
 	<insert id="addSchool" parameterType="string" useGeneratedKeys="true" keyProperty="id">
@@ -1535,10 +1539,18 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<update id="editcompanyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig">
 	  update company_live_config
 		<trim prefix="set" suffixOverrides=",">
-			<if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
-			<if test="password != null and password != ''">password = #{password}</if>
+			<if test="loginName != null and loginName != ''">login_name =#{loginName},</if>
+			<if test="password != null and password != ''">password =#{password}</if>
 		</trim>
-		<where>company_id = #{companyId} and live_type=1</where>
+		<where>company_id =#{companyId} and live_type=1</where>
+	</update>
+	<update id="editCompanyPayConfig" parameterType="com.yuxin.wx.model.company.CompanyPayConfig">
+	  update company_pay_config
+		<trim prefix="set" suffixOverrides=",">
+			<if test="ccUserId != null and ccUserId != ''">cc_user_id =#{ccUserId},</if>
+			<if test="ccApiKey != null and ccApiKey != ''">cc_api_key =#{ccApiKey}</if>
+		</trim>
+		<where>company_id =#{companyId} </where>
 	</update>
 	
 	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="classResultMap">

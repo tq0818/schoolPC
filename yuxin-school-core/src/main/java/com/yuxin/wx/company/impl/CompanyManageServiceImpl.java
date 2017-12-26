@@ -239,10 +239,13 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 companyMapper.addSysConfigPageRedirect(scpr);
     }
 	@Override
-    public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc) {
+    public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc, CompanyPayConfig cpc) {
 		companyMapper.eidtBerkeley(search);
-		companyMapper.editCompanyMemberService(cms);
+		if(cms.getVideoFlow()!=0 || cms.getVideoStorage()!=0){
+			companyMapper.editCompanyMemberService(cms);
+		}
 		companyMapper.editcompanyLiveConfig(clc);
+		companyMapper.editCompanyPayConfig(cpc);
     }
 
 	@Override

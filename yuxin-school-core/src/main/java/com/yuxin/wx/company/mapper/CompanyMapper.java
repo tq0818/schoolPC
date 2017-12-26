@@ -246,6 +246,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void eidtBerkeley(com.yuxin.wx.model.company.CompanyVo search);
 	public void editCompanyMemberService(CompanyMemberService cms);
 	public void editcompanyLiveConfig(CompanyLiveConfig clc);
+	public void editCompanyPayConfig(CompanyPayConfig cpc);
 	/**
 	 * 
 	 * @author jishangyang 2017年12月13日 下午5:05:26

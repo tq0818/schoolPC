@@ -213,11 +213,13 @@ function loadVideoInfo(nearOneItemId, itemSecondId, beginTime, endTime, videoSta
     if (nearOneItemId == null || nearOneItemId == "") {
         nearOneItemId = $("#itemOneId").val();
     }
-    param += "&itemOneId=" + nearOneItemId;
-    if (itemSecondId == null || itemSecondId == "") {
+    if(null!=nearOneItemId && ""!=nearOneItemId){
+    	param += "&itemOneId=" + nearOneItemId;
+    }
+/*    if (itemSecondId == null || itemSecondId == "") {
         var secId = $(".secItem.active").attr("itemid");
     }
-    param += "&itemSecondId=" + itemSecondId;
+    param += "&itemSecondId=" + itemSecondId;*/
     if (beginTime != null && beginTime != "") {
         param += "&beginTime=" + beginTime;
     }

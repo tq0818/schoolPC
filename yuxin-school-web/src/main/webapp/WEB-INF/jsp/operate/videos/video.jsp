@@ -126,12 +126,12 @@
 						</span>
 					</div>
 
-					<div class="w secTwo">
+			<!-- 	<div class="w secTwo"  style="display: none;">
 						<span class="class_number_name">学科小类：</span>
                         <span class="s-list secItemInfo">
                             <a class="btn btn-sm btn-default oneItem" href="javascript:;" itemId="">全部</a>
-                        </span>
-					</div>
+                        </span> -->
+					</div> 
 					<div class="w">
 						<span class="class_number_name">状态：</span> 
 						<span class="s-list">
@@ -225,12 +225,12 @@
                         <option value="">人力</option>
                     </select>
                 </div>
-                <div class="L-poR">
+             <!--    <div class="L-poR">
                     <span>学科小类</span>
                     <select id="itemSecondId" name="itemSecondId">
                         <option value=""></option>
                     </select>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

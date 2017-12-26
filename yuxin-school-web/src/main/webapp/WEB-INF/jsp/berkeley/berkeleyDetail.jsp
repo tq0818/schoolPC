@@ -40,20 +40,20 @@
         <ul class="berkeleyDetailInfo berkeleyDetailInfoLeft">
             <li>
                 <label>学校机构代码:</label>
-                <input type="text" disabled="disabled" value="${company.eduAreaSchool }" style="margin-left: 20px;">
+                <input type="text" disabled="disabled" id="branchCode" value="${company.eduAreaSchool }" style="margin-left: 20px;">
                 <input type="hidden"  value="${company.id}" id="companyId">
             </li>
             <li>
                 <label>分校:</label>
-                <input type="text" disabled="disabled" value="${company.companyName }" style="margin-left: 70px;">
+                <input type="text" disabled="disabled" id="branchSchool" value="${company.companyName }" style="margin-left: 70px;">
             </li>
             <li>
                 <label>所属区域:</label>
-                <input type="text" disabled="disabled" value="${company.eduAreaName }" style="margin-left: 45px;">
+                <input type="text" disabled="disabled" id="eara" value="${company.eduAreaName }" style="margin-left: 45px;">
             </li>
             <li>
                 <label>学校性质:</label>
-                <input type="text" disabled="disabled" value="${company.schoolProperty }" style="margin-left: 47px;">
+                <input type="text" disabled="disabled" id="schoolProperties" value="${company.schoolProperty }" style="margin-left: 47px;">
             </li>
             <li>
                 <label>联系人:</label>

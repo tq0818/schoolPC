@@ -224,6 +224,7 @@
             data.identityId = $("#sfzh").val();
             data.startTime = $(".from").val();
             data.endTime = $(".to").val();
+            data.isStu ="1";
             data.status = $("#registStatus").val();// 注册状态
             data.registType = $("#registMethods").val();// 注册方式
             data.paymaterCount = $("#payStatus").val();// 报名状态

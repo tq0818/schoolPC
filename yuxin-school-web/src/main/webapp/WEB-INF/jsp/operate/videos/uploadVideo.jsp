@@ -364,12 +364,6 @@
                         <option>建造师</option>
                         <option>心理咨询师</option> -->
 				</select>
-				<span class="class_number_name"><span class="sp_red">*</span>学科小类：</span>
-				<select id="itemSecondId" name="itemSecondId" class="subj-sel">
-					<!--<option>人力资源师</option>
-                        <option>建造师</option>
-                        <option>心理咨询师</option> -->
-				</select>
 				<span class="tips-msg item_msg"></span>
 			</div>
 			<div class="w">

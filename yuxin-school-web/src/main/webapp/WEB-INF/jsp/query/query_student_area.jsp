@@ -21,7 +21,7 @@
 <input type="hidden" id="schoolId" value='${schoolId}'/>
 		<input type="hidden" id="schoolName" value='${schoolName}'/>
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
-		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>	
+		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"></jsp:include>
 	<div class="u-wrap query overflow">

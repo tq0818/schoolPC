@@ -27,7 +27,7 @@
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
-	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
+	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">

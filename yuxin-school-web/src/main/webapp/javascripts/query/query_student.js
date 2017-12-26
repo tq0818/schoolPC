@@ -267,6 +267,7 @@
             data.eduYear = $('#eduYear').val();
             data.eduClass = $('#eduClass').val();
             data.isStu = $('#isStu').val();
+            data.sourceFromStatic = $('#sourceFromStatic').val();
             var tel = $("#stuMobile").val(); // 获取手机号
 
             if ($(".to").val() != "") {

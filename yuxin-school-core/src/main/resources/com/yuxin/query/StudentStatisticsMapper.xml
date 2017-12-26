@@ -60,7 +60,7 @@
 
 	<select id="getOrgStudentTotalStatisticsByAreaAndStep" resultType="Map" parameterType="Map">
 		SELECT COUNT(s.`id`) AS stuNum FROM sys_config_dict c LEFT JOIN student s ON c.`item_code` = s.`edu_school`
-		and s.`edu_identity` = 0
+		and s.`edu_identity` = 0 
 		AND edu_area IS NOT NULL AND edu_area != '' AND edu_school IS NOT NULL AND edu_school != '' AND
 		edu_step IS NOT NULL AND edu_step != '' AND edu_year IS NOT NULL AND edu_year != '' AND
 		edu_class IS NOT NULL AND edu_class != ''

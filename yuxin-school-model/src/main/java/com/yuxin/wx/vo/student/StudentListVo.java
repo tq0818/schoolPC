@@ -102,7 +102,16 @@ public class StudentListVo extends BaseEntity{
 	private String eduStep;
 	private String eduYear;
 	private Integer isStu; //是否学生，1是。0否
+	private Integer sourceFromStatic;//来源，1来源于统计，0来源于学员管理
 	private List<EduMasterClass> renke;
+	public Integer getSourceFromStatic() {
+		return sourceFromStatic;
+	}
+
+	public void setSourceFromStatic(Integer sourceFromStatic) {
+		this.sourceFromStatic = sourceFromStatic;
+	}
+
 	public Integer getIsStu() {
 		return isStu;
 	}

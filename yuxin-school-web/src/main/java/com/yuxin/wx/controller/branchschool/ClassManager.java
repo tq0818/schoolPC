@@ -25,6 +25,7 @@ import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.CompanyVo;
 import com.yuxin.wx.model.company.NewCompanyVo;
@@ -146,8 +147,8 @@ public class ClassManager {
     public JSONObject editBerkeley(HttpServletRequest request,Model model,CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc){
     	 JSONObject json = new JSONObject();
          log.info("qa：修改分校信息:");
-         search.setPrivateCost(search.getPrivateCost().substring(0, search.getPrivateCost().indexOf("%")));
-         search.setPublicCost(search.getPublicCost().substring(0, search.getPublicCost().indexOf("%")));
+//         search.setPrivateCost(search.getPrivateCost().substring(0, search.getPrivateCost().indexOf("%")));
+//         search.setPublicCost(search.getPublicCost().substring(0, search.getPublicCost().indexOf("%")));
          if(null!=request.getParameter("flowSize") && !"".equals(request.getParameter("flowSize"))){
         	 int flowSize= Integer.valueOf(request.getParameter("flowSize")); 
         	 cms.setVideoFlow(flowSize);
@@ -163,10 +164,14 @@ public class ClassManager {
          String zsPwd= request.getParameter("zsPwd"); 
          clc.setPassword(zsPwd);
          clc.setCompanyId(search.getId());
-         //ccUserName : ccUserName,
-         //ccPwd : ccPwd,
+         CompanyPayConfig cpc =new CompanyPayConfig();
+         String ccUserName=request.getParameter("ccUserName");
+         String ccPwd=request.getParameter("ccPwd");
+         cpc.setCcUserId(ccUserName);
+         cpc.setCcApiKey(ccPwd);
+         cpc.setCompanyId(search.getId());
          try {
-        	 companyManageServiceImpl.eidtBerkeley(search,cms,clc);
+        	 companyManageServiceImpl.eidtBerkeley(search,cms,clc,cpc);
              json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
         } catch (Exception e) {
         	 log.info("qa：修改分校信息报错");

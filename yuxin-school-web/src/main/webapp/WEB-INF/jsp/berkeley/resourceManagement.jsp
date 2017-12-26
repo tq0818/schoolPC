@@ -90,6 +90,7 @@
                     <input type="hidden" value="<fmt:formatDate value="${cms.videoEndDate}"/>" id="videoEndDate" />
                     <input type="hidden" value="${cms.videoStorage}" id="haveSpace" />
                     <input type="hidden" value="${cms.videoFlow}" id="haveFlow" />
+                   
                 </div>
             </div>
             <div class="tabs" style="padding-left: 0px;">
@@ -101,6 +102,31 @@
                     <div id="pieDomSpace" style="height: 400px;width: 95%;"></div>
                     <div id="pieDomFlow" style="height: 400px;width: 95%;"></div>
                 </div>
+                	<div class="right-side">
+					<div class="mainbackground u-content clear">
+						<div class="full-wrap buy-box">
+							<div class="buy-title">
+			                	<div class="heading">
+							        <i class="brand-text">短信购买</i>
+							    </div>
+				                <div class="title-infos">
+				                    <span class="infos"><em style="font-size: 14px;">${css.messageSend }</em>本月发送<i
+													class="iconfont ask" title="已使用短信条数">&#xe60f;</i></span>
+				                    <span class="infos"><em style="font-size: 14px;">${cms.messageTotal + cms.giveMessage - css.messageSend }</em>条剩余</span>
+				                </div>
+							</div>
+								<div class="w">
+									<span class="class_number_name">起始时间：</span>
+									<input type="text" class="laydate-icon" readonly="readonly" id="start" style="width:200px"><span>至 </span>
+									<input type="text" readonly="readonly" class="laydate-icon" id="end" style="width:200px">
+									<input type="button" value="搜索" class="btn btn-sm selectInfos">
+								</div>
+								<div id="tb" style="margin-top: 40px;">
+									<div id="lineDomMessageDetail" style="height: 400px; width: 95%;"></div>
+								</div>
+						</div>
+					</div>
+				</div>
                 <div class="p-1" id="pageTwo">
                     <div class="w">
                         <span class="class_number_name">起始时间：</span>
@@ -146,6 +172,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/echarts/echarts-all.js"></script>
 <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/company/videoStatistics.js"></script>--%>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/resourceManger.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/messageStatistics.js"></script>
 <script>
     //    左侧active切换
     $selectSubMenus('getVideoResourceAndMessageStatistics');

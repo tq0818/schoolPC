@@ -46,7 +46,7 @@ public interface ICompanyManageService {
 	 * @param clc 
 	 * @throws
 	 */
-	public void eidtBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc);
+	public void eidtBerkeley(CompanyVo search,CompanyMemberService cms,CompanyLiveConfig clc,CompanyPayConfig cpc);
 	
 	/**
 	 * 

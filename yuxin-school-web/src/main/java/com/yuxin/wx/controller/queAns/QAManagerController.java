@@ -65,16 +65,19 @@ public class QAManagerController {
                 log.info("qa：一级回复：" + a);
                 if (a.getAnswerType().equals("QUESTION_ANSWER_STUDENT")) {
                     UsersFront user = usersFrontServiceImpl.findUsersFrontById(a.getUserId());
-                    if (user.getNickName() != null) {
-                        a.setName(user.getNickName());
-                    } else if (user.getMobile() != null) {
-                        a.setName("******" + user.getMobile().substring(7));
-                    } else {
-                        a.setName(user.getUsername());
-                    }
-                    if (user.getHeadPicMax() != null) {
-                        a.setImgurl(user.getHeadPicMax());
-                    }
+                   if(null!=user){
+                	   if (user.getNickName() != null) {
+                           a.setName(user.getNickName());
+                       } else if (user.getMobile() != null) {
+                           a.setName("******" + user.getMobile().substring(7));
+                       } else {
+                           a.setName(user.getUsername());
+                       }
+                       if (user.getHeadPicMax() != null) {
+                           a.setImgurl(user.getHeadPicMax());
+                       } 
+                   }
+                   
                 } else {
                     SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(a.getUserId());
                     if (teacher != null) {
@@ -257,15 +260,17 @@ public class QAManagerController {
                 log.info("qa：查询出的二级回复:" + a);
                 if (a.getAnswerType().equals("QUESTION_ANSWER_STUDENT")) {
                     UsersFront user = usersFrontServiceImpl.findUsersFrontById(a.getUserId());
-                    if (user.getNickName() != null) {
-                        a.setName(user.getNickName());
-                    } else if (user.getMobile() != null) {
-                        a.setName("******" + user.getMobile().substring(7));
-                    } else {
-                        a.setName(user.getUsername());
-                    }
-                    if (user.getHeadPicMax() != null) {
-                        a.setImgurl(user.getHeadPicMax());
+                    if(null!=user){
+                    	if (user.getNickName() != null) {
+                            a.setName(user.getNickName());
+                        } else if (user.getMobile() != null) {
+                            a.setName("******" + user.getMobile().substring(7));
+                        } else {
+                            a.setName(user.getUsername());
+                        }
+                        if (user.getHeadPicMax() != null) {
+                            a.setImgurl(user.getHeadPicMax());
+                        }	
                     }
                 } else {
                     SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(a.getUserId());
@@ -286,13 +291,16 @@ public class QAManagerController {
                 if (a.getReplyUserId() != null) {
                     if (a.getReplyUserType().equals("QUESTION_ANSWER_STUDENT")) {
                         UsersFront user = usersFrontServiceImpl.findUsersFrontById(a.getReplyUserId());
-                        if (user.getNickName() != null) {
-                            a.setReplyUserName(user.getNickName());
-                        } else if (user.getMobile() != null) {
-                            a.setReplyUserName("******" + user.getMobile().substring(7));
-                        } else {
-                            a.setReplyUserName(user.getUsername());
+                        if(null!=user){
+                        	 if (user.getNickName() != null) {
+                                 a.setReplyUserName(user.getNickName());
+                             } else if (user.getMobile() != null) {
+                                 a.setReplyUserName("******" + user.getMobile().substring(7));
+                             } else {
+                                 a.setReplyUserName(user.getUsername());
+                             }	
                         }
+                       
                     } else {
                         SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(a.getUserId());
                         if (teacher != null) {

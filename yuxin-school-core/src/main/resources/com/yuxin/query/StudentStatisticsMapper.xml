@@ -539,9 +539,9 @@
 							sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+						LEFT JOIN commodity m ON m.id = swi.commodity_id
 						LEFT JOIN student s ON  s.user_id = swi.user_id
-						where s.edu_identity = 0 and s.delete_flag =  0
+						where s.edu_identity = 0 and s.delete_flag =  0 and m.origin_type=0
 						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
@@ -559,9 +559,9 @@
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+						LEFT JOIN commodity m ON m.id = swi.commodity_id
 						LEFT JOIN student s ON  s.user_id = swi.user_id
-						where s.edu_identity = 0 and s.delete_flag =  0
+						where s.edu_identity = 0 and s.delete_flag =  0 and m.origin_type=0
 						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
@@ -586,9 +586,9 @@
 		sys_watch_info_history swih
 		LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 		LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-		LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+		LEFT JOIN commodity m ON m.id = swi.commodity_id
 		LEFT JOIN student s ON  s.user_id = swi.user_id
-		where s.edu_identity = 0 and s.delete_flag =  0
+		where s.edu_identity = 0 and s.delete_flag =  0 and m.origin_type=0
 		<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
 		<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
 		<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>

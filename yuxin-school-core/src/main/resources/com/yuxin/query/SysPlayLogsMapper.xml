@@ -66,7 +66,7 @@
 		dr.item_value as school_step_name
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -163,7 +163,7 @@
 		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -187,7 +187,7 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -234,7 +234,7 @@
 		dr.item_value as school_step_name
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
@@ -271,7 +271,7 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
@@ -342,7 +342,8 @@
             s.edu_area
           FROM
             sys_play_logs pl
-            LEFT JOIN student s
+			join commodity c on c.id=pl.commodity_id and c.origin_type=0
+		LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
           WHERE s.`edu_area` IS NOT NULL
@@ -364,7 +365,8 @@
           d.item_code AS eduArea
         FROM
             sys_play_logs pl
-            LEFT JOIN student s
+			join commodity c on c.id=pl.commodity_id and c.origin_type=0
+		LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
             LEFT JOIN sys_config_dict d
@@ -389,6 +391,7 @@
             s.edu_school
           FROM
             sys_play_logs pl
+			join commodity c on c.id=pl.commodity_id and c.origin_type=0
             LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
@@ -462,7 +465,8 @@
             s.`edu_school`
           FROM
             sys_play_logs pl
-            LEFT JOIN student s
+		join commodity c on c.id=pl.commodity_id and c.origin_type=0
+		LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
           where s.`edu_area` is not null
@@ -489,7 +493,8 @@
             s.`edu_school`
           FROM
             sys_play_logs pl
-            LEFT JOIN student s
+		join commodity c on c.id=pl.commodity_id and c.origin_type=0
+		LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
           WHERE s.`edu_area` IS NOT NULL
@@ -516,7 +521,7 @@
 			s.`edu_school`
 		  FROM
 			sys_play_logs pl
-			left join class_type t
+			join class_type t
 			  on t.id = pl.`class_type_id`  and t.origin_type=0
 			LEFT JOIN student s
 			  ON s.user_id = pl.user_id
@@ -545,7 +550,7 @@
         v.video_cc_id as videoid
         FROM
         sys_play_logs pl
-        left join class_type t
+        join class_type t
         on t.id = pl.`class_type_id`  and t.origin_type=0
         LEFT JOIN student s
         ON s.user_id = pl.user_id

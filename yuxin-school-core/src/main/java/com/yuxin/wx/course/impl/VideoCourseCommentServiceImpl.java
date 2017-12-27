@@ -198,13 +198,15 @@ public class VideoCourseCommentServiceImpl extends BaseServiceImpl implements IV
 				 Integer teacherId = null;
 				 if(classTypeId != null){
 					 ClassType classType=classTypeMapper.findById(classTypeId);
-					 teacherCommentVo2.setClassTypeName(classType.getName());
-					 if(teacherCommentVo2.getTeacherId() != null){
-						 teacherId = teacherCommentVo2.getTeacherId();
-					 }else{
-						 String tid = classType.getTeacherId();
-						 if(tid != null && !"".equals(tid)){
-							 teacherId = Integer.parseInt(tid);
+					 if(null!=classType){
+						 teacherCommentVo2.setClassTypeName(classType.getName());
+						 if(teacherCommentVo2.getTeacherId() != null){
+							 teacherId = teacherCommentVo2.getTeacherId();
+						 }else{
+							 String tid = classType.getTeacherId();
+							 if(tid != null && !"".equals(tid)){
+								 teacherId = Integer.parseInt(tid);
+							 }
 						 }
 					 }
 				 }

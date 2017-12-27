@@ -787,8 +787,6 @@ public class StudentStatisticsController {
 
             Subject subject = SecurityUtils.getSubject();
             if(subject.hasRole("学校负责人")) {
-//                map.put("schoolId",uersAreaRelation.getEduSchool());
-//                map.put("groupBy","edu_year");
                 model.addAttribute("role","school");
                 model.addAttribute("area",uersAreaRelation.getEduArea());
                 model.addAttribute("eduSchool",uersAreaRelation.getEduSchool());

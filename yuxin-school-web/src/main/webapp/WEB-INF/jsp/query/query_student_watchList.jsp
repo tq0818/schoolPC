@@ -27,7 +27,15 @@
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
-	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
+		<c:if test="${role=='all'}">
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
+		</c:if>
+		<c:if test="${role=='area'}">
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_area.jsp"></jsp:include>
+		</c:if>
+		<c:if test="${role=='school'}">
+			<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
+		</c:if>
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">

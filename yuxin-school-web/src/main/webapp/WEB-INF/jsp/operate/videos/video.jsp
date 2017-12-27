@@ -131,7 +131,6 @@
                         <span class="s-list secItemInfo">
                             <a class="btn btn-sm btn-default oneItem" href="javascript:;" itemId="">全部</a>
                         </span> -->
-					</div> 
 					<div class="w">
 						<span class="class_number_name">状态：</span> 
 						<span class="s-list">

@@ -28,7 +28,7 @@
                 <li class="item-list fl toService liveService" data-url="/companyMemberService/toLiveStatistics">
                     <p class="L-hover">
 	                    <span class="item-back zhibo"></span>
-	                    <span class="list-title">直播</span>
+	                    <span class="list-title">直播概况</span>
                     </p>
                     <p class="list-text clear">
                         <span class="text-left fl">当月可用并发</span>
@@ -48,7 +48,7 @@
                 <li class="item-list fl toService videoService" data-url="/companyMemberService/toVideoStatistics">
                     <p class="L-hover">
 	                    <span class="item-back cunchu"></span>
-	                    <span class="list-title">存储</span>
+	                    <span class="list-title">点播概况</span>
                     </p>
                     <p class="list-text clear">
                         <span class="text-left fl">流量详情</span>
@@ -104,7 +104,7 @@
                 <li class="item-list fl">
                     <p>
 	                    <span class="item-back zhiboNo"></span>
-	                    <span class="list-title">直播</span>
+	                    <span class="list-title">直播概况</span>
                     </p>
                     <p class="list-text clear">
                         <span class="text-left fl"></span>
@@ -124,7 +124,7 @@
                 <li class="item-list fl" data-url="/companyMemberService/toVideoStatistics">
                     <p>
 	                    <span class="item-back cunchuNo"></span>
-	                    <span class="list-title">存储</span>
+	                    <span class="list-title">点播概况</span>
 	                </p>
                     <p class="list-text clear">
                         <span class="text-left fl"></span>

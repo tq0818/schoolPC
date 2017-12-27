@@ -152,7 +152,7 @@
 			                        <div>
 			                            <i class="icons i22 active" style="cursor: pointer;" onclick="forwardMicroSchool();"></i>
 			                            <p class="s-name">
-			                                <a href="javascript:void();" onclick="forwardMicroSchool();"> 	 微网校 </a>
+			                                <a href="javascript:void();" onclick="forwardMicroSchool();"> 	 WAP管理 </a>
 			                                <c:if test="${!empty manganger }">
 			                                	<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_MICROSCHOOL">&#xe635;</i>
 			                                </c:if>
@@ -184,7 +184,7 @@
 				                        <div>
 				                            <i class="icons i3 active" style="cursor: pointer;" onclick="forwardLive();"></i>
 				                            <p class="s-name">
-				                                <a href="javascript:void();" onclick="forwardLive();"> 	 直播 </a>
+				                                <a href="javascript:void();" onclick="forwardLive();"> 	 直播概况 </a>
 				                                <c:if test="${!empty manganger }">
 				                                	<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_LIVE">&#xe635;</i>
 				                                </c:if>
@@ -224,7 +224,7 @@
 										
 										<i class="icons i4 active" style="cursor: pointer;" onclick="forwardVideo();"></i>
 											<p class="s-name">
-												<a href="javascript:void(0);" onclick="forwardVideo();">存储</a>
+												<a href="javascript:void(0);" onclick="forwardVideo();">点播概况</a>
 												 <c:if test="${!empty manganger }">
 				                                	<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_VIDEO">&#xe635;</i>
 				                                </c:if>
@@ -259,7 +259,7 @@
 								</div>
 							</li>
 						</c:if>
-						<c:if test="${requestScope.SERVICE_FACE == null }">
+						<%-- <c:if test="${requestScope.SERVICE_FACE == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -297,7 +297,7 @@
 								</p>
 								</c:if>
 							</li>
-						</c:if>
+						</c:if> --%>
 	                 </ul>
                 </div>
                 <div class="q-ucont">
@@ -312,7 +312,7 @@
 <!-- 		                      	 	<span class="new"></span> -->
 		                            <i class="icons i1 active" style="cursor: pointer;" onclick="forwardCourse();"></i>
 		                            <p class="s-name">
-		                                <a href="javascript:void(0);" onclick="forwardCourse();"> 课程 </a>
+		                                <a href="javascript:void(0);" onclick="forwardCourse();"> 课程配置 </a>
 		                            </p>
 		                        </div>
 		                    </div>
@@ -350,7 +350,7 @@
 		                    </shiro:hasPermission>
 		                </li>
 		                </c:if>
-		                <c:if test="${requestScope.SERVICE_CLASS_PACKAGE == null }">
+		               <%--  <c:if test="${requestScope.SERVICE_CLASS_PACKAGE == null }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -381,12 +381,12 @@
 			                    </p>
 			                    </shiro:hasPermission>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_OPENCLASS == null }">
+		                </c:if> --%>
+		               <%--  <c:if test="${requestScope.SERVICE_OPENCLASS == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
-<!-- 									<span class="new"></span> -->
+ 									<span class="new"></span> 
 									<i class="icons i6 active" style="cursor: pointer;" onclick="forwardOpenCourse();"></i>
 										<p class="s-name">
 											<a href="javascript:void(0);" onclick="forwardOpenCourse();" style="text-decoration: none;">公开课</a>
@@ -409,7 +409,7 @@
 									</p>
 								</shiro:hasPermission>
 							</li>
-						</c:if>
+						</c:if> --%>
                       </ul>
                 </div>
                 <div class="q-ucont">
@@ -523,7 +523,7 @@
 							</div>
 						</li>
 						</c:if>
-						<c:if test="${requestScope.SERVICE_EMAIL_SET == null }">
+						<%-- <c:if test="${requestScope.SERVICE_EMAIL_SET == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -549,8 +549,8 @@
 									</p>
 								</div>
 							</li>
-						</c:if>
-						<c:if test="${requestScope.SERVICE_INTEGRAL == null }">
+						</c:if> --%>
+						<%-- <c:if test="${requestScope.SERVICE_INTEGRAL == null }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -578,12 +578,12 @@
 			                    </p>
 			                    </shiro:hasPermission>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_PROMOTION == null }">
+		                </c:if> --%>
+		                <%-- <c:if test="${requestScope.SERVICE_PROMOTION == null }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
-<!-- 			                        	<span class="new"></span> -->
+ 			                        	<span class="new"></span> 
 			                            <i class="icons i21 active" style="cursor: pointer;" onclick="forwardpromotion();"></i>
 			                            <p class="s-name">
 			                                <a href="javascript:void(0);" onclick="forwardpromotion();">促销<i class="icon-red"></i></a>
@@ -611,8 +611,8 @@
 			                        </c:if>
 			                    </p>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_TEACHER == null }">
+		                </c:if> --%>
+		                <%-- <c:if test="${requestScope.SERVICE_TEACHER == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -634,8 +634,8 @@
 								<p class="btns isok" style="height:28px">
 									</p>
 							</li>
-						</c:if>
-						<c:if test="${requestScope.SERVICE_STAGE == null }">
+						</c:if> --%>
+						<%-- <c:if test="${requestScope.SERVICE_STAGE == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -658,8 +658,8 @@
 										<a href="javascript:;" class="btn btn-sm btn-default" data-type="studetail">详情</a> -->
 									</p>
 							</li>
-						</c:if>
-						<c:if test="${requestScope.SERVICE_STUDYCARD == null }">
+						</c:if> --%>
+						<%-- <c:if test="${requestScope.SERVICE_STUDYCARD == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -681,8 +681,8 @@
 										<a href="javascript:;" class="btn btn-sm btn-default" data-type="studetail">详情</a> -->
 								</p>
 							</li>
-						</c:if>
-						<c:if test="${requestScope.SERVICE_STUDENT_ASPIRATIONS == null }">
+						</c:if> --%>
+						<%-- <c:if test="${requestScope.SERVICE_STUDENT_ASPIRATIONS == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -703,7 +703,7 @@
 										<a href="<%=rootPath%>/studentStar/showImg" class="btn btn-sm btn-default" data-type="SYS_CONFIG_SERVICE_STAGE">展示图</a>
 								</p>
 							</li>
-						</c:if>
+						</c:if> --%>
                     </ul>
                 </div>
                 <div class="q-ucont">
@@ -788,7 +788,7 @@
                       	</c:otherwise>
                       </c:choose>
                       </c:if>
-		                <c:if test="${requestScope.SERVICE_MEMBER == null }">
+		                <%-- <c:if test="${requestScope.SERVICE_MEMBER == null }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -813,7 +813,7 @@
 			                    </p>
 			                    </shiro:hasPermission>
 			                </li>
-		                </c:if>
+		                </c:if> --%>
                       </ul>
                 </div>
                 <div class="q-ucont">
@@ -848,38 +848,40 @@
 						</c:if>
                      </ul>
            	    </div>
-				<div class="q-ucont">
-					<div class="inter-set q-text">
-						<p><i class="iconfont">&#xe6c8;</i>分校行政</p>
-					</div>
-					<ul class="clear">
-						<c:if test="${requestScope.SERVICE_CLASS_SET == null }">
-							<li class="clear">
-								<div class="left" style="width: 200px;">
-									<div>
-										<i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i>
-										<p class="s-name">
-											<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
-											<c:if test="${!empty manganger }">
-												<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
-											</c:if>
-										</p>
+           	    <c:if test="${isArea == '2'}">
+					<div class="q-ucont">
+						<div class="inter-set q-text">
+							<p><i class="iconfont">&#xe6c8;</i>分校行政</p>
+						</div>
+						<ul class="clear">
+							<c:if test="${requestScope.SERVICE_CLASS_SET == null }">
+								<li class="clear">
+									<div class="left" style="width: 200px;">
+										<div>
+											<i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i>
+											<p class="s-name">
+												<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
+												<c:if test="${!empty manganger }">
+													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
+												</c:if>
+											</p>
+										</div>
 									</div>
-								</div>
-								<div class="right server-infos">
-									<%--<p class="infos">行政班设置</p>--%>
-									<%--<p class="infos">随堂考试</p>--%>
-									<%--<p class="infos">模拟真实考题</p>--%>
-								</div>
-								<%--<shiro:hasPermission name="administrative_class">--%>
-									<p class="btns isok" style="height:28px">
-										<a href="<%=rootPath%>/administrativeClassManager/administrativeClass" class="btn btn-sm btn-default">行政班设置</a>
-									</p>
-								<%--</shiro:hasPermission>--%>
-							</li>
-						</c:if>
-					</ul>
-				</div>
+									<div class="right server-infos">
+										<%--<p class="infos">行政班设置</p>--%>
+										<%--<p class="infos">随堂考试</p>--%>
+										<%--<p class="infos">模拟真实考题</p>--%>
+									</div>
+									<%--<shiro:hasPermission name="administrative_class">--%>
+										<p class="btns isok" style="height:28px">
+											<a href="<%=rootPath%>/administrativeClassManager/administrativeClass" class="btn btn-sm btn-default">行政班设置</a>
+										</p>
+									<%--</shiro:hasPermission>--%>
+								</li>
+							</c:if>
+						</ul>
+					</div>
+				</c:if>
 	 		</div>
    		 </div>
     </div>
@@ -946,7 +948,7 @@
 									<div>
 									<i class="icons i3 active disable" style="cursor: default;"></i>
 										<p class="s-name">
-											<a href="javascript:;" style="cursor: default;text-decoration: none;">直播</a>
+											<a href="javascript:;" style="cursor: default;text-decoration: none;">直播概况</a>
 										</p>
 									</div>
 								</div>
@@ -968,7 +970,7 @@
 									<div>
 									<i class="icons i4 active disable" style="cursor: default;"></i>
 										<p class="s-name">
-											<a href="javascript:;" style="cursor: default;text-decoration: none;">存储</a>
+											<a href="javascript:;" style="cursor: default;text-decoration: none;">点播概况</a>
 										</p>
 									</div>
 								</div>
@@ -984,7 +986,7 @@
 								</c:if>
 							</li>
 						</c:if>
-						<c:if test="${requestScope.SERVICE_FACE == 'SERVICE_FACE' }">
+					<%-- 	<c:if test="${requestScope.SERVICE_FACE == 'SERVICE_FACE' }">
 							<li>
 								<div class="left" style="width: 200px;">
 									<div>
@@ -1005,14 +1007,14 @@
 									</p>
 								</c:if>
 							</li>
-						</c:if>
+						</c:if> --%>
 						<c:if test="${requestScope.SERVICE_COURSE_SET == 'SERVICE_COURSE_SET'}">
                      	<li class="clear">
 		                    <div class="left" style="width: 200px">
 		                        <div>
 		                            <i class="icons i1 active disable" style="cursor: pointer;"></i>
 		                            <p class="s-name">
-		                                <a href="javascript:void(0);"> 课程 </a>
+		                                <a href="javascript:void(0);"> 课程配置 </a>
 		                            </p>
 		                        </div>
 		                    </div>
@@ -1028,7 +1030,7 @@
 							</c:if>
 		                </li>
 		                </c:if>
-						<c:if test="${requestScope.SERVICE_OPENCLASS == 'SERVICE_OPENCLASS' }">
+						<%-- <c:if test="${requestScope.SERVICE_OPENCLASS == 'SERVICE_OPENCLASS' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -1049,7 +1051,7 @@
 									</p>
 								</c:if>
 							</li>
-						</c:if>
+						</c:if> --%>
 						<c:if test="${requestScope.SERVICE_TIKU == 'SERVICE_TIKU' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
@@ -1072,7 +1074,7 @@
 								</c:if>
 							</li>
 						</c:if>
-						<c:if test="${requestScope.SERVICE_TEACHER == 'SERVICE_TEACHER' }">
+						<%-- <c:if test="${requestScope.SERVICE_TEACHER == 'SERVICE_TEACHER' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -1093,7 +1095,7 @@
 									</p>
 								</c:if>
 							</li>
-						</c:if>
+						</c:if> --%>
 						<c:if test="${requestScope.SERVICE_QUESTION_ANSWER == 'SERVICE_QUESTION_ANSWER' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
@@ -1116,7 +1118,7 @@
 								</c:if>
 							</li>
 						</c:if>
-						<c:if test="${requestScope.SERVICE_STAGE == 'SERVICE_STAGE' }">
+						<%-- <c:if test="${requestScope.SERVICE_STAGE == 'SERVICE_STAGE' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -1137,8 +1139,8 @@
 									</p>
 								</c:if>
 							</li>
-						</c:if>
-						<c:if test="${requestScope.SERVICE_CLASS_PACKAGE == 'SERVICE_CLASS_PACKAGE' }">
+						</c:if> --%>
+						<%-- <c:if test="${requestScope.SERVICE_CLASS_PACKAGE == 'SERVICE_CLASS_PACKAGE' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -1160,8 +1162,8 @@
 									</p>
 								</c:if>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_APP == 'SERVICE_APP' }">
+		                </c:if> --%>
+		                <%-- <c:if test="${requestScope.SERVICE_APP == 'SERVICE_APP' }">
 		                <li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -1182,8 +1184,8 @@
 									</p>
 								</c:if>
 			                </li>
-			                </c:if>
-							<c:if test="${requestScope.SERVICE_INTEGRAL == 'SERVICE_INTEGRAL' }">
+			                </c:if> --%>
+							<%-- <c:if test="${requestScope.SERVICE_INTEGRAL == 'SERVICE_INTEGRAL' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -1205,8 +1207,8 @@
 								</p>
 								</c:if>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_MEMBER == 'SERVICE_MEMBER' }">
+		                </c:if> --%>
+		                <%-- <c:if test="${requestScope.SERVICE_MEMBER == 'SERVICE_MEMBER' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -1227,12 +1229,12 @@
 								</p>
 								</c:if>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_PROMOTION == 'SERVICE_PROMOTION' }">
+		                </c:if> --%>
+		               <%--  <c:if test="${requestScope.SERVICE_PROMOTION == 'SERVICE_PROMOTION' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
-<!-- 			                       		<span class="new"></span> -->
+ 			                       		<span class="new"></span> 
 			                            <i class="icons i21 active disable"></i>
 			                            <p class="s-name">
 			                                <a href="javascript:void(0);">促销</a>
@@ -1250,14 +1252,14 @@
 								</p>
 								</c:if>
 			                </li>
-		                </c:if>
+		                </c:if> --%>
 		                <c:if test="${requestScope.SERVICE_MICROSCHOOL == 'SERVICE_MICROSCHOOL' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
 			                            <i class="icons i23 active disable"></i>
 			                            <p class="s-name">
-			                                <a href="javascript:void(0);">微网校</a>
+			                                <a href="javascript:void(0);">WAP管理</a>
 			                            </p>
 			                        </div>
 			
@@ -1274,7 +1276,7 @@
 								</c:if>
 			                </li>
 		                </c:if>
-		                <c:if test="${requestScope.SERVICE_STUDYCARD == 'SERVICE_STUDYCARD' }">
+		               <%--  <c:if test="${requestScope.SERVICE_STUDYCARD == 'SERVICE_STUDYCARD' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -1294,8 +1296,8 @@
 								</p>
 								</c:if>
 			                </li>
-		                </c:if>
-		                <c:if test="${requestScope.SERVICE_STUDENT_ASPIRATIONS == 'SERVICE_STUDENT_ASPIRATIONS' }">
+		                </c:if> --%>
+		                <%-- <c:if test="${requestScope.SERVICE_STUDENT_ASPIRATIONS == 'SERVICE_STUDENT_ASPIRATIONS' }">
 							<li class="clear">
 			                    <div class="left" style="width: 200px;">
 			                        <div>
@@ -1315,7 +1317,7 @@
 								</p>
 								</c:if>
 			                </li>
-		                </c:if>
+		                </c:if> --%>
 		                <c:if test="${requestScope.SERVICE_PAY_SET =='SERVICE_PAY_SET'}">
                      	<li class="clear">
 							<div class="left" style="width: 200px;">
@@ -1424,27 +1426,29 @@
 									</p>
  			                </li>
                       </c:if>
-                      <c:if test="${requestScope.SERVICE_CLASS_SET == 'SERVICE_CLASS_SET' }">
-							<li class="clear">
-								<div class="left" style="width: 200px;">
-									<div>
-										<i class="icons i7 active disable" style="cursor:pointer;" onclick="forwardTiku();"></i>
-										<p class="s-name">
-											<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
-											<c:if test="${!empty manganger }">
-												<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
-											</c:if>
-										</p>
+                      <c:if test="${isArea == '2'}">
+	                      <c:if test="${requestScope.SERVICE_CLASS_SET == 'SERVICE_CLASS_SET' }">
+								<li class="clear">
+									<div class="left" style="width: 200px;">
+										<div>
+											<i class="icons i7 active disable" style="cursor:pointer;" onclick="forwardTiku();"></i>
+											<p class="s-name">
+												<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
+												<c:if test="${!empty manganger }">
+													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
+												</c:if>
+											</p>
+										</div>
 									</div>
-								</div>
-								<div class="right server-infos">
-								</div>
-							<c:if test="${!empty manganger }">
-									<p class="btns isno">
-										<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_CLASS_SET">开通</a>
-									</p>
+									<div class="right server-infos">
+									</div>
+								<c:if test="${!empty manganger }">
+										<p class="btns isno">
+											<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_CLASS_SET">开通</a>
+										</p>
+								</c:if>
+								</li>
 							</c:if>
-							</li>
 						</c:if>
                  	 </ul>
                  </div>

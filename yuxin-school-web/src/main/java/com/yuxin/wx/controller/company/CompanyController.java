@@ -322,7 +322,8 @@ public class CompanyController {
         Integer companyId = WebUtils.getCurrentCompanyId();
         // 查询 机构信息
         Company company = companyServiceImpl.findCompanyById(companyId);
-
+        String isArea=WebUtils.getCurrentIsArea();
+        model.addAttribute("isArea", isArea);
         CompanyPayConfig payConfig = companyPayConfigService.findByCompanyId(companyId);
         if (payConfig != null) {
             if (null != payConfig.getPayType() && payConfig.getPayType().length() > 0) {

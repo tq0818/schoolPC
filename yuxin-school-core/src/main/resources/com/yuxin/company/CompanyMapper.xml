@@ -1282,7 +1282,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		inner join company c on scs.company_id=c.id and c.is_area=0 and parent_code is not null
 		where  scs.group_code in ('SERVICE_ONLINE_SET','SERVICE_BRANCH_SCHOOL_SET','SERVICE_MICROSCHOOL',
 		'SERVICE_COURSE_SET','SERVICE_PAY_SET','SERVICE_MARKETING_SET','SERVICE_MSG_SET','SERVICE_STUDENT_SET',
-		'SERVICE_TIKU','SERVICE_QUESTION_ANSWER','SERVICE_VIDEO','SERVICE_LIVE')
+		'SERVICE_TIKU','SERVICE_QUESTION_ANSWER','SERVICE_VIDEO','SERVICE_LIVE','SERVICE_CLASS_SET')
 	</insert>
 	<!-- 添加学校-->
 	<insert id="addSchool" parameterType="string" useGeneratedKeys="true" keyProperty="id">

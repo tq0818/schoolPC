@@ -10,7 +10,6 @@ import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
-import com.yuxin.wx.vo.user.UsersVo;
 /**
  * Service Interface:Users
  * @author wang.zx
@@ -140,6 +139,26 @@ public interface UsersMapper extends BaseMapper<Users> {
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    /***
+     * 
+     * @author jishangyang 2017年12月27日 下午9:25:27
+     * @Method: findUsersAreaRelationT 
+     * @Description: 通过用户id获取对应区域信息（班主任）
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationT(Integer id);
+    /***
+     * 
+     * @author jishangyang 2017年12月27日 下午9:25:27
+     * @Method: findUsersAreaRelationT 
+     * @Description: 通过用户id获取对应区域信息（任课教师）
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationR(Integer id);
     /**
      * 授权当前用户在当前学校为合法用户
      * @param params

@@ -412,6 +412,26 @@ public interface IUsersService  {
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
     /**
+     * 
+     * @author jishangyang 2017年12月27日 下午9:27:53
+     * @Method: findUsersAreaRelationT 
+     * @Description: 根据用户名获取对应区域信息(班主任)
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationT(Integer id);
+    /**
+     * 
+     * @author jishangyang 2017年12月27日 下午9:27:53
+     * @Method: findUsersAreaRelationT 
+     * @Description: 根据用户名获取对应区域信息(任课教师)
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationR(Integer id);
+    /**
      * 用户标识号
      * @param userId 用户标识号
      * @param companyId 机构标识号

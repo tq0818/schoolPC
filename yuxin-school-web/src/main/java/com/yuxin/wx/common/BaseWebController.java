@@ -151,7 +151,6 @@ public class BaseWebController {
             }
 
             // 查询机构是否开启对应的服务
-
             // 直播服务(为了兼容之前的错误数据，至格的ce7网校存在的一种情况.这是很矬的办法。。。。)
             boolean liveService = true;
             boolean videoService = true;
@@ -159,6 +158,9 @@ public class BaseWebController {
             boolean serviceTeacher = true;
             // 社区问答-最新未作答问题
             boolean serviceQa = true;
+            //短信
+            boolean serviceMsg = true;
+            
             // 查询未开通服务
             List<SysConfigService> scservList = sysConfigServiceServiceImpl.findByCompanyId(WebUtils.getCurrentCompanyId());
             for (SysConfigService s : scservList) {
@@ -171,14 +173,18 @@ public class BaseWebController {
                 if (s.getGroupCode().equals("SERVICE_QUESTION_ANSWER")) {
                     serviceQa = false;
                 }
+                if (s.getGroupCode().equals("SERVICE_MSG_SET")) {
+                	serviceMsg = false;
+                }
                 if (s.getGroupCode().equals("SERVICE_VIDEO")) {
-                    videoService = false;
+                	videoService = false;
                 }
             }
             model.addAttribute("liveService", liveService);
             model.addAttribute("videoService", videoService);
             model.addAttribute("serviceTeacher", serviceTeacher);
             model.addAttribute("serviceQa", serviceQa);
+            model.addAttribute("serviceMsg", serviceMsg);
 
             // 课程评论
             CompanyFunctionSet CompanyFunctionSet = new CompanyFunctionSet();

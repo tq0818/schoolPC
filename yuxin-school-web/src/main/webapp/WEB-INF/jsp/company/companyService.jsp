@@ -96,7 +96,7 @@
 		                    </shiro:hasPermission>
 		                </li>
 		                </c:if>
-		                <c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET == null }">
+		                <<%-- c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET == null }">
 		                <c:choose>
 		                	<c:when test="${(company.memberLevel == 12 or company.memberLevel == 13) and !empty sessionScope.SERVICE_SCHOOL }">
 	              				<c:if test="${sessionScope.SERVICE_SCHOOL == 1 }">
@@ -145,7 +145,7 @@
 		              			  </li>
 		                	</c:otherwise>
 		                </c:choose>
-		                </c:if>
+		                </c:if> --%>
 		                <c:if test="${requestScope.SERVICE_MICROSCHOOL == null }">
 							<li class="clear">
 							  <div class="left" style="width: 200px">
@@ -917,7 +917,7 @@
 								</c:if>
 		                </li>
 		                </c:if>
-		                <c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET =='SERVICE_BRANCH_SCHOOL_SET'}">
+		              <%--   <c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET =='SERVICE_BRANCH_SCHOOL_SET'}">
 				                <li class="clear">
 				                    <div class="left" style="width: 200px;">
 				                        <div>
@@ -941,7 +941,7 @@
 									</p>
 								</c:if>
 		              		</li>
-		                </c:if>
+		                </c:if> --%>
                 	 		<c:if test="${requestScope.SERVICE_LIVE == 'SERVICE_LIVE' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">

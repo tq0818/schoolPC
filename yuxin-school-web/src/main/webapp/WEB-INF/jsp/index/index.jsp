@@ -64,6 +64,7 @@
                     </p>
                 </li>
                 </c:if>
+                <c:if test="${serviceMsg }">
                 <li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics">
                     <p class="L-hover">
 	                    <span class="item-back duanxin"></span>
@@ -82,7 +83,8 @@
                         <span class="text-right red fr"></span>
                     </p>
                 </li>
-                <li class="item-list fl toService emailService" data-url="/companyMemberService/toEmailStatistics">
+                 </c:if>
+                <!-- <li class="item-list fl toService emailService" data-url="/companyMemberService/toEmailStatistics">
                     <p class="L-hover">
 	                    <span class="item-back email"></span>
 	                    <span class="list-title">邮件</span>
@@ -99,7 +101,7 @@
                         <span class="text-left fl">剩余量</span>
                         <span class="text-right red fr"></span>
                     </p>
-                </li>
+                </li> -->
                 <c:if test="${!liveService}">
                 <li class="item-list fl">
                     <p>
@@ -126,6 +128,26 @@
 	                    <span class="item-back cunchuNo"></span>
 	                    <span class="list-title">点播概况</span>
 	                </p>
+                    <p class="list-text clear">
+                        <span class="text-left fl"></span>
+                        <span class="text-right red fr"></span>
+                    </p>
+                    <p class="list-text clear">
+                        <span class="text-left textNo">您未开通此服务</span>
+                        <span class="text-right red fr"></span>
+                    </p>
+                    <p class="list-text clear">
+                        <span class="text-left fl"></span>
+                        <span class="text-right red fr"></span>
+                    </p>
+                </li>
+                </c:if>
+                 <c:if test="${!serviceMsg}">
+                <li class="item-list fl">
+                    <p>
+	                    <span class="item-back zhiboNo"></span>
+	                    <span class="list-title">短信</span>
+                    </p>
                     <p class="list-text clear">
                         <span class="text-left fl"></span>
                         <span class="text-right red fr"></span>

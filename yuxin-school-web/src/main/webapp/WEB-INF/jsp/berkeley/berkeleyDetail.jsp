@@ -45,7 +45,7 @@
             </li>
             <li>
                 <label>分校:</label>
-                <input type="text" disabled="disabled" id="branchSchool" value="${company.companyName }" style="margin-left: 70px;">
+                <input type="text" disabled="disabled" id="branchSchool" value="${company.companyName }" style="margin-left: 70px;width: 200px;">
             </li>
             <li>
                 <label>所属区域:</label>
@@ -82,11 +82,11 @@
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>学校私有课程收费比例:</label>
-                    <input type="text" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <input type="text" style="text-align: right;" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
                 </p>
                 <p style="margin-left: 95px;">
                     <label>学校开放课程收费比例:</label>
-                    <input type="text" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <input type="text" style="text-align: right;" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
                 </p>
             </li>
             <li style="margin-bottom: 30px;">
@@ -135,6 +135,8 @@
 <%--点击编辑进入编辑状态--%>
 <script>
     $('.berkeleyDetailEdit').click(function(){
+        $('#privateCost').css('text-align','left');
+        $('#publicCost').css('text-align','left');
         $('.addSource').show();
         $('.editState').addClass('editStateNow').attr('disabled',false);
         $('.showDetails').removeClass('showDetails');

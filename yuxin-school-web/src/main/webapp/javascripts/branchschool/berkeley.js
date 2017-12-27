@@ -424,8 +424,11 @@ function addBerkeley(biaoshi){
     	            			            			   	        success : function(data){
     	            			            			   	        	if(data.msg=="success"){
     	            			            			   	        		alert("保存成功");
+                                                                            $('#privateCost').css('text-align','right');
+                                                                            $('#publicCost').css('text-align','right');
     	            			            			   	        		$('.popupContainer').hide();
     	            			            			   	        		$('.popupOpacity').hide();
+
     	            			            			   	        		window.location.href = rootPath+"/berkeley/berkeleyIndex";
     	            			            			   	        	}else{
     	            			            			   	        		alert("保存失败");

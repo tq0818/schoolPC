@@ -33,6 +33,7 @@
 		<result property="userRole" column="user_role" />
 		<result property="schoolName" column="school_name" />
 		<result property="proxyOrgId" column="proxy_org_id" />
+		<result property="companyId" column="company_id" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.model.user.Users" id="usersCompanyIdResultMap">
@@ -126,7 +127,8 @@
 		u.user_city,
 		u.uuid,
 		u.head_pic_url,
-		u.proxy_org_id
+		u.proxy_org_id,
+		ur.company_id
     </sql>
 	<sql id="entity_properties">
 		#{id},

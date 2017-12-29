@@ -274,7 +274,7 @@ public class UsersController {
 	@RequestMapping(value = "/accountInfo")
 	public String accountInfo(Model model) {
 		Users user = iUsersService.findUserByCompanyIdAndUserType(WebUtils
-				.getCurrentCompanyId());
+				.getCurrentCompanyId(),WebUtils.getCurrentUser().getId());
 		Subject subject = SecurityUtils.getSubject();
 		model.addAttribute("isTeacher", subject.hasRole("直播老师"));
 		if(subject.hasRole("直播老师")){

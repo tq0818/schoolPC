@@ -88,13 +88,13 @@
 			<div class="heading L-heading">
 				<h2 class="h5">资源库</h2>
 			    <span class="line"></span>
-                <span class="space">资源空间
-                    <i>${comService.videoStorage}/${comMember.videoStorage + comMember.giveVideoStorage}</i>
+                <span class="space" >资源空间
+                    <i id="spaceRoom">${comService.videoStorage}/${comMember.videoStorage + comMember.giveVideoStorage}</i>
 					<em style="top:0px;">GB</em>
                 </span>
                 
                 <span class="space" style="margin-left: 260px">资源流量
-                    <i>${comService.videoFlow}/${comMember.videoFlow + comMember.giveVideoFlow}</i>
+                    <i id="spaceFlow">${comService.videoFlow}/${comMember.videoFlow + comMember.giveVideoFlow}</i>
 					<em style="top:0px;">GB</em>
                 </span>
 				<span class="upload-tns">

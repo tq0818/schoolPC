@@ -173,4 +173,8 @@ public class CompanyServiceStaticServiceImpl extends BaseServiceImpl implements 
 		// TODO Auto-generated method stub
 		return companyServiceStaticMapper.queryCompanyAllService(companyId);
 	};
+	@Override
+	public void updateByCompanyStatus(Integer companyId){
+		companyServiceStaticMapper.updateByCompanyStatus(companyId);
+	};
 }

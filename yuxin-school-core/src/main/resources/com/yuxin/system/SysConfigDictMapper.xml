@@ -213,17 +213,19 @@
     <!--获取服务类型及服务名称-->
     <select id="querSysConfigDictList" resultMap="sysConfigDictResultMap" parameterType="Integer">
 		select scs.group_code,scs.id,scs.company_id,scd.item_value as dict_name,scd1.item_value as item_value,scs.del_flag from sys_config_service scs 
-		LEFT JOIN sys_config_dict scd ON scs.group_code=scd.item_code
-		LEFT JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
-		where  scs.company_id = #{companyId} 
-		ORDER BY scd1.item_value desc limit #{page},#{pageSize};
+		inner JOIN sys_config_dict scd ON scs.group_code=scd.item_code
+		inner JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
+		where  scs.company_id = #{companyId} and scs.group_code in('SERVICE_ONLINE_SET','SERVICE_MICROSCHOOL'
+		,'SERVICE_LIVE','SERVICE_VIDEO','SERVICE_COURSE_SET','SERVICE_PAY_SET','SERVICE_MSG_SET','SERVICE_MARKETING_SET','SERVICE_CLASS_SET')
+		ORDER BY scd1.item_value desc limit #{page},#{pageSize}
 	</select>
     <!--获取服务类型及服务名称-->
     <select id="querSysConfigDictCount" resultType="Integer" parameterType="Integer">
-		select count(*) from (select scs.id,scs.company_id,scd.item_value as dict_name,scd1.item_value as item_value,scs.del_flag  from sys_config_service scs 
-		LEFT JOIN sys_config_dict scd ON scs.group_code=scd.item_code
-		LEFT JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
-		where  scs.company_id = #{companyId} ) t;
+		select count(1) from sys_config_service scs 
+		inner JOIN sys_config_dict scd ON scs.group_code=scd.item_code
+		inner JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
+		where  scs.company_id = #{companyId} and scs.group_code in('SERVICE_ONLINE_SET','SERVICE_MICROSCHOOL'
+		,'SERVICE_LIVE','SERVICE_VIDEO','SERVICE_COURSE_SET','SERVICE_PAY_SET','SERVICE_MSG_SET','SERVICE_MARKETING_SET','SERVICE_CLASS_SET')
 	</select>
 	
 	

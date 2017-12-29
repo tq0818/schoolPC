@@ -12,7 +12,6 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
-    <%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script> --%>
     <style type="text/css">
         .head-div {
             position: relative;
@@ -66,14 +65,14 @@
                             </c:choose>
                         </th>
                         <th width="10%">
-                        <c:choose>
-                            <c:when test="${dict.delFlag==1 }">
-                                <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >关闭<a/>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >开通</a>
-                            </c:otherwise>
-                        </c:choose>
+	                        <c:choose>
+	                            <c:when test="${dict.delFlag==1 }">
+	                                <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >关闭<a/>
+	                            </c:when>
+	                            <c:otherwise>
+	                                <a class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >开通</a>
+	                            </c:otherwise>
+	                        </c:choose>
                         </th>
                     </tr>
                 </c:forEach>

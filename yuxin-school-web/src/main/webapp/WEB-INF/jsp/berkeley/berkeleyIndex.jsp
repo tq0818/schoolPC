@@ -193,8 +193,8 @@
                     <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;" type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
                 </li>
                 <li>
-                    <label>学校简介<i style="color: red;" class="iconfont ico"></i></label><br/>
-                    <textarea style="margin-left: 55px;" cols="50" rows="10" id="schoolSummary" name="schoolSummary"></textarea>
+                    <label>分校简介<i style="color: red;" class="iconfont ico"></i></label><br/>
+                    <textarea style="margin-left: 55px;" cols="50" rows="10" id="schoolSummary" name="schoolSummary" placeholder="最多输入200个字符"></textarea>
                 </li>
             </ul>
 

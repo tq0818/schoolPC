@@ -22,7 +22,7 @@
     <!-- 分校管理员、机构管理员角色 -->
     <shiro:hasAnyRoles name="机构管理员,分校管理员">
     <div class="gg-item mg20 companyStatistics">
-        <div class="item-left" style="margin-right:0">
+        <div class="item-left" style="margin-right:0;padding-right: 0;">
             <ul class="item-cont clear bg">
                 <c:if test="${liveService }">
                 <li class="item-list fl toService liveService" data-url="/companyMemberService/toLiveStatistics">

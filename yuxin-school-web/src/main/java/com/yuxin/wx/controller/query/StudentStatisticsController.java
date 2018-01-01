@@ -1,10 +1,36 @@
 package com.yuxin.wx.controller.query;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.company.ICompanyPayConfigService;
-import com.yuxin.wx.api.course.IVideoService;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.api.query.ISysPlayLogsService;
 import com.yuxin.wx.api.student.IStudentService;
@@ -17,45 +43,25 @@ import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.common.ViewFiles;
-import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
-import com.yuxin.wx.model.tiku.TikuPaperTopic;
-import com.yuxin.wx.model.tiku.TikuTopicOption;
-import com.yuxin.wx.model.tiku.TikuUserExerciseAnswer;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
-import com.yuxin.wx.scheduled.TikuStatisticsTask;
-import com.yuxin.wx.utils.*;
+import com.yuxin.wx.utils.DateUtil;
+import com.yuxin.wx.utils.EntityUtil;
+import com.yuxin.wx.utils.ExcelUtil;
+import com.yuxin.wx.utils.HttpPostRequest;
+import com.yuxin.wx.utils.MD5;
+import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.crypto.hash.Hash;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Controller
 @RequestMapping("/query")
@@ -395,8 +401,19 @@ public class StudentStatisticsController {
         if(loginUser==null || loginUser.getId()==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
+        UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
+        Subject subject = SecurityUtils.getSubject();
+        if( subject.hasRole("班主任")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId());
+        }else if(subject.hasRole("任课老师")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
+        }else{
+        	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
+        }
+        
         //获取账号对应用户信息
-        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+       
+       
         if(uersAreaRelation==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
@@ -429,8 +446,17 @@ public class StudentStatisticsController {
         if(loginUser==null || loginUser.getId()==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
+        
         //获取账号对应用户信息
-        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
+        Subject subject = SecurityUtils.getSubject();
+        if( subject.hasRole("班主任")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId());
+        }else if(subject.hasRole("任课老师")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
+        }else{
+        	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
+        }
         if(uersAreaRelation==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
@@ -469,6 +495,7 @@ public class StudentStatisticsController {
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
         List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
         model.addAttribute("stepList", stepList);
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
         return "/query/query_student_org";
     }
 
@@ -485,7 +512,15 @@ public class StudentStatisticsController {
             throw new Exception("数据出现异常，请联系管理员！");
         }
         //获取账号对应用户信息
-        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
+        Subject subject = SecurityUtils.getSubject();
+        if( subject.hasRole("班主任")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId());
+        }else if(subject.hasRole("任课老师")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
+        }else{
+        	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
+        }
         if(uersAreaRelation==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
@@ -505,7 +540,7 @@ public class StudentStatisticsController {
         stepDict.setDictCode("EDU_STEP_NEW");
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
-
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
         return "/query/query_org_org";
     }
 
@@ -613,7 +648,7 @@ public class StudentStatisticsController {
             model.addAttribute("eduStep",sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
             model.addAttribute("role","area");
         }
-
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
         return "/query/query_student_watchInfo";
     }
     //直播观看人次
@@ -1763,7 +1798,15 @@ public class StudentStatisticsController {
         }
 
         //获取账号对应用户信息
-        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
+        Subject subject = SecurityUtils.getSubject();
+        if( subject.hasRole("班主任")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId());
+        }else if(subject.hasRole("任课老师")){
+        	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
+        }else{
+        	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
+        }
         if(uersAreaRelation==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
@@ -1796,10 +1839,68 @@ public class StudentStatisticsController {
         cal.add(Calendar.DAY_OF_MONTH, -6);
         String startTime = sdf.format(cal.getTime());
         model.addAttribute("startTime" ,startTime);
-
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
         papamMap.put("startTime", startTime);
         papamMap.put("endTime", endTime);
         return "/queVideo/videoCourseIndex_org";
+    }
+    @RequestMapping(value="/orgstatistics/userQue")
+    public String userQue(Model model, HttpServletRequest request) throws Exception {
+    	 Users loginUser = WebUtils.getCurrentUser(request);
+         if(loginUser==null || loginUser.getId()==null){
+             throw new Exception("数据出现异常，请联系管理员！");
+         }
+         
+         //获取账号对应用户信息
+         UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
+         Subject subject = SecurityUtils.getSubject();
+         if( subject.hasRole("班主任")){
+         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId());
+         }else if(subject.hasRole("任课老师")){
+         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
+         }else{
+         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
+         }
+         if(uersAreaRelation==null){
+             throw new Exception("数据出现异常，请联系管理员！");
+         }
+         // 查询课程的多课程单元和多班号功能
+         CompanyFunctionSet search = new CompanyFunctionSet();
+         search.setFunctionCode("COMPANY_FUNCTION_COURSE");
+         search.setCompanyId(WebUtils.getCurrentCompanyId());
+         //查询学校所在区域
+         SysConfigDict areaDict = new SysConfigDict();
+         areaDict.setDictCode("EDU_SCHOOL");
+         areaDict.setItemCode(uersAreaRelation.getEduSchool());
+         List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+         if(schools!=null && schools.size()>0 && schools.get(0)!=null){
+             model.addAttribute("school", schools.get(0));
+         }
+
+         // 学员分组
+         CompanyFunctionSet companyFunctionSet = new CompanyFunctionSet();
+         companyFunctionSet.setCompanyId(WebUtils.getCurrentCompanyId());
+         companyFunctionSet.setFunctionCode("STUDENT_GROUP");
+         List<CompanyFunctionSet> companyFunctionSetList = companyFunctionSetServiceImpl.findCompanyFunctionSetByPage(companyFunctionSet);
+         if (companyFunctionSetList != null && companyFunctionSetList.size() > 0) {
+             model.addAttribute("sgOpen", companyFunctionSetList.get(0).getStatus());
+         }
+
+         // 查看该机构学员地址信息配置功能
+         search.setFunctionCode("STUDENT_ADDRESS_INFO");
+         CompanyFunctionSet address = companyFunctionSetServiceImpl.findCompanyUseCourse(search);
+         if (address != null && "1".equals(address.getStatus())) {
+             model.addAttribute("address", 1);
+         } else {
+             model.addAttribute("address", 0);
+         }
+
+         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
+         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
+         List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
+         model.addAttribute("stepList", stepList);
+         model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+    	return "/query/query_user_org";
     }
 
     /**

@@ -29,7 +29,7 @@
 	<aop:aspectj-autoproxy />
 
 	<!-- 定时器开关 开始 -->
-	<task:annotation-driven />
+	<!-- <task:annotation-driven /> -->
 	<!-- 定时器开关 结束 -->
 
 	<!-- 定义受环境影响易变的变量 -->

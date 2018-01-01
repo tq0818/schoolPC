@@ -203,7 +203,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                                             '<td>'+stu.classCounts+'</td>'+
                                             '<td class="slink">'+
                                                 '<a class="showSignUp" mobile="" uname="sdsdsd" href="'+rootPath+'/classManager/getClassInfo/'+stu.id+'">详情</a>|'+
-                                                '<a class="studentDetail" mobile="" uname="sdsdsd"  target="_Blank" href="'+stu.domain+'">查看官网</a>|'+
+                                                '<a class="studentDetail" mobile="" uname="sdsdsd"  target="_Blank" href="//'+stu.domain+'">查看官网</a>|'+
                                                 '<a class="more" href="javascript:void(0);">更多'+
                                                 '</a>'+
                                                 '<ul class="none box" style="display: none;">'+
@@ -304,12 +304,12 @@ function addBerkeley(biaoshi){
     	        		var isArea=$("#isArea").val();
     	        		var eara=$("#eara").text();
     	        		var schoolProperties=$("#schoolProperties").val();
-    	        		if(branchSchool!=eara){
+    	        		/*if(branchSchool!=eara){
     	    				if(null== schoolProperties || ''==schoolProperties){
     	            			alert("学校性质不能为空");
     	            			return;
     	            		}
-    	    			}
+    	    			}*/
     	        		var linkPerson=$("#linkPerson").val();
     	        		if(null==linkPerson || ''==linkPerson){
     	        			alert("联系人不能为空");
@@ -319,8 +319,14 @@ function addBerkeley(biaoshi){
     	        		if(null==linkPhone || ''==linkPhone){
     	        			alert("联系方式不能为空");
     	        			return;
-    	        		}
-    	        		var domain=$("#domain").val();
+    	        		}else if(linkPhone.length!=11){
+                            alert("联系方式不是11位有效电话");
+                            return;
+						}else if(!(/^1[34578]\d{9}$/.test(linkPhone))){
+                            alert("手机号码有误，请重填");
+                            return ;
+                        }
+                           var domain=$("#domain").val();
     	        		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
     	        		domain = domain.replace(/\s/g,"");
     	        		if(null!=domain && ''!=domain){
@@ -392,8 +398,15 @@ function addBerkeley(biaoshi){
         	            			            				}
 	        	            			            			var schoolSummary=$("#schoolSummary").val();
         	            			            				if(null==schoolSummary || ''==schoolSummary){
-        	            			            					alert("学校简介不能为空");
+        	            			            					alert("分校简介不能为空");
         	            			            					return;
+        	            			            				}else if (schoolSummary.length>200){
+        	            			            					alert("分校简介不能超过200个字符");
+        	            			            					return;
+																}else{
+        	            			            					schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
+        	            			            					schoolSummary = schoolSummary.replace(/\s/g,"");
+        	            			            				}
         	            			            				}
 															   schoolSummary = schoolSummary.replace(/(^\s+)|(\s+$)/g, "");
 															   schoolSummary = schoolSummary.replace(/\s/g, "");
@@ -432,6 +445,7 @@ function addBerkeley(biaoshi){
                                                                             $('#publicCost').css('text-align','right');
     	            			            			   	        		$('.popupContainer').hide();
     	            			            			   	        		$('.popupOpacity').hide();
+
     	            			            			   	        		window.location.href = rootPath+"/berkeley/berkeleyIndex";
     	            			            			   	        	}else{
     	            			            			   	        		alert("保存失败");

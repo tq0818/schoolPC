@@ -1,11 +1,27 @@
 package com.yuxin.wx.user.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.auth.mapper.AuthRoleMapper;
 import com.yuxin.wx.auth.mapper.AuthUserRoleMapper;
-import com.yuxin.wx.classes.mapper.*;
+import com.yuxin.wx.classes.mapper.ClassModuleLessonMapper;
+import com.yuxin.wx.classes.mapper.ClassModuleMapper;
+import com.yuxin.wx.classes.mapper.ClassModuleNoMapper;
+import com.yuxin.wx.classes.mapper.ClassTypeMapper;
+import com.yuxin.wx.classes.mapper.ClassTypeModuleRelationMapper;
 import com.yuxin.wx.commodity.mapper.CommodityMapper;
 import com.yuxin.wx.commodity.mapper.CommodityProductRealtionMapper;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.company.mapper.CompanyMemberServiceMapper;
@@ -14,39 +30,25 @@ import com.yuxin.wx.company.mapper.CompanyServiceStaticMapper;
 import com.yuxin.wx.course.mapper.CourseVideoChapterMapper;
 import com.yuxin.wx.course.mapper.CourseVideoLectureMapper;
 import com.yuxin.wx.model.auth.AuthUserRole;
-import com.yuxin.wx.model.classes.ClassModule;
-import com.yuxin.wx.model.classes.ClassType;
-import com.yuxin.wx.model.classes.ClassTypeModuleRelation;
-import com.yuxin.wx.model.commodity.Commodity;
-import com.yuxin.wx.model.commodity.CommodityProductRealtion;
 import com.yuxin.wx.model.company.Company;
-import com.yuxin.wx.model.company.CompanyMemberService;
-import com.yuxin.wx.model.company.CompanyPayConfig;
-import com.yuxin.wx.model.company.CompanyServiceStatic;
-import com.yuxin.wx.model.course.CourseVideoChapter;
-import com.yuxin.wx.model.course.CourseVideoLecture;
-import com.yuxin.wx.model.system.*;
+import com.yuxin.wx.model.system.SysConfigCampus;
+import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.user.UserLoginSession;
 import com.yuxin.wx.model.user.Users;
-import com.yuxin.wx.system.mapper.*;
+import com.yuxin.wx.system.mapper.SysCcAccountMapper;
+import com.yuxin.wx.system.mapper.SysConfigCampusMapper;
+import com.yuxin.wx.system.mapper.SysConfigItemMapper;
+import com.yuxin.wx.system.mapper.SysConfigSchoolMapper;
+import com.yuxin.wx.system.mapper.SysConfigTeacherMapper;
+import com.yuxin.wx.system.mapper.SysCyclePicMapper;
+import com.yuxin.wx.system.mapper.SysNewsMapper;
+import com.yuxin.wx.system.mapper.SysPageHeadFootMapper;
 import com.yuxin.wx.user.mapper.UsersMapper;
 import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.user.InitDataVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.yuxin.wx.common.BaseServiceImpl;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service Implementation:Users
@@ -387,6 +389,15 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 		// TODO Auto-generated method stub
 		return usersMapper.findUserByCompanyIdAndUserType(companyId);
 	}
+	
+	@Override
+	public Users findUserByCompanyIdAndUserType(Integer companyId,
+			Integer userId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("companyId",companyId);
+		params.put("userId",userId);
+		return usersMapper.findUserByCompanyIdAndUserId(params);
+	}
 
 	@Override
 	public void updateUserByCompanyIdAndUserType(Users users) {
@@ -603,6 +614,14 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	@Override
 	public UsersAreaRelation findUsersAreaRelation(Integer id) {
 		return usersMapper.findUsersAreaRelation(id);
+	}
+	@Override
+	public UsersAreaRelation findUsersAreaRelationT(Integer id) {
+		return usersMapper.findUsersAreaRelationT(id);
+	}
+	@Override
+	public UsersAreaRelation findUsersAreaRelationR(Integer id) {
+		return usersMapper.findUsersAreaRelationR(id);
 	}
 
 	@Override

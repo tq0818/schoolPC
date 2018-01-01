@@ -33,6 +33,7 @@
 		<result property="userRole" column="user_role" />
 		<result property="schoolName" column="school_name" />
 		<result property="proxyOrgId" column="proxy_org_id" />
+		<result property="companyId" column="company_id" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.model.user.Users" id="usersCompanyIdResultMap">
@@ -126,7 +127,8 @@
 		u.user_city,
 		u.uuid,
 		u.head_pic_url,
-		u.proxy_org_id
+		u.proxy_org_id,
+		ur.company_id
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -272,8 +274,15 @@
 		where u.user_type = 'USER_TYPE_ORG'  limit 1
 	</select>
 	
+	<select id="findUserByCompanyIdAndUserId" resultMap="usersResultMap" parameterType="Integer">
+		select <include refid="table_columns_u" />
+		from users u
+		inner join users_comany_relation ur on u.id=ur.user_id and ur.is_used=1
+		where u.user_type = 'USER_TYPE_ORG' and u.id=#{userId} and ur.company_id=#{companyId}
+	</select>
+	
 	<update id="updateUserByCompanyIdAndUserType" parameterType="com.yuxin.wx.model.user.Users">
-		update users 
+		update users u
 		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1 and ur.company_id=#{companyId}
 		<trim prefix="set" suffixOverrides=",">
 			<if test="username != null and username != ''">username = #{username},</if>
@@ -592,6 +601,14 @@
 
 	<select id="findUsersAreaRelation" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
 		select * from users_area_relation where user_id = #{id} limit 1
+	</select>
+	<select id="findUsersAreaRelationT" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
+		select edu_area,edu_school from edu_master_class where user_id = #{id} limit 1
+	</select>
+	<select id="findUsersAreaRelationR" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
+		select t1.edu_area as edu_area,t1.edu_school as edu_school from edu_subject_class_teacher t
+		LEFT JOIN edu_master_class t1 ON t1.id=t.class_id 
+		where t.user_id = #{id} limit 1
 	</select>
 	<insert id="insertUserCompanyRalation" parameterType="map" useGeneratedKeys="true">
 		insert into users_comany_relation(user_id,company_id,is_used)

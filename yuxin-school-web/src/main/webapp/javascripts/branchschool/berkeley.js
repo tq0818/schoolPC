@@ -398,21 +398,10 @@ function addBerkeley(biaoshi){
 															   schoolSummary = schoolSummary.replace(/(^\s+)|(\s+$)/g, "");
 															   schoolSummary = schoolSummary.replace(/\s/g, "");
                                                               $.confirm("保存后，部分属性无法修改，是否继续？",function(s){
-                                                              	if(s){
-																}
-																  return;
-															  })
-
-                                                               // var flag=true;
-                                                               // if(window.confirm('保存后，部分属性无法修改，是否继续？')){
-                                                               //     return flag;
-                                                               // }else{
-                                                               //     return;
-                                                               // }
-                                                               // if(flag==true){
-																//    schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
-                                                               //     schoolSummary = schoolSummary.replace(/\s/g,"");
-                                                               // }
+                                                                   if(s){
+                                                                   }
+                                                                   return;
+                                                               })
     	            			            					$.ajax({
     	            			            			   	        type : 'post',
     	            			            			   	        url : rootPath + '/berkeley/addBerkeley',

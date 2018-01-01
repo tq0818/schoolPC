@@ -415,7 +415,7 @@
                           <p><i class="iconfont">&#xe6c5;</i>运营功能管理</p>
                       </div>
                       <ul class="clear">
-                      <c:if test="${requestScope.SERVICE_PAY_SET == null }">
+                      <c:if test="${requestScope.SERVICE_PAY_SET == null and CURRENT_IS_AREA eq '0'}">
                      	<li class="clear">
 							<div class="left" style="width: 200px;">
 								<div>
@@ -1316,7 +1316,7 @@
 								</c:if>
 			                </li>
 		                </c:if> --%>
-		                <c:if test="${requestScope.SERVICE_PAY_SET =='SERVICE_PAY_SET'}">
+		                <c:if test="${requestScope.SERVICE_PAY_SET =='SERVICE_PAY_SET' and CURRENT_IS_AREA eq '0' }">
                      	<li class="clear">
 							<div class="left" style="width: 200px;">
 								<div>

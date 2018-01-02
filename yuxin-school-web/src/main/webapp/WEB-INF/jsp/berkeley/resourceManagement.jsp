@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="tabs" style="padding-left: 0px;">
-                <a href="javascript:;" class="btn btn-sm btn-default btn-success">统计概况</a>
+                <a href="javascript:;" class="btn btn-sm btn-default btn-success" id="tjgk">统计概况</a>
                 <a href="javascript:;" class="btn btn-sm btn-default" id="FDetail">流量统计详情</a>
             </div>
             <div class="tabs-content" >
@@ -102,7 +102,7 @@
                     <div id="pieDomSpace" style="height: 400px;width: 95%;"></div>
                     <div id="pieDomFlow" style="height: 400px;width: 95%;"></div>
                 </div>
-                	<div class="right-side">
+                	<div class="right-side" id="messageSide">
 					<div class="mainbackground u-content clear">
 						<div class="full-wrap buy-box">
 							<div class="buy-title">

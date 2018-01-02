@@ -30,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/editberkeley.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>

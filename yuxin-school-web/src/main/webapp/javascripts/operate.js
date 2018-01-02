@@ -121,10 +121,10 @@
         		$("div.addVideoTc .item_msg").html("请选择学科");
         		return false;
         	}
-        	if(!$("div.addVideoTc #itemSecondId").val()){
-        		$("div.addVideoTc .item_msg").html("请选择学科小类");
-        		return false;
-        	}
+        	// if(!$("div.addVideoTc #itemSecondId").val()){
+        	// 	$("div.addVideoTc .item_msg").html("请选择学科小类");
+        	// 	return false;
+        	// }
         	if(!$("div.addVideoTc #protocol").prop("checked")){
         		$("div.addVideoTc .protocol_msg").html("您尚未同意上传协议");
         		return false;
@@ -138,10 +138,10 @@
         		$("div.addVideoTc .item_msg").html("请选择学科");
         		return false;
         	}
-        	if(!$("div.addVideoTc #itemSecondId").val()){
-        		$("div.addVideoTc .item_msg").html("请选择学科小类");
-        		return false;
-        	}
+        	// if(!$("div.addVideoTc #itemSecondId").val()){
+        	// 	$("div.addVideoTc .item_msg").html("请选择学科小类");
+        	// 	return false;
+        	// }
         	if(!$("div.addVideoTc #protocol").prop("checked")){
         		$("div.addVideoTc .protocol_msg").html("您尚未同意上传协议");
         		return false;
@@ -159,10 +159,10 @@
         		$("div.addVideoTc .item_msg").html("请选择学科");
         		return false;
         	}
-        	if(!itemTwoId){
-        		$("div.addVideoTc .item_msg").html("请选择学科小类");
-        		return false;
-        	}
+        	// if(!itemTwoId){
+        	// 	$("div.addVideoTc .item_msg").html("请选择学科小类");
+        	// 	return false;
+        	// }
         	if(!$("div.addVideoTc #protocol").prop("checked")){
         		$("div.addVideoTc .protocol_msg").html("您尚未同意上传协议");
         		return false;

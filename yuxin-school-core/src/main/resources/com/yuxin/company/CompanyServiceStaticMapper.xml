@@ -165,8 +165,18 @@
 	<select id="findByCompanyId" resultMap="companyServiceStaticResultMap" parameterType="Integer">
 		select <include refid="table_columns"/>
 		from company_service_static
-		where company_id = #{companyId}
+		where company_id = #{companyId};
 	</select>
+	<!-- 添加更新流量储存的方法-->
+	<update id="updateByCompanyStatus" parameterType="Integer" >
+		update company_service_static
+		set video_storage=(
+		SELECT ROUND(sum(vodeo_size)/1024,3)
+		FROM video
+		WHERE video.company_id=#{companyId}
+		)
+		where company_service_static.company_id=#{companyId}
+	</update>
 	<!-- 查询所有公司已用户服务 -->
 	<select id="queryCompanyServicesUsed" resultMap="companyServiceStaticResultMap">
 		select <include refid="table_columns"/>

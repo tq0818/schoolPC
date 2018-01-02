@@ -360,7 +360,7 @@ function addBerkeley(biaoshi){
         	            			            				if(null==privateCost || ''==privateCost){
         	            			            					alert("学校私有课程收费比例不能为空");
         	            			            					return;
-        	            			            				}	
+        	            			            				}
 	        	            			            			var publicCost=$("#publicCost").val();
         	            			            				if(null==publicCost || ''==publicCost){
         	            			            					alert("学校开放课程收费比例不能为空");
@@ -370,12 +370,12 @@ function addBerkeley(biaoshi){
         	            			            				if(null==flowSize || ''==flowSize){
         	            			            					alert("流量不能为空");
         	            			            					return;
-        	            			            				}	
+        	            			            				}
 	        	            			            			var spaceSize=$("#spaceSize").val();
         	            			            				if(null==spaceSize || ''==spaceSize){
         	            			            					alert("空间不能为空");
         	            			            					return;
-        	            			            				}	
+        	            			            				}
 	        	            			            			var ccUserName=$("#ccUserName").val();
         	            			            				if(null==ccUserName || ''==ccUserName){
         	            			            					alert("cc账号不能为空");
@@ -407,52 +407,50 @@ function addBerkeley(biaoshi){
         	            			            					schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
         	            			            					schoolSummary = schoolSummary.replace(/\s/g,"");
         	            			            				}
-        	            			            				}
-															   schoolSummary = schoolSummary.replace(/(^\s+)|(\s+$)/g, "");
-															   schoolSummary = schoolSummary.replace(/\s/g, "");
-                                                              $.confirm("保存后，部分属性无法修改，是否继续？",function(s){
-                                                                   if(s){
-                                                                   }
-                                                                   return;
-                                                               })
-    	            			            					$.ajax({
-    	            			            			   	        type : 'post',
-    	            			            			   	        url : rootPath + '/berkeley/addBerkeley',
-    	            			            			   	        data : {
-    	            			            			   	        	branchCode : branchCode,
-    	            			            			   	        	isArea : isArea,
-    	            			            			   	        	branchSchool : branchSchool,
-    	            			            			   	        	eara : eara,
-    	            			            			   	        	schoolProperties : schoolProperties,
-    	            			            			   	        	linkPerson : linkPerson,
-    	            			            			   	        	linkPhone : linkPhone,
-    	            			            			   	        	domain : domain,
-    	            			            			   	        	domainManage : domainManage,
-    	            			            			   	        	privateCost : privateCost,
-    	            			            			   	        	publicCost : publicCost,
-    	            			            			   	        	flowSize : flowSize,
-    	            			            			   	        	spaceSize : spaceSize,
-    	            			            			   	        	ccUserName : ccUserName,
-    	            			            			   	        	ccPwd : ccPwd,
-    	            			            			   	        	zsUserName : zsUserName,
-    	            			            			   	        	zsPwd : zsPwd,
-    	            			            			   	        	schoolSummary : schoolSummary
-    	            			            			   	        },
-    	            			            			   	        success : function(data){
-    	            			            			   	        	if(data.msg=="success"){
-    	            			            			   	        		alert("保存成功");
-                                                                            $('#privateCost').css('text-align','right');
-                                                                            $('#publicCost').css('text-align','right');
-    	            			            			   	        		$('.popupContainer').hide();
-    	            			            			   	        		$('.popupOpacity').hide();
-
-    	            			            			   	        		window.location.href = rootPath+"/berkeley/berkeleyIndex";
-    	            			            			   	        	}else{
-    	            			            			   	        		alert("保存失败");
-    	            			            			   	        	}
-    	            			            			   	        }
-    	            			            			   	    });
-	        	            			        			}else{
+                                                               $.confirm("保存后，部分属性无法修改，是否继续？",function (r) {
+        	            			            				if(r){
+                                                                    $.ajax({
+                                                                        type: 'post',
+                                                                        url: rootPath + '/berkeley/addBerkeley',
+                                                                        data: {
+                                                                            branchCode: branchCode,
+                                                                            isArea: isArea,
+                                                                            branchSchool: branchSchool,
+                                                                            eara: eara,
+                                                                            schoolProperties: schoolProperties,
+                                                                            linkPerson: linkPerson,
+                                                                            linkPhone: linkPhone,
+                                                                            domain: domain,
+                                                                            domainManage: domainManage,
+                                                                            privateCost: privateCost,
+                                                                            publicCost: publicCost,
+                                                                            flowSize: flowSize,
+                                                                            spaceSize: spaceSize,
+                                                                            ccUserName: ccUserName,
+                                                                            ccPwd: ccPwd,
+                                                                            zsUserName: zsUserName,
+                                                                            zsPwd: zsPwd,
+                                                                            schoolSummary: schoolSummary
+                                                                        },
+                                                                        success: function (data) {
+                                                                            if (data.msg == "success") {
+                                                                                alert("保存成功");
+                                                                                $('#privateCost').css('text-align', 'right');
+                                                                                $('#publicCost').css('text-align', 'right');
+                                                                                $('.popupContainer').hide();
+                                                                                $('.popupOpacity').hide();
+                                                                                window.location.href = rootPath + "/berkeley/berkeleyIndex";
+                                                                            } else {
+                                                                                alert("保存失败");
+                                                                            }
+                                                                    }
+                                                                    });
+        	            			            				} else{
+        	            			            					return;
+																}
+                                                               });
+	        	            			        			}
+	        	            			        			else{
 	        	            			        				alert("分校后台域名重复");
 	        	            			        				$("#domainManage").val('');
 	        	            			        				return;

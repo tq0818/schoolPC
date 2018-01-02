@@ -105,16 +105,18 @@ function  init() {
             });
         }
 
-
-        var date = new Date();
-        var year = date.getFullYear();
-        var end = year - 15;
-        var yearOption = "";
-        while (year >= end) {
-            yearOption += '<option value="' + year + '">' + year + '</option>';
-            year--;
-        }
-        $("#eduYear").append(yearOption);
+        var role=$("#roles").val();
+		if(role!='2' && role!='3'){
+			var date = new Date();
+			var year = date.getFullYear();
+			var end = year - 15;
+			var yearOption = "";
+			while (year >= end) {
+				yearOption += '<option value="' + year + '">' + year + '</option>';
+				year--;
+			}
+			$("#eduYear").append(yearOption);
+		}
 
 
         $("#subject").change(function () {

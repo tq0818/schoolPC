@@ -8,7 +8,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>查询统计</title>
+<title>用户统计</title>
 <link rel="stylesheet" type="text/css"
 	href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
@@ -29,7 +29,7 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5">${area.itemValue}学员列表</h2> 
+					<h2 class="h5">${area.itemValue}用户列表</h2>
 					<span class="line"></span>
 				</div>
 				<form method="post" id="searchForm">
@@ -72,19 +72,11 @@
 							<%--<th width="8%">用户名</th>--%>
 							<th width="8%">姓名</th>
 							<th width="5%">身份</th>
-							<th width="8%">区域</th>
-							<th width="12%">学校</th>
-							<th width="10%">所在班级</th>
-							<c:if test="${userorg_roleopenflag==1 }">
-								<shiro:hasAnyRoles name="机构管理员,代理机构">
-									<th width="10%">所属代理机构</th>
-								</shiro:hasAnyRoles>
-							</c:if>
+							<th width="8%">手机号</th>
 							<th width="8%">创建时间</th>
-							<th width="6%">前台登录账号</th>
-							<th width="6%">前台账号状态</th>
-							<th width="5%">报名状态</th>
-							<%--<th width="10%">操作</th>--%>
+							<th width="6%">已报名课程数</th>
+							<th width="6%">学习课程数</th>
+							<th width="5%">已消费金额</th>
 						</tr>
 						<c:choose>
 							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">

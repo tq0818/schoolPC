@@ -199,6 +199,8 @@ public interface IUsersService  {
   * @return
   */
  Users findUserByCompanyIdAndUserType(Integer companyId);
+ 
+ Users findUserByCompanyIdAndUserType(Integer companyId,Integer userId);
 /**
  * 
  * Class Name: IUsersService.java

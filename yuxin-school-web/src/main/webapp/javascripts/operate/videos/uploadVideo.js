@@ -713,10 +713,10 @@ function selajaxstroage(ele){
 		$("div.addResourceTc .item_msg").html("请选择学科");
 		return false;
 	}
-	if(!$("div.addResourceTc #itemSecondId").val()){
-		$("div.addResourceTc .item_msg").html("请选择学科小类");
-		return false;
-	}
+	// if(!$("div.addResourceTc #itemSecondId").val()){
+	// 	$("div.addResourceTc .item_msg").html("请选择学科小类");
+	// 	return false;
+	// }
 	if(!$("div.addResourceTc #protocol").prop("checked")){
 		$("div.addResourceTc .protocol_msg").html("您尚未同意上传协议");
 		return false;

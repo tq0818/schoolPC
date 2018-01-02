@@ -10,6 +10,7 @@
         <ul id="course_manage" class="system_managelist">
         	<shiro:hasAnyRoles name="文轩教育,教科院,区县负责人,学校负责人">
             <li class="subentry active" code="studentList" mark="/query/areastatistics/studentList">学员</li>
+            <li class="subentry" code="userList" mark="/query/areastatistics/userList">用户统计</li>
             <li class="subentry" code="orgStuList" mark="/query/areastatistics/queryOrg">学校</li>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
             <li class="subentry" code="videoList" mark="/query/areastatistics/videoCourseIndex">点播统计</li>

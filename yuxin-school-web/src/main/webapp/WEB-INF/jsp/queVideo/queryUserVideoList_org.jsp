@@ -51,25 +51,58 @@
 						<input type="hidden" id="eduSchool" name="eduSchool" value="${org.itemCode}"/>
 						<span>学段：</span>
 						<select name="eduStep" id="eduStep">
-							<option value="">请选择学段</option>
-							<c:forEach items="${steps}" var="step" >
-								<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
-							</c:forEach>
+							<c:if test="${role != '2' && role != '3'}">
+	                           <option value="">请选择学段</option>
+	                           <c:forEach items="${stepList}" var="step">
+	                               <option value="${step.itemCode}">${step.itemValue}</option>
+	                           </c:forEach> 
+                          </c:if> 
+                       		<c:if test="${role == '3' }">
+	                           <option value="">请选择学段</option>
+	                            <c:forEach items="${eduStep}" var="step">
+	                               <option value="${step.eduStep}">${step.eduStepName}</option>
+	                           </c:forEach>  
+                          </c:if> 
+                          <c:if test="${role == '2' }">
+                          	<option value="${eduStep}">${eduStepName}</option>
+                          </c:if>
 						</select>
 
 						<span>入学年份：</span>
 						<select name="eduYear" id="eduYear">
-							<option value="">请选择年份</option>
-							<c:forEach items="${years}" var="item" >
-								<option value="${item}" >${item}</option>
-							</c:forEach>
+							<c:if test="${role != '2' && role != '3'}">
+								<option value="">请选择年份</option>
+								<c:forEach items="${years}" var="item" >
+									<option value="${item}" >${item}</option>
+								</c:forEach>
+							</c:if>
+							<c:if test="${role=='2' }">
+								<option value="${eduYear}">${eduYear}年</option>
+							</c:if>	
+							<c:if test="${role=='3' }">
+	                         	<option value="">请选择入学年份</option>
+	                           	<c:forEach items="${eduYear}" var="year">
+	                               <option value="${year.eduYear}">${year.eduYear}年</option>
+	                           	</c:forEach> 
+	                        </c:if>  
 						</select>
 						<span>班级：</span>
 						<select name="eduClass" id="eduClass">
-							<option value="">请选择班级</option>
-							<c:forEach begin="1" end="30" varStatus="index">
-								<option value="${index.index}">${index.index}班</option>
-							</c:forEach>
+							<c:if test="${role!='2' && role!='3' }">
+								<option value="">请选择班级</option>
+								<c:forEach begin="1" end="30" varStatus="index">
+									<option value="${index.index}">${index.index}班</option>
+								</c:forEach>
+							</c:if>
+						 	<c:if test="${role=='2' }">
+	                         	<option value="${eduClass}">${eduClass}班</option>
+              			 	</c:if>
+							<c:if test="${role=='3' }">
+                         	<option value="">请选择班级</option>
+                           	<c:forEach items="${eduClass}" var="classes">
+                               <option value="${classes.eduClass}">${classes.eduClass}班</option>
+                           	</c:forEach> 
+	                     </c:if> 	
 						</select>
 						<input type="text" id="username" name="username" placeholder="学员手机号/用户名查询"/>
 				</div>

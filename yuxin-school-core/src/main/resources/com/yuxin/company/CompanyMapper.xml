@@ -1198,7 +1198,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		 <if test="paixu != null and paixu == 8">sss.classTypeCounts DESC </if> 
 	</select>
 	<!--分校首页学校数量-->
-	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
+	<!-- <select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
 		select count(distinct su.id) from (
 			select co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.dict_name eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts 
 			from company co
@@ -1220,6 +1220,31 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			left join student s on s.edu_school=co.edu_area_school and s.edu_identity=0 
 			left join edu_master_class emc on emc.edu_school=co.edu_area_school and emc.is_used=1
 			left join commodity cc on cc.company_id=co.id
+			where co.is_area=2
+			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>
+	 		<if test="eduArea != null and eduArea != ''">and pss.item_code = #{eduArea}</if>
+	 		GROUP BY co.id
+		) su where su.id is not null
+	</select> -->
+	
+	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
+		select count(distinct su.id) from (
+			select co.* 
+			from company co
+			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
+			where co.is_area=1
+			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>
+	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{eduArea}</if>
+			GROUP BY co.id
+			union
+			select co.*
+			from company co
+			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
+			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
 			where co.is_area=2
 			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
 	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>

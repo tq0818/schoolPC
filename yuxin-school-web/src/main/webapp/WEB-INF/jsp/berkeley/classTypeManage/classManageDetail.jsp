@@ -7,7 +7,7 @@
 			<tr>
 			    <td>${(msgPage.pageNo-1)*msgPage.pageSize+status.index+1 }</td>
 			    <td>${m.name }</td>
-			    <td>${m.itemThirdName }</td>
+			    <%--<td>${m.itemThirdName }</td>--%>
 			    <td>${m.schoolName }</td>
 			    <td>
 			    	<c:choose>

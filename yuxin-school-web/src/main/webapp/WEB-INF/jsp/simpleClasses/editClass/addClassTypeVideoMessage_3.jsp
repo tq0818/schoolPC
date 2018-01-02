@@ -169,11 +169,11 @@
 								
 								<tbody>
 									<tr class="head">
-										<th width="20%">文件名</th>
-										<th width="20%">大小</th>
+										<th width="40%">文件名</th>
+										<th width="13%">大小</th>
 										<th width="20%">标签</th>
-										<th width="20%">上传人</th>
-										<th width="20%">上传时间</th>
+										<th width="15%">上传人</th>
+										<th width="12%">上传时间</th>
 									</tr>
 								</tbody>
 							</table>
@@ -318,10 +318,10 @@
 					<table class="table table-center table-head">
 						<tbody>
 						<colgroup>
-                            <col width="25%">
-                                <col width="25%">
-                                    <col width="25%">
-                                        <col width="25%">
+                            <col width="40%">
+                                <col width="20%">
+                                    <col width="20%">
+                                        <col width="20%">
                         </colgroup>
 							<tr >
 								<th >试卷名称</th>

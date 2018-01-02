@@ -855,10 +855,10 @@
 						$.each(jsonData.data,function(i,data){
 							$tab.find("#data_table_2").find("tbody")
 							.append('<tr id="'+data.id+'">'+
-									'<td style="width:25%;" title="'+data.paperName+'">'+(data.paperName?data.paperName.length>16?data.paperName.substring(0,16):data.paperName:"")+'</td>'+
-				                    '<td style="width:25%;">'+(data.categoryName?data.categoryName:"")+'</td>'+
-				                    '<td style="width:25%;">'+(data.subjectName?data.subjectName:"")+'</td>'+
-				                    '<td style="width:25%;">'+(data.dictName?data.dictName:"")+'</td>'+
+									'<td style="width:40%;" title="'+data.paperName+'">'+(data.paperName?data.paperName.length>16?data.paperName.substring(0,16):data.paperName:"")+'</td>'+
+				                    '<td style="width:20%;">'+(data.categoryName?data.categoryName:"")+'</td>'+
+				                    '<td style="width:20%;">'+(data.subjectName?data.subjectName:"")+'</td>'+
+				                    '<td style="width:20%;">'+(data.dictName?data.dictName:"")+'</td>'+
 				                '</tr>');
 							$tab.find("#data_table_2").find("tbody").find("tr:last").data("paper",data);
 						})
@@ -920,11 +920,11 @@
 						$.each(jsonData.data,function(i,data){
 							$tab.find("#data_table").find("tbody")
 							.append('<tr id="'+data.id+'" videoCcId="'+data.videoCcId+'" has-data="true" videoStatus="'+data.videoStatus+'">'+
-				                    '<td style="width:20%;" title="'+data.videoName+'">'+(data.videoName?data.videoName.length>16?data.videoName.substring(0,16):data.videoName:"")+'</td>'+
-				                    '<td style="width:20%;">'+(data.vodeoSize?data.vodeoSize.toFixed(2):0)+'M</td>'+
+				                    '<td style="width:40%;" title="'+data.videoName+'">'+(data.videoName?data.videoName.length>16?data.videoName.substring(0,16):data.videoName:"")+'</td>'+
+				                    '<td style="width:13%;">'+(data.vodeoSize?data.vodeoSize.toFixed(2):0)+'M</td>'+
 				                    '<td style="width:20%;">'+(data.videoTag?data.videoTag:"")+'</td>'+
-				                    '<td style="width:20%;">'+data.creatorName+'</td>'+
-				                    '<td style="width:20%;">'+(data.createTime?data.createTime:"")+'</td>'+
+				                    '<td style="width:15%;">'+data.creatorName+'</td>'+
+				                    '<td style="width:12%;">'+(data.createTime?data.createTime:"")+'</td>'+
 				                '</tr>');
 						})
 						$tab.find(".pagination").pagination(jsonData.rowCount, {

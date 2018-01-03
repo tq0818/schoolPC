@@ -59,7 +59,7 @@ body{
     margin-bottom: 15px
 }
 .Y_background{
-    padding: 15px 25px;
+    padding: 15px;
     background: #f6f6f6;
 }
 .Y_head {
@@ -447,7 +447,7 @@ button{
 .org_back .teacher_list .middle{
     overflow-y:hidden;
     height:29px;
-    line-h	eight: 24px;
+    line-height: 24px;
 }
 .org_back .border{
     width: 96%;

@@ -310,7 +310,7 @@ function addBerkeley(biaoshi){
     	            			return;
     	            		}
     	    			}*/
-    	        		var linkPerson=$("#linkPerson").val();
+    	        		/*var linkPerson=$("#linkPerson").val();
     	        		if(null==linkPerson || ''==linkPerson){
     	        			alert("联系人不能为空");
     	        			return;
@@ -325,7 +325,7 @@ function addBerkeley(biaoshi){
 						}else if(!(/^1[34578]\d{9}$/.test(linkPhone))){
                             alert("手机号码有误，请重填");
                             return ;
-                        }
+                        }*/
                            var domain=$("#domain").val();
     	        		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
     	        		domain = domain.replace(/\s/g,"");

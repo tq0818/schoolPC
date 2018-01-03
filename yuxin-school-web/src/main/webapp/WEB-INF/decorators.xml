@@ -62,6 +62,7 @@
         <!-- 项目管理模块 -->
         <pattern>/sysConfigItem/project</pattern>
         <pattern>/sysConfigItem/moreProject</pattern>
+        <pattern>/sysKnowledgeTree/treeIndex</pattern>
         <!-- 校区管理模块  -->
 
         <pattern>/sysConfigCampus/toCampusInfo</pattern>

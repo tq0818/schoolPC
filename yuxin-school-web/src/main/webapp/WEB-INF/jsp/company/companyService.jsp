@@ -94,7 +94,7 @@
 		                    </shiro:hasPermission>
 		                </li>
 		                </c:if>
-		                <<%-- c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET == null }">
+		                <%-- c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET == null }">
 		                <c:choose>
 		                	<c:when test="${(company.memberLevel == 12 or company.memberLevel == 13) and !empty sessionScope.SERVICE_SCHOOL }">
 	              				<c:if test="${sessionScope.SERVICE_SCHOOL == 1 }">

@@ -129,7 +129,6 @@ $(function(){
 			              $(".loading-bg").show();
 			         },
 					success:function(data){
-						debugger;
 						if(data == "false"){
      						$(".loading").hide();
      			            $(".loading-bg").hide();

@@ -43,7 +43,7 @@
             <select name="eduArea" id="eduArea">
                 <option value="">请选择区域</option>
                 <c:forEach items="${areas}" var="area" >
-                    <option value="${area.itemCode}" data-id="${area.id}" ${eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+                <option value="${area.itemCode}"  ${eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
                 </c:forEach>
             </select>
             <span>创建时间</span>
@@ -76,7 +76,7 @@
                 <c:forEach items="${companyList.data}" var="cp" varStatus="i">
                 <tr>
                 	<td>${i.index+1}</td>
-                    <td>${cp.eduAreaSchool}</td>
+                    <td>${cp.eduAreaSchool}111</td>
                     <td>${cp.companyName}</td>
                     <td>${cp.eduArea}</td>
                     <td>${cp.eduArea}</td>

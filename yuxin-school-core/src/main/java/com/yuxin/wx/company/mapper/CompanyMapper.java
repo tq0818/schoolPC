@@ -162,7 +162,13 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	 * @return 分校结果集
 	 */
 	public List<com.yuxin.wx.model.company.CompanyVo> queryCompanyVoListByCondition(com.yuxin.wx.model.company.CompanyVo search);
-	
+
+	/**
+	 * 已存在分校所在区域
+	 * @return 分校区域结果集
+	 */
+	public List<com.yuxin.wx.model.company.CompanyVo> queryCompanyVoListByQuyu();
+
 	
 	/**
 	 * 分校首页学校数据

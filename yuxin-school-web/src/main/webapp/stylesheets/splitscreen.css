@@ -36,11 +36,15 @@
     background-color: #f6f6f6;
 }
 .right-side{
-    float: right;
-    width: 81%;
+    /*float: right;*/
+    float: left;
+    /*width: 81%;*/
+    width: 77.5%;
     min-height: 576px;
     border: 1px solid #e9edee;
     background-color: #f6f6f6;
+    margin-left: 10px;
+    padding: 0 10px;
 }
 .left-side .left-side-title{
     height: 40px;

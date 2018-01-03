@@ -16,7 +16,7 @@ public interface ICompanyManageService {
 	 */
 	public PageFinder2<CompanyVo> queryCompanyVoListByCondition(CompanyVo search);
 	public Integer checkDomain(CompanyVo search);
-	
+	public List<CompanyVo> queryCompanyVoListByQuyu();
 	/**
 	 * 通过brachCode查询对应的分校
 	 * @param brachCode

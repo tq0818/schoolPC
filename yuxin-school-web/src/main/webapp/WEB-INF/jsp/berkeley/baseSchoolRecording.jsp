@@ -32,7 +32,7 @@
 <input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 	<!-- 二级导航 -->
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-			<div class="mainbackground nopadding"  style="background: #f6f6f6;margin-left: 20px;height: 700px;">
+			<div class="mainbackground nopadding u-wrap"  style="background: #f6f6f6;margin-left: 20px;height: 700px;">
 				<div class="heading" style="height: 30px;padding-top: 10px;">
 					<h2 class="h5" style="display: inline-block;">基地校</h2>
 					<a href="<%=rootPath%>/baseSchool/baseSchoolRecording"  class="btn btn-primary recordingBtn">录播课</a>

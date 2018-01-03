@@ -40,7 +40,7 @@
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
         	<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
-			<c:if test="${isArea ==0 }">
+			<c:if test="${isArea eq 0 }">
 				<select name="eduArea" id="eduArea">
 					<option value="">请选择区域</option>
 					<c:forEach items="${areas}" var="area" >
@@ -48,12 +48,12 @@
 					</c:forEach>
 				</select>
 			</c:if>
-			<c:if test="${isArea ==0 }">
+			<c:if test="${isArea eq 0 }">
 				<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 					<option value="">请选择学校</option>
 				</select>
 			</c:if>	
-			<c:if test="${isArea ==1 }">
+			<c:if test="${isArea eq 1 }">
 				<select name="eduSchool" id="eduSchool">
 					<option value="">请选择学校</option>
 					<c:forEach items="${schoolList}" var="schoolList" >
@@ -61,7 +61,7 @@
 					</c:forEach>
 				</select>
 			</c:if>
-			<c:if test="${roleType ==1}">
+			<c:if test="${roleType eq 1}">
 				<select name="EduSteps" id="EduSteps">
 					<option value="">请选择学段</option>
 					<option value="${materTeacher.eduStep}" >${materTeacher.eduStepName}</option>
@@ -75,7 +75,7 @@
 					<option value="${materTeacher.eduClass}">${materTeacher.eduClass}班</option>
 				</select>
 			</c:if>
-			<c:if test="${roleType ==2}">
+			<c:if test="${roleType eq 2}">
 				<select name="EduSteps" id="EduSteps">
 					<option value="">请选择学段</option>
 					<c:forEach items="${eduStepGLY}" var="gly">
@@ -95,7 +95,7 @@
 					</c:forEach>
 				</select>
 			</c:if>
-			<c:if test="${roleType ==3}">
+			<c:if test="${roleType eq 3}">
 				<select name="EduSteps" id="EduSteps">
 					<option value="">请选择学段</option>
 					<c:forEach items="${eduStepGLY}" var="gly">
@@ -130,7 +130,7 @@
         		<option value="1">已报名</option>
         		<option value="0">未报名</option>
         	</select>
-        	<c:if test="${sgOpen==1 }">
+        	<c:if test="${sgOpen eq 1 }">
 	        	<select id="studentG1" name="groupOneId" onchange="javaScript:selectGroup2(this,'');" >
 	        	</select>
 	        	<select id="studentG2" name="groupTwoId">
@@ -141,14 +141,14 @@
         <div style="margin-top: 10px;">
         	<span>创建时间</span>
         	<span><input type="text" name="startTime" class="date-picker from"/><em>到</em><input type="text" name="endTime" class="date-picker to"/></span>
-        	<c:if test="${address==1}">
+        	<c:if test="${address eq 1}">
         	<span style="padding:0 15px;" id="caddress">
 	        	<select id="prov" name="province"></select> 
 		    	<select id="city" name="city"></select>
 		        <select id="dist" name="county"></select>
 			</span>
 			</c:if>
-			<c:if test="${userorg_roleopenflag==1 }">
+			<c:if test="${userorg_roleopenflag eq 1 }">
 			<shiro:hasAnyRoles name="机构管理员,代理机构">
 			<input type="text" id="proxyOrgName" name="proxyOrgName" placeholder="代理机构名称"/>
 			</shiro:hasAnyRoles>

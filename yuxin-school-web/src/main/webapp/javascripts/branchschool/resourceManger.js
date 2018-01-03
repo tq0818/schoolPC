@@ -3,6 +3,11 @@ $(function () {
     $(document).ready(function (e) {
         $("#FDetail").click(function () {
             loadFlow(null, null);
+            $('#messageSide').hide();
+        });
+        
+        $("#tjgk").click(function () {
+            $('#messageSide').show();
         });
 
         //搜索点击

@@ -46,7 +46,6 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		ICompanyManageService {
 	@Autowired
 	private CompanyMapper companyMapper;
-	
 	@Override
 	public PageFinder2<CompanyVo> queryCompanyVoListByCondition(CompanyVo search) {
 		
@@ -64,6 +63,9 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		
 		return new PageFinder2<CompanyVo>(
 				search.getPage(), search.getPageSize(),counts,companyVoList);
+	}
+	public List<CompanyVo> queryCompanyVoListByQuyu(){
+		return companyMapper.queryCompanyVoListByQuyu();
 	}
 	@Override
 	public Integer checkDomain(CompanyVo search) {

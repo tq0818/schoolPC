@@ -8,13 +8,13 @@ $(function(){
 	$.ajax({
 		url : rootPath + "/serviceGroup/couseMethod",
 		type : "post",
-		async:false,
-		success : function(result){
-			if(result==""||result.status==0){
-				$("#courseUrl").attr("href",rootPath+"/simpleClasses/showClassTypePage");
-			}else{
-				$("#courseUrl").attr("href",rootPath+"/classType/showClassTypePage");
-			}
+                async:false,
+                success : function(result){
+                if(result==""||result.status==0){
+                    $("#courseUrl").attr("href",rootPath+"/simpleClasses/showClassTypePage");
+                }else{
+                    $("#courseUrl").attr("href",rootPath+"/classType/showClassTypePage");
+                }
 		}
 	});
 })
@@ -37,6 +37,7 @@ $(function(){
 	<%--             <li code="class_resource"><a href="<%=rootPath %>/classModuleLesson/classesResource" >课程资料</a></li> --%>
 	<%--             </shiro:hasPermission> --%>
 	            <c:if test="${empty sessionScope.SERVICE_OPENCLASS or sessionScope.SERVICE_OPENCLASS == 1 }">
+
 	            <shiro:hasPermission name="open_class_set">  
 	            <li code="open_class_set"><a href="<%=rootPath %>/liveOpenCourse/toLiveShow" >公开课</a></li>
 	            </shiro:hasPermission>
@@ -59,13 +60,15 @@ $(function(){
 	<%--              <shiro:hasPermission name="class_resource">   --%>
 	<%--             <li code="class_resource"><a href="<%=rootPath %>/classModuleLesson/classesResource" >课程资料</a></li> --%>
 	<%--             </shiro:hasPermission> --%>
-	            
-	            <shiro:hasPermission name="open_class_set">  
+
+				<c:if test="${sessionScope.isAreaSchool1 eq 0}">
+	            <shiro:hasPermission name="open_class_set">
 	            <li code="open_class_set"><a href="<%=rootPath %>/liveOpenCourse/toLiveShow" >公开课</a></li>
 	            </shiro:hasPermission>
 	             <shiro:hasPermission name="class_package">  
 	             <li code="course_package"><a href="<%=rootPath %>/classPackage/list" >课程包</a></li>
 	            </shiro:hasPermission>
+				</c:if>
 	        </ul>
         	</c:otherwise>
         </c:choose>

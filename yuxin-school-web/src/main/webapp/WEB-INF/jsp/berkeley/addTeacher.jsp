@@ -599,10 +599,12 @@
 <script type="text/javascript" src="<%=rootPath %>/plugins/select2/select2.js"></script> 
 <%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/addTeacher.js"></script> --%>
 <script>
-    $(function(){
-        $selectSubMenu('resource_teacher');
-        $("#schoolCode").select2();
-    });
+
+        $selectSubMenu('course_class_type');
+        //    左侧active切换
+        $selectSubMenus('getFirstItems');
+
+
 </script>
 </body>
 </html>

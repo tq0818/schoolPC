@@ -68,6 +68,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	
 	Users findUserByCompanyIdAndUserType(Integer companyId);
 	
+	Users findUserByCompanyIdAndUserId(Map<String,Object> params);
+	
 	void updateUserByCompanyIdAndUserType(Users users);
 	
 	List<Users> findUserByCondition(Users users);

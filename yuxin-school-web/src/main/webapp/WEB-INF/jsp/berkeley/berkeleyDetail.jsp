@@ -30,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/editberkeley.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
@@ -39,7 +39,7 @@
     <div class="right-side">
         <ul class="berkeleyDetailInfo berkeleyDetailInfoLeft">
             <li>
-                <label>学校机构代码:</label>
+                <label>分校机构代码:</label>
                 <input type="text" disabled="disabled" id="branchCode" value="${company.eduAreaSchool }" style="margin-left: 20px;">
                 <input type="hidden"  value="${company.id}" id="companyId">
             </li>
@@ -52,7 +52,7 @@
                 <input type="text" disabled="disabled" id="eara" value="${company.eduAreaName }" style="margin-left: 45px;">
             </li>
             <li>
-                <label>学校性质:</label>
+                <label>分校性质:</label>
                 <input type="text" disabled="disabled" id="schoolProperties" value="${company.schoolProperty }" style="margin-left: 47px;">
             </li>
             <li>
@@ -72,7 +72,7 @@
                 <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 200px;">
             </li>
             <li>
-                <label>学校简介:</label>
+                <label>分校简介:</label>
                 <%--<input type="text" disabled="disabled" value="${schoolProperty }" class="editState" style="margin-left: 50px;">--%>
                 <textarea  cols="30" rows="5" id="schoolSummary" style="margin-left: 50px;" disabled="disabled">${company.schoolSummary }</textarea>
             </li>
@@ -81,11 +81,11 @@
             <li style="margin-bottom: 30px;">
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
-                    <label>学校私有课程收费比例:</label>
+                    <label>分校私有课程收费比例:</label>
                     <input type="text" style="text-align: right;" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
                 </p>
                 <p style="margin-left: 95px;">
-                    <label>学校开放课程收费比例:</label>
+                    <label>分校开放课程收费比例:</label>
                     <input type="text" style="text-align: right;" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
                 </p>
             </li>

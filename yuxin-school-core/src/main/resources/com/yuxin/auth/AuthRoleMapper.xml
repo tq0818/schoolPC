@@ -274,7 +274,7 @@
 		from auth_role
 		where company_id = #{companyId} and company_id!=-1
 	</select>
-	
+
 	<select id="queryRolesByCondition" resultMap="authRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthRole">
 		select <include refid="table_columns" /> 
 		from auth_role
@@ -327,6 +327,6 @@
 		from edu_master_class emc
 		inner join sys_config_dict scd on emc.edu_step=scd.item_code
 		where emc.is_used=1 and emc.edu_school=#{areaCode}
-		order by scd.item_code,edu_class
+		order by scd.item_code,CAST(edu_class AS DECIMAL)
 	</select>
 </mapper>

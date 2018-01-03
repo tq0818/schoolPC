@@ -52,7 +52,6 @@ function loadMessage(startTime, endTime) {
 			var datas = new Array();
 			$.each(data.message,function(index,item){
 				time[index] = item.useDate;
-//				alert(time[index])
 				datas[index] = item.messageNum;
 			});
 			var myChartMessageDetail = echarts.init(document

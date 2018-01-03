@@ -274,6 +274,13 @@
 		where u.user_type = 'USER_TYPE_ORG'  limit 1
 	</select>
 	
+	<select id="findUserByCompanyIdAndUserId" resultMap="usersResultMap" parameterType="Integer">
+		select <include refid="table_columns_u" />
+		from users u
+		inner join users_comany_relation ur on u.id=ur.user_id and ur.is_used=1
+		where u.user_type = 'USER_TYPE_ORG' and u.id=#{userId} and ur.company_id=#{companyId}
+	</select>
+	
 	<update id="updateUserByCompanyIdAndUserType" parameterType="com.yuxin.wx.model.user.Users">
 		update users u
 		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1 and ur.company_id=#{companyId}

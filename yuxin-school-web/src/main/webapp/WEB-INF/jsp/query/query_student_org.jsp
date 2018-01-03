@@ -37,22 +37,54 @@
 						<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 						<input type="hidden" id="eduSchool" name="eduSchool" value='${school.itemCode}'/>
+						<c:if test="${role == '2'}">
+							<input type="hidden" id="hiddenEduStep" name="hiddenEduStep" value='${eduStep}'/>
+							<input type="hidden" id="hiddenEduYear" name="hiddenEduYear" value='${eduYear}'/>
+							<input type="hidden" id="hiddenEduClass" name="hiddenEduClass" value='${eduClass}'/>
+						</c:if>
+						<input type="hidden" id="role" name="role" value='${role}'/>
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
 						<input type="hidden" id="isStu" name="isStu" value="1"/>
                         <span style="margin-left:30px">当前学段</span>
                         <select id="eduStep" name="eduStep" style="width:150px;">
-                           <option value="">请选择学段</option>
-                           <c:forEach items="${stepList}" var="step">
-                               <option value="${step.itemCode}">${step.itemValue}</option>
-                           </c:forEach>
-                           
+                       		<c:if test="${role != '2' && role != '3'}">
+	                           <option value="">请选择学段</option>
+	                           <c:forEach items="${stepList}" var="step">
+	                               <option value="${step.itemCode}">${step.itemValue}</option>
+	                           </c:forEach> 
+                          </c:if> 
+                       		<c:if test="${role == '3' }">
+	                           <option value="">请选择学段</option>
+	                            <c:forEach items="${eduStep}" var="step">
+	                               <option value="${step.eduStep}">${step.eduStepName}</option>
+	                           </c:forEach>  
+                          </c:if> 
+                          <c:if test="${role == '2' }">
+                          	<option value="${eduStep}">${eduStepName}</option>
+                          </c:if>
                         </select>
                         <select id="eduYear" name="eduYear" style="width:150px;">
-                           <option value="">请选择入学年份</option>
+	                        <c:if test="${role!='2' && role!='3' }">
+	                           <option value="">请选择入学年份</option>
+	                        </c:if>
+	                         <c:if test="${role=='3' }">
+	                         	<option value="">请选择入学年份</option>
+	                           <c:forEach items="${eduYear}" var="year">
+	                               <option value="${year.eduYear}">${year.eduYear}年</option>
+	                           </c:forEach> 
+	                        </c:if> 
                         </select>
                         <select id="eduClass" name="eduClass" style="width:150px;">
-                        <option value="">请选择班级</option>
+                        <c:if test="${role!='2' && role!='3' }">
+                        	<option value="">请选择班级</option>
+                        </c:if>
+                        <c:if test="${role=='3' }">
+                         	<option value="">请选择班级</option>
+                           	<c:forEach items="${eduClass}" var="classes">
+                               <option value="${classes.eduClass}">${classes.eduClass}班</option>
+                           	</c:forEach> 
+	                     </c:if>  
                         </select>
 
 					</div>
@@ -73,9 +105,6 @@
 				<div class="user-list">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
-							<%--<th width="3%"><input type="checkbox" class="checkboxAll"></th>--%>
-							<%--<th width="8%">手机号</th>--%>
-							<%--<th width="8%">用户名</th>--%>
 							<th width="8%">姓名</th>
 							<th width="5%">身份</th>
 							<th width="8%">区域</th>
@@ -132,13 +161,22 @@
 	$selectSubMenu('statistics_org_detail');
 	
 	$(document).ready(function(){
-		 var currdate = new Date();
-		 var year = currdate.getFullYear();
-		 var yearBody = "";
-         for(i = 0;i < 12;i++){
-           var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
-           yearBody += li;
-         }
+		 var role=$("#role").val();
+		 if(role=='2'){
+			 var yearBody ="<option value='"+$("#hiddenEduYear").val()+"'>"+$("#hiddenEduYear").val()+"年</option>";
+			 var classesBody ="<option value='"+$("#hiddenEduClass").val()+"'>"+$("#hiddenEduClass").val()+"班</option>";
+			 $("#eduYear").append(yearBody);
+			 $("#eduClass").append(classesBody);
+		 }else if(role=='3'){
+			 return;
+		 }else{
+			 var currdate = new Date();
+			 var year = currdate.getFullYear();
+			 var yearBody = "";
+	         for(i = 0;i < 12;i++){
+	           var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
+	           yearBody += li;
+	         }
          $("#eduYear").append(yearBody);
          var classesBody = "";
          for(i = 1;i <=30; i++){
@@ -146,6 +184,7 @@
            classesBody += li;
          }
          $("#eduClass").append(classesBody);
+		 }
 	});
 </script>
 </body>

@@ -389,6 +389,15 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 		// TODO Auto-generated method stub
 		return usersMapper.findUserByCompanyIdAndUserType(companyId);
 	}
+	
+	@Override
+	public Users findUserByCompanyIdAndUserType(Integer companyId,
+			Integer userId) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("companyId",companyId);
+		params.put("userId",userId);
+		return usersMapper.findUserByCompanyIdAndUserId(params);
+	}
 
 	@Override
 	public void updateUserByCompanyIdAndUserType(Users users) {

@@ -13,6 +13,8 @@ import com.yuxin.wx.vo.system.SystemConfigServiceVo;
  * @date 2015-3-12
  */
 public interface CompanyServiceStaticMapper extends BaseMapper<CompanyServiceStatic> {
+	//更新储存空间
+	void updateByCompanyStatus(Integer companyId);
 	
 	CompanyServiceStatic findByCompanyId(Integer companyId);
 	

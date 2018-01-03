@@ -941,7 +941,7 @@
 				ct.item_second_code = #{itemSecondCode} and
 				ct.item_third_code = #{itemThirdCode} and
 				m.commodity_id = #{classTypeId}
-				<if test="isWxOpen == 1">u.wx_open_id is not null and u.wx_open_id !=''</if>
+				<if test="isWxOpen == 1">and u.wx_open_id is not null and u.wx_open_id !=''</if>
 				and m.delete_flag = 0 and m.commodity_type='COMMODITY_CLASS'
 				and (m.pay_status_code='ORDER_PAID' or m.pay_status_code='ORDER_PART_PAY' or m.pay_status_code='ORDER_FINISHED' or m.pay_status_code='ORDER_PAID_NO_COURSE')
 			group by s.id

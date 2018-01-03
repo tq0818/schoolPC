@@ -1320,7 +1320,7 @@
                      	<li class="clear">
 							<div class="left" style="width: 200px;">
 								<div>
-								<i class="icons i8 active disable" style="cursor:pointer;""></i>
+								<i class="icons i8 active disable" style="cursor:pointer;"></i>
 									<p class="s-name">
 										<a href="javascript:void(0);" style="cursor:pointer; text-decoration: none;">支付</a>
 									</p>

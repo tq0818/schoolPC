@@ -48,7 +48,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="mymodules">
+			<%--<div class="mymodules">
 				<div class="heading">
 					<h2 class="h5" style="font-size: 14px;">我的模板</h2>
 					<div class="rb">
@@ -61,7 +61,7 @@
 					<ul>
 					</ul>
 				</div>
-			</div>
+			</div>--%>
 		</div>
 		</div>
 	</div>

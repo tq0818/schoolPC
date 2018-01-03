@@ -558,10 +558,10 @@
 		</c:choose>
 	</c:if>
 </c:forEach>
- <div class="new-add-btn">
+ <!-- <div class="new-add-btn">
       <i class="iconfont new-add-icon">&#xe61c;</i>
       <span>新增</span>
-  </div>
+  </div> -->
 <script type="text/javascript">
 	$(function(){
 		 // 配置信息事件

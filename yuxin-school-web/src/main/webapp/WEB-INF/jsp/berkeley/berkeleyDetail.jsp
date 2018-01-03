@@ -72,7 +72,7 @@
                 <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 200px;">
             </li>
             <li>
-                <label>分校简介:</label>
+                <label>分校简介:</label><span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 <%--<input type="text" disabled="disabled" value="${schoolProperty }" class="editState" style="margin-left: 50px;">--%>
                 <textarea  cols="30" rows="5" id="schoolSummary" style="margin-left: 50px;" disabled="disabled">${company.schoolSummary }</textarea>
             </li>
@@ -83,34 +83,43 @@
                 <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>分校私有课程收费比例:</label>
                     <input type="text" style="text-align: right;" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
                 <p style="margin-left: 95px;">
                     <label>分校开放课程收费比例:</label>
                     <input type="text" style="text-align: right;" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
             </li>
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
-                    <label>流量 ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
-                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量</span>
+                    <label>流量: ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
+                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量:</span>
                     <input type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
                 <p style="margin-bottom: 5px;">
-                    <label>空间 ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
-                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间</span>
+                    <label>空间: ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
+                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间:</span>
                     <input type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
             </li>
             <li class="accountNumber">
                 <p style="margin-bottom: 5px;">
-                    <label>CC账号:</label>
-                    <input type="text" class="editState " id="ccUserName" value="${clc.loginName }" style="margin-left: 48px;margin-bottom: 5px;" disabled="disabled"><br/>
+                    <label>CC账号:</label><br>
+
+                    <input type="text" class="editState " id="ccUserName" value="${clc.loginName }" style="margin-left: 95px;margin-bottom: 5px;" disabled="disabled">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
                     <input type="password" class="editState showDetails " id="ccPwd" value="${clc.password}" style="margin-left: 95px;">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
                 <p style="margin-bottom: 5px;">
-                    <label>展示互动账号:</label>
-                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 15px;" disabled="disabled"><br/>
+                    <label>展示互动账号:</label><br>
+                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 95px;" disabled="disabled">
+                    <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
                     <input type="password" class="editState showDetails" id="zsPwd" value="${clc.password}" style="margin-left: 95px;">
+                    <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
             </li>
         </ul>

@@ -44,9 +44,9 @@
     <c:set var="nowDate" value="<%=System.currentTimeMillis()%>"/>
     <div class="u-wrap company">
         <div class="mainbackground u-content clear q-mainbackground" >
-            <div class="service-list open-service" >
-	 			<div class="q-ucont">
-	 				 <div class="inter-set q-text">
+						 <div class="service-list open-service" >
+							 <div class="q-ucont">
+								 <div class="inter-set q-text">
                          <p><i class="iconfont">&#xe6c9;</i>网校功能管理</p>
                      </div>
                      <ul class="clear">
@@ -94,7 +94,7 @@
 		                    </shiro:hasPermission>
 		                </li>
 		                </c:if>
-		                <<%-- c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET == null }">
+		                <%-- c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET == null }">
 		                <c:choose>
 		                	<c:when test="${(company.memberLevel == 12 or company.memberLevel == 13) and !empty sessionScope.SERVICE_SCHOOL }">
 	              				<c:if test="${sessionScope.SERVICE_SCHOOL == 1 }">
@@ -150,7 +150,7 @@
 			                        <div>
 			                            <i class="icons i22 active" style="cursor: pointer;" onclick="forwardMicroSchool();"></i>
 			                            <p class="s-name">
-			                                <a href="javascript:void();" onclick="forwardMicroSchool();">WAP管理 </a>
+			                                <a href="##" onclick="forwardMicroSchool();">WAP管理 </a>
 			                                <c:if test="${!empty manganger }">
 			                                	<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_MICROSCHOOL">&#xe635;</i>
 			                                </c:if>
@@ -182,7 +182,7 @@
 				                        <div>
 				                            <i class="icons i3 active" style="cursor: pointer;" onclick="forwardLive();"></i>
 				                            <p class="s-name">
-				                                <a href="javascript:void();" onclick="forwardLive();"> 	 直播概况 </a>
+				                                <a href="##" onclick="forwardLive();"> 	 直播概况 </a>
 				                                <c:if test="${!empty manganger }">
 				                                	<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_LIVE">&#xe635;</i>
 				                                </c:if>

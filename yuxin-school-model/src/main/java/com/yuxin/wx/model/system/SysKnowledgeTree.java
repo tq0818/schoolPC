@@ -20,6 +20,7 @@ public class SysKnowledgeTree extends BaseEntity {
     private Date createTime;
     private Integer creatorId;
     private String creator;
+    private Integer companyId;
 
     public String getEduYear() {
         return eduYear;
@@ -131,5 +132,13 @@ public class SysKnowledgeTree extends BaseEntity {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

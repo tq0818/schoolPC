@@ -58,19 +58,19 @@ function addBerkeley(biaoshi){
     	        		var isArea=$("#isArea").val();
     	        		var eara=$("#eara").text();
     	        		var schoolProperties=$("#schoolProperties").val();
-    	        		/*if(branchSchool!=eara){
+    	        		if(branchSchool!=eara){
     	    				if(null== schoolProperties || ''==schoolProperties){
     	            			alert("学校性质不能为空");
     	            			return;
     	            		}
-    	    			}*/
+    	    			}
     	        		var linkPerson=$("#linkPerson").val();
-    	        		if(null==linkPerson || ''==linkPerson){
+    	        	/*	if(null==linkPerson || ''==linkPerson){
     	        			alert("联系人不能为空");
     	        			return;
-    	        		}
+    	        		}分校名称*/
     	        		var linkPhone=$("#linkPhone").val();
-    	        		if(null==linkPhone || ''==linkPhone){
+    	        		/*if(null==linkPhone || ''==linkPhone){
     	        			alert("联系方式不能为空");
     	        			return;
     	        		}else if(linkPhone.length!=11){
@@ -79,7 +79,7 @@ function addBerkeley(biaoshi){
 						}else if(!(/^1[34578]\d{9}$/.test(linkPhone))){
                             alert("手机号码有误，请重填");
                             return ;
-                        }
+                        }*/
                            var domain=$("#domain").val();
     	        		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
     	        		domain = domain.replace(/\s/g,"");
@@ -236,15 +236,15 @@ function addBerkeley(biaoshi){
     	}
     	if(biaoshi==1){
 			var linkPerson=$("#linkPerson").val();
-			if(null==linkPerson || ''==linkPerson){
+			/*if(null==linkPerson || ''==linkPerson){
 				alert("联系人不能为空");
 				return;
-			}
+			}*/
     		var linkPhone=$("#linkPhone").val();
-    		if(null==linkPhone || ''==linkPhone){
+    		/*if(null==linkPhone || ''==linkPhone){
     			alert("联系方式不能为空");
     			return;
-    		}
+    		}*/
 		   var privateCost=$("#privateCost").val();
 		   if(null==privateCost || ''==privateCost){
 				alert("学校私有课程收费比例不能为空");

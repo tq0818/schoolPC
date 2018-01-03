@@ -46,7 +46,7 @@
 	                 <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_01'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="01_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"   disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="01_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/^[0]+[0-9]\d*$/gi,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"   disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -58,7 +58,7 @@
                       <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_02'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="02_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="02_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/^[0]+[0-9]\d*$/gi,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -70,7 +70,7 @@
                    <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_03'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="03_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="03_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/^[0]+[0-9]\d*$/gi,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>

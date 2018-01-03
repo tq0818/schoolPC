@@ -138,8 +138,8 @@
                     <div class="p-1" id="pageTwo">
                         <div class="w" style="padding-left: 10px;">
                             <span class="class_number_name">起始时间：</span>
-                            <input type="text" class="laydate-icon" readonly="readonly" id="start" style="width:200px">
-                            <span>至 </span><input type="text" readonly="readonly" class="laydate-icon" id="end" style="width:200px">
+                            <input type="text" class="laydate-icon" readonly="readonly" id="startTwo" style="width:200px">
+                            <span>至 </span><input type="text" readonly="readonly" class="laydate-icon" id="endTwo" style="width:200px">
                             <select id = "searchType">
                                 <option >全部</option>
                                 <option value="video">视频</option>

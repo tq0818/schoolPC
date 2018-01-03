@@ -67,10 +67,10 @@
                         <th width="10%">
 	                        <c:choose>
 	                            <c:when test="${dict.delFlag==1 }">
-	                                <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >关闭<a/>
+	                                <a class="btn btn-link btn-mini serviceCloseBtn" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" href="##">关闭<a/>
 	                            </c:when>
 	                            <c:otherwise>
-	                                <a class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" >开通</a>
+	                                <a class="btn btn-link btn-mini" onclick="closeBtn(${dict.companyId},'${dict.groupCode}',${dict.delFlag})" href="##">开通</a>
 	                            </c:otherwise>
 	                        </c:choose>
                         </th>

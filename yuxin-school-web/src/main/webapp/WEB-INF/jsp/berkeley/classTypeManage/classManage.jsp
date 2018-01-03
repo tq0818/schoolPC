@@ -6,14 +6,14 @@
     <title>课程管理</title>
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/splitscreen.css"/>
     <link rel="stylesheet" href="<%=rootPath%>/stylesheets/bootstrap-datetimepicker.css"/>
     <link rel="stylesheet" href="<%=rootPath%>/stylesheets/classes.css"/>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/classManage.js"></script>
-	<script type="text/javascript" src="<%=rootPath %>/javascripts/common/DateUtils.js"></script>
+	<script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
     <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
     <style type="text/css">
         .head-div {

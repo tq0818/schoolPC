@@ -57,7 +57,7 @@
 }
 
 .query .mainbackground .tables {
-	padding-top: 10px
+	padding-top: 0;
 }
 
 .query .mainbackground .tables table.table th {

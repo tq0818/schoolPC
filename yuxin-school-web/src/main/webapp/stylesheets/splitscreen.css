@@ -44,7 +44,7 @@
     border: 1px solid #e9edee;
     background-color: #f6f6f6;
     margin-left: 10px;
-    padding: 0 10px;
+    padding: 0 15px;
 }
 .left-side .left-side-title{
     height: 40px;
@@ -1350,10 +1350,10 @@ p.tit-font .t{
     cursor: pointer;
 }
 
-.tables{
-    width: 98%;
-    margin-left: 10px;
-}
+/*.tables{*/
+    /*width: 98%;*/
+    /*margin-left: 10px;*/
+/*}*/
 .tr>span{
     display: inline-block;
 }

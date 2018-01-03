@@ -35,8 +35,8 @@
             margin-left: 10px;
             margin-right: 11px;
         }
-        /*.u-wrap .mainbackground.nopadding{padding: 0;}*/
-        /*.u-wrap{width: 100%;margin: 0;}*/
+        .u-wrap .mainbackground.nopadding{padding: 0;}
+        .u-wrap{width: 100%;margin: 0;padding: 0;}
     </style>
     <%--tob--%>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />

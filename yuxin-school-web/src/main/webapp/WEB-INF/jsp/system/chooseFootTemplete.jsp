@@ -31,7 +31,8 @@
 				<c:if test="${foot_tps.name eq '模板二'}">
 					<div class="temp-box">
 						<div class="temp-title">
-							<div class="temp-name">${foot_tps.name }</div>
+							<%--<div class="temp-name">${foot_tps.name }</div>--%>
+								<div class="temp-name">模板一</div>
 							<div class="btn setting-btn" ids="${foot_tps.id }">设置</div>
 						</div>
 						<div class="temp-pic">

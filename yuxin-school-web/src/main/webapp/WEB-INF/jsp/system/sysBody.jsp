@@ -32,7 +32,7 @@
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
 		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 			<div class="title single">
-				<h2 class="h6 fl" style="font-size: 14px;">选择分校</h2>
+				<h2 class="h6 fl" style="font-size: 14px;"></h2>
 				<div class="sc-type">
 				</div>
 			</div>

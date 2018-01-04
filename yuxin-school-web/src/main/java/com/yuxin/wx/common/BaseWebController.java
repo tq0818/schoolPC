@@ -263,6 +263,7 @@ public class BaseWebController {
 
     @RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
     public ModelAndView login(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+
         ModelAndView mv = new ModelAndView();
         mv.setViewName("../../login");
         Subject subject = SecurityUtils.getSubject();
@@ -328,6 +329,10 @@ public class BaseWebController {
                 Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
                 session.setAttribute(WebUtils.CURRENT_COMAPNY, company);
                 session.setAttribute(WebUtils.CURRENT_IS_AREA,company.getIsArea());
+
+                String isAreaSchool1=WebUtils.getCurrentIsArea();
+                request.getSession().setAttribute("isAreaSchool1",isAreaSchool1);
+
                 if (company.getMemberLevel() < 20) {
                     List<SysServiceDredgeVo> ssdVo = sysServiceDredgeImpl.findDredgeByCom(company.getId());
                     if (ssdVo != null) {

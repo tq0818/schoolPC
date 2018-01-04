@@ -12,7 +12,7 @@ $(function(){
         <a href="javascript:;" class="navbar-brand"><i class="iconfont">&#xe61b;</i>学员</a>
         <ul class="nav nav-left navspace">
         	<shiro:hasPermission name="student_manage">
-        	<li code="student_manage"><a href="<%=rootPath %>/student/studentList">学员管理</a></li>
+        	<li code="student_manage"><a href="<%=rootPath %>/student/studentList">学员管理 </a></li>
         	</shiro:hasPermission>
 <%--              <shiro:hasPermission name="student_apply">  
             <li code="student_apply"><a href="<%=rootPath %>/student">手工报名</a></li>
@@ -26,12 +26,14 @@ $(function(){
 <%--              <shiro:hasPermission name="student_agent_material">  
             <li code="student_agent_material"><a href="<%=rootPath %>/studentAgentMaterial/stuMaterial">报考材料</a></li>     
             </shiro:hasPermission> --%>
-             <shiro:hasPermission name="student_urge_fee">         
-            <li code="student_urge_fee"><a href="<%=rootPath %>/fee/page/urgeFee">催缴</a></li>    
+            <c:if test="${sessionScope.isAreaSchool1 eq 0}">
+             <shiro:hasPermission name="student_urge_fee">
+            <li code="student_urge_fee"><a href="<%=rootPath %>/fee/page/urgeFee">催缴</a></li>
             </shiro:hasPermission>
-             <shiro:hasPermission name="student_agent">          
+             <shiro:hasPermission name="student_agent">
             <li code="student_agent"><a href="<%=rootPath %>/exam/registerPage">代报考</a></li>
             </shiro:hasPermission>
+            </c:if>
 <%--              <shiro:hasPermission name="netschool_remote">  
             <li code="netschool_remote"><a href="<%=rootPath %>/fee/stuLong">远程结费</a></li>
             </shiro:hasPermission> --%>
@@ -41,9 +43,11 @@ $(function(){
 <%--             <shiro:hasPermission name="student_order">  
             <li code="student_order"><a href="<%=rootPath %>/payOrder/toOrder" >转账确认</a></li>
             </shiro:hasPermission> --%>
-          <shiro:hasPermission name="company_member_vip">
-            <li code="company_member_vip"><a href="<%=rootPath %>/companyMemberConfig/companyMemberVip" >会员管理</a></li>
-           </shiro:hasPermission> 
+            <c:if test="${sessionScope.isAreaSchool1 eq 0}">
+              <shiro:hasPermission name="company_member_vip">
+                <li code="company_member_vip"><a href="<%=rootPath %>/companyMemberConfig/companyMemberVip" >会员管理</a></li>
+               </shiro:hasPermission>
+            </c:if>
         </ul>
     </div>
 </div>

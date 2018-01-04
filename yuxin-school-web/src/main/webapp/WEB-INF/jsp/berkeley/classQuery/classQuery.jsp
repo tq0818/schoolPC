@@ -62,8 +62,8 @@
 	                    <th width="10%">学科</th>
 	                    <th width="10%">授课老师</th>
 	                    <th width="8%">课程类型</th>
-	                    <th width="8%">报名人数 <i id="order_signup" class="icon iconfont unsort order_sorting">&#xe612;</i></th>
-	                    <th width="8%">购买人数 <i id="order_buy" class="icon iconfont unsort order_sorting">&#xe612;</i></th>
+	                    <th width="8%" class="btn-sort">报名人数</th>
+	                    <th width="8%" class="btn-sort">购买人数</th>
 	                    <th width="10%">课程详情</th>
 	                </tr>
                 <tbody class="tbodyList">

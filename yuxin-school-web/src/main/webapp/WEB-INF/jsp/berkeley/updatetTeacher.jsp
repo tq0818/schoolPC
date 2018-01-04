@@ -528,10 +528,9 @@ $(function(){
     <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 	<!--  ajax加载中div结束 -->
 <script>
-	$(function(){
-		$selectSubMenu('resource_teacher');
-		$("#schoolCode").select2();
-	});
+    $selectSubMenu('course_class_type');
+    //    左侧active切换
+    $selectSubMenus('getFirstItems');
 </script>	
 </body>
 </html>

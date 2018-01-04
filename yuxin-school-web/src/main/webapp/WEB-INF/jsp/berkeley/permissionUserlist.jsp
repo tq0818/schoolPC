@@ -9,12 +9,12 @@
 
 <table class="table table-center">
         <col width="15%">
-        <col width="15%">
-        <col width="5%">
-        <col width="15%">
-        <col width="25%">
         <col width="10%">
-        <col width="15%">
+        <col width="5%">
+        <col width="10%">
+        <col width="20%">
+        <col width="10%">
+        <col width="30%">
         <tr>
             <th>用户名</th>
             <th>姓名</th>

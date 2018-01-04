@@ -254,7 +254,6 @@
 	<jsp:include page="/WEB-INF/jsp/menu/menu_newpromotion.jsp"></jsp:include>
 	<script>
 	$(function(){
-		debugger;
 		$selectSubMenus('invite');
 	})
 	</script>

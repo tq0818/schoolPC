@@ -1,7 +1,7 @@
 body,html{margin: 0;padding: 0;}
 i{font-style: normal;}
 li{list-style: none;}
-.content-right{padding: 0 25px 20px;background: #f6f6f6;font-size: 14px;}
+.content-right{padding: 0 0 20px;background: #f6f6f6;font-size: 14px;}
 
 .content-right .btn{display: inline-block;text-decoration: none;padding:3px 20px;color:#fff;
 	float: left;background: #999;cursor: pointer;

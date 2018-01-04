@@ -26,7 +26,7 @@
 	<input type="hidden" name="schoolId" id="sId"/>
 </form>
 <div class="u-wrap set-system">
-    <div class="mainbackground nopadding">
+    <div class="mainbackground nopadding" style="padding: 15px;">
         <div class="heading">
             <h2 class="h5">新闻资讯</h2>
             <span class="line"></span>

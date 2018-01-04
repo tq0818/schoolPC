@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_CLASS_PACKAGE" data-sort="3" id="SERVICE_CLASS_PACKAGE">
+                       <%-- <div class="section n true" data-service="SERVICE_CLASS_PACKAGE" data-sort="3" id="SERVICE_CLASS_PACKAGE">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -144,7 +144,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                         <div class="section n true" data-service="SERVICE_TEACHER" data-sort="5" id="SERVICE_TEACHER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
@@ -238,7 +238,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_MEMBER" data-sort="8" id="SERVICE_MEMBER">
+                       <%-- <div class="section n true" data-service="SERVICE_MEMBER" data-sort="8" id="SERVICE_MEMBER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -268,7 +268,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                        
                         
                     </div>

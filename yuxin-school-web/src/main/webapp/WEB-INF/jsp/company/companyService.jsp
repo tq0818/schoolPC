@@ -416,6 +416,7 @@
                       </div>
                       <ul class="clear">
                       <c:if test="${requestScope.SERVICE_PAY_SET == null and CURRENT_IS_AREA eq '0'}">
+                      <c:if test="${sessionScope.isAreaSchool1 eq 0}">
                      	<li class="clear">
 							<div class="left" style="width: 200px;">
 								<div>
@@ -440,7 +441,8 @@
 							</div>
 						</li>
 						</c:if>
-						<%-- <c:if test="${requestScope.SERVICE_QUESTION_ANSWER == null }">
+						</c:if>
+						<c:if test="${requestScope.SERVICE_QUESTION_ANSWER == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -464,7 +466,7 @@
 									</p>
 								</shiro:hasPermission>	
 							</li>
-						</c:if> --%>
+						</c:if>
 						<c:if test="${requestScope.SERVICE_MARKETING_SET == null }">
 						<li class="clear">
 		                    <div class="left" style="width: 200px;">
@@ -492,7 +494,9 @@
 		                    </shiro:hasPermission>
 		                </li>
 		                </c:if>
+		                
 		                <c:if test="${requestScope.SERVICE_MSG_SET == null }">
+		                <c:if test="${sessionScope.isAreaSchool1 eq 0}">
 		                <li class="clear">
 							<div class="left" style="width: 200px;">
 								<div>
@@ -520,6 +524,7 @@
 								</p>
 							</div>
 						</li>
+						</c:if>
 						</c:if>
 						<%-- <c:if test="${requestScope.SERVICE_EMAIL_SET == null }">
 							<li class="clear">
@@ -610,7 +615,8 @@
 			                    </p>
 			                </li>
 		                </c:if> --%>
-		                <%-- <c:if test="${requestScope.SERVICE_TEACHER == null }">
+		                <c:if test="${requestScope.SERVICE_TEACHER == null }">
+		                <c:if test="${sessionScope.isAreaSchool1 eq 0}">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -632,7 +638,8 @@
 								<p class="btns isok" style="height:28px">
 									</p>
 							</li>
-						</c:if> --%>
+						</c:if>
+						</c:if>
 						<%-- <c:if test="${requestScope.SERVICE_STAGE == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">

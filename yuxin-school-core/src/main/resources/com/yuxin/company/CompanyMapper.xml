@@ -1198,43 +1198,21 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</select>
 	<!--查询已有分校所在区域-->
 	<select id="queryCompanyVoListByQuyu" resultMap="companyVResultMap">
-				SELECT * FROM(	SELECT su.* FROM(
-					SELECT	co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(DISTINCT emc.id) classCounts,count(DISTINCT s.id) registStudentCounts,count(DISTINCT cc.id) classTypeCounts
-					FROM company co
-								INNER JOIN sys_config_dict ss ON co.edu_area_school = ss.item_code
-								AND ss.dict_code = 'EDU_SCHOOL_AREA'
-								LEFT JOIN student s ON s.edu_area = co.edu_area_school
-								AND s.edu_identity = 0
-								AND s.is_in_school = 1
-								LEFT JOIN edu_master_class emc ON emc.edu_area = co.edu_area_school
-								AND emc.is_used = 1
-								LEFT JOIN commodity cc ON cc.company_id = co.id
-								WHERE
-									co.is_area = 1
-								GROUP BY
-									co.id
-								UNION
-									SELECT co.id,co.company_name companyName,co.regist_time registTime,pss.item_code eduAreaSchool,pss.item_value eduArea,count(DISTINCT emc.id) classCounts,count(DISTINCT s.id) registStudentCounts,count(DISTINCT cc.id) classTypeCounts
-									FROM	company co
-									INNER JOIN sys_config_dict ss ON co.edu_area_school = ss.item_code
-									AND ss.dict_code = 'EDU_SCHOOL'
-									INNER JOIN sys_config_dict pss ON pss.id = ss.parent_item_id
-									AND pss.dict_code = 'EDU_SCHOOL_AREA'
-									LEFT JOIN student s ON s.edu_school = co.edu_area_school
-									AND s.edu_identity = 0
-									AND s.is_in_school = 1
-									LEFT JOIN edu_master_class emc ON emc.edu_school = co.edu_area_school
-									AND emc.is_used = 1
-									LEFT JOIN commodity cc ON cc.company_id = co.id
-									WHERE
-										co.is_area = 2
-									GROUP BY		co.id
-							) su
-						WHERE
-							su.id IS NOT NULL
-					) sss
-				GROUP BY
-					sss.eduArea
+		SELECT	*FROM(		SELECT	co.id,	ss.item_code eduAreaSchool,ss.item_value eduArea
+		FROM company co
+		INNER JOIN sys_config_dict ss ON co.edu_area_school = ss.item_code
+		AND ss.dict_code = 'EDU_SCHOOL_AREA'
+		LEFT JOIN commodity cc ON cc.company_id = co.id
+		WHERE	co.is_area = 1
+		GROUP BY		co.id
+		UNION	SELECT co.id,	pss.item_code eduAreaSchool,pss.item_value eduArea
+			FROM	company co
+			INNER JOIN sys_config_dict ss ON co.edu_area_school = ss.item_code
+			AND ss.dict_code = 'EDU_SCHOOL'
+			INNER JOIN sys_config_dict pss ON pss.id = ss.parent_item_id
+			AND pss.dict_code = 'EDU_SCHOOL_AREA'
+			LEFT JOIN commodity cc ON cc.company_id = co.id
+			WHERE	co.is_area = 2 GROUP BY	co.id) ss GROUP BY ss.eduArea
 	</select>
 
 	<!--分校首页学校数量-->

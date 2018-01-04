@@ -1,10 +1,8 @@
 package com.yuxin.wx.company.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.yuxin.wx.model.system.*;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,6 @@ import com.yuxin.wx.model.company.CompanyPics;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.CompanyVo;
-import com.yuxin.wx.model.system.SysConfigCampus;
-import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigPageRedirect;
-import com.yuxin.wx.model.system.SysConfigSchool;
-import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.user.Users;
 @Service
 @Transactional
@@ -64,8 +56,17 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		return new PageFinder2<CompanyVo>(
 				search.getPage(), search.getPageSize(),counts,companyVoList);
 	}
-	public List<CompanyVo> queryCompanyVoListByQuyu(){
-		return companyMapper.queryCompanyVoListByQuyu();
+	//查询学校所在区域
+	public List<SysConfigDict> queryCompanyVoListByQuyu(){
+		List<SysConfigDict> listScd =new ArrayList<>();
+		List<CompanyVo> listCv =companyMapper.queryCompanyVoListByQuyu();
+		for (CompanyVo cv:listCv) {
+			SysConfigDict scd =new SysConfigDict();
+			scd.setItemValue(cv.getEduArea());
+			scd.setItemCode(cv.getEduAreaSchool());
+			listScd.add(scd);
+		}
+		return listScd ;
 	}
 	@Override
 	public Integer checkDomain(CompanyVo search) {

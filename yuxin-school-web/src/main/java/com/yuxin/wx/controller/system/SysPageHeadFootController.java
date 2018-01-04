@@ -154,14 +154,6 @@ public class SysPageHeadFootController {
 		search.setParentId(0);
 		search.setPageType("head");
 		List<SysPageHeadFootVo> IndexheadTitleList=sysPageHeadFootServiceImpl.findSysPageHeadFoot(search);
-		Iterator it = IndexheadTitleList.iterator();
-		while(it.hasNext()){
-			SysPageHeadFootVo sys = (SysPageHeadFootVo) it.next();
-			//去掉学员心声和题库
-			if(sys.getId() == 3509 || sys.getId() == 3498){
-				it.remove();
-			}
-		}
 		model.addAttribute("IndexheadTitleList", IndexheadTitleList);
 		//查询所有二级标题
 		List<SysPageHeadFootVo> sysPageChildHead=sysPageHeadFootServiceImpl.queryTwoSysPagerList();

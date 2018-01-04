@@ -78,15 +78,15 @@
 				                    	<c:if test="${empty sessionScope.SYSTEM_INDEX or sessionScope.SYSTEM_INDEX == 1}">
 				                        	<a href="<%=rootPath %>/sysBody/show" class="btn btn-sm btn-default">首页模板</a>
 				                    	</c:if>
-				                    	<c:if test="${empty sessionScope.SYSTEM_SEO or sessionScope.SYSTEM_SEO == 1}">
+				                    	<%--<c:if test="${empty sessionScope.SYSTEM_SEO or sessionScope.SYSTEM_SEO == 1}">
 				                        	<a href="<%=rootPath %>/sysConfigIco/showIco" class="btn btn-sm btn-default">SEO设置</a>
-				                    	</c:if>
+				                    	</c:if>--%>
 				                    </c:when>
 				                    <c:otherwise>
 				                        <a href="<%=rootPath %>/sysPageHeadFoot/showHead" class="btn btn-sm btn-default">页头导航</a>
 				                        <a href="<%=rootPath %>/companyHeadFootConfig/showFootTemplete" class="btn btn-sm btn-default">页尾导航</a>
 				                        <a href="<%=rootPath %>/sysBody/show" class="btn btn-sm btn-default">首页模板</a>
-				                        <a href="<%=rootPath %>/sysConfigIco/showIco" class="btn btn-sm btn-default">SEO设置</a>
+				                        <%--<a href="<%=rootPath %>/sysConfigIco/showIco" class="btn btn-sm btn-default">SEO设置</a>--%>
 				                    </c:otherwise>
 			                    </c:choose>
 			                        <a href="<%=rootPath %>/sysPageHeadFoot/showHead" class="btn btn-sm btn-default right-btn more">更多</a>
@@ -323,9 +323,9 @@
 			                    <p class="btns isok">
 			                    <c:choose>
 			                    	<c:when test="${company.memberLevel == 12 or company.memberLevel == 13 }">
-				                    	<c:if test="${empty sessionScope.COURSE_VALIDATE or sessionScope.COURSE_VALIDATE == 1 }">
+				                    	<%--<c:if test="${empty sessionScope.COURSE_VALIDATE or sessionScope.COURSE_VALIDATE == 1 }">
 					                    	<a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/manageCourseValidaty">课程有效期</a>
-				                    	</c:if>
+				                    	</c:if>--%>
 								        <c:if test="${empty sessionScope.SIGNUP_NEWS or sessionScope.SIGNUP_NEWS == 1 }">
 					                        <a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/signup_news">报名通知</a>
 								        </c:if>
@@ -337,13 +337,13 @@
 								        </c:if>
 			                    	</c:when>
 			                    	<c:otherwise>
-				                    	<a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/manageCourseValidaty">课程有效期</a>
+				                    	<%--<a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/manageCourseValidaty">课程有效期</a>--%>
 				                        <a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/signup_news">报名通知</a>
 				                        <a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/manage_classpl">课程评论</a>
 										<a href="javascript:;" class="btn btn-sm btn-default" data-url="Question/queAnsSet">课程问答</a>
 			                    	</c:otherwise>
 			                    </c:choose>
-			                        <a href="javascript:;" class="btn btn-sm btn-default right-btn more" data-url="classManage/manageCourseValidaty">更多</a>
+			                        <a href="javascript:;" class="btn btn-sm btn-default right-btn more" data-url="classManage/signup_news">更多</a>
 			                    </p>
 		                    </shiro:hasPermission>
 		                </li>

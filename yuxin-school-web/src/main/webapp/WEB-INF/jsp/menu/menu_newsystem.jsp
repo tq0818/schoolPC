@@ -57,7 +57,7 @@
         	</c:when>
         	<c:otherwise>
 		        <ul id="course_manage" class="course_managelist">
-		            <li class="subentry" code="course_validate" mark="/classManage/manageCourseValidaty">课程有效期</li>
+		            <%--<li class="subentry" code="course_validate" mark="/classManage/manageCourseValidaty">课程有效期</li>--%>
 		            <li class="subentry" code="signup_news" mark="/classManage/signup_news">报名通知</li>
 		            <li class="subentry" code="course_pl" mark="/classManage/manage_classpl">课程评论</li>
 		            <c:if test="${sessionScope.isAreaSchool1 eq 0}">  

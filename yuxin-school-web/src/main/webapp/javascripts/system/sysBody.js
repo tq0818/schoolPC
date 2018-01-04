@@ -34,7 +34,7 @@
 					url: rootPath + "/sysConfigSchool/getSchoolJson",
 					success: function(jsonData){
 						$.each(jsonData,function(i){
-							$(".sc-type").append('<a href="javascript:;" id="'+jsonData[i].id+'" class="btn btn-mini btn-default">'+jsonData[i].schoolName+'</a>&nbsp;&nbsp;');
+							$(".sc-type").append('<a href="javascript:;" id="'+jsonData[i].id+'" class="btn btn-mini btn-default" style="display:none">'+jsonData[i].schoolName+'</a>&nbsp;&nbsp;');
 						})
 						if($("#schoolId").val()){
 							$(".sc-type").find("a[id='"+$("#schoolId").val()+"']").trigger("click.btn.schools");
@@ -72,6 +72,7 @@
 						data = sys[x];
 						if(sys_templete_count<3 || sys_templete_count==6 || sys_templete_count==7){
 							/*****这是系统模板******/
+							if(data.templateName == "新电商模板"){
 							var html='<li class="module sysmodule" id="'+data.id+'">'+
 		                    '<div class="picture">'+
 		                    '</div>'+
@@ -88,8 +89,10 @@
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".themes-content").html(captions[n]);
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".themes-title a").attr("href",rootPath + '/sysBody/indexExample/' + (++y));
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".picture").append('<img src="'+rootPath+'/images/perview_'+(++n)+'.png"/>');
+							}
 						}else{
 							/*****这是系统模板******/
+							if(data.templateName == "新电商模板"){
 							var html='<li class="module sysmodule" id="'+data.id+'">'+
 		                    '<div class="picture">'+
 		                    '</div>'+
@@ -106,6 +109,7 @@
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".themes-content").html(captions[n]);
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".themes-title a").attr("href",rootPath + '/sysBody/indexExample/' + (++y));
 							$(".sysmodules").find(".themes-list ul").find("#"+data.id).find(".picture").append('<img src="'+rootPath+'/images/perview_'+(++n)+'.png"/>');
+							}
 						}
 						
 						sys_templete_count++;

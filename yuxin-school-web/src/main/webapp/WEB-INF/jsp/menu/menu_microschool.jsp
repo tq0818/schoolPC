@@ -15,7 +15,7 @@
  </style>
  <div class="left-side">
     	<div class="left-side-title">
-        	<em>微网校</em>
+        	<em>WAP管理</em>
         	<span class="iconfont return-pic hcancle">&#xe650;</span>
         </div>
 	    <ul id="course_manage" class="system_managelist">

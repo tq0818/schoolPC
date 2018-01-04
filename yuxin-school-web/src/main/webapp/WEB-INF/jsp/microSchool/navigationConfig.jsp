@@ -176,7 +176,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_TIKU" data-sort="6" id="SERVICE_TIKU">
+                       <%--  <div class="section n true" data-service="SERVICE_TIKU" data-sort="6" id="SERVICE_TIKU">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -206,7 +206,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --%>
                         <div class="section n true" data-service="SERVICE_QUESTION_ANSWER" data-sort="7" id="SERVICE_QUESTION_ANSWER">
                             <div class="block l-menu">
                                 <div class="title-wrap">

@@ -224,7 +224,8 @@
 							success : function(data){
 								console.log(data);
 								if(data == 'fail'){
-									location.href=rootPath+"/tikuSet/toSet";
+									//location.href=rootPath+"/tikuSet/toSet";
+									$.msg('无权操作此功能');
 								}else if(data == 'topic'){
 									var objform = document.createElement("form");
 									document.body.appendChild(objform);

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.system.SysConfigItem;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,6 +93,11 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
     }
 
     @Override
+    public List<SysConfigItem> findItemByEduStep(Map<String, Object> eduStep) {
+        return sysConfigItemRelationMapper.findItemByEduStep(eduStep);
+    }
+
+    @Override
     public List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id,Integer companyId) {
         List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
         Map<String,Object> params=new HashMap<String,Object>();
@@ -103,7 +110,19 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
         }
         return list;
     }
-    
+
+    @Override
+    public List<SysConfigItemRelation> findSysConfigItemRelationFrontByPCode(String parentCode,Integer companyId) {
+        List<SysConfigItemRelation> list = new ArrayList<SysConfigItemRelation>();
+        Map<String,Object> params=new HashMap<String,Object>();
+        params.put("companyId",companyId);
+        params.put("parentCode",parentCode);
+        if(StringUtils.isNotBlank(parentCode)){
+            list = sysConfigItemRelationMapper.findRelationFrontByParentCode(params);
+        }
+        return list;
+    }
+
     @Override
 	public List<SysConfigItemRelation> findSysConfigItemRelationByCode(SysConfigItemRelation item) {
     	Map<String,Object> params=new HashMap<String,Object>();

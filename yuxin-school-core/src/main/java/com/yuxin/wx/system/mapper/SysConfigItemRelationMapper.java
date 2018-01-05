@@ -1,6 +1,7 @@
 package com.yuxin.wx.system.mapper;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 
 import java.util.List;
@@ -38,4 +39,8 @@ public interface SysConfigItemRelationMapper extends BaseMapper<SysConfigItemRel
     List<SysConfigItemRelation> findItemFrontByLevel(Map<String,Object> params);
 
     List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation);
+
+    List<SysConfigItem> findItemByEduStep(Map<String, Object> eduStep);
+
+    List<SysConfigItemRelation> findRelationFrontByParentCode(Map<String, Object> params);
 }

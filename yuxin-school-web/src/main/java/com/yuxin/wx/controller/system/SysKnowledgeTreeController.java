@@ -1,5 +1,6 @@
 package com.yuxin.wx.controller.system;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
@@ -95,29 +96,29 @@ public class SysKnowledgeTreeController extends BaseWebController {
 
 
     /**
-     * 导出知识树
+     * 根据学员学段，查询课程年级
      * @return
      */
-    @RequestMapping(value = "exportKnowledgeTree")
-    public ModelAndView exportKnowledgeTree(SysKnowledgeTree sysKnowledgeTree) {
-        List<SysKnowledgeTree> sysKnowledgeTreeList = new ArrayList<SysKnowledgeTree>();
-        if (EntityUtil.isNotBlank(sysKnowledgeTree)) {
-            sysKnowledgeTree.setPageSize(20000);
-            sysKnowledgeTreeList = sysKnowledgeTreeServiceImpl.findKnoledgeTreeByPhaseAndSub(sysKnowledgeTree);
-        }
-        List<Map<String, Object>> sysKnowledgeTreeVoList = new ArrayList<Map<String, Object>>();
-        StringBuffer title = new StringBuffer(
-                "序号:eduStep,学段:eduSchool,学科:registerNum,章:paymaterCount,节:paymaterCount,关联课程:paymaterCount");
-        ViewFiles excel = new ViewFiles();
-        HSSFWorkbook wb = new HSSFWorkbook();
-        try {
-            wb = ExcelUtil.newWorkbook(sysKnowledgeTreeVoList, "sheet1", title.toString());
-        } catch (Exception ex) {
+    @ResponseBody
+    @RequestMapping(value = "findItemSecondCode")
+    public List<SysConfigItem> findItemSecondCode(String eduStep) {
+        Map<String, Object> searchMap = new HashMap<String, Object>();
+        searchMap.put("eduStep", eduStep);
+        searchMap.put("companyId", WebUtils.getCurrentCompanyId());
+        List<SysConfigItem> sysConfigItemList = sysConfigItemRelationServiceImpl.findItemByEduStep(searchMap);
 
-        }
-        Map map = new HashMap();
-        map.put("workbook", wb);
-        map.put("fileName", "知识树模板.xls");
-        return new ModelAndView(excel, map);
+        return sysConfigItemList;
+    }
+
+
+    /**
+     * 根据学员学段，查询课程年级
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "findItemThreeCode")
+    public List<SysConfigItemRelation> findItemThreeCode(HttpServletRequest request,String parentCode) {
+        List<SysConfigItemRelation> list= sysConfigItemRelationServiceImpl.findSysConfigItemRelationFrontByPCode(parentCode,WebUtils.getCurrentCompanyId());
+        return list;
     }
 }

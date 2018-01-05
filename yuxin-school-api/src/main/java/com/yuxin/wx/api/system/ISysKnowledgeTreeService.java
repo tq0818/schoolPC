@@ -1,5 +1,6 @@
 package com.yuxin.wx.api.system;
 
+import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
 
@@ -9,13 +10,6 @@ import java.util.List;
  * Created by Administrator on 2017/7/31.
  */
 public interface ISysKnowledgeTreeService {
-
-    /**
-     * 查询所有的知识树节点（根据学科学段）
-     * @param sysKnowledgeTree
-     * @return
-     */
-    List<SysKnowledgeTree> findKnoledgeTreeByPhaseAndSub(SysKnowledgeTree sysKnowledgeTree);
 
     /**
      * 添加知识树节点
@@ -28,4 +22,18 @@ public interface ISysKnowledgeTreeService {
      * @param sysKnowledgeTree
      */
     void updateKnowledgeTree(SysKnowledgeTree sysKnowledgeTree);
+
+    /**
+     * 根据前置条件查询知识树节点
+     * @param sysKnowledgeTree
+     * @return
+     */
+    List<SysKnowledgeTree> findKnoledgeTreeByPapam(SysKnowledgeTree sysKnowledgeTree);
+
+    /**
+     * 清空知识树
+     * @param sysKnowledgeTree
+     * @return
+     */
+    List<ClassModuleLesson> removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
 }

@@ -475,7 +475,7 @@
 	
 	<!-- 查询班型并分页 -->
 	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="map">
-		SELECT a.*, c.buy_num as actualNum
+		SELECT a.*, c.buy_num as actualNum,c.id as com_id
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
 		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0

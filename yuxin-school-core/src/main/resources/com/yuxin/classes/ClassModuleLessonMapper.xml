@@ -39,6 +39,7 @@
 		<result property="beforeStudyName" column="before_study_name"/>
 		<result property="beforeStudyUrl" column="before_study_url"/>
 		<result property="afterStudyUrl" column="after_study_url"/>
+		<result property="commodityName" column="commodity_name"/>
 		<result property="tikuPaper.id" column="paperId"></result>
 		<result property="tikuPaper.paperName" column="paperName"></result>
 		<result property="courseExercise.id" column="courseExerciseId"></result>
@@ -523,6 +524,17 @@
 		left join commodity m  on m.id  = cpr.com_id and m.origin_type=0
 		where  m.id = #{id}
 		ORDER  BY  cml.lesson_name desc
+	</select>
+	<select id="findLessonByCommodityIds" resultMap="classModuleLessonResultMap">
+		select cml.id,cml.lesson_name,m.name as commodity_name from class_module_lesson cml
+		LEFT JOIN class_module_no_onsale cmno  on  cmno.module_no_id = cml.module_no_id
+		LEFT JOIN  commodity_product_realtion cpr on cpr.product_id = cmno.classtype_id
+		left join commodity m  on m.id  = cpr.com_id and m.origin_type=0
+		where  m.id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER  BY  cml.lesson_date asc, cml.lesson_time_start asc
 	</select>
     <select id="findLessonByCommodityIdNotDel" parameterType="map" resultMap="classModuleLessonResultMap">
         select cml.id,cml.lesson_name from class_module_lesson cml

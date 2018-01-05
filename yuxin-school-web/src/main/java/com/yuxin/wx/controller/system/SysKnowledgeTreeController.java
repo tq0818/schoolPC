@@ -1,29 +1,28 @@
 package com.yuxin.wx.controller.system;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.api.classes.IClassModuleLessonService;
+import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
 import com.yuxin.wx.common.BaseWebController;
-import com.yuxin.wx.common.ViewFiles;
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
+import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
-import com.yuxin.wx.utils.EntityUtil;
-import com.yuxin.wx.utils.ExcelUtil;
 import com.yuxin.wx.utils.WebUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,13 @@ public class SysKnowledgeTreeController extends BaseWebController {
     private ISysKnowledgeTreeService sysKnowledgeTreeServiceImpl;
 
     @Autowired
-    private ISysConfigDictService sysConfigDictService;
+    private ISysConfigDictService sysConfigDictServiceImpl;
+
+    @Autowired
+    private IClassTypeService classTypeServiceImpl;
+
+    @Autowired
+    private IClassModuleLessonService classModuleLessonServiceImpl;
 
     /**
      * 知识树首页跳转
@@ -53,14 +58,13 @@ public class SysKnowledgeTreeController extends BaseWebController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "treeIndex")
-    public String goTreeIndex(Model model, HttpServletRequest request) {
-        Integer companyId = WebUtils.getCurrentCompanyId();
+    @RequestMapping(value = "knowledgeTreeIndex")
+    public String knowledgeTreeIndex(Model model, HttpServletRequest request) {
         //查询学生学段
-        List<SysConfigDict> eduSteps = sysConfigDictService.findByDicCode("EDU_STEP");
+        List<SysConfigDict> eduSteps = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
 
         model.addAttribute("eduSteps", eduSteps);
-        return "/resource/knowledgeTree/treeIndex";
+        return "/resource/knowledgeTree/knowledgeIndex";
     }
 
 
@@ -68,10 +72,62 @@ public class SysKnowledgeTreeController extends BaseWebController {
      * 知识树列表查询
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "knowledgeTreeList")
-    public String knowledgeTreeList(SysKnowledgeTree sysKnowledgeTree) {
-        List<SysKnowledgeTree> sysKnowledgeTreeList = null;
-        return "/resource/knowledgeTree/treeList";
+    public JSONObject knowledgeTreeList(SysKnowledgeTree sysKnowledgeTree) {
+        JSONObject jsonObject = new JSONObject();
+        //获取知识树节点ID
+        List<SysKnowledgeTree> sysKnowledgeTreeList = sysKnowledgeTreeServiceImpl.findKnoledgeTreeByPapam(sysKnowledgeTree);
+        String sysKnowledgeTreeIds = "";
+        if(sysKnowledgeTreeList!=null && sysKnowledgeTreeList.size()>0){
+            for(int i=0; i<sysKnowledgeTreeList.size(); i++){
+                SysKnowledgeTree tree = sysKnowledgeTreeList.get(i);
+                if(tree.getCommodityId()!=null){
+                    sysKnowledgeTreeIds += tree.getCommodityId()+",";
+                }
+            }
+        }
+
+        jsonObject.put("ids", sysKnowledgeTreeIds);
+        ClassType classType = new ClassType();
+        classType.setCompanyId(WebUtils.getCurrentCompanyId());
+        classType.setItemSecondCode(sysKnowledgeTree.getItemSecondCode());
+        classType.setItemThirdCode(sysKnowledgeTree.getItemThreeCode());
+        classType.setLiveFlag(1);
+        classType.setPage(sysKnowledgeTree.getPage());
+        classType.setPageSize(sysKnowledgeTree.getPageSize());
+        PageFinder<ClassTypeVo> page = classTypeServiceImpl.findClassTypesByPage(classType);
+        jsonObject.put("data", page);
+        return jsonObject;
+    }
+
+    /**
+     * 知识树预览
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "viewknowledgeTreeList")
+    public List<ClassModuleLesson> viewknowledgeTreeList(String idstr) {
+        //获取知识树节点ID
+        String[] ids = idstr.split(",");
+        List<ClassModuleLesson> classModuleLessonList = classModuleLessonServiceImpl.findLessonByCommodityIds(ids);
+        return classModuleLessonList;
+    }
+
+    /**
+     * 知识树预览
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "removeKnowledge")
+    public String removeKnowledge(SysKnowledgeTree sysKnowledgeTree) {
+        try{
+            //知识树节点清除
+            sysKnowledgeTreeServiceImpl.removeKnowledge(sysKnowledgeTree);
+        }catch(Exception e){
+            return "false";
+        }
+        return "true";
     }
 
     /**

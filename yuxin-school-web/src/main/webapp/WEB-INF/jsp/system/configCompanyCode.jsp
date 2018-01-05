@@ -29,13 +29,13 @@
                 </div>
             </div>
             <div class="code-select">
-                <span>统计分析代码：</span>
-                <select id="tg_Type" disabled="disabled">
-                    <option value="google">谷歌分析</option>
-                    <option value="baidu">百度统计</option>
-                    <option value="tencent">腾讯分析</option>
-                    <option value="cnzz">cnzz</option>
-                </select>
+                <span>统计分析代码：CNZZ</span>
+                <%--<select id="tg_Type" disabled="disabled">--%>
+                    <%--<option value="google">谷歌分析</option>--%>
+                    <%--<option value="baidu">百度统计</option>--%>
+                    <%--<option value="tencent">腾讯分析</option>--%>
+                    <%--<option value="cnzz">cnzz</option>--%>
+                <%--</select>--%>
                 <span class="input-tit">UA -</span>
                 <input type="text" id="tg_Code" disabled="disabled"/>
                 <div class="codesive-btn">保存</div>

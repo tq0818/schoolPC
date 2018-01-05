@@ -329,7 +329,7 @@
 					}
 					$('#proxyOrgId').val(proxyOrgId);
 				}
-				if(type=="save"){
+				if(type=="save" ){
 					var chong=0;
 					var mob=$("#mobile").val();
 					if(mob!=""){
@@ -361,6 +361,26 @@
 				}else{
 						var name=$("#nameMark").val();
 						$("#usernames").val(name);
+						var chong=0;
+						var mob=$("#mobile").val();
+						//验证手机号
+						$.ajax({
+							url : rootPath+"/register/checkMobile",
+							type : "post",
+							dataType : "json",
+							async:false,
+							data:{mobile : mob},
+							success : function(result) {
+								if(!result){
+									chong++;
+								}
+							}
+						});
+						if(chong>0){
+							$.msg("手机号已存在");
+                            $(".loading-bg").hide();
+                            return;
+						}
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
@@ -373,8 +393,8 @@
 							 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 						}
 						$(".loading-bg").hide();
+
 				}
-				
 			},
 			getSchool:function(){
 				var areaCode=$('#schoolAaraCode').val();

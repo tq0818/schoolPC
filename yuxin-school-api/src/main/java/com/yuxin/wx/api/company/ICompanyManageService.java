@@ -8,6 +8,7 @@ import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.CompanyVo;
+import com.yuxin.wx.model.system.SysConfigDict;
 
 public interface ICompanyManageService {
 	/**
@@ -16,7 +17,7 @@ public interface ICompanyManageService {
 	 */
 	public PageFinder2<CompanyVo> queryCompanyVoListByCondition(CompanyVo search);
 	public Integer checkDomain(CompanyVo search);
-	public List<CompanyVo> queryCompanyVoListByQuyu();
+	public List<SysConfigDict> queryCompanyVoListByQuyu();
 	/**
 	 * 通过brachCode查询对应的分校
 	 * @param brachCode

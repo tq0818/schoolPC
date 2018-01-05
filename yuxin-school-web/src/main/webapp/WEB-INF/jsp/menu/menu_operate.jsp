@@ -19,9 +19,9 @@
             <shiro:hasPermission name="teacher_person_comment">
             <li code="teacher_person_comment"><a href="<%=request.getContextPath() %>/classModule/comment">课程评论</a></li>
             </shiro:hasPermission>
-            <shiro:hasPermission name="special">
+              <%--  <shiro:hasPermission name="special">--%>
             <li code="special_topic"><a href="<%=request.getContextPath() %>/commodity/toSpecialPage">专题模块</a></li>
-            </shiro:hasPermission>
+             <%--  </shiro:hasPermission>--%>
             <shiro:hasPermission name="netschool_news">
             <li code="netschool_news"><a href="<%=request.getContextPath() %>/sysConfigNews/showNews">新闻资讯</a></li>
             </shiro:hasPermission>

@@ -2,80 +2,35 @@
 
     var knowledge = {
         init: function () {
-            $("#eduArea").change(function(){
-                var area = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
-                if(area==null || area==""){
-                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
-                    $.ajax({
-                        url: rootPath + "/student/getSchoolList/"+area,
-                        type: "post",
-                        success: function (data) {
-                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                            var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemValue){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
-                                }
-
-                            });
-                            $("#eduSchool").append(options);
-                        }
-                    });
-                }
+            $("#eduStep").change(function(){
+                $.ajax({
+                    url: rootPath + "/sysKnowledgeTree/findItemSecondCode",
+                    type: "post",
+                    data:{eduStep:$("#eduStep").val()},
+                    success: function (data) {
+                        var options = '';
+                        $.each(data,function(i,j){
+                            options+='<option value="'+j.itemCode+'">'+j.itemName+'</option>';
+                        });
+                        $("#itemSecondCode").html("").append(options);
+                        $("#itemSecondCode").change();
+                    }
+                });
             });
-            $("#editEduArea").change(function(){
-                var area = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#editEduSchool").attr("data-id"));
-                if(area==null || area==""){
-                    $("#editEduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
-                    $.ajax({
-                        url: rootPath + "/student/getSchoolList/"+area,
-                        type: "post",
-                        success: function (data) {
-                            $("#editEduSchool").html('<option value="">请选择所在学校</option>');
-                            var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemCode){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
-                                }
-
-                            });
-                            $("#editEduSchool").append(options);
-                        }
-                    });
-                }
-            });
-            $("#addEduArea").change(function(){
-                var area = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#addEduSchool").attr("data-id"));
-                if(area==null || area==""){
-                    $("#addEduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
-                    $.ajax({
-                        url: rootPath + "/student/getSchoolList/"+area,
-                        type: "post",
-                        success: function (data) {
-                            $("#addEduSchool").html('<option value="">请选择所在学校</option>');
-                            var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemValue){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
-                                }
-
-                            });
-                            $("#addEduSchool").append(options);
-                        }
-                    });
-                }
+            $("#eduStep").change();
+            $("#itemSecondCode").change(function(){
+                $.ajax({
+                    url: rootPath + "/sysKnowledgeTree/findItemThreeCode",
+                    type: "post",
+                    data:{parentCode:$("#itemSecondCode").val()},
+                    success: function (data) {
+                        var options = '';
+                        $.each(data,function(i,j){
+                            options+='<option value="'+j.itemCode+'">'+j.itemName+'</option>';
+                        });
+                        $("#itemThreeCode").html("").append(options);
+                    }
+                });
             });
 
             $("#edit_eduIdentity_normal").click(function(){
@@ -131,28 +86,6 @@
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
             data.proxyOrgName = $('#proxyOrgName').val();
-            var tel = $("#stuMobile").val(); // 获取手机号
-            if (tel != "") {
-                var telReg = !!tel.match(/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
-                // 如果手机号码不能通过验证
-                if(isNaN(tel)){
-                    $.msg('请输入有效的手机号码');
-                    return;
-                }
-//                if (telReg == false) {
-//                    $.msg('请输入有效的手机号码');
-//                    return;
-//                }
-            }
-
-
-            if ($(".to").val() != "") {
-                if ($(".to").val() < $(".from").val()) {
-                    $.msg("时间范围不正确");
-                    return;
-                }
-
-            }
             $.each(data, function (key, value) {
                 if (!value) {
                     delete data[key];

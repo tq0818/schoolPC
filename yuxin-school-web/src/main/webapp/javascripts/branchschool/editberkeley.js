@@ -58,12 +58,12 @@ function addBerkeley(biaoshi){
     	        		var isArea=$("#isArea").val();
     	        		var eara=$("#eara").text();
     	        		var schoolProperties=$("#schoolProperties").val();
-    	        		if(branchSchool!=eara){
+    	        		/*if(branchSchool!=eara){
     	    				if(null== schoolProperties || ''==schoolProperties){
     	            			alert("学校性质不能为空");
     	            			return;
     	            		}
-    	    			}
+    	    			}*/
     	        		var linkPerson=$("#linkPerson").val();
     	        	/*	if(null==linkPerson || ''==linkPerson){
     	        			alert("联系人不能为空");

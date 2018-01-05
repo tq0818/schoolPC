@@ -15,24 +15,24 @@
 <!-- 二级导航 -->
 <div class="left-side">
         <div class="left-side-title">
-        	<em>课程</em>
+        	<em>课程配置</em>
         	<span class="iconfont return-pic hcancle">&#xe650;</span>
         </div>
         <c:choose>
         	<c:when test="${sessionScope.company.memberLevel == 12 or sessionScope.company.memberLevel == 13}">
 		        <ul id="course_manage" class="course_managelist">
-		        <c:if test="${empty sessionScope.COURSE_VALIDATE or sessionScope.COURSE_VALIDATE == 1 }">
+		        <%-- <c:if test="${empty sessionScope.COURSE_VALIDATE or sessionScope.COURSE_VALIDATE == 1 }">
 		            <li class="subentry" code="course_validate" mark="/classManage/manageCourseValidaty">课程有效期</li>
-		        </c:if>
+		        </c:if> --%>
 		        <c:if test="${empty sessionScope.SIGNUP_NEWS or sessionScope.SIGNUP_NEWS == 1 }">
 		            <li class="subentry" code="signup_news" mark="/classManage/signup_news">报名通知</li>
 		        </c:if>
 		        <c:if test="${empty sessionScope.COURSE_PL or sessionScope.COURSE_PL == 1 }">
 		            <li class="subentry" code="course_pl" mark="/classManage/manage_classpl">课程评论</li>
 		        </c:if>
-		       <%-- <c:if test="${empty sessionScope.COURSE_WD or sessionScope.COURSE_WD == 1 }">
+		       	<c:if test="${empty sessionScope.COURSE_WD or sessionScope.COURSE_WD == 1 }">
 		            <li class="subentry" code="course_wd" mark="/Question/queAnsSet">课程问答</li>
-		        </c:if>--%>
+		        </c:if>
 		       <%-- <c:if test="${empty sessionScope.CLASS_NOS or sessionScope.CLASS_NOS == 1 }">
 		            <li class="subentry" code="class_nos" mark="/classManage/manage_classno">多班号管理</li>
 		        </c:if>--%>
@@ -57,13 +57,17 @@
         	</c:when>
         	<c:otherwise>
 		        <ul id="course_manage" class="course_managelist">
-		            <li class="subentry" code="course_validate" mark="/classManage/manageCourseValidaty">课程有效期</li>
+		            <%--<li class="subentry" code="course_validate" mark="/classManage/manageCourseValidaty">课程有效期</li>--%>
 		            <li class="subentry" code="signup_news" mark="/classManage/signup_news">报名通知</li>
 		            <li class="subentry" code="course_pl" mark="/classManage/manage_classpl">课程评论</li>
-		            <%--<li class="subentry" code="course_wd" mark="/Question/queAnsSet">课程问答</li>--%>
+		            <c:if test="${sessionScope.isAreaSchool1 eq 0}">  
+		            <li class="subentry" code="course_wd" mark="/Question/queAnsSet">课程问答</li>
+		           	</c:if>
 		           <%-- <li class="subentry" code="class_nos" mark="/classManage/manage_classno">多班号管理</li>--%>
 		            <%--<li class="subentry" code="course_list" mark="/classManage/manage_lesson">课表查看权限</li>--%>
+		            <c:if test="${sessionScope.isAreaSchool1 eq 0}"> 
 		            <li class="subentry" code="course_chapterandlecture" mark="/classManage/manage_chapOrlecName">课程章节</li>
+		            </c:if>
 		            <%--<li class="subentry" code="course_video_auth" mark="/classManage/manage_courseVideo">课程观看权限</li>--%>
 		            <li class="subentry" code="course_buy_auth" mark="/classManage/manage_courseBuy">课程购买限制</li>
 		           <%-- <li class="subentry" code="course_protocol_config" mark="/classManage/manage_protocol">课程协议</li>--%>

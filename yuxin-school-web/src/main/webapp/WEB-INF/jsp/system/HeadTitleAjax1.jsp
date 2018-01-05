@@ -10,6 +10,7 @@
         <li class="with20">操作</li>
     </ul>
 </div>
+
 <c:forEach items="${IndexheadTitleList }" var="list" varStatus="status">
 	<c:if test="${status.first }">
 		 <div class="section n true ui-state-disabled" ids="${list.id }" sort='${list.sequence }'>
@@ -43,51 +44,51 @@
                     </div>
                 </div>
 	</c:if>
-	<%--<c:if test="${status.count==2 }">--%>
-	 <%--<div class="section n true ui-state-disabled" ids="${list.id }" sort='${list.sequence }'>--%>
-                    <%--<div class="block l-menu">--%>
-                        <%--<div class="title-wrap" data-name="${list.name }">--%>
-                            <%--<ul class="row clear">--%>
-                                <%--<li class="with20">--%>
-                                    <%--<span class="title-info in${list.id }" data-name="${list.name }">${list.name }</span>--%>
-                                <%--</li>--%>
-                                <%--<li class="with50" class="link-address"></li>--%>
-                                <%--<li class="with10">--%>
-                                <%--<a href="javascript:void(0);" ids="${list.id }" sta="${list.validFlag}"--%>
-								<%--class="headStatus" style="text-decoration: none;">--%>
-                               		<%--<c:if test="${list.validFlag==1 }">--%>
-                               			<%--<i class="iconfont normal open">&#xe603;</i>--%>
-                                    	<%--<span class="open">已启用</span>--%>
-									<%--</c:if> --%>
-									<%--<c:if test="${list.validFlag!=1 }">--%>
-										<%--<i class="iconfont normal close" style="color: #999999;">&#xe604;</i>--%>
-										<%--<span class="close">已禁用</span>--%>
-									<%--</c:if>--%>
-									<%--</a>--%>
-                                <%--</li>--%>
-                                <%--<li class="with20"><i class="iconfont edit-icon mar-lr5">&#xe628;</i></li>--%>
-                            <%--</ul>--%>
-                            <%--<div class="field">--%>
-                                <%--<div class="content">--%>
-                                    <%--<p>--%>
-                                        <%--<span class="name">显示名称：</span>--%>
-                                        <%--<input type="text" value="${list.name }" class="title-content titleName">--%>
-                                    <%--</p>--%>
-                                    <%--<p>--%>
-                                        <%--<input type="button"  value="保存" class="btn btn-primary save_headtitle" ids="${list.id }" mark="no">--%>
-                                        <%--<input type="button"  value="取消" class="btn btn-primary">--%>
-                                    <%--</p>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="block s-menu">--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-	<%--</c:if>--%>
+	<%--<c:if test="${status.count==2 }">
+	 <div class="section n true ui-state-disabled" ids="${list.id }" sort='${list.sequence }'>
+                    <div class="block l-menu">
+                        <div class="title-wrap" data-name="${list.name }">
+                            <ul class="row clear">
+                                <li class="with20">
+                                    <span class="title-info in${list.id }" data-name="${list.name }">${list.name }</span>
+                                </li>
+                                <li class="with50" class="link-address"></li>
+                                <li class="with10">
+                                <a href="javascript:void(0);" ids="${list.id }" sta="${list.validFlag}"
+								class="headStatus" style="text-decoration: none;">
+                               		<c:if test="${list.validFlag==1 }">
+                               			<i class="iconfont normal open">&#xe603;</i>
+                                    	<span class="open">已启用</span>
+									</c:if>
+									<c:if test="${list.validFlag!=1 }">
+										<i class="iconfont normal close" style="color: #999999;">&#xe604;</i>
+										<span class="close">已禁用</span>
+									</c:if>
+									</a>
+                                </li>
+                                <li class="with20"><i class="iconfont edit-icon mar-lr5">&#xe628;</i></li>
+                            </ul>
+                            <div class="field">
+                                <div class="content">
+                                    <p>
+                                        <span class="name">显示名称：</span>
+                                        <input type="text" value="${list.name }" class="title-content titleName">
+                                    </p>
+                                    <p>
+                                        <input type="button"  value="保存" class="btn btn-primary save_headtitle" ids="${list.id }" mark="no">
+                                        <input type="button"  value="取消" class="btn btn-primary">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block s-menu">
+                    </div>
+                </div>
+	</c:if>--%>
 	<c:if test="${status.count>=2 }">
 		<c:choose>
-			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_NEWS'}">
+			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_NEWS'}"><%--新闻公告--%>
 			 <div class="section n true" ids="${list.id }" sort='${list.sequence }'>
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
@@ -130,7 +131,50 @@
                     </div>
                 </div>
 			</c:when>
-			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_TIKU'}">
+			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_TIKU'}"><%--题库--%>
+				<div class="section n true" ids="${list.id }" sort='${list.sequence }' style="display: none;">
+                    <div class="block l-menu">
+                        <div class="title-wrap" data-name="${list.name }">
+                            <ul class="row clear">
+                                <li class="with20">
+                                	<i class="iconfont nav-name-icon" style="cursor: move;"> &#xe630;</i>
+                                    <span class="title-info in${list.id }" data-name="${list.name }">${list.name }</span>
+                                </li>
+                                <li class="with50 link-address"></li>
+                               	<li class="with10">
+                               		<a href="javascript:void(0);" ids="${list.id }" sta="${list.validFlag}"
+								class="headStatus" style="text-decoration: none;">
+                               		<c:if test="${list.validFlag==1 }">
+                               			<i class="iconfont normal open">&#xe603;</i>
+                                    	<span class="open">已启用</span>
+									</c:if> 
+									<c:if test="${list.validFlag!=1 }">
+										<i class="iconfont normal close" style="color: #999999;">&#xe604;</i>
+										<span class="close">已禁用</span>
+									</c:if>
+									</a>
+                                </li>
+                                <li class="with20"><i class="iconfont edit-icon mar-lr5">&#xe628;</i></li>
+                            </ul>
+                            <div class="field">
+                                <div class="content">
+                                    <p>
+                                        <span class="name">显示名称：</span>
+                                        <input type="text" value="${list.name }" class="title-content titleName">
+                                    </p>
+                                    <p>
+                                        <input type="button"  value="保存" class="btn btn-primary save_headtitle" ids="${list.id }" mark="no">
+                                        <input type="button"  value="取消" class="btn btn-primary">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block s-menu">
+                    </div>
+                </div>
+			</c:when>
+			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_OPENCLASS'}"><%--公开课--%>
 				<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
@@ -173,50 +217,7 @@
                     </div>
                 </div>
 			</c:when>
-			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_OPENCLASS'}">
-				<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
-                    <div class="block l-menu">
-                        <div class="title-wrap" data-name="${list.name }">
-                            <ul class="row clear">
-                                <li class="with20">
-                                	<i class="iconfont nav-name-icon" style="cursor: move;"> &#xe630;</i>
-                                    <span class="title-info in${list.id }" data-name="${list.name }">${list.name }</span>
-                                </li>
-                                <li class="with50 link-address"></li>
-                               	<li class="with10">
-                               		<a href="javascript:void(0);" ids="${list.id }" sta="${list.validFlag}"
-								class="headStatus" style="text-decoration: none;">
-                               		<c:if test="${list.validFlag==1 }">
-                               			<i class="iconfont normal open">&#xe603;</i>
-                                    	<span class="open">已启用</span>
-									</c:if> 
-									<c:if test="${list.validFlag!=1 }">
-										<i class="iconfont normal close" style="color: #999999;">&#xe604;</i>
-										<span class="close">已禁用</span>
-									</c:if>
-									</a>
-                                </li>
-                                <li class="with20"><i class="iconfont edit-icon mar-lr5">&#xe628;</i></li>
-                            </ul>
-                            <div class="field">
-                                <div class="content">
-                                    <p>
-                                        <span class="name">显示名称：</span>
-                                        <input type="text" value="${list.name }" class="title-content titleName">
-                                    </p>
-                                    <p>
-                                        <input type="button"  value="保存" class="btn btn-primary save_headtitle" ids="${list.id }" mark="no">
-                                        <input type="button"  value="取消" class="btn btn-primary">
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block s-menu">
-                    </div>
-                </div>
-			</c:when>
-			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_TEACHER'}">
+			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_TEACHER'}"><%--名师专题--%>
 				<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
@@ -302,7 +303,7 @@
                     </div>
                 </div>
 			</c:when>
-			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_CLASS_PACKAGE'}">
+			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_CLASS_PACKAGE'}"><%--课程包--%>
 				<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
@@ -345,8 +346,8 @@
                     </div>
                 </div>
 			</c:when>
-			<c:when test="${list.pageHeadType=='SERVICE_STUDENT_ASPIRATIONS'}">
-				<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
+			<c:when test="${list.pageHeadType=='SERVICE_STUDENT_ASPIRATIONS'}"><%--学员心声--%>
+				<div class="section n true" ids="${list.id }" sort='${list.sequence }'style="display: none">
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
                             <ul class="row clear">
@@ -388,7 +389,7 @@
                     </div>
                 </div>
 			</c:when>
-			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_MEMBER'}">
+			<c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_MEMBER'}"><%--会员专区--%>
 				<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
@@ -426,6 +427,47 @@
                     </div>
                 </div>
 			</c:when>
+
+            <c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_BRANCH_SCHOOL'}"> <%--分校专区--%>
+                <c:if test="${sessionScope.isAreaSchool1 eq 0}">
+                <div class="section n true" ids="${list.id }" sort='${list.sequence }'>
+                    <div class="block l-menu">
+                        <div class="title-wrap" data-name="${list.name }">
+                            <ul class="row clear">
+                                <li class="with20">
+                                    <i class="iconfont nav-name-icon" style="cursor: move;"> &#xe630;</i>
+                                    <span class="title-info in${list.id }" data-name="${list.name }">${list.name }</span>
+                                </li>
+                                <li class="with50" class="link-address"></li>
+                                <c:if test="${list.validFlag==1 }">
+                                    <li class="with10"><span class="open">已启用</span></li>
+                                </c:if>
+                                <c:if test="${list.validFlag!=1 }">
+                                    <li class="with10"><span class="close">已禁用</span></li>
+                                </c:if>
+                                <li class="with20">
+                                    <i class="iconfont edit-icon mar-lr5">&#xe628;</i>
+                                </li>
+                            </ul>
+                            <div class="field">
+                                <div class="content">
+                                    <p>
+                                        <span class="name">显示名称：</span>
+                                        <input type="text" class="title-content titleName" value="${list.name }">
+                                    </p>
+                                    <p>
+                                        <input type="button"  value="保存" class="btn btn-primary save_headtitle" ids="${list.id }" mark="no"/>
+                                        <input type="button"  value="取消" class="btn btn-primary"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block s-menu">
+                    </div>
+                </div>
+                </c:if>
+            </c:when>
 			<c:otherwise>
 				<div class="section n true" ids="${list.id }" sort="${list.sequence }">
                     <div class="block l-menu">

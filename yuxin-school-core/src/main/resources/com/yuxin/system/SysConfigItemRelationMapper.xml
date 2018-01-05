@@ -175,4 +175,20 @@
          where  parent_code =#{itemCode} and rf.origin_type=0 and rf.company_id=#{companyId}
     </select>
 
+    <select id="findItemByEduStep"  resultMap="sysConfigItemRelationResultMap" parameterType="Map">
+
+         SELECT   c.*
+        FROM
+         sys_knowledge_tree_item_relation kt LEFT JOIN sys_config_item c ON kt.`item_grade` = c.`item_code`
+         WHERE kt.`edu_step` = #{eduStep} and kt.`comapny_id` = #{companyId} ORDER BY sort
+    </select>
+
+
+    <select id="findRelationFrontByParentCode"  resultMap="sysConfigItemRelationResultMap" parameterType="Map">
+
+        SELECT  DISTINCT(t.id),t.*
+        FROM
+        sys_config_item_relation_front rf LEFT JOIN sys_config_item t ON rf.`item_code` = t.`item_code`
+        WHERE rf.origin_type=0 AND rf.`company_id` = #{companyId} and rf.parent_code = #{parentCode} ORDER BY sort
+    </select>
 </mapper>

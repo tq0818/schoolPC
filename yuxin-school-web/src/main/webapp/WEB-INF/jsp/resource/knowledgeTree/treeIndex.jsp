@@ -20,7 +20,7 @@
 				<label>选择年份
 					<select name="eduYear" id="eduYear">
 						<c:forEach begin="2017" end="2019" varStatus="index">
-							<option value="${index}">${index}年</option>
+							<option value="${index.index}">${index.index}年</option>
 						</c:forEach>
 					</select>
 				</label>

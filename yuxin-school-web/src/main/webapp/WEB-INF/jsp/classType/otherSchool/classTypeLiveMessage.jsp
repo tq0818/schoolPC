@@ -5,7 +5,7 @@
 <html lang="zh-cn">
 <head>
 <%@include file="/decorators/import.jsp" %>
-    <title>课程-基本信息</title> 
+    <title>课程-基本信息</title>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/company.css"/>
@@ -17,6 +17,8 @@
     .classes .mainbackground .c-main p.c .c-content .tips,sb{
    		color:red;
    	}
+    .c-content>select{display: inline-block !important;}
+    .c-content>span{margin-left: 20px;}
     </style>
      
     <script type="text/javascript">
@@ -58,6 +60,7 @@
                                 </c:if>
                             </c:forEach>
                         </select>
+                        <span>原分类：</span>
                         <input type="text" class="readonly" id="itemOneName" marks="${classType.itemOneCode }" value="${classType.itemOneName }" readonly>
                     </span>
                 </p>
@@ -67,7 +70,8 @@
                         <select name="itemSecondCode" id="itemSecondCodeList" onchange="Form.queryItemThird()">
                             <option  value="" data-id="">请选择</option>
                         </select>
-                            <input type="text" class="readonly" id="itemSecondName" marks="${classType.itemSecondCode }" value="${classType.itemSecondName}" readonly/>
+                        <span>原学段：</span>
+                        <input type="text" class="readonly" id="itemSecondName" marks="${classType.itemSecondCode }" value="${classType.itemSecondName}" readonly/>
                     </span>
                 </p>
                 <p class="c">
@@ -76,6 +80,7 @@
                         <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList(null,1)">
                             <option  value="" data-id="">请选择</option>
                         </select>
+                        <span>原学科：</span>
                         <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>
                     </span>
                 </p>
@@ -85,6 +90,7 @@
                         <select name="itemFourthCode" id="itemFourthCodeList" >
                             <option  value="" data-id="">请选择</option>
                         </select>
+                        <span>原知识点：</span>
                         <input type="text" class="readonly" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>
                     </span>
                 </p>

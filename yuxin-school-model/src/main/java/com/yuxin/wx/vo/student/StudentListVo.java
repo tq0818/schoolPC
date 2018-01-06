@@ -93,10 +93,11 @@ public class StudentListVo extends BaseEntity{
 	private Integer protocolId;//协议id
 	private Integer protocolConfig;//机构是否开启课程协议 1为开启状态
 	private Integer protocolStatus;//筛选条件，是否签署课程协议
-	
+	private String payPrice;
 	private Integer proxyOrgId;
 	private String proxyOrgName;
 	private Integer eduIdentity;
+	private String eduIdentityName;
 	private String eduArea;
 	private String eduSchool;
 	private String eduStep;
@@ -699,6 +700,26 @@ public class StudentListVo extends BaseEntity{
 	
     public void setRenke(List<EduMasterClass> renke) {
     	this.renke = renke;
+    }
+
+	
+    public String getPayPrice() {
+    	return payPrice;
+    }
+
+	
+    public void setPayPrice(String payPrice) {
+    	this.payPrice = payPrice;
+    }
+
+	
+    public String getEduIdentityName() {
+    	return eduIdentityName;
+    }
+
+	
+    public void setEduIdentityName(String eduIdentityName) {
+    	this.eduIdentityName = eduIdentityName;
     }
 
 }

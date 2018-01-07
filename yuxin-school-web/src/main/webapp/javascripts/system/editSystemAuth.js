@@ -264,7 +264,7 @@
 					}
 				});
 			},
-			editUserMsg : function(){
+			editUserMsg : function(evt){
 				if(!$("#saveUserForm").valid()){
 					return;
 				}
@@ -348,7 +348,8 @@
 						});
 					}
 					if(chong>0){
-						$.msg("手机号已存在");
+						//$.msg("手机号已存在");
+						$('#mobile-error').text("手机号已存在");
 						$(".loading-bg").hide();
 						return;
 					}
@@ -375,14 +376,18 @@
                                 success : function(result) {
                                     if(!result){
                                         chong++;
+                                        console.log('aa');
                                     }
                                 }
                             });
 						}
 						if(chong>0){
-							$.msg("手机号已存在");
-                            $(".loading-bg").hide();
-                            return;
+							//$.msg("手机号已存在");
+							 console.log('bb');
+							$('#mobile-error').text("手机号已存在");
+							evt.preventDefault();
+                           // $(".loading-bg").hide();
+                            return false;
 						}
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){

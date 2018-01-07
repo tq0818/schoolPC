@@ -31,7 +31,7 @@
             <span class="line"></span>
         </div>
         <div class="users-infos">
-        <form id="saveUserForm" method="post" onsubmit="return Form.editUserMsg();"  >
+        <form id="saveUserForm" method="post" onsubmit="Form.editUserMsg(event);"  >
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>

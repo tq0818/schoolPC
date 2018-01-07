@@ -389,6 +389,7 @@ public class AuthPrivilegeController {
 			AuthUserRole role=new AuthUserRole();
 			role.setUserId(user.getId());
 			role.setRoles(roles);
+			role.setCompanyId(ccompanyId);
 			authUserRoleServiceImpl.deleteAuthUserRoleById(role);
 			for(int i=0;i<roles.length;i++){
 				 AuthUserRole authUserRole=new AuthUserRole();

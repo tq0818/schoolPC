@@ -461,19 +461,19 @@ public class StudentStatisticsController {
         }
         UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
         Subject subject = SecurityUtils.getSubject();
-        if( subject.hasRole("班主任")){
+        if(subject.hasRole("班主任")){
         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId());
         }else if(subject.hasRole("任课老师")){
         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
         }else{
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
         }
-        
         //获取账号对应用户信息
-       
-       
         if(uersAreaRelation==null){
-            throw new Exception("数据出现异常，请联系管理员！");
+            //throw new Exception("数据出现异常，请联系管理员！");
+        	model.addAttribute("allStuNum",0);
+            model.addAttribute("completeStuNum",0);
+        	return "/query/orgindex";
         }
         //学员总数
         Long allStuNum = studentStatisticsServiceImpl.getAllStudentNum(uersAreaRelation);
@@ -577,7 +577,8 @@ public class StudentStatisticsController {
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
         }
         if(uersAreaRelation==null){
-            throw new Exception("数据出现异常，请联系管理员！");
+        	return "/query/query_student_org";
+           // throw new Exception("数据出现异常，请联系管理员！");
         }
         // 查询课程的多课程单元和多班号功能
         CompanyFunctionSet search = new CompanyFunctionSet();
@@ -641,7 +642,8 @@ public class StudentStatisticsController {
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
         }
         if(uersAreaRelation==null){
-            throw new Exception("数据出现异常，请联系管理员！");
+            //throw new Exception("数据出现异常，请联系管理员！");
+            return "/query/query_org_org";
         }
 
         //查询学校所在区域
@@ -2075,7 +2077,8 @@ public class StudentStatisticsController {
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
         }
         if(uersAreaRelation==null){
-            throw new Exception("数据出现异常，请联系管理员！");
+           // throw new Exception("数据出现异常，请联系管理员！");
+            return "/queVideo/videoCourseIndex_org";
         }
 
         Map<String, Object> papamMap = new HashMap<String, Object>();
@@ -2190,7 +2193,8 @@ public class StudentStatisticsController {
          	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
          }
          if(uersAreaRelation==null){
-             throw new Exception("数据出现异常，请联系管理员！");
+             //throw new Exception("数据出现异常，请联系管理员！");
+             return "/query/query_user_org";
          }
          // 查询课程的多课程单元和多班号功能
          CompanyFunctionSet search = new CompanyFunctionSet();

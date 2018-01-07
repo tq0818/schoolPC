@@ -1,8 +1,11 @@
 package com.yuxin.wx.company.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.yuxin.wx.model.system.*;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,14 @@ import com.yuxin.wx.model.company.CompanyPics;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.CompanyVo;
+import com.yuxin.wx.model.system.SysConfigCampus;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
+import com.yuxin.wx.model.system.SysConfigItem;
+import com.yuxin.wx.model.system.SysConfigPageRedirect;
+import com.yuxin.wx.model.system.SysConfigSchool;
+import com.yuxin.wx.model.system.SysPageHeadFoot;
+import com.yuxin.wx.model.tiku.TikuSet;
 import com.yuxin.wx.model.user.Users;
 @Service
 @Transactional
@@ -42,17 +53,33 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 	public PageFinder2<CompanyVo> queryCompanyVoListByCondition(CompanyVo search) {
 		
 		if(search==null) return null;
-		//组装查询条件
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("eduArea", search.getEduArea());
-		map.put("companyName", search.getCompanyName());
-		map.put("startTime", search.getStartTime());
-		map.put("endTime", search.getEndTime());
-		//查询结果集
-		List<CompanyVo> companyVoList=companyMapper.queryCompanyVoListByCondition(search);
-		//查询结果集总数
-		Integer counts=companyMapper.queryCompanyVoListByConditionCount(search);
-		
+		//由于笼统查询分校，太慢，故先查询所有的分校中的区县代码和isAear字段
+		List<CompanyVo> allCompanyVoList=companyMapper.queryReCompanyVoByCondition(search);
+		List<CompanyVo> schoolCompanyList=new ArrayList<CompanyVo>();
+		CompanyVo companyVoEmpty=new CompanyVo();
+		companyVoEmpty.setEduAreaSchool("-1");
+		schoolCompanyList.add(companyVoEmpty);
+		List<CompanyVo> areaCompanyList=new ArrayList<CompanyVo>();
+		areaCompanyList.add(companyVoEmpty);
+		Integer counts=0;
+		List<CompanyVo> companyVoList=new ArrayList<CompanyVo>();
+		if(allCompanyVoList!=null){
+			for(CompanyVo companyVo:allCompanyVoList){
+				if("1".equals(companyVo.getIsArea())){
+					areaCompanyList.add(companyVo);
+				}else if("2".equals(companyVo.getIsArea())){
+					schoolCompanyList.add(companyVo);
+				}
+			}
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("search",search);
+			params.put("schoolCompanyList",schoolCompanyList);
+			params.put("areaCompanyList",areaCompanyList);
+			//查询结果集
+			companyVoList=companyMapper.queryReCompanyVoListByCondition(params);
+			//查询结果集总数
+			counts=companyMapper.queryCompanyVoListByConditionCount(search);
+		}
 		return new PageFinder2<CompanyVo>(
 				search.getPage(), search.getPageSize(),counts,companyVoList);
 	}
@@ -240,6 +267,11 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 scpr.setZhuCompanyId(zhuCompanyId);
 		 scpr.setSchoolId(school.getId());
 		 companyMapper.addSysConfigPageRedirect(scpr);
+		 //tiku_set
+		 TikuSet tikuSet=new TikuSet();
+		 tikuSet.setCompanyId(ids);
+		 tikuSet.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addTiKuSet(tikuSet);
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc, CompanyPayConfig cpc) {

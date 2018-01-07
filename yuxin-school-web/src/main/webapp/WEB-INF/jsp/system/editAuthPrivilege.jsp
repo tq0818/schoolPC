@@ -49,7 +49,7 @@
 	                    <span class="c-title">登录账号&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
 	                    <span class="c-content" id="ucontent">
 	                    	<c:if test="${type=='save' }">
-	                    	  <input id="userName" name="username" type="text" placeholder="输入账号或手机号搜索"/>
+	                    	  <input id="userName" name="username" type="text" placeholder="输入账号或手机号"/>
 	                    	</c:if>
 	                    	<c:if test="${type!='save' }">
 	                    	  <input id="nameMark" disabled="disabled" name="usernames" type="text" value="${user.username }" disabled/>

@@ -156,19 +156,20 @@
 
 
 		        if(_value == "google"){
-		            $(".sh1").show().addClass("chosed").append(_sh1);
+		            $(".sh1").show().addClass("chosed").append("");
 		            $(".sh2,.sh3,.sh4").hide().removeClass("chosed");
 		            $(".input-tit").html("UA -");
 		        }else if(_value == "baidu"){
-		            $(".sh2").show().addClass("chosed").append(_sh2);
+		            $(".sh2").show().addClass("chosed").append("");
 		            $(".sh1,.sh3,.sh4").hide().removeClass("chosed");
 		            $(".input-tit").html("hm.src =");
 		        }else if(_value == "tencent"){
-		            $(".sh3").show().addClass("chosed").append(_sh3);
+		            $(".sh3").show().addClass("chosed").append("");
 		            $(".sh1,.sh2,.sh4").hide().removeClass("chosed");
 		            $(".input-tit").html("sId =");
 		        }else if(_value == "cnzz"){
-		            $(".sh4").show().addClass("chosed").append(_sh4);
+		            /*$(".sh4").show().addClass("chosed").append(_sh4);*/
+                    $(".sh4").show().addClass("chosed").append("");
 		            $(".sh1,.sh2,.sh3").hide().removeClass("chosed");
 		            $(".input-tit").html("id =");
 		        }

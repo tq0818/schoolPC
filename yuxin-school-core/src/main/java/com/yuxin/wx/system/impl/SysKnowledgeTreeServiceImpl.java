@@ -3,6 +3,7 @@ package com.yuxin.wx.system.impl;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
 import com.yuxin.wx.common.BaseServiceImpl;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
 import com.yuxin.wx.system.mapper.SysConfigItemRelationMapper;
@@ -25,11 +26,6 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
 
 
     @Override
-    public List<SysKnowledgeTree> findKnoledgeTreeByPhaseAndSub(SysKnowledgeTree sysKnowledgeTree) {
-        return sysKnowledgeTreeMapper.findKnoledgeTreeByPhaseAndSub(sysKnowledgeTree);
-    }
-
-    @Override
     public void insertKnowledgeTree(SysKnowledgeTree sysKnowledgeTree) {
         sysKnowledgeTreeMapper.insert(sysKnowledgeTree);
     }
@@ -38,4 +34,15 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
     public void updateKnowledgeTree(SysKnowledgeTree sysKnowledgeTree) {
         sysKnowledgeTreeMapper.update(sysKnowledgeTree);
     }
+
+    @Override
+    public List<SysKnowledgeTree> findKnoledgeTreeByPapam(SysKnowledgeTree sysKnowledgeTree) {
+        return sysKnowledgeTreeMapper.findKnoledgeTreeByPapam(sysKnowledgeTree);
+    }
+
+    @Override
+    public List<ClassModuleLesson> removeKnowledge(SysKnowledgeTree sysKnowledgeTree) {
+        return sysKnowledgeTreeMapper.removeKnowledge(sysKnowledgeTree);
+    }
+
 }

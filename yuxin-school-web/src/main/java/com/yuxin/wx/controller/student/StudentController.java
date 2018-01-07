@@ -2912,6 +2912,92 @@ public class StudentController {
          PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
          return pageFinder;
     }
+   /**
+    * 
+    * @author  2018年1月6日 下午6:53:08
+    * @Method: queryUserListData 
+    * @Description: 统计用户
+    * @param request
+    * @param search
+    * @return 
+    * @throws
+    */
+    @ResponseBody
+    @RequestMapping(value = "/queryUserListData")
+    public PageFinder2<StudentListVo> queryUserListData(HttpServletRequest request,StudentListVo search) {
+    	 String flag = "";
+         search.setCompanyId(WebUtils.getCurrentCompanyId());
+         if("1".equals(WebUtils.getCurrentIsArea())){
+         	if(null==search.getEduArea() || "".equals(search.getEduArea())){
+         		search.setEduArea(WebUtils.getCurrentCompany().getEduAreaSchool());	
+         	}
+         	
+         }
+         if("2".equals(WebUtils.getCurrentIsArea())){
+         	Subject subject = SecurityUtils.getSubject();
+     		if(subject.hasRole("班主任") ){
+     			int userId=WebUtils.getCurrentUserId(request);
+     			EduMasterClass etc=new EduMasterClass();
+     			etc.setUserId(String.valueOf(userId));
+     			List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc);
+     			if(null!=list && list.size()>0){
+     				String eduStep=list.get(0).getEduStep();
+     				String eduYear=list.get(0).getEduYear();
+     				String eduClass=list.get(0).getEduClass();
+     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
+     					search.setEduStep(eduStep);
+         			}
+     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
+     					search.setEduYear(eduYear);
+     				}
+     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
+     					search.setEduClass(eduClass);
+     				}
+     				
+     			}
+     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+     		}else if(subject.hasRole("任课老师")){
+     			int userId=WebUtils.getCurrentUserId(request);
+     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+     			if(null!=list && list.size()>1){
+     				search.setRenke(list);
+     			}else if(null!=list && list.size()==1){
+     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
+     					search.setEduStep(list.get(0).getEduStep());
+         			}
+     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
+     					search.setEduYear(list.get(0).getEduYear());
+     				}
+     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
+     					search.setEduClass(list.get(0).getEduClass());
+     				}
+     			}
+     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+     		}else{
+     			 if(null!=search.getEduSchool()){
+     				 
+     			 }else{
+     				 search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());	
+     			 }
+     		}
+         }
+         // 分页调整
+         if (search.getPageSize() == 12) {
+             search.setPageSize(10);
+         }
+         // 代报考
+         Subject subject = SecurityUtils.getSubject();
+         if (subject.isPermitted("student_agent")) {
+             flag = "1";
+         }
+         search.setAgentFlag(flag);
+
+         if (subject.hasRole("代理机构")) {
+             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
+         }
+         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.queryUserListData(search);
+         return pageFinder;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/queryStudentsList1")

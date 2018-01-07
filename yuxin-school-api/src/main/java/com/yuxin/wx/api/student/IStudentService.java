@@ -395,6 +395,7 @@ public interface IStudentService  {
 	 * @return
 	 */
 	PageFinder2<StudentListVo> findStudentsList(StudentListVo search);
+	PageFinder2<StudentListVo> queryUserListData(StudentListVo search);
 	PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search);
 	
 	PageFinder<StudentListVo> findStudentsList1(StudentListVo search);

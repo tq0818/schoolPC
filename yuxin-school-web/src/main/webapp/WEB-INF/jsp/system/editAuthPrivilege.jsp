@@ -31,7 +31,7 @@
             <span class="line"></span>
         </div>
         <div class="users-infos">
-        <form id="saveUserForm" method="post" onsubmit="return Form.editUserMsg();">            
+        <form id="saveUserForm" method="post" onsubmit="return Form.editUserMsg();"  >
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>
@@ -97,7 +97,8 @@
 	                </p>
 	                  <p class="c">
 	                    <span class="c-title">手机号&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
-	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile }"></span>
+	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile}"></span>
+						<span style="display: none" ><input id="mobile1" name="mobile1" type="text" value="${user.mobile}"></span>
 	                </p>
 	            </div>
             <div class="sm-heading">

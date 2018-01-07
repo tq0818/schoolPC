@@ -363,19 +363,22 @@
 						$("#usernames").val(name);
 						var chong=0;
 						var mob=$("#mobile").val();
-						//验证手机号
-						$.ajax({
-							url : rootPath+"/register/checkMobile",
-							type : "post",
-							dataType : "json",
-							async:false,
-							data:{mobile : mob},
-							success : function(result) {
-								if(!result){
-									chong++;
-								}
-							}
-						});
+						var mob1=$("#mobile1").val();
+						if(mob!=mob1){
+                            //验证手机号
+                            $.ajax({
+                                url : rootPath+"/register/checkMobile",
+                                type : "post",
+                                dataType : "json",
+                                async:false,
+                                data:{mobile : mob},
+                                success : function(result) {
+                                    if(!result){
+                                        chong++;
+                                    }
+                                }
+                            });
+						}
 						if(chong>0){
 							$.msg("手机号已存在");
                             $(".loading-bg").hide();

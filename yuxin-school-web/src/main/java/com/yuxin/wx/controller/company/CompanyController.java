@@ -1533,7 +1533,7 @@ public class CompanyController {
                     sysPageHeadFootServiceImpl.insert(sphf);
                 }
             }
-            relogin();
+//            relogin();
             json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
             return json;
         } catch (Exception e) {

@@ -49,7 +49,7 @@
                     if(a){
                         $(".checkboxAll").prop("checked", false);
                         idsData = "";
-                        $this.search();
+                        $this.removeKnowledge();
                     }
                 });
             });
@@ -109,9 +109,7 @@
                             .append(
                                 '<tr><td colspan="3">没有查找到数据</td></tr>');
                     }
-                    $.each(jsonData.ids, function(i, id){
-                        idsData += id+',';
-                    });
+                    idsData += jsonData.ids;
                     var html;
                     $.each(jsonData.data.data,function (i, classType) {
                         html+= '<tr>'
@@ -216,16 +214,22 @@
             });
         },
         removeKnowledge: function () {
+            var data = {};
+            data.eduYear = $("#eduYear").val();
+            data.eduSeason=$("#eduSeason").val();
+            data.itemSecondCode = $("#itemSecondCode").val();
+            data.itemThreeCode = $("#itemThreeCode").val();
             $.ajax({
                 url: rootPath + "/sysKnowledgeTree/removeKnowledge",
                 type: 'post',
+                data:data,
                 beforeSend: function (XMLHttpRequest) {
                     $(".loading").show();
                     $(".loading-bg").show();
                 },
                 success: function (jsonData) {
                     if(jsonData!=null && jsonData== 'true'){
-                        alert("0");
+                        $this.search();
                     }
                 },
                 complete: function (XMLHttpRequest, textStatus) {

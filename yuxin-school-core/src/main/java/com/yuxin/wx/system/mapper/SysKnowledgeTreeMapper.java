@@ -14,5 +14,5 @@ public interface SysKnowledgeTreeMapper extends BaseMapper<SysKnowledgeTree> {
 
     List<SysKnowledgeTree> findKnoledgeTreeByPapam(SysKnowledgeTree sysKnowledgeTree);
 
-    List<ClassModuleLesson> removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
+    void removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
 }

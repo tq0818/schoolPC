@@ -77,6 +77,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
     public JSONObject knowledgeTreeList(SysKnowledgeTree sysKnowledgeTree) {
         JSONObject jsonObject = new JSONObject();
         //获取知识树节点ID
+        sysKnowledgeTree.setCompanyId(WebUtils.getCurrentCompanyId());
         List<SysKnowledgeTree> sysKnowledgeTreeList = sysKnowledgeTreeServiceImpl.findKnoledgeTreeByPapam(sysKnowledgeTree);
         String sysKnowledgeTreeIds = "";
         if(sysKnowledgeTreeList!=null && sysKnowledgeTreeList.size()>0){
@@ -115,7 +116,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
     }
 
     /**
-     * 知识树预览
+     * 清空知识树节点
      * @return
      */
     @ResponseBody
@@ -123,6 +124,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
     public String removeKnowledge(SysKnowledgeTree sysKnowledgeTree) {
         try{
             //知识树节点清除
+            sysKnowledgeTree.setCompanyId(WebUtils.getCurrentCompanyId());
             sysKnowledgeTreeServiceImpl.removeKnowledge(sysKnowledgeTree);
         }catch(Exception e){
             return "false";

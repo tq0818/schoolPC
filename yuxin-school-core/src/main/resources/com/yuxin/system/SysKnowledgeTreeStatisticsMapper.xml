@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysKnowledgeTreeStatisticsMapper">
+    <resultMap type="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics" id="sysKnowledgeTreeStatisticsResultMap">
+        <result property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="knowledgeTreeId" column="knowledge_tree_id" />
+        <result property="itemSecondCode" column="item_second_code" />
+        <result property="itemThreeCode" column="item_three_code" />
+        <result property="commodityId" column="commodity_id" />
+        <result property="classtypeId" column="class_type_id" />
+        <result property="lessonId" column="lesson_id" />
+        <result property="liveFlag" column="live_flag" />
+        <result property="videoLectrueId" column="video_lectrue_id" />
+        <result property="videoFlag" column="video_flag" />
+        <result property="videoLectrueWeikeId" column="video_lectrue_weike_id" />
+        <result property="videoWeikeFlag" column="video_weike_flag" />
+        <result property="paperId" column="paper_id" />
+        <result property="paperFlag" column="paper_flag" />
+    </resultMap>
+    <sql id="table_columns">
+        id,
+        user_id,
+        knowledge_tree_id,
+        item_second_code,
+        item_three_code,
+        commodity_id,
+        class_type_id,
+        lesson_id,
+        live_flag,
+        video_lectrue_id,
+        video_lectrue_weike_id,
+        video_weike_flag,
+        paper_id,
+        paper_flag
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{userId},
+        #{knowledgeTreeId},
+        #{itemSecondCode},
+        #{itemThreeCode},
+        #{commodityId},
+        #{classtypeId},
+        #{lessonId},
+        #{liveFlag},
+        #{videoLectrueId},
+        #{videoFlag},
+        #{videoLectrueWeikeId},
+        #{videoWeikeFlag},
+        #{paperId},
+        #{paperFlag}
+    </sql>
+    <!-- 适用于主键自增类型 -->
+    <insert id="insert" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge_tree(
+        <include refid="table_columns" />
+        )
+        values (
+        <include refid="entity_properties" />
+        )
+    </insert>
+
+
+    <delete id="removeKnowledgeStatistics">
+        delete * from sys_knowledge_tree_statistics
+        where commodity_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #(item.commodityId)
+        </foreach>
+    </delete>
+</mapper>

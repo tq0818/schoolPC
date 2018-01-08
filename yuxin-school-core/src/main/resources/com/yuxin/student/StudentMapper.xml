@@ -3200,4 +3200,49 @@ select * from (
 	<select id="sysConfigDict" resultMap="sysConfigDict" > 
 		select id,dict_code,item_value,item_code,parent_item_id from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL';
 	</select>
+	
+	
+	<resultMap type="com.yuxin.wx.vo.student.StudentListVo" id="queryUserListDataMap">
+		<result property="name" column="name"/>
+		<result property="eduIdentityName" column="edu_identity"/>
+		<result property="mobile" column="mobile"/>
+		<result property="createTime" column="regist_time"/>
+		<result property="finishCount" column="baoming_count"/>
+		<result property="totalCount" column="study_count"/>
+		<result property="payPrice" column="price_count"/>
+	</resultMap>
+	<select id="queryUserListData" resultMap="queryUserListDataMap" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select s.`name`,s.mobile,
+		(CASE when s.edu_identity=1 then '普通用户' else '学生'  end) as edu_identity,
+		u.regist_time,COUNT(po.commodity_id) as baoming_count,
+		(COUNT(swi.id)+COUNT(cvr.id)) as study_count,SUM(po.pay_price) as price_count  
+		from users_front u
+		LEFT JOIN student s ON u.id=s.user_id
+		LEFT JOIN pay_order po ON po.user_id=u.id
+		LEFT JOIN sys_watch_info  swi ON swi.user_id=u.id
+		LEFT JOIN company_video_record cvr ON cvr.user_id=u.id
+		where po.pay_status='PAY_SUCCESS' and u.status=1 
+		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
+		<if test="eduStep != null and eduStep != ''"> and s.edu_step=#{eduStep}</if>
+		<if test="eduYear != null and eduYear != ''"> and s.edu_year=#{eduYear}</if>
+		<if test="eduClass != null and eduClass != ''"> and s.edu_class=#{eduClass}</if>
+		GROUP BY u.id  limit 0,1
+	</select> 
+	<select id="queryUserListDataCount" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select count(*) from (select s.`name`,s.mobile,s.edu_identity,u.regist_time,COUNT(po.commodity_id) as baoming_count,
+		(COUNT(swi.id)+COUNT(cvr.id)) as study_count,SUM(po.pay_price) as price_count  
+		from users_front u
+		LEFT JOIN student s ON u.id=s.user_id
+		LEFT JOIN pay_order po ON po.user_id=u.id
+		LEFT JOIN sys_watch_info  swi ON swi.user_id=u.id
+		LEFT JOIN company_video_record cvr ON cvr.user_id=u.id
+		where po.pay_status='PAY_SUCCESS' and u.status=1 
+		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
+		<if test="eduStep != null and eduStep != ''"> and s.edu_step=#{eduStep}</if>
+		<if test="eduYear != null and eduYear != ''"> and s.edu_year=#{eduYear}</if>
+		<if test="eduClass != null and eduClass != ''"> and s.edu_class=#{eduClass}</if>
+		GROUP BY u.id  ) t
+	</select> 
 </mapper>

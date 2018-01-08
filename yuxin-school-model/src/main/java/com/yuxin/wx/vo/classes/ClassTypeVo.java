@@ -83,6 +83,7 @@ public class ClassTypeVo extends BaseEntity {
     private Double publicPrice; //公开课程价格
 	
 	private String schoolName;
+	private String domainManage;//来源校域名
 	private String teacherName;
 	private String paperDescription;//试卷描述
 	private String domain;
@@ -92,6 +93,20 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer companyId;
 	private String livestatus;//直播进行状态
 	
+	private String sourceClassTypeId;
+	
+	public String getSourceClassTypeId() {
+		return sourceClassTypeId;
+	}
+	public void setSourceClassTypeId(String sourceClassTypeId) {
+		this.sourceClassTypeId = sourceClassTypeId;
+	}
+	public String getDomainManage() {
+		return domainManage;
+	}
+	public void setDomainManage(String domainManage) {
+		this.domainManage = domainManage;
+	}
 	public String getLivestatus() {
 		return livestatus;
 	}

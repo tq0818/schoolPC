@@ -501,6 +501,14 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		return pageFinder;
 	}
 	@Override
+	public PageFinder2<StudentListVo> queryUserListData(StudentListVo search) {
+		List<StudentListVo> data = studentMapper.queryUserListData(search);
+		Integer count = studentMapper.queryUserListDataCount(search);
+		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
+				search.getPage(), search.getPageSize(), count, data);
+		return pageFinder;
+	}
+	@Override
 	public PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("commodityType", "COMMODITY_CLASS");

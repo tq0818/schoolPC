@@ -147,6 +147,11 @@
 			#{item}
 		</foreach>
 	</delete>
+	<delete id="deleteByReUsers" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		delete aur from auth_user_role aur 
+		inner join auth_role ar on aur.role_uid=ar.id and ar.`company_id`=#{companyId}
+		where aur.user_id=#{userId}
+	</delete>
 	<select id="findByRoleId" parameterType="String" resultMap="authUserRoleResultMap">
 		select <include refid="table_columns"/>
 		from auth_user_role

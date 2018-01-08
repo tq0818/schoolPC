@@ -264,7 +264,7 @@
 					}
 				});
 			},
-			editUserMsg : function(){
+			editUserMsg : function(evt){
 				if(!$("#saveUserForm").valid()){
 					return;
 				}
@@ -329,7 +329,7 @@
 					}
 					$('#proxyOrgId').val(proxyOrgId);
 				}
-				if(type=="save"){
+				if(type=="save" ){
 					var chong=0;
 					var mob=$("#mobile").val();
 					if(mob!=""){
@@ -348,7 +348,8 @@
 						});
 					}
 					if(chong>0){
-						$.msg("手机号已存在");
+						//$.msg("手机号已存在");
+						$('#mobile-error').text("手机号已存在");
 						$(".loading-bg").hide();
 						return;
 					}
@@ -361,6 +362,33 @@
 				}else{
 						var name=$("#nameMark").val();
 						$("#usernames").val(name);
+						var chong=0;
+						var mob=$("#mobile").val();
+						var mob1=$("#mobile1").val();
+						if(mob!=mob1){
+                            //验证手机号
+                            $.ajax({
+                                url : rootPath+"/register/checkMobile",
+                                type : "post",
+                                dataType : "json",
+                                async:false,
+                                data:{mobile : mob},
+                                success : function(result) {
+                                    if(!result){
+                                        chong++;
+                                        console.log('aa');
+                                    }
+                                }
+                            });
+						}
+						if(chong>0){
+							//$.msg("手机号已存在");
+							 console.log('bb');
+							$('#mobile-error').text("手机号已存在");
+							evt.preventDefault();
+                           // $(".loading-bg").hide();
+                            return false;
+						}
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
@@ -373,8 +401,8 @@
 							 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 						}
 						$(".loading-bg").hide();
+
 				}
-				
 			},
 			getSchool:function(){
 				var areaCode=$('#schoolAaraCode').val();

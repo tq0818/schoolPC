@@ -18,6 +18,7 @@ public interface AuthUserRoleMapper extends BaseMapper<AuthUserRole> {
     AuthUserRole findOne(AuthUserRole authUserRole);
     void deleteByUser(Integer userId);
     void deleteByUsers(AuthUserRole role);
+    void deleteByReUsers(AuthUserRole role);
     List<AuthUserRole> findListByUserId(Integer userId);
     List<AuthUserRole> findByRoleId(String roleId);
     List<AuthUserRole> findAuthUserRoleByCompanyAndUserId(AuthUserRole role);

@@ -28,8 +28,8 @@
 	            <span class="line"></span>
 	            <span class="rb">
 	                <a href="javascript:;" class="btn btn-mini btn-primary save" style="background-color:#1ebb90;border-color:#1ebb90;">发布生效</a>
-	                <a href="javascript:;" class="btn btn-mini btn-primary reset">重置模板</a>
-	                <a href="javascript:;" class="btn btn-mini btn-primary preview">预览</a>
+	                <%--<a href="javascript:;" class="btn btn-mini btn-primary reset">重置模板</a>
+	                <a href="javascript:;" class="btn btn-mini btn-primary preview">预览</a>--%>
 	            	<a href="javascript:;" class="btn btn-mini btn-primary goback">返回</a>
 	            </span>
 	        </div>

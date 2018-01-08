@@ -27,10 +27,9 @@
        	<div class="u-wrap set-system">
     <div class="mainbackground space">
 		<input type="hidden" id="schoolId"/>
-			<div class="title single">
-				<!-- <h2 class="h6 fl" style="font-size: 14px;">选择分校</h2> -->
-				<h2 class="h6 fl" style="font-size: 14px;"></h2>
-				<div class="sc-type" id="schoolList" style="top: inherit;">
+			<div class="title single" >
+				<%--<h2 class="h6 fl" style="font-size: 14px;" >选择分校</h2>--%>
+				<div class="sc-type" id="schoolList" style="top: inherit; display: none">
 					<c:forEach items="${schoolList }" var="school1" varStatus="status">
 		        		<c:if test="${school1.id==schoolId }">
 		        			<a href="javascript:queryCycleData(${school1.id });" style="display:none" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>

@@ -1134,14 +1134,16 @@ span.timetable-btn-tit{
     font-size: 14px;
     color: #333;
     display: inline-block;
-    width: 10%;
+    /*width: 10%;*/
+    width: 20%;
     text-align: center;
 }
 .code-select input{
     width: 32%;
 }
 .labell{
-    padding-left: 32.5%;
+    /*padding-left: 32.5%;*/
+    padding-left: 45%;
     height: 32px;
     line-height: 32px;
     color: #666;

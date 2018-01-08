@@ -119,9 +119,14 @@ function closeBtn(companyId,itemCode,delFlag) {
                     	if(companyName==eduArea){
                     		var options = document.getElementById('schoolProperties').children;
                         	options[0].selected=true;
-                        	document.getElementById("schoolProperties").disabled=true;	
+                        	document.getElementById("schoolProperties").disabled=true;
+                            document.getElementById("selectSchoolProperties").style.display="none";
+                            document.getElementById("selectSchoolProperties1").style.display="";
+
                     	}else{
-                    		document.getElementById("schoolProperties").disabled=false;	
+                            document.getElementById("selectSchoolProperties").style.display="";
+                            document.getElementById("selectSchoolProperties1").style.display="none";
+                    		document.getElementById("schoolProperties").disabled=false;
                     	}
                     	
                     	

@@ -31,7 +31,7 @@
             <span class="line"></span>
         </div>
         <div class="users-infos">
-        <form id="saveUserForm" method="post" onsubmit="Form.editUserMsg(event);"  >
+        <form id="saveUserForm" method="post">
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>
@@ -183,7 +183,7 @@
             </div>
             <div class="t-btns">
                 <p class="text-center">
-                    <input type="submit" class="btn btn-primary" value="保存"></input>
+                    <input type="submit" class="btn btn-primary" value="保存" onclick="return Form.editUserMsg(event);"></input>
                     <a href="javascript:history.go(-1);" class="btn btn-default">取消</a>
                 </p>
             </div>

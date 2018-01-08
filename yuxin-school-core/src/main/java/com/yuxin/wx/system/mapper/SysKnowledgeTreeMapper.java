@@ -1,6 +1,7 @@
 package com.yuxin.wx.system.mapper;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
 
@@ -11,5 +12,7 @@ import java.util.List;
  */
 public interface SysKnowledgeTreeMapper extends BaseMapper<SysKnowledgeTree> {
 
-    List<SysKnowledgeTree> findKnoledgeTreeByPhaseAndSub(SysKnowledgeTree sysKnowledgeTree);
+    List<SysKnowledgeTree> findKnoledgeTreeByPapam(SysKnowledgeTree sysKnowledgeTree);
+
+    List<ClassModuleLesson> removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
 }

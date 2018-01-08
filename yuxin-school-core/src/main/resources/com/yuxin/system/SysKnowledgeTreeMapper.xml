@@ -3,47 +3,57 @@
 <mapper namespace="com.yuxin.wx.system.mapper.SysKnowledgeTreeMapper">
     <resultMap type="com.yuxin.wx.model.system.SysKnowledgeTree" id="sysKnowledgeTreeResultMap">
         <result property="id" column="id" />
+        <result property="eduYear" column="edu_year" />
+        <result property="eduSeason" column="edu_season" />
+        <result property="eduStep" column="edu_step" />
         <result property="itemSecondCode" column="item_second_code" />
         <result property="itemThreeCode" column="item_three_code" />
-        <result property="nodeName" column="node_name" />
-        <result property="nodeLevel" column="node_level" />
         <result property="commodityId" column="commodity_id" />
         <result property="classtypeId" column="classtype_id" />
         <result property="lessonId" column="lesson_id" />
-        <result property="lectureId" column="lecture_id" />
-        <result property="isLeaf" column="is_leaf" />
+        <result property="classtypeIdWeike" column="classtype_id_weike" />
+        <result property="classtypeIdHuikan" column="classtype_id_huikan" />
         <result property="paperId" column="paper_id" />
-        <result property="parentId" column="parent_id" />
-        <result property="sort" column="sort" />
+        <result property="createTime" column="create_time" />
+        <result property="creatorId" column="creator_id" />
+        <result property="creator" column="creator" />
+        <result property="companyId" column="company_id" />
     </resultMap>
     <sql id="table_columns">
         id,
+        edu_year,
+        edu_season,
+        edu_step,
         item_second_code,
         item_three_code,
-        node_name,
-        node_level,
         commodity_id,
         classtype_id,
         lesson_id,
-        lecture_id,
-        is_leaf,
+        classtype_id_weike,
+        classtype_id_huikan,
         paper_id,
-        parent_id
+        create_time,
+        creator_id,
+        creator,
+        company_id
     </sql>
     <sql id="entity_properties">
         #{id},
+        #{eduYear},
+        #{eduSeason},
+        #{eduStep},
         #{itemSecondCode},
         #{itemThreeCode},
-        #{nodeName},
-        #{nodeLevel},
         #{commodityId},
         #{classtypeId},
         #{lessonId},
-        #{lectureId},
-        #{isLeaf},
+        #{classtypeIdWeike},
+        #{classtypeIdHuikan},
         #{paperId},
-        #{parentId},
-        #{sort}
+        #{createTime},
+        #{creatorId},
+        #{creator},
+        #{companyId}
     </sql>
     <!-- 适用于主键自增类型 -->
     <insert id="insert" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree"
@@ -56,27 +66,15 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree">
-        update sys_knowledge_tree
-        <trim prefix="set" suffixOverrides=",">
-            <if test="nodeName != null and nodeName != ''">node_name = #{nodeName},</if>
-            <if test="nodeLevel != null">node_level = #{nodeLevel},</if>
-            <if test="itemSecondCode != null and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
-            <if test="itemThreeCode != null and itemThreeCode != ''">item_three_code = #{itemThreeCode},</if>
-            <if test="classtypeId != null and classtypeId != ''">classtype_id = #{classtypeId},</if>
-            <if test="lessonId != null and lessonId != ''">lesson_id = #{lessonId},</if>
-            <if test="lectureId != null and lectureId != ''">lecture_id = #{lectureId},</if>
-            <if test="isLeaf != null and isLeaf != ''">is_leaf = #{isLeaf},</if>
-            <if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
-            <if test="parentId != null ">parent_id = #{parentId},</if>
-            <if test="sort != null ">sort = #{sort}</if>
-        </trim>
-        <where>id = #{id}</where>
-    </update>
-
-    <select id="findKnoledgeTreeByPhaseAndSub" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree" resultMap="sysKnowledgeTreeResultMap">
+    <select id="findKnoledgeTreeByPapam" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree" resultMap="sysKnowledgeTreeResultMap">
         select <include refid="table_columns" /> from sys_knowledge_tree
         <where>
+            <if test="eduYear!=null and eduYear!=''">
+                and edu_year = #{eduYear}
+            </if>
+            <if test="eduSeason!=null and eduSeason!=''">
+                and edu_season = #{eduSeason}
+            </if>
             <if test="itemSecondCode!=null and itemSecondCode!=''">
                 and item_second_code = #{itemSecondCode}
             </if>
@@ -84,6 +82,13 @@
                 and item_three_code = #{itemThreeCode}
             </if>
         </where>
-        order by node_level, sort
     </select>
+
+    <delete id="removeKnowledge" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree">
+        delete * from sys_knowledge_tree
+        where edu_year = #{eduYear}
+            and edu_season = #{eduSeason}
+            and item_second_code = #{itemSecondCode}
+            and item_three_code = #{itemThreeCode}
+    </delete>
 </mapper>

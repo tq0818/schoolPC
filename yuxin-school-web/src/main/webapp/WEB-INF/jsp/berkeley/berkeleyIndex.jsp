@@ -32,7 +32,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-<div class="u-wrap admin overflow berkeleyIndex">
+<div class="u-wrap admin overflow berkeleyIndex" style="height: 800px;">
     <div>
         <div class="heading">
             <h2 class="h5">分校列表</h2>
@@ -129,12 +129,17 @@
                 </li>
                 <li>
                     <label style="margin-right: 35px;">学校性质<i style="color: red;" class="iconfont ico"></i></label>
-                    <select id="schoolProperties" style="width: 164px;">
-                    	<option value="">无</option>
-                        <c:forEach items="${schoolPros}" var="schoolPro" >
-		                    <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
-		                </c:forEach>
-                    </select>
+                    <span id="selectSchoolProperties" >
+                        <select id="schoolProperties" style="width: 164px;">
+                            <option value="">无</option>
+                            <c:forEach items="${schoolPros}" var="schoolPro" >
+                                <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
+                            </c:forEach>
+                        </select>
+                        </span>
+                    <span id="selectSchoolProperties1" style="display: none">
+                        <input type="text" name="schoolProperties1" value="无" readonly="true">
+                    </span>
                 </li>
                 <li>
                     <label style="margin-right: 47px;">联系人</label>

@@ -65,7 +65,7 @@
                 </li>
                 </c:if>
                 <c:if test="${serviceMsg }">
-                <li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics">
+                <li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics" style="display: none">
                     <p class="L-hover">
 	                    <span class="item-back duanxin"></span>
 	                    <span class="list-title">短信</span>
@@ -143,7 +143,7 @@
                 </li>
                 </c:if>
                  <c:if test="${!serviceMsg}">
-                <li class="item-list fl">
+                <li class="item-list fl" style="display: none">
                     <p>
 	                    <span class="item-back zhiboNo"></span>
 	                    <span class="list-title">短信</span>

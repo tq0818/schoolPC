@@ -34,25 +34,25 @@
 				<c:if test="${empty sessionScope.SYSTEM_CYCLE or sessionScope.SYSTEM_CYCLE == 1 }">
 	            	<li class="subentry" code="system_cycle" mark="/sysCyclePic/showPic"><span>首页轮播图</span></li>
 				</c:if>
-				<c:if test="${empty sessionScope.SYSTEM_SEO or sessionScope.SYSTEM_SEO == 1 }">
+				<%--<c:if test="${empty sessionScope.SYSTEM_SEO or sessionScope.SYSTEM_SEO == 1 }">
 	            	<li class="subentry" code="system_seo" mark="/sysConfigIco/showIco"><span>SEO配置</span></li>
-				</c:if>
+				</c:if>--%>
 				<c:if test="${empty sessionScope.SYSTEM_ICO or sessionScope.SYSTEM_ICO == 1 }">
 	            	<li class="subentry" code="system_ico" mark="/sysConfigIco/showLogo"><span>浏览器图标</span></li>
 				</c:if>
 				<c:if test="${empty sessionScope.SYSTEM_CODE or sessionScope.SYSTEM_CODE == 1 }">
 	            	<li class="subentry" code="system_code" mark="/sysConfigIco/showCode"><span>统计分析代码</span></li>
 				</c:if>
-				<c:if test="${empty sessionScope.SYSTEM_CUSTOM_PAGE or sessionScope.SYSTEM_CUSTOM_PAGE == 1 }">
+				<%--<c:if test="${empty sessionScope.SYSTEM_CUSTOM_PAGE or sessionScope.SYSTEM_CUSTOM_PAGE == 1 }">
 	            	<li class="subentry" code="system_custom_page" mark="/companyConfigCustompage/customPage"><span>自定义页面管理</span></li>
-				</c:if>
+				</c:if>--%>
 	<!--            <li class="subentry" code="system_stu_log" mark="/companyFunctionSet/stuLogin"><span>学员登录设置</span></li> -->
 	<!--            <li class="subentry" code="system_stu_register" mark="/companyFunctionSet/stuRegister"><span>学员注册设置</span></li> -->
 	<!--           	<li class="subentry" code="system_stu_login" mark="/sysConfigStuLogin/setPage">学员登录设置</li> -->
 	<!--            <li class="subentry" code="student_group" mark="/studentGroup/setStudentGroup"><span>学员分组</span></li>  -->
-				<c:if test="${empty sessionScope.COMPANY_SUBJECT_CUSTOMNAME or sessionScope.SYSTEM_SUBJECT_CUSTOMNAME == 1 }">
+				<%--<c:if test="${empty sessionScope.COMPANY_SUBJECT_CUSTOMNAME or sessionScope.SYSTEM_SUBJECT_CUSTOMNAME == 1 }">
 	            	<li class="subentry" code="company_subject_customname" mark="/company/updateSubjectName"><span>自定义学科</span></li> 
-				</c:if>
+				</c:if>--%>
         	</c:when>
         	<c:otherwise>
             	<li class="subentry" code="system_head" mark="/sysPageHeadFoot/showHead"><span>页头设置<%-- <i class="icon-red"></i> --%></span><%-- <em></em> --%></li>
@@ -60,15 +60,15 @@
             	<li class="subentry" code="system_foot" mark="/companyHeadFootConfig/showFootTemplete"><span>页尾设置</span></li>
             	<li class="subentry" code="system_index" mark="/sysBody/show"><span>首页模板<i class="icon-red"></i></span></li>
             	<li class="subentry" code="system_cycle" mark="/sysCyclePic/showPic"><span>首页轮播图</span></li>
-            	<li class="subentry" code="system_seo" mark="/sysConfigIco/showIco"><span>SEO配置</span></li>
+            	<%--<li class="subentry" code="system_seo" mark="/sysConfigIco/showIco"><span>SEO配置</span></li>--%>
             	<li class="subentry" code="system_ico" mark="/sysConfigIco/showLogo"><span>浏览器图标</span></li>
             	<li class="subentry" code="system_code" mark="/sysConfigIco/showCode"><span>统计分析代码</span></li>
-            	<li class="subentry" code="system_custom_page" mark="/companyConfigCustompage/customPage"><span>自定义页面管理</span></li>
+            	<%--<li class="subentry" code="system_custom_page" mark="/companyConfigCustompage/customPage"><span>自定义页面管理</span></li>--%>
 <!--            <li class="subentry" code="system_stu_log" mark="/companyFunctionSet/stuLogin"><span>学员登录设置</span></li> -->
 <!--            <li class="subentry" code="system_stu_register" mark="/companyFunctionSet/stuRegister"><span>学员注册设置</span></li> -->
 <!--           	<li class="subentry" code="system_stu_login" mark="/sysConfigStuLogin/setPage">学员登录设置</li> -->
 <!--            <li class="subentry" code="student_group" mark="/studentGroup/setStudentGroup"><span>学员分组</span></li>  -->
-	            <li class="subentry" code="company_subject_customname" mark="/company/updateSubjectName"><span>自定义学科</span></li> 
+	            <%--<li class="subentry" code="company_subject_customname" mark="/company/updateSubjectName"><span>自定义学科</span></li> --%>
         	</c:otherwise>
         </c:choose>
         </ul>

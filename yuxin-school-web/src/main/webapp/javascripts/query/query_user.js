@@ -288,13 +288,9 @@
             var proxyOrgRole = $("#proxyOrgRole").val();
             var userorg_roleopenflag = $("#userorg_roleopenflag").val();
             $.ajax({
-                    url: rootPath + "/student/queryStudentsList",
+                    url: rootPath + "/student/queryUserListData",
                     data: data,
                     type: 'post',
-                    beforeSend: function (XMLHttpRequest) {
-                        $(".loading").show();
-                        $(".loading-bg").show();
-                    },
                     success: function (jsonData) {
                        
                         if (jsonData.data.length == 0) {
@@ -324,78 +320,33 @@
                                     .find("table")
                                     .append(
                                     '<tr data-buy="'+(stu.paymaterCount>0)+'">'
-                                    // + '<td>'
-                                    // + '<input type="checkbox" class="signUpMany" uName="'+(stu.username?stu.username:"")+'" value="' + (stu.mobile?stu.mobile:"") + '">'
-                                    // + '</td>'
-                                    // + '<td>'
-                                    // + (stu.mobile ? stu.mobile
-                                    //     : "")
-                                    // + '</td>'
-                                    // + '<td>'
-                                    // + (stu.username ? stu.username
-                                    //     : "")
-                                    // + '</td>'
                                     + '<td>'
                                     + (stu.name ? stu.name
                                         : "")
                                     + '</td>'
                                     + '<td>'
-                                    + eduIdentity
+                                    + stu.eduIdentityName
                                     + '</td>'
                                     + '<td>'
-                                    + (stu.eduArea ? stu.eduArea
+                                    + (stu.mobile ? stu.mobile
                                         : "")
                                     + '</td>'
-                                    + '<td>'
-                                    + (stu.eduSchool ?stu.eduSchool
-                                        : "")
-                                    + '</td>'
-                                    + '<td>'
-                                    + (stu.eduStep!=null ? (stu.eduStep+stu.eduYear+"年"+stu.eduClass+"班")
-                                        : "")
-                                    + '</td>'
-                                    + (userorg_roleopenflag==1 && proxyOrgRole==1?'<td>'
-                                    + (stu.proxyOrgName ? stu.proxyOrgName
-                                        : "")
-                                    + '</td>':'')
                                     + '<td>'
                                     + (stu.createTime ? stu.createTime
+                                    		: "")
+                                    		+ '</td>'
+                                    + '<td>'
+                                    + (stu.finishCount ?stu.finishCount
                                         : "")
                                     + '</td>'
-                                    + '<td class="haostatus">'
-                                    + (stu.userId ? '已开通'
-                                        : '未开通')
+                                    + '<td>'
+                                    + (stu.totalCount ? stu.totalCount
+                                        : "")
                                     + '</td>'
-                                    + '<td class="ustatus">'
-                                    + (stu.status == 1 ? '正常'
-                                        : '异常')
-                                    + '</td>'
-                                    + '<td class="baoming" value="' + stu.ispay + '">'
-                                    + (stu.paymaterCount > 0 ? '已报名'
-                                        : '未报名')
-                                    + '</td>'
-                                    // + '<td class="slink">'
-                                    // + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
-                                    // + '<a class="studentDetail" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">详情</a>|'
-                                    // + '<a class="more" href="javascript:void(0);">更多</a>'
-                                    // + '<ul class="none box">'
-                                    // + ' <li><a class="updateStudentMsg" stuId="' + stu.id + '" href="javascript:void(0);">修改信息</a></li>'
-                                    // +(($("#isDelete").val()==1)?((stu.paymaterCount > 0)?' <li><a class="delStudent" stuId="'+stu.id+'" href="javascript:void(0);">取消报名</a></li>':""):"")
-                                    // + (stu.userId ? (stu.status == 1 ? '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">禁用用户</a></li>'
-                                    //     : '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">启用用户</a></li>' ) : '')
-                                    // + (stu.status == 1 ? '<li><a class="changePwd" userId="' + stu.userId + '" href="javascript:void(0);">修改密码</a></li>' : '')
-                                    // +(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportStudyRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllCl?stuId='+stu.id+'" target="_blank">学习记录</a></li>' : '')
-                                    // +(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportExcleRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllExt?stuId='+stu.id+'" target="_blank">做题记录</a></li>' : '')
-                                    // + ((stu.paymaterCount > 0 && stu.commodityType!='COMMODITY_PACKAGE') ? '<li><a class="toTransaction" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">异动</a></li>' : '')
-                                    // + (stu.paymaterCount > 0 ? (stu.ispay == "1" ? '<li><a class="toMessage" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">补费</a></li>' : '' ) : '')
-                                    // + (stu.paymaterCount > 0 ?
-                                    //     (stu.agentFlag == "1" ?
-                                    //         (stu.isAgent == "1" ?
-                                    //         '<li><a class="showStuMaterial" mobile="' +(stu.mobile?stu.mobile:"")+ '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报考材料</a></li>'
-                                    //             : '')
-                                    //         : '')
-                                    //     : '')
-                                    // + '</ul></td>'
+                                    + '<td>'
+                                    + (stu.payPrice ? stu.payPrice
+                                    		: "")
+                            		+ '</td>'
                                     + '</tr>');
                             });
                         $("#rowCount").remove();

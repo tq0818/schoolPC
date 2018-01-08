@@ -112,6 +112,8 @@
 		<result property="publicPrice" column="public_price" />
 		
 		<result property="schoolName" column="school_name"/>
+		<result property="sourceClassTypeId" column="class_type_id"/>
+		<result property="domainManage" column="domain_manage"/>
 		<result property="teacherName" column="teacher_name"/>
 		<result property="domain" column="domain"/>
 	</resultMap>
@@ -473,7 +475,7 @@
 	
 	<!-- 查询班型并分页 -->
 	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="map">
-		SELECT a.*, c.buy_num as actualNum
+		SELECT a.*, c.buy_num as actualNum,c.id as com_id
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
 		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
@@ -789,7 +791,7 @@
 	
 	<!-- 查询分校直播课程  -->
 	<select id="queryLiveClassOfBranchSchool" resultMap="classTypeVoResultMap" parameterType="map">
-			SELECT ct.id,ct.name,sd.item_name as itemThirdName,c1.company_name as schoolName,
+			SELECT ct.id,ct.name,sd.item_name as itemThirdName,c1.company_name as schoolName,c1.domain as domain_manage,s.source_class_type_id class_type_id,
 				<![CDATA[ (CASE 	WHEN t.min_time is null or t.max_time is null then 0 	
 						WHEN NOW()<t.min_time then 0 	
 						WHEN t.min_time<=NOW() and NOW()<=t.max_time  then 1

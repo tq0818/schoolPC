@@ -1588,9 +1588,9 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</insert>
 	<!-- sys_config_index_page_template -->
 	<insert id="addSysConfigIndexPageTemplate" parameterType="com.yuxin.wx.model.system.SysConfigIndexPageTemplate" useGeneratedKeys="true" keyProperty="id">
-		insert into sys_config_index_page_template (company_id,school_id,module_name,custom_name,status,module_type,
+		insert into sys_config_index_page_template (company_id,school_id,module_name,status,module_type,
 		width_setting,link,pic_path,item_one_id_list,data_sort_by,data_limit_num,display_seq) 
-		(select #{companyId},#{schoolId},module_name,custom_name,status,module_type,
+		(select #{companyId},#{schoolId},module_name,status,module_type,
 		width_setting,link,pic_path,item_one_id_list,data_sort_by,data_limit_num,display_seq
 		from sys_config_index_page_template where company_id=#{zhuCompanyId})
 	</insert>

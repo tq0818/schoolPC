@@ -39,6 +39,12 @@ public class ParameterUtil {
 	      Matcher m = pattern.matcher(str);
 	      return m.matches(); 
 	}
+
+	public static boolean newUserNameRule(String str){
+		Pattern pattern = java.util.regex.Pattern.compile("^[a-zA-Z0-9_]+");
+		Matcher m = pattern.matcher(str);
+		return m.matches();
+	}
 	
 	public static boolean isChinese(String str){
 		Pattern pattern = java.util.regex.Pattern.compile("^[\u4e00-\u9fa5]+$"); 

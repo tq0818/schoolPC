@@ -252,7 +252,7 @@ public class BranchSchoolIndex {
         SysConfigDict areaDict = new SysConfigDict();
 //      areaDict.setDictCode("EDU_SCHOOL_AREA");
 //      List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-        areaDict.setDictCode("SCHOOL_PROPERTY");
+        areaDict.setDictCode("EDU_STEP_NEW");
         List<SysConfigDict> schoolPros = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
 		List<SysConfigDict> areas =companyManageServiceImpl.queryCompanyVoListByQuyu();
 //        PageFinder2<CompanyVo> companyList=companyManageServiceImpl.queryCompanyVoListByCondition(search);

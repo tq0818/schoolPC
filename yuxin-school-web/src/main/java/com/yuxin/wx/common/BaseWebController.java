@@ -331,7 +331,7 @@ public class BaseWebController {
                 session.setAttribute(WebUtils.CURRENT_IS_AREA,company.getIsArea());
 
                 String isAreaSchool1=WebUtils.getCurrentIsArea();
-                request.getSession().setAttribute("isAreaSchool1",isAreaSchool1);
+                session.setAttribute("isAreaSchool1",isAreaSchool1);
 
                 if (company.getMemberLevel() < 20) {
                     List<SysServiceDredgeVo> ssdVo = sysServiceDredgeImpl.findDredgeByCom(company.getId());

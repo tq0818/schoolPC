@@ -959,11 +959,11 @@
 		                       <p class="infos">网校页面优化</p>
 		                       <p class="infos">网校推广管理</p>
 		                    </div>
-			                 <c:if test="${!empty manganger }">
+			                 <%--<c:if test="${!empty manganger }">--%>
 								<p class="btns isno">
 										<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_ONLINE_SET">开通</a>
 									</p>
-								</c:if>
+								<%--</c:if>--%>
 		                </li>
 		                </c:if>
 		              <%--   <c:if test="${requestScope.SERVICE_BRANCH_SCHOOL_SET =='SERVICE_BRANCH_SCHOOL_SET'}">
@@ -1006,11 +1006,11 @@
 									<p class="infos">在线答疑</p>
 									<p class="infos">直播回放</p>
 								</div>
-								<c:if test="${!empty manganger }">
+								<%--<c:if test="${!empty manganger }">--%>
 								<p class="btns isno">
 										<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_LIVE">开通</a>
 									</p>
-								</c:if>
+								<%--</c:if>--%>
 							</li>
 						</c:if>
 						<c:if test="${requestScope.SERVICE_VIDEO == 'SERVICE_VIDEO' }">
@@ -1028,11 +1028,11 @@
 									<p class="infos">全网加速</p>
 									<p class="infos">视频防盗链接</p>
 								</div>
-								<c:if test="${!empty manganger }">
+								<%--<c:if test="${!empty manganger }">--%>
 								<p class="btns isno">
 										<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_VIDEO">开通</a>
 									</p>
-								</c:if>
+								<%--</c:if>--%>
 							</li>
 						</c:if>
 					<%-- 	<c:if test="${requestScope.SERVICE_FACE == 'SERVICE_FACE' }">
@@ -1072,11 +1072,11 @@
 		                       <p class="infos">课程权限</p>
 		                       <p class="infos">课程管理</p>
 		                    </div>
-			                <c:if test="${!empty manganger }">
+			                <%--<c:if test="${!empty manganger }">--%>
 								   <p class="btns isno">
 										<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_COURSE_SET">开通</a>
 									</p>
-							</c:if>
+							<%--</c:if>--%>
 		                </li>
 		                </c:if>
 						<%-- <c:if test="${requestScope.SERVICE_OPENCLASS == 'SERVICE_OPENCLASS' }">
@@ -1318,11 +1318,11 @@
 		                         	<p class="infos">页尾设置</p>
 		                        	<p class="infos">轮播图设置</p>
 			                    </div>
-			                    <c:if test="${!empty manganger }">
+			                    <%--<c:if test="${!empty manganger }">--%>
 								<p class="btns isno">
 									<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_MICROSCHOOL">开通</a>
 								</p>
-								</c:if>
+								<%--</c:if>--%>
 			                </li>
 		                </c:if>
 		               <%--  <c:if test="${requestScope.SERVICE_STUDYCARD == 'SERVICE_STUDYCARD' }">
@@ -1392,11 +1392,11 @@
 								<p class="infos">
 								</p>
 							</div>
-							<c:if test="${!empty manganger }">
+							<%--<c:if test="${!empty manganger }">--%>
 								<p class="btns isno">
 									<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_PAY_SET">开通</a>
 								</p>
-								</c:if>
+								<%--</c:if>--%>
 						</li>
 						</c:if>
 						<c:if test="${requestScope.SERVICE_MARKETING_SET == 'SERVICE_MARKETING_SET' }">
@@ -1415,11 +1415,11 @@
 		                        <p class="infos">在线客服</p>
 		                        <p class="infos">QQ运营</p>
 		                    </div>
-		                    <c:if test="${!empty manganger }">
+		                    <%--<c:if test="${!empty manganger }">--%>
 								<p class="btns isno">
 									<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_MARKETING_SET">开通</a>
 								</p>
-							</c:if>
+							<%--</c:if>--%>
 		                </li>
 		                </c:if>
 		                <c:if test="${requestScope.SERVICE_MSG_SET == 'SERVICE_MSG_SET' }">
@@ -1449,11 +1449,11 @@
 									<em style="font-size:14px; width: 85px;margin-top: 3px;">${cms.messageTotal - css.messageSend + cms.giveMessage }</em>条剩余
 								</p>
 							</div>
-							<c:if test="${!empty manganger }">
+							<%--<c:if test="${!empty manganger }">--%>
 									<p class="btns isno">
 										<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_MSG_SET">开通</a>
 									</p>
-								</c:if>
+								<%--</c:if>--%>
 						</li>
 						</c:if>
 						<%-- <c:if test="${requestScope.SERVICE_STUDENT_SET=='SERVICE_STUDENT_SET'}">
@@ -1491,11 +1491,11 @@
 									</div>
 									<div class="right server-infos">
 									</div>
-								<c:if test="${!empty manganger }">
+								<%--<c:if test="${!empty manganger }">--%>
 										<p class="btns isno">
 											<a href="javascript:;" class="btn btn-sm btn-default btn-open-ser" data-type="SERVICE_CLASS_SET">开通</a>
 										</p>
-								</c:if>
+								<%--</c:if>--%>
 								</li>
 							</c:if>
 						</c:if>
@@ -1562,6 +1562,8 @@
 	 <shiro:hasPermission name="student_star">
 	 	<input type="hidden" value="1" id="studentAspirationsPri"/>   
 	 </shiro:hasPermission>
+
+<input type="hidden" id = "isOpen" value="${sessionScope.isAreaSchool1}">
 <script type="text/javascript">
 $(function(){
 	$selectSubMenu('org_service');

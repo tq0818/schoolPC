@@ -308,13 +308,15 @@
 				});
 				if(!b){
 					$.msg("请添加教师");
+					evt.preventDefault();
 					$(".loading-bg").hide();
-					return;
+					return false;
 				}
 				if(count>1){
 					$.msg("一个账号只能绑定一个老师");
+					evt.preventDefault();
 					$(".loading-bg").hide();
-					return;
+					return false;
 				}
 				$("#teachersId").val(teachersId);
 				$("#tsId").val(tId);
@@ -350,14 +352,16 @@
 					if(chong>0){
 						//$.msg("手机号已存在");
 						$('#mobile-error').text("手机号已存在");
+						evt.preventDefault();
 						$(".loading-bg").hide();
-						return;
+						return false;
 					}
 					if($("#saveUserForm").valid()){
 						$("#saveUserForm").attr("action",rootPath+"/authPrivilege/saveUser");
 					}else{
 						$(".loading-bg").hide();
-						return;
+						evt.preventDefault();
+						return false;
 					}
 				}else{
 						var name=$("#nameMark").val();
@@ -386,7 +390,7 @@
 							 console.log('bb');
 							$('#mobile-error').text("手机号已存在");
 							evt.preventDefault();
-                           // $(".loading-bg").hide();
+                            $(".loading-bg").hide();
                             return false;
 						}
 						var pwd=$("#confirmPassword").val();
@@ -395,6 +399,7 @@
 								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();
+								evt.preventDefault();
 								return;
 							}
 						}else{

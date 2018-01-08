@@ -52,9 +52,9 @@
         #{paperFlag}
     </sql>
     <!-- 适用于主键自增类型 -->
-    <insert id="insert" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree"
+    <insert id="insert" parameterType="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics"
             useGeneratedKeys="true" keyProperty="id">
-        insert into sys_knowledge_tree(
+        insert into sys_knowledge_tree_statistics(
         <include refid="table_columns" />
         )
         values (
@@ -64,10 +64,10 @@
 
 
     <delete id="removeKnowledgeStatistics">
-        delete * from sys_knowledge_tree_statistics
-        where commodity_id in
+        delete from sys_knowledge_tree_statistics
+        where knowledge_tree_id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
-            #(item.commodityId)
+            #{item.id}
         </foreach>
     </delete>
 </mapper>

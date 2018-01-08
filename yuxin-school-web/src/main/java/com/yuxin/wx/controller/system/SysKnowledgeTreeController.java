@@ -3,6 +3,7 @@ package com.yuxin.wx.controller.system;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.classes.IClassTypeService;
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
@@ -10,6 +11,7 @@ import com.yuxin.wx.common.BaseWebController;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
@@ -51,6 +53,9 @@ public class SysKnowledgeTreeController extends BaseWebController {
 
     @Autowired
     private IClassModuleLessonService classModuleLessonServiceImpl;
+
+    @Autowired
+    private ICompanyService companyServiceImpl;
 
     /**
      * 知识树首页跳转
@@ -99,6 +104,9 @@ public class SysKnowledgeTreeController extends BaseWebController {
         classType.setPageSize(sysKnowledgeTree.getPageSize());
         PageFinder<ClassTypeVo> page = classTypeServiceImpl.findClassTypesByPage(classType);
         jsonObject.put("data", page);
+
+        Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
+        jsonObject.put("company", company);
         return jsonObject;
     }
 
@@ -127,6 +135,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
             sysKnowledgeTree.setCompanyId(WebUtils.getCurrentCompanyId());
             sysKnowledgeTreeServiceImpl.removeKnowledge(sysKnowledgeTree);
         }catch(Exception e){
+            e.printStackTrace();
             return "false";
         }
         return "true";

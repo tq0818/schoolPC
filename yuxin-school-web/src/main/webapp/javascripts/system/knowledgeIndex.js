@@ -123,7 +123,7 @@
                                 : "")
                             + '</td>'
                             + '<td>'
-                            + '<a href="javascript:void(0)" class="viewTree">查看</a>'
+                            + '<a href="http://'+jsonData.company.domain+'sysConfigItem/selectDetail/"'+classType.commodityId+' target="_blank">查看</a>'
                             + '</td>';
                         html+= '</tr>';
                     });
@@ -162,7 +162,7 @@
 //                            $("#selectCount").css("margin-bottom","").css("margin-bottom","-30px");
                     }
                     $(".viewTree").bind("click", function() {
-                        alert(1);
+                        window.location.href = "";
                     });
                 },
                 complete: function (XMLHttpRequest, textStatus) {
@@ -214,6 +214,7 @@
             });
         },
         removeKnowledge: function () {
+            var $this = this;
             var data = {};
             data.eduYear = $("#eduYear").val();
             data.eduSeason=$("#eduSeason").val();

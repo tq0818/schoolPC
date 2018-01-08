@@ -49,7 +49,7 @@
                     if(a){
                         $(".checkboxAll").prop("checked", false);
                         idsData = "";
-                        $this.search();
+                        $this.removeKnowledge();
                     }
                 });
             });
@@ -109,9 +109,7 @@
                             .append(
                                 '<tr><td colspan="3">没有查找到数据</td></tr>');
                     }
-                    $.each(jsonData.ids, function(i, id){
-                        idsData += id+',';
-                    });
+                    idsData += jsonData.ids;
                     var html;
                     $.each(jsonData.data.data,function (i, classType) {
                         html+= '<tr>'
@@ -125,7 +123,7 @@
                                 : "")
                             + '</td>'
                             + '<td>'
-                            + '<a href="javascript:void(0)" class="viewTree">查看</a>'
+                            + '<a href="http://'+jsonData.company.domain+'sysConfigItem/selectDetail/"'+classType.commodityId+' target="_blank">查看</a>'
                             + '</td>';
                         html+= '</tr>';
                     });
@@ -164,7 +162,7 @@
 //                            $("#selectCount").css("margin-bottom","").css("margin-bottom","-30px");
                     }
                     $(".viewTree").bind("click", function() {
-                        alert(1);
+                        window.location.href = "";
                     });
                 },
                 complete: function (XMLHttpRequest, textStatus) {
@@ -216,16 +214,23 @@
             });
         },
         removeKnowledge: function () {
+            var $this = this;
+            var data = {};
+            data.eduYear = $("#eduYear").val();
+            data.eduSeason=$("#eduSeason").val();
+            data.itemSecondCode = $("#itemSecondCode").val();
+            data.itemThreeCode = $("#itemThreeCode").val();
             $.ajax({
                 url: rootPath + "/sysKnowledgeTree/removeKnowledge",
                 type: 'post',
+                data:data,
                 beforeSend: function (XMLHttpRequest) {
                     $(".loading").show();
                     $(".loading-bg").show();
                 },
                 success: function (jsonData) {
                     if(jsonData!=null && jsonData== 'true'){
-                        alert("0");
+                        $this.search();
                     }
                 },
                 complete: function (XMLHttpRequest, textStatus) {

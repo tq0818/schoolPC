@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.system.*;
+import com.yuxin.wx.model.system.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,10 +37,6 @@ import com.yuxin.wx.api.commodity.ICommodityService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.course.ICourseRemoteService;
 import com.yuxin.wx.api.course.ILiveOpenCourseService;
-import com.yuxin.wx.api.system.ISysConfigItemCourseService;
-import com.yuxin.wx.api.system.ISysConfigItemIconService;
-import com.yuxin.wx.api.system.ISysConfigItemRelationService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.common.BaseWebController;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.SysConfigConstant;
@@ -47,11 +45,6 @@ import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.commodity.Commodity;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.course.CourseRemote;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigItemCourse;
-import com.yuxin.wx.model.system.SysConfigItemIcon;
-import com.yuxin.wx.model.system.SysConfigItemRelation;
-import com.yuxin.wx.model.system.SysSchoolItemRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.FileUploadUtil;
 import com.yuxin.wx.utils.PropertiesUtil;
@@ -110,6 +103,7 @@ public class SysConfigItemController extends BaseWebController {
     private ICompanyFunctionSetService companyFunctionSetServiceImpl;
     @Autowired
     private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+
     /**
      * 
      * Class Name: SysConfigItemController.java
@@ -1372,4 +1366,8 @@ public class SysConfigItemController extends BaseWebController {
         }
         return result;
     }
+
+
+
+
 }

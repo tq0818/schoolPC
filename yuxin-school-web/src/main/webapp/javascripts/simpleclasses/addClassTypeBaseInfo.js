@@ -217,9 +217,11 @@
 					var ispublic=$(this).val();
 					if('1'==ispublic){
 						$(".publicPrice").removeClass("none");
+						$("#discriblePub").show();
 					}else{
 						$(".publicPrice").addClass("none");
 						$("#publicPrice").val(null);
+						$("#discriblePub").hide();
 					}
 				});			
 				

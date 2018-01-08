@@ -629,7 +629,7 @@
 						<if test="status == 0 and statuss == 4 ">
 							and l.lesson_date = #{lessonDate} and 
 							#{currentTime} > l.lesson_time_start and
-							l.lesson_time_end > s#{currentTime}
+							l.lesson_time_end > #{currentTime}
 						</if>
 						<if test="status == 0 and statuss == 5 ">
 							and ((l.lesson_date = #{lessonDate} and 

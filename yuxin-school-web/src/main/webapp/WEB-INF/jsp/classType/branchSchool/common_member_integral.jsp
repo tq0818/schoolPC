@@ -22,7 +22,7 @@
        </c:choose>
     </span>
 </p>
- <p class="c member_settings none">
+<%-- <p class="c member_settings none">
      <span class="c-title">会员课程</span>
      <span class="c-content">
 	 	<c:choose>
@@ -30,7 +30,7 @@
 			<c:otherwise>加入会员课程</c:otherwise>
 		</c:choose>
      </span>
- </p>
+ </p>--%>
  <c:choose>
 	<c:when test="${ct.memberFlag==1 }">
 		 <p class="c member_setting_bl">
@@ -86,7 +86,7 @@
 <p class="c buyNumSetting none">
     <span class="c-title">课程购买人数限制</span>
     <span class="c-content"><input name="buyNumMax"  class="readonly"  type="text" value="${ct.buyNumMax }">&nbsp;&nbsp;
-     <i class="iconfont ask" style="cursor: pointer;color:gray;margin-left:10px;" title="请填写实际限制的购买人数，不包含购买基数">&#xe60f;</i>
+    <%-- <i class="iconfont ask" style="cursor: pointer;color:gray;margin-left:10px;" title="请填写实际限制的购买人数，不包含购买基数">&#xe60f;</i>--%>
     </span>
 </p>
 <script type="text/javascript" src="<%=request.getContextPath() %>/javascripts/class/branchschool/integral_member.js"></script>

@@ -105,13 +105,13 @@
                         <p class="c">
                             <span class="c-title">描述 <i class="require-txt">*</i></span>
                             <span class="c-content">
-                                <textarea name="description" id="description" placeholder="输入课程描述" class="readonly" readonly="readonly">${ct.description}</textarea>
+                                <textarea name="description" id="description" placeholder="输入课程描述" class="readonly" disabled="disabled">${ct.description}</textarea>
                             </span>
                         </p>
                         <p class="c">
                             <span class="c-title">试卷描述</span>
                             <span class="c-content">
-                                <textarea name="paperDescription" id="paperDescription" placeholder="输入试卷描述"  class="readonly" readonly="readonly">${ct.paperDescription}</textarea>
+                                <textarea name="paperDescription" id="paperDescription" placeholder="输入试卷描述"  class="readonly" disabled="disabled">${ct.paperDescription}</textarea>
                             </span>
                         </p>
                         <p class="c clear">

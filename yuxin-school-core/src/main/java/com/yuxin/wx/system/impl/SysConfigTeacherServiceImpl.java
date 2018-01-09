@@ -483,11 +483,11 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 
         Integer teacherID = sysConfigTeacher.getId();
         Integer delFlag = sysConfigTeacher.getDelFlag();
+        
         Integer companyId=sysConfigTeacher.getCompanyId();
         Map<String,Integer>  map= new HashMap<String,Integer>();
         map.put("teacherId",teacherID);
         map.put("companyId" , companyId);
-
         SysConfigTeacher findT = sysConfigTeacherMapper.findById(teacherID);
         sysConfigTeacherLessonMapper.deleteByTeacherIdNew(map);
 
@@ -511,7 +511,8 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
                 if (user != null) {
                     users.setId(sysConfigTeacher.getUserId());
                     users.setPassword(pwd);
-
+                    users.setPhone(sysConfigTeacher.getMobile());
+                    users.setMobile(sysConfigTeacher.getMobile());
                     usersMapper.update(users);
 
                     // 存在用户则不更新

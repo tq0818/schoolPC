@@ -267,7 +267,7 @@
 					}
 				});
 			},
-			editUserMsg : function(){
+			editUserMsg : function(evt){
 				if(!$("#saveUserForm").valid()){
 					return;
 				}
@@ -311,13 +311,15 @@
 				});
 				if(!b){
 					$.msg("请添加教师");
+					evt.preventDefault();
 					$(".loading-bg").hide();
-					return;
+					return false;
 				}
 				if(count>1){
 					$.msg("一个账号只能绑定一个老师");
+					evt.preventDefault();
 					$(".loading-bg").hide();
-					return;
+					return false;
 				}
 				$("#teachersId").val(teachersId);
 				$("#tsId").val(tId);
@@ -327,6 +329,7 @@
 					proxyOrgId = $('.org-list').find('a.btn-success').attr('ids');
 					if(!proxyOrgId){
 						$.msg("选择了代理机构角色，必须选择机构选项！");
+						evt.preventDefault();
 						$(".loading-bg").hide();
 						return false;
 					}
@@ -335,7 +338,8 @@
 				if(type=="save"){
 					var chong=0;
 					var mob=$("#mobile").val();
-					if(mob!=""){
+					var mob1=$("#mobile1").val();
+					if(mob!=mob1){
 						//验证手机号
 						$.ajax({
 							url : rootPath+"/register/checkMobile",
@@ -351,26 +355,53 @@
 						});
 					}
 					if(chong>0){
-						$.msg("手机号已存在");
+						$('#mobile-error').text("手机号已存在");
+						evt.preventDefault();
 						$(".loading-bg").hide();
-						return;
+						return false;
 					}
 					if($("#saveUserForm").valid()){
 						$("#saveUserForm").attr("action",rootPath+"/permissionManger/saveUser");
 					}else{
+						evt.preventDefault();
 						$(".loading-bg").hide();
-						return;
+						return false;
 					}
 				}else{
 						var name=$("#nameMark").val();
 						$("#usernames").val(name);
+						var chong=0;
+						var mob=$("#mobile").val();
+						var mob1=$("#mobile1").val();
+						if(mob!=mob1){
+                            //验证手机号
+                            $.ajax({
+                                url : rootPath+"/register/checkMobile",
+                                type : "post",
+                                dataType : "json",
+                                async:false,
+                                data:{mobile : mob},
+                                success : function(result) {
+                                    if(!result){
+                                        chong++;
+                                    }
+                                }
+                            });
+						}
+						if(chong>0){
+							$('#mobile-error').text("手机号已存在");
+							evt.preventDefault();
+                            $(".loading-bg").hide();
+                            return false;
+						}
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
 								 $("#saveUserForm").attr("action",rootPath+"/permissionManger/updateUser");
 							}else{
+								evt.preventDefault();
 								$(".loading-bg").hide();
-								return;
+								return false;
 							}
 						}else{
 							 $("#saveUserForm").attr("action",rootPath+"/permissionManger/updateUser");

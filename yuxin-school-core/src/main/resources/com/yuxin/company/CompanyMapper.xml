@@ -1221,10 +1221,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 						#{item.eduAreaSchool}
 				</foreach>
 			)
-			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
-	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
-	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${search.companyName}%'</if>
-	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{search.eduArea}</if>
+			<if test="search.startTime != null and search.startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
+	 		<if test="search.endTime != null and search.endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
+	 		<if test="search.companyName != null and search.companyName != ''">and co.company_name like '%${search.companyName}%'</if>
+	 		<if test="search.eduArea != null and search.eduArea != ''">and ss.item_code = #{search.eduArea}</if>
 			GROUP BY co.id
 			union
 			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
@@ -1244,22 +1244,22 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 						#{item.eduAreaSchool}
 				</foreach>
 			)
-			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
-	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
+			<if test="search.startTime != null and search.startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
+	 		<if test="search.endTime != null and search.endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
 	 		<if test="search.companyName != null and search.companyName != ''">and co.company_name like '%${search.companyName}%'</if>
 	 		<if test="search.eduArea != null and search.eduArea != ''">and pss.item_code = #{search.eduArea}</if>
 	 		GROUP BY co.id
-		) su where su.id is not null
-		limit #{search.firstIndex},#{search.pageSize}) sss
+		) su where su.id is not null) sss
 		order by  
-		 <if test="search.paixu != null and search.paixu == 1">sss.registTime ASC </if> 
-		 <if test="search.paixu != null and search.paixu == 2">sss.registTime DESC </if> 
-		 <if test="search.paixu != null and search.paixu == 3">sss.registStudentCounts ASC </if> 
+		 <if test="search.paixu != null and search.paixu == 1">sss.registTime ASC </if>
+		 <if test="search.paixu != null and search.paixu == 2">sss.registTime DESC </if>
+		 <if test="search.paixu != null and search.paixu == 3">sss.registStudentCounts ASC </if>
 		<if test="search.paixu != null and search.paixu == 4">sss.registStudentCounts  DESC  </if>
-		<if test="search.paixu != null and search.paixu == 5">sss.classCounts ASC </if> 
-		 <if test="search.paixu != null and search.paixu == 6">sss.classCounts DESC </if> 
-		 <if test="search.paixu != null and search.paixu == 7">sss.classTypeCounts ASC </if> 
-		 <if test="search.paixu != null and search.paixu == 8">sss.classTypeCounts DESC </if> 
+		<if test="search.paixu != null and search.paixu == 5">sss.classCounts ASC </if>
+		 <if test="search.paixu != null and search.paixu == 6">sss.classCounts DESC </if>
+		 <if test="search.paixu != null and search.paixu == 7">sss.classTypeCounts ASC </if>
+		 <if test="search.paixu != null and search.paixu == 8">sss.classTypeCounts DESC </if>
+		limit #{search.firstIndex},#{search.pageSize}
 	</select>
 	
 	<!--查询已有分校所在区域-->
@@ -1319,6 +1319,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			<if test="startTime != null and startTime != ''">and date_format(regist_time,"%Y-%m-%d") <![CDATA[>=]]>'${startTime}'</if>
 	 		<if test="endTime != null and endTime != ''">and date_format(regist_time,"%Y-%m-%d") <![CDATA[<=]]>'${endTime}'</if>
 	 		<if test="companyName != null and companyName != ''">and company_name like '%${companyName}%'</if>
+
 	</select>
 	
 	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">
@@ -1507,12 +1508,12 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</insert>
 	<!-- company_foot_info -->
 	<insert id="addCompanyFootInfo" parameterType="com.yuxin.wx.model.company.CompanyFootInfo" useGeneratedKeys="true" keyProperty="id">
-		insert into company_foot_info (company_id,tencent_weibo,sina_weibo,logo_type,logo_pic,logo_text,
-		copyright,overview,icp_no,tencent_weibo_flag,sina_weibo_flag,tencent_wechat_flag,
-		tencent_wechat,themes,security_regno,security_ico,security_link,contact_number ) 
-		(select #{companyId},tencent_weibo,sina_weibo,logo_type,logo_pic,logo_text,
-		copyright,overview,icp_no,tencent_weibo_flag,sina_weibo_flag,tencent_wechat_flag,
-		tencent_wechat,themes,security_regno,security_ico,security_link,contact_number from company_foot_info where company_id=#{zhuCompanyId})
+
+		insert into company_foot_info
+		(company_id,copyright,icp_no,themes,security_regno,security_ico,security_link,contact_number )
+		(select #{companyId},copyright,icp_no,themes,security_regno,security_ico,security_link,contact_number
+		from company_foot_info where company_id=#{zhuCompanyId})
+
 	</insert>
 	
 	<!-- company_function_set -->
@@ -1603,10 +1604,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- sys_page_head_foot -->
 	<insert id="addSysPageHeadFoot" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_page_head_foot (company_id,school_id,name,url,parent_id,page_type,file_url,content,
-		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type) 
+		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type)
 		(select #{companyId},#{schoolId},name,url,parent_id,page_type,file_url,content,
 		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type
-		from sys_page_head_foot where company_id=#{zhuCompanyId})
+		from sys_page_head_foot where company_id=#{zhuCompanyId} and page_type != 'foot')
 	</insert>
 	<!-- company_service_static -->
 	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">

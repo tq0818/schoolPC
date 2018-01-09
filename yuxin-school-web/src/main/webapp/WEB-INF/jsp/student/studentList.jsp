@@ -76,22 +76,22 @@
 				</select>
 			</c:if>
 			<c:if test="${roleType eq 2}">
-				<select name="EduSteps" id="EduSteps">
+				<select name="EduSteps" id="EduSteps" onchange="student.changeLevel(this);">
 					<option value="">请选择学段</option>
 					<c:forEach items="${eduStepGLY}" var="gly">
 						<option value="${gly.eduStep}" >${gly.eduStepName}</option>
 					</c:forEach>
 				</select>
-				<select name="EduYears" id="EduYears">
+				<select name="EduYears" id="EduYears" onchange="student.changeGrade(this);">
 					<option value="">请选择年级</option>
 					<c:forEach items="${eduYearGLY}" var="gly">
-						<option value="${gly.eduYear}" >${gly.eduYear}</option>
+						<option value="${gly.eduYear}" class="${gly.eduStep}" style="display:none;">${gly.eduYear}</option>
 					</c:forEach>
 				</select>
 				<select name="EduClasses" id="EduClasses">
 					<option value="">请选择班级</option>
 					<c:forEach items="${eduClassGLY}" var="gly">
-						<option value="${gly.eduClass}">${gly.eduClass}班</option>
+						<option value="${gly.eduClass}" class="${gly.eduYear}" style="display:none;">${gly.eduClass}班</option>
 					</c:forEach>
 				</select>
 			</c:if>

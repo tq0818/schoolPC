@@ -629,7 +629,7 @@ public class AuthPrivilegeController {
 	public Users checkUserNameOrMobile(String userName,Integer curcompanyId,HttpServletRequest request){
  		Users users=new Users();
  		if(null!=userName&&!"".equals(userName)){
- 			if(ParameterUtil.isUserName(userName)||ParameterUtil.isMobilePhone(userName)){
+ 			if(ParameterUtil.newUserNameRule(userName)||ParameterUtil.isMobilePhone(userName)){
  				Users u=new Users();
  				u.setUsername(userName);
  				List<Users> arr=userServiceImpl.queryuserByUserNameOrMobile(u);

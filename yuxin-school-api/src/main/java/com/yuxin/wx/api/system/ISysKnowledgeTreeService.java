@@ -35,5 +35,5 @@ public interface ISysKnowledgeTreeService {
      * @param sysKnowledgeTree
      * @return
      */
-    List<ClassModuleLesson> removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
+    void removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
 }

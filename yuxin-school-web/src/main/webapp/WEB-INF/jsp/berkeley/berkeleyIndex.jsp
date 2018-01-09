@@ -76,9 +76,9 @@
                 <c:forEach items="${companyList.data}" var="cp" varStatus="i">
                 <tr>
                 	<td>${i.index+1}</td>
-                    <td>${cp.eduAreaSchool}111</td>
+                    <td>${cp.eduAreaSchool}</td>
                     <td>${cp.companyName}</td>
-                    <td>${cp.eduArea}</td>
+                    <td>${cp.eduArea+}</td>
                     <td>${cp.eduArea}</td>
                     <td>${cp.registStudentCounts}</td>
                     <td>${cp.classTypeCounts}</td>

@@ -23,7 +23,7 @@
     </span>
 </p>
  <p class="c none member_settings">
-     <span class="c-title">会员课程</span>
+<%--     <span class="c-title">会员课程</span>
      <span class="c-content">
      	<c:choose>
        		<c:when test="${classType.memberFlag==1 }">
@@ -35,7 +35,7 @@
          		 <input type="radio" value="1" name="memberFlag" style="margin-left: 30px"/> 加入会员课程
        		</c:otherwise>
        </c:choose>
-     </span>
+     </span>--%>
  </p>
  <c:choose>
 	<c:when test="${classType.memberFlag==1 }">

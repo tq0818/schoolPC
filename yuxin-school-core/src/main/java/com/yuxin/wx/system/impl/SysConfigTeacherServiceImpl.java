@@ -1,10 +1,6 @@
 package com.yuxin.wx.system.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -488,9 +484,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         Integer teacherID = sysConfigTeacher.getId();
         Integer delFlag = sysConfigTeacher.getDelFlag();
         
-
+        Integer companyId=sysConfigTeacher.getCompanyId();
+        Map<String,Integer>  map= new HashMap<String,Integer>();
+        map.put("teacherId",teacherID);
+        map.put("companyId" , companyId);
         SysConfigTeacher findT = sysConfigTeacherMapper.findById(teacherID);
-        sysConfigTeacherLessonMapper.deleteByTeacherId(teacherID);
+        sysConfigTeacherLessonMapper.deleteByTeacherIdNew(map);
 
         if (delFlag != null && delFlag.equals(1)) {
             SysConfigTeacher delTeacher = new SysConfigTeacher();

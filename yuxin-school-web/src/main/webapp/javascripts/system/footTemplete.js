@@ -603,6 +603,7 @@ function isSelf(){
 function query_footShowContent(){
 	var id=$("#configId").val();
 	var showPageType=$("#showPageType").val();
+	var CURRENT_IS_AREA = $("#CURRENT_IS_AREA").val();
 	$("#foot_showContents").html("");
 	$.ajax({
         type:"post",
@@ -614,9 +615,17 @@ function query_footShowContent(){
         		if(result.length<=0){
         			html=' <a href="#">关于我们</a><a href="#">联系我们</a><a href="#">隐私条款</a><a href="#">法律声明</a>';
         		}else{
-        			$.each(result,function(i,item){
-                		html+='<a href="#">'+item.name+'</a>';
-                	});
+        			if(CURRENT_IS_AREA == 0){
+        				$.each(result,function(i,item){
+        						html+='<a href="#">'+item.name+'</a>';
+        				});
+        			}else{
+        				$.each(result,function(i,item){
+        					if(item.url != '' && item.url != 'http://'){
+        						html+='<a href="#">'+item.name+'</a>';
+        					}
+        				});
+        			}
         		}
         	}else if(showPageType=="sys_simple"){
         		if(result.length<=0){
@@ -624,19 +633,36 @@ function query_footShowContent(){
         				 '<a href="#">合作伙伴</a>|<a href="#">免责声明</a>|<a href="#">招贤纳士</a>|'+
         				 '<a href="#">联系方式</a>';
         		}else{
-        			$.each(result,function(i,item){
-                		html+='<a href="#">'+item.name+'</a>|';
-                	});
-        			html=html.substring(0,html.length-1);
+        			if(CURRENT_IS_AREA == 0){
+        				$.each(result,function(i,item){
+        						html+='<a href="#">'+item.name+'</a>';
+        				});
+        				html=html.substring(0,html.length-1);
+        			}else{
+        				$.each(result,function(i,item){
+        					if(item.url != '' && item.url != 'http://'){
+        						html+='<a href="#">'+item.name+'</a>';
+        					}
+        				});
+        				html=html.substring(0,html.length-1);
+        			}
         		}
         	}else{
         		if(result.length<=0){
         			html='<a href="#">关于我们</a><a href="#">隐私条款</a><a href="#">产品声明</a><a href="#">法律声明</a>'+
         			'<a href="#">服务报价</a><a href="#">帮助中心</a><a href="#">成功案例</a><a href="#">联系我们</a>';
         		}else{
-        			$.each(result,function(i,item){
-                		html+='<a href="#">'+item.name+'</a>';
-                	});
+        			if(CURRENT_IS_AREA == 0){
+        				$.each(result,function(i,item){
+        						html+='<a href="#">'+item.name+'</a>';
+        				});
+        			}else{
+        				$.each(result,function(i,item){
+        					if(item.url != '' && item.url != 'http://'){
+        						html+='<a href="#">'+item.name+'</a>';
+        					}
+        				});
+        			}
         		}
         	}
         	$("#foot_showContents").append(html);

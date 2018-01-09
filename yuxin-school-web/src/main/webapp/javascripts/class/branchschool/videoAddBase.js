@@ -507,7 +507,7 @@
 			});
 			
 			//点击节，显示节详情
-			$(".t-c-l").on("click.li.left",".class-son",function(){
+/*			$(".t-c-l").on("click.li.left",".class-son",function(){
 				var data={};
 				if($(this).find('span').attr('class') == 'add-xiaojie'){
 					data.lectureOrder=$(this).index();
@@ -516,7 +516,7 @@
 					$this.showTest($(this));
 				}
 				
-			});
+			});*/
 			
 			$('.q-type-choice').on('click',function(){
 				setTimeout(function () {

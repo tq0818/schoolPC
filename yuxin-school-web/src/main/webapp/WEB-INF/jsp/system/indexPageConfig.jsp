@@ -18,7 +18,6 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"></jsp:include>
-
 	<div class="u-wrap operate">
 	    <div class="operate_live_heading" style="display:none">
 	    </div>
@@ -44,7 +43,7 @@
 	                        <span class="w9">拖动</span>
 	                    </dt>
 	                </dl>
-	                <div class="addAdverBut">
+	                <div class="addAdverBut" style="display:none">
 	                    <button><i class="iconfont">&#xe652;</i>添加广告</button>
 	                </div>
 	            </div>

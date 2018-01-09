@@ -914,7 +914,7 @@
 				if (diffTime<=30) {
 					$.msg("支持手机端需提前半个小时创建！");
 					return;
-				} 
+				}
 			}
 			data.classtypeId=$("#classtypeId").val();
 			data.itemOneId=$("#itemOneId").val();
@@ -984,6 +984,7 @@
 					}
 				}
 			 });
+            window.location.reload();
 			},
 			changefaceTitle : function(){
 				var lable=$.cookie("ltype");

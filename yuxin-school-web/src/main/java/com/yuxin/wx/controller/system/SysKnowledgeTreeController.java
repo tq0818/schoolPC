@@ -3,6 +3,7 @@ package com.yuxin.wx.controller.system;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.classes.IClassTypeService;
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
@@ -10,6 +11,7 @@ import com.yuxin.wx.common.BaseWebController;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
@@ -52,6 +54,9 @@ public class SysKnowledgeTreeController extends BaseWebController {
     @Autowired
     private IClassModuleLessonService classModuleLessonServiceImpl;
 
+    @Autowired
+    private ICompanyService companyServiceImpl;
+
     /**
      * 知识树首页跳转
      * @param model
@@ -77,6 +82,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
     public JSONObject knowledgeTreeList(SysKnowledgeTree sysKnowledgeTree) {
         JSONObject jsonObject = new JSONObject();
         //获取知识树节点ID
+        sysKnowledgeTree.setCompanyId(WebUtils.getCurrentCompanyId());
         List<SysKnowledgeTree> sysKnowledgeTreeList = sysKnowledgeTreeServiceImpl.findKnoledgeTreeByPapam(sysKnowledgeTree);
         String sysKnowledgeTreeIds = "";
         if(sysKnowledgeTreeList!=null && sysKnowledgeTreeList.size()>0){
@@ -98,6 +104,9 @@ public class SysKnowledgeTreeController extends BaseWebController {
         classType.setPageSize(sysKnowledgeTree.getPageSize());
         PageFinder<ClassTypeVo> page = classTypeServiceImpl.findClassTypesByPage(classType);
         jsonObject.put("data", page);
+
+        Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
+        jsonObject.put("company", company);
         return jsonObject;
     }
 
@@ -115,7 +124,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
     }
 
     /**
-     * 知识树预览
+     * 清空知识树节点
      * @return
      */
     @ResponseBody
@@ -123,8 +132,10 @@ public class SysKnowledgeTreeController extends BaseWebController {
     public String removeKnowledge(SysKnowledgeTree sysKnowledgeTree) {
         try{
             //知识树节点清除
+            sysKnowledgeTree.setCompanyId(WebUtils.getCurrentCompanyId());
             sysKnowledgeTreeServiceImpl.removeKnowledge(sysKnowledgeTree);
         }catch(Exception e){
+            e.printStackTrace();
             return "false";
         }
         return "true";

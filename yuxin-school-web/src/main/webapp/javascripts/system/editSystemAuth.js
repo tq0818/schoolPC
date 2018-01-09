@@ -380,14 +380,12 @@
                                 success : function(result) {
                                     if(!result){
                                         chong++;
-                                        console.log('aa');
                                     }
                                 }
                             });
 						}
 						if(chong>0){
 							//$.msg("手机号已存在");
-							 console.log('bb');
 							$('#mobile-error').text("手机号已存在");
 							evt.preventDefault();
                             $(".loading-bg").hide();

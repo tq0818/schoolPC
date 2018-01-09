@@ -122,7 +122,6 @@ function closeBtn(companyId,itemCode,delFlag) {
                         	document.getElementById("schoolProperties").disabled=true;
                             document.getElementById("selectSchoolProperties").style.display="none";
                             document.getElementById("selectSchoolProperties1").style.display="";
-
                     	}else{
                             document.getElementById("selectSchoolProperties").style.display="";
                             document.getElementById("selectSchoolProperties1").style.display="none";

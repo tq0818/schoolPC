@@ -1221,10 +1221,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 						#{item.eduAreaSchool}
 				</foreach>
 			)
-			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
-	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
-	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${search.companyName}%'</if>
-	 		<if test="eduArea != null and eduArea != ''">and ss.item_code = #{search.eduArea}</if>
+			<if test="search.startTime != null and search.startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
+	 		<if test="search.endTime != null and search.endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
+	 		<if test="search.companyName != null and search.companyName != ''">and co.company_name like '%${search.companyName}%'</if>
+	 		<if test="search.eduArea != null and search.eduArea != ''">and ss.item_code = #{search.eduArea}</if>
 			GROUP BY co.id
 			union
 			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
@@ -1244,8 +1244,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 						#{item.eduAreaSchool}
 				</foreach>
 			)
-			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
-	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
+			<if test="search.startTime != null and search.startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${search.startTime}'</if>
+	 		<if test="search.endTime != null and search.endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${search.endTime}'</if>
 	 		<if test="search.companyName != null and search.companyName != ''">and co.company_name like '%${search.companyName}%'</if>
 	 		<if test="search.eduArea != null and search.eduArea != ''">and pss.item_code = #{search.eduArea}</if>
 	 		GROUP BY co.id

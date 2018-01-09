@@ -491,6 +491,24 @@ public class ClassTypeOfOtherSchoolContorller {
         CompanyFunctionSet.setFunctionCode("STUDENT_GROUP");
         List<CompanyFunctionSet> CompanyFunctionSetList = companyFunctionSetServiceImpl.findCompanyFunctionSetByPage(CompanyFunctionSet);
         CompanyFunctionSet groupsearch = CompanyFunctionSetList != null && CompanyFunctionSetList.size() > 0 ? CompanyFunctionSetList.get(0) : null;
+        
+      //查询所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", area);	
+		//学段
+		areaDict.setDictCode("EDU_STEP");
+		List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+		model.addAttribute("steps", steps);
+		//年份列表
+		List<Integer> years = new ArrayList<Integer>();
+		int curYear = DateUtil.getCurYear();
+		for(int year = 0;year<12;year++){
+			years.add(curYear-year);
+		}
+		model.addAttribute( "years", years);
+		
         if (null != groupsearch) {
             model.addAttribute("sgOpen", groupsearch.getStatus());
         }

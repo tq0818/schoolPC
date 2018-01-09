@@ -1508,12 +1508,12 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</insert>
 	<!-- company_foot_info -->
 	<insert id="addCompanyFootInfo" parameterType="com.yuxin.wx.model.company.CompanyFootInfo" useGeneratedKeys="true" keyProperty="id">
-		insert into company_foot_info (company_id,tencent_weibo,sina_weibo,logo_type,logo_pic,logo_text,
-		copyright,overview,icp_no,tencent_weibo_flag,sina_weibo_flag,tencent_wechat_flag,
-		tencent_wechat,themes,security_regno,security_ico,security_link,contact_number ) 
-		(select #{companyId},tencent_weibo,sina_weibo,logo_type,logo_pic,logo_text,
-		copyright,overview,icp_no,tencent_weibo_flag,sina_weibo_flag,tencent_wechat_flag,
-		tencent_wechat,themes,security_regno,security_ico,security_link,contact_number from company_foot_info where company_id=#{zhuCompanyId})
+
+		insert into company_foot_info
+		(company_id,copyright,icp_no,themes,security_regno,security_ico,security_link,contact_number )
+		(select #{companyId},copyright,icp_no,themes,security_regno,security_ico,security_link,contact_number
+		from company_foot_info where company_id=#{zhuCompanyId})
+
 	</insert>
 	
 	<!-- company_function_set -->
@@ -1604,10 +1604,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- sys_page_head_foot -->
 	<insert id="addSysPageHeadFoot" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_page_head_foot (company_id,school_id,name,url,parent_id,page_type,file_url,content,
-		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type) 
+		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type)
 		(select #{companyId},#{schoolId},name,url,parent_id,page_type,file_url,content,
 		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type
-		from sys_page_head_foot where company_id=#{zhuCompanyId})
+		from sys_page_head_foot where company_id=#{zhuCompanyId} and page_type != 'foot')
 	</insert>
 	<!-- company_service_static -->
 	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">

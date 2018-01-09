@@ -1249,17 +1249,17 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="search.companyName != null and search.companyName != ''">and co.company_name like '%${search.companyName}%'</if>
 	 		<if test="search.eduArea != null and search.eduArea != ''">and pss.item_code = #{search.eduArea}</if>
 	 		GROUP BY co.id
-		) su where su.id is not null
-		limit #{search.firstIndex},#{search.pageSize}) sss
+		) su where su.id is not null) sss
 		order by  
-		 <if test="search.paixu != null and search.paixu == 1">sss.registTime ASC </if> 
-		 <if test="search.paixu != null and search.paixu == 2">sss.registTime DESC </if> 
-		 <if test="search.paixu != null and search.paixu == 3">sss.registStudentCounts ASC </if> 
+		 <if test="search.paixu != null and search.paixu == 1">sss.registTime ASC </if>
+		 <if test="search.paixu != null and search.paixu == 2">sss.registTime DESC </if>
+		 <if test="search.paixu != null and search.paixu == 3">sss.registStudentCounts ASC </if>
 		<if test="search.paixu != null and search.paixu == 4">sss.registStudentCounts  DESC  </if>
-		<if test="search.paixu != null and search.paixu == 5">sss.classCounts ASC </if> 
-		 <if test="search.paixu != null and search.paixu == 6">sss.classCounts DESC </if> 
-		 <if test="search.paixu != null and search.paixu == 7">sss.classTypeCounts ASC </if> 
-		 <if test="search.paixu != null and search.paixu == 8">sss.classTypeCounts DESC </if> 
+		<if test="search.paixu != null and search.paixu == 5">sss.classCounts ASC </if>
+		 <if test="search.paixu != null and search.paixu == 6">sss.classCounts DESC </if>
+		 <if test="search.paixu != null and search.paixu == 7">sss.classTypeCounts ASC </if>
+		 <if test="search.paixu != null and search.paixu == 8">sss.classTypeCounts DESC </if>
+		limit #{search.firstIndex},#{search.pageSize}
 	</select>
 	
 	<!--查询已有分校所在区域-->
@@ -1319,6 +1319,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			<if test="startTime != null and startTime != ''">and date_format(regist_time,"%Y-%m-%d") <![CDATA[>=]]>'${startTime}'</if>
 	 		<if test="endTime != null and endTime != ''">and date_format(regist_time,"%Y-%m-%d") <![CDATA[<=]]>'${endTime}'</if>
 	 		<if test="companyName != null and companyName != ''">and company_name like '%${companyName}%'</if>
+
 	</select>
 	
 	<select id="queryCompanyVoListByConditionCount" parameterType="com.yuxin.wx.model.company.CompanyVo" resultType="Integer">

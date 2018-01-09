@@ -133,7 +133,7 @@ a:hover {
 					</select>
 				</span>
 				<br>
-				<span class="sc-c-content" style="position: relative; left: 84px;">
+				<span class="sc-c-content" style="position: relative; left: 84px;display: none">
 					<span style="width: 70px;">学科小类</span>
 					<select id="itemSecondId" style="width: 120px;">
 					</select>

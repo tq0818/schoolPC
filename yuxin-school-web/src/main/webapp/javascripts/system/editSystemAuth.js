@@ -396,6 +396,7 @@
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
+                                console.log(222);
 								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();

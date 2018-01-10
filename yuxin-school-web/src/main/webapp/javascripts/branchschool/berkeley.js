@@ -20,6 +20,8 @@ function closeBtn(companyId,itemCode,delFlag) {
 }
 
 (function ($) {
+	//记录排序规则
+	var recordPaixu =null;
 
     var company = {
         init: function () {
@@ -158,6 +160,7 @@ function closeBtn(companyId,itemCode,delFlag) {
         	$this.search(1,null);
         },
         search: function (page,paixu) {
+            recordPaixu=paixu;
             var $this = this;
             var data = {};
             data.eduArea=$("#eduArea").val();
@@ -237,7 +240,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                                     num_edge_entries: 1,
                                     callback: function (page, jq) {
                                         var pageNo = page + 1;
-                                        $this.search(pageNo,null);
+                                        $this.search(pageNo,recordPaixu);
                                     }
                                 });
                             $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');

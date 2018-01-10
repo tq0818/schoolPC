@@ -1,7 +1,7 @@
 function forwardCourse(){
 	var id=$("#courseHeadPri").val();
 	if(id==1){
-		window.location.href=rootPath+"/classManage/manageCourseValidaty";
+		window.location.href=rootPath+"/classManage/signup_news";
 	}
 }
 function forwardnetSchool(){

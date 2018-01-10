@@ -903,9 +903,10 @@
 								<li class="clear">
 									<div class="left" style="width: 200px;">
 										<div>
-											<i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i>
+											<!-- <i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i> -->
+											<a class="icons i7 active" style="cursor:pointer;" href="<%=rootPath%>/administrativeClassManager/administrativeClass"></a>
 											<p class="s-name">
-												<a href="javascript:void(0);" onclick="forwardTiku();"
+												<a href="<%=rootPath%>/administrativeClassManager/administrativeClass"
 												   style="text-decoration: none;">行政班设置</a>
 												<c:if test="${!empty manganger }">
 													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务"

@@ -1145,7 +1145,7 @@
 								</c:if>
 							</li>
 						</c:if> --%>
-						<%-- <c:if test="${requestScope.SERVICE_QUESTION_ANSWER == 'SERVICE_QUESTION_ANSWER' }">
+						 <c:if test="${requestScope.SERVICE_QUESTION_ANSWER == 'SERVICE_QUESTION_ANSWER' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -1166,7 +1166,7 @@
 									</p>
 								</c:if>
 							</li>
-						</c:if> --%>
+						</c:if>
 						<%-- <c:if test="${requestScope.SERVICE_STAGE == 'SERVICE_STAGE' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">

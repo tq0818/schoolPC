@@ -915,18 +915,16 @@
 										</div>
 									</div>
 									<div class="right server-infos">
-											<%--<p class="infos">行政班设置</p>--%>
-											<%--<p class="infos">随堂考试</p>--%>
-											<%--<p class="infos">模拟真实考题</p>--%>
+											<%--<p class="infos">行政班设置</p>
+											<p class="infos">随堂考试</p>
+											<p class="infos">模拟真实考题</p>--%>
 									</div>
-										<%-- <shiro:hasPermission name="administrative_class"> --%>
+										 <%--<shiro:hasPermission name="administrative_class">--%>
 									<p class="btns isok" style="height:28px">
 										<a href="<%=rootPath%>/administrativeClassManager/administrativeClass"
 										   class="btn btn-sm btn-default">行政班设置</a>
-										<a href="javascript:void(0);" onclick="forwardClassSet();"
-											class="btn btn-sm btn-default">行政班设置2</a>
 									</p>
-										<%-- </shiro:hasPermission> --%>
+										 <%--</shiro:hasPermission>--%>
 								</li>
 							</c:if>
 						</ul>

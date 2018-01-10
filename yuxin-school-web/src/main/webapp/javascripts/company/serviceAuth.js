@@ -60,8 +60,8 @@ function forwardPaySet(){
 }
 function forwardClassSet(){
 	var id=$("#classSet").val();
-alert(1);
-//	window.location.href=rootPath+"/administrativeClassManager/administrativeClass";
+
+	window.location.href=rootPath+"/administrativeClassManager/administrativeClass";
 
 }
 function forwardQuest(){

@@ -181,7 +181,7 @@ public class ClassTypeOfBranchSchoolContorller {
 	    String courseType = req.getParameter("courseType");
 	    if("1".equals(courseType)){
 			queryParams.put("liveFlag", "1");
-		}else if("0".equals(courseType)){
+		}else if("2".equals(courseType)){
 			queryParams.put("videoFlag", "1");
 		}
     	if(StringUtils.isNotEmpty(req.getParameter("name"))){

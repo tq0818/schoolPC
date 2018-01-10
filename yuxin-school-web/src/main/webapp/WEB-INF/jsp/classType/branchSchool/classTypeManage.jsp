@@ -87,6 +87,13 @@
                     <option value="0">已下架</option>
                 </select>
             </li>
+            <li>
+                <select name="courseType" id="courseType" class="courseType">
+                    <option value="">授课方式</option>
+                    <option value="1">直播</option>
+                    <option value="2">录播</option>
+                </select>
+            </li>
         </ul>
         <span class="chooseData">添加时间 :</span>
         <span>

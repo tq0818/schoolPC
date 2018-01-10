@@ -903,10 +903,9 @@
 								<li class="clear">
 									<div class="left" style="width: 200px;">
 										<div>
-											<!-- <i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i> -->
-											<a class="icons i7 active" style="cursor:pointer;" href="<%=rootPath%>/administrativeClassManager/administrativeClass"></a>
+											<i class="icons i7 active" style="cursor:pointer;" onclick="forwardClassSet();"></i>
 											<p class="s-name">
-												<a href="<%=rootPath%>/administrativeClassManager/administrativeClass"
+												<a href="javascript:void(0);" onclick="forwardClassSet();"
 												   style="text-decoration: none;">行政班设置</a>
 												<c:if test="${!empty manganger }">
 													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务"
@@ -920,12 +919,14 @@
 											<%--<p class="infos">随堂考试</p>--%>
 											<%--<p class="infos">模拟真实考题</p>--%>
 									</div>
-										<%--<shiro:hasPermission name="administrative_class">--%>
+										<%-- <shiro:hasPermission name="administrative_class"> --%>
 									<p class="btns isok" style="height:28px">
 										<a href="<%=rootPath%>/administrativeClassManager/administrativeClass"
 										   class="btn btn-sm btn-default">行政班设置</a>
+										<a href="javascript:void(0);" onclick="forwardClassSet();"
+											class="btn btn-sm btn-default">行政班设置2</a>
 									</p>
-										<%--</shiro:hasPermission>--%>
+										<%-- </shiro:hasPermission> --%>
 								</li>
 							</c:if>
 						</ul>
@@ -1481,9 +1482,9 @@
 								<li class="clear">
 									<div class="left" style="width: 200px;">
 										<div>
-											<i class="icons i7 active disable" style="cursor:pointer;" onclick="forwardTiku();"></i>
+											<i class="icons i7 active disable" style="cursor:pointer;" onclick="forwardClassSet();"></i>
 											<p class="s-name">
-												<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
+												<a href="javascript:void(0);" onclick="forwardClassSet();" style="text-decoration: none;">行政班设置</a>
 												<c:if test="${!empty manganger }">
 													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
 												</c:if>

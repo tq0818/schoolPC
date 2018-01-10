@@ -58,6 +58,12 @@ function forwardPaySet(){
 		window.location.href=rootPath+"/payConfig/showPayChoice";
 	}
 }
+function forwardClassSet(){
+	var id=$("#classSet").val();
+alert(1);
+//	window.location.href=rootPath+"/administrativeClassManager/administrativeClass";
+
+}
 function forwardQuest(){
 	var id=$("#questServicePri").val();
 	if(id==1){

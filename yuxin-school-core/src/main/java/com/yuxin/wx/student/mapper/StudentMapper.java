@@ -313,6 +313,12 @@ public interface StudentMapper extends BaseMapper<Student> {
 	 */
 	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
 	/**
+	 * 查询任课教师信息
+	 * @param ets 
+	 * @return
+	 */
+	List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets);
+	/**
 	 * 
 	 * @author jishangyang 2017年12月20日 下午5:57:30
 	 * @Method: findClassByRKTeacherId 

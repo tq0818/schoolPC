@@ -519,7 +519,7 @@
 		join sys_config_item i on i.item_code=f.item_code and i.company_id=f.company_id
 		join sys_school_item_relation r on i.id=r.item_id
 		join company c on c.id=i.company_id
-		where f.level = #{level} and f.origin_type=0 and f.company_id=#{companyId}
+		where f.level = #{level} and f.origin_type=0
 			and r.del_flag=0 and i.status = 1 and i.parent_code=#{parentCode}
 			<if test="schoolCode != null and schoolCode != ''">
 				and c.edu_area_school=#{schoolCode}

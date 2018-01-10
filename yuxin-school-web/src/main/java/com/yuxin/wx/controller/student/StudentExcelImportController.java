@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +29,12 @@ import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.company.ICompanyRegisterConfigService;
 import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.CheckImportUtil;
 import com.yuxin.wx.utils.FileUploadUtil;
 import com.yuxin.wx.utils.ImportExcl;
@@ -225,6 +229,28 @@ public class StudentExcelImportController {
 	 		String isArea=WebUtils.getCurrentIsArea();
 			Map<String,String>isAreaHava=new HashMap<String, String>();//存放对比区域
 			Map<String,String>isSchoolHava=new HashMap<String, String>();//存放对比学校
+			Map<String,Object>isClassHava=new HashMap<String,Object>();//存放对比班级
+			Subject subject = SecurityUtils.getSubject();
+			if (subject.hasRole("班主任") ){
+				EduMasterClass ets =new EduMasterClass();
+				Users users=WebUtils.getCurrentUser();
+				if(users!=null)
+					ets.setUserId(String.valueOf(users.getId()));
+	    		List<EduMasterClass> eduMasterClassList=studentServiceImpl.findClassByTeacherId(ets);
+	    		if(eduMasterClassList!=null&&eduMasterClassList.size()>0){
+	    			EduMasterClass eduMasterClass=eduMasterClassList.get(0);
+	    			if(eduMasterClass!=null){
+	    				if("STEP_01".equals(eduMasterClass.getEduStep())){
+	    					eduMasterClass.setEduStep("小学");
+	    				}else if("STEP_02".equals(eduMasterClass.getEduStep())){
+	    					eduMasterClass.setEduStep("初中中学");
+	    				}else if("STEP_03".equals(eduMasterClass.getEduStep())){
+	    					eduMasterClass.setEduStep("高中中学");
+	    				}
+	    				isClassHava.put(eduMasterClass.getEduSchool()+"_"+eduMasterClass.getEduStep()+"_"+eduMasterClass.getEduYear()+"_"+eduMasterClass.getEduClass(),eduMasterClass);
+	    			}
+	    		}
+			}
 			if("0".equals(isArea)){
 				isAreaHava.putAll(eduAreaMap);
 				isSchoolHava.putAll(eduSchoolMap);
@@ -367,11 +393,14 @@ public class StudentExcelImportController {
 //					}
 //				}
 				//学校
-				if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(list.get(i).getEduSchool())){
+				Student student=list.get(i);
+				if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(student.getEduSchool())){
 					error.add("第" + (i + 2) + "行中学校不存在!");
 				}else{
-					if(list.get(i).getEduSchool() != null && !isSchoolHava.containsKey(list.get(i).getEduSchool())){
+					if(list.get(i).getEduSchool() != null && !isSchoolHava.containsKey(student.getEduSchool())){
 						error.add("第" + (i + 2) + "行中无权输入该学校!");
+					}else if(subject.hasRole("班主任")&&!isClassHava.containsKey(student.getEduSchool()+"_"+student.getEduStep()+"_"+student.getEduYear()+"_"+student.getEduClass())){
+						error.add("第" + (i + 2) + "行中无权输入该班级!");
 					}else{
 						//反推  给一条信息添加学区编号
 						int parentId=0;

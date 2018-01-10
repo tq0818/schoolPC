@@ -138,7 +138,8 @@
                         </select>
                         </span>
                     <span id="selectSchoolProperties1" style="display: none">
-                        <input type="text" name="schoolProperties1" value="无" readonly="true">
+                    	无
+                        <!-- <input type="text" name="schoolProperties1" value="无" readonly="true"> -->
                     </span>
                 </li>
                 <li>

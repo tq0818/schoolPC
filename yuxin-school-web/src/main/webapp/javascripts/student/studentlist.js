@@ -215,6 +215,34 @@
         	$("#selectCounts").val($("#selectCount").val());
         	student.search();
         },
+        changeLevel:function(obj){
+        	var levelCode=$(obj).val();
+        	$("#EduYears").find("option").each(function(){
+        		var optionClass=$(this).attr("class");
+        		$(this).attr('selected',false);
+        		if(optionClass==''||optionClass==undefined)
+        			return;
+        		if(levelCode==optionClass){
+        			$(this).attr('style','display:block');
+        		}else{
+        			$(this).attr('style','display:none');
+        		}
+        	});
+        },
+        changeGrade:function(obj){
+        	var gradeCode=$(obj).val();
+        	$("#EduClasses").find("option").each(function(){
+        		var optionClass=$(this).attr("class");
+        		$(this).attr('selected',false);
+        		if(optionClass==''||optionClass==undefined)
+        			return;
+        		if(gradeCode==optionClass){
+        			$(this).attr('style','display:block');
+        		}else{
+        			$(this).attr('style','display:none');
+        		}
+        	});
+        },
         search: function (page) {
             var $this = this;
             var data = {};

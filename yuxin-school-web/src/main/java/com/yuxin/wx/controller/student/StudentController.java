@@ -286,7 +286,7 @@ public class StudentController {
                 years.add(curYear-year);
             }
             model.addAttribute( "years", years);
-        	if (subject.hasRole("班主任")  ) {
+        	if (subject.hasRole("班主任")) {
         		//班主任
         		EduMasterClass ets =new EduMasterClass();
         		ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
@@ -298,15 +298,16 @@ public class StudentController {
             }else if (subject.hasRole("任课老师") ) {
             	//任课教师
             	EduMasterClass ets =new EduMasterClass();
+            	ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
         		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
         		ets.setEduStep("1");
-        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
         		ets.setEduStep("");
         		ets.setEduYear("1");
-        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
         		ets.setEduYear("");
         		ets.setEduClass("1");
-        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
         		model.addAttribute("roleType", 2);
         		model.addAttribute("eduStepGLY", eduStepGLY);
         		model.addAttribute("eduYearGLY", eduYearGLY);
@@ -468,13 +469,14 @@ public class StudentController {
             student.setCreateTime(new Date());
             student.setCreator(user.getId());
             student.setDeleteFlag(0);
+            student.setEduIdentity(0);
             String password = student.getMobile();
             if (null != student.getMobile() && !"".equals(student.getMobile())) {
                 student.setPassword(new Md5Hash(password.substring(password.length() - 6)).toHex());
             } else {
                 student.setPassword(new Md5Hash("111111").toHex());
             }
-            student.setIsInSchool(0);
+            student.setIsInSchool(1);
             studentServiceImpl.insert(student);
         }
         Integer stuId = student.getId();
@@ -993,7 +995,9 @@ public class StudentController {
                 resultList.add(student);
             }
         }
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+        sysConfigItemRelation.setCompanyId(WebUtils.getCurrentCompanyId());
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(sysConfigItemRelation);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -2871,8 +2875,12 @@ public class StudentController {
      			}
      			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
      		}else if(subject.hasRole("任课老师")){
-     			int userId=WebUtils.getCurrentUserId(request);
-     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+     			EduMasterClass ets=new EduMasterClass();
+     			ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        		List<EduMasterClass> list=studentServiceImpl.findSubjectClassByTeacherId(ets);
+//     			int userId=WebUtils.getCurrentUserId(request);
+//     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
      			if(null!=list && list.size()>1){
      				search.setRenke(list);
      			}else if(null!=list && list.size()==1){
@@ -2957,8 +2965,12 @@ public class StudentController {
      			}
      			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
      		}else if(subject.hasRole("任课老师")){
-     			int userId=WebUtils.getCurrentUserId(request);
-     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+     			EduMasterClass ets=new EduMasterClass();
+     			ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        		List<EduMasterClass> list=studentServiceImpl.findSubjectClassByTeacherId(ets);
+//     			int userId=WebUtils.getCurrentUserId(request);
+//     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
      			if(null!=list && list.size()>1){
      				search.setRenke(list);
      			}else if(null!=list && list.size()==1){

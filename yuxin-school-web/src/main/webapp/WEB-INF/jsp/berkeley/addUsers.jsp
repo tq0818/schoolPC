@@ -39,7 +39,7 @@
             <span class="line"></span>
         </div>
         <div class="users-infos">
-        <form id="saveUserForm" method="post"  onsubmit="return Form.editUserMsg();">            
+        <form id="saveUserForm" method="post">            
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>
@@ -107,6 +107,7 @@
 	                  <p class="c">
 	                    <span class="c-title">手机号&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
 	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile }"></span>
+	                    <span style="display: none" ><input id="mobile1" name="mobile1" type="text" value="${user.mobile}"></span>
 	                </p>
 	            </div>
             <div class="sm-heading">
@@ -191,7 +192,7 @@
             </div>
             <div class="t-btns">
                 <p class="text-center">
-                    <input type="submit" class="btn btn-primary" value="保存"></input>
+                    <input type="submit" class="btn btn-primary" value="保存" onclick="return Form.editUserMsg(event);"/>
                     <a href="javascript:history.go(-1);" class="btn btn-default">取消</a>
                 </p>
             </div>

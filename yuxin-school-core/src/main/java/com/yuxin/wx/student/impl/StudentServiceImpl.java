@@ -1824,6 +1824,12 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	public List<EduMasterClass> findClassByTeacherId(EduMasterClass ets) {
 		return studentMapper.findClassByTeacherId(ets);
 	}
+	
+	@Override
+	public List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets) {
+		return studentMapper.findSubjectClassByTeacherId(ets);
+	}
+
 	@Override
 	public List<EduMasterClass> findClassByRKTeacherId(Integer id) {
 		return studentMapper.findClassByRKTeacherId(id);

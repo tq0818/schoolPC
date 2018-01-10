@@ -26,6 +26,11 @@
             margin-right: 11px;
         }
 
+        select{
+            width: 100px;
+        }
+
+
     </style>
     <%--tob--%>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />

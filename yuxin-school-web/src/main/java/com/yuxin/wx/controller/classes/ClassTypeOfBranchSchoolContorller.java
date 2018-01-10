@@ -178,6 +178,12 @@ public class ClassTypeOfBranchSchoolContorller {
     	queryParams.put("secondItemCode", req.getParameter("secondItemCode"));
     	queryParams.put("thirdItemCode", req.getParameter("thirdItemCode"));
     	queryParams.put("cddsStatus", req.getParameter("cddsStatus"));
+	    String courseType = req.getParameter("courseType");
+	    if("1".equals(courseType)){
+			queryParams.put("liveFlag", "1");
+		}else if("0".equals(courseType)){
+			queryParams.put("videoFlag", "1");
+		}
     	if(StringUtils.isNotEmpty(req.getParameter("name"))){
     		queryParams.put("name", req.getParameter("name").trim());
     	}

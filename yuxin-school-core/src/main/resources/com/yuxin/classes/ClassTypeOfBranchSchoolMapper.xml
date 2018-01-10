@@ -474,6 +474,12 @@
 			<if test="endTime != null and endTime != ''">
 				<![CDATA[and ct.create_time <=#{endTime} ]]>
 			</if>
+			<if test="liveFlag != null and liveFlag != ''">
+				and ct.live_flag=1
+			</if>
+			<if test="videoFlag != null and videoFlag != ''">
+				and ct.video_flag=1
+			</if>
 			ORDER BY ct.create_time desc
 			limit #{firstIndex},#{pageSize}
 	</select>
@@ -510,6 +516,12 @@
 			</if>
 			<if test="endTime != null and endTime != ''">
 				<![CDATA[and ct.create_time <=#{endTime} ]]>
+			</if>
+			<if test="liveFlag != null and liveFlag != ''">
+				and ct.live_flag=1
+			</if>
+			<if test="videoFlag != null and videoFlag != ''">
+				and ct.video_flag=1
 			</if>
 	</select>
 	

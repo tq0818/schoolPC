@@ -168,15 +168,15 @@
 									</div>
 								</div>
 								<div class="right server-infos">
-									<p class="infos">导航配置</p>
-									<p class="infos">页尾设置</p>
+									<%--<p class="infos">导航配置</p>
+									<p class="infos">页尾设置</p>--%>
 									<p class="infos">轮播图设置</p>
 								</div>
 								<p class="btns isok">
-									<a href="<%=rootPath %>/microSchool/gotoNavigationConfig"
+									<%--<a href="<%=rootPath %>/microSchool/gotoNavigationConfig"
 									   class="btn btn-sm btn-default micro-set">导航配置</a>
 									<a href="<%=rootPath %>/microSchool/gotoFooterConfig"
-									   class="btn btn-sm btn-default micro-set">页尾设置</a>
+									   class="btn btn-sm btn-default micro-set">页尾设置</a>--%>
 									<a href="<%=rootPath %>/microSchool/gotoCarouselFigureConfig"
 									   class="btn btn-sm btn-default micro-set">轮播图设置</a>
 								</p>
@@ -1314,8 +1314,8 @@
 			
 			                    </div>
 			                    <div class="right server-infos">
-			                        <p class="infos">导航配置</p>
-		                         	<p class="infos">页尾设置</p>
+			                        <%--<p class="infos">导航配置</p>
+		                         	<p class="infos">页尾设置</p>--%>
 		                        	<p class="infos">轮播图设置</p>
 			                    </div>
 			                    <%--<c:if test="${!empty manganger }">--%>

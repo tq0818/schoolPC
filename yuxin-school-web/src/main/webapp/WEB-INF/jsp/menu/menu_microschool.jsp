@@ -19,8 +19,8 @@
         	<span class="iconfont return-pic hcancle">&#xe650;</span>
         </div>
 	    <ul id="course_manage" class="system_managelist">
-            	<li class="subentry" code="microSchool_navigationConfig" mark="/microSchool/gotoNavigationConfig"><span>导航配置</li>
-            	<li class="subentry" code="microSchool_footerConfig" mark="/microSchool/gotoFooterConfig"><span>页尾设置</li>
+            	<%--<li class="subentry" code="microSchool_navigationConfig" mark="/microSchool/gotoNavigationConfig"><span>导航配置</li>
+            	<li class="subentry" code="microSchool_footerConfig" mark="/microSchool/gotoFooterConfig"><span>页尾设置</li>--%>
             	<li class="subentry" code="microSchool_carouselFigureConfig" mark="/microSchool/gotoCarouselFigureConfig"><span>轮播图设置</li>
         </ul>
     </div>

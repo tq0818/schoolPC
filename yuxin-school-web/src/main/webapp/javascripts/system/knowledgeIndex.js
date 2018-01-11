@@ -81,7 +81,7 @@
                     success: function (jsonData) {
                         if(jsonData!=null && jsonData == 'true'){
                             idsData = "";
-                            $this.search();
+                            $this.search($("#pageNo").val()!=null ? $("#pageNo").val():1);
                         }
                     },
                     complete: function (XMLHttpRequest, textStatus) {
@@ -151,7 +151,7 @@
                                 : "")
                             + '</td>'
                             + '<td>'
-                            + '<a href="http://'+jsonData.company.domain+'sysConfigItem/selectDetail/"'+classType.commodityId+' target="_blank">查看</a>'
+                            + '<a href="http://'+jsonData.company.domain+'/sysConfigItem/selectDetail/'+classType.commodityId+'" target="_blank">查看</a>'
                             + '</td>';
                         html+= '</tr>';
                     });
@@ -160,13 +160,18 @@
                         .append(html);
                     $("#rowCount").remove();
                     $("#pageNo").remove();
-                    $(".course-list").after('<input type="hidden" id="pageNo" value="'+jsonData.pageNo+'"/>');
+                    $(".course-list").after('<input type="hidden" id="pageNo" value="'+jsonData.data.pageNo+'"/>');
                     $(".signUpMany").click(function(){
                         if($(this).prop("checked")){
                             idsData += $(this).val()+',';
                         }else{
                             var re =new RegExp($(this).val()+"," , "g");
                             idsData = idsData.replace(re, "");
+                        }
+                    });
+                    $(".course-list").find("tr").click(function(e){
+                        if(e.target.tagName == 'TD'){
+                            $(this).find('.signUpMany').click();
                         }
                     });
                     if (jsonData.data.rowCount >$("#selectCounts").val()) {

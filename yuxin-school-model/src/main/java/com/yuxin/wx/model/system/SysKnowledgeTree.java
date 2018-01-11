@@ -14,8 +14,8 @@ public class SysKnowledgeTree extends BaseEntity {
     private Integer commodityId;
     private Integer classtypeId;
     private Integer lessonId;
-    private Integer classtypeIdWeike;
-    private Integer classtypeIdHuikan;
+    private Integer commodityIdWeike;
+    private Integer commodityIdHuikan;
     private Integer paperId;
     private Date createTime;
     private Integer creatorId;
@@ -86,20 +86,20 @@ public class SysKnowledgeTree extends BaseEntity {
         this.lessonId = lessonId;
     }
 
-    public Integer getClasstypeIdWeike() {
-        return classtypeIdWeike;
+    public Integer getCommodityIdWeike() {
+        return commodityIdWeike;
     }
 
-    public void setClasstypeIdWeike(Integer classtypeIdWeike) {
-        this.classtypeIdWeike = classtypeIdWeike;
+    public void setCommodityIdWeike(Integer commodityIdWeike) {
+        this.commodityIdWeike = commodityIdWeike;
     }
 
-    public Integer getClasstypeIdHuikan() {
-        return classtypeIdHuikan;
+    public Integer getCommodityIdHuikan() {
+        return commodityIdHuikan;
     }
 
-    public void setClasstypeIdHuikan(Integer classtypeIdHuikan) {
-        this.classtypeIdHuikan = classtypeIdHuikan;
+    public void setCommodityIdHuikan(Integer commodityIdHuikan) {
+        this.commodityIdHuikan = commodityIdHuikan;
     }
 
     public Integer getPaperId() {

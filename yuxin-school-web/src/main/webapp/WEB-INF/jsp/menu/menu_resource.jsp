@@ -7,7 +7,7 @@
              <shiro:hasPermission name="resource_item">  
             <li code="resource_item"><a href="<%=request.getContextPath() %>/sysConfigItem/project">结构管理</a></li>
             </shiro:hasPermission>
-             <shiro:hasPermission name="resource_item">
+             <shiro:hasPermission name="resource_tree">
             <li code="resource_tree"><a href="<%=request.getContextPath() %>/sysKnowledgeTree/knowledgeTreeIndex">知识树管理</a></li>
             </shiro:hasPermission>
              <shiro:hasPermission name="resource_teacher">

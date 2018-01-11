@@ -844,7 +844,7 @@
 		`sys_play_logs` p
 		LEFT JOIN `course_video_lecture` vl ON vl.`id` = p.`lecture_id`
 		LEFT JOIN video v ON v.id = vl.`video_id`
-		where p.class_type_id = #{classTypeId}
+		where p.commodity_id = #{commodityId}
 	</select>
 
 </mapper>

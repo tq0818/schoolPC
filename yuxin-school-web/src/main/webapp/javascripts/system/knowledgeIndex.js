@@ -60,7 +60,35 @@
             });
             // 生成知识树
             $(".buildKnowledge").on('click', function () {
-                alert(2);
+                var data = {};
+                data.eduYear = $("#eduYear").val();
+                data.eduSeason=$("#eduSeason").val();
+                data.itemSecondCode = $("#itemSecondCode").val();
+                data.itemThreeCode = $("#itemThreeCode").val();
+                data.idstr = idsData;
+                if(idsData == ''){
+                    $.alert("请先选择对应课程！");
+                    return;
+                }
+                $.ajax({
+                    url: rootPath + "/sysKnowledgeTree/addKnowledgeTree",
+                    data: data,
+                    type: 'post',
+                    beforeSend: function (XMLHttpRequest) {
+                        $(".loading").show();
+                        $(".loading-bg").show();
+                    },
+                    success: function (jsonData) {
+                        if(jsonData!=null && jsonData == 'true'){
+                            idsData = "";
+                            $this.search();
+                        }
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        $(".loading").hide();
+                        $(".loading-bg").hide();
+                    }
+                });
             });
             //全选 取消全选
             $(".checkboxAll").on('change', function () {

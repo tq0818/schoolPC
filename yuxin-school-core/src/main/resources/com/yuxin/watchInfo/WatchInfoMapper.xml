@@ -181,4 +181,20 @@
 
 	</select>
 
+	<!--根据参数统计用户观看直播时间>=30分钟-->
+	<select id="queryWatchInfoByParam" parameterType="Map" resultType="Map">
+		select
+		  case when sum(ifnull(watch_time,0)) >= 30*60*1000
+		  then 2
+		  else 1
+		  end as liveFlag,
+		  user_id as userId
+		from
+		  sys_watch_info
+		  where lesson_id = #{lesson_id} and user_id is not null and user_id != '' and user_id > 0
+		group by user_id,
+		  lesson_id
+
+	</select>
+
 </mapper>

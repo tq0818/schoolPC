@@ -53,7 +53,14 @@
             </li>
             <li>
                 <label>分校性质:</label>
+             <c:choose>
+             	<c:when test="${company.schoolProperty ne null && company.schoolProperty ne ''}">
                 <input type="text" disabled="disabled" id="schoolProperties" value="${company.schoolProperty }" style="margin-left: 47px;">
+            	</c:when>
+            	<c:otherwise>
+            	<input type="text" disabled="disabled" id="schoolProperties" value="无" style="margin-left: 47px;">
+            	</c:otherwise>
+            </c:choose>
             </li>
             <li>
                 <label>联系人:</label>

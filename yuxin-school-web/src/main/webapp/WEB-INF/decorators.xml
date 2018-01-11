@@ -589,8 +589,10 @@
 		<pattern>/otherSchool/queryData</pattern>
         <!-- 订单 -->
         <pattern>/jsp/allOrder</pattern>
-        <!-- 收入查询 -->
+        <!-- 教师收入查询 -->
         <pattern>/jsp/incomeQuery</pattern>
+        <!-- 老师收入查询 -->
+        <pattern>/jsp/teacherIncome</pattern>
         <!-- 课程查询 -->
         <pattern>/classManager/getClassList</pattern>
 

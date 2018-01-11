@@ -68,10 +68,9 @@
 			</div>
 			<div class="allArderState">
 				<button class="btn btn-primary">全部订单</button>
-				<button class="btn btn-default">未付款</button>
-				<button class="btn btn-default">已完成</button>
-				<button class="btn btn-default">已取消</button>
-				<button class="btn btn-default">失败</button>
+				<button class="btn btn-primary">未付款</button>
+				<button class="btn btn-primary">已完成</button>
+				<button class="btn btn-primary">已取消</button>
 			</div>
 			<div class="user-list allOrderTable" id="orderList">
 
@@ -158,6 +157,22 @@ $.jeDate('#inpend',end);
 				}
 			});
 		}
+
+		//筛选按钮
+		$('.allArderState').children('button').click(function(){
+		    console.log($(this).index());
+
+		    if($(this).index()==0){
+		        $('button').addClass('btn-primary');
+			}else {
+		        if($(this).hasClass('btn-default')){
+                    $(this).addClass('btn-primary');
+                    $(this).siblings('button').addClass('btn-default').removeClass('btn-primary');
+				}else {
+                    $(this).addClass('btn-default').removeClass('btn-primary');
+				}
+            }
+		});
 	</script>
 </body>
 </html>

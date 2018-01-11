@@ -65,8 +65,8 @@
 	</div>
    <div class="main">
    	  <ul class="tabsn c2">
-   	      <li mark="all" style="margin-left: 0px;" class="b1 signStudents">全部报名</li>
-		  <li mark="part" style="margin-left: 0px;list-style: none;" class="b1 signStudents">报名新增学员</li>
+   	      <li mark="all" style="width: auto;margin-left: 25px;" class="b1 signStudents">全部报名</li>
+		  <li mark="part" style="width: auto;margin-left: 0px;list-style: none;" class="b1 signStudents">报名新增学员</li>
 	  </ul>
    </div>
 </div>

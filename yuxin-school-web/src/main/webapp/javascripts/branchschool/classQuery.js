@@ -4,19 +4,19 @@ $(function(){
 		classQueryDetail(1);
 	});
 	
-	 $('.order_sorting').click(function(){
+	 $('.btn-sort').click(function(){
 	        if($(this).hasClass('unsort')){
 	            $(this).removeClass('unsort');
 	            $(this).addClass('iconUp');
-	            $(this).html('&#xe68d;');
+	            // $(this).html('&#xe68d;');
 	        }else if($(this).hasClass('iconUp')){
 	            $(this).removeClass('iconUp');
 	            $(this).addClass('iconDown');
-	            $(this).html('&#xe68e;');
+	            // $(this).html('&#xe68e;');
 	        }else {
 	            $(this).removeClass('iconDown');
 	            $(this).addClass('unsort');
-	            $(this).html('&#xe612;');
+	            // $(this).html('&#xe612;');
 	        }
 	        classQueryDetail(1);
 	    });

@@ -727,7 +727,7 @@ public class SysConfigTeacherController {
 		Users user = WebUtils.getCurrentUser(request);
 		// 根据老师ID查询对应的老师
 		SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findTeacherAndUserById(teacherId);
-		
+
 		// 根据老师ID查询该老师所属的公司所有的一级二级项目
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("companyId", user.getCompanyId());

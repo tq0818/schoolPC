@@ -145,6 +145,7 @@
                                 </div>
                             </div>
                         </div>--%>
+                        <c:if test="${sessionScope.isAreaSchool1 eq 0}">
                         <div class="section n true" data-service="SERVICE_TEACHER" data-sort="5" id="SERVICE_TEACHER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
@@ -176,6 +177,7 @@
                                 </div>
                             </div>
                         </div>
+                        </c:if>
                        <%--  <div class="section n true" data-service="SERVICE_TIKU" data-sort="6" id="SERVICE_TIKU">
                             <div class="block l-menu">
                                 <div class="title-wrap">

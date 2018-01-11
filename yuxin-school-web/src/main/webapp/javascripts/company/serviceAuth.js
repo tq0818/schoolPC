@@ -1,7 +1,7 @@
 function forwardCourse(){
 	var id=$("#courseHeadPri").val();
 	if(id==1){
-		window.location.href=rootPath+"/classManage/manageCourseValidaty";
+		window.location.href=rootPath+"/classManage/signup_news";
 	}
 }
 function forwardnetSchool(){
@@ -58,6 +58,12 @@ function forwardPaySet(){
 		window.location.href=rootPath+"/payConfig/showPayChoice";
 	}
 }
+function forwardClassSet(){
+	var id=$("#classSet").val();
+
+	window.location.href=rootPath+"/administrativeClassManager/administrativeClass";
+
+}
 function forwardQuest(){
 	var id=$("#questServicePri").val();
 	if(id==1){
@@ -111,7 +117,7 @@ function forwardMicroSchool(){
 	var id=$("#microSchoolPri").val();
 	if(id==1){
 		var url = $("a.micro-set:first").attr("href");
-		window.location.href = url;
+		window.location.href = rootPath + "/microSchool/gotoCarouselFigureConfig";
 	}
 }
 

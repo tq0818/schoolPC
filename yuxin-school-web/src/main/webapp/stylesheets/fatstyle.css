@@ -1220,10 +1220,10 @@ span.mintitle{
     cursor: default;
 }
 .txt-required{color:red;margin-right: 5px;}
-.table.table-center .btn-sort{ background: url(../images/query/ico-sort.png) no-repeat;
+.table.table-center .btn-sort{ background: url(../images/query/ico-sort.png) no-repeat 85% center;
   /*  text-align: left;*/
 
-    background-position: right center;
+    /*background-position: right center;*/
     cursor: pointer;
 }
 .table .amassCount,.table .max-imum,.table .learning-style{

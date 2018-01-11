@@ -175,8 +175,15 @@
                         	<input type="radio" value="0" name="isPublic"  <c:if test="${classType.isPublic==0 or empty classType.isPublic }"> checked="checked"</c:if>>否
 	                    </span>
 	               </p>
+
 	                 <c:choose>
                			<c:when test="${classType.isPublic==1 }">
+                            <p class="c01" id="discriblePub">
+                                <span class="c-title" style="color: red;
+                                width: 400px;
+                                line-height: 0px;
+                                font-size: 10px;">（公开课程将被推送到数校，并允许非本校学生在您的分校官网观看此课程)</span>
+                            </p>
                				<p class="c publicPrice"> 
                			</c:when>
                			<c:otherwise>
@@ -185,7 +192,7 @@
                		</c:choose>
 	               		<span class="c-title">设置公开课程价格</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices" value="${classType.publicPrice }">
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices" value="${classType.publicPrice }"><sb>*</sb>
 	                    </span>
 	               </p>
                </c:if>

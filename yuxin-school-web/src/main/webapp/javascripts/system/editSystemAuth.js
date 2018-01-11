@@ -264,7 +264,7 @@
 					}
 				});
 			},
-			editUserMsg : function(){
+			editUserMsg : function(evt){
 				if(!$("#saveUserForm").valid()){
 					return;
 				}
@@ -308,13 +308,15 @@
 				});
 				if(!b){
 					$.msg("请添加教师");
+					evt.preventDefault();
 					$(".loading-bg").hide();
-					return;
+					return false;
 				}
 				if(count>1){
 					$.msg("一个账号只能绑定一个老师");
+					evt.preventDefault();
 					$(".loading-bg").hide();
-					return;
+					return false;
 				}
 				$("#teachersId").val(teachersId);
 				$("#tsId").val(tId);
@@ -329,7 +331,7 @@
 					}
 					$('#proxyOrgId').val(proxyOrgId);
 				}
-				if(type=="save"){
+				if(type=="save" ){
 					var chong=0;
 					var mob=$("#mobile").val();
 					if(mob!=""){
@@ -348,33 +350,63 @@
 						});
 					}
 					if(chong>0){
-						$.msg("手机号已存在");
+						//$.msg("手机号已存在");
+						$('#mobile-error').text("手机号已存在");
+						evt.preventDefault();
 						$(".loading-bg").hide();
-						return;
+						return false;
 					}
 					if($("#saveUserForm").valid()){
 						$("#saveUserForm").attr("action",rootPath+"/authPrivilege/saveUser");
 					}else{
 						$(".loading-bg").hide();
-						return;
+						evt.preventDefault();
+						return false;
 					}
 				}else{
 						var name=$("#nameMark").val();
 						$("#usernames").val(name);
+						var chong=0;
+						var mob=$("#mobile").val();
+						var mob1=$("#mobile1").val();
+						if(mob!=mob1){
+                            //验证手机号
+                            $.ajax({
+                                url : rootPath+"/register/checkMobile",
+                                type : "post",
+                                dataType : "json",
+                                async:false,
+                                data:{mobile : mob},
+                                success : function(result) {
+                                    if(!result){
+                                        chong++;
+                                    }
+                                }
+                            });
+						}
+						if(chong>0){
+							//$.msg("手机号已存在");
+							$('#mobile-error').text("手机号已存在");
+							evt.preventDefault();
+                            $(".loading-bg").hide();
+                            return false;
+						}
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
+                                console.log(222);
 								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();
+								evt.preventDefault();
 								return;
 							}
 						}else{
 							 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 						}
 						$(".loading-bg").hide();
+
 				}
-				
 			},
 			getSchool:function(){
 				var areaCode=$('#schoolAaraCode').val();

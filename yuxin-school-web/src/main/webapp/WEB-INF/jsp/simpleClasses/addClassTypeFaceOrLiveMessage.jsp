@@ -217,14 +217,20 @@
                		<p class="c ">
 	                    <span class="c-title">是否设为公开课程</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="radio" value="1" name="isPublic">是
-                        	<input type="radio" checked="checked" value="0" name="isPublic">否
+	                     	<input type="radio" checked="checked" value="1" name="isPublic">是
+                        	<input type="radio" value="0" name="isPublic">否
 	                    </span>
 	               </p>
-	               <p class="c none publicPrice">
+                   <p class="c01" id="discriblePub">
+                       <span class="c-title" style="color: red;
+                            width: 400px;
+                            line-height: 0px;
+                            font-size: 10px;">（公开课程将被推送到数校，并允许非本校学生在您的分校官网观看此课程)</span>
+                   </p>
+	               <p class="c publicPrice">
 	               		<span class="c-title">设置公开课程价格</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices">
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices"><sb>*</sb>
 	                    </span>
 	               </p>
                </c:if>

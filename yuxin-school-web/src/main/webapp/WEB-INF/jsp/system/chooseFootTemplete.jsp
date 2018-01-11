@@ -28,95 +28,99 @@
                 </div>
             </div>
             <c:forEach items="${templetes }" var="foot_tps" varStatus="stat">
-            	<div class="temp-box">
-	                <div class="temp-title">
-	                    <div class="temp-name">${foot_tps.name }</div>
-	                    <div class="btn setting-btn" ids="${foot_tps.id }">设置</div>
-	                </div>
-	                <div class="temp-pic">
-	                    <img src="<%=rootPath %>/${foot_tps.priviewPic}" alt="" width="100%"/>
-	                    <c:if test="${!empty templete}">
-	                    	 <c:choose>
-		                    	<c:when test="${foot_tps.id == templete.templeteId}">
-		                    		<div class="black-bg" style="display: block;" ids="${foot_tps.id }">
-		                    			<c:choose>
-		                    				<c:when test="${foot_tps.id==1 }">
-		                    					<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==2 }">
-		                    					<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==3 }">
-		                    					<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:otherwise>
-		                    					<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
-		                    				</c:otherwise>
-		                    			</c:choose>
-				                    </div>
-		                    	</c:when>
-		                    	<c:otherwise>
-		                    		<div class="black-bg" tId="${templete.templeteId }" ids="${foot_tps.id }">
-				                      	<c:choose>
-		                    				<c:when test="${foot_tps.id==1 }">
-		                    					<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==2 }">
-		                    					<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==3 }">
-		                    					<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:otherwise>
-		                    					<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
-		                    				</c:otherwise>
-		                    			</c:choose>
-				                    </div>
-		                    	</c:otherwise>
-		                    </c:choose>
-	                    </c:if>
-	                    <c:if test="${empty templete}">
-	                    	 <c:choose>
-		                    	<c:when test="${stat.last}">
-		                    		<div class="black-bg" style="display: block;" ids="${foot_tps.id }">
-				                        <c:choose>
-		                    				<c:when test="${foot_tps.id==1 }">
-		                    					<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==2 }">
-		                    					<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==3 }">
-		                    					<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:otherwise>
-		                    					<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
-		                    				</c:otherwise>
-		                    			</c:choose>
-				                    </div>
-		                    	</c:when>
-		                    	<c:otherwise>
-		                    		<div class="black-bg" ids="${foot_tps.id }">
-				                        <c:choose>
-		                    				<c:when test="${foot_tps.id==1 }">
-		                    					<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==2 }">
-		                    					<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:when test="${foot_tps.id==3 }">
-		                    					<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
-		                    				</c:when>
-		                    				<c:otherwise>
-		                    					<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
-		                    				</c:otherwise>
-		                    			</c:choose>
-				                    </div>
-		                    	</c:otherwise>
-		                    </c:choose>
-	                    </c:if>
-	                </div>
-	            </div>
+				<c:if test="${foot_tps.name eq '模板二'}">
+					<div class="temp-box">
+						<div class="temp-title">
+							<%--<div class="temp-name">${foot_tps.name }</div>--%>
+								<div class="temp-name">模板一</div>
+							<div class="btn setting-btn" ids="${foot_tps.id }">设置</div>
+						</div>
+						<div class="temp-pic">
+							<img src="<%=rootPath %>/${foot_tps.priviewPic}" alt="" width="100%"/>
+							<c:if test="${!empty templete}">
+								<c:choose>
+									<c:when test="${foot_tps.id == templete.templeteId}">
+										<div class="black-bg" style="display: block;" ids="${foot_tps.id }">
+											<c:choose>
+												<c:when test="${foot_tps.id==1 }">
+													<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==2 }">
+													<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==3 }">
+													<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
+												</c:when>
+												<c:otherwise>
+													<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="black-bg" tId="${templete.templeteId }" ids="${foot_tps.id }">
+											<c:choose>
+												<c:when test="${foot_tps.id==1 }">
+													<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==2 }">
+													<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==3 }">
+													<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
+												</c:when>
+												<c:otherwise>
+													<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:if>
+							<c:if test="${empty templete}">
+								<c:choose>
+									<c:when test="${stat.last}">
+										<div class="black-bg" style="display: block;" ids="${foot_tps.id }">
+											<c:choose>
+												<c:when test="${foot_tps.id==1 }">
+													<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==2 }">
+													<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==3 }">
+													<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
+												</c:when>
+												<c:otherwise>
+													<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="black-bg" ids="${foot_tps.id }">
+											<c:choose>
+												<c:when test="${foot_tps.id==1 }">
+													<div class="iconfont" style="width: 140px;height: 140px;font-size: 60px">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==2 }">
+													<div class="iconfont" style="font-size: 50px;">&#xe6de;</div>
+												</c:when>
+												<c:when test="${foot_tps.id==3 }">
+													<div class="iconfont" style="font-size: 40px">&#xe6de;</div>
+												</c:when>
+												<c:otherwise>
+													<div class="iconfont" style="font-size: 30px;">&#xe6de;</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:if>
+						</div>
+					</div>
+				</c:if>
+
             </c:forEach>
         </div>
     </div>

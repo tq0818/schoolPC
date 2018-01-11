@@ -30,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/tob-new.css" />
     <script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
-    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/berkeley.js"></script>
+    <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/editberkeley.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
@@ -39,8 +39,8 @@
     <div class="right-side">
         <ul class="berkeleyDetailInfo berkeleyDetailInfoLeft">
             <li>
-                <label>学校机构代码:</label>
-                <input type="text" disabled="disabled" id="branchCode" value="${company.eduAreaSchool }" style="margin-left: 20px;">
+                <label>分校机构代码:</label>
+                <input type="text" disabled="disabled" id="branchCode" value="${company.eduAreaSchool }" style="margin-left: 15px;">
                 <input type="hidden"  value="${company.id}" id="companyId">
             </li>
             <li>
@@ -52,7 +52,7 @@
                 <input type="text" disabled="disabled" id="eara" value="${company.eduAreaName }" style="margin-left: 45px;">
             </li>
             <li>
-                <label>学校性质:</label>
+                <label>分校性质:</label>
                 <input type="text" disabled="disabled" id="schoolProperties" value="${company.schoolProperty }" style="margin-left: 47px;">
             </li>
             <li>
@@ -61,7 +61,7 @@
             </li>
             <li>
                 <label>联系方式:</label>
-                <input type="text" disabled="disabled" id="linkPhone" value="${company.linkPhone }" class="editState" style="margin-left: 50px;">
+                <input type="text" disabled="disabled" id="linkPhone" value="${company.linkPhone }" class="editState" style="margin-left: 48px;">
             </li>
             <li>
                 <label>分校域名:</label>
@@ -72,45 +72,55 @@
                 <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 200px;">
             </li>
             <li>
-                <label>学校简介:</label>
+                <label>分校简介:</label>
                 <%--<input type="text" disabled="disabled" value="${schoolProperty }" class="editState" style="margin-left: 50px;">--%>
-                <textarea  cols="30" rows="5" id="schoolSummary" style="margin-left: 50px;" disabled="disabled">${company.schoolSummary }</textarea>
+                <textarea  cols="25" rows="5" id="schoolSummary" style="margin-left: 50px;overflow:hidden; resize:none;" disabled="disabled">${company.schoolSummary }</textarea>
+                <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
             </li>
         </ul>
         <ul class="berkeleyDetailInfo berkeleyDetailInfoRight">
             <li style="margin-bottom: 30px;">
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
-                    <label>学校私有课程收费比例:</label>
-                    <input type="text" style="text-align: right;" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <label>分校私有课程收费比例:</label>
+                    <input type="text" style="text-align: right;width: 24px;" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
                 <p style="margin-left: 95px;">
-                    <label>学校开放课程收费比例:</label>
-                    <input type="text" style="text-align: right;" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <label>分校开放课程收费比例:</label>
+                    <input type="text" style="text-align: right;width: 24px;" id="publicCost" disabled="disabled" value="${company.publicCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
             </li>
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
-                    <label>流量 ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
-                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量</span>
-                    <input type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                    <label>流量: ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
+                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量:</span>
+                    <input style="width: 115px" type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
                 <p style="margin-bottom: 5px;">
-                    <label>空间 ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
-                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间</span>
-                    <input type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                    <label>空间: ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
+                    <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间:</span>
+                    <input style="width: 115px" type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
             </li>
             <li class="accountNumber">
                 <p style="margin-bottom: 5px;">
-                    <label>CC账号:</label>
-                    <input type="text" class="editState " id="ccUserName" value="${clc.loginName }" style="margin-left: 48px;margin-bottom: 5px;" disabled="disabled"><br/>
+                    <label>CC账号:</label><br>
+
+                    <input type="text" class="editState " id="ccUserName" value="${clc.loginName }" style="margin-left: 95px;margin-bottom: 5px;" disabled="disabled">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
                     <input type="password" class="editState showDetails " id="ccPwd" value="${clc.password}" style="margin-left: 95px;">
+                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
                 <p style="margin-bottom: 5px;">
-                    <label>展示互动账号:</label>
-                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 15px;" disabled="disabled"><br/>
+                    <label>展示互动账号:</label><br>
+                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 95px;" disabled="disabled">
+                    <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
                     <input type="password" class="editState showDetails" id="zsPwd" value="${clc.password}" style="margin-left: 95px;">
+                    <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
             </li>
         </ul>

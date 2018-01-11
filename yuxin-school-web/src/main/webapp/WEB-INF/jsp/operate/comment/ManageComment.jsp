@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/menu/menu_operate.jsp"%>
+<jsp:include page="/WEB-INF/jsp/menu/menu_operate.jsp"></jsp:include>
 <script type="text/javascript">
 	$selectSubMenu('teacher_person_comment');
 </script>

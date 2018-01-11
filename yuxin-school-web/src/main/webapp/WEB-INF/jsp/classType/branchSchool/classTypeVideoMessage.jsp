@@ -79,25 +79,25 @@
                 </p>
                 <p class="c">
                     <span class="c-title">课程名称</span>
-                    <span class="c-content"><input type="text" id="classTypeName" class="readonly" name="name" value="${ct.name }"><sb>*</sb></span>
+                    <span class="c-content"><input type="text" id="classTypeName" class="readonly" name="name" value="${ct.name }"></span>
                 </p>
                 <p class="c">
                     <span class="c-title">定价</span>
                     <span class="c-content">
-                   		 <input type="text"  class="readonly" name="originalPrice" id="prices" class="prices" value="${ct.originalPrice }"><sb>*</sb>
+                   		 <input type="text"  class="readonly" name="originalPrice" id="prices" class="prices" value="${ct.originalPrice }">
                     </span>
                 </p>
                 <p class="c">
                     <span class="c-title">优惠价</span>
                     <span class="c-content">
-                    	<input name="realPrice"  class="readonly" id="realPrice" type="text" class="prices" value="${ct.realPrice }"><sb>*</sb>
+                    	<input name="realPrice"  class="readonly" id="realPrice" type="text" class="prices" value="${ct.realPrice }">
                     </span>
 				</p>
                 <jsp:include page="/WEB-INF/jsp/classType/branchSchool/common_member_integral.jsp"></jsp:include>
                  <p class="c">
                     <span class="c-title">购买基数</span>
-                    <span class="c-content"><input name="baseNum" class="readonly"  type="text" value="${ct.baseNum }"><sb>*</sb>
-                     <i class="iconfont ask" style="cursor: pointer;color:gray;margin-left: 10px;" title="基数的值作为课程购买人数的一部分，显示在网校前台">&#xe60f;</i>
+                    <span class="c-content"><input name="baseNum" class="readonly"  type="text" value="${ct.baseNum }">
+                    <%-- <i class="iconfont ask" style="cursor: pointer;color:gray;margin-left: 10px;" title="基数的值作为课程购买人数的一部分，显示在网校前台">&#xe60f;</i>--%>
                     </span>
                 </p>
                 <p class="c setting">
@@ -110,7 +110,7 @@
                  </p>
                  <p class="c">
                     <span class="c-title">总课时</span>
-                    <span class="c-content"><input name="courseNum" class="readonly" type="text" value="${courseNum==null?'0':courseNum }" class="courseNum">*</span>
+                    <span class="c-content"><input name="courseNum" class="readonly" type="text" value="${courseNum==null?'0':courseNum }" class="courseNum"></span>
                 </p>
                  <p class="c">
                     <span class="c-title">授课方式</span>

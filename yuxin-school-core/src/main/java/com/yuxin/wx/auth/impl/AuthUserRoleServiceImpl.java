@@ -109,7 +109,7 @@ public class AuthUserRoleServiceImpl extends BaseServiceImpl implements IAuthUse
 	 */
 	@Override
 	public void  deleteAuthUserRoleById(AuthUserRole role){
-	    authUserRoleMapper.deleteByUsers(role);
+	    authUserRoleMapper.deleteByReUsers(role);
 	};
 	
 	/**

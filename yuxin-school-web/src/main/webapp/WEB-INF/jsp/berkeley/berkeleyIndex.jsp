@@ -32,7 +32,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-<div class="u-wrap admin overflow berkeleyIndex">
+<div class="u-wrap admin overflow berkeleyIndex" style="height: 800px;">
     <div>
         <div class="heading">
             <h2 class="h5">分校列表</h2>
@@ -43,7 +43,7 @@
             <select name="eduArea" id="eduArea">
                 <option value="">请选择区域</option>
                 <c:forEach items="${areas}" var="area" >
-                    <option value="${area.itemCode}" data-id="${area.id}" ${eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+                <option value="${area.itemCode}"  ${eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
                 </c:forEach>
             </select>
             <span>创建时间</span>
@@ -78,7 +78,7 @@
                 	<td>${i.index+1}</td>
                     <td>${cp.eduAreaSchool}</td>
                     <td>${cp.companyName}</td>
-                    <td>${cp.eduArea}</td>
+                    <td>${cp.eduArea+}</td>
                     <td>${cp.eduArea}</td>
                     <td>${cp.registStudentCounts}</td>
                     <td>${cp.classTypeCounts}</td>
@@ -129,19 +129,25 @@
                 </li>
                 <li>
                     <label style="margin-right: 35px;">学校性质<i style="color: red;" class="iconfont ico"></i></label>
-                    <select id="schoolProperties" style="width: 164px;">
-                    	<option value="">无</option>
-                        <c:forEach items="${schoolPros}" var="schoolPro" >
-		                    <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
-		                </c:forEach>
-                    </select>
+                    <span id="selectSchoolProperties" >
+                        <select id="schoolProperties" style="width: 164px;">
+                            <option value="">无</option>
+                            <c:forEach items="${schoolPros}" var="schoolPro" >
+                                <option value="${schoolPro.itemCode}" data-id="${schoolPro.id}"}>${schoolPro.itemValue}</option>
+                            </c:forEach>
+                        </select>
+                        </span>
+                    <span id="selectSchoolProperties1" style="display: none">
+                    	无
+                        <!-- <input type="text" name="schoolProperties1" value="无" readonly="true"> -->
+                    </span>
                 </li>
                 <li>
-                    <label style="margin-right: 47px;">联系人<i style="color: red;" class="iconfont ico"></i></label>
+                    <label style="margin-right: 47px;">联系人</label>
                     <input type="text" name="linkPerson" id="linkPerson">
                 </li>
                 <li>
-                    <label style="margin-right: 35px;">联系方式<i style="color: red;" class="iconfont ico" ></i></label>
+                    <label style="margin-right: 35px;">联系方式</label>
                     <input type="text" name="linkPhone" id="linkPhone" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="11" >
                 </li>
                 <li>

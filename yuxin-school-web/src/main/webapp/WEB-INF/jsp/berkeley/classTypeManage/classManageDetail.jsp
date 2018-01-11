@@ -7,7 +7,7 @@
 			<tr>
 			    <td>${(msgPage.pageNo-1)*msgPage.pageSize+status.index+1 }</td>
 			    <td>${m.name }</td>
-			    <td>${m.itemThirdName }</td>
+			    <%--<td>${m.itemThirdName }</td>--%>
 			    <td>${m.schoolName }</td>
 			    <td>
 			    	<c:choose>
@@ -18,7 +18,7 @@
 			    	</c:choose>
 			    </td>
 			    <td class="slink">
-			        <a class=""  target="_blank" href="http://${company.domain}/sysConfigItem/selectDetail/${m.id }">课程详情</a>|
+			        <a class=""  target="_blank" href="http://${m.domainManage}/sysConfigItem/selectDetail/${m.sourceClassTypeId}">课程详情</a>|
 			        <a class="classSchedule"  href="javascript:void(0);" onclick="showCourse(this);" data-id="${m.id }">课程表</a>
 			    </td>
 			</tr>

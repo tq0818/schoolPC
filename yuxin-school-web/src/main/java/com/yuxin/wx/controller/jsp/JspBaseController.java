@@ -41,12 +41,21 @@ public class JspBaseController {
 
 
     /**
-     *财务-收入查询
+     *财务-分校收入查询
      * @return
      */
     @RequestMapping(value = "/incomeQuery")
     public String incomeQuery(){
         return "system/incomeQuery";
+    }
+
+    /**
+     *财务-老师收入查询
+     * @return
+     */
+    @RequestMapping(value = "/teacherIncome")
+    public String teacherIncome(){
+        return "system/teacherIncome";
     }
 
 }

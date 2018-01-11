@@ -29,7 +29,7 @@
                 			<a  class="saleOnOrStop" data_id="${m.id }" data_type='1'  onclick="saleOnOrStop(this);" href="javascript:void(0);">下架</a>|
                 		</c:when>
                 	</c:choose>
-                    <a class="studentDetail" href="<%=rootPath %>/otherSchool/classBaseInfo/${m.id }/live">课程详情</a>|
+                   <%-- <a class="studentDetail" href="<%=rootPath %>/otherSchool/classBaseInfo/${m.id }/live">课程详情</a>|--%>
                     <a class="more" href="javascript:void(0);"> 管理  </a>
                		<ul class="none box openCourseManage" style="width: 120px;">
                      <li mark="/otherSchool/editClassBaseInfo/${m.id }/live"><a class=""  href="javascript:void(0);">基本信息</a></li>

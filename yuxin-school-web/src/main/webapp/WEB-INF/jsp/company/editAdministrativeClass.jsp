@@ -46,7 +46,7 @@
 	                 <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_01'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="01_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"   disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="01_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/^[0]+[0-9]\d*$/gi,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"   disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -58,7 +58,7 @@
                       <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_02'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="02_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="02_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/^[0]+[0-9]\d*$/gi,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -70,7 +70,7 @@
                    <c:forEach items="${list}" var="ps" >
 	                 	<c:if test="${ps.eduStep eq  'STEP_03'}">
 		                    <li>
-		                    	${ps.eduYear}级<input type="text" name="03_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();"  disabled="disabled">个班
+		                    	${ps.eduYear}级<input type="text" name="03_${ps.eduYear}" value="${ps.classCount}" onkeyup="(this.v=function(){this.value=this.value.replace(/^[0]+[0-9]\d*$/gi,'');}).call(this)" onblur="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"  disabled="disabled">个班
 		                   	</li>
 	                   	</c:if>
 	                 </c:forEach>
@@ -101,8 +101,8 @@
         $selectSubMenus('operate_fee_confirm');
     });
 </script>
-
 <script>
+
 //    点击编辑,进入编辑状态
     $('.editClassNum').click(function(){
     	var currentBtn = document.getElementById("save");
@@ -110,14 +110,15 @@
         $('.classSetting').find('input').attr('disabled',false);
         currentBtn.style.display = "inline-block";
     });
-    	
    	function ObjData(key,value){
    		this.Key=key;
    		this.Value=value;
 	}
+//    点击保存成功，不做跳转限制
+        var onOff = 0 ;
 //    点击保存，进入只读模式
     $('.saveClassNum').click(function(){
-    	
+        onOff = 1;
     	var list=document.getElementById("myForm").getElementsByTagName("input");
     	var array=[];
     	for(var i=0;i<list.length && list[i];i++) { //判断不是空的 input,进行表单提交 
@@ -145,23 +146,25 @@
 					alert("保存失败！");
 					return ;
 				}
-				
 			}
     	});
-        
         $('.classSetting').removeClass('classSettingEdit');
         $('.classSetting').find('input').attr('disabled',true);
     });
 //    误操作，跳转到其他链接，弹窗提醒
-    function confirmPopup() {
-       $.confirm("您修改的数据未保存，确定退出吗？",function(s){
-            if(s==true){
-             console.log("退出");
-            }else {
-                console.log("不退出");
-            }
+        $('input').focus(function(){
+                window.onbeforeunload = function (e) {
+                    e = e || window.event;
+                    if (!onOff) {
+                        // IE 和 Firefox
+                        if (e) {
+                            e.returnValue = "对不起，页面数据已做修改，尚未保存，确定要刷新或离开本页面？";
+                        }
+                        // Safari浏览器
+                        return "对不起，页面数据已做修改，尚未保存，确定要刷新或离开本页面？";
+                    }
+                }
         });
-    }
 </script>
 
 <script>

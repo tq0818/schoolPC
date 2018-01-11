@@ -25,6 +25,15 @@ public class TikuSet extends BaseEntity {
 	private Integer	paperAuditNo;		 /* 试卷审核-试卷创建完毕，即可对外开放，不用经过审核 */ 
 //	private Integer	tikuCategoryId;		 /* 所属题库分类id */ 
 	private Integer	companyId;		
+	private Integer zhuCompanyId;//主要机构标识号
+
+	public Integer getZhuCompanyId() {
+		return zhuCompanyId;
+	}
+
+	public void setZhuCompanyId(Integer zhuCompanyId) {
+		this.zhuCompanyId = zhuCompanyId;
+	}
 
 	// Constructor
 	public TikuSet() {

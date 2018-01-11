@@ -80,6 +80,90 @@
 									</span>
 								</p>
 							</li>
+							<li>
+								<p class='c'>
+									<span class="c-title">所在区域<i class="iconfont ico">&#xe605;</i></span> <span class="c-content">
+										<select name="eduArea" id="eduArea">
+											<option value="">请选择区域</option>
+											<c:forEach items="${areas}" var="area" >
+												<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+											</c:forEach>
+										</select>
+									</span>
+		                        </p>
+							</li>
+							<li>
+								<p class='c'>
+									<span class="c-title">所在学校<i class="iconfont ico">&#xe605;</i></span> <span class="c-content">
+										<select name="eduSchool" id="eduSchool" >
+											<option value=""  >请选择学校</option>
+										</select>
+									</span>
+		                        </p>
+							</li>
+							<li>
+								<p class='c'>
+									<span class="c-title">所属学段<i class="iconfont ico">&#xe605;</i></span> <span class="c-content">
+										<select name="eduStep" id="eduStep">
+										<option value="">请选择学段</option>
+											<c:forEach items="${steps}" var="step" >
+												<option value="${step.itemCode}" data-id="${step.id}">${step.itemValue}</option>
+											</c:forEach>
+										</select>
+									</span>
+		                        </p>
+							</li>
+							<li>
+								<p class='c'>
+									<span class="c-title">所属学年<i class="iconfont ico">&#xe605;</i></span> <span class="c-content">
+										<select id="eduYear" name="eduYear" style="width:150px;">
+	                           				<option value="">请选择学年</option>
+	                           				<c:forEach items="${years}" var="year" >
+												<option value="${year}" >${year}</option>
+											</c:forEach>
+	                       				</select>
+                       			 </span>
+		                        </p>
+							</li>
+							<li>
+								<p class='c'>
+									<span class="c-title">所属班级<i class="iconfont ico">&#xe605;</i></span> <span class="c-content">
+										<select id="eduClass" name="eduClass" style="width:150px;">
+				                        	<option value="">请选择班级</option>
+				                        	<option value="1">1班</option>
+											<option value="2">2班</option>
+											<option value="3">3班</option>
+											<option value="4">4班</option>
+											<option value="5">5班</option>
+											<option value="6">6班</option>
+											<option value="7">7班</option>
+											<option value="8">8班</option>
+											<option value="9">9班</option>
+											<option value="10">10班</option>
+											<option value="11">11班</option>
+											<option value="12">12班</option>
+											<option value="13">13班</option>
+											<option value="14">14班</option>
+											<option value="15">15班</option>
+											<option value="16">16班</option>
+											<option value="17">17班</option>
+											<option value="18">18班</option>
+											<option value="19">19班</option>
+											<option value="20">20班</option>
+											<option value="21">21班</option>
+											<option value="22">22班</option>
+											<option value="23">23班</option>
+											<option value="24">24班</option>
+											<option value="25">25班</option>
+											<option value="26">26班</option>
+											<option value="27">27班</option>
+											<option value="28">28班</option>
+											<option value="29">29班</option>
+											<option value="30">30班</option>
+				                        </select>
+		                        	</span>
+		                        </p>
+							</li>
 								<li>
 								<p class='c'>
 									<span class="c-title">证件类型</span> <span class="c-content">
@@ -561,7 +645,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/studentComm.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/jquery-validation/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/class/otherSchool/signUp.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/class/manageStu/signUp.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/select2/select2.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 </body>

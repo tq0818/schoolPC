@@ -1314,6 +1314,7 @@ $.extend( $.validator, {
 												$('#realName').val(response.realName);
 												$('#email').val(response.email);
 												$('#mobile').val(response.mobile);
+												$('#mobile1').val(response.mobile);
 												$('#uId').val(id);
 												$('#type').val("update");
 												submitted = validator.formSubmitted;

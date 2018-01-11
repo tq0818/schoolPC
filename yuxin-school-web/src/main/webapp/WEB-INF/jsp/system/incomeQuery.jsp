@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>收入查询</title>
+<title>分校收入</title>
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
@@ -36,24 +36,38 @@
 	<jsp:include page="/WEB-INF/jsp/menu/menu_operaconfig.jsp"></jsp:include>
 	<div class="right-side">
 		<div class="mainbackground nopadding allOrderContent">
+			<div>
+				<label for="">请选择分校区域：</label>
+				<select name="" id="">
+					<option value="">天府新区</option>
+					<option value="">高新区</option>
+				</select>
+			</div>
+			<div style="margin: 12px 0;">
+				<label for="">请选择分校：</label>
+				<select name="" id="" style="margin-left: 28px;">
+					<option value="">成都七中</option>
+					<option value="">成都十一中</option>
+				</select>
+			</div>
 			<div class="allOrderHeader">
 				<label for="">请选择查询日期：</label>
 				<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
 				<input type="text" id="inpend" readonly>
 				<button class="btn btn-primary">查询</button>
 				<button class="btn btn-primary">导出数据</button>
+				<div style="display: inline-block;float: right;margin-right: 10px;margin-top: 20px;">
+					总收入<span style="color: red;">1111</span>元
+				</div>
 			</div>
 			<div class="user-list allOrderTable">
 				<table class="table table-center allOrderList" >
 					<tr>
 						<th width="3%">序号</th>
-						<th width="10%">时间</th>
-						<th width="10%">
-							总收入(元)
-							<i class="icon iconfont unsort sorting">&#xe612;</i>
-						</th>
-						<th width="10%">应缴费用（元）</th>
-						<th width="10%">实际收入</th>
+						<th width="10%">分校名称</th>
+						<th width="10%">所属区域</th>
+						<th width="10%" class="btn-sort">分校总收入（元）</th>
+						<th width="10%" class="btn-sort">应收费用（元）</th>
 					</tr>
 					<tr>
 						<td>1</td>
@@ -104,6 +118,7 @@
 var start = {
     format: 'YYYY-MM-DD hh:mm:ss',
     isinitVal:true,
+    onClose:false,
     maxDate: $.nowDate({DD:0}), //最大日期
     okfun: function(obj){
         end.minDate = obj.val; //开始日选好后，重置结束日的最小日期
@@ -112,6 +127,7 @@ var start = {
 };
 var end = {
     format: 'YYYY年MM月DD日 hh:mm:ss',
+    onClose:false,
     maxDate: '2099-06-16 23:59:59', //最大日期
     okfun: function(obj){
         start.maxDate = obj.val; //将结束日的初始值设定为开始日的最大日期

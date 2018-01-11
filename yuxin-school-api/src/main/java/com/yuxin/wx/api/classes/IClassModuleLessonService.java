@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
-import com.yuxin.wx.model.system.SysConfigClassroom;
 import com.yuxin.wx.vo.classes.ClassModuleLessonVo;
 import com.yuxin.wx.vo.classes.CmlVo;
 import com.yuxin.wx.vo.classes.LessonVo;
@@ -253,4 +252,12 @@ public interface IClassModuleLessonService  {
 
     List<ClassModuleLesson> findLessonByCommodityId(Integer id);
 	List<ClassModuleLesson> findLessonByCommodityIdNotDel(Integer id);
+
+
+	/**
+	 * 根据商品id查询商品下所有的课次
+	 * @param ids
+     * @return
+	 */
+	List<ClassModuleLesson> findLessonByCommodityIds(String[] ids);
 }

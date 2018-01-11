@@ -1,8 +1,10 @@
 package com.yuxin.wx.api.system;
 
+import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/31.
@@ -69,4 +71,8 @@ public interface ISysConfigItemRelationService {
     List<SysConfigItemRelation> findItemFrontByLevel(Integer level,Integer companyId);
 
     List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation);
+
+    List<SysConfigItem> findItemByEduStep(Map<String, Object> eduStep);
+
+    List<SysConfigItemRelation> findSysConfigItemRelationFrontByPCode(String parentCode, Integer currentCompanyId);
 }

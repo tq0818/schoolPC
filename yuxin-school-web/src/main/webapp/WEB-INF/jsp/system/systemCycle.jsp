@@ -27,12 +27,12 @@
        	<div class="u-wrap set-system">
     <div class="mainbackground space">
 		<input type="hidden" id="schoolId"/>
-			<div class="title single">
-				<h2 class="h6 fl" style="font-size: 14px;">选择分校</h2>
-				<div class="sc-type" id="schoolList" style="top: inherit;">
+			<div class="title single" >
+				<%--<h2 class="h6 fl" style="font-size: 14px;" >选择分校</h2>--%>
+				<div class="sc-type" id="schoolList" style="top: inherit; display: none">
 					<c:forEach items="${schoolList }" var="school1" varStatus="status">
 		        		<c:if test="${school1.id==schoolId }">
-		        			<a href="javascript:queryCycleData(${school1.id });" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>
+		        			<a href="javascript:queryCycleData(${school1.id });" style="display:none" class="btn btn-sm btn-default btn-success" mark="${school1.id }">${school1.schoolName }</a>
 		        		</c:if>
 		        		<c:if test="${school1.id!=schoolId }">
 		        			<a href="javascript:queryCycleData(${school1.id });" class="btn btn-sm btn-default" mark="${school1.id }">${school1.schoolName }</a>
@@ -42,7 +42,7 @@
 		            	<a href="javascript:queryCycleData(${school.id });" class="btn btn-sm btn-default btn-success" mark="${school.id }">${school.schoolName }</a>
 		            </c:if>
 				</div>
-				 <div class="addbtn" style="cursor: pointer;margin-top: -20px;"><a href="javascript:;" class="btn btn-primary" id="addfocus"><em class="iconfont">&#xe606;</em>添加一张轮播</a></div>
+				 <div class="addbtn" style="cursor: pointer;margin-top: -20px;"><a href="javascript:;" class="btn btn-primary" id="addfocus"><em class="iconfont">&#xe606;</em>添加一张轮播图</a></div>
 			</div>
        
         <div class="set-focus">

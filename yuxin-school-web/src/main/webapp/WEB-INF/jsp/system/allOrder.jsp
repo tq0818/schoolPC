@@ -140,6 +140,7 @@
 var start = {
     format: 'YYYY-MM-DD hh:mm:ss',
     isinitVal:true,
+    onClose:false,
     maxDate: $.nowDate({DD:0}), //最大日期
     okfun: function(obj){
         end.minDate = obj.val; //开始日选好后，重置结束日的最小日期
@@ -148,6 +149,7 @@ var start = {
 };
 var end = {
     format: 'YYYY年MM月DD日 hh:mm:ss',
+    onClose:false,
     maxDate: '2099-06-16 23:59:59', //最大日期
     okfun: function(obj){
         start.maxDate = obj.val; //将结束日的初始值设定为开始日的最大日期

@@ -33,6 +33,7 @@ import com.yuxin.wx.model.system.SysConfigPageRedirect;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysLogManagerOption;
 import com.yuxin.wx.model.system.SysPageHeadFoot;
+import com.yuxin.wx.model.tiku.TikuSet;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
@@ -163,6 +164,17 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	 */
 	public List<com.yuxin.wx.model.company.CompanyVo> queryCompanyVoListByCondition(com.yuxin.wx.model.company.CompanyVo search);
 	
+	public List<com.yuxin.wx.model.company.CompanyVo> queryReCompanyVoListByCondition(Map<String,Object> params);
+	
+	public List<com.yuxin.wx.model.company.CompanyVo> queryReCompanyVoByCondition(com.yuxin.wx.model.company.CompanyVo companyVo);
+	
+
+	/**
+	 * 已存在分校所在区域
+	 * @return 分校区域结果集
+	 */
+	public List<com.yuxin.wx.model.company.CompanyVo> queryCompanyVoListByQuyu();
+
 	
 	/**
 	 * 分校首页学校数据
@@ -221,6 +233,8 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addSysPageHeadFoot(SysPageHeadFoot sphf);
 	public void addCompanyServiceStatic(CompanyServiceStatic csc);
 	public void addSysConfigPageRedirect(SysConfigPageRedirect scpr);
+	
+	public void addTiKuSet(TikuSet tikuSet);
 	
 	/**
 	 * 

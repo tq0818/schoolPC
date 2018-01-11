@@ -27,7 +27,7 @@ $(function(){
 			});
 		}
 		if(parent.find(".oneId").val() != null && parent.find(".oneId").val() != ""){
-		    debugger;
+
 			$.ajax({
 				url: rootPath + "/sysConfigItem/twoProListAjax",
 				type:"post",
@@ -369,7 +369,6 @@ $(function(){
         		      		              	$(".loading-bg").show();
         		        				},
         		        				success:function(data){
-        		        					debugger;
         		        					if(data == "true"){
         		        						location.href = rootPath + "/sysConfigItem/project";
         	    		      		            $(".loading").show();

@@ -395,6 +395,7 @@ public interface IStudentService  {
 	 * @return
 	 */
 	PageFinder2<StudentListVo> findStudentsList(StudentListVo search);
+	PageFinder2<StudentListVo> queryUserListData(StudentListVo search);
 	PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search);
 	
 	PageFinder<StudentListVo> findStudentsList1(StudentListVo search);
@@ -731,6 +732,18 @@ public interface IStudentService  {
 	 * @throws
 	 */
 	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月17日 下午5:47:36
+	 * @Method: findClassByTeacherId 
+	 * @Description: TODO
+	 * @param 查询班主任所在班级
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets);
+	
 	/**
 	 * 
 	 * @author jishangyang 2017年12月20日 下午5:56:41

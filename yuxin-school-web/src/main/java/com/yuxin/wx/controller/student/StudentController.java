@@ -286,7 +286,7 @@ public class StudentController {
                 years.add(curYear-year);
             }
             model.addAttribute( "years", years);
-        	if (subject.hasRole("班主任")  ) {
+        	if (subject.hasRole("班主任")) {
         		//班主任
         		EduMasterClass ets =new EduMasterClass();
         		ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
@@ -298,15 +298,16 @@ public class StudentController {
             }else if (subject.hasRole("任课老师") ) {
             	//任课教师
             	EduMasterClass ets =new EduMasterClass();
+            	ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
         		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
         		ets.setEduStep("1");
-        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
         		ets.setEduStep("");
         		ets.setEduYear("1");
-        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
         		ets.setEduYear("");
         		ets.setEduClass("1");
-        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
         		model.addAttribute("roleType", 2);
         		model.addAttribute("eduStepGLY", eduStepGLY);
         		model.addAttribute("eduYearGLY", eduYearGLY);
@@ -468,13 +469,14 @@ public class StudentController {
             student.setCreateTime(new Date());
             student.setCreator(user.getId());
             student.setDeleteFlag(0);
+            student.setEduIdentity(0);
             String password = student.getMobile();
             if (null != student.getMobile() && !"".equals(student.getMobile())) {
                 student.setPassword(new Md5Hash(password.substring(password.length() - 6)).toHex());
             } else {
                 student.setPassword(new Md5Hash("111111").toHex());
             }
-            student.setIsInSchool(0);
+            student.setIsInSchool(1);
             studentServiceImpl.insert(student);
         }
         Integer stuId = student.getId();
@@ -993,7 +995,9 @@ public class StudentController {
                 resultList.add(student);
             }
         }
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+        SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+        sysConfigItemRelation.setCompanyId(WebUtils.getCurrentCompanyId());
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(sysConfigItemRelation);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -2871,8 +2875,12 @@ public class StudentController {
      			}
      			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
      		}else if(subject.hasRole("任课老师")){
-     			int userId=WebUtils.getCurrentUserId(request);
-     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+     			EduMasterClass ets=new EduMasterClass();
+     			ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        		List<EduMasterClass> list=studentServiceImpl.findSubjectClassByTeacherId(ets);
+//     			int userId=WebUtils.getCurrentUserId(request);
+//     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
      			if(null!=list && list.size()>1){
      				search.setRenke(list);
      			}else if(null!=list && list.size()==1){
@@ -2910,6 +2918,96 @@ public class StudentController {
              search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
          }
          PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
+         return pageFinder;
+    }
+   /**
+    * 
+    * @author  2018年1月6日 下午6:53:08
+    * @Method: queryUserListData 
+    * @Description: 统计用户
+    * @param request
+    * @param search
+    * @return 
+    * @throws
+    */
+    @ResponseBody
+    @RequestMapping(value = "/queryUserListData")
+    public PageFinder2<StudentListVo> queryUserListData(HttpServletRequest request,StudentListVo search) {
+    	 String flag = "";
+         search.setCompanyId(WebUtils.getCurrentCompanyId());
+         if("1".equals(WebUtils.getCurrentIsArea())){
+         	if(null==search.getEduArea() || "".equals(search.getEduArea())){
+         		search.setEduArea(WebUtils.getCurrentCompany().getEduAreaSchool());	
+         	}
+         	
+         }
+         if("2".equals(WebUtils.getCurrentIsArea())){
+         	Subject subject = SecurityUtils.getSubject();
+     		if(subject.hasRole("班主任") ){
+     			int userId=WebUtils.getCurrentUserId(request);
+     			EduMasterClass etc=new EduMasterClass();
+     			etc.setUserId(String.valueOf(userId));
+     			List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc);
+     			if(null!=list && list.size()>0){
+     				String eduStep=list.get(0).getEduStep();
+     				String eduYear=list.get(0).getEduYear();
+     				String eduClass=list.get(0).getEduClass();
+     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
+     					search.setEduStep(eduStep);
+         			}
+     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
+     					search.setEduYear(eduYear);
+     				}
+     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
+     					search.setEduClass(eduClass);
+     				}
+     				
+     			}
+     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+     		}else if(subject.hasRole("任课老师")){
+     			EduMasterClass ets=new EduMasterClass();
+     			ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+        		List<EduMasterClass> list=studentServiceImpl.findSubjectClassByTeacherId(ets);
+//     			int userId=WebUtils.getCurrentUserId(request);
+//     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+     			if(null!=list && list.size()>1){
+     				search.setRenke(list);
+     			}else if(null!=list && list.size()==1){
+     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
+     					search.setEduStep(list.get(0).getEduStep());
+         			}
+     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
+     					search.setEduYear(list.get(0).getEduYear());
+     				}
+     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
+     					search.setEduClass(list.get(0).getEduClass());
+     				}
+     			}
+     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+     		}else{
+     			 if(null!=search.getEduSchool()){
+     				 
+     			 }else{
+     				 search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());	
+     			 }
+     		}
+         }
+         // 分页调整
+         if (search.getPageSize() == 12) {
+             search.setPageSize(10);
+         }
+         // 代报考
+         Subject subject = SecurityUtils.getSubject();
+         if (subject.isPermitted("student_agent")) {
+             flag = "1";
+         }
+         search.setAgentFlag(flag);
+
+         if (subject.hasRole("代理机构")) {
+             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
+         }
+         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.queryUserListData(search);
          return pageFinder;
     }
 

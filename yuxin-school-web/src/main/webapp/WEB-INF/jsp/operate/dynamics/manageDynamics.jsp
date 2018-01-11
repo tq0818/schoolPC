@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@include file="/decorators/import.jsp" %>
+   <%@include file="/decorators/import.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,9 +15,11 @@
     </style>
 </head>
 <body>
-<%@include file="/WEB-INF/jsp/menu/menu_operate.jsp"%>
+
+<%--<%@include file="/WEB-INF/jsp/menu/menu_operate.jsp"%>--%>
+<jsp:include page="/WEB-INF/jsp/menu/menu_operate.jsp"></jsp:include>
 <script type="text/javascript">
-	$selectSubMenu('teacher_person_status');
+    $selectSubMenu('teacher_person_status');
 </script>
 <div class="Y_wrap">
 	 <div class="Y_background org_back">
@@ -87,7 +89,7 @@
             	 <!-- 分页插件开始 -->
             <div class="pages pagination"></div>
            <div class="mark mark1">
-				<input type="hidden" class="deleteId" id=""/>
+				<input type="hidden" class="deleteId" />
 				<div class="alertbox">
 					<p style="text-align: center"><i class="iconfont">&#xe653;</i>您是否确定删除该条动态及评论</p>
 					<div class="button-box Y_clear">
@@ -117,5 +119,6 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/operate/dynamics/lightbox.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
+
 </body>
 </html>

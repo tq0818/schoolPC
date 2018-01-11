@@ -3,6 +3,7 @@
 <!-- 二级导航 -->
 <div class="left-side">
     <div class="left-side-title">
+        <i class="icon iconfont" style="float: left;color: #cdcccc;font-size: 20px;margin-left: 2px;" id="backUp">&#xe650;</i>
         <em>${company.companyName }</em>
         <!-- <span class="iconfont return-pic hcancle">&#xe650;</span> -->
     </div>
@@ -39,5 +40,9 @@
             }
         })
     }
+    //点击返回，返回上一级
+    $('#backUp').click(function () {
+        window.history.go(-1);
+    });
 </script>
 

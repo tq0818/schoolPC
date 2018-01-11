@@ -36,11 +36,15 @@
     background-color: #f6f6f6;
 }
 .right-side{
-    float: right;
-    width: 81%;
+    /*float: right;*/
+    float: left;
+    /*width: 81%;*/
+    width: 77.5%;
     min-height: 576px;
     border: 1px solid #e9edee;
     background-color: #f6f6f6;
+    margin-left: 10px;
+    padding: 0 15px;
 }
 .left-side .left-side-title{
     height: 40px;
@@ -1130,14 +1134,16 @@ span.timetable-btn-tit{
     font-size: 14px;
     color: #333;
     display: inline-block;
-    width: 10%;
+    /*width: 10%;*/
+    width: 20%;
     text-align: center;
 }
 .code-select input{
     width: 32%;
 }
 .labell{
-    padding-left: 32.5%;
+    /*padding-left: 32.5%;*/
+    padding-left: 45%;
     height: 32px;
     line-height: 32px;
     color: #666;
@@ -1346,10 +1352,10 @@ p.tit-font .t{
     cursor: pointer;
 }
 
-.tables{
-    width: 98%;
-    margin-left: 10px;
-}
+/*.tables{*/
+    /*width: 98%;*/
+    /*margin-left: 10px;*/
+/*}*/
 .tr>span{
     display: inline-block;
 }

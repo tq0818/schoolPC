@@ -56,6 +56,8 @@
             opacity: .6 \9;
             filter: alpha(opacity = 60);
         }
+        .u-wrap .mainbackground.nopadding{padding: 0;}
+        .u-wrap{width: 100%;margin: 0;padding: 0;}
     </style>
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />

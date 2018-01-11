@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysKnowledgeTreeMapper">
+    <resultMap type="com.yuxin.wx.model.system.SysKnowledgeTree" id="sysKnowledgeTreeResultMap">
+        <result property="id" column="id" />
+        <result property="eduYear" column="edu_year" />
+        <result property="eduSeason" column="edu_season" />
+        <result property="eduStep" column="edu_step" />
+        <result property="itemSecondCode" column="item_second_code" />
+        <result property="itemThreeCode" column="item_three_code" />
+        <result property="commodityId" column="commodity_id" />
+        <result property="classtypeId" column="classtype_id" />
+        <result property="lessonId" column="lesson_id" />
+        <result property="classtypeIdWeike" column="classtype_id_weike" />
+        <result property="classtypeIdHuikan" column="classtype_id_huikan" />
+        <result property="paperId" column="paper_id" />
+        <result property="createTime" column="create_time" />
+        <result property="creatorId" column="creator_id" />
+        <result property="creator" column="creator" />
+        <result property="companyId" column="company_id" />
+    </resultMap>
+    <sql id="table_columns">
+        id,
+        edu_year,
+        edu_season,
+        edu_step,
+        item_second_code,
+        item_three_code,
+        commodity_id,
+        classtype_id,
+        lesson_id,
+        classtype_id_weike,
+        classtype_id_huikan,
+        paper_id,
+        create_time,
+        creator_id,
+        creator,
+        company_id
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{eduYear},
+        #{eduSeason},
+        #{eduStep},
+        #{itemSecondCode},
+        #{itemThreeCode},
+        #{commodityId},
+        #{classtypeId},
+        #{lessonId},
+        #{classtypeIdWeike},
+        #{classtypeIdHuikan},
+        #{paperId},
+        #{createTime},
+        #{creatorId},
+        #{creator},
+        #{companyId}
+    </sql>
+    <!-- 适用于主键自增类型 -->
+    <insert id="insert" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge_tree(
+        <include refid="table_columns" />
+        )
+        values (
+        <include refid="entity_properties" />
+        )
+    </insert>
+
+    <select id="findKnoledgeTreeByPapam" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree" resultMap="sysKnowledgeTreeResultMap">
+        select <include refid="table_columns" /> from sys_knowledge_tree
+        <where>
+            <if test="eduYear!=null and eduYear!=''">
+                and edu_year = #{eduYear}
+            </if>
+            <if test="eduSeason!=null and eduSeason!=''">
+                and edu_season = #{eduSeason}
+            </if>
+            <if test="itemSecondCode!=null and itemSecondCode!=''">
+                and item_second_code = #{itemSecondCode}
+            </if>
+            <if test="itemThreeCode!=null and itemThreeCode!=''">
+                and item_three_code = #{itemThreeCode}
+            </if>
+            <if test="companyId!=null and companyId!=''">
+                and company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="removeKnowledge" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree">
+        delete from sys_knowledge_tree
+        where edu_year = #{eduYear}
+            and edu_season = #{eduSeason}
+            and item_second_code = #{itemSecondCode}
+            and item_three_code = #{itemThreeCode}
+            and company_id = #{companyId}
+    </delete>
+
+</mapper>

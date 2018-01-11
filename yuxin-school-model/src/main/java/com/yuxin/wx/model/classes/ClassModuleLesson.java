@@ -77,7 +77,8 @@ public class ClassModuleLesson extends BaseEntity {
 	private TikuPaper tikuPaper;
     private Date lessonDateTime;
     private Integer isOutSource;
-    
+    private String commodityName;
+
 	public Integer getIsOutSource() {
 		return isOutSource;
 	}
@@ -581,5 +582,13 @@ public class ClassModuleLesson extends BaseEntity {
 
 	public void setBeforeStudyName(String beforeStudyName) {
 		this.beforeStudyName = beforeStudyName;
+	}
+
+	public String getCommodityName() {
+		return commodityName;
+	}
+
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
 	}
 }

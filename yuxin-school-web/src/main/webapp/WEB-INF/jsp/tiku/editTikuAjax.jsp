@@ -44,8 +44,8 @@
             </span>
             <br>
             <span class="sc-c-content" style="position: relative; left: 84px;">
-			<span style="width: 70px;">学科小类</span>
-            <select id="itemSecondId" style="width: 120px;">
+			<span style="width: 70px;display: none">学科小类</span>
+            <select id="itemSecondId" style="width: 120px;display: none">
             </select>
             </span>
         </p>

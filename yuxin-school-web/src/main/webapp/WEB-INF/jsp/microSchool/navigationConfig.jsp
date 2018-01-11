@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_CLASS_PACKAGE" data-sort="3" id="SERVICE_CLASS_PACKAGE">
+                       <%-- <div class="section n true" data-service="SERVICE_CLASS_PACKAGE" data-sort="3" id="SERVICE_CLASS_PACKAGE">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -144,7 +144,8 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
+                        <c:if test="${sessionScope.isAreaSchool1 eq 0}">
                         <div class="section n true" data-service="SERVICE_TEACHER" data-sort="5" id="SERVICE_TEACHER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
@@ -176,7 +177,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_TIKU" data-sort="6" id="SERVICE_TIKU">
+                        </c:if>
+                       <%--  <div class="section n true" data-service="SERVICE_TIKU" data-sort="6" id="SERVICE_TIKU">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -206,7 +208,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --%>
                         <div class="section n true" data-service="SERVICE_QUESTION_ANSWER" data-sort="7" id="SERVICE_QUESTION_ANSWER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
@@ -238,7 +240,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section n true" data-service="SERVICE_MEMBER" data-sort="8" id="SERVICE_MEMBER">
+                       <%-- <div class="section n true" data-service="SERVICE_MEMBER" data-sort="8" id="SERVICE_MEMBER">
                             <div class="block l-menu">
                                 <div class="title-wrap">
                                     <ul class="row clear">
@@ -268,7 +270,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                        
                         
                     </div>

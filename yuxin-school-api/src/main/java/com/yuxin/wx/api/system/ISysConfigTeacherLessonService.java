@@ -1,6 +1,8 @@
 package com.yuxin.wx.api.system;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.model.system.SysConfigTeacherLesson;
 import com.yuxin.wx.vo.system.SysConfigTeacherLessonVo;
@@ -129,4 +131,5 @@ public interface ISysConfigTeacherLessonService  {
 	 * @param teacherId
 	 */
 	void deleteByTeacherId(Integer teacherId);
+	void deleteByTeacherIdNew(Map<String, Integer> map);
 }

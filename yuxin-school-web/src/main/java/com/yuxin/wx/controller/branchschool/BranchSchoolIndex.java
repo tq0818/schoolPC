@@ -250,12 +250,13 @@ public class BranchSchoolIndex {
     public String berkeleyIndex(Model model,CompanyVo search){
     	//查询学校所在区域
         SysConfigDict areaDict = new SysConfigDict();
-        areaDict.setDictCode("EDU_SCHOOL_AREA");
-        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-        areaDict.setDictCode("SCHOOL_PROPERTY");
+//      areaDict.setDictCode("EDU_SCHOOL_AREA");
+//      List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        areaDict.setDictCode("EDU_STEP_NEW");
         List<SysConfigDict> schoolPros = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-        //PageFinder2<CompanyVo> companyList=companyManageServiceImpl.queryCompanyVoListByCondition(search);
-        model.addAttribute("areas", areas);
+		List<SysConfigDict> areas =companyManageServiceImpl.queryCompanyVoListByQuyu();
+//        PageFinder2<CompanyVo> companyList=companyManageServiceImpl.queryCompanyVoListByCondition(search);
+		model.addAttribute("areas", areas);
         model.addAttribute("schoolPros",schoolPros);
         //model.addAttribute("companyList",companyList);
         return "/berkeley/berkeleyIndex";

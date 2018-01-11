@@ -1,15 +1,20 @@
 package com.yuxin.wx.system.impl;
 
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
 import com.yuxin.wx.model.system.SysConfigTeacherLesson;
 import com.yuxin.wx.system.mapper.SysConfigTeacherLessonMapper;
 import com.yuxin.wx.vo.system.SysConfigTeacherLessonVo;
+
+import javax.print.DocFlavor;
 
 /**
  * Service Implementation:SysConfigTeacherLesson
@@ -145,6 +150,10 @@ public class SysConfigTeacherLessonServiceImpl extends BaseServiceImpl implement
 	@Override
 	public void deleteByTeacherId(Integer teacherId) {
 		sysConfigTeacherLessonMapper.deleteByTeacherId(teacherId);
+	}
+	@Override
+	public void deleteByTeacherIdNew(Map<String, Integer> map) {
+		sysConfigTeacherLessonMapper.deleteByTeacherIdNew(map);
 	}
 
 	@Override

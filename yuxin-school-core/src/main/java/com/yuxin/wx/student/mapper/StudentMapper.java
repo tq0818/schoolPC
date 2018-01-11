@@ -131,7 +131,9 @@ public interface StudentMapper extends BaseMapper<Student> {
 	
 	//学员列表
 	List<StudentListVo> queryStudentsList(StudentListVo search);
+	List<StudentListVo> queryUserListData(StudentListVo search);
 	Integer queryStudentsListCount(StudentListVo search);
+	Integer queryUserListDataCount(StudentListVo search);
 	
 	List<StudentListVo> queryNewStudentsList(StudentListVo search);
 	Integer queryNewStudentsListCount(StudentListVo search);
@@ -310,6 +312,12 @@ public interface StudentMapper extends BaseMapper<Student> {
 	 * @throws
 	 */
 	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
+	/**
+	 * 查询任课教师信息
+	 * @param ets 
+	 * @return
+	 */
+	List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets);
 	/**
 	 * 
 	 * @author jishangyang 2017年12月20日 下午5:57:30

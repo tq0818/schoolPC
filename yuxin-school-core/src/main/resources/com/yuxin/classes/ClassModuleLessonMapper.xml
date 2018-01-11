@@ -32,18 +32,17 @@
 		<result property="chapterFlag" column="chapter_flag"/>
 		<result property="supportMobile" column="support_mobile"/>
 		<result property="liveClassType" column="live_class_type"/>
-		<result property="createTime" column="create_time"/>
 		<result property="creator" column="creator"/>
+		<result property="createTime" column="create_time"/>
 		<result property="barrage" column="barrage"/>
 		<result property="modetype" column="modetype"/>
+		<result property="isOutSource" column="is_out_source"/>
 		<result property="beforeStudyName" column="before_study_name"/>
 		<result property="beforeStudyUrl" column="before_study_url"/>
 		<result property="afterStudyUrl" column="after_study_url"/>
-		<result property="tikuPaper.id" column="paperId"></result>
-		<result property="tikuPaper.paperName" column="paperName"></result>
-		<result property="courseExercise.id" column="courseExerciseId"></result>
-		
-		<result property="isOutSource" column="is_out_source"/>
+		<!--<result property="tikuPaper.id" column="paperId"></result>-->
+		<!--<result property="tikuPaper.paperName" column="paperName"></result>-->
+		<!--<result property="courseExercise.id" column="courseExerciseId"></result>-->
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
@@ -82,14 +81,14 @@
 		chapter_flag,
 		support_mobile,
 		live_class_type,
-		create_time,
 		creator,
+		create_time,
 		barrage,
 		modetype,
+		is_out_source,
 		before_study_name,
 		before_study_url,
 		after_study_url
-
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -122,10 +121,11 @@
 		#{chapterFlag},
 		#{supportMobile},
 		#{liveClassType},
-		#{createTime},
 		#{creator},
+		#{createTime},
 		#{barrage},
 		#{modetype},
+		#{isOutSource},
 		#{beforeStudyName},
 		#{beforeStudyUrl},
 		#{afterStudyUrl}
@@ -162,10 +162,14 @@
 		#{item.chapterFlag},
 		#{item.supportMobile},
 		#{item.liveClassType},
-		#{item.createTime},
 		#{item.creator},
+		#{item.createTime},
 		#{item.barrage},
-		#{item.modetype}
+		#{item.modetype},
+	  	#{item.isOutSource},
+		#{item.beforeStudyName},
+		#{item.beforeStudyUrl},
+		#{item.afterStudyUrl}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->

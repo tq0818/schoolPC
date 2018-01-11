@@ -6,14 +6,14 @@
     <title>课程管理</title>
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/splitscreen.css"/>
     <link rel="stylesheet" href="<%=rootPath%>/stylesheets/bootstrap-datetimepicker.css"/>
     <link rel="stylesheet" href="<%=rootPath%>/stylesheets/classes.css"/>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datetimepicker.min.js"></script>
     <script src="<%=rootPath%>/javascripts/service/bootstrap-datepicker.zh-CN.min.js"></script>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/branchschool/classManage.js"></script>
-	<script type="text/javascript" src="<%=rootPath %>/javascripts/common/DateUtils.js"></script>
+	<script type="text/javascript" src="<%=rootPath%>/javascripts/common/DateUtils.js"></script>
     <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/berkeley.js"></script>--%>
     <style type="text/css">
         .head-div {
@@ -47,7 +47,7 @@
 			<input type="hidden" id="rowCount"/>
 			<input type="hidden" id="pageNo"/>
 			<input type="hidden" id="pageSize" value="5"/>
-            <input type="text" id="name" name="name" placeholder="课程名称/科目"/>
+            <input type="text" id="name" name="name" placeholder="课程名称"/>
             <select name="livestatus" id="livestatus">
                 <option value="">请选择直播课状态</option>
                 <option value="nostart">未开始</option>
@@ -67,7 +67,7 @@
                 <tr data-buy="true">
                     <th width="5%">序号</th>
                     <th width="10%">课程名称</th>
-                    <th width="10%">学科</th>
+                    <%--<th width="10%">学科</th>--%>
                     <th width="10%">所属学校</th>
                     <th width="10%">直播课状态</th>
                    <!--  <th width="10%">权限</th> -->

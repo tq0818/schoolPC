@@ -22,7 +22,6 @@ function closeBtn(companyId,itemCode,delFlag) {
 (function ($) {
 	//记录排序规则
 	var recordPaixu =null;
-
     var company = {
         init: function () {
             var $this = this;

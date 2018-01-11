@@ -64,7 +64,6 @@ function ajaxDataFilter(treeId, parentNode, responseData){
         var list = responseData.list;
         var names = responseData.name;
          return getTreeList(list,names);
-
         // var newNodes = list;
         //
         // ztree.addNodes(treeNode, newNodes);

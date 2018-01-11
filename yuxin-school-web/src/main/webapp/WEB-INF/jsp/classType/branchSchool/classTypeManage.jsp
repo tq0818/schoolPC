@@ -26,6 +26,11 @@
             margin-right: 11px;
         }
 
+        select{
+            width: 100px;
+        }
+
+
     </style>
     <%--tob--%>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
@@ -80,6 +85,13 @@
                     <option value="">上下架状态</option>
                     <option value="1">已上架</option>
                     <option value="0">已下架</option>
+                </select>
+            </li>
+            <li>
+                <select name="courseType" id="courseType" class="courseType">
+                    <option value="">授课方式</option>
+                    <option value="1">直播</option>
+                    <option value="2">录播</option>
                 </select>
             </li>
         </ul>

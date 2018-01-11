@@ -40,9 +40,12 @@
 		<result property="beforeStudyName" column="before_study_name"/>
 		<result property="beforeStudyUrl" column="before_study_url"/>
 		<result property="afterStudyUrl" column="after_study_url"/>
-		<!--<result property="tikuPaper.id" column="paperId"></result>-->
-		<!--<result property="tikuPaper.paperName" column="paperName"></result>-->
-		<!--<result property="courseExercise.id" column="courseExerciseId"></result>-->
+		<result property="tikuPaper.id" column="paperId"></result>
+		<result property="tikuPaper.paperName" column="paperName"></result>
+		<result property="courseExercise.id" column="courseExerciseId"></result>
+		<result property="commodityId" column="commodity_id"></result>
+		<result property="commodityName" column="commodity_name"></result>
+		<result property="classTypeId" column="classtype_id"></result>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
@@ -536,4 +539,17 @@
         where  m.id = #{id} and del_flag=0
         ORDER  BY  cml.lesson_name desc
     </select>
+	<select id="findLessonByCommodityIds" resultMap="classModuleLessonResultMap">
+		select cml.id,cml.lesson_name,m.name as commodity_name,tp.id as paperId,before_study_url,after_study_url,m.id as commodity_id,cmno.classtype_id from class_module_lesson cml
+		LEFT JOIN class_module_no_onsale cmno  on  cmno.module_no_id = cml.module_no_id
+		LEFT JOIN  commodity_product_realtion cpr on cpr.product_id = cmno.classtype_id
+		left join commodity m  on m.id  = cpr.com_id and m.origin_type=0
+		left join course_exercise ce on ce.resource_id = cml.id AND ce.`resource_type` = 'TEACH_METHOD_LIVE'
+		left join tiku_paper tp on tp.id = ce.paper_id
+		where cml.del_flag=0 and m.id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER  BY  cml.lesson_date asc, cml.lesson_time_start asc
+	</select>
 </mapper>

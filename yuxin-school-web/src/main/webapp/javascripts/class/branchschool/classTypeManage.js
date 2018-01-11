@@ -252,13 +252,14 @@ function classTypeDetail(pageNo){
 	var firstItemCode=$("#firstItemCode").find("option:selected").attr("data-code");
 	var secondItemCode=$("#secondItemCode").find("option:selected").attr("data-code");
 	var thirdItemCode=$("#thirdItemCode").find("option:selected").attr("data-code");
+	console.log($("#courseType").val());
 	$.ajax({
 		url : rootPath + "/branchSchool/classTypeDetail",
 		type:"post",
 		data:{"areaId":$("#areaId").val(),"name":$("#name").val(),"schoolCode":$("#schoolCode").val(),
 			"firstItemCode":firstItemCode,"secondItemCode":secondItemCode,
 			"thirdItemCode":thirdItemCode,"cddsStatus":$("#cddsStatus").val(),
-			"startTime":$("#startTime").val(),"endTime":$("#endTime").val(),
+			"startTime":$("#startTime").val(),"endTime":$("#endTime").val(),"courseType":$("#courseType").val(),
 			"page":pageNo,"pageSize":$.trim($("#pageSize").val())},
 		dataType:"html",
 		beforeSend:function(XMLHttpRequest){

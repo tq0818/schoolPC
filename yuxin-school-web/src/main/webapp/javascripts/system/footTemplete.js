@@ -649,8 +649,9 @@ function query_footShowContent(){
         		}
         	}else{
         		if(result.length<=0){
-        			html='<a href="#">关于我们</a><a href="#">隐私条款</a><a href="#">产品声明</a><a href="#">法律声明</a>'+
-        			'<a href="#">服务报价</a><a href="#">帮助中心</a><a href="#">成功案例</a><a href="#">联系我们</a>';
+        			/*html='<a href="#">关于我们</a><a href="#">隐私条款</a><a href="#">产品声明</a><a href="#">法律声明</a>'+
+        			'<a href="#">服务报价</a><a href="#">帮助中心</a><a href="#">成功案例</a><a href="#">联系我们</a>';*/
+                    html='';
         		}else{
         			if(CURRENT_IS_AREA == 0){
         				$.each(result,function(i,item){

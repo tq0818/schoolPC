@@ -168,15 +168,15 @@
 									</div>
 								</div>
 								<div class="right server-infos">
-									<p class="infos">导航配置</p>
-									<p class="infos">页尾设置</p>
+									<%--<p class="infos">导航配置</p>
+									<p class="infos">页尾设置</p>--%>
 									<p class="infos">轮播图设置</p>
 								</div>
 								<p class="btns isok">
-									<a href="<%=rootPath %>/microSchool/gotoNavigationConfig"
+									<%--<a href="<%=rootPath %>/microSchool/gotoNavigationConfig"
 									   class="btn btn-sm btn-default micro-set">导航配置</a>
 									<a href="<%=rootPath %>/microSchool/gotoFooterConfig"
-									   class="btn btn-sm btn-default micro-set">页尾设置</a>
+									   class="btn btn-sm btn-default micro-set">页尾设置</a>--%>
 									<a href="<%=rootPath %>/microSchool/gotoCarouselFigureConfig"
 									   class="btn btn-sm btn-default micro-set">轮播图设置</a>
 								</p>
@@ -903,9 +903,9 @@
 								<li class="clear">
 									<div class="left" style="width: 200px;">
 										<div>
-											<i class="icons i7 active" style="cursor:pointer;" onclick="forwardTiku();"></i>
+											<i class="icons i7 active" style="cursor:pointer;" onclick="forwardClassSet();"></i>
 											<p class="s-name">
-												<a href="javascript:void(0);" onclick="forwardTiku();"
+												<a href="javascript:void(0);" onclick="forwardClassSet();"
 												   style="text-decoration: none;">行政班设置</a>
 												<c:if test="${!empty manganger }">
 													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务"
@@ -915,16 +915,16 @@
 										</div>
 									</div>
 									<div class="right server-infos">
-											<%--<p class="infos">行政班设置</p>--%>
-											<%--<p class="infos">随堂考试</p>--%>
-											<%--<p class="infos">模拟真实考题</p>--%>
+											<%--<p class="infos">行政班设置</p>
+											<p class="infos">随堂考试</p>
+											<p class="infos">模拟真实考题</p>--%>
 									</div>
-										<%--<shiro:hasPermission name="administrative_class">--%>
+										 <%--<shiro:hasPermission name="administrative_class">--%>
 									<p class="btns isok" style="height:28px">
 										<a href="<%=rootPath%>/administrativeClassManager/administrativeClass"
 										   class="btn btn-sm btn-default">行政班设置</a>
 									</p>
-										<%--</shiro:hasPermission>--%>
+										 <%--</shiro:hasPermission>--%>
 								</li>
 							</c:if>
 						</ul>
@@ -1145,7 +1145,7 @@
 								</c:if>
 							</li>
 						</c:if> --%>
-						<%-- <c:if test="${requestScope.SERVICE_QUESTION_ANSWER == 'SERVICE_QUESTION_ANSWER' }">
+						 <c:if test="${requestScope.SERVICE_QUESTION_ANSWER == 'SERVICE_QUESTION_ANSWER' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
 									<div>
@@ -1166,7 +1166,7 @@
 									</p>
 								</c:if>
 							</li>
-						</c:if> --%>
+						</c:if>
 						<%-- <c:if test="${requestScope.SERVICE_STAGE == 'SERVICE_STAGE' }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">
@@ -1314,8 +1314,8 @@
 			
 			                    </div>
 			                    <div class="right server-infos">
-			                        <p class="infos">导航配置</p>
-		                         	<p class="infos">页尾设置</p>
+			                        <%--<p class="infos">导航配置</p>
+		                         	<p class="infos">页尾设置</p>--%>
 		                        	<p class="infos">轮播图设置</p>
 			                    </div>
 			                    <%--<c:if test="${!empty manganger }">--%>
@@ -1480,9 +1480,9 @@
 								<li class="clear">
 									<div class="left" style="width: 200px;">
 										<div>
-											<i class="icons i7 active disable" style="cursor:pointer;" onclick="forwardTiku();"></i>
+											<i class="icons i7 active disable" style="cursor:pointer;" onclick="forwardClassSet();"></i>
 											<p class="s-name">
-												<a href="javascript:void(0);" onclick="forwardTiku();" style="text-decoration: none;">行政班设置</a>
+												<a href="javascript:void(0);" onclick="forwardClassSet();" style="text-decoration: none;">行政班设置</a>
 												<c:if test="${!empty manganger }">
 													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务" data-type="SERVICE_TIKU">&#xe635;</i>
 												</c:if>

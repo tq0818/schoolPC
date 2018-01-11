@@ -160,4 +160,6 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryHistoryAll();
+
+    List<Map<String,Object>> queryPlayLogsByParam(Map<String, Object> param);
 }

@@ -117,7 +117,7 @@ function forwardMicroSchool(){
 	var id=$("#microSchoolPri").val();
 	if(id==1){
 		var url = $("a.micro-set:first").attr("href");
-		window.location.href = url;
+		window.location.href = rootPath + "/microSchool/gotoCarouselFigureConfig";
 	}
 }
 

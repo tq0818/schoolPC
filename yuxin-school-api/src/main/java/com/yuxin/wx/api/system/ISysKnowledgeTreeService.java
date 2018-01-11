@@ -1,8 +1,7 @@
 package com.yuxin.wx.api.system;
 
-import com.yuxin.wx.model.classes.ClassModuleLesson;
-import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
+import com.yuxin.wx.model.user.Users;
 
 import java.util.List;
 
@@ -36,4 +35,6 @@ public interface ISysKnowledgeTreeService {
      * @return
      */
     void removeKnowledge(SysKnowledgeTree sysKnowledgeTree);
+
+    void addKnowledgeTree(String idstr, SysKnowledgeTree sysKnowledgeTree, Users user);
 }

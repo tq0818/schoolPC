@@ -16,8 +16,10 @@ import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
+import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +73,6 @@ public class SysKnowledgeTreeController extends BaseWebController {
         model.addAttribute("eduSteps", eduSteps);
         return "/resource/knowledgeTree/knowledgeIndex";
     }
-
 
     /**
      * 知识树列表查询
@@ -147,13 +148,11 @@ public class SysKnowledgeTreeController extends BaseWebController {
      */
     @ResponseBody
     @RequestMapping(value = "addKnowledgeTree")
-    public String addKnowledgeTree(SysKnowledgeTree sysKnowledgeTree) {
+    public String addKnowledgeTree(HttpServletRequest request, SysKnowledgeTree sysKnowledgeTree) {
         try{
-            if(sysKnowledgeTree.getId() == null){
-                sysKnowledgeTreeServiceImpl.insertKnowledgeTree(sysKnowledgeTree);
-            }else{
-                sysKnowledgeTreeServiceImpl.updateKnowledgeTree(sysKnowledgeTree);
-            }
+            sysKnowledgeTree.setCompanyId(WebUtils.getCurrentCompanyId());
+            Users user = WebUtils.getCurrentUser();
+            sysKnowledgeTreeServiceImpl.addKnowledgeTree(request.getParameter("idstr"), sysKnowledgeTree, user);
         }catch(Exception e){
             e.printStackTrace();
             return "false";

@@ -247,4 +247,11 @@ public interface ITikuUserExerciseService {
     PageFinder<TikuUserExerciseVo> findAllPaperRspdInfo(TikuUserExercise exercise);
 
     Map<String,Object> findExamAccuracyByParam(TikuUserExerciseAnswerAccuracy tueaa);
+
+    /**
+     * 通过参数统计用户做题记录
+     * @param param
+     * @return
+     */
+    List<Map<String,Object>> findTikuPaperByParam(Map<String, Object> param);
 }

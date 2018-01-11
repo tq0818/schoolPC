@@ -144,4 +144,9 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
         return sysPlayLogsMapper.queryHistoryAll();
     }
 
+    @Override
+    public List<Map<String, Object>> queryPlayLogsByParam(Map<String, Object> param) {
+        return sysPlayLogsMapper.queryPlayLogsByParam(param);
+    }
+
 }

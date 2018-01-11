@@ -172,8 +172,8 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
     @Override
     public List<PayOrder> findPayOrderByParams(Map<String, Object> params) {
         // 将String类型，转换为Date类型
-        if (params.get("startDate") != null && params.get("startDate") != "") {
-            String startDay = (String) params.get("startDate");
+        if (params.get("inpstart") != null && params.get("inpstart") != "") {
+            String startDay = (String) params.get("inpstart");
             Date startDate = null;
             try {
                 startDate = format.parse(startDay);
@@ -181,10 +181,10 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
                 log_pay.error("格式化订单查询开始日期格式出错", e);
                 e.printStackTrace();
             }
-            params.put("startDate", startDate);
+            params.put("inpstart", startDate);
         }
-        if (params.get("endDate") != null && params.get("endDate") != "") {
-            String endDay = (String) params.get("endDate");
+        if (params.get("inpend") != null && params.get("inpend") != "") {
+            String endDay = (String) params.get("inpend");
             Date endDate = null;
             try {
                 endDate = format.parse(endDay);
@@ -193,7 +193,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
                 e.printStackTrace();
                 log_pay.error("格式化订单查询结束日期格式出错");
             }
-            params.put("endDate", endDate);
+            params.put("inpend", endDate);
         }
         return payOrderMapper.findPayOrderByParams(params);
     }

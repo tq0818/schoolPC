@@ -282,81 +282,30 @@ public class PayOrderController {
         // 学习卡服务
         SysConfigService service = WebUtils.getConfigService("SERVICE_STUDYCARD");
         model.addAttribute("stydycardservice", service != null ? service.getDelFlag() : 0);
-        return "system/order";
+        return "system/allOrder";
     }
-    @RequestMapping("/selOrder")
-    public String selOrder(Model model, HttpServletRequest request, Integer page, String payType, String payStatus, String startDate, String endDate,
-                           String mobile, String payTime) {
+    @RequestMapping(value = "/queryAllOrder")
+    public String selOrder(Model model, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        int timeLen = -1;
-        // <a href="javascript:;" mark="today" class="btn btn-sm btn-default
-        // day-time" >今天</a>
-        // <a href="javascript:;" mark="yesday" class="btn btn-sm btn-default
-        // day-time" >昨天</a>
-        // <a href="javascript:;" mark="sevnday" class="btn btn-sm btn-default
-        // day-time" >7天</a>
-        // <a href="javascript:;" mark="thirty" class="btn btn-sm btn-default
-        // day-time" >当月</a>
-        // <a href="javascript:;" mark="thirmonth" class="btn btn-sm btn-default
-        // day-time" >三个月</a>
-        // <a href="javascript:;" mark="nos" class="btn btn-sm btn-default
-        // day-time-point" >指定时间</a>
-        // if(payTime != null && payTime.length() > 0 && startDate != null &&
-        // endDate != null){
-        // Date date = new Date();
-        // if("today".equals(payTime)){
-        // startDate = format.format(date);
-        // }else if("yesday".equals(payTime)){
-        // startDate = format.format(DateUtil.addDate(date, -1));
-        // }else if("sevnday".equals(payTime)){
-        // startDate = format.format(DateUtil.addDate(date, -6));
-        // }else if("thirty".equals(payTime)){
-        // startDate = DateUtil.getFirstDayOfCurMonth();
-        // }else if("thirmonth".equals(payTime)){
-        // startDate = format.format(DateUtil.addDate(date, -89));
-        // }
-        // if("yesday".equals(payTime)){
-        // endDate = startDate;
-        // }else{
-        // endDate = format.format(date);
-        // }
-        // }
-        if ("today".equals(payTime)) {
-            timeLen = 0;
-        } else if ("yesday".equals(payTime)) {
-            timeLen = 1;
-        } else if ("sevnday".equals(payTime)) {
-            timeLen = 7;
-        } else if ("thirty".equals(payTime)) {
-            timeLen = 30;
-        } else if ("thirmonth".equals(payTime)) {
-            timeLen = 90;
-        }
-        if (!"nos".equals(payTime)) {
-            startDate = "";
-            endDate = "";
-        }
-        map.put("payType", payType);
-        map.put("payTime", payTime);
-        map.put("timeLen", timeLen);
-        map.put("payStatus", payStatus);
-        map.put("startDate", startDate);
-        map.put("endDate", endDate);
-        map.put("mobile", mobile);
-        map.put("companyId", companyId);
-        map.put("page", (page - 1) * 5);
-        map.put("pageSize", 5);
-
-        System.out.println("payTime:" + payTime);
+        Map<String,Object>map = new HashMap<String,Object>();
+        map.put("companyId",companyId);
+        map.put("orderNum",request.getParameter("orderNum"));
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        map.put("payMethod",request.getParameter("payMethod"));
+        map.put("firstPrice",request.getParameter("firstPrice"));
+        map.put("secondPrice",request.getParameter("secondPrice"));
+        Integer page = Integer.parseInt(request.getParameter("page"));
+        map.put("page",page);
+        Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        map.put("pageSize",pageSize);
 
         // 查询 订单 集合
         List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
         // 总数
         Integer count = this.payOrderServiceImpl.findCountByParams(map);
         // 分页
-        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, 5, count, cpoList);
+        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, pageSize, count, cpoList);
 
         model.addAttribute("payPage", payPage);
         return "system/orderDetail";

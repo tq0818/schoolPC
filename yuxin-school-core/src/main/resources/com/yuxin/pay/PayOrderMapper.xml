@@ -440,115 +440,44 @@
 	
 	
 	<select id="findPayOrderByParams" resultMap="payOrderResultMap" parameterType="map">
-		select  po.id,
-				po.order_num,
-				po.pay_num,
-				po.pay_time,
-				po.order_time,
-				po.commodity_name,
-				po.commdity_type,
-				po.commodity_id,
-				po.pay_price,
-				po.pay_type,
-				po.pay_status,
-				po.company_id,
-				po.collection_time,
-				po.remark,
-				 uf.mobile as discount_no,
-				 uf.username as coupon_code
-		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} and po.origin_type=0 
-		<if test="payStatus != null and payStatus !=''">
-			<if test="payStatus == 1">
-				and po.pay_status = 'PAY_NON'
-			</if>
-			<if test="payStatus == 2">
-				and po.pay_status = 'PAY_REMIT' 
-			</if>
-			<if test="payStatus == 3">
-				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
-			</if>
-		</if>
-		<if test="payType != null and payType !=''">
-			<if test="payType == 1">
-				and po.pay_type = 'PAY_TYPE_ZFB' 
-			</if>
-			<if test="payType == 2">
-				and po.pay_type = 'PAY_TYPE_GRDB' 
-			</if>
-			<if test="payType == 3">
-				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
-			</if>
-			<if test="payType == 4">
-				and po.pay_type = 'PAY_TYPE_WX_GZH'
-			</if>
-			<if test="payType == 5">
-				and po.pay_type = 'PAY_TYPE_STUDYCARD'
-			</if>
-		</if>
-		<if test="timeLen !=null and timelen != -1 and payTime != null and payTime !='nos'">
-			<choose>
-				<when test="payTime == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<when test="payTime == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<otherwise>
-				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
-				</otherwise>
-			</choose>
-		</if>
-		<if test="startDate != null and startDate != ''">and po.order_time <![CDATA[>=]]> #{startDate}</if>
-		<if test="endDate != null and endDate != ''"> and po.order_time <![CDATA[<=]]> #{endDate}</if>
-		<if test="mobile != null and mobile != ''">
-			 and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%') 
-		</if>
-		<if test="schoolId != null and schoolId != ''">and po.school_id = #{schoolId}</if>
+		SELECT
+		po.id,
+		po.order_num,
+		po.pay_num,
+		po.pay_time,
+		po.order_time,
+		po.commodity_name,
+		po.commdity_type,
+		po.commodity_id,
+		po.pay_price,
+		po.pay_type,
+		po.pay_status,
+		po.company_id,
+		po.collection_time,
+		po.remark,
+		uf.mobile AS discount_no,
+		uf.username AS coupon_code,
+		st.name as stuName
+		FROM
+		pay_order po
+		JOIN users_front uf ON uf.id = po.user_id
+		join student st on st.user_id=uf.id
+		WHERE
+		po.origin_type = 0 and po.company_id = #{companyId}
+
 		order by order_time desc
 		limit #{page},#{pageSize}
 	</select>
 	
 	<select id="findCountByParams" resultType="int" parameterType="map">
-		select  count(po.id) 
-		from pay_order po <if test="mobile != null and mobile != ''"> left join users_front uf on  uf.id = po.user_id </if> where po.company_id = #{companyId}  and po.origin_type=0 
-		<if test="payStatus != null and payStatus !=''">
-			<if test="payStatus == 1">
-				and po.pay_status = 'PAY_NON'
-			</if>
-			<if test="payStatus == 2">
-				and po.pay_status = 'PAY_REMIT' 
-			</if>
-			<if test="payStatus == 3">
-				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
-			</if>
-		</if>
-		<if test="payType != null and payType !=''">
-			<if test="payType == 1">
-				and po.pay_type = 'PAY_TYPE_ZFB' 
-			</if>
-			<if test="payType == 2">
-				and po.pay_type = 'PAY_TYPE_GRDB' 
-			</if>
-			<if test="payType == 3">
-				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
-			</if>
-			<if test="payType == 4">
-				and po.pay_type = 'PAY_TYPE_WX_GZH'
-			</if>
-			<if test="payType == 5">
-				and po.pay_type = 'PAY_TYPE_STUDYCARD'
-			</if>
-		</if>
-		<if test="timeLen !=null and timelen != -1 and payTime != null and payTime != 'nos'">
-			<choose>
-				<when test="payTime == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<when test="payTime == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<otherwise>
-				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
-				</otherwise>
-			</choose>
-		</if>
-		<if test="startDate != null and startDate != ''">and po.order_time <![CDATA[>=]]> #{startDate}</if>
-		<if test="endDate != null and endDate != ''"> and po.order_time <![CDATA[<=]]> #{endDate}</if>
-		<if test="mobile != null and mobile != ''">
-		 	and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%')
-		</if>
+		SELECT
+		count(1)
+		FROM
+		pay_order po
+		JOIN users_front uf ON uf.id = po.user_id
+		join student st on st.user_id=uf.id
+		WHERE
+		po.origin_type = 0 and po.company_id = #{companyId}
 		
 	</select>
 	

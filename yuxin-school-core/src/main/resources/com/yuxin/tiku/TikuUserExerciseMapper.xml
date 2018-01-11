@@ -395,4 +395,22 @@
 			<if test="topicId!=null">and topic_id = #{topicId}</if>
 			<if test="topicType!=null and topicType!=''">and topic_type = #{topicType}</if>
 	</select>
+
+	<select id="findTikuPaperByParam" parameterType="map" resultType="map">
+		select
+		tu.`user_id` as userId,
+		(select
+		CASE WHEN count(1) = 0 THEN 2
+		ELSE 1 END
+		from
+		`tiku_user_wrong` uw
+		left join tiku_paper_topic tpt
+		on tpt.topic_id = uw.topic_id
+		where tpt.paper_id = #{paperId}
+		and uw.user_id = tu.user_id) as paperFlag
+		from
+		`tiku_user_exercise` tu
+		where tu.exercise_id = #{paperId}
+		and tu.exercise_type = 'EXERCISE_TYPE_PAPER'
+	</select>
 </mapper>

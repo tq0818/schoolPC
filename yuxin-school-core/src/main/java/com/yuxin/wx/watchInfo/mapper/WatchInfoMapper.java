@@ -29,4 +29,6 @@ public interface WatchInfoMapper extends BaseMapper<WatchInfo> {
     void addWatchInfoFromZSSent(WatchInfoFromZSSend watchInfo);
 
     Map getCurrentByRoom(Map map);
+
+    List<Map<String, Object>> queryWatchInfoByParam(Map<String, Object> param);
 }

@@ -1,6 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
-<%@include file="/decorators/import.jsp" %>
+
+<input type="hidden" value="${payPage.rowCount }" id="rowCount"/>
+<input type="hidden" value="${payPage.pageNo }" id="pageNo"/>
+<input type="hidden" value="${payPage.pageSize }" id="pageSize"/>
 <table class="table table-center allOrderList" >
 	<tr>
 		<th width="3%">订单编号</th>
@@ -18,10 +23,38 @@
 			<td>${order.orderNum }</td>
 			<td>${order.commodityName }</td>
 			<td>${order.payPrice }</td>
-			<td>${order.stuName }</td>
+			<c:choose>
+				<c:when test="${empty order.stuName }">
+					<td>${order.couponCode}</td>
+				</c:when>
+				<c:when test="${empty order.stuName and empty order.couponCode }">
+					<td>${order.discountNo}</td>
+				</c:when>
+				<c:otherwise>
+					<td>${order.stuName }</td>
+				</c:otherwise>
+			</c:choose>
+
 			<td>${order.discountNo}</td>
-			<td>${order.orderTime}</td>
-			<td>${order.payTime}</td>
+			<c:choose>
+				<c:when test="${empty order.orderTime}">
+					<td>${order.orderTime}</td>
+				</c:when>
+				<c:otherwise>
+					<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:mm"/></td>
+				</c:otherwise>
+			</c:choose>
+
+			<c:choose>
+				<c:when test="${empty order.payTime}">
+					<td>${order.payTime}</td>
+				</c:when>
+				<c:otherwise>
+					<td><fmt:formatDate value="${order.payTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				</c:otherwise>
+			</c:choose>
+
+
 			<c:choose>
 				<c:when test="${order.payStatus=='PAY_SUCCESS'}">
 					<td>已完成</td>
@@ -35,22 +68,20 @@
 		</tr>
 	</c:forEach>
 
-</table>
-<script>
-	//	分页
-	$(".pagination").pagination('',
-			{
-				next_text: "下一页",
-				prev_text: "上一页",
-				current_page: '',
-				link_to: "javascript:void(0)",
-				num_display_entries: 8,
-				items_per_page: 1,
-				num_edge_entries: '',
-				callback: function (page, jq) {
-					var pageNo = page + 1;
-
-				}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".pagination").pagination($("#rowCount").val(), {
+			next_text : "下一页",
+			prev_text : "上一页",
+			current_page :($("#pageNo").val() - 1),
+			link_to : "javascript:void(0)",
+			num_display_entries : 8,
+			items_per_page :  $("#pageSize").val(),
+			num_edge_entries : 1,
+			callback:function(page,jq){
+				var pageNo = page + 1;
+				queryOrders(pageNo);
 			}
-	);
+		});
+	});
 </script>

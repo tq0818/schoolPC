@@ -464,8 +464,19 @@
 		join student st on st.user_id=uf.id
 		WHERE
 		po.origin_type = 0 and po.company_id = #{companyId}
-
-		order by order_time desc
+		<if test="orderNum != null and orderNum != ''">
+			and po.order_num=#{orderNum}
+		</if>
+		<if test="payMethod != null and payMethod != ''">
+			and po.pay_type=#{payMethod}
+		</if>
+		<if test="firstPrice != null and firstPrice != '' and secondPrice != null and secondPrice != ''">
+			and po.pay_price BETWEEN #{firstPrice} and #{firstPrice}
+		</if>
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
+		order by po.order_time desc
 		limit #{page},#{pageSize}
 	</select>
 	
@@ -478,6 +489,18 @@
 		join student st on st.user_id=uf.id
 		WHERE
 		po.origin_type = 0 and po.company_id = #{companyId}
+		<if test="orderNum != null and orderNum != ''">
+			and po.order_num=#{orderNum}
+		</if>
+		<if test="payMethod != null and payMethod != ''">
+			and po.pay_type=#{payMethod}
+		</if>
+		<if test="firstPrice != null and firstPrice != '' and secondPrice != null and secondPrice != ''">
+			and po.pay_price BETWEEN #{firstPrice} and #{firstPrice}
+		</if>
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
 		
 	</select>
 	

@@ -612,15 +612,15 @@ public class AuthPrivilegeController {
  				u.setUsername(userName);
  				List<Users> arr=userServiceImpl.queryuserIsExist(u);
  	 			if(null!=arr&&arr.size()>0){
- 	 				return "用户名已存在";
+ 	 				return "登录账号已存在";
  	 			}
  	 			return "true";
  			}else{
- 				return "用户名只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成";
+ 				return "登录账号只能以字母开头并由数字0-9，字母（a-z，A-Z）和下划线_组成";
  			}
  			
  		}else{
- 			return "用户名不能为空";
+ 			return "登录账号不能为空";
  		}
 		
 	}

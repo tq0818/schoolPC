@@ -824,6 +824,7 @@ public class VideoController {
                 resultInfo = HttpPostRequest.get(userUrl);
                 this.videoServiceImpl.deleteVideoById(vid);
                 serviceStaticService.updateByCompanyStatus(companyId);
+                serviceStaticService.updateByCompanyStatusl(companyId);
                 comMember = memberServiceService.findByCompanyId(companyId);
                 comService=serviceStaticService.findByCompanyId(companyId);
                 // 当此用户为cc公共账号时进行video的空间累加
@@ -897,6 +898,7 @@ public class VideoController {
     public String toVideo(Model model, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
         serviceStaticService.updateByCompanyStatus(companyId);
+        serviceStaticService.updateByCompanyStatusl(companyId);
         CompanyMemberService comMember = memberServiceService.findByCompanyId(companyId);
         CompanyServiceStatic comService = serviceStaticService.findByCompanyId(companyId);
         List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(),

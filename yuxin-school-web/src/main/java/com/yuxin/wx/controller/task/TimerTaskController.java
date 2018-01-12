@@ -618,6 +618,7 @@ public class TimerTaskController {
 			stl.setOperateTime(new Date());
 			log.info("修改视频统计-----执行时间：" + date);
 			footBookTask.up(companyId);
+			//footBookTask.updateStaticDay(companyId);
 			ccssTask.TaskStatistics();
 			json.put("msg", "修改视频统计完成<br>执行时间："+ (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)));
 			log.info("修改视频统计-----处理：完成");

@@ -23,7 +23,7 @@
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<!-- 指定任务Bean的实现类 -->
 		<property name="jobClass">
-			<value>com.yuxin.wx.controller.task.TimerTaskPrimary</value>
+			<value>com.yuxin.wx.controller.task.PaperTaskPrimary</value>
 		</property>
 	</bean>
 

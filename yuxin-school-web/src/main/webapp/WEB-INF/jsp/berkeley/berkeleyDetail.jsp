@@ -104,13 +104,13 @@
                     <label>流量: ${css.videoFlow}/${cms.videoFlow} GB</label><br/>
                     <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量:</span>
                     <input style="width: 115px" type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
-                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
+                    <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>空间: ${css.videoStorage }/${cms.videoStorage} GB </label><br/>
                     <span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间:</span>
                     <input style="width: 115px" type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
-                    <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
+                    <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>
                 </p>
             </li>
             <li class="accountNumber">

@@ -1,5 +1,6 @@
 package com.yuxin.wx.system.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import com.yuxin.wx.system.mapper.SysTaskLogMapper;
  */
 @Service
 @Transactional
-public class SysTaskLogServiceImpl extends BaseServiceImpl implements ISysTaskLogService {
+public class SysTaskLogServiceImpl extends BaseServiceImpl implements ISysTaskLogService, Serializable {
 
 	@Autowired
 	private SysTaskLogMapper sysTaskLogMapper;

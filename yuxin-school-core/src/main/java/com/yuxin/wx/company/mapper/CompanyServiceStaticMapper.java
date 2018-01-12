@@ -15,6 +15,9 @@ import com.yuxin.wx.vo.system.SystemConfigServiceVo;
 public interface CompanyServiceStaticMapper extends BaseMapper<CompanyServiceStatic> {
 	//更新储存空间
 	void updateByCompanyStatus(Integer companyId);
+
+	//更新总使用流量
+	void updateByCompanyStatusl(Integer companyId);
 	
 	CompanyServiceStatic findByCompanyId(Integer companyId);
 	

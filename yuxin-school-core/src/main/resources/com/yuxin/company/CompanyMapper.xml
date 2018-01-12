@@ -1701,7 +1701,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<select id="findClassByEduAreaSchool" resultMap="classResultMap" parameterType="String">
 		select id,edu_step,edu_year,count(edu_class) as edu_class from edu_master_class emc 
 		where edu_year <![CDATA[ <= ]]> (select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW()) else (YEAR(NOW())-1) end)
-		and edu_year<![CDATA[ > ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
+		and edu_year<![CDATA[ >= ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
 		and edu_school=#{eduAreaSchool}
 		GROUP BY edu_step,edu_year 
 		ORDER BY edu_step ,edu_year desc

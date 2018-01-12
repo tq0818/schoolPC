@@ -117,9 +117,9 @@
                 <p style="margin-bottom: 5px;">
                     <label>CC账号:</label><br>
 
-                    <input type="text" class="editState " id="ccUserName" value="${clc.loginName }" style="margin-left: 95px;margin-bottom: 5px;" disabled="disabled">
+                    <input type="text" class="editState " id="ccUserName" value="${cpc.ccUserId }" style="margin-left: 95px;margin-bottom: 5px;" disabled="disabled">
                     <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
-                    <input type="password" class="editState showDetails " id="ccPwd" value="${clc.password}" style="margin-left: 95px;">
+                    <input type="password" class="editState showDetails " id="ccPwd" value="${cpc.ccApiKey}" style="margin-left: 95px;">
                     <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
                 <p style="margin-bottom: 5px;">

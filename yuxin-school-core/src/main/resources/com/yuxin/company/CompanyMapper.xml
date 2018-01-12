@@ -173,6 +173,11 @@
 	    <result property="loginName" column="login_name"/>
 	    <result property="password" column="password"/>
 	</resultMap>
+	<resultMap type="com.yuxin.wx.model.company.CompanyPayConfig" id="companyPayConfigResultMap">
+	    <result property="id" column="id"/>
+	    <result property="ccUserId" column="cc_user_id"/>
+	    <result property="ccApiKey" column="cc_api_key"/>
+	</resultMap>
 	
 	<sql id="table_columns">
 		id,
@@ -1640,6 +1645,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<select id="findCompanyLiveConfigById" resultMap="companyLiveConfigResultMap"
 		parameterType="String">
 		select login_name,password from company_live_config where company_id=#{id} and live_type=1
+	</select>
+	<select id="findfindCompanyPayConfigById" resultMap="companyPayConfigResultMap"
+		parameterType="String">
+		select cc_user_id,cc_api_key from company_pay_config where company_id=#{id}
 	</select>
 	
 	

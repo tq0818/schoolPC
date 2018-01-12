@@ -902,8 +902,12 @@
 					<when test="order_buy==1">(c.base_num+c.buy_num) asc,</when>
 					<otherwise>(c.base_num+c.buy_num) desc,</otherwise>
 				</choose>
-			</if>		
-		ct.create_time desc
+			</if>
+		<if test="paixu == null or paixu == ''">ct.create_time desc </if>
+		<if test="paixu != null and paixu == 1">c.buy_num ASC </if>
+		<if test="paixu != null and paixu == 2">c.buy_num DESC </if>
+		<if test="paixu != null and paixu == 3">(c.base_num+c.buy_num) asc </if>
+		<if test="paixu != null and paixu == 4">(c.base_num+c.buy_num) DESC  </if>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryCountClassOfBranchSchool" resultType="int" parameterType="map">

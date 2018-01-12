@@ -47,7 +47,7 @@
 			num_edge_entries : 1,
 			callback : function(page, jq) {
 				var pageNo = page + 1;
-				classQueryDetail(pageNo);
+				classQueryDetail(pageNo,${paixu});
 			}
 		});
 	});

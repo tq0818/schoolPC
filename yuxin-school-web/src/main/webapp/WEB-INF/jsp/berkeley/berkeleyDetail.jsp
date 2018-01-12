@@ -49,7 +49,14 @@
             </li>
             <li>
                 <label>所属区域:</label>
-                <input type="text" disabled="disabled" id="eara" value="${company.eduAreaName }" style="margin-left: 45px;">
+                <c:choose>
+                    <c:when test="${company.eduAreaName == null || company.eduAreaName == ''}">
+                        <input type="text" disabled="disabled" id="eara" value="${company.companyName }" style="margin-left: 45px;">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" disabled="disabled" id="eara" value="${company.eduAreaName }" style="margin-left: 45px;">
+                    </c:otherwise>
+                </c:choose>
             </li>
             <li>
                 <label>分校性质:</label>

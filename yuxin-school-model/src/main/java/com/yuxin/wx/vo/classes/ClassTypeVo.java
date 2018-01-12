@@ -94,7 +94,15 @@ public class ClassTypeVo extends BaseEntity {
 	private String livestatus;//直播进行状态
 	
 	private String sourceClassTypeId;
-	
+	private String paixu;
+
+
+	public String getPaixu() {
+		return paixu;
+	}
+	public void setPaixu(String paixu) {
+		this.paixu = paixu;
+	}
 	public String getSourceClassTypeId() {
 		return sourceClassTypeId;
 	}

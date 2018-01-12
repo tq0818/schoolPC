@@ -722,7 +722,9 @@
 		sct.resume,
 		sct.sort_id,
 		sct.is_distinguished,
-		sct.remark
+		sct.remark,
+		sct.school_name,
+		sct.school_short_name
 		FROM
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =

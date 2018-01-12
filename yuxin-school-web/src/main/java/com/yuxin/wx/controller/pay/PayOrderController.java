@@ -288,6 +288,7 @@ public class PayOrderController {
     public String selOrder(Model model, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
         Map<String,Object>map = new HashMap<String,Object>();
+        PayOrder payOrder = new PayOrder();
         map.put("companyId",companyId);
         map.put("orderNum",request.getParameter("orderNum"));
         map.put("inpstart",request.getParameter("inpstart"));
@@ -299,6 +300,9 @@ public class PayOrderController {
         map.put("page",page);
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         map.put("pageSize",pageSize);
+        payOrder.setPage(page);
+        payOrder.setPageSize(pageSize);
+        map.put("page",payOrder.getFirstIndex());
 
         // 查询 订单 集合
         List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);

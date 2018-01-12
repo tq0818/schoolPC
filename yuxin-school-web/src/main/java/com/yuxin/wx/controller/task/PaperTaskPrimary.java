@@ -13,7 +13,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TimerTaskPrimary extends QuartzJobBean implements Serializable {
+public class PaperTaskPrimary extends QuartzJobBean implements Serializable {
     private Logger log = Logger.getLogger(getClass());
     private TikuStatisticsTask tikuStatisticsTask;
     private ISysTaskLogService sysTaskLogServiceImpl;

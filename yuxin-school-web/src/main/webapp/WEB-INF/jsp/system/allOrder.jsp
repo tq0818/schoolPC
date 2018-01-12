@@ -53,24 +53,24 @@
 						<label for="payMethod">支付方式：</label>
 						<select id="payMethod" >
 							<option value="">全部</option>
-							<option value="">微信</option>
-							<option value="">支付宝</option>
+							<option value="PAY_TYPE_WX_PERSON">微信</option>
+							<option value="PAY_TYPE_ZFB">支付宝</option>
 						</select>
 					</li>
 					<li class="allOrderHeaderInput">
 						<label for="payPrice01">订单金额：</label>
-						<input type="text" id="payPrice01" style="margin-right: 10px">至
-						<input type="text" id="payPrice02">
+						<input type="text" id="payPrice01" onkeyup="checkNum($(this));" style="margin-right: 10px">至
+						<input type="text" id="payPrice02" onkeyup="checkNum($(this));">
 					</li>
 				</ul>
-				<button class="btn btn-primary">查询</button>
+				<button class="btn btn-primary" onclick="queryByCondition();">查询</button>
 				<button class="btn btn-primary">导出</button>
 			</div>
 			<div class="allArderState">
-				<button class="btn btn-primary">全部订单</button>
-				<button class="btn btn-primary">未付款</button>
-				<button class="btn btn-primary">已完成</button>
-				<button class="btn btn-primary">已取消</button>
+				<button class="btn btn-primary" code="">全部订单</button>
+				<button class="btn btn-primary" code="PAY_NON">未付款</button>
+				<button class="btn btn-primary" code="PAY_SUCCESS">已完成</button>
+				<button class="btn btn-primary" code="SUB_ORDER_DELTED">已取消</button>
 			</div>
 			<div class="user-list allOrderTable" id="orderList">
 
@@ -96,8 +96,8 @@
 	<script>
 //		日历插件
 var start = {
-    format: 'YYYY-MM-DD hh:mm:ss',
-    isinitVal:true,
+    format: 'YYYY-MM-DD hh:mm',
+//    isinitVal:true,
     onClose:false,
     maxDate: $.nowDate({DD:0}), //最大日期
     okfun: function(obj){
@@ -106,8 +106,9 @@ var start = {
     }
 };
 var end = {
-    format: 'YYYY年MM月DD日 hh:mm:ss',
-    onClose:false,
+    format: 'YYYY-MM-DD hh:mm',
+//	isinitVal:true,
+	onClose:false,
     maxDate: '2099-06-16 23:59:59', //最大日期
     okfun: function(obj){
         start.maxDate = obj.val; //将结束日的初始值设定为开始日的最大日期
@@ -125,19 +126,39 @@ $.jeDate('#inpend',end);
 		$(function() {
 			$selectSubMenu('financial');
 			$selectSubMenus('order');
-			console.log(0);
 			queryOrders(1);
 		});
 
+		function queryByCondition(){
+			queryOrders(1);
+		}
+
+		function checkNum(obj){
+			var price = obj.val();
+			var regu = "^[0-9]+\.?[0-9]*$";
+			var re = new RegExp(regu);
+			if(!re.test(price)){
+				obj.val('');
+				return;
+			}
+			if(obj.attr("id")=='payPrice02'){
+				if(!$("#payPrice01").val()){obj.val(''); return;}
+			}
+
+		}
+
 		function queryOrders(pageNo){
 
-			var orderNum = $("#orderNum").val();
+			var orderNum = $.trim($("#orderNum").val());
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
 			var payMethod = $("#payMethod").val();
-			var firstPrice = $("#firstPrice").val();
-			var secondPrice = $("#secondPrice").val();
-			console.log(11);
+			var firstPrice = $("#payPrice01").val();
+			var secondPrice = $("#payPrice02").val();
+			if(!(firstPrice && secondPrice)){
+				alert("请填写好价格查询范围");
+				return;
+			}
 			$.ajax({
 				url : "/payOrder/queryAllOrder",
 				type:"post",
@@ -148,7 +169,6 @@ $.jeDate('#inpend',end);
 					$(".loading-bg").show();
 				},
 				success:function(data){
-					console.log(22);
 					$("#orderList").html("").html(data);
 				},
 				complete:function(XMLHttpRequest,textStatus){

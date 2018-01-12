@@ -59,9 +59,12 @@
 				<c:when test="${order.payStatus=='PAY_SUCCESS'}">
 					<td>已完成</td>
 				</c:when>
-				<c:otherwise>
-					<td>未支付</td>
-				</c:otherwise>
+				<c:when test="${order.payStatus=='PAY_NON'}">
+					<td>未付款</td>
+				</c:when>
+				<c:when test="${order.payStatus=='SUB_ORDER_DELTED'}">
+					<td>已取消</td>
+				</c:when>
 			</c:choose>
 
 			<td><a href="##?orderId=${order.payTime}">查看详情</a></td>
@@ -70,13 +73,13 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(".pagination").pagination($("#rowCount").val(), {
+		$(".pagination").pagination('${payPage.rowCount}', {
 			next_text : "下一页",
 			prev_text : "上一页",
-			current_page :($("#pageNo").val() - 1),
+			current_page :${payPage.pageNo}-1,
 			link_to : "javascript:void(0)",
 			num_display_entries : 8,
-			items_per_page :  $("#pageSize").val(),
+			items_per_page :  ${payPage.pageSize},
 			num_edge_entries : 1,
 			callback:function(page,jq){
 				var pageNo = page + 1;

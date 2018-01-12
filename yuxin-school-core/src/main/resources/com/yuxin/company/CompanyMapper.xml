@@ -1200,8 +1200,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		 <if test="paixu != null and paixu == 1">sss.registTime ASC </if> 
 		 <if test="paixu != null and paixu == 2">sss.registTime DESC </if> 
 		 <if test="paixu != null and paixu == 3">sss.registStudentCounts ASC </if> 
-		<if test="paixu != null and paixu == 4">sss.registStudentCounts  DESC  </if>
-		<if test="paixu != null and paixu == 5">sss.classCounts ASC </if> 
+		 <if test="paixu != null and paixu == 4">sss.registStudentCounts  DESC  </if>
+		 <if test="paixu != null and paixu == 5">sss.classCounts ASC </if>
 		 <if test="paixu != null and paixu == 6">sss.classCounts DESC </if> 
 		 <if test="paixu != null and paixu == 7">sss.classTypeCounts ASC </if> 
 		 <if test="paixu != null and paixu == 8">sss.classTypeCounts DESC </if> 

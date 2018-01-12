@@ -222,9 +222,9 @@
 			   		b6+'</ul>';
 				}else{
 					html+='<ul class="tabsn"><li class="b1">直播</li>'+
-					'<li class="b2">录播</li>'+
+				/*	'<li class="b2">录播</li>'+
 		   			'<li class="b3">面授</li>'+
-			   		'<li class="b4">混合</li>'+
+			   		'<li class="b4">混合</li>'+*/
 			   		'<li class="b5">其他</li>'+
 			   		b6+'</ul>';
 				}

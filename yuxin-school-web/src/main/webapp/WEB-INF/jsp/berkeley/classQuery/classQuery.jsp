@@ -62,12 +62,16 @@
 	                    <th width="10%">学科</th>
 	                    <th width="10%">授课老师</th>
 	                    <th width="8%">课程类型</th>
-	                    <th width="8%" class="btn-sort">报名人数</th>
-	                    <th width="8%" class="btn-sort">购买人数</th>
+	                    <th width="8%" class="btn-sort buyNumMax">
+                            报名人数<input type="hidden" id="buyNumMax" value="1"/>
+                        </th>
+	                    <th width="8%" class="btn-sort actelNum">
+                            购买人数<input type="hidden" id="actelNum" value="3"/>
+                        </th>
 	                    <th width="10%">课程详情</th>
 	                </tr>
                 <tbody class="tbodyList">
-                	
+
                 </tbody>
             </table>
             <div class="pages pagination">

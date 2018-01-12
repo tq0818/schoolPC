@@ -68,15 +68,17 @@ public class ClassQuery {
     	queryParams.put("lable", req.getParameter("lable"));
     	queryParams.put("order_signup", req.getParameter("order_signup"));
     	queryParams.put("order_buy", req.getParameter("order_buy"));
-
     	queryParams.put("firstIndex", classtype.getFirstIndex());
     	queryParams.put("pageSize", classtype.getPageSize());
-    	
+    	String paixu=req.getParameter("paixu");
+    	queryParams.put("paixu", paixu);
+
     	//查询分校课程
     	List<ClassTypeVo> clist=classTypeService.queryClassOfBranchSchool(queryParams);
     	int count=classTypeService.queryCountClassOfBranchSchool(queryParams);
 		PageFinder<ClassTypeVo> msgPage = new PageFinder<ClassTypeVo>(classtype.getPage(), classtype.getPageSize(), count, clist);
 		model.addAttribute("msgPage", msgPage);
+		model.addAttribute("paixu",paixu);
 		return "berkeley/classQuery/classQueryDetail";
 	}
     

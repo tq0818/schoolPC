@@ -16,7 +16,7 @@
 		<th width="10%">下单时间</th>
 		<th width="10%">付款时间</th>
 		<th width="10%">订单状态</th>
-		<th width="15%">操作</th>
+	<%--	<th width="15%">操作</th>--%>
 	</tr>
 	<c:forEach var="order" items="${payPage.data}">
 		<tr>
@@ -67,7 +67,7 @@
 				</c:when>
 			</c:choose>
 
-			<td><a href="##?orderId=${order.payTime}">查看详情</a></td>
+			<%--<td><a href="##?orderId=${order.payTime}">查看详情</a></td>--%>
 		</tr>
 	</c:forEach>
 

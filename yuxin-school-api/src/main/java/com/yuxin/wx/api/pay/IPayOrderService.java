@@ -240,4 +240,11 @@ public interface IPayOrderService  {
 	 * @return
 	 */
 	Integer queryOrderBuyClassCountByUserId(Map<String,Object> map);
+
+	/**
+	 * 根据条件查询分销收入情况
+	 * @param map
+	 * @return
+     */
+	public List<PayOrder> findSchoolMoneyByCondition(Map<String, Object> map);
 }

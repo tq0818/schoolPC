@@ -288,4 +288,9 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
         return payOrderMapper.queryOrderBuyClassCountByUserId(map);
     }
 
+    @Override
+    public List<PayOrder> findSchoolMoneyByCondition(Map<String, Object> map) {
+        return payOrderMapper.findSchoolMoneyByCondition(map);
+    }
+
 }

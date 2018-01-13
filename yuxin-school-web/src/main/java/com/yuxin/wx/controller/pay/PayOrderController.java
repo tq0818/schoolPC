@@ -284,6 +284,13 @@ public class PayOrderController {
         model.addAttribute("stydycardservice", service != null ? service.getDelFlag() : 0);
         return "system/allOrder";
     }
+
+    /**
+     * 查询总订单
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/queryAllOrder")
     public String selOrder(Model model, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
@@ -297,7 +304,6 @@ public class PayOrderController {
         map.put("firstPrice",request.getParameter("firstPrice"));
         map.put("secondPrice",request.getParameter("secondPrice"));
         Integer page = Integer.parseInt(request.getParameter("page"));
-        map.put("page",page);
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         map.put("pageSize",pageSize);
         payOrder.setPage(page);
@@ -313,6 +319,29 @@ public class PayOrderController {
 
         model.addAttribute("payPage", payPage);
         return "system/orderDetail";
+    }
+
+    /**
+     * 查询分校收入情况
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/querySchoolMoney")
+    public String querySchoolMoney(Model model, HttpServletRequest request,PayOrder payOrder) {
+        Map<String,Object>map = new HashMap<String,Object>();
+        //分校收入情况
+        map.put("companyId",request.getParameter("companyId"));
+        map.put("pageSize",payOrder.getPageSize());
+        map.put("page",payOrder.getFirstIndex());
+        map.put("aereId",request.getParameter("aereId"));
+        List<PayOrder> cpoList = payOrderServiceImpl.findSchoolMoneyByCondition(map);
+        // 总数
+        Integer count = 5;
+        // 分页
+        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(payOrder.getPage(), payOrder.getPageSize(), count, cpoList);
+        model.addAttribute("payPage", payPage);
+        return "system/moneyAjax";
     }
     @ResponseBody
     @RequestMapping("/selOrderLast5")

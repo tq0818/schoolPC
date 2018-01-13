@@ -155,10 +155,10 @@ $.jeDate('#inpend',end);
 			var payMethod = $("#payMethod").val();
 			var firstPrice = $("#payPrice01").val();
 			var secondPrice = $("#payPrice02").val();
-			if(!(firstPrice && secondPrice)){
+			/*if(!(firstPrice && secondPrice)){
 				alert("请填写好价格查询范围");
 				return;
-			}
+			}*/
 			$.ajax({
 				url : "/payOrder/queryAllOrder",
 				type:"post",

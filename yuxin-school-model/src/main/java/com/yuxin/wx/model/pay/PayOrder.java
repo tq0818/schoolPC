@@ -56,6 +56,44 @@ public class PayOrder extends BaseEntity {
     private Integer timeLen;
     private String timeMark;
 
+    private String aeraName;
+    private String schoolName;
+    private String totalMoney;
+    private String fetchMoney;
+
+
+    public String getAeraName() {
+        return aeraName;
+    }
+
+    public void setAeraName(String aeraName) {
+        this.aeraName = aeraName;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public String getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(String totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public String getFetchMoney() {
+        return fetchMoney;
+    }
+
+    public void setFetchMoney(String fetchMoney) {
+        this.fetchMoney = fetchMoney;
+    }
+
     public PayOrder() {
         super();
         // TODO Auto-generated constructor stub

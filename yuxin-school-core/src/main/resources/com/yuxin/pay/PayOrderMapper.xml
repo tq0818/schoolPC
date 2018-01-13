@@ -437,7 +437,44 @@
 		from pay_order
 		where order_num = #{orderNum} and origin_type=0 limit 1
 	</select>
-	
+
+	<!--lym 查询分校收入情况-->
+	<select id="findSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
+		select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,'收取费用' as fetchMoney
+		from pay_order po
+		join (select scd1.item_value as aeraName,t1.company_name,t1.companyId from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is null)t1 on t1.id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		<if test="companyId != null and companyId != ''">
+			and c.id=#{companyId}
+		</if>
+		union
+
+		select scd1.item_value as aeraName,t1.company_name,t1.companyId from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is not null) t1 on t1.parent_item_id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		<if test="companyId != null and companyId != ''">
+			and c.id=#{companyId}
+		</if>
+		union
+
+		select '--' as item_value,company_name,id as company_id from company where is_area=0
+		)t2 on t2.companyId=po.company_id
+		<if test="companyId != null and companyId != ''">
+			and po.company_id=#{companyId}
+		</if>
+		GROUP BY t2.aeraName,t2.company_name
+
+		limit #{page},#{pageSize}
+	</select>
 	
 	<select id="findPayOrderByParams" resultMap="payOrderResultMap" parameterType="map">
 		SELECT

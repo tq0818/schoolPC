@@ -8,7 +8,6 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
-<%--<script type="text/javascript" src="<%=rootPath%>/javascripts/system/order.js"></script>--%>
 <style type="text/css">
 .head-div {
 	position: relative;
@@ -20,6 +19,10 @@
 	font-size: 14px;
 	margin-left: 10px;
 	margin-right: 11px;
+}
+
+#schoolId{
+	width: 150px;
 }
 </style>
 
@@ -37,17 +40,19 @@
 	<div class="right-side">
 		<div class="mainbackground nopadding allOrderContent">
 			<div>
-				<label for="">请选择分校区域：</label>
-				<select name="" id="">
-					<option value="">天府新区</option>
-					<option value="">高新区</option>
+				<label for="areaId">请选择分校区域：</label>
+				<select name="area" id="areaId">
+					<option value="">全部</option>
+					<c:forEach items="${firstItems }" var="area">
+						<option value="${area.id }">${area.itemValue }</option>
+					</c:forEach>
 				</select>
 			</div>
 			<div style="margin: 12px 0;">
-				<label for="">请选择分校：</label>
-				<select name="" id="" style="margin-left: 28px;">
-					<option value="">成都七中</option>
-					<option value="">成都十一中</option>
+				<label for="schoolId">请选择分校：</label>
+				<select name="school" id="schoolId" style="margin-left: 28px;">
+					<option value="">全部</option>
+					<option value="1">成都数字学校</option>
 				</select>
 			</div>
 			<div class="allOrderHeader">
@@ -60,23 +65,8 @@
 					总收入<span style="color: red;">1111</span>元
 				</div>
 			</div>
-			<div class="user-list allOrderTable">
-				<table class="table table-center allOrderList" >
-					<tr>
-						<th width="3%">序号</th>
-						<th width="10%">分校名称</th>
-						<th width="10%">所属区域</th>
-						<th width="10%" class="btn-sort">分校总收入（元）</th>
-						<th width="10%" class="btn-sort">应收费用（元）</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-					</tr>
-				</table>
+			<div class="user-list allOrderTable" id="moneyList">
+
 			</div>
 		</div>
 		<div class="pages">
@@ -145,7 +135,64 @@ $.jeDate('#inpend',end);
 		$(function() {
 			$selectSubMenu('financial');
 			$selectSubMenus('incomeQuery');
+
+			$("#areaId").change(function(){
+				selSchool();
+			});
+			querySchoolMoney(1);
 		});
+
+
+		function selSchool(){
+			$("#schoolId").empty();
+			$("#schoolId").append("<option value=\"\">全部</option>");
+			var areaId =$("#areaId").val();
+			if(!areaId){
+				$("#schoolId").append("<option value=\"18113\">成都数字学校</option>");
+				return;
+			}
+			$.ajax({
+				url:"/jsp/selSchool",
+				type:"post",
+				data:{"areaId":areaId},
+				dataType:"json",
+				beforeSend:function(XMLHttpRequest){
+					$(".loading").show();
+					$(".loading-bg").show();
+				},
+				success:function(data){
+					$.each(data.school,function(index,item){
+						$("#schoolId").append("<option value='" + item.companyId + "'>" + item.itemValue + "</option>");
+					});
+				},
+				complete:function(XMLHttpRequest,textStatus){
+
+					$(".loading").hide();
+					$(".loading-bg").hide();
+				}
+			});
+		}
+
+		function querySchoolMoney(pageNo){
+
+			$.ajax({
+				url : "/payOrder/querySchoolMoney",
+				type:"post",
+				data:{"page":pageNo,"pageSize":5},
+				dataType:"html",
+				beforeSend:function(XMLHttpRequest){
+					$(".loading").show();
+					$(".loading-bg").show();
+				},
+				success:function(data){
+					$("#moneyList").html("").html(data);
+				},
+				complete:function(XMLHttpRequest,textStatus){
+					$(".loading").hide();
+					$(".loading-bg").hide();
+				}
+			});
+		}
 	</script>
 </body>
 </html>

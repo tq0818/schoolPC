@@ -52,14 +52,14 @@
 				<label for="schoolId">请选择分校：</label>
 				<select name="school" id="schoolId" style="margin-left: 28px;">
 					<option value="">全部</option>
-					<option value="1">成都数字学校</option>
+					<option value="18113">成都数字学校</option>
 				</select>
 			</div>
 			<div class="allOrderHeader">
 				<label for="">请选择查询日期：</label>
 				<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
 				<input type="text" id="inpend" readonly>
-				<button class="btn btn-primary">查询</button>
+				<button class="btn btn-primary" onclick="querySchoolMoney(1);">查询</button>
 				<button class="btn btn-primary">导出数据</button>
 				<div style="display: inline-block;float: right;margin-right: 10px;margin-top: 20px;">
 					总收入<span style="color: red;">1111</span>元
@@ -107,7 +107,7 @@
 //		日历插件
 var start = {
     format: 'YYYY-MM-DD hh:mm:ss',
-    isinitVal:true,
+//    isinitVal:true,
     onClose:false,
     maxDate: $.nowDate({DD:0}), //最大日期
     okfun: function(obj){
@@ -175,10 +175,15 @@ $.jeDate('#inpend',end);
 
 		function querySchoolMoney(pageNo){
 
+			var areaId = $.trim($("#areaId").val());
+			var schoolId = $("#schoolId").val();
+			var inpstart = $("#inpstart").val();
+			var inpend = $("#inpend").val();
+
 			$.ajax({
 				url : "/payOrder/querySchoolMoney",
 				type:"post",
-				data:{"page":pageNo,"pageSize":5},
+				data:{"page":pageNo,"pageSize":5,"areaId":areaId,"schoolId":schoolId,"inpstart":inpstart,"inpend":inpend},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();

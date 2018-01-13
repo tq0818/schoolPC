@@ -247,4 +247,11 @@ public interface IPayOrderService  {
 	 * @return
      */
 	public List<PayOrder> findSchoolMoneyByCondition(Map<String, Object> map);
+
+	/**
+	 * 根据条件查询分校收入条数
+	 * @param map
+	 * @return
+     */
+	Integer findSchoolMoneyCountByCondition(Map<String, Object> map);
 }

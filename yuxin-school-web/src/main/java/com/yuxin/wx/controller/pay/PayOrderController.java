@@ -331,13 +331,15 @@ public class PayOrderController {
     public String querySchoolMoney(Model model, HttpServletRequest request,PayOrder payOrder) {
         Map<String,Object>map = new HashMap<String,Object>();
         //分校收入情况
-        map.put("companyId",request.getParameter("companyId"));
+        map.put("companyId",request.getParameter("schoolId"));
         map.put("pageSize",payOrder.getPageSize());
         map.put("page",payOrder.getFirstIndex());
-        map.put("aereId",request.getParameter("aereId"));
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        map.put("aereId",request.getParameter("areaId"));
         List<PayOrder> cpoList = payOrderServiceImpl.findSchoolMoneyByCondition(map);
         // 总数
-        Integer count = 5;
+        Integer count = 3;//payOrderServiceImpl.findSchoolMoneyCountByCondition(map);
         // 分页
         PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(payOrder.getPage(), payOrder.getPageSize(), count, cpoList);
         model.addAttribute("payPage", payPage);

@@ -31,9 +31,17 @@ public class WatchInfoResult extends BaseEntity {
     private String isBaseSchool;//基地校
     private String videoFlag;//录播
     private String liveFlag;//直播
-    
+    private String isFromBrachSchool;
 
-    public String getUserId() {
+    public String getIsFromBrachSchool() {
+		return isFromBrachSchool;
+	}
+
+	public void setIsFromBrachSchool(String isFromBrachSchool) {
+		this.isFromBrachSchool = isFromBrachSchool;
+	}
+
+	public String getUserId() {
         return userId;
     }
 

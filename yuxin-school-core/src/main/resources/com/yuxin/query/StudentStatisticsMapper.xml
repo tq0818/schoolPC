@@ -613,7 +613,11 @@
 						LEFT JOIN  commodity_product_realtion cpr on  cpr.com_id = spm.commodity_id
 						LEFT JOIN  class_module_no_onsale cmno on cmno.classtype_id = cpr.product_id
 						LEFT JOIN  class_module_lesson  cml  on cml.module_no_id = cmno.module_no_id
-						where  s.edu_identity=0 and spm.origin_type=0 and s.is_base_school=1 and c.live_flag=1
+						where  s.edu_identity=0 and spm.origin_type=0 
+							<if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+								and s.is_base_school=1 
+							</if>
+						and c.live_flag=1
 						<if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
 						<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 						<if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -651,7 +655,11 @@
 				LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 				LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
                 WHERE
-                    s.edu_identity=0 and s.is_base_school=1 and m.live_flag=1
+                    s.edu_identity=0 
+                    <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+                    	and s.is_base_school=1 
+                    </if>
+                    and m.live_flag=1
                     <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                     <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                     <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>

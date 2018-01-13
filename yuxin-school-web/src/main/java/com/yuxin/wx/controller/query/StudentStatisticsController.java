@@ -531,47 +531,21 @@ public class StudentStatisticsController {
 				model.addAttribute("role", "2");//2表示教师
  			}
         }else if(subject.hasRole("任课老师")){
-        	List<EduMasterClass> eduStep=new ArrayList<EduMasterClass>();
-        	Map<String,String>eduStepMap=new HashMap<String, String>();
-        	List<EduMasterClass> eduYear=new ArrayList<EduMasterClass>();
-        	Map<String,String>eduYearMap=new HashMap<String, String>();
-        	List<EduMasterClass> eduClass=new ArrayList<EduMasterClass>();
-        	Map<String,String>eduClassMap=new HashMap<String, String>();
-        	int userId=WebUtils.getCurrentUserId(request);
- 			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
- 			for(int i=0;i<list.size();i++){
-					if(null!=eduStepMap && !eduStepMap.containsKey(list.get(i).getEduStep())){
-						EduMasterClass vo =new EduMasterClass();
-	 					if("STEP_01".equals(list.get(i).getEduStep())){
-	 						vo.setEduStep(list.get(i).getEduStep());
-	 						vo.setEduStepName("小学");
-	 					}else if("STEP_02".equals(list.get(i).getEduStep())){
-	 						vo.setEduStep(list.get(i).getEduStep());
-	 						vo.setEduStepName("初中中学");
-	 					}else{
-	 						vo.setEduStep(list.get(i).getEduStep());
-	 						vo.setEduStepName("高中中学");
-	 					}
-	 					eduStepMap.put(list.get(i).getEduStep(), list.get(i).getEduStep());
-	 					eduStep.add(vo);
-					}
-					if(null!=eduYearMap && !eduYearMap.containsKey(list.get(i).getEduYear())){
-						EduMasterClass vo =new EduMasterClass();
-						vo.setEduYear(list.get(i).getEduYear());
-						eduYearMap.put(list.get(i).getEduYear(), list.get(i).getEduYear());
-						eduYear.add(vo);
-					}
-					if(null!=eduClassMap && !eduClassMap.containsKey(list.get(i).getEduClass())){
-						EduMasterClass vo =new EduMasterClass();
-						vo.setEduClass(list.get(i).getEduClass());
-						eduClassMap.put(list.get(i).getEduClass(), list.get(i).getEduClass());
-						eduClass.add(vo);
-					}
-				}
+ 			EduMasterClass ets =new EduMasterClass();
+        	ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+    		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+    		ets.setEduStep("1");
+    		List<EduMasterClass> eduStepGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
+    		ets.setEduStep("");
+    		ets.setEduYear("1");
+    		List<EduMasterClass> eduYearGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
+    		ets.setEduYear("");
+    		ets.setEduClass("1");
+    		List<EduMasterClass> eduClassGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
+    		model.addAttribute("eduStep", eduStepGLY);
+    		model.addAttribute("eduYear", eduYearGLY);
+    		model.addAttribute("eduClass", eduClassGLY);
         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId());
-        	model.addAttribute("eduStep", eduStep);
-        	model.addAttribute("eduYear", eduYear);
-        	model.addAttribute("eduClass", eduClass);
         	model.addAttribute("role", "3");//3表示任课老师
         }else{
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
@@ -1599,7 +1573,7 @@ public class StudentStatisticsController {
         	model.addAttribute("eduStep", eduStep);
         	model.addAttribute("eduYear", eduYear);
         	model.addAttribute("eduClass", eduClass);
-        	model.addAttribute("role", "3");//3表示任课老师
+        	model.addAttribute("role","3");//3表示任课老师
         }else{
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
         }
@@ -1695,7 +1669,6 @@ public class StudentStatisticsController {
         if (userVideoVo.getPageSize() == null) {
             userVideoVo.setPageSize(10);
         }
-
         PageFinder<UserVideoVo> pageFinder = sysPlayLogsServiceImpl.queryUserVideoPage(userVideoVo);
         return pageFinder;
     }

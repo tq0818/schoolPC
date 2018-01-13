@@ -39,6 +39,7 @@
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
 						<input type="hidden" id="isStu" name="isStu" value="1"/>
+						<input type="hidden" id="sourceFromStatic" value='1'/>	
 						<select name="eduArea" id="eduArea">
 							<option value="${area.itemCode}" data-id="${area.id}" >${area.itemValue}</option>
 						</select>

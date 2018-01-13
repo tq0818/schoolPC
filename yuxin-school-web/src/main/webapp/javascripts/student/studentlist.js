@@ -217,6 +217,12 @@
         },
         changeLevel:function(obj){
         	var levelCode=$(obj).val();
+        	$("#EduClasses").find("option").each(function(){
+        		var optionClass=$(this).attr("class");
+        		$(this).attr('selected',false);
+        		if(optionClass==''||optionClass==undefined)
+        			return;
+        	});
         	$("#EduYears").find("option").each(function(){
         		var optionClass=$(this).attr("class");
         		$(this).attr('selected',false);

@@ -41,6 +41,16 @@ public class UserVideoVo extends BaseEntity {
 	private String classTypeName;	 /* 课程名称 */
 	private String eduStep;	 /* 学生所属学段 */
 	private String stepName;	 /* 学生所属学段名称 */
+	private String isFromBrachSchool;
+	
+	public String getIsFromBrachSchool() {
+		return isFromBrachSchool;
+	}
+
+	public void setIsFromBrachSchool(String isFromBrachSchool) {
+		this.isFromBrachSchool = isFromBrachSchool;
+	}
+
 	// Constructor
 	public UserVideoVo() {
 	}

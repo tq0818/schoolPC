@@ -53,7 +53,7 @@
 						<select name="eduStep" id="eduStep">
 							<c:if test="${role != '2' && role != '3'}">
 	                           <option value="">请选择学段</option>
-	                           <c:forEach items="${stepList}" var="step">
+	                           <c:forEach items="${steps}" var="step">
 	                               <option value="${step.itemCode}">${step.itemValue}</option>
 	                           </c:forEach> 
                           </c:if> 

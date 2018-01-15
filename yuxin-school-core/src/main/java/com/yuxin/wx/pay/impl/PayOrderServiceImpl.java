@@ -204,7 +204,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
 
     @Override
     public Integer findCountByParams(Map<String, Object> params) {
-        this.dateStr2Ddate(params);
+//        this.dateStr2Ddate(params);
         return payOrderMapper.findCountByParams(params);
     }
 

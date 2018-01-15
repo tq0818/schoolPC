@@ -453,7 +453,7 @@
 			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
 			)t GROUP BY t.orderTime)t3
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				where t1.orderTime BETWEEN #{inpstart} and #{inpend}
+				where t3.orderTime BETWEEN #{inpstart} and #{inpend}
 			</if>
 			<if test="totalSort != null and totalSort != ''">
 				${totalSort}
@@ -481,7 +481,7 @@
 			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
 			)t GROUP BY t.dateTime)t1
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				where t1.dateTime BETWEEN #{inpstart} and #{inpend}
+				where t3.dateTime BETWEEN #{inpstart} and #{inpend}
 			</if>
 	</select>
 
@@ -566,6 +566,9 @@
 			</if>
 			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				and po.order_time BETWEEN #{inpstart} and #{inpend}
+			</if>
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}
 			</if>
@@ -608,6 +611,9 @@
 			</if>
 			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				and po.order_time BETWEEN #{inpstart} and #{inpend}
+			</if>
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}
 			</if>

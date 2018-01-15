@@ -15,7 +15,7 @@
 		<c:if test="${isArea eq 0}">
 		<th width="10%">所属学校</th>
 		</c:if>
-		<th width="10%" class="btn-sort">总收入</th>
+		<th width="10%" class="btn-sort" onclick="queryTeacherMoney(1,1);">总收入</th>
 		<th width="10%"><a href="##">操作</a></th>
 	</tr>
 <%--	<tr>
@@ -37,7 +37,7 @@
 			<td>${order.schoolName}</td>
 			</c:if>
 			<td>${order.fetchMoney}</td>
-			<td><a href="##">详情</a></td>
+			<td><a href="##" class="detailIncomeList">详情</a></td>
 		</tr>
 	</c:forEach>
 	<%--</tr>--%>
@@ -57,6 +57,16 @@
 				var pageNo = page + 1;
 				queryTeacherMoney(pageNo);
 			}
+		});
+		//关闭弹窗
+		$('.closeIncome').click(function(){
+			$('.detailIncome').fadeOut();
+			$('.opacityIncome').fadeOut();
+		});
+		//点击详情，打开弹窗
+		$('.detailIncomeList').click(function(){
+			$('.detailIncome').fadeIn();
+			$('.opacityIncome').fadeIn();
 		});
 	});
 </script>

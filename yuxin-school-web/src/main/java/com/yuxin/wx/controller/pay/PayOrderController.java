@@ -336,6 +336,9 @@ public class PayOrderController {
         map.put("page",payOrder.getFirstIndex());
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
+        map.put("totalSort",request.getParameter("totalSort"));
+        map.put("fetchSort",request.getParameter("fetchSort"));
+        map.put("handInSort",request.getParameter("handInSort"));
         List<PayOrder> cpoList = null;
         Integer count = null;
         //分校收入情况
@@ -452,6 +455,7 @@ public class PayOrderController {
         map.put("page",payOrder.getFirstIndex());
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
+        map.put("totalSort",request.getParameter("totalSort"));
         List<PayOrder> cpoList = null;
         Integer count = null;
         if("0".equals(isArea)){

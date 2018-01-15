@@ -404,7 +404,7 @@
 							var value = $(item).html().replace(/(^\s*)|(\s*$)/g, "");
 							if(contains.length > 0 && 
 									contains.includes(value)){
-								alert("课程名有重复，已自动合并");
+								alert("科目有重复，已自动合并");
 								return false;
 							}
 							//把自己也加入到已存在列表中

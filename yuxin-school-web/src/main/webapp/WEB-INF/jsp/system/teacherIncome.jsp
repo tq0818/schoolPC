@@ -84,7 +84,7 @@
 				<label for="date">查询日期：</label>
 				<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
 				<input type="text" id="inpend" readonly>
-				<button class="btn btn-primary" onclick="queryTeacherMoney();">查询</button>
+				<button class="btn btn-primary" onclick="queryTeacherMoney(1);">查询</button>
 			</div>
 			<div class="user-list allOrderTable" id="teacherFetch">
 
@@ -117,7 +117,7 @@
 		<tr>
 			<th>序号</th>
 			<th>课程名称</th>
-			<th>收入（元）</th>
+			<th class="btn-sort">收入（元）</th>
 		</tr>
 		<tr>
 			<td>1</td>
@@ -220,16 +220,7 @@ var end = {
 $.jeDate('#inpstart',start);
 $.jeDate('#inpend',end);
 
-//关闭弹窗
-	$('.closeIncome').click(function(){
-	    $('.detailIncome').fadeOut();
-	    $('.opacityIncome').fadeOut();
-	});
-//点击详情，打开弹窗
-	$('.detailIncomeList').click(function(){
-        $('.detailIncome').fadeIn();
-        $('.opacityIncome').fadeIn();
-	});
+
 
 	</script>
 	<script type="text/javascript">
@@ -248,18 +239,27 @@ $.jeDate('#inpend',end);
 			}
 			queryTeacherMoney(1);
 		}
-
-		function queryTeacherMoney(pageNo){
+		var ts = 0;
+		function queryTeacherMoney(pageNo,sort){
 
 			var companyList = $.trim($("#companyList").val());
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
 
+			var totalSort = "ORDER BY sum(t.fetchMoney) desc";
+			if(sort){
+				if(ts==1){
+					totalSort = "ORDER BY sum(t.fetchMoney) asc";
+					ts = 0;
+				}else{
+					ts = 1;
+				}
+			}
 
 			$.ajax({
 				url : "/payOrder/queryTeacherMoney",
 				type:"post",
-				data:{"page":pageNo,"pageSize":10,"schoolId":companyList, "inpstart":inpstart, "inpend":inpend},
+				data:{"page":pageNo,"pageSize":10,"schoolId":companyList, "inpstart":inpstart, "inpend":inpend,"totalSort":totalSort},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();

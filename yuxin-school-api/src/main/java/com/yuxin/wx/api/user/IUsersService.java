@@ -422,7 +422,7 @@ public interface IUsersService  {
      * @return 
      * @throws
      */
-    UsersAreaRelation findUsersAreaRelationT(Integer id);
+    UsersAreaRelation findUsersAreaRelationT(Integer id,String eduCode);
     /**
      * 
      * @author jishangyang 2017年12月27日 下午9:27:53
@@ -432,7 +432,7 @@ public interface IUsersService  {
      * @return 
      * @throws
      */
-    UsersAreaRelation findUsersAreaRelationR(Integer id);
+    UsersAreaRelation findUsersAreaRelationR(Integer id,String eduCode);
     /**
      * 用户标识号
      * @param userId 用户标识号

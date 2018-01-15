@@ -1580,13 +1580,14 @@ public class SimpleclassTypeController {
 		commodity.setUpdateTime(new Date());
 		commodity.setUpdator(WebUtils.getCurrentUserId(request));
 		commodity.setStatus("0");
+		commodity.setCddsStatus(0);
 		
 		commodityServiceImpl.update(commodity);
 		
 		classType.setIsSale(0);
 		classType.setUpdateTime(new Date());
 		classType.setUpdator(WebUtils.getCurrentUserId(request));
-		classType.setIsPublic(0);
+//		classType.setIsPublic(0);
 		classTypeServiceImpl.update(classType);
 		return classTypeServiceImpl.findClassTypeById(classType.getId());
 	}

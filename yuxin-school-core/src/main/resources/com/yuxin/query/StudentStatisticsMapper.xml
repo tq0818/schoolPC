@@ -179,7 +179,9 @@
 	</select>
 
 	<select id="watchInfoIndex"  parameterType="Map" resultType="Map">
-		select sum(a.times) as times from (select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
+		select sum(a.times) as times from (select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year 
+		from sys_watch_info  swf
+		inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
 		where s.edu_identity=0
@@ -194,6 +196,7 @@
 
 	<select id="watchInfoAll" parameterType="Map" resultType="Map">
 		select COUNT(1) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
+		inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
 		where s.edu_identity=0
@@ -226,6 +229,7 @@
 			s.edu_year
 		FROM
 			sys_watch_info swf
+		inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
 		LEFT JOIN student s ON s.user_id = swf.user_id
 		Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 		where s.edu_identity=0
@@ -267,6 +271,7 @@
                 s.edu_year
                 FROM
                 sys_watch_info swf
+                inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
                 LEFT JOIN student s ON s.user_id = swf.user_id
 				Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 				where s.edu_identity=0
@@ -311,6 +316,7 @@
 					dstep.item_value as edu_step
                 FROM
                     sys_watch_info swi
+                inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
                 LEFT JOIN student s ON s.user_id = swi.user_id
                 LEFT JOIN users_front sf ON sf.id = s.user_id
                 LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
@@ -320,6 +326,12 @@
 				LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
                 WHERE
                     s.edu_identity=0
+                    <if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+					</if>
                     <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                     <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                     <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -361,6 +373,7 @@
 						dnstep.item_value as school_type
                         FROM
                         sys_watch_info swi
+                        inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
                         LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
@@ -370,6 +383,12 @@
 						LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
                         WHERE
                         s.edu_identity=0
+                        <if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
                         <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                         <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                         <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -408,6 +427,7 @@
                         s.edu_year
                         FROM
                         sys_watch_info swi
+                        inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
                         LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
@@ -418,6 +438,12 @@
                         LEFT JOIN sys_config_dict scd4 on  scd4.item_code = s.edu_area
                         WHERE
                         s.edu_identity=0
+                        <if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
                         <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                         <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                         <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -444,7 +470,13 @@
 						LEFT JOIN  commodity_product_realtion cpr on  cpr.com_id = spm.commodity_id
 						LEFT JOIN  class_module_no_onsale cmno on cmno.classtype_id = cpr.product_id
 						LEFT JOIN  class_module_lesson  cml  on cml.module_no_id = cmno.module_no_id
-						where  s.edu_identity=0 and spm.origin_type=0 
+						where  s.edu_identity=0 and spm.origin_type=0 and spm.company_id=#{companyId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
 						<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 						<if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -467,17 +499,30 @@
 						LEFT JOIN class_module_lesson cml on  cml.module_no_id = cmno.module_no_id
 						LEFT JOIN commodity m ON m.id = cpr.com_id and m.origin_type=0
 						LEFT JOIN student s  on  s.id = spm.stu_id
-						WHERE spm.origin_type=0  and
+						WHERE spm.origin_type=0  and spm.company_id=#{companyId} and
 						s.edu_year > 0  and s.edu_school = #{schoolId}
 						AND s.edu_identity = 0 and s.delete_flag =  0  AND m.live_flag =1
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and  DATE(spm.apply_time) >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and  DATE(spm.apply_time) <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY s.edu_year asc
 					</select>
 					<select id="watchSchoolChartData" parameterType="Map" resultType="Map">
 						SELECT SUM(a.times) as times,a.edu_year from (select COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s  on s.user_id = swi.user_id
 						where  s.edu_year >0  and s.edu_school = #{schoolId} and s.edu_identity = 0 and s.delete_flag =  0
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY s.edu_year,swi.liveroom_id
@@ -493,8 +538,15 @@
 
 					<select id="getWatchNumBySchool" parameterType="Map" resultType="int">
 						select SUM(a.times) from (select  count(DISTINCT (swi.user_id)) as times from  sys_watch_info swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0   and s.edu_school=#{schoolId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY swi.liveroom_id) a
@@ -502,15 +554,29 @@
 					</select>
 					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="Long">
 						select  IFNULL(sum(swi.watch_time),0) as watch_time from  sys_watch_info swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0  and s.edu_school=#{schoolId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 					</select>
 					<select id="getWatchTotalBySchool" parameterType="Map" resultType="int">
 						select  count(1) from  sys_watch_info swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0   and s.edu_school=#{schoolId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and 
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 					</select>
@@ -534,6 +600,7 @@
 						FROM
 							sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+						inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
 						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
@@ -554,6 +621,7 @@
 						FROM
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+						inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
 						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
@@ -613,7 +681,11 @@
 						LEFT JOIN  commodity_product_realtion cpr on  cpr.com_id = spm.commodity_id
 						LEFT JOIN  class_module_no_onsale cmno on cmno.classtype_id = cpr.product_id
 						LEFT JOIN  class_module_lesson  cml  on cml.module_no_id = cmno.module_no_id
-						where  s.edu_identity=0 and spm.origin_type=0 and s.is_base_school=1 and c.live_flag=1
+						where  s.edu_identity=0 and spm.origin_type=0 
+							<if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+								and s.is_base_school=1 
+							</if>
+						and c.live_flag=1
 						<if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
 						<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 						<if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -651,7 +723,11 @@
 				LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 				LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
                 WHERE
-                    s.edu_identity=0 and s.is_base_school=1 and m.live_flag=1
+                    s.edu_identity=0 
+                    <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+                    	and s.is_base_school=1 
+                    </if>
+                    and m.live_flag=1
                     <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                     <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                     <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>

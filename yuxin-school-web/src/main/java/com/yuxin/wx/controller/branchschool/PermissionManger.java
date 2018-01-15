@@ -88,7 +88,7 @@ public class PermissionManger {
         }
         UserRolesListVo search = new UserRolesListVo();
         search.setCompanyId(companyId);
-        if (StringUtils.isNotBlank(condition)) {
+        /*if (StringUtils.isNotBlank(condition)) {
             if (ParameterUtil.isMobilePhone(condition)) {
                 search.setMobile(condition);
             } else if (ParameterUtil.isUserName(condition)) {
@@ -96,7 +96,8 @@ public class PermissionManger {
             } else {
                 search.setRealName(condition);
             }
-        }
+        }*/
+        search.setUsername(condition);
         if(StringUtils.isNotBlank(roleUid)) {
 			search.setRoleId(Integer.valueOf(roleUid));
 		}
@@ -326,6 +327,7 @@ public class PermissionManger {
 			AuthUserRole role=new AuthUserRole();
 			role.setUserId(user.getId());
 			role.setRoles(roles);
+			role.setCompanyId(ccompanyId);
 			authUserRoleServiceImpl.deleteAuthUserRoleById(role);
 			for(int i=0;i<roles.length;i++){
 				 AuthUserRole authUserRole=new AuthUserRole();

@@ -69,41 +69,25 @@
 	<jsp:include page="/WEB-INF/jsp/menu/menu_operaconfig.jsp"></jsp:include>
 	<div class="right-side">
 		<div class="mainbackground nopadding allOrderContent">
-			<div style="margin: 12px 0;">
-				<label for="">请选择分校：</label>
-				<select name="" id="" style="margin-left: 28px;">
-					<option value="">成都七中</option>
-					<option value="">成都十一中</option>
-				</select>
-			</div>
+			<c:if test="${isArea eq 0}">
+				<div style="margin: 12px 0;">
+					<label for="schoolList">请选择分校：</label>
+					<select name="school" id="companyList" style="margin-left: 28px;">
+						<option value="">全部</option>
+						<c:forEach items="${schoolList }" var="school">
+							<option value="${school.companyId }">${school.itemValue }</option>
+						</c:forEach>
+					</select>
+				</div>
+			</c:if>
 			<div class="allOrderHeader">
-				<label for="">请选择查询日期：</label>
+				<label for="date">查询日期：</label>
 				<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
 				<input type="text" id="inpend" readonly>
-				<input type="text" placeholder="老师/科目/学校" style="margin: 0 10px;" >
-				<button class="btn btn-primary">查询</button>
+				<button class="btn btn-primary" onclick="queryTeacherMoney();">查询</button>
 			</div>
-			<div class="user-list allOrderTable">
-				<table class="table table-center allOrderList" >
-					<tr>
-						<th width="3%">序号</th>
-						<th width="10%">老师</th>
-						<th width="10%">性别</th>
-						<th width="10%">教师级别</th>
-						<th width="10%">所属学校</th>
-						<th width="10%" class="btn-sort">总收入</th>
-						<th width="10%"><a href="##">操作</a></th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td>1</td>
-						<td><a href="##" class="detailIncomeList">详情</a></td>
-					</tr>
-				</table>
+			<div class="user-list allOrderTable" id="teacherFetch">
+
 			</div>
 		</div>
 		<div class="pages">
@@ -120,6 +104,7 @@
 	</div>
 	<div class="loading-bg lp-units-loading-bg" style="display: none"></div>
 	<!--  ajax加载中div结束 -->
+
 
 <%--详情弹窗--%>
 <div class="detailIncome">
@@ -213,8 +198,8 @@
 	<script>
 //		日历插件
 var start = {
-    format: 'YYYY-MM-DD hh:mm:ss',
-    isinitVal:true,
+    format: 'YYYY-MM-DD',
+//    isinitVal:true,
     onClose:false,
     maxDate: $.nowDate({DD:0}), //最大日期
     okfun: function(obj){
@@ -223,7 +208,7 @@ var start = {
     }
 };
 var end = {
-    format: 'YYYY年MM月DD日 hh:mm:ss',
+    format: 'YYYY-MM-DD',
     onClose:false,
     maxDate: '2099-06-16 23:59:59', //最大日期
     okfun: function(obj){
@@ -251,7 +236,46 @@ $.jeDate('#inpend',end);
 		$(function() {
 			$selectSubMenu('financial');
 			$selectSubMenus('teacherIncome');
+			queryTeacherMoney(1);
 		});
+
+		function queryTeacherMoney(){
+			if($("#inpstart").val()){
+				if(!$("#inpend").val()){
+					alert("请选择查询时间")
+					return;
+				}
+			}
+			queryTeacherMoney(1);
+		}
+
+		function queryTeacherMoney(pageNo){
+
+			var companyList = $.trim($("#companyList").val());
+			var inpstart = $("#inpstart").val();
+			var inpend = $("#inpend").val();
+
+
+			$.ajax({
+				url : "/payOrder/queryTeacherMoney",
+				type:"post",
+				data:{"page":pageNo,"pageSize":10,"schoolId":companyList, "inpstart":inpstart, "inpend":inpend},
+				dataType:"html",
+				beforeSend:function(XMLHttpRequest){
+					$(".loading").show();
+					$(".loading-bg").show();
+				},
+				success:function(data){
+					$("#teacherFetch").html("").html(data);
+				},
+				complete:function(XMLHttpRequest,textStatus){
+					$(".loading").hide();
+					$(".loading-bg").hide();
+				}
+			});
+		}
+
+
 	</script>
 </body>
 </html>

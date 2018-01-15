@@ -1,6 +1,9 @@
 package com.yuxin.wx.vo.course;
 
+import java.util.List;
+
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.model.classes.EduMasterClass;
 
 @SuppressWarnings("serial")
 public class UserVideoVo extends BaseEntity {
@@ -41,6 +44,26 @@ public class UserVideoVo extends BaseEntity {
 	private String classTypeName;	 /* 课程名称 */
 	private String eduStep;	 /* 学生所属学段 */
 	private String stepName;	 /* 学生所属学段名称 */
+	private String isFromBrachSchool;
+	private List<EduMasterClass> eduMasterClass;
+	
+	
+	public List<EduMasterClass> getEduMasterClass() {
+		return eduMasterClass;
+	}
+
+	public void setEduMasterClass(List<EduMasterClass> eduMasterClass) {
+		this.eduMasterClass = eduMasterClass;
+	}
+
+	public String getIsFromBrachSchool() {
+		return isFromBrachSchool;
+	}
+
+	public void setIsFromBrachSchool(String isFromBrachSchool) {
+		this.isFromBrachSchool = isFromBrachSchool;
+	}
+
 	// Constructor
 	public UserVideoVo() {
 	}

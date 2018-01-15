@@ -863,7 +863,7 @@
 		select u.id,u.username,u.mobile
 		from users_front u
 		left join student s	on u.id = s.user_id
-		where u.username=#{username}  and s.is_in_school=1
+		where u.username=#{username}
 	</select>
 	<!-- 根据邀请码查找userFrontVo -->
 	<select id="findUserVoByInvitCode" resultMap="usersFrontVoResultMap" parameterType="map">

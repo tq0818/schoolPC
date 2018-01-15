@@ -10,6 +10,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.common.*;
+import com.yuxin.wx.utils.EntityUtil;
+import com.yuxin.wx.vo.student.StudentVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -19,10 +22,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.yuxin.wx.api.classes.IClassModuleNoOnsaleService;
 import com.yuxin.wx.api.classes.IClassModuleService;
@@ -50,9 +50,6 @@ import com.yuxin.wx.api.system.ISysLogCouponUseService;
 import com.yuxin.wx.api.user.IUserIntegralFlowService;
 import com.yuxin.wx.api.user.IUsersFrontMyCouponsService;
 import com.yuxin.wx.api.user.IUsersFrontService;
-import com.yuxin.wx.common.Constant;
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.common.StudentDynamicsUtil;
 import com.yuxin.wx.model.classes.ClassModuleNoOnsale;
 import com.yuxin.wx.model.classes.ClassPackage;
 import com.yuxin.wx.model.classes.ClassPackageRelation;
@@ -89,6 +86,7 @@ import com.yuxin.wx.vo.student.PayOrderVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
 
 import net.sf.json.JSONObject;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 订单
@@ -284,12 +282,22 @@ public class PayOrderController {
         model.addAttribute("stydycardservice", service != null ? service.getDelFlag() : 0);
         return "system/allOrder";
     }
+
+    /**
+     * 查询总订单
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/queryAllOrder")
     public String selOrder(Model model, HttpServletRequest request) {
+        String isArea = WebUtils.getCurrentIsArea();
         Integer companyId = WebUtils.getCurrentCompanyId();
         Map<String,Object>map = new HashMap<String,Object>();
         PayOrder payOrder = new PayOrder();
-        map.put("companyId",companyId);
+        if(!"0".equals(isArea)){
+            map.put("companyId",companyId);
+        }
         map.put("orderNum",request.getParameter("orderNum"));
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
@@ -297,7 +305,6 @@ public class PayOrderController {
         map.put("firstPrice",request.getParameter("firstPrice"));
         map.put("secondPrice",request.getParameter("secondPrice"));
         Integer page = Integer.parseInt(request.getParameter("page"));
-        map.put("page",page);
         Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
         map.put("pageSize",pageSize);
         payOrder.setPage(page);
@@ -313,6 +320,155 @@ public class PayOrderController {
 
         model.addAttribute("payPage", payPage);
         return "system/orderDetail";
+    }
+
+    /**
+     * 查询分校收入情况
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/querySchoolMoney")
+    public String querySchoolMoney(Model model, HttpServletRequest request,PayOrder payOrder) {
+        String isArea = WebUtils.getCurrentIsArea();
+        Map<String,Object>map = new HashMap<String,Object>();
+        map.put("pageSize",payOrder.getPageSize());
+        map.put("page",payOrder.getFirstIndex());
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        List<PayOrder> cpoList = null;
+        Integer count = null;
+        //分校收入情况
+        if("0".equals(isArea)){
+            map.put("companyId",request.getParameter("schoolId"));
+            map.put("aereId",request.getParameter("areaId"));
+            cpoList = payOrderServiceImpl.findSchoolMoneyByCondition(map);
+            // 总数
+            count = payOrderServiceImpl.findSchoolMoneyCountByCondition(map);
+        }else{
+            map.put("companyId",WebUtils.getCurrentCompanyId());
+            cpoList = payOrderServiceImpl.findPrivateSchoolMoneyByCondition(map);
+            // 总数
+            count = payOrderServiceImpl.findPrivateSchoolMoneyCountByCondition(map);
+        }
+        int totalMoneyAdd = 0;
+        if(null!=cpoList && cpoList.size()>0){
+            for(PayOrder po : cpoList){
+                totalMoneyAdd+=Integer.parseInt(po.getTotalMoney());
+            }
+        }
+        // 分页
+        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(payOrder.getPage(), payOrder.getPageSize(), count, cpoList);
+        model.addAttribute("payPage", payPage);
+        model.addAttribute("totalMoneyAdd", totalMoneyAdd);
+        model.addAttribute("isArea", isArea);
+        return "system/moneyAjax";
+    }
+
+
+
+    @RequestMapping(value = "/exportExcelschoolMoney", method = RequestMethod.POST)
+    public ModelAndView exportExcelschoolMoney(Model model, HttpServletRequest request,PayOrder payOrder) {
+
+        String isArea = WebUtils.getCurrentIsArea();
+        Map<String,Object>map = new HashMap<String,Object>();
+        payOrder.setPage(1);
+        map.put("pageSize",1000000);
+        map.put("page",payOrder.getFirstIndex());
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        List<PayOrder> cpoList = null;
+        //分校收入情况
+        ViewFiles excel = new ViewFiles();
+        Map<String, Object> map01 = new HashMap<String, Object>();
+        String tittle= null;
+        if("0".equals(isArea)){
+            map.put("companyId",request.getParameter("schoolId"));
+            map.put("aereId",request.getParameter("areaId"));
+            cpoList = payOrderServiceImpl.findSchoolMoneyByCondition(map);
+            tittle =  "分校名称:schoolName,所属区域:aeraName,分校总收入(元):totalMoney,应收费用(元):fetchMoney";
+        }else{
+            map.put("companyId",WebUtils.getCurrentCompanyId());
+            cpoList = payOrderServiceImpl.findPrivateSchoolMoneyByCondition(map);
+            tittle =  "时间:orderTime,总收入:mobile,总收入(元):totalMoney,应缴费用(元):handInMoney,实际收入(元):fetchMoney";
+        }
+
+        ExcelSheetEntity entity = ExcelSheetEntity.newInstance(
+                tittle,
+                cpoList);
+        map01.put("entity", entity);
+        map01.put("fileName", "分校收入情况.xls");
+        return new ModelAndView(excel, map01);
+    }
+
+    @RequestMapping(value = "/exportExcelAllOrder", method = RequestMethod.POST)
+    public ModelAndView exportExcelAllOrder(Model model, HttpServletRequest request) {
+
+        String isArea = WebUtils.getCurrentIsArea();
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        Map<String,Object>map = new HashMap<String,Object>();
+        PayOrder payOrder = new PayOrder();
+        if(!"0".equals(isArea)){
+            map.put("companyId",companyId);
+        }
+        map.put("orderNum",request.getParameter("orderNum"));
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        map.put("payMethod",request.getParameter("payMethod"));
+        map.put("firstPrice",request.getParameter("firstPrice"));
+        map.put("secondPrice",request.getParameter("secondPrice"));
+        map.put("pageSize",1000000);
+        map.put("page",payOrder.getFirstIndex());
+
+        // 查询 订单 集合
+        List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
+        String tittle  = "订单编号:orderNum,课程名:commodityName,金额（元）:payPrice,姓名:stuName,电话:discountNo,下单时间:orderTime,付款时间:payTime,订单状态:payStatus";
+        ExcelSheetEntity entity = ExcelSheetEntity.newInstance(
+                tittle,
+                cpoList);
+        Map<String,Object>map01 = new HashMap<String,Object>();
+        map01.put("entity", entity);
+        map01.put("fileName", "订单.xls");
+        ViewFiles excel = new ViewFiles();
+        return new ModelAndView(excel, map01);
+    }
+
+
+
+
+    /**
+     * 查询分校老师在数字学校的收入情况
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/queryTeacherMoney")
+    public String queryTeacherMoney(Model model, HttpServletRequest request,PayOrder payOrder) {
+        String isArea = WebUtils.getCurrentIsArea();
+        Map<String,Object>map = new HashMap<String,Object>();
+        //分校收入情况
+
+        map.put("pageSize",payOrder.getPageSize());
+        map.put("page",payOrder.getFirstIndex());
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        List<PayOrder> cpoList = null;
+        Integer count = null;
+        if("0".equals(isArea)){
+            map.put("companyId",request.getParameter("schoolId"));
+
+        }else{
+            map.put("companyId",WebUtils.getCurrentCompanyId());
+
+        }
+        cpoList = payOrderServiceImpl.queryTeacherMoneyByCondition(map);
+        // 总数
+        count = payOrderServiceImpl.queryTeacherMoneyCountByCondition(map);
+        // 分页
+        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(payOrder.getPage(), payOrder.getPageSize(), count, cpoList);
+        model.addAttribute("payPage", payPage);
+        model.addAttribute("isArea", isArea);
+        return "system/teacherMoneyAjax";
     }
     @ResponseBody
     @RequestMapping("/selOrderLast5")

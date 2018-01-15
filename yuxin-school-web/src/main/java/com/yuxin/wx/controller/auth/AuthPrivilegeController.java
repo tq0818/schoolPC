@@ -138,7 +138,7 @@ public class AuthPrivilegeController {
 		}
 		UserRolesListVo search=new UserRolesListVo();
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
-		if(StringUtils.isNotBlank(condition)) {
+		/*if(StringUtils.isNotBlank(condition)) {
 			if(ParameterUtil.isMobilePhone(condition)) {
 				search.setMobile(condition);
 			}else if(ParameterUtil.isUserName(condition)) {
@@ -146,7 +146,8 @@ public class AuthPrivilegeController {
 			}else {
 				search.setRealName(condition);
 			}
-		}
+		}*/
+		search.setUsername(condition);
 		if(StringUtils.isNotBlank(roleUid)) {
 			search.setRoleId(Integer.valueOf(roleUid));
 		}

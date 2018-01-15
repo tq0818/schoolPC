@@ -225,9 +225,10 @@
 		left join auth_user_role aur on aur.user_id=u.id
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		where 1=1
-		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<!-- <if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
-		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if> -->
+		<if test="username != null and username != ''">and concat(u.real_name,u.username,u.mobile) like '%${username}%'</if>
 		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
 		<if test="statusStr != null and statusStr != ''">and ur.is_used=#{statusStr}</if>
 		limit #{firstIndex},#{pageSize}

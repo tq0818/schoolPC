@@ -115,6 +115,7 @@ import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.student.StudentPayMaster4ClassPackageVo;
 import com.yuxin.wx.vo.student.StudentPaySlaveVo;
 import com.yuxin.wx.vo.student.StudentVo;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 /**
  * Controller of Student
@@ -290,7 +291,7 @@ public class StudentController {
         		//班主任
         		EduMasterClass ets =new EduMasterClass();
         		ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
-        		List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(ets,WebUtils.getCurrentCompany().getEduAreaSchool());
         		if(null!=list && list.size()>0){
         			model.addAttribute("materTeacher", list.get(0));	
         		}
@@ -317,13 +318,13 @@ public class StudentController {
         		EduMasterClass ets =new EduMasterClass();
         		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
         		ets.setEduStep("1");
-        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduStepGLY=studentServiceImpl.findClassByTeacherId(ets,WebUtils.getCurrentCompany().getEduAreaSchool());
         		ets.setEduStep("");
         		ets.setEduYear("1");
-        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduYearGLY=studentServiceImpl.findClassByTeacherId(ets,WebUtils.getCurrentCompany().getEduAreaSchool());
         		ets.setEduYear("");
         		ets.setEduClass("1");
-        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findClassByTeacherId(ets);
+        		List<EduMasterClass> eduClassGLY=studentServiceImpl.findClassByTeacherId(ets,WebUtils.getCurrentCompany().getEduAreaSchool());
         		
         		model.addAttribute("roleType", 3);
         		model.addAttribute("eduStepGLY", eduStepGLY);
@@ -2857,7 +2858,7 @@ public class StudentController {
      			int userId=WebUtils.getCurrentUserId(request);
      			EduMasterClass etc=new EduMasterClass();
      			etc.setUserId(String.valueOf(userId));
-     			List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc);
+     			List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc,WebUtils.getCurrentCompany().getEduAreaSchool());
      			if(null!=list && list.size()>0){
      				String eduStep=list.get(0).getEduStep();
      				String eduYear=list.get(0).getEduYear();
@@ -2933,84 +2934,55 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/queryUserListData")
     public PageFinder2<StudentListVo> queryUserListData(HttpServletRequest request,StudentListVo search) {
-    	 String flag = "";
          search.setCompanyId(WebUtils.getCurrentCompanyId());
          if("1".equals(WebUtils.getCurrentIsArea())){
          	if(null==search.getEduArea() || "".equals(search.getEduArea())){
          		search.setEduArea(WebUtils.getCurrentCompany().getEduAreaSchool());	
          	}
          	
+         }else if("2".equals(WebUtils.getCurrentIsArea())){
+     		search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());	
          }
-         if("2".equals(WebUtils.getCurrentIsArea())){
-         	Subject subject = SecurityUtils.getSubject();
-     		if(subject.hasRole("班主任") ){
-     			int userId=WebUtils.getCurrentUserId(request);
-     			EduMasterClass etc=new EduMasterClass();
-     			etc.setUserId(String.valueOf(userId));
-     			List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc);
-     			if(null!=list && list.size()>0){
-     				String eduStep=list.get(0).getEduStep();
-     				String eduYear=list.get(0).getEduYear();
-     				String eduClass=list.get(0).getEduClass();
-     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
-     					search.setEduStep(eduStep);
-         			}
-     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
-     					search.setEduYear(eduYear);
-     				}
-     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
-     					search.setEduClass(eduClass);
-     				}
-     				
-     			}
-     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
-     		}else if(subject.hasRole("任课老师")){
-     			EduMasterClass ets=new EduMasterClass();
-     			ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
-        		ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
-        		List<EduMasterClass> list=studentServiceImpl.findSubjectClassByTeacherId(ets);
-//     			int userId=WebUtils.getCurrentUserId(request);
-//     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
-     			if(null!=list && list.size()>1){
-     				search.setRenke(list);
-     			}else if(null!=list && list.size()==1){
-     				if(null==search.getEduStep() || "".equals(search.getEduStep())){
-     					search.setEduStep(list.get(0).getEduStep());
-         			}
-     				if(null==search.getEduYear() || "".equals(search.getEduYear())){
-     					search.setEduYear(list.get(0).getEduYear());
-     				}
-     				if(null==search.getEduClass() || "".equals(search.getEduClass())){
-     					search.setEduClass(list.get(0).getEduClass());
-     				}
-     			}
-     			search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
-     		}else{
-     			 if(null!=search.getEduSchool()){
-     				 
-     			 }else{
-     				 search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());	
-     			 }
-     		}
-         }
+         if(null==search.getPaixu()){
+     		search.setPaixu("2");
+     	}
          // 分页调整
          if (search.getPageSize() == 12) {
              search.setPageSize(10);
          }
-         // 代报考
-         Subject subject = SecurityUtils.getSubject();
-         if (subject.isPermitted("student_agent")) {
-             flag = "1";
-         }
-         search.setAgentFlag(flag);
-
-         if (subject.hasRole("代理机构")) {
-             search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
-         }
          PageFinder2<StudentListVo> pageFinder = studentServiceImpl.queryUserListData(search);
          return pageFinder;
     }
+    
+    @RequestMapping(value = "/exportUserInfoExcle")
+    public ModelAndView exportExcleArea(HttpServletRequest request,StudentListVo search) {
+        List<Map<String, Object>> al = new ArrayList<Map<String, Object>>();
+        if (EntityUtil.isNotBlank(search)) {
+            search.setCompanyId(WebUtils.getCurrentCompanyId());
+            if("1".equals(WebUtils.getCurrentIsArea())){
+            	if(null==search.getEduArea() || "".equals(search.getEduArea())){
+            		search.setEduArea(WebUtils.getCurrentCompany().getEduAreaSchool());	
+            	}
+            	
+            }else if("2".equals(WebUtils.getCurrentIsArea())){
+        		search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());	
+            }
+            al=studentServiceImpl.exportUserInfo(search);
+        }
+        StringBuffer title = new StringBuffer(
+                "姓名:name,身份:edu_identity,手机号:mobile,创建时间:create_time,已报名课程数:baoming_count,学习课程数:stu_count,已消费金额:price_count");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(al, "sheet1", title.toString());
+        } catch (Exception ex) {
 
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "用户列表.xls");
+        return new ModelAndView(excel, map);
+    }
     @ResponseBody
     @RequestMapping(value = "/queryStudentsList1")
     public PageFinder<StudentListVo> exportDatas(StudentListVo search, HttpServletRequest request) {

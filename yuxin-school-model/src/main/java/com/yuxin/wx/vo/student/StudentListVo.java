@@ -38,6 +38,7 @@ public class StudentListVo extends BaseEntity{
 	private Integer	deleteFlag;		 /* 删 */ 
 	private Integer	schoolId;		 /* 所属校区id */ 
 	private Integer companyId;
+	private String paixu;
 	
 	/** 用户信息*/
 	private Integer userId;
@@ -105,6 +106,24 @@ public class StudentListVo extends BaseEntity{
 	private Integer isStu; //是否学生，1是。0否
 	private Integer sourceFromStatic;//来源，1来源于统计，0来源于学员管理
 	private List<EduMasterClass> renke;
+	private List<EduMasterClass> eduMasterClass;
+	
+	public String getPaixu() {
+		return paixu;
+	}
+
+	public void setPaixu(String paixu) {
+		this.paixu = paixu;
+	}
+
+	public List<EduMasterClass> getEduMasterClass() {
+		return eduMasterClass;
+	}
+
+	public void setEduMasterClass(List<EduMasterClass> eduMasterClass) {
+		this.eduMasterClass = eduMasterClass;
+	}
+
 	public Integer getSourceFromStatic() {
 		return sourceFromStatic;
 	}

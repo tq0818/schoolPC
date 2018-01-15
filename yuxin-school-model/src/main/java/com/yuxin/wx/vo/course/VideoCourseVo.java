@@ -1,8 +1,10 @@
 package com.yuxin.wx.vo.course;
 
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.model.classes.EduMasterClass;
 
 import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class VideoCourseVo extends BaseEntity {
@@ -32,6 +34,15 @@ public class VideoCourseVo extends BaseEntity {
 	private String fieldName;	 /* 排序字段 */
 	private String sortType;	 /* 排序类型 */
 	private Long viewNum;	 /* 观看人数 */
+	private List<EduMasterClass> eduMasterClass;
+	public List<EduMasterClass> getEduMasterClass() {
+		return eduMasterClass;
+	}
+
+	public void setEduMasterClass(List<EduMasterClass> eduMasterClass) {
+		this.eduMasterClass = eduMasterClass;
+	}
+
 	// Constructor
 	public VideoCourseVo() {
 	}

@@ -616,12 +616,18 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 		return usersMapper.findUsersAreaRelation(id);
 	}
 	@Override
-	public UsersAreaRelation findUsersAreaRelationT(Integer id) {
-		return usersMapper.findUsersAreaRelationT(id);
+	public UsersAreaRelation findUsersAreaRelationT(Integer id,String eduCode) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("id",id);
+		params.put("eduCode",eduCode);
+		return usersMapper.findUsersAreaRelationT(params);
 	}
 	@Override
-	public UsersAreaRelation findUsersAreaRelationR(Integer id) {
-		return usersMapper.findUsersAreaRelationR(id);
+	public UsersAreaRelation findUsersAreaRelationR(Integer id,String eduCode) {
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("id",id);
+		params.put("eduCode",eduCode);
+		return usersMapper.findUsersAreaRelationR(params);
 	}
 
 	@Override

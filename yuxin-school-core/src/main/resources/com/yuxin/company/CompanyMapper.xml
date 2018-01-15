@@ -1205,10 +1205,16 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!--分校首页学校列表-->
 	<select id="queryReCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="map">
 		select * from (select su.* from (
-			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
-			left join edu_master_class emc on emc.edu_area=co.edu_area_school and emc.is_used=1
+			left join (
+				select edu_area,count(1) count from edu_master_class where is_used=1 and edu_area in(
+					<foreach item="item" collection="areaCompanyList" separator="," >
+						#{item.eduAreaSchool}
+					</foreach>
+				) group by edu_area
+			) sm on sm.edu_area=co.edu_area_school
 			left join commodity cc on cc.company_id=co.id
 			left join student s on 1=1 and s.edu_area in(
 			<foreach item="item" collection="areaCompanyList" separator="," >

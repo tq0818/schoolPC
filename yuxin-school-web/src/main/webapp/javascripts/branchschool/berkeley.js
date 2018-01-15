@@ -114,8 +114,10 @@ function closeBtn(companyId,itemCode,delFlag) {
                     	var companyName=jsonData.companyName;
                     	var eduArea=jsonData.eduArea;
                     	var dictCode=jsonData.dictCode;
+                    	var schoolProperty=jsonData.schoolProperty;
                     	$('#branchSchool').text(companyName);
                     	$('#eara').text(eduArea);
+                    	$('#schoolProperty').text(schoolProperty);
                     	$('#isArea').val(dictCode);
                     	if(companyName==eduArea){
                     		var options = document.getElementById('schoolProperties').children;

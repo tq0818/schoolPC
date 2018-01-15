@@ -68,9 +68,9 @@
 			</div>
 			<div class="allArderState">
 				<button class="btn btn-primary" code="">全部订单</button>
-				<button class="btn btn-primary" code="PAY_NON">未付款</button>
-				<button class="btn btn-primary" code="PAY_SUCCESS">已完成</button>
-				<button class="btn btn-primary" code="SUB_ORDER_DELTED">已取消</button>
+				<button class="btn btn-default" code="PAY_NON">未付款</button>
+				<button class="btn btn-default" code="PAY_SUCCESS">已完成</button>
+				<button class="btn btn-default" code="SUB_ORDER_DELTED">已取消</button>
 			</div>
 			<div class="user-list allOrderTable" id="orderList">
 
@@ -180,18 +180,14 @@ $.jeDate('#inpend',end);
 
 		//筛选按钮
 		$('.allArderState').children('button').click(function(){
-		    console.log($(this).index());
 
-		    if($(this).index()==0){
-		        $('button').addClass('btn-primary');
-			}else {
 		        if($(this).hasClass('btn-default')){
                     $(this).addClass('btn-primary');
                     $(this).siblings('button').addClass('btn-default').removeClass('btn-primary');
 				}else {
                     $(this).addClass('btn-default').removeClass('btn-primary');
 				}
-            }
+
 		});
 	</script>
 </body>

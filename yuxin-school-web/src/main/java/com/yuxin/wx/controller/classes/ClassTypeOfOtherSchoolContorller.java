@@ -228,10 +228,10 @@ public class ClassTypeOfOtherSchoolContorller {
    	params.put("level", 0);
    	params.put("companyId", WebUtils.getCurrentCompanyId());
    	params.put("parentCode", "TYPE");
-      	List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
-  		JSONObject json = new JSONObject();
-  		json.put("oneItem", relations);
-  		return json;
+    List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
+    JSONObject json = new JSONObject();
+    json.put("oneItem", relations);
+    return json;
   	}
    
     @ResponseBody

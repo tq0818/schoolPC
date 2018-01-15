@@ -39,38 +39,40 @@
 <div class="u-wrap classes">
     <div class="mainbackground nopadding">
         <div class="classes-type">
-            <p class="c">
+           <p class="c">
                 <span class="t-title">分类</span>
                 <span class="t-content" id="itemOneCodeList">
                     <a href="javascript:Form.queryAllCommdityByItemNew(1,'all');" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
                    <c:forEach items="${firstItem }" var="type" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1,'${type.itemCode }');" data-code="${type.itemCode }" class="btn btn-mini btn-default">${type.itemName }</a>
+                       <a href="javascript:Form.queryAllCommdityByItemNew(1,'${type.itemCode }');" ids="${type.id}" data-code="${type.itemCode }" class="btn btn-mini btn-default">${type.itemName }</a>
                    </c:forEach>
                 </span>
             </p>
-            <p class="c">
-                <span class="t-title">学段</span>
-                <span class="t-content" id="itemSecondCodeList">
-                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all" class="btn btn-mini btn-default btn-success">全部</a>
-                   <c:forEach items="${secondItem }" var="second" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${second.itemCode }" class="btn btn-mini btn-default">${second.itemName }</a>
-                   </c:forEach>
+                <p class="c">
+                    <span class="t-title">学段</span>
+                    <span class="t-content" id="itemSecondCodeList">
+                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" id="xueduan" data-code="all" class="btn btn-mini btn-default btn-success">全部</a>
+                     <c:forEach items="${secondItem }" var="second" varStatus="status">
+                         <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${second.itemCode }"  parentId="${second.parentId}" ids="${second.id}" class="btn btn-mini btn-default parentId">${second.itemName }</a>
+                     </c:forEach>
                 </span>
             </p>
+
             <p class="c">
                 <span class="t-title">学科</span>
                 <span class="t-content" id="itemThirdCodeList">
-                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all" id="xueke" class="btn btn-mini btn-default btn-success">全部</a>
                    <c:forEach items="${thirdItem }" var="third" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${third.itemCode }"  class="btn btn-mini btn-default">${third.itemName }</a>
+                           <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${third.itemCode }" parentId="${third.parentId}"  ids="${third.id}"  class="btn btn-mini btn-default thirdId">${third.itemName }</a>
                    </c:forEach>
+
                 </span>
             </p>
             <p class="c">
                 <span class="t-title">知识点</span>
                 <span class="t-content" id="itemFourthCodeList">
                    <c:forEach items="${fourthItem }" var="fourth" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }"  class="btn btn-mini btn-default">${fourth.itemName }</a>
+                           <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }" parentId="${fourth.parentId}" ids="${fourth.id}"  class="btn btn-mini btn-default fourthId">${fourth.itemName }</a>
                    </c:forEach>
                 </span>
             </p>
@@ -154,6 +156,85 @@
    </div>
 </div>
 <div class="add-layer-bg none"></div>
+//分类，学段，学科，知识点联动
+<script>
+    function showList(type) {
+        if(type == 0){
+            $("#itemSecondCodeList").children('a').removeClass('btn-success');
+            $("#itemThirdCodeList").children('a').removeClass('btn-success');
+            $("#itemFourthCodeList").children('a').removeClass('btn-success');
+            $("#xueduan").addClass('btn-success');
+            $("#xueke").addClass('btn-success');
+            for(var i = 0;i<$('.thirdId').length;i++){
+                $('.thirdId').eq(i).hide();
+            }
+            for(var i = 0;i<$('.fourthId').length;i++){
+                $('.fourthId').eq(i).hide();
+            }
+        }
+        if(type==1){
+            $("#itemThirdCodeList").children('a').removeClass('btn-success');
+            $("#itemFourthCodeList").children('a').removeClass('btn-success');
+            $("#xueke").addClass('btn-success');
+            for(var i = 0;i<$('.fourthId').length;i++){
+                $('.fourthId').eq(i).hide();
+            }
+        }
+    }
+    //点击分类
+    $('#itemOneCodeList').children('a').click(function () {
+        showList(0);
+        if($(this).index()!=0){
+            var id= $(this).attr('ids');
+            for(var i = 0;i<$('.parentId').length;i++){
+                if(id==$('.parentId').eq(i).attr('parentId')){
+                    $('.parentId').eq(i).show();
+                }else {
+                    $('.parentId').eq(i).hide();
+                }
+            }
+        }else{
+            for(var i = 0;i<$('.parentId').length;i++){
+                $('.parentId').eq(i).hide();
+            }
+        }
+    });
+    //点击学段
+    $('#itemSecondCodeList').children('a').click(function () {
+        showList(1);
+        if($(this).index()!=0){
+            var id= $(this).attr('ids');
+            for(var i = 0;i<$('.thirdId').length;i++){
+                if(id==$('.thirdId').eq(i).attr('parentId')){
+                    $('.thirdId').eq(i).show();
+                }else {
+                    $('.thirdId').eq(i).hide();
+                }
+            }
+        }else{
+            for(var i = 0;i<$('.thirdId').length;i++){
+                $('.thirdId').eq(i).hide();
+            }
+        }
+    });
+    $('#itemThirdCodeList').children('a').click(function () {
+        $("#itemFourthCodeList").children('a').removeClass('btn-success');
+        if($(this).index()!=0){
+            var id= $(this).attr('ids');
+            for(var i = 0;i<$('.fourthId').length;i++){
+                if(id==$('.fourthId').eq(i).attr('parentId')){
+                    $('.fourthId').eq(i).show();
+                }else {
+                    $('.fourthId').eq(i).hide();
+                }
+            }
+        }else{
+            for(var i = 0;i<$('.fourthId').length;i++){
+                $('.fourthId').eq(i).hide();
+            }
+        }
+    });
+</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
@@ -303,5 +384,12 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/simpleclasses/classIndex.js"></script>
  <script type="text/javascript" src="<%=rootPath %>/javascripts/classes.js"></script>
  <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
+
+
+<script>
+
+
+
+</script>
 </body>
 </html>

@@ -683,7 +683,9 @@
 			a.base_num,
 			a.item_one_id,
 			a.item_second_id,
-			a.detail_desc
+			a.detail_desc,
+			a.is_public,
+			a.public_price
 		FROM
 			class_type a,
 			commodity_product_realtion b

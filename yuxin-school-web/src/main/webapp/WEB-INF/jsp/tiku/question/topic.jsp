@@ -14,7 +14,14 @@
 	    			<c:if test="${t.status == 'PAPER_STATUS_WAIT_AUDIT' }"><span class="status s2">等待审核</span></c:if>
 	    			<c:if test="${t.status == 'PAPER_STATUS_PUBLISH' }">
 	    				<span class="status s3">发布成功</span>
+	    				<c:choose>
+	    				<c:when test="${t.auditTime ne null}">
 	    				<span class="status c9 mt4"><fmt:formatDate value="${t.auditTime}"/></span>
+	    				</c:when>
+	    				<c:otherwise>
+	    				<span class="status c9 mt4"><fmt:formatDate value="${t.createTime}"/></span>
+	    				</c:otherwise>
+	    				</c:choose>
 	    			</c:if>
 	    			<c:if test="${t.status == 'PAPER_STATUS_AUDIT_FAIL' }"><span class="status s4">审核不通过</span></c:if>
                 </td>
@@ -42,7 +49,8 @@
             <tr>
                 <td>
                     <span class="c">审核者</span>
-                    <span class="p">${t.auditorName }</span>
+                    <c:if test="${t.updatorName == null }">${t.creatorName }</c:if>
+			    	<c:if test="${t.updatorName != null }">${t.updatorName }</c:if>
                 </td>
             </tr>
         </table>

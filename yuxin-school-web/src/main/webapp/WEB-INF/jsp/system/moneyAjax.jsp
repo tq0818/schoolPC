@@ -33,9 +33,9 @@
 			<tr>
 				<th width="3%">序号</th>
 				<th width="10%">时间</th>
-				<th width="10%" class="btn-sort">总收入（元）</th>
-				<th width="10%" class="btn-sort">应缴费用（元）</th>
-				<th width="10%" class="btn-sort">实际收入（元）</th>
+				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'totalSort');">总收入（元）</th>
+				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'handInSort');">应缴费用（元）</th>
+				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'fetchSort');">实际收入（元）</th>
 			</tr>
 			<c:forEach var="order" items="${payPage.data}" varStatus="vs">
 				<tr>

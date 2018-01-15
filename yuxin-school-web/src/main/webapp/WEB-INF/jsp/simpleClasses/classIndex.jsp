@@ -156,7 +156,7 @@
    </div>
 </div>
 <div class="add-layer-bg none"></div>
-//分类，学段，学科，知识点联动
+<%--//分类，学段，学科，知识点联动--%>
 <script>
     function showList(type) {
         if(type == 0){
@@ -367,7 +367,7 @@
                             '<li class="b2">录播</li>'+
                             b6+'</ul>';
                     }else{
-                        html+='<ul class="tabsn"><li class="b1">直播</li>'+
+                        html+='<ul class="tabsn">' +
                             '<li class="b1">直播</li>'+
                             '<li class="b2">录播</li>'+
                             b6+'</ul>';

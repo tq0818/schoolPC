@@ -245,7 +245,7 @@ function  init() {
                             + stu.lessonName
                             + '</td>'
                             + '<td>'
-                            + stu.userName
+                            + (stu.userName!=null?stu.userName:'')
                             + '</td>'
                             + '<td>'
                             + stu.studentName

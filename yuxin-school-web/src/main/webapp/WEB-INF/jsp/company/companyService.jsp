@@ -653,15 +653,14 @@
 								</p>
 							</li>
 						</c:if> --%>
-						<c:if test="${requestScope.SERVICE_TEACHER == null }">
+						<%-- <c:if test="${requestScope.SERVICE_TEACHER == null }">
 							<c:if test="${sessionScope.isAreaSchool1 eq 0}">
 								<li class="clear">
 									<div class="left" style="width: 200px;">
 										<div>
 											<i class="icons i9 active" style="cursor: default;"></i>
 											<p class="s-name">
-												<a href="javascript:;"
-												   style="cursor: default;text-decoration: none;">名师专题</a>
+												<a href="javascript:;" style="cursor: default;text-decoration: none;">名师专题</a>
 												<c:if test="${!empty manganger }">
 													<i class="iconfont btn-colse-ser" style="color:#dddddd;" title="点击关闭服务"
 													   data-type="SERVICE_TEACHER">&#xe635;</i>
@@ -679,7 +678,7 @@
 									</p>
 								</li>
 							</c:if>
-						</c:if>
+						</c:if> --%>
 						<%-- <c:if test="${requestScope.SERVICE_STAGE == null }">
 							<li class="clear">
 								<div class="left" style="width: 200px;">

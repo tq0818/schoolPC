@@ -111,6 +111,26 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 	@Override
     public void addBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc,CompanyPayConfig cpc,Integer userId) {
 		 int zhuCompanyId= companyMapper.searchCompany();
+		 String schoolProperty = search.getSchoolProperty();
+		 //判断
+		 if(schoolProperty.equals("小学")){
+			 search.setSchoolProperty("EDU_STEP_NEW_01");
+		 }
+		 if(schoolProperty.equals("完全中学")){
+			 search.setSchoolProperty("EDU_STEP_NEW_02");
+		 }
+		 if(schoolProperty.equals("十二年制")){
+			 search.setSchoolProperty("EDU_STEP_NEW_03");
+		 }
+		 if(schoolProperty.equals("九年制")){
+			 search.setSchoolProperty("EDU_STEP_NEW_04");
+		 }
+		 if(schoolProperty.equals("高级中学")){
+			 search.setSchoolProperty("EDU_STEP_NEW_05");
+		 }
+		 if(schoolProperty.equals("初级中学")){
+			 search.setSchoolProperty("EDU_STEP_NEW_06");
+		 }
 		 companyMapper.addBerkeley(search);
 		 int ids=search.getId();
 		//分配流量。分配存储空间
@@ -277,8 +297,10 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc, CompanyPayConfig cpc) {
 		companyMapper.eidtBerkeley(search);
-		if(cms.getVideoFlow()!=0 || cms.getVideoStorage()!=0){
-			companyMapper.editCompanyMemberService(cms);
+		if(cms.getVideoFlow() != null && cms.getVideoStorage()!=null && cms.getVideoFlow().equals("") && cms.getVideoStorage().equals("")){
+			if(cms.getVideoFlow()!=0 || cms.getVideoStorage()!=0){
+				companyMapper.editCompanyMemberService(cms);
+			}
 		}
 		companyMapper.editcompanyLiveConfig(clc);
 		companyMapper.editCompanyPayConfig(cpc);

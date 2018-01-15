@@ -60,7 +60,35 @@
             });
             // 生成知识树
             $(".buildKnowledge").on('click', function () {
-                alert(2);
+                var data = {};
+                data.eduYear = $("#eduYear").val();
+                data.eduSeason=$("#eduSeason").val();
+                data.itemSecondCode = $("#itemSecondCode").val();
+                data.itemThreeCode = $("#itemThreeCode").val();
+                data.idstr = idsData;
+                if(idsData == ''){
+                    $.alert("请先选择对应课程！");
+                    return;
+                }
+                $.ajax({
+                    url: rootPath + "/sysKnowledgeTree/addKnowledgeTree",
+                    data: data,
+                    type: 'post',
+                    beforeSend: function (XMLHttpRequest) {
+                        $(".loading").show();
+                        $(".loading-bg").show();
+                    },
+                    success: function (jsonData) {
+                        if(jsonData!=null && jsonData == 'true'){
+                            idsData = "";
+                            $this.search($("#pageNo").val()!=null ? $("#pageNo").val():1);
+                        }
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        $(".loading").hide();
+                        $(".loading-bg").hide();
+                    }
+                });
             });
             //全选 取消全选
             $(".checkboxAll").on('change', function () {
@@ -123,7 +151,7 @@
                                 : "")
                             + '</td>'
                             + '<td>'
-                            + '<a href="http://'+jsonData.company.domain+'sysConfigItem/selectDetail/"'+classType.commodityId+' target="_blank">查看</a>'
+                            + '<a href="http://'+jsonData.company.domain+'/sysConfigItem/selectDetail/'+classType.commodityId+'" target="_blank">查看</a>'
                             + '</td>';
                         html+= '</tr>';
                     });
@@ -132,13 +160,18 @@
                         .append(html);
                     $("#rowCount").remove();
                     $("#pageNo").remove();
-                    $(".course-list").after('<input type="hidden" id="pageNo" value="'+jsonData.pageNo+'"/>');
+                    $(".course-list").after('<input type="hidden" id="pageNo" value="'+jsonData.data.pageNo+'"/>');
                     $(".signUpMany").click(function(){
                         if($(this).prop("checked")){
                             idsData += $(this).val()+',';
                         }else{
                             var re =new RegExp($(this).val()+"," , "g");
                             idsData = idsData.replace(re, "");
+                        }
+                    });
+                    $(".course-list").find("tr").click(function(e){
+                        if(e.target.tagName == 'TD'){
+                            $(this).find('.signUpMany').click();
                         }
                     });
                     if (jsonData.data.rowCount >$("#selectCounts").val()) {

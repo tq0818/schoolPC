@@ -201,7 +201,7 @@ public class SysConfigTeacherController {
 		sysConfigTeacher.setCreateTime(new Date());
 		sysConfigTeacher.setUpdateTime(new Date());
 		sysConfigTeacher.setUpdator(user.getId());
-		sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
+		sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
 		sysConfigTeacher.setDelFlag(0);
 		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
 		sysConfigTeacherServiceImpl.isnertTeaAndUse(sysConfigTeacher);

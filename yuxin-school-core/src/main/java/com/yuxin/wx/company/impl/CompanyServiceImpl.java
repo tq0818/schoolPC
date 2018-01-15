@@ -7,6 +7,7 @@ import com.yuxin.wx.company.mapper.CompanyMemberServiceMapper;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.student.mapper.StudentPayMasterMapper;
@@ -521,6 +522,11 @@ public class CompanyServiceImpl extends BaseServiceImpl implements ICompanyServi
 		CompanyLiveConfig clc=companyMapper.findCompanyLiveConfigById(id);
 	    return clc;
     }
+	@Override
+	public CompanyPayConfig findCompanyPayConfigById(Integer id) {
+		CompanyPayConfig clc=companyMapper.findfindCompanyPayConfigById(id);
+		return clc;
+	}
 
 	@Override
 	public Integer findComanyIdByRootPath(String rootPath) {

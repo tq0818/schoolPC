@@ -236,7 +236,7 @@ public class StudentExcelImportController {
 				Users users=WebUtils.getCurrentUser();
 				if(users!=null)
 					ets.setUserId(String.valueOf(users.getId()));
-	    		List<EduMasterClass> eduMasterClassList=studentServiceImpl.findClassByTeacherId(ets);
+	    		List<EduMasterClass> eduMasterClassList=studentServiceImpl.findClassByTeacherId(ets,WebUtils.getCurrentCompany().getEduAreaSchool());
 	    		if(eduMasterClassList!=null&&eduMasterClassList.size()>0){
 	    			EduMasterClass eduMasterClass=eduMasterClassList.get(0);
 	    			if(eduMasterClass!=null){

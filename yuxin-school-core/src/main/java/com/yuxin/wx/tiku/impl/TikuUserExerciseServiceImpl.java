@@ -210,4 +210,9 @@ public class TikuUserExerciseServiceImpl extends BaseServiceImpl implements ITik
         return tikuUserExerciseMapper.findExamAccuracyByParam(tueaa);
     }
 
+    @Override
+    public List<Map<String, Object>> findTikuPaperByParam(Map<String, Object> param) {
+        return tikuUserExerciseMapper.findTikuPaperByParam(param);
+    }
+
 }

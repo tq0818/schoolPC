@@ -150,7 +150,7 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @return 
      * @throws
      */
-    UsersAreaRelation findUsersAreaRelationT(Integer id);
+    UsersAreaRelation findUsersAreaRelationT(Map<String,Object> params);
     /***
      * 
      * @author jishangyang 2017年12月27日 下午9:25:27
@@ -160,7 +160,7 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @return 
      * @throws
      */
-    UsersAreaRelation findUsersAreaRelationR(Integer id);
+    UsersAreaRelation findUsersAreaRelationR(Map<String,Object> params);
     /**
      * 授权当前用户在当前学校为合法用户
      * @param params

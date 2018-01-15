@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @version 1.0
  */
 @Component
-public class TikuStatisticsTask{
+public class TikuStatisticsTask implements Serializable {
 	@Autowired
 	private ITikuUserExerciseAnswerService tikuUserExerciseAnswerServiceImpl;
 	@Autowired

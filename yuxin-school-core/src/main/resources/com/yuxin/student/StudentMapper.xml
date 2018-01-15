@@ -1020,6 +1020,12 @@
 	 LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
 	 LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
 	 where 1=1 
+	 <if test="eduMasterClass !=null and eduMasterClass != ''">
+		and 
+		<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+			s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+		</foreach>
+	 </if>
 	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
 	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
 	 <if test="renke != null and renke != ''">
@@ -3221,12 +3227,12 @@ select * from (
 		<result property="name" column="name"/>
 		<result property="eduIdentityName" column="edu_identity"/>
 		<result property="mobile" column="mobile"/>
-		<result property="createTime" column="regist_time"/>
+		<result property="createTime" column="create_time"/>
 		<result property="finishCount" column="baoming_count"/>
-		<result property="totalCount" column="study_count"/>
+		<result property="totalCount" column="stu_count"/>
 		<result property="payPrice" column="price_count"/>
 	</resultMap>
-	<select id="queryUserListData" resultMap="queryUserListDataMap" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+	<!-- <select id="queryUserListData" resultMap="queryUserListDataMap" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
 		select s.`name`,s.mobile,
 		(CASE when s.edu_identity=1 then '普通用户' else '学生'  end) as edu_identity,
 		u.regist_time,COUNT(po.commodity_id) as baoming_count,
@@ -3242,22 +3248,79 @@ select * from (
 		<if test="eduStep != null and eduStep != ''"> and s.edu_step=#{eduStep}</if>
 		<if test="eduYear != null and eduYear != ''"> and s.edu_year=#{eduYear}</if>
 		<if test="eduClass != null and eduClass != ''"> and s.edu_class=#{eduClass}</if>
-		GROUP BY u.id  limit 0,1
-	</select> 
-	<select id="queryUserListDataCount" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
-		select count(*) from (select s.`name`,s.mobile,s.edu_identity,u.regist_time,COUNT(po.commodity_id) as baoming_count,
-		(COUNT(swi.id)+COUNT(cvr.id)) as study_count,SUM(po.pay_price) as price_count  
-		from users_front u
-		LEFT JOIN student s ON u.id=s.user_id
-		LEFT JOIN pay_order po ON po.user_id=u.id
-		LEFT JOIN sys_watch_info  swi ON swi.user_id=u.id
-		LEFT JOIN company_video_record cvr ON cvr.user_id=u.id
-		where po.pay_status='PAY_SUCCESS' and u.status=1 
+		GROUP BY u.id  
+		LIMIT #{firstIndex},#{pageSize}
+	</select> -->
+	<select id="queryUserListData" resultMap="queryUserListDataMap" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select if(isnull(s.name),'',s.name) name,s.mobile, 
+		(CASE when s.edu_identity=1 then '普通用户' else '学生' end) as edu_identity, 
+		s.create_time,(count(distinct ct.id)+count(distinct ctt.id)) stu_count,
+		SUM(if(isnull(po.pay_price),0,po.pay_price)) as price_count,COUNT(distinct po.commodity_id) as baoming_count
+		from student s
+		LEFT JOIN pay_order po ON po.user_id=s.user_id and po.pay_status='PAY_SUCCESS' and po.company_id=#{companyId}
+		LEFT JOIN sys_watch_info swi ON swi.user_id=s.user_id
+		left join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+		LEFT JOIN sys_play_logs cvr ON cvr.user_id=s.user_id
+		left join class_type ctt on ctt.id=cvr.class_type_id and ctt.company_id=#{companyId}
+		where  s.is_in_school=0 and s.delete_flag=0
+		<if test="name != null and name != ''"> and s.name like '%${name}%'</if>
+		<if test="eduIdentity != null and eduIdentity != ''"> and s.edu_identity=#{eduIdentity}</if>
 		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
 		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
-		<if test="eduStep != null and eduStep != ''"> and s.edu_step=#{eduStep}</if>
-		<if test="eduYear != null and eduYear != ''"> and s.edu_year=#{eduYear}</if>
-		<if test="eduClass != null and eduClass != ''"> and s.edu_class=#{eduClass}</if>
-		GROUP BY u.id  ) t
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		GROUP BY s.id
+		order by 
+		<if test="paixu == null or paixu == ''">s.create_time desc </if>
+		<if test="paixu != null and paixu == 1">s.create_time ASC </if>
+		 <if test="paixu != null and paixu == 2">s.create_time DESC </if>
+		 <if test="paixu != null and paixu == 3">baoming_count ASC </if>
+		<if test="paixu != null and  paixu == 4">baoming_count  DESC  </if>
+		<if test="paixu != null and  paixu == 5">price_count ASC </if>
+		 <if test="paixu != null and paixu == 6">price_count DESC </if>
+		 <if test="paixu != null and paixu == 7">stu_count ASC </if>
+		 <if test="paixu != null and paixu == 8">stu_count DESC </if>
+		LIMIT #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="exportUserInfo" resultType="Map" parameterType="Map"> 
+		select if(isnull(s.name),'',s.name) name,s.mobile, 
+		(CASE when s.edu_identity=1 then '普通用户' else '学生' end) as edu_identity, 
+		s.create_time,(count(distinct ct.id)+count(distinct ctt.id)) stu_count,
+		SUM(if(isnull(po.pay_price),0,po.pay_price)) as price_count,COUNT(distinct po.commodity_id) as baoming_count
+		from student s
+		LEFT JOIN pay_order po ON po.user_id=s.user_id and po.pay_status='PAY_SUCCESS' and po.company_id=#{companyId}
+		LEFT JOIN sys_watch_info swi ON swi.user_id=s.user_id
+		left join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+		LEFT JOIN sys_play_logs cvr ON cvr.user_id=s.user_id
+		left join class_type ctt on ctt.id=cvr.class_type_id and ctt.company_id=#{companyId}
+		where  s.is_in_school=0 and s.delete_flag=0
+		<if test="name != null and name != ''"> and s.name like '%${name}%'</if>
+		<if test="eduIdentity != null and eduIdentity != ''"> and s.edu_identity=#{eduIdentity}</if>
+		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		GROUP BY s.id
+		order by
+		<if test="paixu == null or paixu ==''">s.create_time desc </if>
+		<if test="paixu != null and paixu == 1">s.create_time ASC </if>
+		 <if test="paixu != null and paixu == 2">s.create_time DESC </if>
+		 <if test="paixu != null and paixu == 3">baoming_count ASC </if>
+		<if test="paixu != null and  paixu == 4">baoming_count  DESC  </if>
+		<if test="paixu != null and  paixu == 5">price_count ASC </if>
+		 <if test="paixu != null and paixu == 6">price_count DESC </if>
+		 <if test="paixu != null and paixu == 7">stu_count ASC </if>
+		 <if test="paixu != null and paixu == 8">stu_count DESC </if>
+	</select>
+	 
+	<select id="queryUserListDataCount" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select count(1) from student where is_in_school=0 and delete_flag=0
+		<if test="name != null and name != ''"> and name like '%${name}%'</if>
+		<if test="eduIdentity != null and eduIdentity != ''"> and edu_identity=#{eduIdentity}</if>
+		<if test="eduArea != null and eduArea != ''"> and edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and edu_school=#{eduSchool}</if>
+		<if test="startTime != null and startTime != ''">and date_format(create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
 	</select> 
 </mapper>

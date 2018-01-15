@@ -77,7 +77,7 @@
 			</div>
 	</div>
 	<!-- popupwin 界面 开始-->
-	<div class="popupwin knowledgePopup" style="width:600px; height:auto;top:10px;display: none" data-pupwin="modal">
+	<div class="popupwin knowledgePopup" style="width:600px; height:auto;top:10px;display: none;" data-pupwin="modal">
 		<div class="popupwin-title">
 			<h2 class="h5">预览知识树</h2>
 			<i class="close iconfont"></i>

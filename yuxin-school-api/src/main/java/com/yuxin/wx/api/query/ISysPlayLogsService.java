@@ -156,4 +156,11 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<Map<String,Object>> queryHistoryAll();
+
+    /**
+     * 统计时长最大的值
+     * @param param
+     * @return
+     */
+    List<Map<String,Object>> queryPlayLogsByParam(Map<String, Object> param);
 }

@@ -1,6 +1,9 @@
 package com.yuxin.wx.model.watchInfo;
 
+import java.util.List;
+
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.model.classes.EduMasterClass;
 /**
  * Created by Administrator on 2017/10/18.
  */
@@ -31,9 +34,35 @@ public class WatchInfoResult extends BaseEntity {
     private String isBaseSchool;//基地校
     private String videoFlag;//录播
     private String liveFlag;//直播
-    
+    private String isFromBrachSchool;
+    private Integer companyId;//机构标识号
+    private List<EduMasterClass> eduMasterClass;
 
-    public String getUserId() {
+    public List<EduMasterClass> getEduMasterClass() {
+		return eduMasterClass;
+	}
+
+	public void setEduMasterClass(List<EduMasterClass> eduMasterClass) {
+		this.eduMasterClass = eduMasterClass;
+	}
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getIsFromBrachSchool() {
+		return isFromBrachSchool;
+	}
+
+	public void setIsFromBrachSchool(String isFromBrachSchool) {
+		this.isFromBrachSchool = isFromBrachSchool;
+	}
+
+	public String getUserId() {
         return userId;
     }
 

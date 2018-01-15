@@ -165,6 +165,7 @@ public class BaseSchoolLive {
     @RequestMapping(value = "/queryStudentsWatchInfoList")
     public Map queryStudentsWatchInfoList(WatchInfoResult search) {
         search.setPageSize(10);
+        search.setIsFromBrachSchool("1");
         Integer total = studentStatisticsServiceImpl.totalNewPayMasterCount(search);
         PageFinder2<WatchInfoResult> pageFinder = studentStatisticsServiceImpl.queryNewStudentsWatchInfoList(search);
         Map<String,Object> map = new HashMap<>();
@@ -185,6 +186,7 @@ public class BaseSchoolLive {
     @RequestMapping(value = "/recordWatch")
     public PageFinder<UserVideoVo> recordWatch(UserVideoVo userVideoVo) {
     	  userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+    	  userVideoVo.setIsFromBrachSchool("1");
           // 分页调整
           if (userVideoVo.getPageSize() == null) {
               userVideoVo.setPageSize(10);

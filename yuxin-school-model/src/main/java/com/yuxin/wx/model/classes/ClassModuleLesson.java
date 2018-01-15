@@ -78,6 +78,8 @@ public class ClassModuleLesson extends BaseEntity {
     private Date lessonDateTime;
     private Integer isOutSource;
     private String commodityName;
+    private Integer commodityId;
+    private Integer classTypeId;
 
 	public Integer getIsOutSource() {
 		return isOutSource;
@@ -590,5 +592,21 @@ public class ClassModuleLesson extends BaseEntity {
 
 	public void setCommodityName(String commodityName) {
 		this.commodityName = commodityName;
+	}
+
+	public Integer getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(Integer commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	public Integer getClassTypeId() {
+		return classTypeId;
+	}
+
+	public void setClassTypeId(Integer classTypeId) {
+		this.classTypeId = classTypeId;
 	}
 }

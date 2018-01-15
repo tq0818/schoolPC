@@ -2,7 +2,6 @@ package com.yuxin.wx.watchInfo.impl;
 
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.BaseServiceImpl;
-import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +68,11 @@ public class WatchInfoServiceImpl extends BaseServiceImpl implements IWatchInfoS
     @Override
     public Map getCurrentByRoom(Map map) {
         return watchInfoMapper.getCurrentByRoom(map);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryWatchInfoByParam(Map<String, Object> param) {
+        return watchInfoMapper.queryWatchInfoByParam(param);
     }
 
 

@@ -37,7 +37,7 @@ margin-left: -400px;margin-top: -150px;background: #fff;z-index: 100;text-align:
 .classSettingBtn button{margin: 50px;}
 .classSettingEdit input{border-color: #e4e4e4 !important;background: #fff;width: 30px;}
 .baseSchoolLiveLabel label,.baseSchoolLiveLabel li{display: inline-block;}
-.baseSchoolLiveLabel li{margin: 10px;}
+.baseSchoolLiveLabel li{margin: 5px;}
 .liveBtn,.recordingBtn{float: right;margin-left: 20px;}
 .baseSchoolHead{height: 30px;}
 .baseSchoolHead h2{display: inline-block;}

@@ -98,5 +98,23 @@
             and item_three_code = #{itemThreeCode}
             and company_id = #{companyId}
     </delete>
+    <select id="findKnowledgeTreeByClass" parameterType="com.yuxin.wx.model.system.SysKnowledgeTree" resultMap="sysKnowledgeTreeResultMap">
+        select * from sys_knowledge_tree
+        where  1=1
+        <if test="lessonId!=null ">
+            and lessonId = #{lessonId}
+        </if>
+        <if test="classtypeIdWeike!=null ">
+            and classtype_id_weike = #{classtypeIdWeike}
+        </if>
+        <if test="classtypeIdHuikan!=null ">
+            and classtype_id_huikan = #{classtypeIdHuikan}
+        </if>
+        <if test="paperId!=null ">
+            and paper_id = #{paperId}
+        </if>
+
+    </select>
+
 
 </mapper>

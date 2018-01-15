@@ -2,14 +2,17 @@ package com.yuxin.wx.system.impl;
 
 import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.query.ISysPlayLogsService;
+import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
 import com.yuxin.wx.api.tiku.ITikuUserExerciseService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.system.SysKnowledgeTree;
 import com.yuxin.wx.model.system.SysKnowledgeTreeStatistics;
 import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.system.mapper.SysConfigItemRelationMapper;
 import com.yuxin.wx.system.mapper.SysKnowledgeTreeMapper;
 import com.yuxin.wx.system.mapper.SysKnowledgeTreeStatisticsMapper;
 import org.apache.commons.lang.StringUtils;
@@ -30,19 +33,14 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
 
     @Autowired
     private SysKnowledgeTreeStatisticsMapper sysKnowledgeTreeStatisticsMapper;
-
     @Autowired
     private IClassModuleLessonService classModuleLessonServiceImpl;
-
-    @Autowired
-    private ISysPlayLogsService sysPlayLogsServiceImpl;
-
     @Autowired
     private IWatchInfoService watchInfoServiceImpl;
-
+    @Autowired
+    private ISysPlayLogsService sysPlayLogsServiceImpl;
     @Autowired
     private ITikuUserExerciseService tikuUserExerciseServiceImpl;
-
 
     @Override
     public void insertKnowledgeTree(SysKnowledgeTree sysKnowledgeTree) {
@@ -67,6 +65,12 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
         }
         sysKnowledgeTreeMapper.removeKnowledge(sysKnowledgeTree);
     }
+
+    @Override
+    public List<SysKnowledgeTree> findKnowledgeTreeByClass(SysKnowledgeTree sysKnowledgeTree) {
+        return sysKnowledgeTreeMapper.findKnowledgeTreeByClass(sysKnowledgeTree);
+    }
+
 
     @Override
     public void addKnowledgeTree(String idstr, SysKnowledgeTree sysKnowledgeTree, Users user) {

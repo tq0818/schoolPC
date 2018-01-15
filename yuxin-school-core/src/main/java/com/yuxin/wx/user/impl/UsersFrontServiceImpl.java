@@ -331,4 +331,9 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 		return usersFrontMapper.findUsersfrontCountByMobileOrUsername(search);
 	}
 
+    @Override
+    public List<UsersFront> queryAll() {
+        return usersFrontMapper.queryAll();
+    }
+
 }

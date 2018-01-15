@@ -177,15 +177,6 @@
 		)
 		where company_service_static.company_id=#{companyId}
 	</update>
-	<!-- 添加更新流量的方法-->
-	<update id="updateByCompanyStatusl" parameterType="Integer" >
-		update company_service_static
-		set video_flow=(
-		SELECT ROUND(sum(video_total_flow),3)
-		FROM company_service_static_day
-		WHERE company_service_static_day.company_id= #{companyId})
-		where company_service_static.company_id= #{companyId}
-	</update>
 	<!-- 查询所有公司已用户服务 -->
 	<select id="queryCompanyServicesUsed" resultMap="companyServiceStaticResultMap">
 		select <include refid="table_columns"/>

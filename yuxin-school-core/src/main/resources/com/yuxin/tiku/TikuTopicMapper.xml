@@ -272,7 +272,7 @@
 				</if>
 				<if test="tikuSubjectId != null">and tiku_subject_id = #{tikuSubjectId}</if>
 				<if test="topicType != null and topicType != ''">and topic_type = #{topicType}</if>
-				<if test="paperFlag != null">and paper_flag = #{paperFlag}</if>
+				<!-- <if test="paperFlag != null">and paper_flag = #{paperFlag}</if> -->
 				<if test="topicType != null and topicType != 'TOPIC_TYPE_CASE'">and parent_id = 0</if>
 		order by id desc
 		limit #{firstIndex},#{pageSize}

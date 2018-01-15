@@ -418,6 +418,7 @@
 		  a.teachers_name as teachersName,
 		  a.lesson_date as lessonDate,
 		  a.lesson_time_start as lessonTimeStart,
+		  a.lesson_time_end as lessonTimeEnd,
 		  a.classroom,
 		  a.barrage,
 		  a.modetype,

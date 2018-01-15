@@ -85,7 +85,7 @@ function classListOfOtherSchool(pageNo){
 		url : rootPath + "/classTypeManage/classListOfOtherSchool",
 		type:"post",
 		data:{"companyId":$("#companyId").val(),"className":$("#searchClassName").val(),
-			"schoolName":$("#searchSchoolName").val(),"page":pageNo,"pageSize":'5'},
+			"schoolName":$("#searchSchoolName").val(),"page":pageNo,"pageSize":'10'},
 		dataType:"html",
 		beforeSend:function(XMLHttpRequest){
               $(".loading").show();

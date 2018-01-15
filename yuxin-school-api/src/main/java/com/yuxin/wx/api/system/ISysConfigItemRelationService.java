@@ -67,6 +67,7 @@ public interface ISysConfigItemRelationService {
     void publishRelation(Integer companyId);
     List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item);
     List<SysConfigItemRelation> findAllItemFront(Integer companyId);
+    List<SysConfigItemRelation> findAllItemRelation(Map<String,Object> params);
 
     List<SysConfigItemRelation> findItemFrontByLevel(Integer level,Integer companyId);
 

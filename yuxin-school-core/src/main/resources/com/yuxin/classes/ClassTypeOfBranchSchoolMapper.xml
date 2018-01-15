@@ -543,6 +543,21 @@
 				and f.parent_id=#{parentId}
 			</if>
     </select>
+	<select id="findItemRelation" resultMap="sysConfigItemRelationResultMap" parameterType="map">
+		select  r.id, r.item_code,i.item_name
+		from sys_config_item_relation r
+		join sys_school_item i on i.id=r.item_id and i.company_id = r.company_id
+		where r.level = #{level} and i.status = 1 and i.parent_code=#{parentCode}
+		<if test="schoolCode != null and schoolCode != ''">
+			and i.edu_area_school=#{schoolCode}
+		</if>
+		<if test="companyId != null">
+			and i.id=#{companyId}
+		</if>
+		<if test="parentId != null and parentId != ''">
+			and r.parent_id=#{parentId}
+		</if>
+	</select>
     <update id="battchUpOrDown" parameterType="Map">
    	 	update commodity set cdds_status=#{type} 
 		where id in (

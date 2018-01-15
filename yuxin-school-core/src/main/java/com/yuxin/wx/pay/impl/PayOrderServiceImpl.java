@@ -171,6 +171,11 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
 
     @Override
     public List<PayOrder> findPayOrderByParams(Map<String, Object> params) {
+        this.dateStr2Ddate(params);
+        return payOrderMapper.findPayOrderByParams(params);
+    }
+
+    private void dateStr2Ddate(Map<String, Object> params){
         // 将String类型，转换为Date类型
         if (params.get("inpstart") != null && params.get("inpstart") != "") {
             String startDay = (String) params.get("inpstart");
@@ -195,11 +200,11 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
             }
             params.put("inpend", endDate);
         }
-        return payOrderMapper.findPayOrderByParams(params);
     }
 
     @Override
     public Integer findCountByParams(Map<String, Object> params) {
+        this.dateStr2Ddate(params);
         return payOrderMapper.findCountByParams(params);
     }
 
@@ -286,6 +291,38 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
     @Override
     public Integer queryOrderBuyClassCountByUserId(Map<String, Object> map) {
         return payOrderMapper.queryOrderBuyClassCountByUserId(map);
+    }
+
+    @Override
+    public List<PayOrder> findSchoolMoneyByCondition(Map<String, Object> map) {
+        this.dateStr2Ddate(map);
+        return payOrderMapper.findSchoolMoneyByCondition(map);
+    }
+
+    @Override
+    public Integer findSchoolMoneyCountByCondition(Map<String, Object> map) {
+        return payOrderMapper.findSchoolMoneyCountByCondition(map);
+    }
+
+    @Override
+    public List<PayOrder> queryTeacherMoneyByCondition(Map<String, Object> map) {
+        return payOrderMapper.queryTeacherMoneyByCondition(map);
+    }
+
+    @Override
+    public Integer queryTeacherMoneyCountByCondition(Map<String, Object> map) {
+        return payOrderMapper.queryTeacherMoneyCountByCondition(map);
+    }
+
+    @Override
+    public List<PayOrder> findPrivateSchoolMoneyByCondition(Map<String, Object> map) {
+        this.dateStr2Ddate(map);
+        return payOrderMapper.findPrivateSchoolMoneyByCondition(map);
+    }
+
+    @Override
+    public Integer findPrivateSchoolMoneyCountByCondition(Map<String, Object> map) {
+        return payOrderMapper.findPrivateSchoolMoneyCountByCondition(map);
     }
 
 }

@@ -53,4 +53,10 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
  	  * @throws
  	  */
     List<EduMasterClass> queryEduMasterClass(EduMasterClass ems);
+
+	List<SysConfigDict> findAreaIds();
+
+	List<SysConfigDict> findSchoolByCondition(Map<String, Object> paramMap);
+
+	List<SysConfigDict> queryAllSchool();
 }

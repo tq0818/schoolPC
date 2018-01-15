@@ -10,8 +10,8 @@
             <%--<li class="subentry" code="operate_fee_confirm" mark="/payOrder/toOrder">转账确认</li> --%>
             <%--<li class="subentry" code="operate_fee" mark="/query/page/fee">费用</li> --%>
             <li class="subentry" code="order" mark="/jsp/allOrder">订单</li>
-            <li class="subentry" code="incomeQuery" mark="/jsp/incomeQuery">学校收入查询</li>
-            <li class="subentry" code="teacherIncome" mark="/jsp/teacherIncome">老师收入查询</li>
+            <li class="subentry" code="incomeQuery" mark="/jsp/incomeQuery">分校收入</li>
+            <li class="subentry" code="teacherIncome" mark="/jsp/teacherIncome">老师收入</li>
        </ul>
     </div>
 <script>

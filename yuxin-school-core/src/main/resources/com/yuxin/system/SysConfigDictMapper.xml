@@ -206,6 +206,11 @@
 		ORDER BY scd.id
 	</select>
 
+	<!--查询所有已知分校-->
+	<select id="queryAllSchool" resultMap="sysConfigDictResultMap" parameterType="map">
+		select id as company_id,company_name as item_value from company ORDER BY id
+	</select>
+
 	<select id="queryConfigDictValue" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
 		select item_value from sys_config_dict
 		where dict_code=#{dictCode} and item_code = #{itemCode}

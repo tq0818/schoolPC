@@ -34,41 +34,46 @@
 	<script  src="<%=rootPath%>/javascripts/tob-new.js" ></script>
 </head>
 <body>
+
 <jsp:include page="/WEB-INF/jsp/menu/menu_operate.jsp"></jsp:include>
 	<div class="u-wrap admin overflow">
 	<jsp:include page="/WEB-INF/jsp/menu/menu_operaconfig.jsp"></jsp:include>
 	<div class="right-side">
-		<div class="mainbackground nopadding allOrderContent">
-			<div>
-				<label for="areaId">请选择分校区域：</label>
-				<select name="area" id="areaId">
-					<option value="">全部</option>
-					<c:forEach items="${firstItems }" var="area">
-						<option value="${area.id }">${area.itemValue }</option>
-					</c:forEach>
-				</select>
-			</div>
-			<div style="margin: 12px 0;">
-				<label for="schoolId">请选择分校：</label>
-				<select name="school" id="schoolId" style="margin-left: 28px;">
-					<option value="">全部</option>
-					<option value="18113">成都数字学校</option>
-				</select>
-			</div>
-			<div class="allOrderHeader">
-				<label for="">请选择查询日期：</label>
-				<input type="text" style="margin-right: 10px" id="inpstart" readonly>至
-				<input type="text" id="inpend" readonly>
-				<button class="btn btn-primary" onclick="querySchoolMoney(1);">查询</button>
-				<button class="btn btn-primary">导出数据</button>
-				<div style="display: inline-block;float: right;margin-right: 10px;margin-top: 20px;">
-					总收入<span style="color: red;">1111</span>元
+		<form action="<%=rootPath%>/payOrder/exportExcelschoolMoney" id="searchForm" method="post"></form>
+			<div class="mainbackground nopadding allOrderContent">
+				<c:if test="${isArea eq 0}">
+					<div>
+						<label for="areaId">请选择分校区域：</label>
+						<select name="areaId" id="areaId">
+							<option value="">全部</option>
+							<c:forEach items="${firstItems }" var="area">
+								<option value="${area.id }">${area.itemValue }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div style="margin: 12px 0;">
+						<label for="schoolId">请选择分校：</label>
+						<select name="schoolId" id="schoolId" style="margin-left: 28px;">
+							<option value="">全部</option>
+							<option value="18113">成都数字学校</option>
+						</select>
+					</div>
+				</c:if>
+				<div class="allOrderHeader">
+					<label for="">请选择查询日期：</label>
+					<input type="text" style="margin-right: 10px" name="inpstart" id="inpstart" readonly>至
+					<input type="text" id="inpend" name="inpend" readonly>
+					<button class="btn btn-primary" onclick="toQuery();">查询</button>
+					<button class="btn btn-primary" onclick="exportData();">导出数据</button>
+					<div style="display: inline-block;float: right;margin-right: 10px;margin-top: 20px;">
+						总收入<span style="color: red;" id="totalMoneyId">0</span>元
+					</div>
+				</div>
+				<div class="user-list allOrderTable" id="moneyList">
+
 				</div>
 			</div>
-			<div class="user-list allOrderTable" id="moneyList">
 
-			</div>
-		</div>
 		<div class="pages">
 			<ul class="pagination">
 			</ul>
@@ -116,7 +121,7 @@ var start = {
     }
 };
 var end = {
-    format: 'YYYY年MM月DD日 hh:mm:ss',
+    format: 'YYYY-MM-DD hh:mm:ss',
     onClose:false,
     maxDate: '2099-06-16 23:59:59', //最大日期
     okfun: function(obj){
@@ -141,7 +146,15 @@ $.jeDate('#inpend',end);
 			});
 			querySchoolMoney(1);
 		});
-
+		function toQuery(){
+			if($("#inpstart").val()){
+				if(!$("#inpend").val()){
+					alert("请选择查询时间")
+					return;
+				}
+			}
+			querySchoolMoney(1);
+		}
 
 		function selSchool(){
 			$("#schoolId").empty();
@@ -173,17 +186,47 @@ $.jeDate('#inpend',end);
 			});
 		}
 
-		function querySchoolMoney(pageNo){
+
+		function exportData(){
+			if($("#inpstart").val()){
+				if(!$("#inpend").val()){
+					alert("请选择查询时间")
+					return;
+				}
+			}
+			$("#searchForm").empty();
+			var inputs = '<input type="hidden" name="page" value="1"/>' +
+
+					'<input type="hidden" name="inpstart" value="'+$("#inpstart").val()+'"/>' +
+					'<input type="hidden" name="inpend" value="'+$("#inpend").val()+'"/>';
+			if("${isArea}"=="0"){
+				inputs+='<input type="hidden" name="areaId" value="'+$("#areaId").val()+'"/>' +
+				'<input type="hidden" name="schoolId" value="'+$("#schoolId").val()+'"/>';
+			}
+
+			$("#searchForm").append(inputs);
+			$("#searchForm").submit();
+
+		}
+
+
+		function querySchoolMoney(pageNo,sort){
 
 			var areaId = $.trim($("#areaId").val());
 			var schoolId = $("#schoolId").val();
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
+			if("totalSort"==sort){
+
+			}
+			if("fetchSort"==sort){
+
+			}
 
 			$.ajax({
 				url : "/payOrder/querySchoolMoney",
 				type:"post",
-				data:{"page":pageNo,"pageSize":5,"areaId":areaId,"schoolId":schoolId,"inpstart":inpstart,"inpend":inpend},
+				data:{"page":pageNo,"pageSize":10,"areaId":areaId,"schoolId":schoolId,"inpstart":inpstart,"inpend":inpend},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();

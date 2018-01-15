@@ -438,27 +438,138 @@
 		where order_num = #{orderNum} and origin_type=0 limit 1
 	</select>
 
+
+	<!--lym 查询分校收入情况-->
+	<select id="findPrivateSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
+		select * from (
+			select t.orderTime,sum(t.totalMoney)as totalMoney,sum(t.fetchMoney)as fetchMoney from (
+			select
+				DATE_FORMAT(po.order_time,'%Y-%m-%d') as orderTime,
+				po.pay_price as totalMoney,
+				case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end as fetchMoney
+			 from pay_order po
+			join company c on c.id=po.company_id
+			join class_type ct on ct.id=po.commodity_id
+			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
+			)t GROUP BY t.orderTime)t1
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				where t1.orderTime BETWEEN #{inpstart} and #{inpend}
+			</if>
+
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="findPrivateSchoolMoneyCountByCondition" resultType="int" parameterType="map">
+		select count(1) from (
+			select t.dateTime,sum(t.totalMoney)as totalMoney,sum(t.handInMoney)as handInMoneyfrom from (
+			select
+				DATE_FORMAT(po.order_time,'%Y-%m-%d') as dateTime,
+				po.pay_price as totalMoney,
+				case when ct.is_public=1 then po.pay_price*c.public_cost/100 else po.pay_price*c.private_cost/100 end as handInMoney
+			 from pay_order po
+			join company c on c.id=po.company_id
+			join class_type ct on ct.id=po.commodity_id
+			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
+			)t GROUP BY t.dateTime)t1
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				where t1.dateTime BETWEEN #{inpstart} and #{inpend}
+			</if>
+	</select>
+
+	<!--lym 查询老师在数校收入情况-->
+	<select id="queryTeacherMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
+		select t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (
+			select
+				DISTINCT
+				sct.id,sct.name as teacherName,
+				scd1.item_value as sex,
+				CASE sct.teacher_level
+					WHEN 'GRADE_HIGH' THEN '小学高级'
+					WHEN 'MIDDLE_GRADE_HIGH' THEN '中小学高级'
+					WHEN 'MIDDLE_ONE' THEN '中学一级'
+					WHEN 'MIDDLE_TWO' THEN '中学二级'
+					WHEN 'MIDDLE_HIGH' THEN '中学高级'
+					WHEN 'MIDDLE_SUPER' THEN '特级教师'
+					ELSE
+					 ''
+					END as teacherLevel,
+				ct.id as courseId,
+				case when scd2.item_value is null then sct.school_name ELSE scd2.item_value end as schoolName,
+				 po.pay_price*(100-c.public_cost)/100 as fetchMoney
+
+			from sys_config_teacher sct
+			join sys_config_dict scd1 on scd1.item_code=sct.sex and scd1.dict_code='SEX_CODE'
+			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
+			join company c on c.id=ucr.company_id
+			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
+			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="companyId != null and companyId != ''">
+				where c.id=#{companyId}
+			</if>
+		)t GROUP BY t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="queryTeacherMoneyCountByCondition" resultType="int" parameterType="map">
+		select count(1) from (
+			select t.id,t.name,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (
+			select
+			DISTINCT
+			sct.id,sct.name,
+			scd1.item_value as sex,
+			CASE sct.teacher_level
+			WHEN 'GRADE_HIGH' THEN '小学高级'
+			WHEN 'MIDDLE_GRADE_HIGH' THEN '中小学高级'
+			WHEN 'MIDDLE_ONE' THEN '中学一级'
+			WHEN 'MIDDLE_TWO' THEN '中学二级'
+			WHEN 'MIDDLE_HIGH' THEN '中学高级'
+			WHEN 'MIDDLE_SUPER' THEN '特级教师'
+			ELSE
+			''
+			END as teacherLevel,
+			ct.id as courseId,
+			case when scd2.item_value is null then sct.school_name ELSE scd2.item_value end as schoolName,
+			po.pay_price*(100-c.public_cost)/100 as fetchMoney
+
+			from sys_config_teacher sct
+			join sys_config_dict scd1 on scd1.item_code=sct.sex and scd1.dict_code='SEX_CODE'
+			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
+			join company c on c.id=ucr.company_id
+			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
+			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="companyId != null and companyId != ''">
+				where c.id=#{companyId}
+			</if>
+		)t GROUP BY t.id,t.name,t.sex,t.teacherLevel,t.schoolName) t1
+	</select>
+
 	<!--lym 查询分校收入情况-->
 	<select id="findSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
-		select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,'收取费用' as fetchMoney
+		select * from (
+		select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,
+		sum(CASE WHEN ct.is_public=1 then po.pay_price*(100-t2.public_cost)/100
+		WHEN ct.is_public=0 then po.pay_price*(100-t2.private_cost)/100 end) as fetchMoney
 		from pay_order po
-		join (select scd1.item_value as aeraName,t1.company_name,t1.companyId from sys_config_dict scd1 join (
-		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id from company c
+		join class_type ct on ct.id=po.commodity_id
+		join (select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
 		join sys_config_dict scd on scd.item_code=c.edu_area_school
 		where scd.parent_item_id is null)t1 on t1.id=scd1.id
 		<if test="aereId != null and aereId != ''">
 			and scd1.id=#{aereId}
 		</if>
 		union
-		select scd1.item_value as aeraName,t1.company_name,t1.companyId from sys_config_dict scd1 join (
-		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id from company c
+		select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
 		join sys_config_dict scd on scd.item_code=c.edu_area_school
 		where scd.parent_item_id is not null) t1 on t1.parent_item_id=scd1.id
 		<if test="aereId != null and aereId != ''">
 			and scd1.id=#{aereId}
 		</if>
 		union
-		select '--' as item_value,company_name,id as company_id from company where is_area=0
+		select '--' as item_value,company_name,id as company_id,0 as private_cost,0 as public_cost from company where is_area=0
 		<if test="aereId != null and aereId != ''">
 			and id= 0
 		</if>
@@ -466,39 +577,56 @@
 		<if test="companyId != null and companyId != ''">
 			and po.company_id=#{companyId}
 		</if>
-		GROUP BY t2.aeraName,t2.company_name
+		where po.pay_status='PAY_SUCCESS'
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
+		GROUP BY t2.aeraName,t2.company_name)t3
+		<if test="totalSort != null and totalSort != ''">
+			${totalSort}
+		</if>
+		<if test="fetchSort != null and fetchSort != ''">
+			${fetchSort}
+		</if>
 
 		limit #{page},#{pageSize}
 	</select>
 
 	<select id="findSchoolMoneyCountByCondition" resultType="int" parameterType="map">
-			select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,'收取费用' as fetchMoney
-			from pay_order po
-			join (select scd1.item_value as aeraName,t1.company_name,t1.companyId from sys_config_dict scd1 join (
-			select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id from company c
-			join sys_config_dict scd on scd.item_code=c.edu_area_school
-			where scd.parent_item_id is null)t1 on t1.id=scd1.id
-			<if test="aereId != null and aereId != ''">
-				and scd1.id=#{aereId}
-			</if>
-			union
-			select '--' as item_value,company_name,id as company_id from company c2 where c2.is_area=0
-			<if test="aereId != null and aereId != ''">
-				and c2.id= 0
-			</if>
-			union
-			select scd1.item_value as aeraName,t1.company_name,t1.companyId from sys_config_dict scd1 join (
-			select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id from company c
-			join sys_config_dict scd on scd.item_code=c.edu_area_schoolfindSchoolMoneyByCondition
-			where scd.parent_item_id is not null) t1 on t1.parent_item_id=scd1.id
-			<if test="aereId != null and aereId != ''">
-				and scd1.id=#{aereId}
-			</if>
-			)t2 on t2.companyId=po.company_id
-			<if test="companyId != null and companyId != ''">
-				and po.company_id=#{companyId}
-			</if>
-			GROUP BY t2.aeraName,t2.company_name
+		select count(1) from (select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,
+		sum(CASE WHEN ct.is_public=1 then po.pay_price*(100-t2.public_cost)/100
+		WHEN ct.is_public=0 then po.pay_price*(100-t2.private_cost)/100 end) as fetchMoney
+		from pay_order po
+		join class_type ct on ct.id=po.commodity_id
+		join (select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is null)t1 on t1.id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		union
+		select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is not null) t1 on t1.parent_item_id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		union
+		select '--' as item_value,company_name,id as company_id,0 as private_cost,0 as public_cost from company where is_area=0
+		<if test="aereId != null and aereId != ''">
+			and id= 0
+		</if>
+		)t2 on t2.companyId=po.company_id
+		<if test="companyId != null and companyId != ''">
+			and po.company_id=#{companyId}
+		</if>
+		where po.pay_status='PAY_SUCCESS'
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
+		GROUP BY t2.aeraName,t2.company_name)t3
 	</select>
 	
 	<select id="findPayOrderByParams" resultMap="payOrderResultMap" parameterType="map">
@@ -525,9 +653,13 @@
 		JOIN users_front uf ON uf.id = po.user_id
 		join student st on st.user_id=uf.id
 		WHERE
-		po.origin_type = 0 and po.company_id = #{companyId}
+		po.origin_type = 0
+		<if test="companyId != null and companyId != ''">
+			and po.company_id = #{companyId}
+		</if>
+
 		<if test="orderNum != null and orderNum != ''">
-			and po.order_num=#{orderNum}
+			and po.order_num like '%${orderNum}%'
 		</if>
 		<if test="payMethod != null and payMethod != ''">
 			and po.pay_type=#{payMethod}
@@ -550,15 +682,20 @@
 		JOIN users_front uf ON uf.id = po.user_id
 		join student st on st.user_id=uf.id
 		WHERE
-		po.origin_type = 0 and po.company_id = #{companyId}
+		po.origin_type = 0
+
+		<if test="companyId != null and companyId != ''">
+			and po.company_id = #{companyId}
+		</if>
+
 		<if test="orderNum != null and orderNum != ''">
-			and po.order_num=#{orderNum}
+			and po.order_num like '%${orderNum}%'
 		</if>
 		<if test="payMethod != null and payMethod != ''">
 			and po.pay_type=#{payMethod}
 		</if>
 		<if test="firstPrice != null and firstPrice != '' and secondPrice != null and secondPrice != ''">
-			and po.pay_price BETWEEN #{firstPrice} and #{firstPrice}
+			and po.pay_price BETWEEN #{firstPrice} and #{secondPrice}
 		</if>
 		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
 			and po.order_time BETWEEN #{inpstart} and #{inpend}

@@ -88,4 +88,10 @@ public interface IClassTypeOfBranchSchoolService  {
 	List<SysConfigDict> findAreaIds();
 
 	List<SysConfigDict> findSchoolByCondition(Map<String, Object> paramMap);
+
+	/**
+	 * 查询所有分校
+	 * @return
+     */
+	List<SysConfigDict> queryAllSchool();
 }

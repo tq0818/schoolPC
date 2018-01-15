@@ -6,28 +6,57 @@
 <input type="hidden" value="${payPage.rowCount }" id="rowCount"/>
 <input type="hidden" value="${payPage.pageNo }" id="pageNo"/>
 <input type="hidden" value="${payPage.pageSize }" id="pageSize"/>
-<table class="table table-center allOrderList" >
-	<tr>
-		<th width="3%">序号</th>
-		<th width="10%">分校名称</th>
-		<th width="10%">所属区域</th>
-		<th width="10%" class="btn-sort">分校总收入（元）</th>
-		<th width="10%" class="btn-sort">应收费用（元）</th>
-	</tr>
-	<c:forEach var="order" items="${payPage.data}" varStatus="vs">
-		<tr>
-			<td>${vs.count}</td>
-			<td>${order.schoolName}</td>
-			<td>${order.aeraName}</td>
-			<td>${order.totalMoney}</td>
-			<td>${order.fetchMoney}</td>
-		</tr>
-	</c:forEach>
+<c:choose>
+	<c:when test="${isArea eq 0}">
+		<table class="table table-center allOrderList" >
+			<tr>
+				<th width="3%">序号</th>
+				<th width="10%">分校名称</th>
+				<th width="10%">所属区域</th>
+				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'totalSort');">分校总收入（元）</th>
+				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'fetchSort');">应收费用（元）</th>
+			</tr>
+			<c:forEach var="order" items="${payPage.data}" varStatus="vs">
+				<tr>
+					<td>${vs.count}</td>
+					<td>${order.schoolName}</td>
+					<td>${order.aeraName}</td>
+					<td>${order.totalMoney}</td>
+					<td>${order.fetchMoney}</td>
+				</tr>
+			</c:forEach>
 
-</table>
+		</table>
+	</c:when>
+	<c:otherwise>
+		<table class="table table-center allOrderList" >
+			<tr>
+				<th width="3%">序号</th>
+				<th width="10%">时间</th>
+				<th width="10%" class="btn-sort">总收入（元）</th>
+				<th width="10%" class="btn-sort">应缴费用（元）</th>
+				<th width="10%" class="btn-sort">实际收入（元）</th>
+			</tr>
+			<c:forEach var="order" items="${payPage.data}" varStatus="vs">
+				<tr>
+					<td>${vs.count}</td>
+					<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd"/></td>
+					<td>${order.totalMoney}</td>
+					<td>${order.fetchMoney - order.fetchMoney}</td>
+					<td>${order.fetchMoney}</td>
+				</tr>
+			</c:forEach>
+
+		</table>
+	</c:otherwise>
+</c:choose>
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		$("#totalMoneyId").empty();
+		$("#totalMoneyId").html("${totalMoneyAdd}")
+		$(".pagination").empty();
 		$(".pagination").pagination('${payPage.rowCount}', {
 			next_text : "下一页",
 			prev_text : "上一页",
@@ -38,7 +67,7 @@
 			num_edge_entries : 1,
 			callback:function(page,jq){
 				var pageNo = page + 1;
-				queryOrders(pageNo);
+				querySchoolMoney(pageNo);
 			}
 		});
 	});

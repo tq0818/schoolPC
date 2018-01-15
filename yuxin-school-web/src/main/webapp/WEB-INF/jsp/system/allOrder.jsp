@@ -31,6 +31,7 @@
 </head>
 
 <body>
+<form action="<%=rootPath%>/payOrder/exportExcelAllOrder" method="post" id="searchForm"></form>
 <jsp:include page="/WEB-INF/jsp/menu/menu_operate.jsp"></jsp:include>
 	<div class="u-wrap admin overflow">
 	<jsp:include page="/WEB-INF/jsp/menu/menu_operaconfig.jsp"></jsp:include>
@@ -64,7 +65,7 @@
 					</li>
 				</ul>
 				<button class="btn btn-primary" onclick="queryByCondition();">查询</button>
-				<button class="btn btn-primary">导出</button>
+				<button class="btn btn-primary" onclick="exportData();">导出</button>
 			</div>
 			<div class="allArderState">
 				<button class="btn btn-primary" code="">全部订单</button>
@@ -130,6 +131,18 @@ $.jeDate('#inpend',end);
 		});
 
 		function queryByCondition(){
+			if($("#inpstart").val()){
+				if(!$("#inpend").val()){
+					alert("请选择查询时间")
+					return;
+				}
+			}
+			if($("#payPrice01").val()){
+				if(!$("#payPrice02").val()){
+					alert("请输入订单金额")
+					return;
+				}
+			}
 			queryOrders(1);
 		}
 
@@ -147,6 +160,33 @@ $.jeDate('#inpend',end);
 
 		}
 
+
+		function exportData(){
+			if($("#inpstart").val()){
+				if(!$("#inpend").val()){
+					alert("请选择查询时间")
+					return;
+				}
+			}
+			if($("#payPrice01").val()){
+				if(!$("#payPrice02").val()){
+					alert("请输入订单金额")
+					return;
+				}
+			}
+			$("#searchForm").empty();
+			var inputs = '<input type="hidden" name="page" value="1"/>' +
+					'<input type="hidden" name="orderNum" value="'+$("#orderNum").val()+'"/>' +
+					'<input type="hidden" name="inpstart" value="'+$("#inpstart").val()+'"/>'+
+					'<input type="hidden" name="payMethod" value="'+$("#payMethod").val()+'"/>' +
+					'<input type="hidden" name="firstPrice" value="'+$("#payPrice01").val()+'"/>'+
+					'<input type="hidden" name="secondPrice" value="'+$("#payPrice02").val()+'"/>';
+
+			$("#searchForm").append(inputs);
+			$("#searchForm").submit();
+
+		}
+
 		function queryOrders(pageNo){
 
 			var orderNum = $.trim($("#orderNum").val());
@@ -155,14 +195,10 @@ $.jeDate('#inpend',end);
 			var payMethod = $("#payMethod").val();
 			var firstPrice = $("#payPrice01").val();
 			var secondPrice = $("#payPrice02").val();
-			/*if(!(firstPrice && secondPrice)){
-				alert("请填写好价格查询范围");
-				return;
-			}*/
 			$.ajax({
 				url : "/payOrder/queryAllOrder",
 				type:"post",
-				data:{"page":pageNo,"pageSize":5,"orderNum":orderNum, "inpstart":inpstart, "inpend":inpend, "payMethod":payMethod, "firstPrice":firstPrice, "secondPrice":secondPrice},
+				data:{"page":pageNo,"pageSize":10,"orderNum":orderNum, "inpstart":inpstart, "inpend":inpend, "payMethod":payMethod, "firstPrice":firstPrice, "secondPrice":secondPrice},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();

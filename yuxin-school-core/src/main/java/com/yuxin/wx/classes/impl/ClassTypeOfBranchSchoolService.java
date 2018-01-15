@@ -687,4 +687,9 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 //		return null;
 		return sysConfigDictMapper.findSchoolByCondition(paramMap);
 	}
+
+	@Override
+	public List<SysConfigDict> queryAllSchool() {
+		return sysConfigDictMapper.queryAllSchool();
+	}
 }

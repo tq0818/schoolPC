@@ -3,6 +3,7 @@ package com.yuxin.wx.controller.jsp;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,8 +63,12 @@ public class JspBaseController {
      */
     @RequestMapping(value = "/incomeQuery")
     public String incomeQuery(Model model){
-        List<SysConfigDict> areaList=classTypeOfBranchSchoolService.findAreaIds();
-        model.addAttribute("firstItems", areaList);
+        String isArea = WebUtils.getCurrentIsArea();
+        if("0".equals(isArea)){
+            List<SysConfigDict> areaList=classTypeOfBranchSchoolService.findAreaIds();
+            model.addAttribute("firstItems", areaList);
+        }
+        model.addAttribute("isArea",isArea);
         return "system/incomeQuery";
     }
 
@@ -89,7 +94,13 @@ public class JspBaseController {
      * @return
      */
     @RequestMapping(value = "/teacherIncome")
-    public String teacherIncome(){
+    public String teacherIncome(Model model){
+        String isArea = WebUtils.getCurrentIsArea();
+        if("0".equals(isArea)){
+            List<SysConfigDict> schoolList = classTypeOfBranchSchoolService.queryAllSchool();
+            model.addAttribute("schoolList", schoolList);
+        }
+        model.addAttribute("isArea",isArea);
         return "system/teacherIncome";
     }
 

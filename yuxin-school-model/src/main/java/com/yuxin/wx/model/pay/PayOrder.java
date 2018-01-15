@@ -3,6 +3,7 @@ package com.yuxin.wx.model.pay;
 import java.util.Date;
 
 import com.yuxin.wx.common.BaseEntity;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * POJO:PayOrder
@@ -61,6 +62,51 @@ public class PayOrder extends BaseEntity {
     private String totalMoney;
     private String fetchMoney;
 
+    private String teacherName;
+    private String sex;
+    private String teacherLevel;
+    private String handInMoney;
+
+    public String getHandInMoney() {
+        if(StringUtils.isNotBlank(totalMoney) && StringUtils.isNotBlank(fetchMoney)){
+            this.handInMoney = String.valueOf(Integer.parseInt(totalMoney)-Integer.parseInt(fetchMoney));
+        }
+        if(StringUtils.isBlank(totalMoney) && StringUtils.isBlank(fetchMoney)){
+            this.handInMoney = String.valueOf(0);
+        }
+        if(StringUtils.isNotBlank(totalMoney) && StringUtils.isBlank(fetchMoney)){
+            this.handInMoney = String.valueOf(Integer.parseInt(totalMoney)-0);
+        }
+        return handInMoney;
+    }
+
+    public void setHandInMoney(String handInMoney) {
+        this.handInMoney = handInMoney;
+    }
+
+    public String getTeacherLevel() {
+        return teacherLevel;
+    }
+
+    public void setTeacherLevel(String teacherLevel) {
+        this.teacherLevel = teacherLevel;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     public String getAeraName() {
         return aeraName;

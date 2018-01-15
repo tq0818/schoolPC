@@ -73,6 +73,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		$(".pagination").empty();
 		$(".pagination").pagination('${payPage.rowCount}', {
 			next_text : "下一页",
 			prev_text : "上一页",

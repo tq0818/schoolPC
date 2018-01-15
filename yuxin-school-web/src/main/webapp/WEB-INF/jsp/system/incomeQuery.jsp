@@ -209,24 +209,51 @@ $.jeDate('#inpend',end);
 
 		}
 
-
+        var ts = 0;
+		var fs = 0;
+		var hs = 0;
 		function querySchoolMoney(pageNo,sort){
 
 			var areaId = $.trim($("#areaId").val());
 			var schoolId = $("#schoolId").val();
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
+			var totalSort = "order by t3.totalMoney desc,";
+			var fetchSort = "t3.fetchMoney desc";
+			var handInSort = ",t3.handInMoney desc";
 			if("totalSort"==sort){
-
+				if(ts==1){
+					totalSort = "order by t3.totalMoney asc,";
+					ts = 0;
+				}else{
+					ts = 1;
+				}
 			}
+
 			if("fetchSort"==sort){
-
+				if(fs==1){
+					fetchSort = "t3.fetchMoney asc";
+					fs = 0;
+				}else{
+					fs = 1;
+				}
 			}
+
+			if("handInSort"==sort){
+				if(hs==1){
+					handInSort = ",t3.handInMoney asc";
+					hs = 0;
+				}else{
+					hs = 1;
+				}
+			}
+
+
 
 			$.ajax({
 				url : "/payOrder/querySchoolMoney",
 				type:"post",
-				data:{"page":pageNo,"pageSize":10,"areaId":areaId,"schoolId":schoolId,"inpstart":inpstart,"inpend":inpend},
+				data:{"page":pageNo,"pageSize":10,"areaId":areaId,"schoolId":schoolId,"inpstart":inpstart,"inpend":inpend,"totalSort":totalSort,"fetchSort":fetchSort,"handInSort":handInSort},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();

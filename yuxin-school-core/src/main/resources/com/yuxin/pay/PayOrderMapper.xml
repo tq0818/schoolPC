@@ -442,7 +442,7 @@
 	<!--lym 查询分校收入情况-->
 	<select id="findPrivateSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
 		select * from (
-			select t.orderTime,sum(t.totalMoney)as totalMoney,sum(t.fetchMoney)as fetchMoney from (
+			select t.orderTime,sum(t.totalMoney)as totalMoney,sum(t.fetchMoney)as fetchMoney,(sum(t.totalMoney)-sum(t.fetchMoney)) as handInMoney  from (
 			select
 				DATE_FORMAT(po.order_time,'%Y-%m-%d') as orderTime,
 				po.pay_price as totalMoney,
@@ -451,9 +451,18 @@
 			join company c on c.id=po.company_id
 			join class_type ct on ct.id=po.commodity_id
 			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
-			)t GROUP BY t.orderTime)t1
+			)t GROUP BY t.orderTime)t3
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
 				where t1.orderTime BETWEEN #{inpstart} and #{inpend}
+			</if>
+			<if test="totalSort != null and totalSort != ''">
+				${totalSort}
+			</if>
+			<if test="fetchSort != null and fetchSort != ''">
+				${fetchSort}
+			</if>
+			<if test="handInSort != null and handInSort != ''">
+				${handInSort}
 			</if>
 
 		limit #{page},#{pageSize}
@@ -508,6 +517,9 @@
 				where c.id=#{companyId}
 			</if>
 		)t GROUP BY t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName
+		<if test="totalSort != null and totalSort != ''">
+			${totalSort}
+		</if>
 		limit #{page},#{pageSize}
 	</select>
 

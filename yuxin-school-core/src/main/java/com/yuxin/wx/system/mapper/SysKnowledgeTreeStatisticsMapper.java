@@ -5,6 +5,7 @@ import com.yuxin.wx.model.system.SysKnowledgeTree;
 import com.yuxin.wx.model.system.SysKnowledgeTreeStatistics;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/31.
@@ -16,4 +17,12 @@ public interface SysKnowledgeTreeStatisticsMapper extends BaseMapper<SysKnowledg
      * @param sysKnowledgeTreeList
      */
     void removeKnowledgeStatistics(List<SysKnowledgeTree> sysKnowledgeTreeList);
+
+    List<SysKnowledgeTreeStatistics> findStatistics(Map map);
+
+    Map findLessonInfo(Map map);
+
+    void updateStatistics(SysKnowledgeTreeStatistics info);
+
+    void addStatistics(SysKnowledgeTreeStatistics info);
 }

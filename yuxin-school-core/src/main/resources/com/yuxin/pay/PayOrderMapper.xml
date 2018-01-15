@@ -485,6 +485,55 @@
 			</if>
 	</select>
 
+
+	<!--lym 查询老师在数校收入情况(明细)-->
+	<select id="queryTeacherMoneyDetails" resultMap="payOrderResultMap" parameterType="map">
+		select * from (
+			select
+			ct.name as commodityName,
+			<choose>
+				<when test="areaFlag != null and areaFlag != ''">
+					sum(po.pay_price*(100-c.public_cost)/100) as fetchMoney
+				</when>
+				<otherwise>
+					sum(case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end) as fetchMoney
+				</otherwise>
+			</choose>
+			from
+			pay_order po
+			join class_type ct on ct.id=po.commodity_id
+			join company c on c.id = ct.company_id and po.company_id=c.id
+			where po.pay_status='PAY_SUCCESS' and ct.is_out_source=0 and ct.teacher_id = #{teacherId}
+		<if test="areaFlag != null and areaFlag != ''">
+				and ct.live_flag=1 and ct.is_public=1
+			</if>
+			GROUP BY ct.name)t
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="queryTeacherMoneyDetailsCount" resultType="int" parameterType="map">
+		select count(1) from (
+		select
+		ct.name as commodityName,
+		<choose>
+			<when test="areaFlag != null and areaFlag != ''">
+				sum(po.pay_price*(100-c.public_cost)/100) as fetchMoney
+			</when>
+			<otherwise>
+				sum(case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end) as fetchMoney
+			</otherwise>
+		</choose>
+		from
+		pay_order po
+		join class_type ct on ct.id=po.commodity_id
+		join company c on c.id = ct.company_id and po.company_id=c.id
+		where po.pay_status='PAY_SUCCESS' and ct.is_out_source=0 and ct.teacher_id = #{teacherId}
+		<if test="areaFlag != null and areaFlag != ''">
+			and ct.live_flag=1 and ct.is_public=1
+		</if>
+		GROUP BY ct.name)t
+	</select>
+
 	<!--lym 查询老师在数校收入情况-->
 	<select id="queryTeacherMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
 		select t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (

@@ -37,7 +37,7 @@
 			<td>${order.schoolName}</td>
 			</c:if>
 			<td>${order.fetchMoney}</td>
-			<td><a href="##" class="detailIncomeList">详情</a></td>
+			<td><a href="##" class="detailIncomeList" id="${order.id}">详情</a></td>
 		</tr>
 	</c:forEach>
 	<%--</tr>--%>
@@ -59,15 +59,33 @@
 				queryTeacherMoney(pageNo);
 			}
 		});
-		//关闭弹窗
-		$('.closeIncome').click(function(){
-			$('.detailIncome').fadeOut();
-			$('.opacityIncome').fadeOut();
-		});
+
 		//点击详情，打开弹窗
 		$('.detailIncomeList').click(function(){
 			$('.detailIncome').fadeIn();
 			$('.opacityIncome').fadeIn();
+			queryTeacherDetails(1,$(this).attr("id"));
 		});
 	});
+
+	function queryTeacherDetails(pageNo,teacherId){
+		$(".detailIncome").empty();
+		$.ajax({
+			url : "/payOrder/queryTeacherMoneyDetails",
+			type:"post",
+			data:{"page":pageNo,"pageSize":10,"teacherId":teacherId},
+			dataType:"html",
+			beforeSend:function(XMLHttpRequest){
+				$(".loading").show();
+				$(".loading-bg").show();
+			},
+			success:function(data){
+				$(".detailIncome").html("").html(data);
+			},
+			complete:function(XMLHttpRequest,textStatus){
+				$(".loading").hide()
+				$(".loading-bg").hide();
+			}
+		});
+	}
 </script>

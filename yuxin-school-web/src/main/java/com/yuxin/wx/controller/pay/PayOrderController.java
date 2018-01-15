@@ -474,6 +474,44 @@ public class PayOrderController {
         model.addAttribute("isArea", isArea);
         return "system/teacherMoneyAjax";
     }
+
+
+    /**
+     * 查询分校老师在数字学校的收入情况
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/queryTeacherMoneyDetails")
+    public String queryTeacherMoneyDetails(Model model, HttpServletRequest request,PayOrder payOrder) {
+        String isArea = WebUtils.getCurrentIsArea();
+        Map<String,Object>map = new HashMap<String,Object>();
+        //分校收入情况
+
+        map.put("pageSize",payOrder.getPageSize());
+        map.put("page",payOrder.getFirstIndex());
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        map.put("fetchSort",request.getParameter("fetchSort"));
+        map.put("teacherId",request.getParameter("teacherId"));
+        List<PayOrder> cpoList = null;
+        Integer count = null;
+        if("0".equals(isArea)){
+//            map.put("companyId",request.getParameter("schoolId"));
+            map.put("areaFlag",1);
+        }else{
+//            map.put("companyId",WebUtils.getCurrentCompanyId());
+        }
+        cpoList = payOrderServiceImpl.queryTeacherMoneyDetails(map);
+        // 总数
+        count = payOrderServiceImpl.queryTeacherMoneyDetailsCount(map);
+        // 分页
+        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(payOrder.getPage(), payOrder.getPageSize(), count, cpoList);
+        model.addAttribute("orderDetails", payPage);
+        model.addAttribute("isArea", isArea);
+        model.addAttribute("teacherId", request.getParameter("teacherId"));
+        return "system/teacherMoneyDetails";
+    }
     @ResponseBody
     @RequestMapping("/selOrderLast5")
     public PageFinder<PayOrder> selOrder() {

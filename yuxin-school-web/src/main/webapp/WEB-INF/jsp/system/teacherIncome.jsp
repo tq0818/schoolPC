@@ -108,70 +108,7 @@
 
 <%--详情弹窗--%>
 <div class="detailIncome">
-	<h5 style="display: inline-block;">收入明细</h5>
-	<i class="icon iconfont closeIncome" style="float: right;margin-top: 10px;">&#xe610;</i>
-	<table>
-		<col width="20%">
-		<col width="40%">
-		<col width="40%">
-		<tr>
-			<th>序号</th>
-			<th>课程名称</th>
-			<th class="btn-sort">收入（元）</th>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>如何学好英语</td>
-			<td>12,122.00</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
-	<a href="##" class="btn btn-default">上一页</a>
-	<a href="##" class="btn btn-primary">下一页</a>
+
 </div>
 <div class="opacityIncome" style="position: fixed;left: 0;top: 0;background: rgba(0,0,0,0.5);width: 100%;height: 100%;"></div>
 

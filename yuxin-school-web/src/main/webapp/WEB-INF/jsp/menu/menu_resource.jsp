@@ -13,10 +13,10 @@
              <shiro:hasPermission name="resource_teacher">
             <li code="resource_teacher"><a href="<%=request.getContextPath()%>/sysConfigTeacher/toTeacherIndex">老师</a></li>
             </shiro:hasPermission>
-             <shiro:hasPermission name="resource_manager">  
-            <li code="resource_manager"><a href="<%=request.getContextPath()%>/sysConfigTeacher/toEducationInfo">教务</a></li>
-            </shiro:hasPermission>
             <c:if test="${isAreaSchool1 eq 0}">
+             	<shiro:hasPermission name="resource_manager">  
+            	<li code="resource_manager"><a href="<%=request.getContextPath()%>/sysConfigTeacher/toEducationInfo">教务</a></li>
+            	</shiro:hasPermission>
                  <shiro:hasPermission name="resource_campus">
                 <li code="resource_campus"><a href="<%=request.getContextPath()%>/sysConfigCampus/toCampusInfo">校区</a></li>
                 </shiro:hasPermission>

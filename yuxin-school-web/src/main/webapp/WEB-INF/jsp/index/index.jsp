@@ -64,8 +64,13 @@
                     </p>
                 </li>
                 </c:if>
-                <c:if test="${serviceMsg }">
-                <li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics" style="display: none">
+                <c:if test="${serviceMsg}">
+                <c:if test="${CURRENT_IS_AREA eq 0}">
+                	<li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics">
+                </c:if>
+                <c:if test="${CURRENT_IS_AREA ne 0}">
+                	<li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics" style="display: none">
+                </c:if>
                     <p class="L-hover">
 	                    <span class="item-back duanxin"></span>
 	                    <span class="list-title">短信</span>
@@ -83,7 +88,7 @@
                         <span class="text-right red fr"></span>
                     </p>
                 </li>
-                 </c:if>
+                </c:if>
                 <!-- <li class="item-list fl toService emailService" data-url="/companyMemberService/toEmailStatistics">
                     <p class="L-hover">
 	                    <span class="item-back email"></span>

@@ -76,7 +76,19 @@ public class ClassModuleLesson extends BaseEntity {
 	private CourseExercise courseExercise;
 	private TikuPaper tikuPaper;
     private Date lessonDateTime;
-    
+    private Integer isOutSource;
+    private String commodityName;
+    private Integer commodityId;
+    private Integer classTypeId;
+
+	public Integer getIsOutSource() {
+		return isOutSource;
+	}
+
+	public void setIsOutSource(Integer isOutSource) {
+		this.isOutSource = isOutSource;
+	}
+
 	public TikuPaper getTikuPaper() {
 		return tikuPaper;
 	}
@@ -572,5 +584,29 @@ public class ClassModuleLesson extends BaseEntity {
 
 	public void setBeforeStudyName(String beforeStudyName) {
 		this.beforeStudyName = beforeStudyName;
+	}
+
+	public String getCommodityName() {
+		return commodityName;
+	}
+
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
+	}
+
+	public Integer getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(Integer commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	public Integer getClassTypeId() {
+		return classTypeId;
+	}
+
+	public void setClassTypeId(Integer classTypeId) {
+		this.classTypeId = classTypeId;
 	}
 }

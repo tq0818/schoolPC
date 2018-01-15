@@ -4384,6 +4384,7 @@ public class StudentController {
     	search.setMessageType(AFFICHE_TYPE);
     	PageFinder<CompanyOrgMessageVo> msgPage = companyServiceImpl.findMessageList(search);
 		model.addAttribute("msgPage", msgPage);
+		model.addAttribute("companyId",WebUtils.getCurrentCompanyId());
     	return "student/notice/affiche";
     }
     /**

@@ -175,26 +175,6 @@
 </div>
 <div class="opacityIncome" style="position: fixed;left: 0;top: 0;background: rgba(0,0,0,0.5);width: 100%;height: 100%;"></div>
 
-
-	<script>
-//	分页
-    $(".pagination").pagination('',
-        {
-            next_text: "下一页",
-            prev_text: "上一页",
-            current_page: '',
-            link_to: "javascript:void(0)",
-            num_display_entries: 8,
-            items_per_page: 1,
-            num_edge_entries: '',
-            callback: function (page, jq) {
-                var pageNo = page + 1;
-
-            }
-        }
-    );
-
-</script>
 	<script>
 //		日历插件
 var start = {

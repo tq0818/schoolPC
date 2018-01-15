@@ -460,7 +460,7 @@ public class PayOrderController {
         Integer count = null;
         if("0".equals(isArea)){
             map.put("companyId",request.getParameter("schoolId"));
-
+            map.put("areaFlag",1);
         }else{
             map.put("companyId",WebUtils.getCurrentCompanyId());
 

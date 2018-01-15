@@ -511,7 +511,11 @@
 			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
 			join company c on c.id=ucr.company_id
 			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
-			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			left join class_type ct on ct.teacher_id=sct.id
+			<if test="areaFlag != null and areaFlag != ''">
+				and ct.live_flag=1 and ct.is_public=1
+			</if>
+			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}
@@ -549,7 +553,11 @@
 			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
 			join company c on c.id=ucr.company_id
 			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
-			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			left join class_type ct on ct.teacher_id=sct.id
+			<if test="areaFlag != null and areaFlag != ''">
+				and ct.live_flag=1 and ct.is_public=1
+			</if>
+			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}

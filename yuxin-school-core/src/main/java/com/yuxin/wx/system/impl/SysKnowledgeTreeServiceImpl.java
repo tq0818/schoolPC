@@ -85,11 +85,11 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                 sysKnowledgeTree.setLessonId(classModuleLesson.getId());
                 if(StringUtils.isNotBlank(classModuleLesson.getAfterStudyUrl())){
                     String afterId = classModuleLesson.getAfterStudyUrl().substring(classModuleLesson.getAfterStudyUrl().lastIndexOf("/")+1);
-                    sysKnowledgeTree.setClasstypeIdHuikan(Integer.valueOf(afterId));
+                    sysKnowledgeTree.setCommodityIdHuikan(Integer.valueOf(afterId));
                 }
                 if(StringUtils.isNotBlank(classModuleLesson.getBeforeStudyUrl())){
                     String beforeId = classModuleLesson.getBeforeStudyUrl().substring(classModuleLesson.getBeforeStudyUrl().lastIndexOf("/")+1);
-                    sysKnowledgeTree.setClasstypeIdWeike(Integer.valueOf(beforeId));
+                    sysKnowledgeTree.setCommodityIdWeike(Integer.valueOf(beforeId));
                 }
                 sysKnowledgeTree.setCreateTime(new Date());
                 sysKnowledgeTree.setPaperId(classModuleLesson.getTikuPaper()!=null ? classModuleLesson.getTikuPaper().getId():null);
@@ -128,8 +128,8 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
             allMap.put(resultMap.get("userId").toString(), sysKnowledgeTreeStatistics);
         }
         //查询微课
-        if(sysKnowledgeTree.getClasstypeIdWeike() != null){
-            param.put("classTypeId", sysKnowledgeTree.getClasstypeIdWeike());
+        if(sysKnowledgeTree.getCommodityIdWeike() != null){
+            param.put("commodityId", sysKnowledgeTree.getCommodityIdWeike());
             List<Map<String, Object>> weikeList = sysPlayLogsServiceImpl.queryPlayLogsByParam(param);
             for(int i=0; i<weikeList.size(); i++){
                 resultMap = weikeList.get(i);
@@ -141,7 +141,6 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
                     sysKnowledgeTreeStatistics.setVideoLectrueWeikeId(resultMap.get("lectureId")!=null ? Integer.valueOf(resultMap.get("lectureId").toString()):0);
                     sysKnowledgeTreeStatistics.setVideoWeikeFlag(resultMap.get("videoFlag")!=null ? Integer.valueOf(resultMap.get("videoFlag").toString()):0);
-                    sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
                     sysKnowledgeTreeStatistics.setClasstypeId(sysKnowledgeTree.getClasstypeId());
                     sysKnowledgeTreeStatistics.setCommodityId(sysKnowledgeTree.getCommodityId());
                     sysKnowledgeTreeStatistics.setItemSecondCode(sysKnowledgeTree.getItemSecondCode());
@@ -154,8 +153,8 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
             }
         }
         //查询回放
-        if(sysKnowledgeTree.getClasstypeIdHuikan() != null){
-            param.put("classTypeId", sysKnowledgeTree.getClasstypeIdHuikan());
+        if(sysKnowledgeTree.getCommodityIdHuikan() != null){
+            param.put("commodityId", sysKnowledgeTree.getCommodityIdHuikan());
             List<Map<String, Object>> huifangList = sysPlayLogsServiceImpl.queryPlayLogsByParam(param);
             for(int i=0; i<huifangList.size(); i++){
                 resultMap = huifangList.get(i);
@@ -167,7 +166,6 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
                     sysKnowledgeTreeStatistics.setVideoLectrueId(resultMap.get("lectureId")!=null ? Integer.valueOf(resultMap.get("lectureId").toString()):0);
                     sysKnowledgeTreeStatistics.setVideoFlag(resultMap.get("videoFlag")!=null ? Integer.valueOf(resultMap.get("videoFlag").toString()):0);
-                    sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
                     sysKnowledgeTreeStatistics.setClasstypeId(sysKnowledgeTree.getClasstypeId());
                     sysKnowledgeTreeStatistics.setCommodityId(sysKnowledgeTree.getCommodityId());
                     sysKnowledgeTreeStatistics.setItemSecondCode(sysKnowledgeTree.getItemSecondCode());
@@ -194,7 +192,6 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
                     sysKnowledgeTreeStatistics.setPaperId(sysKnowledgeTree.getPaperId());
                     sysKnowledgeTreeStatistics.setPaperFlag(resultMap.get("paperFlag")!=null ? Integer.valueOf(resultMap.get("paperFlag").toString()):0);
-                    sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
                     sysKnowledgeTreeStatistics.setClasstypeId(sysKnowledgeTree.getClasstypeId());
                     sysKnowledgeTreeStatistics.setCommodityId(sysKnowledgeTree.getCommodityId());
                     sysKnowledgeTreeStatistics.setItemSecondCode(sysKnowledgeTree.getItemSecondCode());
@@ -207,11 +204,13 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
             }
         }
 
-        List<SysKnowledgeTreeStatistics> klts = new ArrayList<SysKnowledgeTreeStatistics>();
-        Iterator<String> it = allMap.keySet().iterator();
-        while(it.hasNext()){
-            klts.add(allMap.get(it.next()));
+        if(allMap != null && allMap.size()>0){
+            List<SysKnowledgeTreeStatistics> klts = new ArrayList<SysKnowledgeTreeStatistics>();
+            Iterator<String> it = allMap.keySet().iterator();
+            while(it.hasNext()){
+                klts.add(allMap.get(it.next()));
+            }
+            sysKnowledgeTreeStatisticsMapper.batchInsert(klts);
         }
-        sysKnowledgeTreeStatisticsMapper.batchInsert(klts);
     }
 }

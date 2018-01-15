@@ -47,11 +47,19 @@
     			},
     			success:function(jsonData){
     				$.each(jsonData,function (i, spm) {
+    					var itemOneNameNew = spm.itemOneName;
+    					if(spm.itemOneName == null){
+    						var itemOneNameNew = '无'
+    					}
+    					var itemSecondNameNew = spm.itemSecondName;
+    					if(spm.itemSecondName == null){
+    						var itemSecondNameNew = '无'
+    					}
     				html = '<div class="m-b-p clear" > '+
 			    		   '     <div class="m-b-p-left" style="height:115px;width: 100%;position:static;"> '+
 			    	       '     <p class="h c"> '+
 			    	       '         <span class="p-title">学科</span> '+
-			    	       '         <span class="p-content">'+spm.itemOneName+'</span> '+
+			    	       '         <span class="p-content">'+itemOneNameNew+'</span> '+
 			    	       '     </p> '+
 			    	       '     <p class="h c"> '+
 			    	       '         <span class="p-title">学费</span> '+
@@ -59,7 +67,7 @@
 			    	       '     </p> '+
 			    	       '     <p class="h c"> '+
 			    	       '         <span class="p-title">学科小类</span> '+
-			    	       '         <span class="p-content">'+spm.itemSecondName+'</span> '+
+			    	       '         <span class="p-content">'+itemSecondNameNew+'</span> '+
 			    	       '     </p> '+
 			    	       '     <p class="h c"> '+
 			    	       '         <span class="p-title">已缴</span> '+

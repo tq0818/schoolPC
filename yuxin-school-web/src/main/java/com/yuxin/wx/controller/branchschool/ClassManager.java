@@ -121,10 +121,14 @@ public class ClassManager {
     	CompanyMemberService cms = companyMemberServiceServiceImpl.findByCompanyId(companyId);
     	//展示互动账号
     	CompanyLiveConfig clc=iCompanyService.findCompanyLiveConfigById(companyId);
+    	//cc账号
+    	CompanyPayConfig cpc = iCompanyService.findCompanyPayConfigById(companyId);
+    	
     	model.addAttribute("company", cp);
     	model.addAttribute("css", css);
     	model.addAttribute("cms", cms);
     	model.addAttribute("clc", clc);
+    	model.addAttribute("cpc", cpc);
     	model.addAttribute("companyId", companyId);
         return "berkeley/berkeleyDetail";
     }

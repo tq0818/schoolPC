@@ -256,15 +256,15 @@ function addBerkeley(biaoshi){
 				return;
 		   }
 		   var flowSize=$("#flowSize").val();
-		   if(null==flowSize || ''==flowSize){
+		  /* if(null==flowSize || ''==flowSize){
 				alert("流量不能为空");
 				return;
-		   }	
+		   }*/
 		   var spaceSize=$("#spaceSize").val();
-		   if(null==spaceSize || ''==spaceSize){
+		   /*if(null==spaceSize || ''==spaceSize){
 				alert("空间不能为空");
 				return;
-		   }	
+		   }	*/
 		   var ccUserName=$("#ccUserName").val();
 		   if(null==ccUserName || ''==ccUserName){
 				alert("cc账号不能为空");

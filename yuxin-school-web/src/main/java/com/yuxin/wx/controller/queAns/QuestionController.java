@@ -573,7 +573,7 @@ public class QuestionController {
                 sc.setId(ser.getId());
                 sysConfigServiceServiceImpl.update(sc);
             }
-            relogin();
+//            relogin();
         }
         companyFunctionSetServiceImpl.update(classOrPer);
         return "success";

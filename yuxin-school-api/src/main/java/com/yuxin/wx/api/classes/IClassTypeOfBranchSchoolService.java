@@ -80,4 +80,18 @@ public interface IClassTypeOfBranchSchoolService  {
 	 * @return
 	 */
 	String validateOnSale(Map<String, Object> param);
+
+	/**
+	 * 查询所有已经开通分校服务的区域
+	 * @return
+     */
+	List<SysConfigDict> findAreaIds();
+
+	List<SysConfigDict> findSchoolByCondition(Map<String, Object> paramMap);
+
+	/**
+	 * 查询所有分校
+	 * @return
+     */
+	List<SysConfigDict> queryAllSchool();
 }

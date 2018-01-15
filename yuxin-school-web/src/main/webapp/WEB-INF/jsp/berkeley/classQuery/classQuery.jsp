@@ -48,9 +48,10 @@
             <input type="text" id="name" name="name" placeholder="课程名称/科目/老师"/>
             <select name="lable" id="lable">
                 <option value="">请选择课程类型</option>
+                <option value="">全部</option>
                 <option value="live">直播</option>
                 <option value="video">录播</option>
-                <option value="face">面授</option>
+                <!-- <option value="face">面授</option> -->
             </select>
             <span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
         </div>
@@ -62,12 +63,16 @@
 	                    <th width="10%">学科</th>
 	                    <th width="10%">授课老师</th>
 	                    <th width="8%">课程类型</th>
-	                    <th width="8%" class="btn-sort">报名人数</th>
-	                    <th width="8%" class="btn-sort">购买人数</th>
+	                    <th width="8%" class="btn-sort buyNumMax">
+                            报名人数<input type="hidden" id="buyNumMax" value="1"/>
+                        </th>
+	                    <th width="8%" class="btn-sort actelNum">
+                            购买人数<input type="hidden" id="actelNum" value="3"/>
+                        </th>
 	                    <th width="10%">课程详情</th>
 	                </tr>
                 <tbody class="tbodyList">
-                	
+
                 </tbody>
             </table>
             <div class="pages pagination">

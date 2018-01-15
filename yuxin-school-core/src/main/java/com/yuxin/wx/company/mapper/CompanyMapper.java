@@ -248,6 +248,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public NewCompanyVo findCompanyVoById(Integer id);
 	
 	public CompanyLiveConfig findCompanyLiveConfigById(Integer id);
+	public CompanyPayConfig findfindCompanyPayConfigById(Integer id);
 	/**
 	 * 
 	 * @author jishangyang 2017年12月8日 上午12:14:39

@@ -676,4 +676,20 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		}
 		return result;
 	}
+
+	@Override
+	public List<SysConfigDict> findAreaIds() {
+		return sysConfigDictMapper.findAreaIds();
+	}
+
+	@Override
+	public List<SysConfigDict> findSchoolByCondition(Map<String, Object> paramMap) {
+//		return null;
+		return sysConfigDictMapper.findSchoolByCondition(paramMap);
+	}
+
+	@Override
+	public List<SysConfigDict> queryAllSchool() {
+		return sysConfigDictMapper.queryAllSchool();
+	}
 }

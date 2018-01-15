@@ -171,6 +171,7 @@ public interface ICompanyServiceStaticService  {
 	List<SystemConfigServiceVo> queryCompanyAllService(Integer companyId);
 
 	void updateByCompanyStatus(Integer companyId);
+	void updateByCompanyStatusl(Integer companyId);
 	
 	
 }

@@ -111,7 +111,7 @@ $(function(){
                         <p class='c'>
                             <span class="c-title">密码</span>
                             <span class="c-content">
-                                <input type="password" name="pwd" id="pwd">
+                                <input type="password" name="pwd" id="pwd" >
                             </span>
                         </p>
                     </li>

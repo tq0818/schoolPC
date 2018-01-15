@@ -16,6 +16,7 @@
 		classpath*:/applicationContext-log4j.xml
 		classpath*:/spring-shiro.xml
 		classpath*:/spring-cache.xml
+		classpath*:/spring-quartz.xml
 	</param-value>
   </context-param>
   <listener>

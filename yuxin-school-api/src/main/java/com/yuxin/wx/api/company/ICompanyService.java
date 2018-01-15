@@ -7,6 +7,7 @@ import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
 import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
@@ -621,6 +622,7 @@ public interface ICompanyService  {
 	 */
 	NewCompanyVo findCompanyVoById(Integer id);
 	CompanyLiveConfig findCompanyLiveConfigById(Integer id);
+	CompanyPayConfig findCompanyPayConfigById(Integer id);
 	/**
 	 * 通过rootPath获取companyId
 	 * @return

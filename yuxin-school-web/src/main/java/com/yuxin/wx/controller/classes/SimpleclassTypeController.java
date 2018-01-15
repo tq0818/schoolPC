@@ -197,6 +197,10 @@ public class SimpleclassTypeController {
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
 		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront(WebUtils.getCurrentCompanyId());
+
+		Map<String,Object> findItemAll =new HashMap<String, Object>();
+		findItemAll.put("companyId",WebUtils.getCurrentCompanyId());
+		List<SysConfigItemRelation> first = sysConfigItemRelationServiceImpl.findAllItemRelation(findItemAll);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
 		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -206,7 +210,25 @@ public class SimpleclassTypeController {
 		List<SysConfigItemRelation> secondItem = new ArrayList<SysConfigItemRelation>();
 		List<SysConfigItemRelation> thirdItem = new ArrayList<SysConfigItemRelation>();
 		List<SysConfigItemRelation> fourthItem = new ArrayList<SysConfigItemRelation>();
-		for(SysConfigItemRelation re : relations){
+	/*	for(SysConfigItemRelation re : relations){
+			if(re.getLevel()==0){
+				firstItem.add(re);
+			}else if(re.getLevel()==1){
+				secondItem.add(re);
+			}else if(re.getLevel()==2){
+				thirdItem.add(re);
+			}else if(re.getLevel()==3){
+				re.setItemName(re.getItemCode());
+				fourthItem.add(re);
+			}
+			for(SysConfigItem name :names){
+				if(re.getItemCode().equals(name.getItemCode())){
+					re.setItemName(name.getItemName());
+					break;
+				}
+			}
+		}*/
+		for(SysConfigItemRelation re : first){
 			if(re.getLevel()==0){
 				firstItem.add(re);
 			}else if(re.getLevel()==1){
@@ -224,14 +246,14 @@ public class SimpleclassTypeController {
 				}
 			}
 		}
-
-
 		model.addAttribute("typeItems", relations);
 		model.addAttribute("firstItem", firstItem);
 		model.addAttribute("secondItem", secondItem);
 		model.addAttribute("thirdItem", thirdItem);
 		model.addAttribute("fourthItem", fourthItem);
 		model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+
+
 		return "simpleClasses/classIndex";
 	}
 	

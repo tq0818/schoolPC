@@ -12,8 +12,15 @@
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     
     <style type="text/css">
-    	.tabsn li.b6{ background: limegreen;}
-    	.tabsn li.b6:hover{ background: chartreuse;}
+    	.tabsn li.b6{ background: #13b5b1;margin-right: 0 !important;}
+    	.tabsn li.b6:hover{box-shadow: 0 0 10px #666;}
+        #opacityShow {width: 634px !important;height: 242px !important;left: 50% !important;top: 50% !important;;margin-left: -317px;
+        margin-top: -121px;box-shadow: 0 0 25px #666 !important;}
+        .tabsn{margin: 0 !important;padding: 25px 22px 0;}
+
+
+
+
     </style>
 </head>
 <body style="position:relative;">
@@ -146,10 +153,10 @@
 <!--  ajax加载中div结束 -->
 
 <!-- 弹层信息 -->
-<div class="upload-layer none">
-<div class="upload-title">
-        <h2 class="h5">新增课程</h2>
-        <i class="close iconfont">&#xe610;</i>
+<div class="upload-layer none" id="opacityShow">
+<div class="upload-title" >
+        <h2 class="h5" style="text-align: center;font-size: 14px;color: #6e6e6e;">新增课程</h2>
+        <i class="close iconfont" style="color: #dfdfdf;">&#xe610;</i>
     </div>
    <div class="main" id="lsOne">
  

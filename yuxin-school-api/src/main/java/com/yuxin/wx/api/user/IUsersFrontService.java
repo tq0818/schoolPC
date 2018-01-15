@@ -252,5 +252,7 @@ public interface IUsersFrontService {
     UsersFront findUserFrontByStudentId(Integer id);
     
     Integer findUsersfrontCountByMobileOrUsername(SelectStudentOrUsersfrontVo search);
+
+    List<UsersFront> queryAll();
     
 }

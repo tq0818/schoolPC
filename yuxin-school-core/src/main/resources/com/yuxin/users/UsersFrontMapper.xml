@@ -910,4 +910,6 @@
 		where u.wx_open_id is not null and u.wx_open_id !='' and s.edu_step = #{eduStep}
 		and s.edu_year = #{eduYear}
 	</select>
+
+
 </mapper>

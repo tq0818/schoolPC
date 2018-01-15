@@ -312,7 +312,7 @@ public class PermissionManger {
 			String gradeCode,String classCode,String subjectCode,
 			String[] subJectGradeCode,String[] subjectClassCode,Integer companyId,HttpServletResponse response,
 			HttpServletRequest request,Model model) throws IOException{
-		Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+		Integer ccompanyId= companyId==null?WebUtils.getCurrentCompanyId():companyId;
 		//修改用户
 		if(user.getPassword()!=null&&!"".equals(user.getPassword())){
 			user.setUsername(usernames);
@@ -327,6 +327,7 @@ public class PermissionManger {
 			AuthUserRole role=new AuthUserRole();
 			role.setUserId(user.getId());
 			role.setRoles(roles);
+			role.setCompanyId(ccompanyId);
 			authUserRoleServiceImpl.deleteAuthUserRoleById(role);
 			for(int i=0;i<roles.length;i++){
 				 AuthUserRole authUserRole=new AuthUserRole();
@@ -340,9 +341,9 @@ public class PermissionManger {
 			}
 			//管理用户关系范围
 			Company company=null;
-			if(companyId==null){
-				company=WebUtils.getCurrentCompany();
-			}else{
+				if(companyId==null){
+					company=WebUtils.getCurrentCompany();
+				}else{
 				company=companyServiceImpl.findCompanyById(ccompanyId);
 			}
 			authUserRoleServiceImpl.insertOrUpdateAreaInfo(company.getEduAreaSchool(),earaCode, schoolAaraCode, 

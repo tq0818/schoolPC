@@ -396,6 +396,7 @@ public interface IStudentService  {
 	 */
 	PageFinder2<StudentListVo> findStudentsList(StudentListVo search);
 	PageFinder2<StudentListVo> queryUserListData(StudentListVo search);
+	List<Map<String, Object>> exportUserInfo(StudentListVo search);
 	PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search);
 	
 	PageFinder<StudentListVo> findStudentsList1(StudentListVo search);
@@ -731,7 +732,7 @@ public interface IStudentService  {
 	 * @return 
 	 * @throws
 	 */
-	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
+	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets,String eduSchool);
 	
 	/**
 	 * 

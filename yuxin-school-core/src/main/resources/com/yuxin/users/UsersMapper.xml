@@ -602,13 +602,13 @@
 	<select id="findUsersAreaRelation" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
 		select * from users_area_relation where user_id = #{id} limit 1
 	</select>
-	<select id="findUsersAreaRelationT" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
-		select edu_area,edu_school from edu_master_class where user_id = #{id} limit 1
+	<select id="findUsersAreaRelationT" resultMap="usersAreaRelationMap" parameterType="map">
+		select edu_area,edu_school from edu_master_class where user_id = #{id} and edu_school=#{eduCode} limit 1
 	</select>
-	<select id="findUsersAreaRelationR" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
+	<select id="findUsersAreaRelationR" resultMap="usersAreaRelationMap" parameterType="map">
 		select t1.edu_area as edu_area,t1.edu_school as edu_school from edu_subject_class_teacher t
 		LEFT JOIN edu_master_class t1 ON t1.id=t.class_id 
-		where t.user_id = #{id} limit 1
+		where t.user_id = #{id} and t1.edu_school=#{eduCode} limit 1
 	</select>
 	<insert id="insertUserCompanyRalation" parameterType="map" useGeneratedKeys="true">
 		insert into users_comany_relation(user_id,company_id,is_used)

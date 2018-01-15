@@ -17,6 +17,8 @@
     </resultMap>
     <sql id="table_columns">
         id,
+        user_id,
+        classtype_id,
         knowledge_tree_id,
         user_id,
         classtype_id,
@@ -28,12 +30,15 @@
         video_weike_flag,
         paper_id,
         paper_flag
+
     </sql>
     <sql id="entity_properties">
         #{id},
         #{knowledgeTreeId},
         #{userId},
+        #{userId},
         #{classtypeId},
+        #{knowledgeTreeId},
         #{lessonId},
         #{liveFlag},
         #{videoLectrueId},
@@ -86,4 +91,40 @@
             #{item.id}
         </foreach>
     </delete>
+    <select id="findStatistics" parameterType="Map" resultMap="sysKnowledgeTreeStatisticsResultMap">
+        select * from sys_knowledge_tree_statistics
+        where 1=1
+        <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+        <if test="classtypeId != null and classtypeId != ''">and classtype_id = #{classtypeId}</if>
+        <if test="knowledgeTreeId != null and knowledgeTreeId != ''">and knowledge_tree_id = #{knowledgeTreeId}</if>
+        <if test="lessonId != null and lessonId != ''">and lesson_id = #{lessonId}</if>
+        <if test="videoLectrueId != null and videoLectrueId != ''">and video_lectrue_id = #{videoLectrueId}</if>
+        <if test="videoLectrueWeikeId != null and videoLectrueWeikeId != ''">and video_lectrue_weike_id = #{videoLectrueWeikeId}</if>
+        <if test="paperId != null and paperId != ''">and paper_id = #{paperId}</if>
+    </select>
+
+    <select id="findLessonInfo" parameterType="Map" resultType="Map">
+        SELECT l.id,SUBSTRING(v.video_time,1,2) as h,SUBSTRING(v.video_time,4,2) as m,SUBSTRING(v.video_time,7,2) as s, v.video_time from course_video_lecture l
+      LEFT JOIN video v  on  v.id = L.video_id
+        where l.id =#{id}
+
+    </select>
+
+    <update id="updateStatistics" parameterType="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics">
+        update sys_knowledge_tree_statistics
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="classtypeId != null and classtypeId != ''">classtype_id = #{classtypeId},</if>
+            <if test="knowledgeTreeId != null and knowledgeTreeId != ''">knowledge_tree_id = #{knowledgeTreeId},</if>
+            <if test="lessonId != null and lessonId != ''">lesson_id = #{lessonId},</if>
+            <if test="videoLectrueId != null and videoLectrueId != ''">video_lectrue_id = #{videoLectrueId},</if>
+            <if test="videoLectrueWeikeId != null and videoLectrueWeikeId != ''">video_lectrue_weike_id = #{videoLectrueWeikeId},</if>
+            <if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+    <insert id="addStatistics" parameterType="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_knowledge_tree_statistics  ( <include refid="table_columns" /> )
+        values ( <include refid="entity_properties" /> )
+    </insert>
 </mapper>

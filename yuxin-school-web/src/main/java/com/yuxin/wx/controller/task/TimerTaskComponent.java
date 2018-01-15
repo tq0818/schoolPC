@@ -726,7 +726,7 @@ public class TimerTaskComponent {
 	 * 每晚8点定时发送微信通知
 	 *
 	 */
-	@Scheduled(cron = "0 0 20 * * ?")
+//	@Scheduled(cron = "0 0 20 * * ?")
 	public void taskSendWeixinMsg() {
  		SysTaskLog stl = new SysTaskLog();
 		try {

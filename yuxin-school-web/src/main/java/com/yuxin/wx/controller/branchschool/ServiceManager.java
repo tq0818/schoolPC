@@ -1,10 +1,7 @@
 package com.yuxin.wx.controller.branchschool;
 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -55,10 +52,16 @@ public class ServiceManager {
          map.put("pageSize", 10);
          map.put("companyId", companyId);
         List<SysConfigDict> scd = iSysConfigDictService.querSysConfigDictList(map);
+        List<SysConfigDict> scd1 =new ArrayList<SysConfigDict>();
+        for (SysConfigDict s:scd) {
+            if( ! s.getDictName().trim().equals("短信")){
+                scd1.add(s);
+            }
+        }
         //获取服务总数
         int count = iSysConfigDictService.querSysConfigDictCount(companyId);
 
-        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(page,10, count, scd);
+        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(page,10, count-1, scd1);
         model.addAttribute("sysConfigDicts", pageFinder);
         model.addAttribute("companyId", companyId);
 

@@ -14,7 +14,7 @@
 <jsp:include page="/WEB-INF/jsp/tiku/tikuHeader.jsp"></jsp:include>
 <%-- 控制  分页 查询 条数 --%>
 <input type="hidden" value="${cate.id }" id="tikuId"/>
-<input type="hidden" value="5" id="pageSize"/>
+<input type="hidden" value="10" id="pageSize"/>
 <input type="hidden" value="${cate.id }" id="categoryId"/>
 <input type="hidden" value="${subId }" id="subId"/>
 <input type="hidden" value="${status }" id="status"/>

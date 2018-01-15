@@ -30,7 +30,7 @@
 	    	<value>${yunduoketang.redis.host}</value>
 	    </constructor-arg>
 	    <!-- 如果你需要配置密码，请打开这里。-->
-		<constructor-arg index="4" value="${yunduoketang.redis.password}" type="java.lang.String"/>
+		<!-- <constructor-arg index="4" value="${yunduoketang.redis.password}" type="java.lang.String"/> -->
 	</bean>
 	<!--
 		这种 arguments 构造的方式，之前配置有缺点。

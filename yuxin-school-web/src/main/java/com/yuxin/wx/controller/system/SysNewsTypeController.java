@@ -189,7 +189,7 @@ public class SysNewsTypeController {
 		Integer companyId=WebUtils.getCurrentCompanyId();
 		Integer schoolId=WebUtils.getCurrentSchoolId();
 		Integer userId=WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			List<SysConfigSchool> schoolList=sysConfigSchoolServiceImpl.findSysConfigSchoolByCompanyId(companyId);
 			model.addAttribute("schoolId", schoolId);
 			model.addAttribute("schoolList", schoolList);

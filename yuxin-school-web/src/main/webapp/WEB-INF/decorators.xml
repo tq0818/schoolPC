@@ -19,7 +19,7 @@
         <pattern>/fee/findClassType</pattern>
         <pattern>/fee/search</pattern>
         <pattern>/fee/queryLists</pattern>
-        
+
         <pattern>/studentAgentMaterial/baseMessage</pattern>
         <pattern>/studentAgentMaterial/classTypeMessage</pattern>
         <pattern>/studentAgentMaterial/stuMaterialLists</pattern>
@@ -27,64 +27,65 @@
         <pattern>/studentAgentMaterial/material</pattern>
         <pattern>/studentPayMaster/getList</pattern>
         <pattern>/studentPayMaster/toSearch</pattern>
-        
-         <pattern>/register/registerPage</pattern>
-         <pattern>/register/checkform</pattern>
-         <pattern>/register/registerService</pattern>
-         <pattern>/register/registerContent</pattern>
-         <pattern>/console</pattern>	
-         <pattern>/console/*</pattern>
-          <pattern>/serviceGroup/chooseCompanyService</pattern>
-          <pattern>/companyConfigCustompage/page/*</pattern>
-          <pattern>/index/*</pattern>
+
+        <pattern>/register/registerPage</pattern>
+        <pattern>/register/checkform</pattern>
+        <pattern>/register/registerService</pattern>
+        <pattern>/register/registerContent</pattern>
+        <pattern>/console</pattern>
+        <pattern>/console/*</pattern>
+        <pattern>/serviceGroup/chooseCompanyService</pattern>
+        <pattern>/companyConfigCustompage/page/*</pattern>
+        <pattern>/index/*</pattern>
     </excludes>
     <!-- 配置需要 装饰的页面 -->
     <decorator name="main" page="decorator.jsp">
-    	<pattern>/statistics/statisticsList</pattern>
-    	<!-- 会员等级 -->
-    	<pattern>/companyMemberLevelConfig/vipSet</pattern>
-    	<!-- 设置会员 -->
-    	<pattern>/companyMemberConfig/addUI</pattern>
-    	<!-- 添加会员等级装饰 -->
-    	<pattern>/companyMemberLevelConfig/addVipLevelUI</pattern>
+        <pattern>/statistics/statisticsList</pattern>
+        <!-- 会员等级 -->
+        <pattern>/companyMemberLevelConfig/vipSet</pattern>
+        <!-- 设置会员 -->
+        <pattern>/companyMemberConfig/addUI</pattern>
+        <!-- 添加会员等级装饰 -->
+        <pattern>/companyMemberLevelConfig/addVipLevelUI</pattern>
         <!-- 代报考 -->
         <pattern>/exam/registerPage</pattern>
         <!-- 系统配置 -->
         <pattern>/sysPageHeadFoot/showHead</pattern>
-         <pattern>/sysCyclePic/showPic</pattern>
-         <pattern>/liveOpenCourse/showBannerPic</pattern>
-         <pattern>/sysConfigSeo/configSeo/*</pattern>
-         <pattern>/sysConfigIco/showIco</pattern>
-         <pattern>/sysConfigIco/showCode</pattern>
-         <pattern>/sysConfigIco/showLogo</pattern>
-         <pattern>/authRole/configRole</pattern>
-         <pattern>/sysConfigStuLogin/*</pattern>
-      	<!-- 项目管理模块 -->
+        <pattern>/sysCyclePic/showPic</pattern>
+        <pattern>/liveOpenCourse/showBannerPic</pattern>
+        <pattern>/sysConfigSeo/configSeo/*</pattern>
+        <pattern>/sysConfigIco/showIco</pattern>
+        <pattern>/sysConfigIco/showCode</pattern>
+        <pattern>/sysConfigIco/showLogo</pattern>
+        <pattern>/authRole/configRole</pattern>
+        <pattern>/sysConfigStuLogin/*</pattern>
+        <!-- 项目管理模块 -->
         <pattern>/sysConfigItem/project</pattern>
         <pattern>/sysConfigItem/moreProject</pattern>
+        <pattern>/sysKnowledgeTree/knowledgeTreeIndex</pattern>
         <!-- 校区管理模块  -->
-        
+
         <pattern>/sysConfigCampus/toCampusInfo</pattern>
-        
+
         <!-- 教师管理模块 -->
         <pattern>/sysConfigTeacher/toTeacherIndex</pattern>
         <pattern>/sysConfigTeacher/toTeacherUpdate</pattern>
         <pattern>/sysConfigTeacher/toDetail</pattern>
         <pattern>/sysConfigTeacher/manage/*</pattern>
-        
+
         <!-- 教务人员管理模块 -->
         <pattern>/sysConfigTeacher/toEducationInfo</pattern>
         <pattern>/sysConfigTeacher/addEducation/*</pattern>
         <pattern>/sysConfigTeacher/findTeacherByMobile</pattern>
-        
-        
+
+
         <!-- 教师排课详情 -->
         <pattern>/sysConfigTeacher/toCoursesAarrangIndex</pattern>
-        
-         <!-- 分校管理模块 -->
+
+        <!-- 分校管理模块 -->
         <pattern>/sysConfigSchool/school</pattern>
-        
-        
+
+
         <!-- 考期管理模块  -->
         <pattern>/sysConfigTerm/toExamDate</pattern>
         <!-- 教室管理模块  -->
@@ -92,7 +93,7 @@
         <pattern>/sysConfigClassroom/classroom</pattern>
 
         <!-- 学员及订单模块  begin  -->
-         <pattern>/student</pattern>
+        <pattern>/student</pattern>
         <pattern>/student/showSignUp</pattern>
         <pattern>/studentPayMaster/*</pattern>
         <pattern>/studentAgentMaterial/*</pattern>
@@ -105,7 +106,7 @@
         <pattern>/student_detail/*</pattern>
         <pattern>/stuLeanRecord/stuClassPackageLeanRecord/*</pattern>
         <pattern>/resolve/showResolve/*/*</pattern>
-         <pattern>/studentStar/studentStarIndex</pattern>
+        <pattern>/studentStar/studentStarIndex</pattern>
         <!-- 学员及订单模块  end -->
         <!-- 考务管理  begin-->
         <pattern>/exam/*</pattern>
@@ -120,7 +121,7 @@
         <pattern>/authPrivilege/saveUser</pattern>
         <pattern>/authPrivilege/updateUser</pattern>
         <!-- 权限管理 end -->
-        
+
         <!-- zhangbo  begin-->
         <pattern>/courseRemote/ramoteIndex</pattern>
         <pattern>/classType/classTypeIndex</pattern>
@@ -134,19 +135,19 @@
         <pattern>/student/page/*</pattern>
         <pattern>/classModule/queryModuleIndex</pattern>
         <pattern>/classType/addClassTypeDetail</pattern>
-         <pattern>/classModule/detail</pattern>
-         <pattern>/classModule/comment</pattern>
-         <pattern>/classModule/dynamics</pattern>
-         <pattern>/classType/*/showClassCourseDetail</pattern>
-         <pattern>/classType/showClass</pattern>
-         <pattern>/simpleClasses/*/showClassCourseDetail</pattern>
-         <pattern>/simpleClasses/showClass</pattern>
-         <pattern>/simpleClasses/addliveOrface/*</pattern>
-         <pattern>/simpleClasses/addface/*</pattern>
-         <pattern>/simpleClasses/showClassTypeStu</pattern>
-          <pattern>/simpleClasses/deleteClassType/*</pattern>
+        <pattern>/classModule/detail</pattern>
+        <pattern>/classModule/comment</pattern>
+        <pattern>/classModule/dynamics</pattern>
+        <pattern>/classType/*/showClassCourseDetail</pattern>
+        <pattern>/classType/showClass</pattern>
+        <pattern>/simpleClasses/*/showClassCourseDetail</pattern>
+        <pattern>/simpleClasses/showClass</pattern>
+        <pattern>/simpleClasses/addliveOrface/*</pattern>
+        <pattern>/simpleClasses/addface/*</pattern>
+        <pattern>/simpleClasses/showClassTypeStu</pattern>
+        <pattern>/simpleClasses/deleteClassType/*</pattern>
         <!-- end -->
-        
+
         <!-- 添加课程体系url -->
         <!-- 在线直播 -->
         <pattern>/companyLiveStaticDetail/companyLiveStaticDetailList/*</pattern>
@@ -161,374 +162,444 @@
         <pattern>/classModuleNo/addByCondition/*</pattern>
         <pattern>/classModuleNo/queryModuleNoList</pattern>
         <pattern>/classModuleNo/moduleNoDetail</pattern>
-         <pattern>/courseVideo/addTest</pattern>
-         <pattern>/classModuleNo/moduleLessons/*</pattern>
-         <pattern>/classModuleNo/editModule/*</pattern>
-         <pattern>/classModuleNo/editLessonTeacher/*</pattern>
-         <pattern>/classModuleNo/editClassRoom/*</pattern>
-         <!-- 公告管理begin -->
-         <pattern>/sysConfigNews/showNews</pattern>
-         <pattern>/sysConfigNews/queryNewsById</pattern>
-         <!-- 公告管理end -->
-        
-         <!-- 配置机构 begin-->
-          <pattern>/users/accountInfo</pattern>
-          <pattern>/payment/aliReturnUrl</pattern>
-          <pattern>/companyAuthority/show</pattern>
-          <pattern>/companyAuthority/toManage/*</pattern>
-          <pattern>/companyMemberService/showByVideo</pattern>
-          <pattern>/companyMemberService/LVRenew/*</pattern>
-          <pattern>/companyMemberService/serviceOpen/*</pattern>
-          <pattern>/companyMemberService/serviceUp/*</pattern>
-          <pattern>/companyMemberService/toUpdatePwd</pattern>
-          <pattern>/companyMemberService/showByVideoTwo</pattern>
-          <pattern>/companyMemberService/toVideoStatistics</pattern>
-          <pattern>/companyMemberService/toEmailStatistics</pattern>
-          <pattern>/companyMemberService/toLiveStatistics</pattern>
-          <pattern>/companyMemberService/toMessageStatistics</pattern>
-          <pattern>/companyMemberService/showEstimate</pattern>
-          <pattern>/companyMemberService/showFace</pattern>
-          <pattern>/companyMemberService/editDomain</pattern>
-          <pattern>/payConfig/howWxGzh</pattern>
-          <pattern>/payConfig/showPay</pattern>
-          <pattern>/payConfig/howPay</pattern>
-          <pattern>/payConfig/showGRDB</pattern>
-          <pattern>/payConfig/showWX</pattern>
-          <pattern>/payConfig/showWXGZ</pattern>
-          <pattern>/payConfig/showWxChoice</pattern>
-          <pattern>/payConfig/showBankChoice</pattern>
-          <pattern>/payConfig/showZFBZZ</pattern>
-          <pattern>/payConfig/howPayTwo</pattern>
-          <pattern>/payConfig/showZFB</pattern>
-          <pattern>/payConfig/showPayChoice</pattern>
-          <pattern>/payConfig/showBank</pattern>
-          <pattern>/companyMemberService/buyFlow</pattern>
-          <pattern>/companyMemberService/buyMessage</pattern>
-          <pattern>/companyMemberService/buyEmail</pattern>
-          <pattern>/companyMemberService/openSchool</pattern>
-          <pattern>/companyMemberService/toServiceAuthorize</pattern>
-          <pattern>/company/companyService</pattern>
-          <pattern>/companyAuthority/toExamine/*</pattern>
-          <pattern>/company/toChoiceInstitution</pattern>
-          <pattern>/companyPayOrder/toOrder</pattern>
-          <pattern>/companyPayOrder/toOrderDetail/*</pattern>
-          <pattern>/companyPayOrder/toOrderDetailCompany/*</pattern>
-          <pattern>/companyPayOrder/toOrderPay/*</pattern>
-          <pattern>/companyPayOrder/companyOrder</pattern>
-          <pattern>/companyMemberService/toAuthorize/*</pattern>
-          <pattern>/companyPayOrder/pay</pattern>
-          <pattern>/companyMemberService/liveDetail</pattern>
-          <pattern>/companyMemberService/payFace</pattern>
-          <pattern>/companyPayOrder/payOrder</pattern>
-          <pattern>/company/marqueeOption</pattern>
-          <pattern>/companyFunctionSet/stuLogin</pattern>
-          <pattern>/company/updateSubjectName</pattern>
-          <pattern>/studentStar/showImg</pattern>
-          <!-- 配置机构end-->
-          <pattern>/company/*/firstTransferStation</pattern>
-         
-         <!-- 页脚的配置 -->
-         <pattern>/sysPageHeadFoot/toConfigFooter</pattern>
-         
-         <pattern>/companyHeadFootConfig/showFootTemplete</pattern>
-         <pattern>/companyHeadFootConfig/setTemplate/*</pattern>
-         
-         <!-- 查找补费页面 -->
-         <pattern>/student/toSearch</pattern>
-         <pattern>/student/toMessage</pattern>
-         <pattern>/student/pay</pattern>
-         <!-- 异动页面 -->
-         <pattern>/student/toStuSearch</pattern>
-         <pattern>/student/toTransaction</pattern>
-         <pattern>/student/selectEntryDetail</pattern>
-         <pattern>/student/changeStudent</pattern>
-         <pattern>/student/changeClass</pattern>
-         <pattern>/student/transaction/changeClass</pattern>
-         <pattern>/student/transaction/changeStudent</pattern>
-         <pattern>/student/transaction/changeClassNo</pattern>
-         <pattern>/student/transaction/returnFee</pattern>
-         <pattern>/student/pay1</pattern>
+        <pattern>/courseVideo/addTest</pattern>
+        <pattern>/classModuleNo/moduleLessons/*</pattern>
+        <pattern>/classModuleNo/editModule/*</pattern>
+        <pattern>/classModuleNo/editLessonTeacher/*</pattern>
+        <pattern>/classModuleNo/editClassRoom/*</pattern>
+        <!-- 公告管理begin -->
+        <pattern>/sysConfigNews/showNews</pattern>
+        <pattern>/sysConfigNews/queryNewsById</pattern>
+        <!-- 公告管理end -->
+
+        <!-- 配置机构 begin-->
+        <pattern>/users/accountInfo</pattern>
+        <pattern>/payment/aliReturnUrl</pattern>
+        <pattern>/companyAuthority/show</pattern>
+        <pattern>/companyAuthority/toManage/*</pattern>
+        <pattern>/companyMemberService/showByVideo</pattern>
+        <pattern>/companyMemberService/LVRenew/*</pattern>
+        <pattern>/companyMemberService/serviceOpen/*</pattern>
+        <pattern>/companyMemberService/serviceUp/*</pattern>
+        <pattern>/companyMemberService/toUpdatePwd</pattern>
+        <pattern>/companyMemberService/showByVideoTwo</pattern>
+        <pattern>/companyMemberService/toVideoStatistics</pattern>
+        <pattern>/companyMemberService/toEmailStatistics</pattern>
+        <pattern>/companyMemberService/toLiveStatistics</pattern>
+        <pattern>/companyMemberService/toMessageStatistics</pattern>
+        <pattern>/companyMemberService/showEstimate</pattern>
+        <pattern>/companyMemberService/showFace</pattern>
+        <pattern>/companyMemberService/editDomain</pattern>
+        <pattern>/payConfig/howWxGzh</pattern>
+        <pattern>/payConfig/showPay</pattern>
+        <pattern>/payConfig/howPay</pattern>
+        <pattern>/payConfig/showGRDB</pattern>
+        <pattern>/payConfig/showWX</pattern>
+        <pattern>/payConfig/showWXGZ</pattern>
+        <pattern>/payConfig/showWxChoice</pattern>
+        <pattern>/payConfig/showBankChoice</pattern>
+        <pattern>/payConfig/showZFBZZ</pattern>
+        <pattern>/payConfig/howPayTwo</pattern>
+        <pattern>/payConfig/showZFB</pattern>
+        <pattern>/payConfig/showPayChoice</pattern>
+        <pattern>/payConfig/showBank</pattern>
+        <pattern>/companyMemberService/buyFlow</pattern>
+        <pattern>/companyMemberService/buyMessage</pattern>
+        <pattern>/companyMemberService/buyEmail</pattern>
+        <pattern>/companyMemberService/openSchool</pattern>
+        <pattern>/companyMemberService/toServiceAuthorize</pattern>
+        <pattern>/company/companyService</pattern>
+        <pattern>/companyAuthority/toExamine/*</pattern>
+        <pattern>/company/toChoiceInstitution</pattern>
+        <pattern>/companyPayOrder/toOrder</pattern>
+        <pattern>/companyPayOrder/toOrderDetail/*</pattern>
+        <pattern>/companyPayOrder/toOrderDetailCompany/*</pattern>
+        <pattern>/companyPayOrder/toOrderPay/*</pattern>
+        <pattern>/companyPayOrder/companyOrder</pattern>
+        <pattern>/companyMemberService/toAuthorize/*</pattern>
+        <pattern>/companyPayOrder/pay</pattern>
+        <pattern>/companyMemberService/liveDetail</pattern>
+        <pattern>/companyMemberService/payFace</pattern>
+        <pattern>/companyPayOrder/payOrder</pattern>
+        <pattern>/company/marqueeOption</pattern>
+        <pattern>/companyFunctionSet/stuLogin</pattern>
+        <pattern>/company/updateSubjectName</pattern>
+        <pattern>/studentStar/showImg</pattern>
+        <!-- 配置机构end-->
+        <pattern>/company/*/firstTransferStation</pattern>
+
+        <!-- 页脚的配置 -->
+        <pattern>/sysPageHeadFoot/toConfigFooter</pattern>
+
+        <pattern>/companyHeadFootConfig/showFootTemplete</pattern>
+        <pattern>/companyHeadFootConfig/setTemplate/*</pattern>
+
+        <!-- 查找补费页面 -->
+        <pattern>/student/toSearch</pattern>
+        <pattern>/student/toMessage</pattern>
+        <pattern>/student/pay</pattern>
+        <!-- 异动页面 -->
+        <pattern>/student/toStuSearch</pattern>
+        <pattern>/student/toTransaction</pattern>
+        <pattern>/student/selectEntryDetail</pattern>
+        <pattern>/student/changeStudent</pattern>
+        <pattern>/student/changeClass</pattern>
+        <pattern>/student/transaction/changeClass</pattern>
+        <pattern>/student/transaction/changeStudent</pattern>
+        <pattern>/student/transaction/changeClassNo</pattern>
+        <pattern>/student/transaction/returnFee</pattern>
+        <pattern>/student/pay1</pattern>
         <pattern>/student/notice</pattern>
         <pattern>/student/createNotice</pattern>
-        
-         <pattern>/student/full/toStuSearch</pattern>
-         <pattern>/student/full/toTransaction</pattern>
-         <pattern>/student/full/selectEntryDetail</pattern>
-         <pattern>/student/full/changeStudent</pattern>
-         <pattern>/student/full/changeClass</pattern>
-         <pattern>/student/transaction/full/changeClass</pattern>
-         <pattern>/student/transaction/full/changeStudent</pattern>
-         <pattern>/student/transaction/full/changeClassNo</pattern>
-         <pattern>/student/full/pay1</pattern>
+
+        <pattern>/student/full/toStuSearch</pattern>
+        <pattern>/student/full/toTransaction</pattern>
+        <pattern>/student/full/selectEntryDetail</pattern>
+        <pattern>/student/full/changeStudent</pattern>
+        <pattern>/student/full/changeClass</pattern>
+        <pattern>/student/transaction/full/changeClass</pattern>
+        <pattern>/student/transaction/full/changeStudent</pattern>
+        <pattern>/student/transaction/full/changeClassNo</pattern>
+        <pattern>/student/full/pay1</pattern>
         <pattern>/student/full/notice</pattern>
         <pattern>/student/full/createNotice</pattern>
         <pattern>/student/full/showSignUp</pattern>
         <pattern>/student/transaction/full/returnFee</pattern>
-		<!-- 详情页面 -->
-		<pattern>/student/studentDetailMessage</pattern>
-		
-         
-         <!-- 班型 -->
-         <pattern>/classType/showClassTypePage</pattern>
-         <pattern>/classType/addClassType</pattern>
-         <pattern>/classType/addClassPackage</pattern>
-         <pattern>/classType/classTypeOnsal</pattern>
-         <pattern>/classType/showClassTypeDetail</pattern>
-         <pattern>/classType/editClassTypeMessage</pattern>
-         <pattern>/classType/choosePic</pattern>
-         <pattern>/classType/showClassTypeStu</pattern>
-         <pattern>/classType/updateClassTypeMessage</pattern>
-         <pattern>/classType/updatePackage</pattern>
-         <pattern>/classType/onSale</pattern>
-         
-         <!-- 简易版版型 -->
-		 <pattern>/simpleClasses/showClassTypePage</pattern>
-         <pattern>/simpleClasses/addClassType</pattern>
-         <pattern>/simpleClasses/addClassPackage</pattern>
-         <pattern>/simpleClasses/classTypeOnsal</pattern>
-         <pattern>/simpleClasses/showClassTypeDetail</pattern>
-         <pattern>/simpleClasses/editClassTypeMessage</pattern>
-         <pattern>/simpleClasses/choosePic</pattern>
-         <pattern>/simpleClasses/addClassTypeVideo</pattern>
-         <pattern>/simpleClasses/updateClassTypeMessage</pattern>
-         <pattern>/simpleClasses/updatePackage</pattern>
-         <pattern>/simpleClasses/onSale</pattern>
-         <!-- 视频 -->
-         <!-- 排课-->
-         <pattern>/video/toVideo</pattern>
-         <pattern>/video/uploadVideo</pattern>
-         <pattern>/video/toAddVideo</pattern>
-         <pattern>/classModule/show</pattern>
-         <pattern>/classModule/toTeach</pattern>
-         <pattern>/classModule/toAddModule2</pattern>
-         <pattern>/classModule/saveModule</pattern>
-         <pattern>/classModule/remoteDetail</pattern>
-         <pattern>/classModule/editRemote</pattern>
-         <pattern>/classModule/saveRemote</pattern>
-         <pattern>/classModule/toMain</pattern>
-         <pattern>/classModuleLesson/classes</pattern>
-         <pattern>/classModuleLesson/selMessage</pattern>
-         <pattern>/classModuleLesson/classesResource</pattern>
-         <pattern>/classModuleLesson/resourcedetail/*</pattern>
-         <pattern>/sysConfigItemCourse/toClassSet</pattern>
-         
-         <!-- 订单相关 -->
-         <pattern>/payOrder/index</pattern>
-         <pattern>/payOrder/toOrder</pattern>
-         <pattern>/payOrder/detailOrder/*</pattern>
-         
-         <!-- 新手导航 -->
-         <!-- <pattern>/users/guide</pattern> -->
-         <pattern>/users/business</pattern>
-         <pattern>/users/startTeach</pattern>
-         <pattern>/users/error</pattern>
-         <!-- <pattern>/login</pattern> -->
-         
-         <!-- 首页body配置 -->
-         <pattern>/sysBody/show</pattern>
-         <pattern>/sysBody/newModule</pattern>
-         <pattern>/sysBody/editModule</pattern>
-		 <pattern>/query/*</pattern>         
-         <pattern>/sysBody/openClassOption</pattern>
-         <pattern>/sysConfigIndexPageTemplate/indexPageConfig</pattern>
-         <!-- 统计页面 -->
-         <!-- <pattern>/task/manage</pattern> -->
-         
-         <!-- menu -->
-         <pattern>/system</pattern>
-         
-         <!-- 消息管理 -->
-         <pattern>/company/manageMessage</pattern>
-         <pattern>/company/editMessage/*</pattern>
-         <!-- 消息中心 -->
-         <pattern>/company/messageCenter</pattern>
-         <pattern>/company/detail/*</pattern>
+        <!-- 详情页面 -->
+        <pattern>/student/studentDetailMessage</pattern>
 
-         <pattern>/companyMarketSet/show</pattern>
-         <pattern>/sysconfig/*</pattern>
-         
-         <!-- crm -->
-         <pattern>/crmCompany/toCrmLsit/*</pattern>
-         <pattern>/crmCompany/toCompanyCus</pattern>
-         <pattern>/crmCompany/toGroup</pattern>
-         <pattern>/crmCompany/createOrder</pattern>
-         <pattern>/crmCompany/trackOrder/*/*/*</pattern>
-         <pattern>/crmCompany/edit/*</pattern>
-         
-         <!-- 营销管理 -->
-         <pattern>/companyMarketSet/showCompanyMarket</pattern>
-         <pattern>/sysConfigPage/toConfigPage</pattern>
-         <!-- 优惠券 -->
-         <pattern>/sysOperationTicket/showTickets</pattern>
-         <pattern>/sysOperationTicket/configTicket</pattern>
-	
-		<!-- 系统设置 -->
-		<pattern>/sysNews/systemSet</pattern>
-		<pattern>/sysNewsType/newsTypePage</pattern>
-		
-		<!-- 菜单修改营销配置 -->
-		<pattern>/companyMarketSet/CompanyMarket_qq</pattern>
-		<pattern>/companyMarketSet/CompanyMarket_wx</pattern>
-		<pattern>/companyMarketSet/CompanyMarket_wb</pattern>
-		<pattern>/companyMarketSet/CompanyMarket_kf</pattern>
-		<pattern>/companyMarketSet/CompanyMarket_sq</pattern>
-        
-		<!-- 菜单修改课程 -->
-		<pattern>/classManage/signup_news</pattern>
-		<pattern>/classManage/manage_classno</pattern>
-		<pattern>/classManage/manage_lesson</pattern>
-		<pattern>/classManage/manage_classpl</pattern>
-		<pattern>/classManage/manageCourseValidaty</pattern>
-		<pattern>/classManage/manage_chapOrlecName</pattern>
-		<pattern>/classManage/manage_courseVideo</pattern>
-		<pattern>/classManage/manage_courseLable</pattern>
-		<pattern>/classManage/manage_courseBuy</pattern>
-		<pattern>/classManage/manage_protocol</pattern>
-		<pattern>/classManage/manage_homework_inform</pattern>
-		<pattern>/classManage/courseDetailSet</pattern>
-		<pattern>/demo.jsp</pattern>
-		
+
+        <!-- 班型 -->
+        <pattern>/classType/showClassTypePage</pattern>
+        <pattern>/classType/addClassType</pattern>
+        <pattern>/classType/addClassPackage</pattern>
+        <pattern>/classType/classTypeOnsal</pattern>
+        <pattern>/classType/showClassTypeDetail</pattern>
+        <pattern>/classType/editClassTypeMessage</pattern>
+        <pattern>/classType/choosePic</pattern>
+        <pattern>/classType/showClassTypeStu</pattern>
+        <pattern>/classType/updateClassTypeMessage</pattern>
+        <pattern>/classType/updatePackage</pattern>
+        <pattern>/classType/onSale</pattern>
+
+        <!-- 简易版版型 -->
+        <pattern>/simpleClasses/showClassTypePage</pattern>
+        <pattern>/simpleClasses/addClassType</pattern>
+        <pattern>/simpleClasses/addClassPackage</pattern>
+        <pattern>/simpleClasses/classTypeOnsal</pattern>
+        <pattern>/simpleClasses/showClassTypeDetail</pattern>
+        <pattern>/simpleClasses/editClassTypeMessage</pattern>
+        <pattern>/simpleClasses/choosePic</pattern>
+        <pattern>/simpleClasses/addClassTypeVideo</pattern>
+        <pattern>/simpleClasses/updateClassTypeMessage</pattern>
+        <pattern>/simpleClasses/updatePackage</pattern>
+        <pattern>/simpleClasses/onSale</pattern>
+        <!-- 视频 -->
+        <!-- 排课-->
+        <pattern>/video/toVideo</pattern>
+        <pattern>/video/uploadVideo</pattern>
+        <pattern>/video/toAddVideo</pattern>
+        <pattern>/classModule/show</pattern>
+        <pattern>/classModule/toTeach</pattern>
+        <pattern>/classModule/toAddModule2</pattern>
+        <pattern>/classModule/saveModule</pattern>
+        <pattern>/classModule/remoteDetail</pattern>
+        <pattern>/classModule/editRemote</pattern>
+        <pattern>/classModule/saveRemote</pattern>
+        <pattern>/classModule/toMain</pattern>
+        <pattern>/classModuleLesson/classes</pattern>
+        <pattern>/classModuleLesson/selMessage</pattern>
+        <pattern>/classModuleLesson/classesResource</pattern>
+        <pattern>/classModuleLesson/resourcedetail/*</pattern>
+        <pattern>/sysConfigItemCourse/toClassSet</pattern>
+
+        <!-- 订单相关 -->
+        <pattern>/payOrder/index</pattern>
+        <pattern>/payOrder/toOrder</pattern>
+        <pattern>/payOrder/detailOrder/*</pattern>
+
+        <!-- 新手导航 -->
+        <!-- <pattern>/users/guide</pattern> -->
+        <pattern>/users/business</pattern>
+        <pattern>/users/startTeach</pattern>
+        <pattern>/users/error</pattern>
+        <!-- <pattern>/login</pattern> -->
+
+        <!-- 首页body配置 -->
+        <pattern>/sysBody/show</pattern>
+        <pattern>/sysBody/newModule</pattern>
+        <pattern>/sysBody/editModule</pattern>
+        <pattern>/query/*</pattern>
+        <pattern>/sysBody/openClassOption</pattern>
+        <pattern>/sysConfigIndexPageTemplate/indexPageConfig</pattern>
+        <!-- 统计页面 -->
+        <!-- <pattern>/task/manage</pattern> -->
+
+        <!-- menu -->
+        <pattern>/system</pattern>
+
+        <!-- 消息管理 -->
+        <pattern>/company/manageMessage</pattern>
+        <pattern>/company/editMessage/*</pattern>
+        <!-- 消息中心 -->
+        <pattern>/company/messageCenter</pattern>
+        <pattern>/company/detail/*</pattern>
+
+        <pattern>/companyMarketSet/show</pattern>
+        <pattern>/sysconfig/*</pattern>
+
+        <!-- crm -->
+        <pattern>/crmCompany/toCrmLsit/*</pattern>
+        <pattern>/crmCompany/toCompanyCus</pattern>
+        <pattern>/crmCompany/toGroup</pattern>
+        <pattern>/crmCompany/createOrder</pattern>
+        <pattern>/crmCompany/trackOrder/*/*/*</pattern>
+        <pattern>/crmCompany/edit/*</pattern>
+
+        <!-- 营销管理 -->
+        <pattern>/companyMarketSet/showCompanyMarket</pattern>
+        <pattern>/sysConfigPage/toConfigPage</pattern>
+        <!-- 优惠券 -->
+        <pattern>/sysOperationTicket/showTickets</pattern>
+        <pattern>/sysOperationTicket/configTicket</pattern>
+
+        <!-- 系统设置 -->
+        <pattern>/sysNews/systemSet</pattern>
+        <pattern>/sysNewsType/newsTypePage</pattern>
+
+        <!-- 菜单修改营销配置 -->
+        <pattern>/companyMarketSet/CompanyMarket_qq</pattern>
+        <pattern>/companyMarketSet/CompanyMarket_wx</pattern>
+        <pattern>/companyMarketSet/CompanyMarket_wb</pattern>
+        <pattern>/companyMarketSet/CompanyMarket_kf</pattern>
+        <pattern>/companyMarketSet/CompanyMarket_sq</pattern>
+
+        <!-- 菜单修改课程 -->
+        <pattern>/classManage/signup_news</pattern>
+        <pattern>/classManage/manage_classno</pattern>
+        <pattern>/classManage/manage_lesson</pattern>
+        <pattern>/classManage/manage_classpl</pattern>
+        <pattern>/classManage/manageCourseValidaty</pattern>
+        <pattern>/classManage/manage_chapOrlecName</pattern>
+        <pattern>/classManage/manage_courseVideo</pattern>
+        <pattern>/classManage/manage_courseLable</pattern>
+        <pattern>/classManage/manage_courseBuy</pattern>
+        <pattern>/classManage/manage_protocol</pattern>
+        <pattern>/classManage/manage_homework_inform</pattern>
+        <pattern>/classManage/courseDetailSet</pattern>
+        <pattern>/demo.jsp</pattern>
+
         <!-- 考试 -->
         <pattern>/tikuExam/addExam</pattern>
         <pattern>/tikuExam/updateExam/*</pattern>
         <pattern>/tikuExam/examContent/*/*</pattern>
-        
+
         <!-- 课程编辑 -->
         <pattern>/editClass/*</pattern>
         <pattern>/editSimpleCourse/*</pattern>
         <pattern>/manageStudent/insertStudents</pattern>
         <pattern>/manageStudent/list</pattern>
-        
+
         <!-- 课程中学员管理 -->
-		<pattern>/classStu/studentList/*</pattern>
-		<pattern>/classStu/showSignUp</pattern>
-		<pattern>/classStu/toTransaction</pattern>
-		<pattern>/classStu/toMessage</pattern>
-		<pattern>/classStu/stuMaterial2</pattern>
-		<pattern>/classStu/showStuMaterial</pattern>
+        <pattern>/classStu/studentList/*</pattern>
+        <pattern>/classStu/showSignUp</pattern>
+        <pattern>/classStu/toTransaction</pattern>
+        <pattern>/classStu/toMessage</pattern>
+        <pattern>/classStu/stuMaterial2</pattern>
+        <pattern>/classStu/showStuMaterial</pattern>
 
         <pattern>/tikuSet/toSet/*</pattern>
         <pattern>/tikuSet/getTopic</pattern>
-        
-         <!-- 课程包 -->
+
+        <!-- 课程包 -->
         <pattern>/classPackageCategory/addClassPackageCategory</pattern>
         <pattern>/classPackageCategory/SetClassPackageCategory</pattern>
-		<pattern>/classPackage/list</pattern>
-		<pattern>/classPackage/manageBaseInfo/*</pattern>
-		<pattern>/classPackage/delClassPackage/*</pattern>
-		<pattern>/classPackage/setDetail/*</pattern>
-		<pattern>/classPackage/manageClassPackage/*</pattern>
-		<pattern>/classPackage/addClassType</pattern>
-		<pattern>/classPackage/studentList/*</pattern>
-		<pattern>/classPackage/studentManage</pattern>
-		<pattern>/classPackage/showSignUp</pattern>
-		<pattern>/classPackage/orderManage/*</pattern>
-		<pattern>/classPackage/importPage/*</pattern>
-		<pattern>/classPackage/importStudentData</pattern>
-		<pattern>/classPackage/insertStudents</pattern>
-		
-		<!-- 自定义页面 -->
-		<pattern>/companyConfigCustompage/customPage</pattern>
-		<pattern>/companyConfigCustompage/managePage/*</pattern>
-		
-		<!-- app配置 -->
-		<pattern>/sysCyclePic/showAppBannerPic</pattern>
-		<pattern>/companyAppBarConfig/openPage</pattern>
-		<pattern>/companyAppBarConfig/configBaseInfo</pattern>
-		<pattern>/courseProtocolConfig/toProtocolList</pattern>
-		<pattern>/courseProtocolConfig/addProtocol</pattern>
-		<pattern>/courseProtocolConfig/toProtocolDetail</pattern>
-		
-	    <!-- 微网校 -->
+        <pattern>/classPackage/list</pattern>
+        <pattern>/classPackage/manageBaseInfo/*</pattern>
+        <pattern>/classPackage/delClassPackage/*</pattern>
+        <pattern>/classPackage/setDetail/*</pattern>
+        <pattern>/classPackage/manageClassPackage/*</pattern>
+        <pattern>/classPackage/addClassType</pattern>
+        <pattern>/classPackage/studentList/*</pattern>
+        <pattern>/classPackage/studentManage</pattern>
+        <pattern>/classPackage/showSignUp</pattern>
+        <pattern>/classPackage/orderManage/*</pattern>
+        <pattern>/classPackage/importPage/*</pattern>
+        <pattern>/classPackage/importStudentData</pattern>
+        <pattern>/classPackage/insertStudents</pattern>
+
+        <!-- 自定义页面 -->
+        <pattern>/companyConfigCustompage/customPage</pattern>
+        <pattern>/companyConfigCustompage/managePage/*</pattern>
+
+        <!-- app配置 -->
+        <pattern>/sysCyclePic/showAppBannerPic</pattern>
+        <pattern>/companyAppBarConfig/openPage</pattern>
+        <pattern>/companyAppBarConfig/configBaseInfo</pattern>
+        <pattern>/courseProtocolConfig/toProtocolList</pattern>
+        <pattern>/courseProtocolConfig/addProtocol</pattern>
+        <pattern>/courseProtocolConfig/toProtocolDetail</pattern>
+
+        <!-- 微网校 -->
         <pattern>/microSchool/gotoNavigationConfig</pattern>
         <pattern>/microSchool/gotoFooterConfig</pattern>
         <pattern>/microSchool/gotoCarouselFigureConfig</pattern>
-        
+
         <!-- 学习卡 -->
         <pattern>/companyStudyCard/gotoStudyCardsManage</pattern>
         <pattern>/companyStudyCard/gotoCreateStudyCard</pattern>
         <pattern>/companyStudyCard/gotoStudyCardLibDetails</pattern>
         <!-- 专题 -->
         <pattern>/commodity/toSpecialPage</pattern>
-         <pattern>/commodity/toAddSpecialPage</pattern>
+        <pattern>/commodity/toAddSpecialPage</pattern>
     </decorator>
-    
+
     <decorator name="tiku" page="decorator_tiku.jsp">
-    	 <!-- 题库 -->
-         <pattern>/question/show</pattern>
-         <pattern>/question/editQuestion</pattern>
-         <pattern>/tikuCategory/toTiku</pattern>
-         <pattern>/tikuTopic/testEdit</pattern>
-         <pattern>/tikuChapter/toChapter/*</pattern>
-         <pattern>/tikuPaper/toTikuPaper/*</pattern>
-         <pattern>/tikuPaper/toPaperInfo/*/*/*/*</pattern>
-         <pattern>/tikuSet/toTikuSubManage/*</pattern>
-         <pattern>/tikuPaper/addTopic</pattern>
-         <pattern>/tikuExam/toTikuExamIndex</pattern>
-         <pattern>/tikuExamPaperRelation/toStatisticsIndex/*</pattern>
-         <pattern>/tikuPaper/toPageInfoAudit</pattern>
-         <!-- Q&A -->
-         <pattern>/Question/questionIndex</pattern>
-         <pattern>/Question/comQuestionIndex</pattern>
-         <pattern>/Question/questionSetIndex</pattern>
-         <pattern>/Question/questionClassfy</pattern>
-         <pattern>/Question/queAnsSet</pattern>
-         <pattern>/Question/queKcfl</pattern>
-         <pattern>/Question/queZdyfl</pattern>
-         
-          <!-- 积分 -->
-         <pattern>/companyIntegralConfig/*</pattern>
-          <!-- 会员管理 -->
-       	 <pattern>/companyMemberConfig/companyMemberVip</pattern>
-         <pattern>/companyMemberConfig/addMemberVip</pattern>
- 		 <pattern>/companyMemberConfig/queryMemberlevelNames/*</pattern>
-         <pattern>/companyMemberConfig/upgradeMemberPage/*</pattern>
-         <pattern>/companyMemberLevelConfig/toUpdatePage/*</pattern>
-         <pattern>/classType/memberClass</pattern>
-         <pattern>/classType/searchMemberClass/*</pattern>
-         <!-- 课程资料改 -->
-         <pattern>/classModuleLesson/classesResource/*</pattern>
-         
-         <!-- 优惠券 -->
-         <pattern>/company/setCouponService</pattern>
-         <pattern>/companyCouponsPatch/manage/*</pattern>
-         <pattern>/companyCouponsConfig/showCouponsList</pattern>
-         
-         <!-- 支付 -->
-         <pattern>/payConfig/showZFBWY</pattern>
-         <pattern>/payConfig/showSXYChoice</pattern>
-         <pattern>/payConfig/showSXY</pattern>
-         
-         <!-- 第三方登录 -->
-         <pattern>/companyFunctionSet/setThirdLogin/*</pattern>
-         <!-- 注册配置 -->
-         <pattern>/companyFunctionSet/stuRegister</pattern>
-         
-         <!-- 学员分组 -->
-         <pattern>/studentGroup/setStudentGroup</pattern>
-         
-         <!-- 绑定学员MAX -->
-         <pattern>/companyHardbindData/toList</pattern>
-         
-         <!-- 绑定学员MAX -->
-         <pattern>/liveOpenCourse/showLiveOpenClassSetting</pattern>
-         
-         <!-- 题库 考试统计 -->
-         <pattern>/tikuExamUserRelation/paperStatisticsIndex</pattern>
-         
-         <!-- 竞赛成绩 -->
-         <pattern>/sysStudentScore/competitionScore</pattern>
-         
-         <!-- 作业 -->
-         <pattern>/homework/toHomeWorkIndex</pattern>
-         <pattern>/homeworkStudentComplete/gotoHomeworkStudentCompletePage/*/*/*</pattern>
-         <pattern>/homeworkStudentComplete/gotoAttachmentStudentHomeworkPage/*/*/*/*/*/*</pattern>
-         <pattern>/homeworkStudentComplete/gotoAttachmentStudentPaperHomeworkPage</pattern>
-         
-      	 <!-- 充值卡 -->
-      	 <pattern>/companyRechargePatch/gotoRechargeCardManagePage</pattern>
-      	 <pattern>/companyRechargePatch/gotoRechargeCardCreatePage</pattern>
-      	 <pattern>/companyRechargePatch/gotoRechargeCardOpenFlagPage</pattern>
+        <!-- 题库 -->
+        <pattern>/question/show</pattern>
+        <pattern>/question/editQuestion</pattern>
+        <pattern>/tikuCategory/toTiku</pattern>
+        <pattern>/tikuTopic/testEdit</pattern>
+        <pattern>/tikuChapter/toChapter/*</pattern>
+        <pattern>/tikuPaper/toTikuPaper/*</pattern>
+        <pattern>/tikuPaper/toPaperInfo/*/*/*/*</pattern>
+        <pattern>/tikuSet/toTikuSubManage/*</pattern>
+        <pattern>/tikuPaper/addTopic</pattern>
+        <pattern>/tikuExam/toTikuExamIndex</pattern>
+        <pattern>/tikuExamPaperRelation/toStatisticsIndex/*</pattern>
+        <pattern>/tikuPaper/toPageInfoAudit</pattern>
+        <!-- Q&A -->
+        <pattern>/Question/questionIndex</pattern>
+        <pattern>/Question/comQuestionIndex</pattern>
+        <pattern>/Question/questionSetIndex</pattern>
+        <pattern>/Question/questionClassfy</pattern>
+        <pattern>/Question/queAnsSet</pattern>
+        <pattern>/Question/queKcfl</pattern>
+        <pattern>/Question/queZdyfl</pattern>
+
+        <!-- 积分 -->
+        <pattern>/companyIntegralConfig/*</pattern>
+        <!-- 会员管理 -->
+        <pattern>/companyMemberConfig/companyMemberVip</pattern>
+        <pattern>/companyMemberConfig/addMemberVip</pattern>
+        <pattern>/companyMemberConfig/queryMemberlevelNames/*</pattern>
+        <pattern>/companyMemberConfig/upgradeMemberPage/*</pattern>
+        <pattern>/companyMemberLevelConfig/toUpdatePage/*</pattern>
+        <pattern>/classType/memberClass</pattern>
+        <pattern>/classType/searchMemberClass/*</pattern>
+        <!-- 课程资料改 -->
+        <pattern>/classModuleLesson/classesResource/*</pattern>
+
+        <!-- 优惠券 -->
+        <pattern>/company/setCouponService</pattern>
+        <pattern>/companyCouponsPatch/manage/*</pattern>
+        <pattern>/companyCouponsConfig/showCouponsList</pattern>
+
+        <!-- 支付 -->
+        <pattern>/payConfig/showZFBWY</pattern>
+        <pattern>/payConfig/showSXYChoice</pattern>
+        <pattern>/payConfig/showSXY</pattern>
+
+        <!-- 第三方登录 -->
+        <pattern>/companyFunctionSet/setThirdLogin/*</pattern>
+        <!-- 注册配置 -->
+        <pattern>/companyFunctionSet/stuRegister</pattern>
+
+        <!-- 学员分组 -->
+        <pattern>/studentGroup/setStudentGroup</pattern>
+
+        <!-- 绑定学员MAX -->
+        <pattern>/companyHardbindData/toList</pattern>
+
+        <!-- 绑定学员MAX -->
+        <pattern>/liveOpenCourse/showLiveOpenClassSetting</pattern>
+
+        <!-- 题库 考试统计 -->
+        <pattern>/tikuExamUserRelation/paperStatisticsIndex</pattern>
+
+        <!-- 竞赛成绩 -->
+        <pattern>/sysStudentScore/competitionScore</pattern>
+
+        <!-- 作业 -->
+        <pattern>/homework/toHomeWorkIndex</pattern>
+        <pattern>/homeworkStudentComplete/gotoHomeworkStudentCompletePage/*/*/*</pattern>
+        <pattern>/homeworkStudentComplete/gotoAttachmentStudentHomeworkPage/*/*/*/*/*/*</pattern>
+        <pattern>/homeworkStudentComplete/gotoAttachmentStudentPaperHomeworkPage</pattern>
+
+        <!-- 充值卡 -->
+        <pattern>/companyRechargePatch/gotoRechargeCardManagePage</pattern>
+        <pattern>/companyRechargePatch/gotoRechargeCardCreatePage</pattern>
+        <pattern>/companyRechargePatch/gotoRechargeCardOpenFlagPage</pattern>
+
+        <!--订单查询-->
+        <pattern>/berkeley/berkeleyOrder/*</pattern>
+        <!--老师管理-->
+        <pattern>/teacherManger/getFirstItems/*</pattern>
+        <!--计算资源管理-->
+        <pattern>/computingResource/getVideoResourceAndMessageStatistics/*</pattern>
+        <!--权限管理管理-->
+        <pattern>/berkeley/permissionManagement/*</pattern>
+        <!--添加分校老师-->
+        <pattern>/berkeley/addTeacher</pattern>
+        <pattern>/teacherManger/addTeacher</pattern>
+        <!--&lt;!&ndash;添加老师&ndash;&gt;-->
+        <pattern>/teacherManger/updateOrAddTeacher/*</pattern>
+        <!--去添加用户页面-->
+        <pattern>/berkeley/addUsers</pattern>
+        <pattern>/permissionManger/addUser</pattern>
+        <!--去服务管理页面-->
+        <pattern>/serviceManager/getServiceManager/*</pattern>
+        <!--去分校首页页面-->
+        <pattern>/berkeley/berkeleyIndex</pattern>
+        <!-- 去分校详情页面 -->
+        <pattern>/classManager/getClassInfo/*</pattern>
+        <!-- 去课程管理页面 -->
+        <pattern>/classManager/getClassList/*</pattern>
+        <!-- 去分校课程查询页面 -->
+        <pattern>/classQuery/getClassList/*</pattern>
+        <!-- 去行政班设置页面 -->
+        <pattern>/administrativeClassManager/administrativeClass</pattern>
+        <!-- 去基地校直播课页面 -->
+        <pattern>/baseSchool/baseSchoolLive</pattern>
+        <!-- 去基地校录播课页面 -->
+        <pattern>/baseSchool/baseSchoolRecording</pattern>
+
+
+
+        <!--第二阶段-->
+
+
+        <!-- 分校开放课程管理 -->
+        <pattern>/jsp/OpenCourse</pattern>
+        <!-- 课程基本信息 -->
+        <pattern>/jsp/basicInformationCourse</pattern>
+		
+		<!-- 公开课 -->
+        <pattern>/branchSchool/queryClassType</pattern>
+        <pattern>/branchSchool/*/*/*</pattern>
+        <pattern>/branchSchool/showSignUp</pattern>
+        <pattern>/branchSchool/insertStudents</pattern>
+        <pattern>/branchSchool/queryData</pattern>
+        <!-- 分校直播课 -->
+        <pattern>/classTypeManage/*/*</pattern>
+        <pattern>/otherSchool/queryClassType</pattern>
+		<pattern>/otherSchool/*/*/*</pattern>
+		<pattern>/otherSchool/showSignUp</pattern>
+		<pattern>/otherSchool/insertStudents</pattern>
+		<pattern>/otherSchool/queryData</pattern>
+        <!-- 订单 -->
+        <pattern>/jsp/allOrder</pattern>
+        <!-- 教师收入查询 -->
+        <pattern>/jsp/incomeQuery</pattern>
+        <!-- 老师收入查询 -->
+        <pattern>/jsp/teacherIncome</pattern>
+        <!-- 课程查询 -->
+        <pattern>/classManager/getClassList</pattern>
+
+
+
+
+
     </decorator>
 
 </decorators>

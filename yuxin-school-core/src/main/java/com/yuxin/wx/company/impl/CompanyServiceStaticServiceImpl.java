@@ -168,4 +168,17 @@ public class CompanyServiceStaticServiceImpl extends BaseServiceImpl implements 
 		// TODO Auto-generated method stub
 		return companyServiceStaticMapper.queryCompanyNoService(companyId);
 	};
+	@Override
+	public List<SystemConfigServiceVo> queryCompanyAllService(Integer companyId) {
+		// TODO Auto-generated method stub
+		return companyServiceStaticMapper.queryCompanyAllService(companyId);
+	};
+	@Override
+	public void updateByCompanyStatus(Integer companyId){
+		companyServiceStaticMapper.updateByCompanyStatus(companyId);
+	};
+	@Override
+	public void updateByCompanyStatusl(Integer companyId){
+		companyServiceStaticMapper.updateByCompanyStatusl(companyId);
+	};
 }

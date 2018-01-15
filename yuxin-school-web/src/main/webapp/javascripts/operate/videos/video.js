@@ -213,11 +213,13 @@ function loadVideoInfo(nearOneItemId, itemSecondId, beginTime, endTime, videoSta
     if (nearOneItemId == null || nearOneItemId == "") {
         nearOneItemId = $("#itemOneId").val();
     }
-    param += "&itemOneId=" + nearOneItemId;
-    if (itemSecondId == null || itemSecondId == "") {
+    if(null!=nearOneItemId && ""!=nearOneItemId){
+    	param += "&itemOneId=" + nearOneItemId;
+    }
+/*    if (itemSecondId == null || itemSecondId == "") {
         var secId = $(".secItem.active").attr("itemid");
     }
-    param += "&itemSecondId=" + itemSecondId;
+    param += "&itemSecondId=" + itemSecondId;*/
     if (beginTime != null && beginTime != "") {
         param += "&beginTime=" + beginTime;
     }
@@ -382,11 +384,14 @@ function loadVideoInfo(nearOneItemId, itemSecondId, beginTime, endTime, videoSta
                                                 },
                                                 type: "post",
                                                 success: function (data) {
-                                                    if (data == "success") {
+                                                    var i=data.split("/");
+                                                    if (i[0] == "success") {
                                                         $('<div class="c-fa">' + "删除成功" + '</div>').appendTo('body').fadeIn(100).delay(1000).fadeOut(200, function () {
                                                             $(this).remove();
                                                             $(".selectInfo").trigger("click");
                                                         });
+                                                         $('#spaceRoom').html(i[1]+"/"+i[2]);
+                                                         $('#spaceFlow').html(336.029+"/"+1000);
                                                     }
                                                 }
                                             });

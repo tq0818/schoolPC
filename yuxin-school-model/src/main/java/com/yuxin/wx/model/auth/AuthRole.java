@@ -25,7 +25,7 @@ public class AuthRole extends BaseEntity {
 	private Date	updateTime;		 /* 更新时间 */ 
 	private String	updator;		 /* 更新人 */ 
 	private Integer roleFlag;
-
+	private String zhuCompanyId;
 	// Constructor
 	public AuthRole() {
 	}
@@ -142,6 +142,16 @@ public class AuthRole extends BaseEntity {
 	public void setRoleFlag(Integer roleFlag) {
 		this.roleFlag = roleFlag;
 	}
+
+	
+    public String getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(String zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

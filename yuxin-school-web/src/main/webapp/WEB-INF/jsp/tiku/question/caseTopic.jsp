@@ -24,7 +24,9 @@
                   <span>审核者<em>
                   <c:if test="${t.status eq 'PAPER_STATUS_PUBLISH' or t.status eq 'PAPER_STATUS_AUDIT_FAIL'}">
                   ${t.auditorName }
-                  </c:if></em></span>
+                  </c:if>
+                  <c:if test="${t.updatorName == null }">${t.creatorName }</c:if>
+                  </em></span>
               </td>
               <td class="text-right">
                 <c:if test="${t.status == 'PAPER_STATUS_EDIT' }"><span class="text-right">正在编辑</span></c:if>

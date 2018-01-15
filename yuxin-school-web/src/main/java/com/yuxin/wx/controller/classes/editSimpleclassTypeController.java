@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yuxin.wx.api.classes.IClassModuleNoService;
 import com.yuxin.wx.api.classes.IClassModuleService;
 import com.yuxin.wx.api.classes.IClassTypeModuleRelationService;
+import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.commodity.ICommodityProductRealtionService;
 import com.yuxin.wx.api.commodity.ICommodityService;
@@ -94,6 +96,9 @@ public class editSimpleclassTypeController {
     private ICoursePotocolBindHistoryService coursePotocolBindHistoryServiceImpl;
     @Autowired
     private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+
+	@Autowired
+	private IClassTypeOfBranchSchoolService classTypeOfBranchSchoolService;
     /**
      * 编辑班型(第一步)
      *
@@ -108,11 +113,12 @@ public class editSimpleclassTypeController {
     	String type = request.getParameter("type");
         Map<String, String> map = new HashMap<String, String>();
         map.put("classId", "" + ct.getId());
+        map.put("companyId",""+WebUtils.getCurrentCompanyId());
         ClassTypeVo classType = this.classTypeServiceImpl.findClassTypeDetail(map);
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
-        SysConfigItemRelation relation = new SysConfigItemRelation();
+       /* SysConfigItemRelation relation = new SysConfigItemRelation();
         relation.setId(null);
         List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
         SysConfigItem item = new SysConfigItem();
@@ -128,8 +134,14 @@ public class editSimpleclassTypeController {
                     break;
                 }
             }
-        }
-
+        }*/
+        Map<String, Object> params=new HashMap<String, Object>();
+    	params.put("level", 0);
+    	params.put("parentCode", "TYPE");
+    	params.put("companyId", WebUtils.getCurrentCompanyId());
+       	List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
+        
+        model.addAttribute("isArea",WebUtils.getCurrentIsArea());
         model.addAttribute("typeItems", relations);
         boolean flag = this.companyFunctionSetServiceImpl.isCurrentFuSheng(WebUtils.getCurrentCompanyId());
         Subject subject = SecurityUtils.getSubject();
@@ -211,12 +223,13 @@ public class editSimpleclassTypeController {
         // 根据班型id查询详情
         Map<String, String> map = new HashMap<String, String>();
         map.put("classId", "" + id);
+        map.put("companyId",""+WebUtils.getCurrentCompanyId());
         ClassTypeVo classType = this.classTypeServiceImpl.findClassTypeDetail(map);
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
         model.addAttribute("lable", lable);
-        SysConfigItemRelation relation = new SysConfigItemRelation();
+       /* SysConfigItemRelation relation = new SysConfigItemRelation();
         relation.setId(null);
         List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
         SysConfigItem item = new SysConfigItem();
@@ -232,9 +245,15 @@ public class editSimpleclassTypeController {
                     break;
                 }
             }
-        }
-
+        }*/
+        Map<String, Object> params=new HashMap<String, Object>();
+    	params.put("level", 0);
+    	params.put("parentCode", "TYPE");
+    	params.put("companyId", WebUtils.getCurrentCompanyId());
+       	List<SysConfigItemRelation> relations=classTypeOfBranchSchoolService.findItemFront(params);
         model.addAttribute("typeItems", relations);
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+        
         if (null != classType) {
             if (classType.getLiveFlag() == 1 && classType.getFaceFlag() == 1) {
                 model.addAttribute("ftype", "live,face");
@@ -548,7 +567,7 @@ public class editSimpleclassTypeController {
         }
         ct.setItemOneId(oneId);
         ct.setItemSecondId(twoId);
-        ct.setUpdateTime(new Date());
+        ct.setUpdateTime(new Date());       
         ct.setUpdator(WebUtils.getCurrentUserId(request));
 
         // 如果开启标签库则将标签存库
@@ -604,15 +623,20 @@ public class editSimpleclassTypeController {
             }
         }
         // 更新班型信息
+        if(null==ct.getIsPublic()){
+        	ct.setIsPublic(0);
+		}
         this.classTypeServiceImpl.update(ct);
 
         // 更新总课时
         try {
             ClassModule cm = this.classModuleServiceImpl.queryModuleByClasstypeId(ct.getId());
-            ClassModule module = new ClassModule();
-            module.setId(cm.getId());
-            module.setTotalClassHour(courseNum);
-            this.classModuleServiceImpl.update(module);
+            if(null!=cm){
+        	  ClassModule module = new ClassModule();
+        	  module.setId(cm.getId());
+        	  module.setTotalClassHour(courseNum);
+        	  this.classModuleServiceImpl.update(module);
+            }
         } catch (Exception e) {
             this.log.error("修改总课时失败", e);
             e.printStackTrace();
@@ -642,6 +666,10 @@ public class editSimpleclassTypeController {
         commodity.setRecommendFlag(ct.getRecommendFlag());
         if (null != sets || null != sets1) {
             commodity.setItemTag(ct.getItemTag());
+        }
+        if(0==ct.getIsPublic()){//课程不公开,自动下架
+        	commodity.setCddsStatus(0);
+        	commodity.setCddsRecommendFlag(0);
         }
         commodity.setIntegralFlag(ct.getIntegralFlag());
         commodity.setMemberFlag(ct.getMemberFlag());

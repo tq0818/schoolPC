@@ -72,7 +72,9 @@ public class Student extends BaseEntity {
 	private String eduSchool;
 	private String eduStep;
 	private String eduYear;
-
+	private Integer isInSchool;
+	private Integer isMoveOut;
+	private Integer updateB;
 	public Integer getTeacherFlag() {
 		return teacherFlag;
 	}
@@ -138,36 +140,7 @@ public class Student extends BaseEntity {
 	/**
 	 * full Constructor
 	 */
-	public Student(Integer id, String name, String sex, String identityTypeCode, String identityId, Integer age, Date birthday, String educationCode,
-	        String hkAddress, String mobile, String email, String qq, String homePhone, String officePhone, String weixinId, String emergencyContact,
-	        String emergencyPhone, String remark, Date createTime, Integer creator, Date updateTime, Integer updator, Integer deleteFlag, Integer groupOneId,
-	        Integer groupTwoId) {
-		setId(id);
-		this.name = name;
-		this.sex = sex;
-		this.identityTypeCode = identityTypeCode;
-		this.identityId = identityId;
-		this.age = age;
-		this.birthday = birthday;
-		this.educationCode = educationCode;
-		this.hkAddress = hkAddress;
-		this.mobile = mobile;
-		this.email = email;
-		this.qq = qq;
-		this.homePhone = homePhone;
-		this.officePhone = officePhone;
-		this.weixinId = weixinId;
-		this.emergencyContact = emergencyContact;
-		this.emergencyPhone = emergencyPhone;
-		this.remark = remark;
-		this.createTime = createTime;
-		this.creator = creator;
-		this.updateTime = updateTime;
-		this.updator = updator;
-		this.deleteFlag = deleteFlag;
-		this.groupOneId = groupOneId;
-		this.groupTwoId = groupTwoId;
-	}
+	
 
 	// getter && setter
 	// 在setter方法最后加上"return this;"并把返回参数改为Student可以实现连缀设置属性
@@ -175,6 +148,68 @@ public class Student extends BaseEntity {
 	public Integer getGroupOneId() {
 		return groupOneId;
 	}
+
+	public Student(String name, String sex, String identityTypeCode, String identityId, Integer age, Date birthday,
+            String educationCode, String hkAddress, String mobile, String email, String qq, String homePhone,
+            String officePhone, String weixinId, String emergencyContact, String emergencyPhone, String remark,
+            Date createTime, Integer creator, Date updateTime, Integer updator, Integer deleteFlag, Integer companyId,
+            Integer schoolId, Integer userId, String province, String city, String county, String township,
+            String addressDetail, String remarkName, String dicSex, String dicIdentityTypeCode, String dicEducationCode,
+            String password, String username, String addFlag, Integer groupOneId, Integer groupTwoId, String userSign,
+            String nickName, Integer proxyOrgId, Integer eduIdentity, String eduArea, String eduSchool, String eduStep,
+            String eduYear, Integer isInSchool, Integer teacherFlag, String eduClass) {
+	    super();
+	    this.name = name;
+	    this.sex = sex;
+	    this.identityTypeCode = identityTypeCode;
+	    this.identityId = identityId;
+	    this.age = age;
+	    this.birthday = birthday;
+	    this.educationCode = educationCode;
+	    this.hkAddress = hkAddress;
+	    this.mobile = mobile;
+	    this.email = email;
+	    this.qq = qq;
+	    this.homePhone = homePhone;
+	    this.officePhone = officePhone;
+	    this.weixinId = weixinId;
+	    this.emergencyContact = emergencyContact;
+	    this.emergencyPhone = emergencyPhone;
+	    this.remark = remark;
+	    this.createTime = createTime;
+	    this.creator = creator;
+	    this.updateTime = updateTime;
+	    this.updator = updator;
+	    this.deleteFlag = deleteFlag;
+	    this.companyId = companyId;
+	    this.schoolId = schoolId;
+	    this.userId = userId;
+	    this.province = province;
+	    this.city = city;
+	    this.county = county;
+	    this.township = township;
+	    this.addressDetail = addressDetail;
+	    this.remarkName = remarkName;
+	    this.dicSex = dicSex;
+	    this.dicIdentityTypeCode = dicIdentityTypeCode;
+	    this.dicEducationCode = dicEducationCode;
+	    this.password = password;
+	    this.username = username;
+	    this.addFlag = addFlag;
+	    this.groupOneId = groupOneId;
+	    this.groupTwoId = groupTwoId;
+	    this.userSign = userSign;
+	    this.nickName = nickName;
+	    this.proxyOrgId = proxyOrgId;
+	    this.eduIdentity = eduIdentity;
+	    this.eduArea = eduArea;
+	    this.eduSchool = eduSchool;
+	    this.eduStep = eduStep;
+	    this.eduYear = eduYear;
+	    this.isInSchool = isInSchool;
+	    this.teacherFlag = teacherFlag;
+	    this.eduClass = eduClass;
+    }
 
 	public Student setGroupOneId(Integer groupOneId) {
 		this.groupOneId = groupOneId;
@@ -635,5 +670,35 @@ public class Student extends BaseEntity {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
+
+	
+    public Integer getIsInSchool() {
+    	return isInSchool;
+    }
+
+	
+    public void setIsInSchool(Integer isInSchool) {
+    	this.isInSchool = isInSchool;
+    }
+
+	
+    public Integer getIsMoveOut() {
+    	return isMoveOut;
+    }
+
+	
+    public void setIsMoveOut(Integer isMoveOut) {
+    	this.isMoveOut = isMoveOut;
+    }
+
+	
+    public Integer getUpdateB() {
+    	return updateB;
+    }
+
+	
+    public void setUpdateB(Integer updateB) {
+    	this.updateB = updateB;
+    }
 
 }

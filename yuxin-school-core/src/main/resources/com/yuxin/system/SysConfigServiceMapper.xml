@@ -165,4 +165,26 @@
 			group_code = #{groupCode}
 			limit 1
 	</select>
+	
+	<update id="updateFlag" parameterType="com.yuxin.wx.model.system.SysConfigService">
+		update sys_config_service
+		 set  del_flag = #{delFlag}
+		where company_id = #{companyId} and group_code = #{groupCode}
+	</update>
+	
+		<!-- 适用于主键自增类型 -->
+	<insert id="addConfigService" parameterType="com.yuxin.wx.model.system.SysConfigService" useGeneratedKeys="true" keyProperty="id">
+		insert into tiku_set (free_stu_no,free_stu_try,free_stu_try_day,charge_stu_all,charge_stu_item,charge_stu_item_second,
+		topic_audit_yes,topic_audit_no,paper_audit_yes,paper_audit_no,tiku_category_id,company_id) 
+		(select free_stu_no,free_stu_try,free_stu_try_day,charge_stu_all,charge_stu_item,charge_stu_item_second,
+		topic_audit_yes,topic_audit_no,paper_audit_yes,paper_audit_no,tiku_category_id,#{companyId} from tiku_set where company_id=#{zhuCompanyId})
+	</insert>
+	<select id="finConfigServiceSet" parameterType="com.yuxin.wx.model.system.SysConfigService" resultType="int">
+		select count(id) from tiku_set where company_id=#{companyId}
+	</select>
+		<!--根据主键删除 -->
+	<delete id="deletConfigService" >
+		delete from tiku_set
+		where company_id=#{companyId}
+	</delete>
 </mapper>

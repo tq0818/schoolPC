@@ -21,7 +21,7 @@
 <input type="hidden" id="schoolId" value='${schoolId}'/>
 		<input type="hidden" id="schoolName" value='${schoolName}'/>
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
-		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>	
+		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
@@ -29,7 +29,7 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5">${area.itemValue}学员列表</h2>
+					<h2 class="h5">${area.itemValue}学员列表</h2> 
 					<span class="line"></span>
 				</div>
 				<form method="post" id="searchForm">
@@ -39,6 +39,7 @@
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
 						<input type="hidden" id="isStu" name="isStu" value="1"/>
+						<input type="hidden" id="sourceFromStatic" value='1'/>	
 						<select name="eduArea" id="eduArea">
 							<option value="${area.itemCode}" data-id="${area.id}" >${area.itemValue}</option>
 						</select>
@@ -47,27 +48,7 @@
 							<option value="">请选择学校</option>
 						</select>
 
-						<%--<select id="registStatus" name="status">--%>
-							<%--<option value="">前台账号状态</option>--%>
-							<%--<option value="1">启用</option>--%>
-							<%--<option value="0">禁用</option>--%>
-						<%--</select>--%>
-						<%--<select id="registMethods" name="registType">--%>
-							<%--<option value="">前台登录账号</option>--%>
-							<%--<option value="1">已开通</option>--%>
-							<%--<option value="0">未开通</option>--%>
-						<%--</select>--%>
-						<%--<select id="payStatus" name="paymaterCount">--%>
-							<%--<option value="">报名状态</option>--%>
-							<%--<option value="1">已报名</option>--%>
-							<%--<option value="0">未报名</option>--%>
-						<%--</select>--%>
-						<%--<c:if test="${sgOpen==1 }">--%>
-							<%--<select id="studentG1" name="groupOneId" onchange="javaScript:selectGroup2(this,'');" >--%>
-							<%--</select>--%>
-							<%--<select id="studentG2" name="groupTwoId">--%>
-							<%--</select>--%>
-						<%--</c:if>--%>
+						
 
 					</div>
 					<div style="margin: 10px 0;">

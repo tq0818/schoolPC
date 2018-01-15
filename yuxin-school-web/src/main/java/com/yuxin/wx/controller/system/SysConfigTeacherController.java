@@ -125,7 +125,7 @@ public class SysConfigTeacherController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add")
 	public String add(Model model, HttpServletRequest request,
 			SysConfigTeacher sysConfigTeacher, String moduleIds) {
 		sysConfigTeacher.setPwd(new Md5Hash(sysConfigTeacher.getPwd(),ByteSource.Util.bytes(sysConfigTeacher.getUserName()+"salt")).toHex());
@@ -135,7 +135,7 @@ public class SysConfigTeacherController {
 		sysConfigTeacher.setCreateTime(new Date());
 		sysConfigTeacher.setUpdateTime(new Date());
 		sysConfigTeacher.setUpdator(user.getId());
-		sysConfigTeacher.setCompanyId(user.getCompanyId());
+		sysConfigTeacher.setCompanyId(sysConfigTeacher.getCompanyId());
 		sysConfigTeacher.setDelFlag(0);
 		sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
 		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
@@ -201,7 +201,7 @@ public class SysConfigTeacherController {
 		sysConfigTeacher.setCreateTime(new Date());
 		sysConfigTeacher.setUpdateTime(new Date());
 		sysConfigTeacher.setUpdator(user.getId());
-		sysConfigTeacher.setCompanyId(user.getCompanyId());
+		sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
 		sysConfigTeacher.setDelFlag(0);
 		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
 		sysConfigTeacherServiceImpl.isnertTeaAndUse(sysConfigTeacher);
@@ -664,12 +664,7 @@ public class SysConfigTeacherController {
 	 */
 	@RequestMapping(value = "/teacherAjaxList", method = RequestMethod.POST)
 	public String teacherAjaxList(HttpServletRequest request, Model model,
-			SysConfigTeacher teacher) {
-		// sysConfigTeacher.setSchoolId(WebUtils.getCurrentSchoolId());
-		// PageFinder<SysConfigTeacher>
-		// pageFinder=sysConfigTeacherServiceImpl.queryTeachersByKeys(sysConfigTeacher);
-		// model.addAttribute("pageFinder",pageFinder);
-
+								  SysConfigTeacher teacher) {
 		// 根据项目ID查询所有的老师
 		teacher.setPageSize(10);
 		Integer itemOneId = teacher.getItemOneId();
@@ -677,15 +672,17 @@ public class SysConfigTeacherController {
 		if(itemOneId != null){
 			if(itemOneId == 0){
 				Users user = WebUtils.getCurrentUser();
-				teacher.setSchoolId(user.getSchoolId());
 				teacher.setCompanyId(user.getCompanyId());
 				teacher.setTeacherType(Constant.PERSON_TEACHER);
 				pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
 			}else if(itemOneId > 0){
+				Users user = WebUtils.getCurrentUser();
+				teacher.setCompanyId(user.getCompanyId());
+				teacher.setTeacherType(Constant.PERSON_TEACHER);
 				pageFinder = sysConfigTeacherServiceImpl.findTeacherPage(teacher);
 			}
 		}
-				
+
 		model.addAttribute("pageFinder", pageFinder);
 		return "resource/teacher/teacherAjaxList";
 	}
@@ -730,28 +727,33 @@ public class SysConfigTeacherController {
 		Users user = WebUtils.getCurrentUser(request);
 		// 根据老师ID查询对应的老师
 		SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findTeacherAndUserById(teacherId);
-		
+
 		// 根据老师ID查询该老师所属的公司所有的一级二级项目
 		Map<String,Object> param = new HashMap<String, Object>();
 		param.put("companyId", user.getCompanyId());
 		param.put("schoolId", user.getSchoolId());
+		param.put("itemType","2");
 		//根据公司id 和学校id 查询 一级项目
-		List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+		//List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+		
+		//List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findItemBySchoolCompanyId(param);
+		
+		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, user.getCompanyId(), WebUtils.getCurrentSchoolId());
 		
 //		List<SysConfigItem> items = sysConfigItemServiceImpl.findItemBySchoolCompanyId(null, user.getCompanyId());
 
-		List<SysConfigItem> firstItems = new ArrayList<SysConfigItem>();
-		List<SysConfigItem> secondItems = new ArrayList<SysConfigItem>();
+//		List<SysConfigItem> firstItems = new ArrayList<SysConfigItem>();
+//		List<SysConfigItem> secondItems = new ArrayList<SysConfigItem>();
 
-		if (items != null && items.size() > 0) {
-			for (SysConfigItem item : items) {
-				if (item.getItemType().equals("1")) {
-					firstItems.add(item);
-				} else if (item.getItemType().equals("2")) {
-					secondItems.add(item);
-				}
-			}
-		}
+//		if (items != null && items.size() > 0) {
+//			for (SysConfigItem item : items) {
+//				if (item.getItemType().equals("2")) {
+//					firstItems.add(item);
+//				} else if (item.getItemType().equals("2")) {
+//					secondItems.add(item);
+//				}
+//			}
+//		}
 
 		// 循环二级项目放入map中
 //		Map<Integer,List<SysConfigItem>> secondItemMap = new TreeMap<Integer, List<SysConfigItem>>();
@@ -763,22 +765,25 @@ public class SysConfigTeacherController {
 			}     
         });
         
-		List<SysConfigItem> dateList = null;
+		//List<SysConfigItem> dateList = null;
 		
-		for (SysConfigItem item : secondItems) {
-			Integer keyMap = item.getParentId();
-			if (secondItemMap.containsKey(keyMap)) {
-				dateList = secondItemMap.get(keyMap);
-				dateList.add(item);
-			} else {
-				dateList = new ArrayList<SysConfigItem>();
-				dateList.add(item);
-				secondItemMap.put(keyMap, dateList);
-			}
-		}
+//		for (SysConfigItem item : secondItems) {
+//			Integer keyMap = item.getParentId();
+//			if (secondItemMap.containsKey(keyMap)) {
+//				dateList = secondItemMap.get(keyMap);
+//				dateList.add(item);
+//			} else {
+//				dateList = new ArrayList<SysConfigItem>();
+//				dateList.add(item);
+//				secondItemMap.put(keyMap, dateList);
+//			}
+//		}
 
+		List<SysConfigDict> schools=sysConfigDictServiceImpl.findByDicCode("EDU_SCHOOL");
 		model.addAttribute("firstItems", firstItems);
-		model.addAttribute("secondItemMap", secondItemMap);
+		model.addAttribute("schools", schools);
+		model.addAttribute("companyId", user.getCompanyId());
+		//model.addAttribute("secondItemMap", secondItemMap);
 		model.addAttribute("imgUrl", "http://"+properties.getProjectImageUrl()+"/");
 		if(teacher == null){
 			teacher = new SysConfigTeacher();
@@ -790,9 +795,9 @@ public class SysConfigTeacherController {
 			if(les != null && les.getItemOneId() != null && les.getItemOneId().toString().length() > 0){
 				teacher.setItemOneId(les.getItemOneId());
 			}
-			if(les != null && les.getItemSecondId() != null && les.getItemSecondId().toString().length() > 0){
-				teacher.setItemSecondId(les.getItemSecondId().toString());
-			}
+//			if(les != null && les.getItemSecondId() != null && les.getItemSecondId().toString().length() > 0){
+//				teacher.setItemSecondId(les.getItemSecondId().toString());
+//			}
 		}
 //		// 根据老师ID查询老师对应的可以授课的模块
 //		List<SysConfigTeacherLessonVo> sysConfigTeacherLessonVos = sysConfigTeacherLessonServiceImpl
@@ -949,27 +954,13 @@ public class SysConfigTeacherController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/queryTeacherDetail",method=RequestMethod.POST)
-	public List<SysConfigTeachersVo> queryTeacherDetailByName(String teacherName,Integer teacherType, HttpServletRequest request){
+	public List<SysConfigTeachersVo> queryTeacherDetailByName(String teacherName,Integer ccompanyId,Integer teacherType, HttpServletRequest request){
 		SysConfigTeachersVo sysConfigTeacher=new SysConfigTeachersVo();
-		sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
-		sysConfigTeacher.setSchoolId(WebUtils.getCurrentSchoolId());
+		Integer companyId=ccompanyId==null?WebUtils.getCurrentCompanyId():ccompanyId;
+		sysConfigTeacher.setCompanyId(companyId);
 		sysConfigTeacher.setTeacherType(teacherType);
 		sysConfigTeacher.setTeacherName(teacherName);
 		List<SysConfigTeachersVo> arr= sysConfigTeacherServiceImpl.findSysConfigTeachersByName(sysConfigTeacher);
-//		for(SysConfigTeachersVo teacher:arr){
-//			if(teacher.getItemOneId()!=null){
-//				SysConfigItem itemOne=sysConfigItemServiceImpl.findSysConfigItemById(teacher.getItemOneId());
-//				teacher.setItemOneName(itemOne.getItemName());
-//			}else{
-//				teacher.setItemOneName("");
-//			}
-//			if(teacher.getItemSecondId()!=null){
-//				SysConfigItem itemTwo=sysConfigItemServiceImpl.findSysConfigItemById(teacher.getItemSecondId());
-//				teacher.setItemSecondName(itemTwo.getItemName());
-//			}else{
-//				teacher.setItemSecondName("");
-//			}
-//		}
 		return arr;
 	}
 	

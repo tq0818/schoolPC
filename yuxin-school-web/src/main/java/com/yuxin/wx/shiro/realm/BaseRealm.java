@@ -21,6 +21,7 @@ import com.yuxin.wx.api.auth.IAuthRoleService;
 import com.yuxin.wx.api.auth.IAuthUserRoleService;
 import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.user.UsersVo;
 
 /**
@@ -40,7 +41,8 @@ public class BaseRealm extends AuthorizingRealm{
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String)token.getPrincipal();
-        Users user = usersServiceImpl.queryUserByName(username);
+        Integer companyId=WebUtils.getCurrentCompanyId();
+        Users user = usersServiceImpl.queryUserByCondition(username,companyId);
         if(user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
@@ -61,8 +63,8 @@ public class BaseRealm extends AuthorizingRealm{
         String username = (String)principals.getPrimaryPrincipal();
         Set set=principals.asSet();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        authorizationInfo.setRoles(authUserRoleServiceImpl.queryUserRoles(username));
-        Set<String> ss=authUserRoleServiceImpl.findUserPermissions(username);
+        authorizationInfo.setRoles(authUserRoleServiceImpl.queryUserRoles(username,WebUtils.getCurrentCompanyId()));
+        Set<String> ss=authUserRoleServiceImpl.findUserPermissions(username,WebUtils.getCurrentCompanyId());
         authorizationInfo.setStringPermissions(ss);
         return authorizationInfo;
     }

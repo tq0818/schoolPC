@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuxin.wx.system.mapper.SysKnowledgeTreeStatisticsMapper">
+    <resultMap type="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics" id="sysKnowledgeTreeStatisticsResultMap">
+        <result property="id" column="id" />
+        <result property="knowledgeTreeId" column="knowledge_tree_id" />
+        <result property="userId" column="user_id" />
+        <result property="classtypeId" column="class_type_id" />
+        <result property="lessonId" column="lesson_id" />
+        <result property="liveFlag" column="live_flag" />
+        <result property="videoLectrueId" column="video_lectrue_id" />
+        <result property="videoFlag" column="video_flag" />
+        <result property="videoLectrueWeikeId" column="video_lectrue_weike_id" />
+        <result property="videoWeikeFlag" column="video_weike_flag" />
+        <result property="paperId" column="paper_id" />
+        <result property="paperFlag" column="paper_flag" />
+    </resultMap>
+    <sql id="table_columns">
+        id,
+        user_id,
+        classtype_id,
+        knowledge_tree_id,
+        user_id,
+        classtype_id,
+        lesson_id,
+        live_flag,
+        video_lectrue_id,
+        video_flag,
+        video_lectrue_weike_id,
+        video_weike_flag,
+        paper_id,
+        paper_flag
+
+    </sql>
+    <sql id="entity_properties">
+        #{id},
+        #{knowledgeTreeId},
+        #{userId},
+        #{userId},
+        #{classtypeId},
+        #{knowledgeTreeId},
+        #{lessonId},
+        #{liveFlag},
+        #{videoLectrueId},
+        #{videoFlag},
+        #{videoLectrueWeikeId},
+        #{videoWeikeFlag},
+        #{paperId},
+        #{paperFlag}
+    </sql>
+    <sql id="batch_entity_properties">
+        #{item.id},
+        #{item.knowledgeTreeId},
+        #{item.userId},
+        #{item.classtypeId},
+        #{item.lessonId},
+        #{item.liveFlag},
+        #{item.videoLectrueId},
+        #{item.videoFlag},
+        #{item.videoLectrueWeikeId},
+        #{item.videoWeikeFlag},
+        #{item.paperId},
+        #{item.paperFlag}
+    </sql>
+    <!-- 适用于主键自增类型 -->
+    <insert id="insert" parameterType="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_knowledge_tree_statistics(
+        <include refid="table_columns" />
+        )
+        values (
+        <include refid="entity_properties" />
+        )
+    </insert>
+    <!-- 适用于主键自增类型 -->
+    <insert id="batchInsert" parameterType="List">
+        insert into sys_knowledge_tree_statistics(
+        <include refid="table_columns" />
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (<include refid="batch_entity_properties" />)
+        </foreach>
+    </insert>
+
+
+    <delete id="removeKnowledgeStatistics">
+        delete from sys_knowledge_tree_statistics
+        where knowledge_tree_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </delete>
+    <select id="findStatistics" parameterType="Map" resultMap="sysKnowledgeTreeStatisticsResultMap">
+        select * from sys_knowledge_tree_statistics
+        where 1=1
+        <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+        <if test="classtypeId != null and classtypeId != ''">and classtype_id = #{classtypeId}</if>
+        <if test="knowledgeTreeId != null and knowledgeTreeId != ''">and knowledge_tree_id = #{knowledgeTreeId}</if>
+        <if test="lessonId != null and lessonId != ''">and lesson_id = #{lessonId}</if>
+        <if test="videoLectrueId != null and videoLectrueId != ''">and video_lectrue_id = #{videoLectrueId}</if>
+        <if test="videoLectrueWeikeId != null and videoLectrueWeikeId != ''">and video_lectrue_weike_id = #{videoLectrueWeikeId}</if>
+        <if test="paperId != null and paperId != ''">and paper_id = #{paperId}</if>
+    </select>
+
+    <select id="findLessonInfo" parameterType="Map" resultType="Map">
+        SELECT l.id,SUBSTRING(v.video_time,1,2) as h,SUBSTRING(v.video_time,4,2) as m,SUBSTRING(v.video_time,7,2) as s, v.video_time from course_video_lecture l
+      LEFT JOIN video v  on  v.id = L.video_id
+        where l.id =#{id}
+
+    </select>
+
+    <update id="updateStatistics" parameterType="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics">
+        update sys_knowledge_tree_statistics
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="classtypeId != null and classtypeId != ''">classtype_id = #{classtypeId},</if>
+            <if test="knowledgeTreeId != null and knowledgeTreeId != ''">knowledge_tree_id = #{knowledgeTreeId},</if>
+            <if test="lessonId != null and lessonId != ''">lesson_id = #{lessonId},</if>
+            <if test="videoLectrueId != null and videoLectrueId != ''">video_lectrue_id = #{videoLectrueId},</if>
+            <if test="videoLectrueWeikeId != null and videoLectrueWeikeId != ''">video_lectrue_weike_id = #{videoLectrueWeikeId},</if>
+            <if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
+        </trim>
+        <where>id = #{id}</where>
+    </update>
+    <insert id="addStatistics" parameterType="com.yuxin.wx.model.system.SysKnowledgeTreeStatistics" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_knowledge_tree_statistics  ( <include refid="table_columns" /> )
+        values ( <include refid="entity_properties" /> )
+    </insert>
+</mapper>

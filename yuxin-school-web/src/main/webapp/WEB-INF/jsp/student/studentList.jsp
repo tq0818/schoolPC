@@ -19,6 +19,8 @@
 </head>
 
 <body>
+<input type="hidden" value="${isArea}" id="isArea"/>
+<input type="hidden" value="${roleType}" id="roleType"/>
 <input type="hidden" value="${isDelete }" id="isDelete"/>
 <input type="hidden" value="${registConfig.mobileFlag }" id="mobileSet"/>
 <input type="hidden" value="${registConfig.usernameFlag }" id="userNameSet"/>
@@ -38,18 +40,81 @@
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
         	<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
-
-			<select name="eduArea" id="eduArea">
-				<option value="">请选择区域</option>
-				<c:forEach items="${areas}" var="area" >
-					<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
-				</c:forEach>
-			</select>
-
-			<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
-				<option value="">请选择学校</option>
-			</select>
-
+			<c:if test="${isArea eq 0 }">
+				<select name="eduArea" id="eduArea">
+					<option value="">请选择区域</option>
+					<c:forEach items="${areas}" var="area" >
+						<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+					</c:forEach>
+				</select>
+			</c:if>
+			<c:if test="${isArea eq 0 }">
+				<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
+					<option value="">请选择学校</option>
+				</select>
+			</c:if>	
+			<c:if test="${isArea eq 1 }">
+				<select name="eduSchool" id="eduSchool">
+					<option value="">请选择学校</option>
+					<c:forEach items="${schoolList}" var="schoolList" >
+						<option value="${schoolList.itemCode}" data-id="${schoolList.id}" ${student.eduArea==schoolList.itemValue?"selected":""}>${schoolList.itemValue}</option>
+					</c:forEach>
+				</select>
+			</c:if>
+			<c:if test="${roleType eq 1}">
+				<select name="EduSteps" id="EduSteps">
+					<option value="">请选择学段</option>
+					<option value="${materTeacher.eduStep}" >${materTeacher.eduStepName}</option>
+				</select>
+				<select name="EduYears" id="EduYears">
+					<option value="">请选择年级</option>
+					<option value="${materTeacher.eduYear}" >${materTeacher.eduYear}</option>
+				</select>
+				<select name="EduClasses" id="EduClasses">
+					<option value="">请选择班级</option>
+					<option value="${materTeacher.eduClass}">${materTeacher.eduClass}班</option>
+				</select>
+			</c:if>
+			<c:if test="${roleType eq 2}">
+				<select name="EduSteps" id="EduSteps" onchange="student.changeLevel(this);">
+					<option value="">请选择学段</option>
+					<c:forEach items="${eduStepGLY}" var="gly">
+						<option value="${gly.eduStep}" >${gly.eduStepName}</option>
+					</c:forEach>
+				</select>
+				<select name="EduYears" id="EduYears" onchange="student.changeGrade(this);">
+					<option value="">请选择年级</option>
+					<c:forEach items="${eduYearGLY}" var="gly">
+						<option value="${gly.eduYear}" class="${gly.eduStep}" style="display:none;">${gly.eduYear}</option>
+					</c:forEach>
+				</select>
+				<select name="EduClasses" id="EduClasses">
+					<option value="">请选择班级</option>
+					<c:forEach items="${eduClassGLY}" var="gly">
+						<option value="${gly.eduClass}" class="${gly.eduYear}" style="display:none;">${gly.eduClass}班</option>
+					</c:forEach>
+				</select>
+			</c:if>
+			<c:if test="${roleType eq 3}">
+				<select name="EduSteps" id="EduSteps">
+					<option value="">请选择学段</option>
+					<c:forEach items="${eduStepGLY}" var="gly">
+						<option value="${gly.eduStep}" >${gly.eduStepName}</option>
+					</c:forEach>
+				</select>
+				<select name="EduYears" id="EduYears">
+					<option value="">请选择年级</option>
+					<c:forEach items="${eduYearGLY}" var="gly">
+						<option value="${gly.eduYear}" >${gly.eduYear}</option>
+					</c:forEach>
+				</select>
+				<select name="EduClasses" id="EduClasses">
+					<option value="">请选择班级</option>
+					<c:forEach items="${eduClassGLY}" var="gly">
+						<option value="${gly.eduClass}">${gly.eduClass}班</option>
+					</c:forEach>
+				</select>
+			</c:if>
 			<select id="registStatus" name="status">
 				<option value="">前台账号状态</option>
 				<option value="1">启用</option>
@@ -65,7 +130,7 @@
         		<option value="1">已报名</option>
         		<option value="0">未报名</option>
         	</select>
-        	<c:if test="${sgOpen==1 }">
+        	<c:if test="${sgOpen eq 1 }">
 	        	<select id="studentG1" name="groupOneId" onchange="javaScript:selectGroup2(this,'');" >
 	        	</select>
 	        	<select id="studentG2" name="groupTwoId">
@@ -76,29 +141,31 @@
         <div style="margin-top: 10px;">
         	<span>创建时间</span>
         	<span><input type="text" name="startTime" class="date-picker from"/><em>到</em><input type="text" name="endTime" class="date-picker to"/></span>
-        	<c:if test="${address==1}">
+        	<c:if test="${address eq 1}">
         	<span style="padding:0 15px;" id="caddress">
 	        	<select id="prov" name="province"></select> 
 		    	<select id="city" name="city"></select>
 		        <select id="dist" name="county"></select>
 			</span>
 			</c:if>
-			<c:if test="${userorg_roleopenflag==1 }">
+			<c:if test="${userorg_roleopenflag eq 1 }">
 			<shiro:hasAnyRoles name="机构管理员,代理机构">
 			<input type="text" id="proxyOrgName" name="proxyOrgName" placeholder="代理机构名称"/>
 			</shiro:hasAnyRoles>
 			</c:if>
         	<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
         </div>
-        <div style="margin-top: 10px;text-align:right;padding:0 10px;">
-        	<span><a href="javascript:;" class="btn btn-primary addStudent">添加用户</a></span>
-        	<span><a href="javascript:;" class="btn btn-primary importexcle" target="_blank">导入用户</a></span>
-        	<span><a href="javascript:;" class="btn btn-primary exportexcle">导出用户</a></span>
-        	<span><a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a></span>
-        	<c:if test="${showFlag=='show' }">
-        		<span><a href="javascript:;" class="btn btn-primary exportStudentDatas">导出学员报名数据</a></span>
-        	</c:if>
-        </div>
+        <c:if test="${roleType ne 2}">
+	        <div style="margin-top: 10px;text-align:right;padding:0 10px;">
+	        	<span><a href="javascript:;" class="btn btn-primary addStudent">添加用户</a></span>
+	        	<span><a href="javascript:;" class="btn btn-primary importexcle" target="_blank">导入用户</a></span>
+	        	<span><a href="javascript:;" class="btn btn-primary exportexcle">导出用户</a></span>
+	        	<span><a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a></span>
+	        	<c:if test="${showFlag=='show' }">
+	        		<span><a href="javascript:;" class="btn btn-primary exportStudentDatas">导出学员报名数据</a></span>
+	        	</c:if>
+	        </div>
+        </c:if>
         </form>
         <div class="user-list">
           	<table class="table table-center" id="tableList">
@@ -120,7 +187,9 @@
 					<th width="6%">前台登录账号</th>
 					<th width="6%">前台账号状态</th>
 					<th width="5%">报名状态</th>
+					<c:if test="${roleType ne 2}">
 					<th width="10%">操作</th>
+					</c:if>
 				</tr>
 				<c:choose>
 					<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
@@ -182,31 +251,40 @@
 						</div>
 					</div>
 
-				<div class="form-group">
-					<label class="col-md-2 control-label">个人身份<i class="iconfont ico">&#xe605;</i></label>
-					<div class="col-md-2">
-						<input type="radio" value="0" name="addeduIdentity" checked="checked" id="add_eduIdentity_stu">学生
-						<input type="radio" value="1" name="addeduIdentity" id="add_eduIdentity_normal">普通用户
-					</div>
-				</div>
-
 				<div class="form-group" id="add_div_school">
 					<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
-					<div class="col-md-2">
-						<select name="eduArea" id="addEduArea">
-							<option value="">请选择所在区域</option>
-							<c:forEach items="${areas}" var="area" >
-								<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
-							</c:forEach>
-						</select>
-					</div>
+					
+						<div class="col-md-2">
+							<select name="eduArea" id="addEduArea">
+								<option value="">请选择所在区域</option>
+								<c:if test="${isArea ==0 }">
+									<c:forEach items="${areas}" var="area" >
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+									</c:forEach>
+								</c:if>
+								<c:if test="${isArea ==1 }">
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+								</c:if>
+								<c:if test="${isArea ==2 }">
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+								</c:if>
+							</select>
+						</div>
 					<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
-					<div class="col-md-2">
-						<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
-							<option value="">请选择所在学校</option>
+					<c:if test="${isArea !=2 }">
+						<div class="col-md-2">
+							<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
+								<option value="">请选择所在学校</option>
+							</select>
+							<span class="tips" style="color:red;"></span>
+						</div>
+					</c:if>	
+					<c:if test="${isArea ==2 }">
+						<select name="eduSchool" id="addEduSchools" data-id="${student.eduSchool}">
+							<option value="">请选择所在学校</option>	
+							<option value="${schoolName.itemCode}" >${schoolName.itemValue}</option>
 						</select>
-						<span class="tips" style="color:red;"></span>
-					</div>
+					</c:if>
 				</div>
 				<div class="form-group" id="add_div_class">
 					<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>
@@ -313,7 +391,6 @@
 				<div class="form-group" style="display: none;">
 					<label class="col-md-2 control-label">是否生成前台登录账号</label>
 					<div class="col-md-2">
-						<input type="radio" name="sUserFront" value="0">否
 						<input type="radio" name="sUserFront" value="1" checked="checked">是
 					</div>
 				</div>
@@ -522,7 +599,6 @@
 				<div class="form-group isUserFront" style="display: none;">
 					<label class="col-md-2 control-label">是否生成前台登录账号</label>
 					<div class="col-md-2">
-						<input type="radio" name="uUserFront" value="0">否
 						<input type="radio" name="uUserFront" value="1" checked="checked">是
 					</div>
 				</div>

@@ -73,6 +73,89 @@ public class Company extends BaseEntity {
 	private String tiku;
 	private String invite;
 	
+	private String schoolSummary;//分校简介
+	private String linkPerson;
+	private String linkPhone;//联系方式
+	
+	private String domainManage;//分校后台域名
+	
+	private String privateCost;//私有收费比例
+	
+	private String publicCost;//开放收费比例
+	public String getLinkPerson() {
+		return linkPerson;
+	}
+
+	public void setLinkPerson(String linkPerson) {
+		this.linkPerson = linkPerson;
+	}
+
+	public String getLinkPhone() {
+		return linkPhone;
+	}
+
+	public void setLinkPhone(String linkPhone) {
+		this.linkPhone = linkPhone;
+	}
+
+	public String getDomainManage() {
+		return domainManage;
+	}
+
+	public void setDomainManage(String domainManage) {
+		this.domainManage = domainManage;
+	}
+
+	public String getPrivateCost() {
+		return privateCost;
+	}
+
+	public void setPrivateCost(String privateCost) {
+		this.privateCost = privateCost;
+	}
+
+	public String getPublicCost() {
+		return publicCost;
+	}
+
+	public void setPublicCost(String publicCost) {
+		this.publicCost = publicCost;
+	}
+
+	public String getSchoolSummary() {
+		return schoolSummary;
+	}
+
+	public void setSchoolSummary(String schoolSummary) {
+		this.schoolSummary = schoolSummary;
+	}
+
+	/**
+	 * 是否为数校，0为数校，1为区县，2为校
+	 */
+	private String isArea;
+	/**
+	 * 机构代码
+	 */
+	private String eduAreaSchool;
+	
+	
+	public String getEduAreaSchool() {
+		return eduAreaSchool;
+	}
+
+	public void setEduAreaSchool(String eduAreaSchool) {
+		this.eduAreaSchool = eduAreaSchool;
+	}
+
+	public String getIsArea() {
+		return isArea;
+	}
+
+	public void setIsArea(String isArea) {
+		this.isArea = isArea;
+	}
+
 	// Constructor
 	public Company() {
 	}

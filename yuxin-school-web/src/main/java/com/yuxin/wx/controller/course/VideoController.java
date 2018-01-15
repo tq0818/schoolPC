@@ -713,6 +713,8 @@ public class VideoController {
     @RequestMapping(value = "/delVideo/{vid}")
     public String delVideo(HttpServletRequest request, Model model, @PathVariable Integer vid) {
         Integer companyId = WebUtils.getCurrentCompanyId();
+        CompanyServiceStatic comService =null;
+        CompanyMemberService comMember = null;
         CompanyPayConfig config = this.companyPayConfigService.findByCompanyId(companyId);
         CompanyVideoConfig cvc = companyVideoConfigImpl.findConfigByCompanyId(companyId);
         String userUrl = CCVideoConstant.CC_DELETE_VIDEO;
@@ -753,6 +755,7 @@ public class VideoController {
             }
             log.info("删除结果:" + res);
             JSONObject json = JSONObject.parseObject(res);
+
             if (json.getIntValue("error") == 0) {
                 if (cvc == null) {
                     VideoVo search = new VideoVo();
@@ -762,11 +765,8 @@ public class VideoController {
                     Double totalStorage = Double.parseDouble(totalSum);
                     totalStorage = new BigDecimal(totalStorage / 1024).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
                     CompanyServiceStatic modifyCompanyServiceStatic = new CompanyServiceStatic();
-
                     modifyCompanyServiceStatic.setVideoStorage(totalStorage);
-
                     CompanyServiceStatic css = this.companyServiceStaticMapper.findByCompanyId(config.getCompanyId());
-
                     if (css == null || css.getId() == null) {
                         modifyCompanyServiceStatic.setCompanyId(config.getCompanyId());
                         this.companyServiceStaticMapper.insert(modifyCompanyServiceStatic);
@@ -795,11 +795,8 @@ public class VideoController {
                     Double totalStorage = Double.parseDouble(totalSum);
                     totalStorage = new BigDecimal(totalStorage / 1024).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
                     CompanyServiceStatic modifyCompanyServiceStatic = new CompanyServiceStatic();
-
                     modifyCompanyServiceStatic.setVideoStorage(totalStorage);
-
                     CompanyServiceStatic css = this.companyServiceStaticMapper.findByCompanyId(config.getCompanyId());
-
                     if (css == null || css.getId() == null) {
                         modifyCompanyServiceStatic.setCompanyId(config.getCompanyId());
                         this.companyServiceStaticMapper.insert(modifyCompanyServiceStatic);
@@ -822,11 +819,14 @@ public class VideoController {
             String salt = config.getCcApiKey();
             String hashUser = APIServiceFunction.createHashedQueryString(params, time, salt);
             userUrl += hashUser;
-
             String resultInfo = "";
             try {
                 resultInfo = HttpPostRequest.get(userUrl);
                 this.videoServiceImpl.deleteVideoById(vid);
+                serviceStaticService.updateByCompanyStatus(companyId);
+                serviceStaticService.updateByCompanyStatusl(companyId);
+                comMember = memberServiceService.findByCompanyId(companyId);
+                comService=serviceStaticService.findByCompanyId(companyId);
                 // 当此用户为cc公共账号时进行video的空间累加
                 if (config.getCcUserId() != null && config.getCcUserId().equals("9D962C153919B4DA")) {
                     VideoVo search = new VideoVo();
@@ -862,8 +862,8 @@ public class VideoController {
         }
             break;
         }
-
-        return JsonMsg.SUCCESS;
+       String stu=JsonMsg.SUCCESS+"/"+comService.getVideoStorage()+"/"+comMember.getVideoStorage()+(comMember.getGiveVideoStorage()==null?"":comMember.getGiveVideoStorage());
+        return stu;
     }
 
     @ResponseBody
@@ -897,6 +897,8 @@ public class VideoController {
     @RequestMapping(value = "/toVideo")
     public String toVideo(Model model, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
+        serviceStaticService.updateByCompanyStatus(companyId);
+        serviceStaticService.updateByCompanyStatusl(companyId);
         CompanyMemberService comMember = memberServiceService.findByCompanyId(companyId);
         CompanyServiceStatic comService = serviceStaticService.findByCompanyId(companyId);
         List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(),
@@ -995,6 +997,7 @@ public class VideoController {
     @RequestMapping(value = "uploadVideo")
     public String uploadVideo(HttpServletRequest request, Model model, VideoVo video) {
         // 查询当前公司服务信息， 判断当前公司服务时间是否到期、视频空间是否还满足继续上传的条件
+        Integer companyId = WebUtils.getCurrentCompanyId();
         CompanyMemberService member = this.memberServiceService.findByCompanyId(WebUtils.getCurrentCompanyId());
         model.addAttribute("member", member);
         if (member != null) {
@@ -1036,12 +1039,13 @@ public class VideoController {
      */
     @RequestMapping(value = "/findSecItemByOneId")
     public String findSecItemByOneId(Model model, HttpServletRequest request, Integer oneItemId) {
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        CompanyServiceStatic comService = serviceStaticService.findByCompanyId(companyId);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId(WebUtils.getCurrentUserSchoolId(request));
         item.setItemType("2");
         item.setParentId(oneItemId);
-
         List<SysConfigItem> secItemList = this.configItemService.findStatus(item);
         if (secItemList != null) {
             model.addAttribute("secItemList", secItemList);

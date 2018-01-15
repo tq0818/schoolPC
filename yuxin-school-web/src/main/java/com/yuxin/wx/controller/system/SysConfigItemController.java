@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.system.*;
+import com.yuxin.wx.model.system.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,9 +37,6 @@ import com.yuxin.wx.api.commodity.ICommodityService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.course.ICourseRemoteService;
 import com.yuxin.wx.api.course.ILiveOpenCourseService;
-import com.yuxin.wx.api.system.ISysConfigItemCourseService;
-import com.yuxin.wx.api.system.ISysConfigItemIconService;
-import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.common.BaseWebController;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.common.SysConfigConstant;
@@ -46,10 +45,6 @@ import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.commodity.Commodity;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.course.CourseRemote;
-import com.yuxin.wx.model.system.SysConfigItem;
-import com.yuxin.wx.model.system.SysConfigItemCourse;
-import com.yuxin.wx.model.system.SysConfigItemIcon;
-import com.yuxin.wx.model.system.SysSchoolItemRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.FileUploadUtil;
 import com.yuxin.wx.utils.PropertiesUtil;
@@ -106,6 +101,8 @@ public class SysConfigItemController extends BaseWebController {
 
     @Autowired
     private ICompanyFunctionSetService companyFunctionSetServiceImpl;
+    @Autowired
+    private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
 
     /**
      * 
@@ -934,6 +931,14 @@ public class SysConfigItemController extends BaseWebController {
                 scic.setValidityDay(0);
                 scic.setVideoWatchCount(0);
                 sysConfigItemCourseServiceImpl.insert(scic);
+                //添加到sys_config_item_relation表中
+                
+                SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+                sysConfigItemRelation.setCompanyId(WebUtils.getCurrentCompanyId());
+                sysConfigItemRelation.setItemCode(sysConfigItem.getItemCode());
+                sysConfigItemRelation.setLevel(0);
+                sysConfigItemRelation.setIsParent(false);
+                sysConfigItemRelationServiceImpl.insert(sysConfigItemRelation);
             }
         } catch (Exception e) {
             log.error("新增分类出错！", e);
@@ -1082,6 +1087,26 @@ public class SysConfigItemController extends BaseWebController {
     public String update(HttpServletRequest request, SysConfigItem sysConfigItem) {
         try {
             wrapperSaveItem(sysConfigItem, SysConfigConstant.OPERATE_EDIT, request);
+            //先查询出对应的项
+            SysConfigItem search=new SysConfigItem();
+            search.setId(sysConfigItem.getId());
+            search.setCompanyId(WebUtils.getCurrentCompanyId());
+            search.setSchoolId(WebUtils.getCurrentSchoolId());
+            List<SysConfigItem> items=sysConfigItemServiceImpl.findItem(search);
+            if(items!=null&&items.size()>0){
+            	SysConfigItem item=items.get(0);
+            	SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+            	sysConfigItemRelation.setCompanyId(item.getCompanyId());
+            	sysConfigItemRelation.setItemCode(item.getItemCode());
+            	List<SysConfigItemRelation> sysConfigItemRelations=sysConfigItemRelationServiceImpl.findSysConfigItemRelationByCode(sysConfigItemRelation);
+            	if(sysConfigItemRelations!=null&&sysConfigItemRelations.size()>0){
+            		SysConfigItemRelation sysConfigItemRelationInfo=sysConfigItemRelations.get(0);
+            		SysConfigItemRelation sysConfigItemRelationUpdate=new SysConfigItemRelation();
+            		sysConfigItemRelationUpdate.setId(sysConfigItemRelationInfo.getId());
+            		sysConfigItemRelationUpdate.setItemCode(sysConfigItem.getItemCode());
+            		sysConfigItemRelationServiceImpl.update(sysConfigItemRelationUpdate);
+            	}
+            }
             sysConfigItemServiceImpl.update(sysConfigItem);
 
         } catch (Exception e) {
@@ -1341,4 +1366,8 @@ public class SysConfigItemController extends BaseWebController {
         }
         return result;
     }
+
+
+
+
 }

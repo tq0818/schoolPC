@@ -1,13 +1,10 @@
 package com.yuxin.wx.api.watchInfo;
 
-import com.yuxin.wx.model.classes.ClassModuleLesson;
-import com.yuxin.wx.model.user.UserHistory;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSSend;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +27,6 @@ public interface IWatchInfoService {
 	Map getCurrentByRoom(Map map);
 
 
+	//根据参数统计人员观看视频是否超过30分钟
+	List<Map<String, Object>> queryWatchInfoByParam(Map<String, Object> param);
 }

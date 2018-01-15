@@ -143,4 +143,6 @@ public interface ClassModuleNoMapper extends BaseMapper<ClassModuleNo> {
 	List<ClassModuleNo> findModuleNoOnSaleByModuleId(Integer id);
 	
 	List<Integer> findClassModuleNoIdsByModuleId(Integer id);
+	
+	ClassModuleNo findByModuleId(Integer moduleId);
 }

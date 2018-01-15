@@ -32,16 +32,20 @@
 		<result property="chapterFlag" column="chapter_flag"/>
 		<result property="supportMobile" column="support_mobile"/>
 		<result property="liveClassType" column="live_class_type"/>
-		<result property="createTime" column="create_time"/>
 		<result property="creator" column="creator"/>
+		<result property="createTime" column="create_time"/>
 		<result property="barrage" column="barrage"/>
 		<result property="modetype" column="modetype"/>
+		<result property="isOutSource" column="is_out_source"/>
 		<result property="beforeStudyName" column="before_study_name"/>
 		<result property="beforeStudyUrl" column="before_study_url"/>
 		<result property="afterStudyUrl" column="after_study_url"/>
 		<result property="tikuPaper.id" column="paperId"></result>
 		<result property="tikuPaper.paperName" column="paperName"></result>
 		<result property="courseExercise.id" column="courseExerciseId"></result>
+		<result property="commodityId" column="commodity_id"></result>
+		<result property="commodityName" column="commodity_name"></result>
+		<result property="classTypeId" column="classtype_id"></result>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.LessonVo" id="lessonVoResultMap">
@@ -80,14 +84,14 @@
 		chapter_flag,
 		support_mobile,
 		live_class_type,
-		create_time,
 		creator,
+		create_time,
 		barrage,
 		modetype,
+		is_out_source,
 		before_study_name,
 		before_study_url,
 		after_study_url
-
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -120,10 +124,11 @@
 		#{chapterFlag},
 		#{supportMobile},
 		#{liveClassType},
-		#{createTime},
 		#{creator},
+		#{createTime},
 		#{barrage},
 		#{modetype},
+		#{isOutSource},
 		#{beforeStudyName},
 		#{beforeStudyUrl},
 		#{afterStudyUrl}
@@ -160,10 +165,14 @@
 		#{item.chapterFlag},
 		#{item.supportMobile},
 		#{item.liveClassType},
-		#{item.createTime},
 		#{item.creator},
+		#{item.createTime},
 		#{item.barrage},
-		#{item.modetype}
+		#{item.modetype},
+	  	#{item.isOutSource},
+		#{item.beforeStudyName},
+		#{item.beforeStudyUrl},
+		#{item.afterStudyUrl}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -171,7 +180,12 @@
 		insert into class_module_lesson( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
 	</insert>
-	
+	<!-- 适用于主键自增类型 -->
+	<insert id="insert1" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson" useGeneratedKeys="true" keyProperty="id">
+		insert into class_module_lesson( <include refid="table_columns" />,is_out_source )
+		values ( <include refid="entity_properties" />,#{isOutSource} )
+	</insert>
+
 	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
 	<insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
 		insert into class_module_lesson( <include refid="table_columns" /> ) 
@@ -303,13 +317,17 @@
 		select cml.id as id,module_no_id,lesson_date,scope,week_type,lesson_name,lesson_time_start,lesson_time_end,lesson_hour,teachers,assistants,
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.teachers AND sct.del_flag = 0),'该老师被删除') as teachers_name,
 		IFNULL((select sct.`name` from sys_config_teacher sct WHERE sct.id = cml.assistants AND sct.del_flag = 0),'该助教被删除') as assistants_name,
-		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,
+		classroom_id, classroom, live_room, liveroom_id_gh, support_mobile, live_class_type ,live_company_type,is_out_source,
 		barrage,modetype,ce.class_type_id,ce.id as courseExerciseId, tp.id as paperId, tp.paper_name as paperName
 		from class_module_lesson cml left join course_exercise ce on ce.resource_id = cml.id AND ce.`resource_type` = 'TEACH_METHOD_LIVE'
 		left join tiku_paper tp on tp.id = ce.paper_id
 		where module_no_id = #{moduleNoId} and del_flag = 0 order by sort asc,lesson_date asc
 	</select>
 	
+	<select id="findClassModuleLessonByModuleNoId1" resultMap="classModuleLessonResultMap" parameterType="Integer">
+		select * from class_module_lesson where module_no_id = #{moduleNoId} order by sort asc,lesson_date asc
+	</select>
+
 	<select id="findClassModuleLessonByKeys" resultType="com.yuxin.wx.vo.classes.ClassModuleLessonVo" parameterType="com.yuxin.wx.vo.classes.ClassModuleLessonVo">
 		SELECT 
 		  a.id,
@@ -400,6 +418,7 @@
 		  a.teachers_name as teachersName,
 		  a.lesson_date as lessonDate,
 		  a.lesson_time_start as lessonTimeStart,
+		  a.lesson_time_end as lessonTimeEnd,
 		  a.classroom,
 		  a.barrage,
 		  a.modetype,
@@ -521,6 +540,17 @@
         where  m.id = #{id} and del_flag=0
         ORDER  BY  cml.lesson_name desc
     </select>
-
-
+	<select id="findLessonByCommodityIds" resultMap="classModuleLessonResultMap">
+		select cml.id,cml.lesson_name,m.name as commodity_name,tp.id as paperId,before_study_url,after_study_url,m.id as commodity_id,cmno.classtype_id from class_module_lesson cml
+		LEFT JOIN class_module_no_onsale cmno  on  cmno.module_no_id = cml.module_no_id
+		LEFT JOIN  commodity_product_realtion cpr on cpr.product_id = cmno.classtype_id
+		left join commodity m  on m.id  = cpr.com_id and m.origin_type=0
+		left join course_exercise ce on ce.resource_id = cml.id AND ce.`resource_type` = 'TEACH_METHOD_LIVE'
+		left join tiku_paper tp on tp.id = ce.paper_id
+		where cml.del_flag=0 and m.id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER  BY  cml.lesson_date asc, cml.lesson_time_start asc
+	</select>
 </mapper>

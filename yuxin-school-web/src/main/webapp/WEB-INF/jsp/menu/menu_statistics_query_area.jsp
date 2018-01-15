@@ -9,8 +9,17 @@
         </div>
         <ul id="course_manage" class="system_managelist">
         	<shiro:hasAnyRoles name="文轩教育,教科院,区县负责人,学校负责人">
+        	<c:if test="${CURRENT_IS_AREA eq 0}">
             <li class="subentry active" code="studentList" mark="/query/areastatistics/studentList">学员</li>
-            <li class="subentry" code="orgStuList" mark="/query/areastatistics/queryOrg">学校</li>
+            </c:if>
+            <c:if test="${CURRENT_IS_AREA ne 0}">
+            	<shiro:hasAnyRoles name="区县负责人,学校负责人">
+        			<li class="subentry " code="userList" mark="/query/areastatistics/userList">用户统计</li>
+        		</shiro:hasAnyRoles>
+            </c:if>
+            <shiro:hasAnyRoles name="区县负责人,学校负责人">
+            	<li class="subentry" code="orgStuList" mark="/query/areastatistics/queryOrg">学校</li>
+            </shiro:hasAnyRoles>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
             <li class="subentry" code="videoList" mark="/query/areastatistics/videoCourseIndex">点播统计</li>
             </shiro:hasAnyRoles>

@@ -65,6 +65,7 @@ public interface UsersFrontMapper extends BaseMapper<UsersFront> {
     void updateNull(UsersFront usersFront);
 
     List<UsersFront> findConponsUsersByCondition(UsersFront u);
+    List<UsersFront> findConponsUsersByConditionIn(UsersFront u);
 
     UsersFront findUsersFrontByUsername(UsersFront uf);
 

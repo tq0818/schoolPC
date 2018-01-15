@@ -1,8 +1,10 @@
 package com.yuxin.wx.api.system;
 
+import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/31.
@@ -54,16 +56,24 @@ public interface ISysConfigItemRelationService {
      * @date 2015-3-17
      * @user by wangzx
      */
-    List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id);
-    List<SysConfigItemRelation> findRelationByLevel(Integer level);
+    List<SysConfigItemRelation> findSysConfigItemRelationById(Integer id,Integer companyId);
+    
+    List<SysConfigItemRelation> findSysConfigItemRelationByCode(SysConfigItemRelation item);
+    
+    List<SysConfigItemRelation> findRelationByLevel(Integer level,Integer companyId);
     List<SysConfigItemRelation>  findRelationByIds(List<Integer> id);
     void deleteRelation( List<SysConfigItemRelation> list);
     void deleteById(Integer id);
-    void publishRelation();
+    void publishRelation(Integer companyId);
     List<SysConfigItemRelation> findItemFront(SysConfigItemRelation item);
-    List<SysConfigItemRelation> findAllItemFront();
+    List<SysConfigItemRelation> findAllItemFront(Integer companyId);
+    List<SysConfigItemRelation> findAllItemRelation(Map<String,Object> params);
 
-    List<SysConfigItemRelation> findItemFrontByLevel(Integer level);
+    List<SysConfigItemRelation> findItemFrontByLevel(Integer level,Integer companyId);
 
     List<SysConfigItemRelation> findChildByCode(SysConfigItemRelation relation);
+
+    List<SysConfigItem> findItemByEduStep(Map<String, Object> eduStep);
+
+    List<SysConfigItemRelation> findSysConfigItemRelationFrontByPCode(String parentCode, Integer currentCompanyId);
 }

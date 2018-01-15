@@ -80,7 +80,15 @@
                 var self = this;
 
                 $( doc ).on( 'click', '.student-validate', function () {
-
+                	var urls;
+                	var keche = $("#keche").val();
+                	var xuesheng = $("#xuesheng").val();
+                	if(keche==2){
+                		urls="/excelImportStudents/studentsValidateNo";
+                	}
+                	if(xuesheng==1){
+                		urls="/excelImportStudents/studentsValidate";
+                	}
                     var name = $("#imgData").val();
                     if( !name ) {
                         $.msg( "请选择文件" );
@@ -89,7 +97,7 @@
                     $(".loading.check").show();
     	            $(".loading-bg").show();
                     $.ajaxFileUpload({
-                        url : rootPath + "/excelImportStudents/studentsValidate",
+                        url : rootPath + urls,
                         secureuri : false,  // 安全协议
                         async : false,
                         fileElementId : 'imgData',

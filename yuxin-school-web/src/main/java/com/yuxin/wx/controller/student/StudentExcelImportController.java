@@ -2,38 +2,40 @@ package com.yuxin.wx.controller.student;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonArray;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.company.ICompanyRegisterConfigService;
 import com.yuxin.wx.api.student.IStudentService;
 import com.yuxin.wx.common.JsonMsg;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.utils.CheckImportUtil;
 import com.yuxin.wx.utils.FileUploadUtil;
 import com.yuxin.wx.utils.ImportExcl;
 import com.yuxin.wx.utils.ParameterUtil;
@@ -113,8 +115,8 @@ public class StudentExcelImportController {
 			
 			/* 验证信息 */
 			try {
-				List<Student> studentsList = excel2Student( content + fileName );
-				json2In  = validateDatas2In( studentsList );
+				List<Student> studentsList = excel2Student( content + fileName ,null);
+				json2In  = validateDatas2In( studentsList , null);
 				json2Out = validateDatas2Out( (List<Student>)json2In.get("studentlist") );
 			} catch (Exception e) {
 				json.put( JsonMsg.RESULT, JsonMsg.EXCEPTION );
@@ -136,110 +138,473 @@ public class StudentExcelImportController {
 		}
 		return json;
 	}
+	@SuppressWarnings("unchecked")
+	@ResponseBody
+	@RequestMapping( value = "/studentsValidateNo", method = RequestMethod.POST )
+	public JSONObject studentsValidateNo( MultipartRequest multiPartRquest, HttpServletRequest request, HttpServletResponse response ) {
+		JSONObject json = new JSONObject();
+		json.put( JsonMsg.RESULT, JsonMsg.SUCCESS );			/* 默认验证无误 */
+		
+		JSONObject json2In  = new JSONObject();					/* 异常信息列表（存内部校验异常） */
+		JSONObject json2Out = new JSONObject();					/* 异常信息列表（存与网校学员校验异常） */
+		
+		Integer userId = WebUtils.getCurrentUserId( request );
+		String content = this.propertiesUtil.getExclePath() + userId + "/";	/* 缓存文件目录 */
+		MultipartFile multipartFile = multiPartRquest.getFile( "imgData" );
+		String name = multipartFile.getOriginalFilename();
+		
+		if ( name != null && !"".equals( name ) ) {
+			
+			String suff = name.substring( name.lastIndexOf(".") );
+			if ( !".xls".equals( suff ) && !".xlsx".equals( suff ) ) {
+				json.put( JsonMsg.RESULT, JsonMsg.EXCEPTION );
+				json.put( JsonMsg.MSG, FILE_FORMAT_ERROR );
+				return json;
+			}
+			String fileName = FileUploadUtil.getlnstance().getNewFileName( name );
+			File fileContent = new File( content );
+			File file = new File( content + fileName );
+			
+			try {
+				if ( !fileContent.exists() ) {
+					file.mkdirs();
+				}
+				multipartFile.transferTo( file );
+			} catch (IOException e) {
+				json.put( JsonMsg.RESULT, JsonMsg.EXCEPTION );
+				json.put( JsonMsg.MSG, FILE_UPLOAD_ERROR );
+				e.printStackTrace();
+			} 
+			
+			/* 验证信息 */
+			try {
+				List<Student> studentsList = excel2Student( content + fileName ,"1");
+				json2In  = validateDatas2In( studentsList ,"1");
+				json2Out = validateDatas2Out( (List<Student>)json2In.get("studentlist") );
+			} catch (Exception e) {
+				json.put( JsonMsg.RESULT, JsonMsg.EXCEPTION );
+				json.put( JsonMsg.MSG, TEMPLET_ERROR );
+				e.printStackTrace();
+			}
+			
+			json.put( "excelPath", content + fileName );
+			
+			if( !(Boolean)json2In.get("result") || !(Boolean)json2Out.get("result") ){
+				json.put( JsonMsg.RESULT, JsonMsg.ERROR );
+				json.put( "errorMsg2In", (List<String>)json2In.get("msg") );
+				json.put( "errorMsg2Out", (List<String>)json2Out.get("msg") );
+				json.put( "students4Update", (List<Student>)json2In.get("students") );
+				json.put( "students4Insert", (List<Student>)json2Out.get("students") );
+				return json;
+			}
+			json.put( "students4Insert", (List<Student>)json2Out.get("students") );
+			json.put( "updateList", (List<Student>)json2Out.get("updateList") );
+		}
+		return json;
+	}
 	
 	/*
 	 * Excel 自身校验
 	 */
-	private JSONObject validateDatas2In( List<Student> list ){
+	private JSONObject validateDatas2In( List<Student> list ,String biaoji){
 		JSONObject json = new JSONObject();
-		
- 		List<String> errorMsg  = new ArrayList<String>();		/* 错误信息 */
+		List<String> errorMsg  = new ArrayList<String>();		/* 错误信息 */
  		List<Student> students = new ArrayList<Student>(); 		/* 验证，去重后的student */
- 		
-		String flag = getCompanyRegisterFlag();					/* 机构注册方式 */
-		
-		for (int i = list.size() - 1; i >= 0; i--) {			/* 倒叙，保留第一个*/
-			List<String> error = new ArrayList<String>();
-			switch (flag) {
-				case "mobile":
-					/* 手机号 */
-					if( list.get(i).getMobile() == null ){
-						error.add("第" + (i + 2) + "行中手机号不能为空!");
-					} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
-						error.add("第" + (i + 2) + "行中手机号不正确!");
+		Map <String, String> eduAreaMap=new HashMap<String, String>();
+		Map <String, String> eduSchoolMap=new HashMap<String, String>();
+		Map <String, String> dictMap=new HashMap<String, String>();
+		if(null==biaoji){
+			List<SysConfigDict> dictAreaList=studentServiceImpl.findEduAreaList();
+			if(null!=dictAreaList && dictAreaList.size()>0){
+				for(SysConfigDict vo : dictAreaList){
+					dictMap.put(vo.getItemValue(), vo.getItemCode());
+					if("EDU_SCHOOL_AREA".equals(vo.getDictCode())){
+						eduAreaMap.put(vo.getItemCode(),vo.getItemValue());
+					}else{
+						eduSchoolMap.put(vo.getItemCode(),vo.getItemValue());
 					}
-					/* 用户名 */
-					if( list.get(i).getUsername() != null && !ParameterUtil.isUserName(list.get(i).getUsername()) ){
-						error.add("第" + (i + 2) + "行中用户名不正确!");
+				}
+			}
+	 		
+	 		String isArea=WebUtils.getCurrentIsArea();
+			Map<String,String>isAreaHava=new HashMap<String, String>();//存放对比区域
+			Map<String,String>isSchoolHava=new HashMap<String, String>();//存放对比学校
+			Map<String,Object>isClassHava=new HashMap<String,Object>();//存放对比班级
+			Subject subject = SecurityUtils.getSubject();
+			if (subject.hasRole("班主任") ){
+				EduMasterClass ets =new EduMasterClass();
+				Users users=WebUtils.getCurrentUser();
+				if(users!=null)
+					ets.setUserId(String.valueOf(users.getId()));
+	    		List<EduMasterClass> eduMasterClassList=studentServiceImpl.findClassByTeacherId(ets,WebUtils.getCurrentCompany().getEduAreaSchool());
+	    		if(eduMasterClassList!=null&&eduMasterClassList.size()>0){
+	    			EduMasterClass eduMasterClass=eduMasterClassList.get(0);
+	    			if(eduMasterClass!=null){
+	    				if("STEP_01".equals(eduMasterClass.getEduStep())){
+	    					eduMasterClass.setEduStep("小学");
+	    				}else if("STEP_02".equals(eduMasterClass.getEduStep())){
+	    					eduMasterClass.setEduStep("初中中学");
+	    				}else if("STEP_03".equals(eduMasterClass.getEduStep())){
+	    					eduMasterClass.setEduStep("高中中学");
+	    				}
+	    				isClassHava.put(eduMasterClass.getEduSchool()+"_"+eduMasterClass.getEduStep()+"_"+eduMasterClass.getEduYear()+"_"+eduMasterClass.getEduClass(),eduMasterClass);
+	    			}
+	    		}
+			}
+			if("0".equals(isArea)){
+				isAreaHava.putAll(eduAreaMap);
+				isSchoolHava.putAll(eduSchoolMap);
+			}else if("1".equals(isArea)){
+				//学区  区域
+				String eduArea=WebUtils.getCurrentCompany().getEduAreaSchool();
+				if(eduAreaMap.containsKey(eduArea)){
+					isAreaHava.put(eduAreaMap.get(eduArea),eduArea);
+				}
+				//学区  学校
+				int areaCode=0;
+				for(int k=0;k<dictAreaList.size();k++){
+					if(eduArea.equals(dictAreaList.get(k).getItemCode())){
+						areaCode=dictAreaList.get(k).getId();
 					}
-					break;
-				case "username":
-					/* 手机号 */
-					if( list.get(i).getMobile() != null && !ParameterUtil.isMobilePhone(list.get(i).getMobile())){
-						error.add("第" + (i + 2) + "行中手机号不正确!");
+				}
+				for(int k=0;k<dictAreaList.size();k++){
+					if(null!=dictAreaList.get(k).getParentItemId() && areaCode==dictAreaList.get(k).getParentItemId()){
+						isSchoolHava.put(dictAreaList.get(k).getItemCode(),dictAreaList.get(k).getItemValue());
 					}
-					/* 用户名 */
-					if( list.get(i).getUsername() == null){
-						error.add("第" + (i + 2) + "行中用户名不能为空!");
-					} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
-						error.add("第" + (i + 2) + "行中用户名不正确!");
+				}
+			}else{
+				//学校用户 学校
+				String eduArea=WebUtils.getCurrentCompany().getEduAreaSchool();
+				if(eduSchoolMap.containsKey(eduArea)){
+					isSchoolHava.put(eduArea, eduSchoolMap.get(eduArea));
+				}
+				//学校用户  区域
+				int parentId=0;
+				for(int k=0;k<dictAreaList.size();k++){
+					if(eduArea.equals(dictAreaList.get(k).getItemCode())){
+						 parentId=dictAreaList.get(k).getParentItemId();
 					}
-					break;
-				case "all":
-					/* 手机号 */
-					if( list.get(i).getMobile() == null ){
-						error.add("第" + (i + 2) + "行中手机号不能为空!");
-					} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
-						error.add("第" + (i + 2) + "行中手机号不正确!");
+				}
+				for(int k=0;k<dictAreaList.size();k++){
+					if(parentId==dictAreaList.get(k).getId()){
+						isAreaHava.put(dictAreaList.get(k).getItemValue(), dictAreaList.get(k).getItemCode());
 					}
-					/* 用户名 */
-					if( list.get(i).getUsername() == null){
-						error.add("第" + (i + 2) + "行中用户名不能为空!");
-					} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
-						error.add("第" + (i + 2) + "行中用户名不正确!");
-					}
-					break;
-				default:
-					break;
+				}
+				
 			}
 			
-			/* 姓名 */
-			if( list.get(i).getName() == null ){
-				error.add("第" + (i + 2) + "行中姓名不能为空!");
-			}
-			/* 身份证号 */
-			if( list.get(i).getIdentityId() != null ){
-				if( ParameterUtil.isNum(list.get(i).getIdentityId()) && ( list.get(i).getIdentityId().length() == 15 || list.get(i).getIdentityId().length() == 18 ) ){
-					
-				} else {
-					error.add("第" + (i + 2) + "行中身份证号不正确!");
+			
+			String flag = getCompanyRegisterFlag();					/* 机构注册方式 */
+			
+			for (int i = list.size() - 1; i >= 0; i--) {			/* 倒叙，保留第一个*/
+				List<String> error = new ArrayList<String>();
+				switch (flag) {
+					case "mobile":
+						/* 手机号 */
+						if( list.get(i).getMobile() == null ){
+							error.add("第" + (i + 2) + "行中手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
+							error.add("第" + (i + 2) + "行中手机号不正确!");
+						}
+						/* 用户名 */
+						if( list.get(i).getUsername() != null && !ParameterUtil.isUserName(list.get(i).getUsername()) ){
+							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						break;
+					case "username":
+						/* 手机号 */
+						if( list.get(i).getMobile() != null && !ParameterUtil.isMobilePhone(list.get(i).getMobile())){
+							error.add("第" + (i + 2) + "行中手机号不正确!");
+						}
+						/* 用户名 */
+						if( list.get(i).getUsername() == null){
+							error.add("第" + (i + 2) + "行中用户名不能为空!");
+						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
+							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						break;
+					case "all":
+						/* 手机号 */
+						if( list.get(i).getMobile() == null ){
+							error.add("第" + (i + 2) + "行中手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
+							error.add("第" + (i + 2) + "行中手机号不正确!");
+						}
+						/* 用户名 */
+						if( list.get(i).getUsername() == null){
+							error.add("第" + (i + 2) + "行中用户名不能为空!");
+						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
+							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						break;
+					default:
+						break;
 				}
-			}
-			/* 邮箱 */
-			if(	list.get(i).getEmail() != null && !ParameterUtil.isEmail(list.get(i).getEmail()) ){
-				error.add("第" + (i + 2) + "行中邮箱不正确!");
-			}
-			/* QQ */
-			if( list.get(i).getQq() != null ){
-				if( ParameterUtil.isNum(list.get(i).getQq()) || list.get(i).getQq().length() > 10 ){
-					
-				} else {
-					error.add("第" + (i + 2) + "行中QQ不正确!");
+				
+				/* 姓名 */
+				if( list.get(i).getName() == null ){
+					error.add("第" + (i + 2) + "行中姓名不能为空!");
 				}
-			}
-			/* 紧急联系电话 */
-			if( list.get(i).getEmergencyPhone() != null && !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
-				error.add("第" + (i + 2) + "行中紧急联系电话不正确!");
-			}
-			for (int j = 0; j < list.size(); j++) {
-				if ( list.get(i) != null && list.get(j) != null) {
-					if( i == j ) continue;
-					/* 去重 */
-					/* 手机号 */
-					if ( list.get(i).getMobile() != null && list.get(j).getMobile() != null && list.get(i).getMobile().equals(list.get(j).getMobile()) ) {
-						error.add("第" + (i + 2) + "行中手机号与第" + (j + 2) + "行相同！");
+				/* 身份证号 */
+				if( list.get(i).getIdentityId() != null ){
+					if( ParameterUtil.isNum(list.get(i).getIdentityId()) && ( list.get(i).getIdentityId().length() == 15 || list.get(i).getIdentityId().length() == 18 ) ){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中身份证号不正确!");
 					}
-					/* 用户名 */
-					if ( list.get(i).getUsername() != null && list.get(j).getUsername() != null && list.get(i).getUsername().equals(list.get(j).getUsername()) ) {
-						error.add("第" + (i + 2) + "行中用户名与第" + (j + 2) + "行相同！");
+				}
+				/* 邮箱 */
+				if(	list.get(i).getEmail() != null && !ParameterUtil.isEmail(list.get(i).getEmail()) ){
+					error.add("第" + (i + 2) + "行中邮箱不正确!");
+				}
+				/* QQ */
+				if( list.get(i).getQq() != null ){
+					if( ParameterUtil.isNum(list.get(i).getQq()) || list.get(i).getQq().length() > 10 ){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中QQ不正确!");
 					}
 				}
-			}
-			if( error.size() > 0 ){
-				list.set(i, null);
-				errorMsg.addAll(getSortDesc(error));
+				/* 紧急联系电话 */
+				if( list.get(i).getEmergencyPhone() != null && !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+					error.add("第" + (i + 2) + "行中紧急联系电话不正确!");
+				}
+				for (int j = 0; j < list.size(); j++) {
+					if ( list.get(i) != null && list.get(j) != null) {
+						if( i == j ) continue;
+						/* 去重 */
+						/* 手机号 */
+						if ( list.get(i).getMobile() != null && list.get(j).getMobile() != null && list.get(i).getMobile().equals(list.get(j).getMobile()) ) {
+							error.add("第" + (i + 2) + "行中手机号与第" + (j + 2) + "行相同！");
+						}
+						/* 用户名 */
+						if ( list.get(i).getUsername() != null && list.get(j).getUsername() != null && list.get(i).getUsername().equals(list.get(j).getUsername()) ) {
+							error.add("第" + (i + 2) + "行中用户名与第" + (j + 2) + "行相同！");
+						}
+					}
+				}
+				
+//				//学区
+//				if( list.get(i).getEduArea() != null && !eduAreaMap.containsValue(list.get(i).getEduArea())){
+//					error.add("第" + (i + 2) + "行中区域不存在!");
+//				}else{
+//					if(list.get(i).getEduArea() != null && !isAreaHava.containsKey(list.get(i).getEduArea())){
+//						error.add("第" + (i + 2) + "行中无权输入该区域!");
+//					}
+//				}
+				//学校
+				Student student=list.get(i);
+				if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(student.getEduSchool())){
+					error.add("第" + (i + 2) + "行中学校不存在!");
+				}else{
+					if(list.get(i).getEduSchool() != null && !isSchoolHava.containsKey(student.getEduSchool())){
+						error.add("第" + (i + 2) + "行中无权输入该学校!");
+					}else if(subject.hasRole("班主任")&&!isClassHava.containsKey(student.getEduSchool()+"_"+student.getEduStep()+"_"+student.getEduYear()+"_"+student.getEduClass())){
+						error.add("第" + (i + 2) + "行中无权输入该班级!");
+					}else{
+						//反推  给一条信息添加学区编号
+						int parentId=0;
+						for(int k=0 ;k<dictAreaList.size();k++){
+							if(list.get(i).getEduSchool().equals(dictAreaList.get(k).getItemCode())){
+								 parentId=dictAreaList.get(k).getParentItemId();
+								 break;
+							}
+						}
+						for(int k=0 ;k<dictAreaList.size();k++){
+							if(parentId == dictAreaList.get(k).getId()){
+								list.get(i).setEduArea(dictAreaList.get(k).getItemCode());
+								 break;
+							}
+						}
+					}
+				}
+				//学段
+				if(list.get(i).getEduStep() != null && "小学".equals(list.get(i).getEduStep())){
+					list.get(i).setEduStep("STEP_01");
+				}else if(list.get(i).getEduStep() != null && "初中中学".equals(list.get(i).getEduStep())){
+					list.get(i).setEduStep("STEP_02");
+				}else if(list.get(i).getEduStep() != null && "高中中学".equals(list.get(i).getEduStep())){
+					list.get(i).setEduStep("STEP_03");
+				}else{
+					error.add("第" + (i + 2) + "行中无效学段!");
+				}
+				//入学年份
+				if( list.get(i).getEduYear() != null ){
+					if( CheckImportUtil.isNum(list.get(i).getEduYear()) || list.get(i).getEduYear().length() > 4 ){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中无效年份!");
+					}
+				}
+				if( list.get(i).getEduClass() != null ){
+					if( CheckImportUtil.isNum(list.get(i).getEduClass())){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中无效班级!");
+					}
+				}
+				
+				if( error.size() > 0 ){
+					list.set(i, null);
+					errorMsg.addAll(getSortDesc(error));
+				}
+			}	
+		}else{
+			
+			String flag = getCompanyRegisterFlag();					/* 机构注册方式 */
+			
+			for (int i = list.size() - 1; i >= 0; i--) {			/* 倒叙，保留第一个*/
+				List<String> error = new ArrayList<String>();
+				switch (flag) {
+					case "mobile":
+						/* 手机号 */
+						if( list.get(i).getMobile() == null ){
+							error.add("第" + (i + 2) + "行中手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
+							error.add("第" + (i + 2) + "行中手机号不正确!");
+						}
+						/* 用户名 */
+						if( list.get(i).getUsername() != null && !ParameterUtil.isUserName(list.get(i).getUsername()) ){
+							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						break;
+					case "username":
+						/* 手机号 */
+						if( list.get(i).getMobile() != null && !ParameterUtil.isMobilePhone(list.get(i).getMobile())){
+							error.add("第" + (i + 2) + "行中手机号不正确!");
+						}
+						/* 用户名 */
+						if( list.get(i).getUsername() == null){
+							error.add("第" + (i + 2) + "行中用户名不能为空!");
+						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
+							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						break;
+					case "all":
+						/* 手机号 */
+						if( list.get(i).getMobile() == null ){
+							error.add("第" + (i + 2) + "行中手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
+							error.add("第" + (i + 2) + "行中手机号不正确!");
+						}
+						/* 用户名 */
+						if( list.get(i).getUsername() == null){
+							error.add("第" + (i + 2) + "行中用户名不能为空!");
+						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
+							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						break;
+					default:
+						break;
+				}
+				
+				/* 姓名 */
+				if( list.get(i).getName() == null ){
+					error.add("第" + (i + 2) + "行中姓名不能为空!");
+				}
+				/* 身份证号 */
+				if( list.get(i).getIdentityId() != null ){
+					if( ParameterUtil.isNum(list.get(i).getIdentityId()) && ( list.get(i).getIdentityId().length() == 15 || list.get(i).getIdentityId().length() == 18 ) ){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中身份证号不正确!");
+					}
+				}
+				/* 邮箱 */
+				if(	list.get(i).getEmail() != null && !ParameterUtil.isEmail(list.get(i).getEmail()) ){
+					error.add("第" + (i + 2) + "行中邮箱不正确!");
+				}
+				/* QQ */
+				if( list.get(i).getQq() != null ){
+					if( ParameterUtil.isNum(list.get(i).getQq()) || list.get(i).getQq().length() > 10 ){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中QQ不正确!");
+					}
+				}
+				/* 紧急联系电话 */
+				if( list.get(i).getEmergencyPhone() != null && !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+					error.add("第" + (i + 2) + "行中紧急联系电话不正确!");
+				}
+				for (int j = 0; j < list.size(); j++) {
+					if ( list.get(i) != null && list.get(j) != null) {
+						if( i == j ) continue;
+						/* 去重 */
+						/* 手机号 */
+						if ( list.get(i).getMobile() != null && list.get(j).getMobile() != null && list.get(i).getMobile().equals(list.get(j).getMobile()) ) {
+							error.add("第" + (i + 2) + "行中手机号与第" + (j + 2) + "行相同！");
+						}
+						/* 用户名 */
+						if ( list.get(i).getUsername() != null && list.get(j).getUsername() != null && list.get(i).getUsername().equals(list.get(j).getUsername()) ) {
+							error.add("第" + (i + 2) + "行中用户名与第" + (j + 2) + "行相同！");
+						}
+					}
+				}
+				List<SysConfigDict> dictAreaList=studentServiceImpl.findEduAreaList();
+				if(null!=dictAreaList && dictAreaList.size()>0){
+					for(SysConfigDict vo : dictAreaList){
+						dictMap.put(vo.getItemValue(), vo.getItemCode());
+						if("EDU_SCHOOL_AREA".equals(vo.getDictCode())){
+							eduAreaMap.put(vo.getItemCode(),vo.getItemValue());
+						}else{
+							eduSchoolMap.put(vo.getItemCode(),vo.getItemValue());
+						}
+					}
+				}
+
+				//学校
+				if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(list.get(i).getEduSchool())){
+					error.add("第" + (i + 2) + "行中学校不存在!");
+				}else{
+						//反推  给一条信息添加学区编号
+						int parentId=0;
+						for(int k=0 ;k<dictAreaList.size();k++){
+							if(list.get(i).getEduSchool().equals(dictAreaList.get(k).getItemCode())){
+								 parentId=dictAreaList.get(k).getParentItemId();
+								 break;
+							}
+						}
+						for(int k=0 ;k<dictAreaList.size();k++){
+							if(parentId == dictAreaList.get(k).getId()){
+								list.get(i).setEduArea(dictAreaList.get(k).getItemCode());
+								 break;
+							}
+						}
+					
+				}
+				//学段
+				if(list.get(i).getEduStep() != null && "小学".equals(list.get(i).getEduStep())){
+					list.get(i).setEduStep("STEP_01");
+				}else if(list.get(i).getEduStep() != null && "初中中学".equals(list.get(i).getEduStep())){
+					list.get(i).setEduStep("STEP_02");
+				}else if(list.get(i).getEduStep() != null && "高中中学".equals(list.get(i).getEduStep())){
+					list.get(i).setEduStep("STEP_03");
+				}else{
+					error.add("第" + (i + 2) + "行中无效学段!");
+				}
+				//入学年份
+				if( list.get(i).getEduYear() != null ){
+					if( CheckImportUtil.isNum(list.get(i).getEduYear()) || list.get(i).getEduYear().length() > 4 ){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中无效年份!");
+					}
+				}
+				if( list.get(i).getEduClass() != null ){
+					if( CheckImportUtil.isNum(list.get(i).getEduClass())){
+						
+					} else {
+						error.add("第" + (i + 2) + "行中无效班级!");
+					}
+				}
+				
+				if( error.size() > 0 ){
+					list.set(i, null);
+					errorMsg.addAll(getSortDesc(error));
+				}
 			}
 		}
+		
 		
 		students = getUnEmptyStudents(list);	/* 非空student */
 		
@@ -261,28 +626,39 @@ public class StudentExcelImportController {
  		List<Student> students = new ArrayList<Student>(); 		/* 验证，去重后的student */
 		
 		Integer companyId = WebUtils.getCurrentCompanyId();
-		
 		StudentAll4CompanyVo allStudents = getCompanyAllStudents(companyId);
-		
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = list.size()-1; i >=0; i--) {
 			List<String> error = new ArrayList<String>();
 			Student student = list.get(i);
+			boolean flag=false;
+			boolean flag1=false;
 			if( student != null ){
-				if( student.getMobile() != null && allStudents.getMobiles().contains(student.getMobile()) ){
-					error.add("第" + (i + 2) + "行中手机号已存在！");
+				//每个手机号 必定对应一个账号
+				if( student.getMobile() != null && allStudents.getMobiles().containsKey(student.getMobile())){
+					if("1".equals(allStudents.getMobiles().get(student.getMobile()).getIsInSchool())){
+						error.add("第" + (i + 2) + "行中手机号已存在！");	
+					}else{
+						flag=true;
+					}
 				}
-				if( student.getUsername() != null && allStudents.getUsernames().contains(student.getUsername()) ){
-					error.add("第" + (i + 2) + "行中用户名已存在！");
+				if( student.getUsername() != null && allStudents.getUsernames().containsKey(student.getUsername()) ){
+					if("1".equals(allStudents.getUsernames().get(student.getUsername()).getIsInSchool())){
+						error.add("第" + (i + 2) + "行中用户名已存在！");
+					}else{
+						flag=true;
+					}
 				}
-				if( student.getIdentityId() != null && allStudents.getIdentityIds().contains(student.getIdentityId()) ){
-					error.add("第" + (i + 2) + "行中身份证号已存在！");
+				if( student.getIdentityId() != null && allStudents.getIdentityIds().containsKey(student.getIdentityId()) ){
+					if("1".equals(allStudents.getIdentityIds().get(student.getIdentityId()).getIsInSchool())){
+						error.add("第" + (i + 2) + "行中身份证号已存在！");
+					}
 				}
-				if( student.getEmail() != null && allStudents.getEmails().contains(student.getEmail()) ){
-					error.add("第" + (i + 2) + "行中邮箱已存在！");
-				}
-				if( student.getQq() != null && allStudents.getQqs().contains(student.getQq()) ){
-					error.add("第" + (i + 2) + "行中QQ已存在！");
-				}
+				
+			}
+			if(null!=student && (flag || flag1)){
+				student.setUpdateB(1);
+			}else if(null!=student && (!flag && !flag1)){
+				student.setUpdateB(0);
 			}
 			if(error.size() > 0){
 				list.set(i, null);
@@ -295,6 +671,7 @@ public class StudentExcelImportController {
 		json.put(JsonMsg.RESULT, errorMsg.size() > 0 ? false : true);
 		json.put(JsonMsg.MSG, errorMsg);
 		json.put("students", students);
+//		json.put("updateList", updateList);
 		
 		return json;
 	}
@@ -302,7 +679,7 @@ public class StudentExcelImportController {
 	/*
 	 * Excel 转成 Student
 	 */
-	private List<Student> excel2Student( String path ){
+	private List<Student> excel2Student( String path ,String biaoshi){
 		Integer companyId = WebUtils.getCurrentCompanyId();
 		
 		List<List<String>> list = ImportExcl.read( path );	/* excel转list */
@@ -316,29 +693,39 @@ public class StudentExcelImportController {
 				
 				s = new Student();
 				if (!"".equals(studentList.get(0)))  s.setMobile(studentList.get(0)); 
-				if (!"".equals(studentList.get(1)))  s.setName(studentList.get(1)); 
-				if (!"".equals(studentList.get(2)))  {
+				if (!"".equals(studentList.get(1)))  s.setUsername(studentList.get(1)); 
+				if (!"".equals(studentList.get(2)))  s.setName(studentList.get(2)); 
+				if (!"".equals(studentList.get(3)))  {
 					s.setIdentityTypeCode("ID_IDCARD");
-					s.setIdentityId(studentList.get(2)); 
+					s.setIdentityId(studentList.get(3)); 
 				}
-				if (!"".equals(studentList.get(3)))  s.setEmail(studentList.get(3)); 
-				if (!"".equals(studentList.get(4)))  s.setQq(studentList.get(4)); 
-				if (!"".equals(studentList.get(5)))  s.setEmergencyContact(studentList.get(5)); 
-				if (!"".equals(studentList.get(6)))  s.setEmergencyPhone(studentList.get(6)); 
-				if (!"".equals(studentList.get(7))) { 
-					s.setPassword(new Md5Hash(studentList.get(7)).toHex()); 
+				if (!"".equals(studentList.get(4)))  s.setEmail(studentList.get(4)); 
+				if (!"".equals(studentList.get(5)))  s.setQq(studentList.get(5)); 
+				if (!"".equals(studentList.get(6)))  s.setEmergencyContact(studentList.get(6)); 
+				if (!"".equals(studentList.get(7)))  s.setEmergencyPhone(studentList.get(7)); 
+				if (!"".equals(studentList.get(8))) { 
+					s.setPassword(new Md5Hash(studentList.get(8)).toHex()); 
 				} else {
 					if ("".equals(studentList.get(0))) {
-						s.setPassword(new Md5Hash("111111").toHex());
+						s.setPassword(new Md5Hash("123456").toHex());
 					} else {
 						s.setPassword(new Md5Hash(studentList.get(0).substring(5, 11)).toHex());
 					}
 				}
-				if (!"".equals(studentList.get(8)))  s.setUsername(studentList.get(8)); 
+				//if (!"".equals(studentList.get(9)))  s.setEduArea(studentList.get(9)); 
+				if (!"".equals(studentList.get(9)))  s.setEduSchool(studentList.get(9)); 
+				if (!"".equals(studentList.get(10)))  s.setEduStep(studentList.get(10)); 
+				if (!"".equals(studentList.get(11)))  s.setEduYear(studentList.get(11)); 
+				if (!"".equals(studentList.get(12)))  s.setEduClass(studentList.get(12)); 
 
 				s.setCompanyId(companyId);
 				s.setSchoolId(WebUtils.getCurrentSchoolId());
 				s.setDeleteFlag(0);
+				if(null == biaoshi){
+					s.setIsInSchool(1);
+				}else{
+					s.setIsInSchool(0);
+				}
 				studentslist.add(s);
 			}
 		}
@@ -403,20 +790,15 @@ public class StudentExcelImportController {
 		
 		for (int i = 0; i < studentslist.size(); i++) {
 			if( studentslist.get(i).getMobile() != null ){
-				allStudents.getMobiles().add(studentslist.get(i).getMobile());
+				allStudents.getMobiles().put(studentslist.get(i).getMobile(), studentslist.get(i));
 			}
 			if( studentslist.get(i).getUsername() != null ){
-				allStudents.getUsernames().add(studentslist.get(i).getUsername());
+				allStudents.getUsernames().put(studentslist.get(i).getUsername(), studentslist.get(i));
 			}
 			if( studentslist.get(i).getIdentityId() != null && "ID_IDCARD".equals(studentslist.get(i).getIdentityTypeCode()) ){
-				allStudents.getIdentityIds().add(studentslist.get(i).getIdentityId());
+				allStudents.getIdentityIds().put(studentslist.get(i).getIdentityId(),studentslist.get(i));
 			}
-			if( studentslist.get(i).getEmail() != null ){
-				allStudents.getEmails().add(studentslist.get(i).getEmail());
-			}
-			if(  studentslist.get(i).getQq() != null ){
-				allStudents.getQqs().add(studentslist.get(i).getQq());
-			}
+			
 		}
 		return allStudents;
 	}
@@ -440,6 +822,7 @@ public class StudentExcelImportController {
 		
 		/* 待导入学员 */
  		List<StudentImportVo> students = JSONObject.parseArray(data, com.yuxin.wx.vo.student.StudentImportVo.class);
+ 		//List<StudentImportVo> updateListstudents = JSONObject.parseArray(updateList, com.yuxin.wx.vo.student.StudentImportVo.class);
  		
  		if("".equals(groupOneId)) groupOneId = null;
  		if("".equals(groupTwoId)) groupTwoId = null;

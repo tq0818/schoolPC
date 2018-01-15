@@ -333,7 +333,8 @@
 		COUNT((userId)) total,max(exercise_score) max,MIN(exercise_score) min,cast(avg(exercise_score) as dec(3,1)) avg,(select paper_name from tiku_paper where id = #{id}) paperName
 		FROM(
 			select IFNULL(exercise_score,0) exercise_score,u.id as userId ,u.username,u.mobile
-			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id
+			from tiku_user_exercise ue 
+			inner join users_front u on ue.user_id  = u.id
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
 			and exercise_id = #{id}
 			) aa
@@ -346,7 +347,9 @@
               (SELECT item_value FROM sys_config_dict WHERE item_code = s.edu_step) AS eduStep,
               s.edu_class AS eduClass,
               s.edu_year AS eduYear
-			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
+			from tiku_user_exercise ue 
+			inner join users_front u on ue.user_id  = u.id 
+			inner join student s on s.user_id = ue.user_id
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
 			and exercise_id = #{exerciseId}
             <if test="eduArea!=null and eduArea!=''">AND s.edu_area = #{eduArea}</if>
@@ -357,8 +360,10 @@
 			limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="findPaperRspdInfoCount" parameterType="com.yuxin.wx.model.tiku.TikuUserExercise" resultType="java.lang.Integer">
-			select count(*)
-			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
+			select count(1)
+			from tiku_user_exercise ue 
+			inner join users_front u on ue.user_id  = u.id 
+			inner join student s on s.user_id = ue.user_id
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
 			and exercise_id = #{exerciseId}
 			<if test="eduArea!=null and eduArea!=''">AND s.edu_area = #{eduArea}</if>
@@ -374,7 +379,9 @@
               (SELECT item_value FROM sys_config_dict WHERE item_code = s.edu_step) AS eduStep,
               s.edu_class AS eduClass,
               s.edu_year AS eduYear
-			from tiku_user_exercise ue inner join users_front u on ue.user_id  = u.id inner join student s on s.user_id = ue.user_id
+			from tiku_user_exercise ue 
+			inner join users_front u on ue.user_id  = u.id 
+			inner join student s on s.user_id = ue.user_id
 			where (exercise_type = 'EXERCISE_TYPE_PAPER' or exercise_type = 'EXERCISE_TYPE_COURSEPAPER' or exercise_type='EXERCISE_TYPE_EXAM')
 			and exercise_id = #{exerciseId} order by start_time asc
 	</select>
@@ -387,5 +394,23 @@
 			<if test="exerciseType!=null and exerciseType!=''">and exercise_type = #{exerciseType}</if>
 			<if test="topicId!=null">and topic_id = #{topicId}</if>
 			<if test="topicType!=null and topicType!=''">and topic_type = #{topicType}</if>
+	</select>
+
+	<select id="findTikuPaperByParam" parameterType="map" resultType="map">
+		select
+		tu.`user_id` as userId,
+		(select
+		CASE WHEN count(1) = 0 THEN 2
+		ELSE 1 END
+		from
+		`tiku_user_wrong` uw
+		left join tiku_paper_topic tpt
+		on tpt.topic_id = uw.topic_id
+		where tpt.paper_id = #{paperId}
+		and uw.user_id = tu.user_id) as paperFlag
+		from
+		`tiku_user_exercise` tu
+		where tu.exercise_id = #{paperId}
+		and tu.exercise_type = 'EXERCISE_TYPE_PAPER'
 	</select>
 </mapper>

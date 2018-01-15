@@ -43,6 +43,8 @@ public class SysConfigItem extends BaseEntity {
 	
 	private String levelPath;
 	
+	private String zhuCompanyId;
+	
 
 	private List<SysConfigItem> childrenList = new ArrayList<SysConfigItem>();
 	
@@ -264,5 +266,15 @@ public class SysConfigItem extends BaseEntity {
 	public void setParentCode(String parentCode) {
 		this.parentCode = parentCode;
 	}
+
+	
+    public String getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(String zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 }

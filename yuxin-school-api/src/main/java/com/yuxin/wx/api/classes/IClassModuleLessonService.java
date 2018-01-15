@@ -29,6 +29,9 @@ public interface IClassModuleLessonService  {
 	 */
 	void insert(ClassModuleLesson classModuleLesson);
 	
+
+	void insert1(ClassModuleLesson classModuleLesson);
+
 	/**
 	 * 
 	* @Title: batchSaveClassModuleLesson 
@@ -125,7 +128,9 @@ public interface IClassModuleLessonService  {
 	 */
 	
 	List<ClassModuleLesson> findClassModuleLessonByModuleNoId(Integer moduleNoId);
-	
+
+	List<ClassModuleLesson> findClassModuleLessonByModuleNoId1(Integer moduleNoId);
+
 	
 	/**
 	 * @Description:根据教室Id、开始、结束时间获取教室的使用情况
@@ -249,6 +254,14 @@ public interface IClassModuleLessonService  {
 
     List<ClassModuleLesson> findLessonByCommodityId(Integer id);
 	List<ClassModuleLesson> findLessonByCommodityIdNotDel(Integer id);
+
+
+	/**
+	 * 根据商品id查询商品下所有的课次
+	 * @param ids
+     * @return
+	 */
+	List<ClassModuleLesson> findLessonByCommodityIds(String[] ids);
 
 	/**
 	 * 通过companyId获取直播配置

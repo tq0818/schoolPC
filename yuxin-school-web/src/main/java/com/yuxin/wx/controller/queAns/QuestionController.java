@@ -346,7 +346,7 @@ public class QuestionController {
         question.setPageSize(10);
         question.setDelFlag(1);
         Subject subject = SecurityUtils.getSubject();
-        if (authRoleServiceImpl.hasRoleFlag(userId)) {
+        if (authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())) {
             model.addAttribute("isMan", "yes");
         } else if(subject.hasRole("运营")){//是否运营人员
             model.addAttribute("isMan", "yes");
@@ -573,7 +573,7 @@ public class QuestionController {
                 sc.setId(ser.getId());
                 sysConfigServiceServiceImpl.update(sc);
             }
-            relogin();
+//            relogin();
         }
         companyFunctionSetServiceImpl.update(classOrPer);
         return "success";

@@ -247,6 +247,27 @@
                         <%--</c:if>--%>
                     <%--</span>--%>
                 <%--</p>--%>
+                <c:if test="${not empty isArea and '0' ne isArea }">
+               		<p class="c ">
+	                    <span class="c-title">是否设为公开课程</span>
+	                    <span class="c-content" style="color:black;">
+	                     	<input type="radio" checked="checked" value="1" name="isPublic">是
+                        	<input type="radio" value="0" name="isPublic">否
+	                    </span>
+	               </p>
+                    <p class="c01" id="discriblePub">
+                       <span class="c-title" style="color: red;
+                            width: 400px;
+                            line-height: 0px;
+                            font-size: 10px;">（公开课程将被推送到数校，并允许非本校学生在您的分校官网观看此课程)</span>
+                    </p>
+	               <p class="c publicPrice">
+	               		<span class="c-title">设置公开课程价格</span>
+	                    <span class="c-content" style="color:black;">
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices"><sb>*</sb>
+	                    </span>
+	               </p>
+               </c:if>
               <p class="c text-center">
              	<a href="javascript:Form.addFormOne('saveandtui')" class="btn btn-primary">保存并退出</a>
                 <a href="javascript:Form.addFormOne('save')" class="btn btn-primary">保存并继续</a>

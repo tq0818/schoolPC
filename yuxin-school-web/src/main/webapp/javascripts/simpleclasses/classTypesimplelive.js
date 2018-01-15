@@ -592,11 +592,11 @@
 						var pId=ele.prevAll(".item-chapter").eq(0).attr("ids");
 						var father=ele.prevAll(".item-chapter").eq(0);
 						ele.parents(".courseliList").find(".chird"+pId).each(function(i){
-							var lession={};
-							lession.id=$(this).attr("ids");
-							lession.sort=i+1;
-							lession.moduleNoId=father.attr("modulenoid");
-							list.push(lession);
+                            var lession={};
+                            lession.id=$(this).attr("ids");
+                            lession.sort=i+1;
+                            lession.moduleNoId=father.attr("modulenoid");
+                            list.push(lession);
 						});
 
 						if(list.length){
@@ -1054,8 +1054,9 @@
 						data.liveClassType=$("input[name=liveClassType]:checked").val();
 						data.barrage=$("input[name=barrage]:checked").val();
 						data.modetype=$("#modetypes").val();
-						/*data.beforeStudyUrl = $("#beforeStudyUrl").val();
-						data.afterStudyUrl =$("#afterStudyUrl").val();*/
+						data.beforeStudyUrl = $("#beforeStudyUrl").val();
+						data.afterStudyUrl =$("#afterStudyUrl").val();
+                        data.afterStudyUrlName =$("#afterStudyName").val();
 						var url="";
 						if($("#chaptermark").val()==1){
 							if($("#eidtype").val()=="add"){
@@ -1092,7 +1093,9 @@
 								}else{
 									$.msg(data.msg);
 								}
+                                window.location.reload();
 							}
+
 						 });
 					}
 				});
@@ -1158,7 +1161,9 @@
 					}
 				 });
 			}
+            window.location.reload();
 			},
+
 			docChange:function(){
 				//改变 上传
 				$("#dochint").html("<span style='color:red;' >正在上传</span>");

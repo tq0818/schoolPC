@@ -99,7 +99,7 @@
 		class_module_lesson  cml
 		where c.user_id=uf.id
 		and c.user_id=s.user_id
-		and  c.class_lesson_id=cml.id
+		and c.class_lesson_id=cml.id
 		<if test="classLessionId != null and classLessionId != ''">and c.class_lesson_id = #{classLessionId}</if>
 		<if test="mobile != null and mobile != ''">and uf.mobile = #{mobile}</if>
 	</select>

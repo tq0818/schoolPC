@@ -1,7 +1,7 @@
 body,html{margin: 0;padding: 0;}
 i{font-style: normal;}
 li{list-style: none;}
-.content-right{padding: 0 25px 20px;background: #f6f6f6;font-size: 14px;}
+.content-right{padding: 0 0 20px;background: #f6f6f6;font-size: 14px;}
 
 .content-right .btn{display: inline-block;text-decoration: none;padding:3px 20px;color:#fff;
 	float: left;background: #999;cursor: pointer;
@@ -19,7 +19,7 @@ margin-right: 10px;}
 	height: 30px;line-height: 30px;margin-left: 200px;background: #fff;}
 .screen-info .date .date-picker{    text-align: center;
     border:0;}
-.screen-info .text{background: #ccc;border-right: 1px solid #ddd;display: inline-block;
+.screen-info .text{background: #f6f6f6;border-right: 1px solid #ddd;display: inline-block;
 padding:0 5px;
 }
 .screen-info .i-data{border: 0;height: auto;width:80px;margin:0 5px;}

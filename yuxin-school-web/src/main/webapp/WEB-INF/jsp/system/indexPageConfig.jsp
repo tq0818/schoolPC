@@ -18,7 +18,6 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"></jsp:include>
-
 	<div class="u-wrap operate">
 	    <div class="operate_live_heading" style="display:none">
 	    </div>
@@ -28,8 +27,8 @@
 	            <span class="line"></span>
 	            <span class="rb">
 	                <a href="javascript:;" class="btn btn-mini btn-primary save" style="background-color:#1ebb90;border-color:#1ebb90;">发布生效</a>
-	                <a href="javascript:;" class="btn btn-mini btn-primary reset">重置模板</a>
-	                <a href="javascript:;" class="btn btn-mini btn-primary preview">预览</a>
+	                <%--<a href="javascript:;" class="btn btn-mini btn-primary reset">重置模板</a>
+	                <a href="javascript:;" class="btn btn-mini btn-primary preview">预览</a>--%>
 	            	<a href="javascript:;" class="btn btn-mini btn-primary goback">返回</a>
 	            </span>
 	        </div>
@@ -44,7 +43,7 @@
 	                        <span class="w9">拖动</span>
 	                    </dt>
 	                </dl>
-	                <div class="addAdverBut">
+	                <div class="addAdverBut" style="display:none">
 	                    <button><i class="iconfont">&#xe652;</i>添加广告</button>
 	                </div>
 	            </div>

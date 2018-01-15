@@ -5,9 +5,11 @@ import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
 import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
@@ -393,6 +395,9 @@ public interface IStudentService  {
 	 * @return
 	 */
 	PageFinder2<StudentListVo> findStudentsList(StudentListVo search);
+	PageFinder2<StudentListVo> queryUserListData(StudentListVo search);
+	List<Map<String, Object>> exportUserInfo(StudentListVo search);
+	PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search);
 	
 	PageFinder<StudentListVo> findStudentsList1(StudentListVo search);
 	
@@ -449,6 +454,7 @@ public interface IStudentService  {
 	 * @return
 	 */
 	Integer queryMaxIdByCompany(Integer id);
+	
 	
 	/**
 	 * 
@@ -716,4 +722,38 @@ public interface IStudentService  {
 	List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId);
 	
 	List<StudentListVo> queryStudentsListByIds(String ids);
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月17日 下午5:47:36
+	 * @Method: findClassByTeacherId 
+	 * @Description: TODO
+	 * @param 查询班主任所在班级
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets,String eduSchool);
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月17日 下午5:47:36
+	 * @Method: findClassByTeacherId 
+	 * @Description: TODO
+	 * @param 查询班主任所在班级
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets);
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月20日 下午5:56:41
+	 * @Method: findClassByRKTeacherId 
+	 * @Description: 查询任课教师
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findClassByRKTeacherId(Integer id);
+	List<SysConfigDict> findEduAreaList();
 }

@@ -1,15 +1,13 @@
 package com.yuxin.wx.api.query;
 
 
+import java.util.List;
+import java.util.Map;
+
 import com.yuxin.wx.common.PageFinder2;
-import com.yuxin.wx.model.system.SysConfigItemRelation;
-import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service Interface:statistics
@@ -67,10 +65,14 @@ public interface IStudentStatisticsService {
     List<Map> watchAllChartData(Map<String, Object> map);
 
     PageFinder2<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
+    PageFinder2<WatchInfoResult> queryNewStudentsWatchInfoList(WatchInfoResult search);
+    PageFinder2<WatchInfoResult> queryRecirdWatchInfoList(WatchInfoResult search);
 
     List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
+    List<WatchInfoResult> exportNewStudentsWatchInfoList(WatchInfoResult search);
 
     Integer totalPayMasterCount(WatchInfoResult search);
+    Integer totalNewPayMasterCount(WatchInfoResult search);
 
     List<Map> getEduYearBySchool(Map<String, Object> map);
 

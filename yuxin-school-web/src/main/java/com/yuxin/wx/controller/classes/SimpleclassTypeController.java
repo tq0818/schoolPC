@@ -196,7 +196,11 @@ public class SimpleclassTypeController {
 
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
-		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront();
+		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findAllItemFront(WebUtils.getCurrentCompanyId());
+
+		Map<String,Object> findItemAll =new HashMap<String, Object>();
+		findItemAll.put("companyId",WebUtils.getCurrentCompanyId());
+		List<SysConfigItemRelation> first = sysConfigItemRelationServiceImpl.findAllItemRelation(findItemAll);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
 		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -206,7 +210,25 @@ public class SimpleclassTypeController {
 		List<SysConfigItemRelation> secondItem = new ArrayList<SysConfigItemRelation>();
 		List<SysConfigItemRelation> thirdItem = new ArrayList<SysConfigItemRelation>();
 		List<SysConfigItemRelation> fourthItem = new ArrayList<SysConfigItemRelation>();
-		for(SysConfigItemRelation re : relations){
+	/*	for(SysConfigItemRelation re : relations){
+			if(re.getLevel()==0){
+				firstItem.add(re);
+			}else if(re.getLevel()==1){
+				secondItem.add(re);
+			}else if(re.getLevel()==2){
+				thirdItem.add(re);
+			}else if(re.getLevel()==3){
+				re.setItemName(re.getItemCode());
+				fourthItem.add(re);
+			}
+			for(SysConfigItem name :names){
+				if(re.getItemCode().equals(name.getItemCode())){
+					re.setItemName(name.getItemName());
+					break;
+				}
+			}
+		}*/
+		for(SysConfigItemRelation re : first){
 			if(re.getLevel()==0){
 				firstItem.add(re);
 			}else if(re.getLevel()==1){
@@ -224,13 +246,14 @@ public class SimpleclassTypeController {
 				}
 			}
 		}
-
-
 		model.addAttribute("typeItems", relations);
 		model.addAttribute("firstItem", firstItem);
 		model.addAttribute("secondItem", secondItem);
 		model.addAttribute("thirdItem", thirdItem);
 		model.addAttribute("fourthItem", fourthItem);
+		model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+
+
 		return "simpleClasses/classIndex";
 	}
 	
@@ -301,6 +324,7 @@ public class SimpleclassTypeController {
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
+		relation.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -328,12 +352,14 @@ public class SimpleclassTypeController {
 		model.addAttribute("itemThirdCode", classType.getItemThirdCode());
 		model.addAttribute("itemFourthCode", classType.getItemFourthCode());
 		model.addAttribute("lable", lable);
+		model.addAttribute("isArea",WebUtils.getCurrentIsArea());
+
 		//面授和直播
 		if("face".equals(lable)||"live".equals(lable)){
 			return "simpleClasses/addClassTypeFaceOrLiveMessage";
-		}else if("video".equals(lable)){
+		}else if("video".equals(lable)){//录播
 			return "simpleClasses/addClassTypeVideoMessage";
-		}else if("togther".equals(lable)){
+		}else if("togther".equals(lable)){//混合
 			return "simpleClasses/addClassTypeTogtherMessage_1";
 		}else{
 			return "simpleClasses/addClassTypeOtherMessage";
@@ -833,6 +859,9 @@ public class SimpleclassTypeController {
 			classType.setTypeCode("CLASS_TYPE_NOMAL");
 			classType.setCompanyId(WebUtils.getCurrentCompanyId());
 			classType.setDelFlag(0);
+			if(null==classType.getIsPublic()){
+				classType.setIsPublic(0);
+			}
 			classType.setCreateSchoolId(WebUtils.getCurrentSchoolId());
 			if(classType.getFaceFlag()!=null){
 				classType.setFaceFlag(classType.getFaceFlag());
@@ -1573,6 +1602,7 @@ public class SimpleclassTypeController {
 		commodity.setUpdateTime(new Date());
 		commodity.setUpdator(WebUtils.getCurrentUserId(request));
 		commodity.setStatus("0");
+		commodity.setCddsStatus(0);
 		
 		commodityServiceImpl.update(commodity);
 		//pc端下架的课程，app端也下架(需求确定不下架)
@@ -1582,6 +1612,7 @@ public class SimpleclassTypeController {
 		classType.setIsSale(0);
 		classType.setUpdateTime(new Date());
 		classType.setUpdator(WebUtils.getCurrentUserId(request));
+//		classType.setIsPublic(0);
 		classTypeServiceImpl.update(classType);
 		return classTypeServiceImpl.findClassTypeById(classType.getId());
 	}

@@ -225,11 +225,14 @@
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal,-1 as payMethod,uf.username
-		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id and p.origin_type=0  LEFT JOIN student s on  f.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id and p.origin_type=0  
+		LEFT JOIN student s on  f.stu_id=s.id 
+		left join users_front uf on s.user_id= uf.id
+		left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where f.stage_status='1'
 		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_OFFLINE'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -243,11 +246,14 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal,po.pay_type as payMethod,uf.username
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0  LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0  
+		LEFT JOIN student s on  p.stu_id=s.id 
+		left join users_front uf on s.user_id= uf.id
+		left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
-or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_ONLINE'
+		or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_ONLINE'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -261,11 +267,13 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal,po.pay_type as payMethod,uf.username
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id  and p.origin_type=0 LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id  and p.origin_type=0 
+		LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
 or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_STUDYCARD'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -278,12 +286,14 @@ or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLA
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal,-1 as payMethod,uf.username
-		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on  f.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on  f.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where f.stage_status='1'
 		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_OFFLINE')
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
 		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -294,12 +304,14 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal,po.pay_type as payMethod,uf.username
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0  LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0  
+		LEFT JOIN student s on  p.stu_id=s.id left join users_front uf on s.user_id= uf.id
+		left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
 or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_ONLINE'  or p.apply_channel_code='CHANNEL_STUDYCARD')
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_one_Id = #{itemOneId} </if>
 		<if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -337,12 +349,15 @@ or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLA
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal
-		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on  f.stu_id=s.id
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on  f.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where f.stage_status='1'
 		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_OFFLINE'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
 		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -356,12 +371,15 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id  and p.origin_type=0 LEFT JOIN student s on  p.stu_id=s.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id  and p.origin_type=0 
+		LEFT JOIN student s on  p.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
 or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_ONLINE'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
 		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -375,12 +393,15 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0  LEFT JOIN student s on  p.stu_id=s.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0 
+		LEFT JOIN student s on  p.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
 or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and p.apply_channel_code='CHANNEL_STUDYCARD'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
 		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -393,13 +414,16 @@ or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLA
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,f.pos_real as posReal,f.check_real as checkReal,f.remit_real as remitReal,f.cash_real as cashReal
-		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on  f.stu_id=s.id
+		from student_fee_stage f left join student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on  f.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where f.stage_status='1'
 		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_OFFLINE')
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
 	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
 		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -410,13 +434,16 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.order_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0 LEFT JOIN student s on  p.stu_id=s.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id and p.origin_type=0 
+		LEFT JOIN student s on  p.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
 		or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0 and (p.apply_channel_code='CHANNEL_ONLINE'  or p.apply_channel_code='CHANNEL_STUDYCARD')
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
 	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
 		<if test="classTypeId != null and classTypeId != ''"> and p.commodity_id = #{classTypeId} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id=#{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null and startDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null and endDate != ''"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -431,7 +458,8 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus
-		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
 		left join users_front uf on s.user_id=uf.id
 		where f.stage_status='0'
 		and f.del_flag=0
@@ -460,12 +488,13 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,f.stage_fee as stageFee,f.stage_status as stageStatus,(select count(id)+1 from student_fee_stage where stu_id=#{stuId} and pay_master_id=#{payMasterId} and stage_status=1 ) currtNum
-		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on  f.stu_id=s.id
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on  f.stu_id=s.id
 		where f.stu_id=#{stuId} and f.pay_master_id=#{payMasterId} and stage_status=0 and f.company_id=#{companyId}
 		ORDER BY f.id LIMIT 1
 	</select>
 	<select id="pageCount3" resultType="int" parameterType="com.yuxin.wx.vo.fee.StagingVo">
-		select count(*) from (SELECT
+		select count(1) from (SELECT
 			stu_id stuId,pay_master_id payMasterId,sum(stage_fee) cntFee,count(id) cntNum
 		FROM student_fee_stage
 		WHERE stage_status = 0 and company_id=#{companyId}
@@ -526,7 +555,10 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,IFNULL(f.stage_fee,0) as stageFee,f.stage_status as stageStatus,IFNULL(f.pos_real,0) as posReal,IFNULL(f.check_real,0) as checkReal,IFNULL(f.remit_real,0) as remitReal,IFNULL(f.cash_real,0) as cashReal
-		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where f.stage_status='1'
 		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS' and p.apply_channel_code ='CHANNEL_OFFLINE'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
@@ -538,7 +570,7 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		<if test="stuName != null and stuName != ''"> and s.name like  '%${stuName}%' </if>
 		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
 		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -553,7 +585,10 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,f.id as stageId,f.pay_date as payDate,f.stage_date as stageDate,IFNULL(f.stage_fee,0) as stageFee,f.stage_status as stageStatus,IFNULL(f.pos_real,0) as posReal,IFNULL(f.check_real,0) as checkReal,IFNULL(f.remit_real,0) as remitReal,IFNULL(f.cash_real,0) as cashReal
-		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		from student_fee_stage f left join  student_pay_master p on f.pay_master_id=p.id  and p.origin_type=0 
+		LEFT JOIN student s on p.stu_id=s.id and f.stu_id=s.id 
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where f.stage_status='1'
 		and f.del_flag=0 and (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED' or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
@@ -565,7 +600,7 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		<if test="stuName != null and stuName != ''"> and s.name like  '%${stuName}%' </if>
 		<if test="identityId != null and identityId != ''"> and s.identity_id = #{identityId} </if>
 		<if test="stageStatus != null and stageStatus != ''"> and s.stage_status = #{stageStatus} </if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id= #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>
@@ -581,12 +616,15 @@ select distinct p.id as payMasterId,p.item_one_id as itemOneId,p.school_id as sc
 		p.campus_id as campusId, p.class_type_hour as classTypeHour,p.apply_channel_code as applyChannelCode,p.updator,p.pay_status_code as payStatusCode,p.total_amount as totalAmount,
 		p.training_fee as trainingFee ,p.exam_agent_fee as examAgentFee ,p.offer_amount as offerAmount,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.payment_type_code as paymentTypeCode,
 		s.id as stuId ,s.name as stuName,s.age,s.sex,s.mobile,s.identity_id as identityId ,po.id as stageId,po.pay_time as payDate,-1 as stageDate,po.pay_price as stageFee,-1 as stageStatus, -1 as posReal,-1 as checkReal,-1 as remitReal,-1 as cashReal
-		from pay_order po left join student_pay_master p on po.id=p.pay_order_id  and p.origin_type=0 LEFT JOIN student s on  p.stu_id=s.id
+		from pay_order po left join student_pay_master p on po.id=p.pay_order_id  and p.origin_type=0 
+		LEFT JOIN student s on p.stu_id=s.id
+		inner join users_front uf on s.user_id=uf.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 		where (p.pay_status_code='ORDER_PAID' or p.pay_status_code='ORDER_PART_PAY' or p.pay_status_code='ORDER_FINISHED'  and po.origin_type=0 
 or p.pay_status_code='ORDER_PAID_NO_COURSE') and p.commodity_type='COMMODITY_CLASS' and p.delete_flag=0
 		<if test="itemOneId != null and itemOneId != ''"> and p.item_One_Id = #{itemOneId} </if>
 	    <if test="applyChannelCode != null and applyChannelCode != ''">and p.apply_channel_code = #{applyChannelCode}</if>
-		<if test="companyId != null and companyId != ''"> and s.company_id = #{companyId} </if>
+		<if test="companyId != null and companyId != ''"> and c.id = #{companyId} </if>
 		<if test="schoolId != null and schoolId != ''"> and p.school_id = #{schoolId} </if>
 		<if test="startDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[>=]]> '${startDate}'</if>
 		<if test="endDate != null"> and date_format(p.apply_time, "%Y-%m-%d") <![CDATA[<=]]> '${endDate}'</if>

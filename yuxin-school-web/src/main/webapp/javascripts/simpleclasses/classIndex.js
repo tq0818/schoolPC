@@ -66,6 +66,13 @@
 	    			if($(this).hasClass('b5')){
 	    				$this.addClassType('other');
 	    			}
+	    			if($(this).hasClass('b6')){
+	    				if($(this).hasClass('classTypeManage')){
+		    				$this.addClassType('classTypeManage');//分校课程
+	    				}else if($(this).hasClass('buyClassType')){
+		    				$this.addClassType('buyClassType');//已购课程
+	    				}
+	    			}
 	    		})
                 this.queryAllCommdityByItemNew(1);
 	    		//判断是否显示三级标签
@@ -701,7 +708,15 @@
 				// 	alert("请先设置学科小类!");
 				// 	return;
 				// }
-				$("#myForm").attr("action",rootPath+"/simpleClasses/addClassType").submit();
+				var action="";
+				if("classTypeManage"==mark){//分校课程
+					action=rootPath+"/branchSchool/queryClassType";
+				}else if("buyClassType"==mark){//购买课程
+					action=rootPath+"/otherSchool/queryClassType";
+				}else{//新增课程
+					action=rootPath+"/simpleClasses/addClassType";
+				}
+				$("#myForm").attr("action",action).submit();
 			}
 			
 		}

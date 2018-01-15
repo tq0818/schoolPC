@@ -322,7 +322,8 @@ public class CompanyController {
         Integer companyId = WebUtils.getCurrentCompanyId();
         // 查询 机构信息
         Company company = companyServiceImpl.findCompanyById(companyId);
-
+        String isArea=WebUtils.getCurrentIsArea();
+        model.addAttribute("isArea", isArea);
         CompanyPayConfig payConfig = companyPayConfigService.findByCompanyId(companyId);
         if (payConfig != null) {
             if (null != payConfig.getPayType() && payConfig.getPayType().length() > 0) {
@@ -348,7 +349,7 @@ public class CompanyController {
             }
         }
 
-        if (authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUserId(request))) {
+        if (authRoleServiceImpl.hasRoleFlag(WebUtils.getCurrentUserId(request),WebUtils.getCurrentCompanyId())) {
             model.addAttribute("manganger", "manager");
         }
         Date date = new Date();
@@ -1255,7 +1256,7 @@ public class CompanyController {
                     sysPageHeadFootServiceImpl.update(head);
                 }
             }
-            relogin();
+            //relogin();
             json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
             return json;
         } catch (Exception e) {
@@ -1532,7 +1533,7 @@ public class CompanyController {
                     sysPageHeadFootServiceImpl.insert(sphf);
                 }
             }
-            relogin();
+//            relogin();
             json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
             return json;
         } catch (Exception e) {
@@ -1552,6 +1553,10 @@ public class CompanyController {
             if (!validauth(WebUtils.getCurrentUserId(request))) {
                 json.put(JsonMsg.MSG, "auth");
                 return json;
+            }
+            if(!"0".equals(WebUtils.getCurrentIsArea())){
+            	json.put(JsonMsg.MSG,"no_auth");
+            	return json;
             }
             Company company = companyServiceImpl.findCompanyById(companyId);
             if ("open".equals(actions) && (company.getMemberLevel().equals(12) || company.getMemberLevel().equals(13))) {
@@ -1811,7 +1816,7 @@ public class CompanyController {
      * @return
      */
     private Boolean validauth(Integer userId) {
-        if (authRoleServiceImpl.hasRoleFlag(userId)) {
+        if (authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())) {
             return true;
         } else {
             return false;

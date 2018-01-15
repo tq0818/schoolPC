@@ -1,13 +1,21 @@
 package com.yuxin.wx.api.company;
 
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.model.company.Company;
-import com.yuxin.wx.model.company.CompanyMemberService;
-import com.yuxin.wx.vo.company.*;
-import com.yuxin.wx.vo.query.RegisterInfoVo;
-
 import java.util.List;
 import java.util.Map;
+
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.model.company.CompanyLiveConfig;
+import com.yuxin.wx.model.company.CompanyMemberService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
+import com.yuxin.wx.model.company.NewCompanyVo;
+import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
+import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
+import com.yuxin.wx.vo.company.CompanyPicsVo;
+import com.yuxin.wx.vo.company.CompanyTotalVo;
+import com.yuxin.wx.vo.company.CompanyVo;
+import com.yuxin.wx.vo.company.companySpecialDomain;
+import com.yuxin.wx.vo.query.RegisterInfoVo;
 
 /**
  * Service Interface:Company
@@ -89,6 +97,7 @@ public interface ICompanyService  {
 	* @user by wangzx
 	 */
 	Company findCompanyById(Integer id);
+	
 	
 	/**
 	 * 
@@ -601,4 +610,25 @@ public interface ICompanyService  {
 	List<CompanyOrgMessageVo> queryMessageServiceList(CompanyOrgMessageVo search);
 	
 	Integer queryServiceOpenFlag(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * @author jishangyang 2017年12月7日 下午6:46:51
+	 * @Method: findCompanyVoById 
+	 * @Description: 根据ID查询分校
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	NewCompanyVo findCompanyVoById(Integer id);
+	CompanyLiveConfig findCompanyLiveConfigById(Integer id);
+	CompanyPayConfig findCompanyPayConfigById(Integer id);
+	/**
+	 * 通过rootPath获取companyId
+	 * @return
+	 */
+	Integer findComanyIdByRootPath(String rootPath);
+	
+	Integer findSchoolIdByCompanyId(Integer companyId);
+
 }

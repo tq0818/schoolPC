@@ -1,13 +1,15 @@
 package com.yuxin.wx.system.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.common.BaseServiceImpl;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.system.mapper.SysConfigDictMapper;
 
@@ -202,6 +204,16 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 		return sysConfigDictMapper.queryConfigDictListByDictCode(sysConfigDict);
 	}
 	@Override
+	public List<SysConfigDict> querySchoolByArea( SysConfigDict sysConfigDict) {
+		// TODO Auto-generated method stub
+		return sysConfigDictMapper.querySchoolByArea(sysConfigDict);
+	}
+	@Override
+	public List<SysConfigDict> queryAreaBySchool( String str) {
+		// TODO Auto-generated method stub
+		return sysConfigDictMapper.queryAreaBySchool(str);
+	}
+	@Override
 	public SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict){
 		return sysConfigDictMapper.queryConfigDictValue(sysConfigDict);
 	}
@@ -215,5 +227,23 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	public List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map) {
 		return sysConfigDictMapper.findSchoolBySchoolType(map);
 	}
+
+    @Override
+    public List<SysConfigDict> querSysConfigDictList(Map<String, Object> map) {
+        return sysConfigDictMapper.querSysConfigDictList(map);
+    }
+    @Override
+    public Integer querSysConfigDictCount(Integer companyId) {
+    	return sysConfigDictMapper.querSysConfigDictCount(companyId);
+    }
+
+	@Override
+    public List<EduMasterClass> queryEduMasterClass(EduMasterClass ems) {
+	    return sysConfigDictMapper.queryEduMasterClass(ems);
+    }
+
+
+
+	
 
 }

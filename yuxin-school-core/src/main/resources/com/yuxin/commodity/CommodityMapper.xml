@@ -212,6 +212,9 @@
 			<if test="itemThirdCode != null and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
 			<if test="itemFourthCode != null and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
 			<if test="isMicroClass != null">is_micro_class = #{isMicroClass},</if>
+			
+			<if test="cddsStatus != null">cdds_status = #{cddsStatus},</if>
+			<if test="cddsRecommendFlag != null">cdds_recommend_flag = #{cddsRecommendFlag},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -412,7 +415,7 @@
 		JOIN commodity_product_realtion pr ON ct.id = pr.product_id
 		JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
 		JOIN sys_config_teacher sct ON ct.teacher_id = sct.id
-		JOIN sys_config_item sci on sci.parent_code='SUBJECT' and sci.item_code=c.item_third_code
+		JOIN sys_config_item sci on sci.parent_code='SUBJECT' and sci.item_code=c.item_third_code and sci.company_id=c.company_id
 		where c.status=1
 		<if test="com.companyId != null and com.companyId != ''">
 			and c.company_id=#{com.companyId}

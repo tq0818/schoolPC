@@ -31,6 +31,7 @@ import com.yuxin.wx.api.homework.IHomeworkService;
 import com.yuxin.wx.api.student.IStudentAgentMaterialService;
 import com.yuxin.wx.api.student.IStudentPayMasterService;
 import com.yuxin.wx.api.student.IStudentService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.user.IUserLessonTimeService;
 import com.yuxin.wx.api.user.IUsersFrontService;
 import com.yuxin.wx.common.PageFinder;
@@ -41,7 +42,9 @@ import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.student.StudentAgentMaterial;
 import com.yuxin.wx.model.student.StudentPayMaster;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.user.UsersFront;
+import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.student.StudentListVo;
@@ -89,7 +92,9 @@ public class ClassTypeStudentsController {
     private IClassModuleNoService classModuleNoServiceImpl;
     @Autowired
     private IClassModuleLessonService classModuleLessonServiceImpl;
-
+    @Autowired
+    private ISysConfigDictService sysConfigDictServiceImpl;
+    
     // 跳转到学员列表页面
     @RequestMapping(value = "/studentList/{id}/{lable}")
     public String forwardStudentList(Model model, @PathVariable Integer id, @PathVariable String lable) {
@@ -215,6 +220,23 @@ public class ClassTypeStudentsController {
         CompanyFunctionSet.setFunctionCode("STUDENT_GROUP");
         List<CompanyFunctionSet> CompanyFunctionSetList = companyFunctionSetServiceImpl.findCompanyFunctionSetByPage(CompanyFunctionSet);
         CompanyFunctionSet groupsearch = CompanyFunctionSetList != null && CompanyFunctionSetList.size() > 0 ? CompanyFunctionSetList.get(0) : null;
+        
+        //查询所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", area);	
+		//学段
+		areaDict.setDictCode("EDU_STEP");
+		List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+		model.addAttribute("steps", steps);
+		//年份列表
+		List<Integer> years = new ArrayList<Integer>();
+		int curYear = DateUtil.getCurYear();
+		for(int year = 0;year<12;year++){
+			years.add(curYear-year);
+		}
+		model.addAttribute( "years", years);
         if (null != groupsearch) {
             model.addAttribute("sgOpen", groupsearch.getStatus());
         }

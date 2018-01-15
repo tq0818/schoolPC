@@ -87,7 +87,54 @@ public class ClassType extends BaseEntity {
 
     private Integer isMicroClass;//是否微课
 
-    public Integer getRelationId() {
+    private Integer isOutSource;//是否购买的外校课程
+    private Integer isPublic;  //是否公开课程
+    private Double publicPrice; //公开课程价格
+    
+    private Integer sourceCompanyId;
+    private Integer sourceClassTypeId;
+    
+    public Integer getSourceCompanyId() {
+		return sourceCompanyId;
+	}
+
+	public void setSourceCompanyId(Integer sourceCompanyId) {
+		this.sourceCompanyId = sourceCompanyId;
+	}
+
+	public Integer getSourceClassTypeId() {
+		return sourceClassTypeId;
+	}
+
+	public void setSourceClassTypeId(Integer sourceClassTypeId) {
+		this.sourceClassTypeId = sourceClassTypeId;
+	}
+
+	public Integer getIsOutSource() {
+		return isOutSource;
+	}
+
+	public void setIsOutSource(Integer isOutSource) {
+		this.isOutSource = isOutSource;
+	}
+
+	public Integer getIsPublic() {
+		return isPublic;
+	}
+
+	public void setIsPublic(Integer isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public Double getPublicPrice() {
+		return publicPrice;
+	}
+
+	public void setPublicPrice(Double publicPrice) {
+		this.publicPrice = publicPrice;
+	}
+
+	public Integer getRelationId() {
         return this.relationId;
     }
 
@@ -115,42 +162,92 @@ public class ClassType extends BaseEntity {
     public ClassType() {
     }
 
-    public ClassType(String name, String typeCode, Double originalPrice, Double realPrice, String schoolsId, Integer itemOneId, Integer itemSecondId,
-            String description, String publishStatus, Date publishTime, Integer isSale, String cover, String subTitle, String detailDesc, Date createTime,
-            Integer creator, Date updateTime, Integer updator, Integer delFlag, Integer companyId, Integer baseNum, String lableType, String teacherId,
-            Integer faceFlag, Integer liveFlag, Integer videoFlag, Integer remoteFlag, Integer recommendFlag) {
-        super();
-        this.name = name;
-        this.typeCode = typeCode;
-        this.originalPrice = originalPrice;
-        this.realPrice = realPrice;
-        this.schoolsId = schoolsId;
-        this.itemOneId = itemOneId;
-        this.itemSecondId = itemSecondId;
-        this.description = description;
-        this.publishStatus = publishStatus;
-        this.publishTime = publishTime;
-        this.isSale = isSale;
-        this.cover = cover;
-        this.subTitle = subTitle;
-        this.detailDesc = detailDesc;
-        this.createTime = createTime;
-        this.creator = creator;
-        this.updateTime = updateTime;
-        this.updator = updator;
-        this.delFlag = delFlag;
-        this.companyId = companyId;
-        this.baseNum = baseNum;
-        this.lableType = lableType;
-        this.teacherId = teacherId;
-        this.faceFlag = faceFlag;
-        this.liveFlag = liveFlag;
-        this.videoFlag = videoFlag;
-        this.remoteFlag = remoteFlag;
-        this.recommendFlag = recommendFlag;
-    }
+   
 
-    // getter && setter
+    public ClassType(String name, String typeCode, Double originalPrice,
+			Double realPrice, String schoolsId, Integer itemOneId,
+			Integer itemSecondId, String description, String paperDescription,
+			String publishStatus, Date publishTime, Integer isSale,
+			String cover, String subTitle, String detailDesc, Date createTime,
+			Integer creator, Date updateTime, Integer updator, Integer delFlag,
+			Integer companyId, Integer baseNum, String lableType,
+			String teacherId, Integer faceFlag, Integer liveFlag,
+			Integer videoFlag, Integer remoteFlag, Integer recommendFlag,
+			Integer createSchoolId, String itemOneName, String itemSecondName,
+			Integer validityDay, Date validityDate, Integer videoWatchCount,
+			Integer liveWatchCount, Integer buyNumMax, Integer userId,
+			List<ClassModule> classModuleList, String itemTag, String tagName,
+			String itemTag2, String teachersId, Integer commodityId,
+			Integer integralFlag, Integer memberFlag, Integer relationId,
+			Integer protocolId, Integer subjectClassOrder, String iconLable,
+			String itemOneCode, String itemSecondCode, String itemThirdCode,
+			String itemFourthCode, String itemThirdName, String itemFourthName,
+			Integer isMicroClass, Integer isOutSource, Integer isPublic,
+			Double publicPrice) {
+		setId(id);
+		this.name = name;
+		this.typeCode = typeCode;
+		this.originalPrice = originalPrice;
+		this.realPrice = realPrice;
+		this.schoolsId = schoolsId;
+		this.itemOneId = itemOneId;
+		this.itemSecondId = itemSecondId;
+		this.description = description;
+		this.paperDescription = paperDescription;
+		this.publishStatus = publishStatus;
+		this.publishTime = publishTime;
+		this.isSale = isSale;
+		this.cover = cover;
+		this.subTitle = subTitle;
+		this.detailDesc = detailDesc;
+		this.createTime = createTime;
+		this.creator = creator;
+		this.updateTime = updateTime;
+		this.updator = updator;
+		this.delFlag = delFlag;
+		this.companyId = companyId;
+		this.baseNum = baseNum;
+		this.lableType = lableType;
+		this.teacherId = teacherId;
+		this.faceFlag = faceFlag;
+		this.liveFlag = liveFlag;
+		this.videoFlag = videoFlag;
+		this.remoteFlag = remoteFlag;
+		this.recommendFlag = recommendFlag;
+		this.createSchoolId = createSchoolId;
+		this.itemOneName = itemOneName;
+		this.itemSecondName = itemSecondName;
+		this.validityDay = validityDay;
+		this.validityDate = validityDate;
+		this.videoWatchCount = videoWatchCount;
+		this.liveWatchCount = liveWatchCount;
+		this.buyNumMax = buyNumMax;
+		this.userId = userId;
+		this.classModuleList = classModuleList;
+		this.itemTag = itemTag;
+		this.tagName = tagName;
+		this.itemTag2 = itemTag2;
+		this.teachersId = teachersId;
+		this.commodityId = commodityId;
+		this.integralFlag = integralFlag;
+		this.memberFlag = memberFlag;
+		this.relationId = relationId;
+		this.protocolId = protocolId;
+		this.subjectClassOrder = subjectClassOrder;
+		this.iconLable = iconLable;
+		this.itemOneCode = itemOneCode;
+		this.itemSecondCode = itemSecondCode;
+		this.itemThirdCode = itemThirdCode;
+		this.itemFourthCode = itemFourthCode;
+		this.itemThirdName = itemThirdName;
+		this.itemFourthName = itemFourthName;
+		this.isMicroClass = isMicroClass;
+		this.isOutSource = isOutSource;
+		this.isPublic = isPublic;
+		this.publicPrice = publicPrice;
+	}
+
+	// getter && setter
     // 在setter方法最后加上"return this;"并把返回参数改为ClassType可以实现连缀设置属性
 
     public String getName() {

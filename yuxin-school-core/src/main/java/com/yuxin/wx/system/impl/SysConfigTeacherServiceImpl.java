@@ -1,21 +1,22 @@
 package com.yuxin.wx.system.impl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.yuxin.wx.common.BaseServiceImpl;
+import com.yuxin.wx.api.system.ISysConfigTeacherLessonService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
+import com.yuxin.wx.auth.mapper.AuthRoleMapper;
 import com.yuxin.wx.auth.mapper.AuthUserRoleMapper;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.system.SysConfigTeacherLesson;
+import com.yuxin.wx.model.teacher.UsersComanyRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.system.mapper.SysConfigTeacherLessonMapper;
 import com.yuxin.wx.system.mapper.SysConfigTeacherMapper;
@@ -41,9 +42,15 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 
     @Autowired
     private UsersMapper usersMapper;
+    
+    @Autowired
+    private ISysConfigTeacherLessonService sysConfigTeacherLessonServiceImpl;
 
     @Autowired
     private AuthUserRoleMapper authUserRoleMapper;
+    
+    @Autowired
+    private AuthRoleMapper authRoleMapper ;
 
     /**
      * 
@@ -262,25 +269,43 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         usersMapper.insert(users);
         sysConfigTeacher.setUserId(users.getId());
         sysConfigTeacherMapper.insert(sysConfigTeacher);
+        
+        List<AuthRole> roles=authRoleMapper.findByCompanyId(users.getCompanyId());
+        String teaRoleId=new String();  
+        String aduRoleId=new String();
+        if(null!=roles&&roles.size()>0){
+        	for(AuthRole ar:roles){
+        		if("直播老师".equals(ar.getRoleName())&&null!=ar.getId()){
+        			teaRoleId=String.valueOf(ar.getId());
+        		}else if("助教".equals(ar.getRoleName())&&null!=ar.getId()){
+        			aduRoleId=String.valueOf(ar.getId());
+        		}
+        	}
+        }
         AuthUserRole authUserRole = new AuthUserRole();
         authUserRole.setUserId(users.getId());
         String ttype = sysConfigTeacher.getTeaOrAdu();
         if ("tea".equals(ttype)) {
-            authUserRole.setRoleUid("6");
+            authUserRole.setRoleUid(teaRoleId);
         }
         if ("adu".equals(ttype)) {
-            authUserRole.setRoleUid("7");
+            authUserRole.setRoleUid(aduRoleId);
         }
         authUserRole.setCreateTime(sysConfigTeacher.getCreateTime());
         authUserRole.setCreator(sysConfigTeacher.getCreator().toString());
         authUserRoleMapper.insert(authUserRole);
+        //添加教师学校关系表
+        UsersComanyRelation ucr=new UsersComanyRelation();
+        ucr.setUserId(users.getId());
+        ucr.setCompanyId(users.getCompanyId());
+        ucr.setIsUsed(1);
+        usersMapper.insertUsersComanyRelation(ucr);
         sysConfigTeacherLesson.setTeacherId(sysConfigTeacher.getId());
         sysConfigTeacherLessonMapper.insert(sysConfigTeacherLesson);
     }
 
     @Override
     public void isnertTeaAndUse(SysConfigTeacher sysConfigTeacher) {
-        // TODO Auto-generated method stub
         Users users = new Users();
         users.setUsername(sysConfigTeacher.getUserName());
         users.setPassword(sysConfigTeacher.getPwd());
@@ -290,16 +315,40 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         users.setRealName(sysConfigTeacher.getName());
         users.setMobile(sysConfigTeacher.getMobile());
         usersMapper.insert(users);
+        //添加教师学校关系表
+        UsersComanyRelation ucr=new UsersComanyRelation();
+        ucr.setUserId(users.getId());
+        ucr.setCompanyId(users.getCompanyId());
+        ucr.setIsUsed(1);
+        usersMapper.insertUsersComanyRelation(ucr);
+        List<AuthRole> roles=authRoleMapper.findByCompanyId(users.getCompanyId());
+        String teaRoleId=new String();  
+        String aduRoleId=new String();
+        if(null!=roles&&roles.size()>0){
+        	for(AuthRole ar:roles){
+        		if("直播老师".equals(ar.getRoleName())&&null!=ar.getId()){
+        			teaRoleId=String.valueOf(ar.getId());
+        		}else if("助教".equals(ar.getRoleName())&&null!=ar.getId()){
+        			aduRoleId=String.valueOf(ar.getId());
+        		}
+        	}
+        }
         sysConfigTeacher.setUserId(users.getId());
         sysConfigTeacherMapper.insert(sysConfigTeacher);
+        
+        SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
+        Integer teaId = sysConfigTeacher.getId();
+        Integer itemOneId = sysConfigTeacher.getItemOneId();
+        lesson.setItemOneId(itemOneId);
+        lesson.setTeacherId(teaId);
+        sysConfigTeacherLessonServiceImpl.insert(lesson);
         AuthUserRole authUserRole = new AuthUserRole();
         authUserRole.setUserId(users.getId());
         String ttype = sysConfigTeacher.getTeaOrAdu();
         if ("tea".equals(ttype)) {
-            authUserRole.setRoleUid("6");
-        }
-        if ("adu".equals(ttype)) {
-            authUserRole.setRoleUid("7");
+            authUserRole.setRoleUid(teaRoleId);
+        }else if ("adu".equals(ttype)) {
+            authUserRole.setRoleUid(aduRoleId);
         }
         authUserRole.setCreateTime(sysConfigTeacher.getCreateTime());
         authUserRole.setCreator(sysConfigTeacher.getCreator().toString());
@@ -312,8 +361,17 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         // 添加用户信息
         usersMapper.insert(user);
         // 添加用户角色权限信息
+        List<AuthRole> roles=authRoleMapper.findByCompanyId(user.getCompanyId());
+        String teaRoleId=new String();  
+        if(null!=roles&&roles.size()>0){
+        	for(AuthRole ar:roles){
+        		if("直播老师".equals(ar.getRoleName())&&null!=ar.getId()){
+        			teaRoleId=String.valueOf(ar.getId());
+        		}
+        	}
+        }
         AuthUserRole authUserRole = new AuthUserRole();
-        authUserRole.setRoleUid("6");
+        authUserRole.setRoleUid(teaRoleId);
         authUserRole.setUserId(user.getId());
         authUserRole.setUpdateTime(new Date());
         authUserRole.setUpdator(user.getId() + "");
@@ -333,6 +391,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         teacher.setStatusCode("TEACHER_USERD");
         teacher.setSchoolId(user.getSchoolId());
         sysConfigTeacherMapper.insert(teacher);
+        //添加教师学校关系表
+        UsersComanyRelation ucr=new UsersComanyRelation();
+        ucr.setUserId(user.getId());
+        ucr.setCompanyId(user.getCompanyId());
+        ucr.setIsUsed(1);
+        usersMapper.insertUsersComanyRelation(ucr);
         return teacher.getId();
     }
 
@@ -348,6 +412,22 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         List<SysConfigTeacher> teachers = sysConfigTeacherMapper.findByCompany(search);
         int rowCount = sysConfigTeacherMapper.findByCompanyCount(search);
         PageFinder<SysConfigTeacher> pageFinder = new PageFinder<SysConfigTeacher>(search.getPage(), search.getPageSize(), rowCount, teachers);
+        return pageFinder;
+    }
+    @Override
+    public PageFinder<SysConfigTeacher> findNewTeacherPage(SysConfigTeacher search) {
+        // TODO Auto-generated method stub
+        PageFinder<SysConfigTeacher> pageFinder = null;
+        Integer itemOneId = search.getItemOneId();
+        if (itemOneId == 0) {
+            List<SysConfigTeacher> teachers = sysConfigTeacherMapper.findByNewCompany(search);
+            int rowCount = sysConfigTeacherMapper.findByCompanyCount(search);
+            pageFinder = new PageFinder<SysConfigTeacher>(search.getPage(), search.getPageSize(), rowCount, teachers);
+        } else if (itemOneId > 0) {
+            List<SysConfigTeacher> teachers = sysConfigTeacherMapper.queryAllNewTeachersWithItemOneId(search);
+            int rowCount = sysConfigTeacherMapper.queryAllTeachersCountWithItemOneId(search);
+            pageFinder = new PageFinder<SysConfigTeacher>(search.getPage(), search.getPageSize(), rowCount, teachers);
+        }
         return pageFinder;
     }
 
@@ -403,9 +483,13 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 
         Integer teacherID = sysConfigTeacher.getId();
         Integer delFlag = sysConfigTeacher.getDelFlag();
-
+        
+        Integer companyId=sysConfigTeacher.getCompanyId();
+        Map<String,Integer>  map= new HashMap<String,Integer>();
+        map.put("teacherId",teacherID);
+        map.put("companyId" , companyId);
         SysConfigTeacher findT = sysConfigTeacherMapper.findById(teacherID);
-        sysConfigTeacherLessonMapper.deleteByTeacherId(teacherID);
+        sysConfigTeacherLessonMapper.deleteByTeacherIdNew(map);
 
         if (delFlag != null && delFlag.equals(1)) {
             SysConfigTeacher delTeacher = new SysConfigTeacher();
@@ -427,7 +511,8 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
                 if (user != null) {
                     users.setId(sysConfigTeacher.getUserId());
                     users.setPassword(pwd);
-
+                    users.setPhone(sysConfigTeacher.getMobile());
+                    users.setMobile(sysConfigTeacher.getMobile());
                     usersMapper.update(users);
 
                     // 存在用户则不更新
@@ -443,15 +528,32 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
                     users.setRealName(sysConfigTeacher.getName());
                     users.setMobile(sysConfigTeacher.getMobile());
                     usersMapper.insert(users);
-
+                    //添加教师学校关系表
+                    UsersComanyRelation ucr=new UsersComanyRelation();
+                    ucr.setUserId(users.getId());
+                    ucr.setCompanyId(users.getCompanyId());
+                    ucr.setIsUsed(1);
+                    usersMapper.insertUsersComanyRelation(ucr);
+                    
+                    List<AuthRole> roles=authRoleMapper.findByCompanyId(users.getCompanyId());
+                    String teaRoleId=new String();  
+                    String aduRoleId=new String();
+                    if(null!=roles&&roles.size()>0){
+                    	for(AuthRole ar:roles){
+                    		if("直播老师".equals(ar.getRoleName())&&null!=ar.getId()){
+                    			teaRoleId=String.valueOf(ar.getId());
+                    		}else if("助教".equals(ar.getRoleName())&&null!=ar.getId()){
+                    			aduRoleId=String.valueOf(ar.getId());
+                    		}
+                    	}
+                    }
                     AuthUserRole authUserRole = new AuthUserRole();
                     authUserRole.setUserId(users.getId());
                     String ttype = sysConfigTeacher.getTeaOrAdu();
                     if ("tea".equals(ttype)) {
-                        authUserRole.setRoleUid("6");
-                    }
-                    if ("adu".equals(ttype)) {
-                        authUserRole.setRoleUid("7");
+                        authUserRole.setRoleUid(teaRoleId);
+                    }else if ("adu".equals(ttype)) {
+                        authUserRole.setRoleUid(aduRoleId);
                     }
                     authUserRole.setCreateTime(new Date());
                     authUserRole.setCreator(sysConfigTeacher.getCreator().toString());

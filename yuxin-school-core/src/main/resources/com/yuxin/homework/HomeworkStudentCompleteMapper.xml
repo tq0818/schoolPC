@@ -189,9 +189,11 @@
 							s.user_id AS user_id,
 							s.group_one_id AS group_one_id,
 							s.group_two_id AS group_two_id
-						FROM
-									student_pay_slave sps
-						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						FROM student_pay_slave sps
+						INNER JOIN student s ON sps.stu_id = s.id 
+						inner join users_front uf on s.user_id=uf.id
+						inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+						AND c.id = #{companyId}
 						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
@@ -212,7 +214,10 @@
 							s.group_two_id AS group_two_id
 						FROM
 									student_pay_slave sps
-						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student s ON sps.stu_id = s.id
+						inner join users_front uf on s.user_id=uf.id 
+						inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+						AND c.id = #{companyId}
 						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0 and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
@@ -326,7 +331,10 @@
 							s.group_two_id AS group_two_id
 						FROM
 									student_pay_slave sps
-						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student s ON sps.stu_id = s.id 
+						inner join users_front uf on s.user_id=uf.id 
+						inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+						AND c.id= #{companyId}
 						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
@@ -347,7 +355,10 @@
 							s.group_two_id AS group_two_id
 						FROM
 									student_pay_slave sps
-						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student s ON sps.stu_id = s.id
+						inner join users_front uf on s.user_id=uf.id 
+						inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+						AND c.id= #{companyId}
 						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
@@ -471,7 +482,10 @@
 							s.user_id AS user_id
 						FROM
 									student_pay_slave sps
-						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student s ON sps.stu_id = s.id 
+						inner join users_front uf on s.user_id=uf.id 
+						inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+						AND c.id= #{companyId}
 						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'
@@ -490,7 +504,10 @@
 							s.user_id AS user_id
 						FROM
 									student_pay_slave sps
-						INNER JOIN student s ON sps.stu_id = s.id AND s.company_id = #{companyId}
+						INNER JOIN student s ON sps.stu_id = s.id
+						inner join users_front uf on s.user_id=uf.id 
+						inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+						AND c.id= #{companyId}
 						INNER JOIN student_pay_master spm ON sps.pay_master_id = spm.id AND spm.delete_flag = 0  and spm.origin_type=0 AND (
 																								spm.pay_status_code = 'ORDER_PAID'
 																								OR spm.pay_status_code = 'ORDER_PART_PAY'

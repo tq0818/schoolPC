@@ -32,6 +32,7 @@ public class SysConfigSchool extends BaseEntity {
 	private Integer schoolNum;  /* 分校招生人数*/
 	private String mark;
 	private String suffix;		/* 分校后缀*/
+	private String zhuCompanyId;
 	
 	public String getSchoolName() {
 		return schoolName;
@@ -165,5 +166,13 @@ public class SysConfigSchool extends BaseEntity {
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
 	}
+	
+    public String getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+	
+    public void setZhuCompanyId(String zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 	
 }

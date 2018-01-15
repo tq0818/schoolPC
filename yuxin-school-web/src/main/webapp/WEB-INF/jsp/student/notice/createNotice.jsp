@@ -53,13 +53,11 @@
 					</p>
 					<p class="c">
 						<span class="c-title">通知方式：</span> <span class="c-content font-style">
-							<a href="javascript:;"
-							class="btn btn-mini btn-method btn-primary"
-							data-type="STUDENT_MESSAGE_MOBILE">短信通知</a> <a
-							href="javascript:;" class="btn btn-mini btn-method btn-default"
-							data-type="STUDENT_MESSAGE_WEB">站内信通知</a><a
-							href="javascript:;" class="btn btn-mini btn-method btn-default"
-							data-type="STUDENT_MESSAGE_EMAIL">邮件通知</a>
+							<a href="javascript:;" class="btn btn-mini btn-method btn-primary" data-type="STUDENT_MESSAGE_MOBILE">短信通知</a>
+							<a href="javascript:;" class="btn btn-mini btn-method btn-default" data-type="STUDENT_MESSAGE_WEB">站内信通知</a>
+							<c:if test="${CURRENT_IS_AREA eq 0}">
+								<a href="javascript:;" class="btn btn-mini btn-method btn-default" data-type="STUDENT_MESSAGE_EMAIL">邮件通知</a>
+							</c:if>
 						</span>
 					</p>
 					<p class="c">
@@ -72,12 +70,11 @@
 								href="javascript:;" class="btn btn-mini btn-type btn-default"
 								data-type="STUDENT_MESSAGE_MODULENO">班号通知</a>
 	                        </c:if> 
-							<a
-							href="javascript:;" class="btn btn-mini btn-type btn-default"
+							<a href="javascript:;" class="btn btn-mini btn-type btn-default"
 							data-type="STUDENT_MESSAGE_SPECIAL">指定通知</a>
-							<a
-							href="javascript:;" class="btn btn-mini btn-type btn-default"
-							data-type="STUDENT_MESSAGE_GROUP">学员分组通知</a>
+							<c:if test="${CURRENT_IS_AREA eq 0}">
+								<a href="javascript:;" class="btn btn-mini btn-type btn-default" data-type="STUDENT_MESSAGE_GROUP">学员分组通知</a>
+							</c:if>
 						</span>
 					</p>
 					

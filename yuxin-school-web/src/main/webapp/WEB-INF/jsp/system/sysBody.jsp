@@ -25,44 +25,43 @@
 <%@include file="/WEB-INF/jsp/company/commonDomain.jsp"%>
 	<div class="u-wrap set-system company overflow">
 	<jsp:include page="/WEB-INF/jsp/menu/menu_systemconfig.jsp"></jsp:include>
-	<div class="right-side">
-		<div class="mainbackground space" style="background:#fff;">
-		<input type="hidden" id="schoolId" value='${schoolId}'/>
-		<input type="hidden" id="schoolName" value='${schoolName}'/>
-		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
-		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
-			<div class="title single">
-				<h2 class="h6 fl" style="font-size: 14px;">选择分校</h2>
-				<div class="sc-type">
-				</div>
-			</div>
-
-			<div class="sysmodules">
-				<div class="heading">
-					<h2 class="h5" style="font-size: 14px;">系统模板</h2>
-					<span class="line"></span>
-				</div>
-				<div class="themes-list">
-					<ul>
-						
-					</ul>
-				</div>
-			</div>
-			<div class="mymodules">
-				<div class="heading">
-					<h2 class="h5" style="font-size: 14px;">我的模板</h2>
-					<div class="rb">
-						<a href="javascript:void(0);" class="btn btn-mini btn-primary addModule">
-						<em class="iconfont">&#xe606;</em> 添加模板</a>
+		<div class="right-side">
+			<div class="mainbackground space" style="background:#fff;">
+				<div class="sysmodules">
+					<div class="heading">
+						<h2 class="h5" style="font-size: 14px;">系统模板</h2>
+						<span class="line"></span>
 					</div>
-					<span class="line"></span>
+					<div class="themes-list">
+						<ul>
+
+						</ul>
+					</div>
 				</div>
-				<div class="themes-list">
-					<ul>
-					</ul>
+				<input type="hidden" id="schoolId" value='${schoolId}'/>
+				<input type="hidden" id="schoolName" value='${schoolName}'/>
+				<input type="hidden" id="isAdmin" value='${isAdmin}'/>
+				<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
+				<div class="title single">
+					<h2 class="h6 fl" style="font-size: 14px;"></h2>
+					<div class="sc-type" style="display: none">
+					</div>
 				</div>
+				<%--<div class="mymodules">
+                    <div class="heading">
+                        <h2 class="h5" style="font-size: 14px;">我的模板</h2>
+                        <div class="rb">
+                            <a href="javascript:void(0);" class="btn btn-mini btn-primary addModule">
+                            <em class="iconfont">&#xe606;</em> 添加模板</a>
+                        </div>
+                        <span class="line"></span>
+                    </div>
+                    <div class="themes-list">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>--%>
 			</div>
-		</div>
 		</div>
 	</div>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/sys-body.js" ></script>

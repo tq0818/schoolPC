@@ -202,7 +202,7 @@
 	</sql>
 	
 	<sql id="page_wheres">
-		and origin_type=0
+		and 1=1 and origin_type=0
 		<if test="fileName != null and fileName != ''">and file_name like '%${fileName}%'</if>
 		<if test="fileType != null and fileType != ''">and file_type = #{fileType}</if>
 		<if test="filePath != null and filePath != ''">and file_path = #{filePath}</if>

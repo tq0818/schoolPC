@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
+import com.yuxin.wx.vo.privilege.RoleVo;
 
 /**
  * Service Interface:AuthUserRole
@@ -59,7 +60,7 @@ public interface IAuthUserRoleService  {
 	* @date 2015-1-26
 	* @user by wangzx
 	 */
-	void deleteAuthUserRoleById(Integer id);
+	void deleteAuthUserRoleById(AuthUserRole role);
 	
 	/**
 	 * 
@@ -123,6 +124,9 @@ public interface IAuthUserRoleService  {
 	 */
 	Set<String> queryUserRoles(String userName);
 	
+	Set<String> queryUserRoles(String userName,Integer companyId);
+	
+	List<RoleVo> queryRolesByConttion(Integer userId,Integer companyId);
  /**
   * 
   * Class Name: IAuthUserRoleService.java
@@ -134,6 +138,7 @@ public interface IAuthUserRoleService  {
   * @return
   */
  List<AuthUserRole> findByRoleId(String userId);
+ List<AuthUserRole> findAuthUserRoleByCompanyAndUserId(AuthUserRole role);
  /**
   * Class Name: IAuthUserRoleService.java
   * @Description: 获取用户权限列表
@@ -142,6 +147,8 @@ public interface IAuthUserRoleService  {
   * @return
   */
  Set<String> findUserPermissions(String userName);
+ 
+ Set<String> findUserPermissions(String userName,Integer companyId);
  
  /**
   * 
@@ -155,5 +162,20 @@ public interface IAuthUserRoleService  {
   * @param id
   */
  void deleteByRoleId(Integer id);
+ /**
+  * 
+  * @param earaCode 区县负责人对应的区域
+  * @param schoolAaraCode 学校负责人对应的区域
+  * @param schoolCode 学校负责人对应的学校
+  * @param gradeCode 班主任对应的年级代码
+  * @param classCode 班主任对应的班级代码
+  * @param subjectCode 任课老师对应的科目
+  * @param subJectGradeCode 任课老师对应的年级
+  * @param subjectClassCode 任课老师对应的班级
+  * @param roles 角色集合
+  */
+ void insertOrUpdateAreaInfo(String areaCompanyCode,String earaCode,String schoolAaraCode,String schoolCode,
+						String gradeCode,String classCode,String subjectCode,
+						String[] subJectGradeCode,String[] subjectClassCode,String roles,Integer userId);
 	
 }

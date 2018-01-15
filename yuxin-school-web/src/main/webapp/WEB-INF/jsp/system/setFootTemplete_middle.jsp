@@ -69,6 +69,7 @@
 <input type="hidden" value="${set.content }" id="header-theme-color"/>
 <jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"></jsp:include>
 <%@include file="/WEB-INF/jsp/company/commonDomain.jsp"%>
+<input id="CURRENT_IS_AREA" value="${CURRENT_IS_AREA}" type="hidden" />
 <div class="u-wrap company overflow">
     <jsp:include page="/WEB-INF/jsp/menu/menu_systemconfig.jsp"></jsp:include>
      <div class="right-side">
@@ -239,10 +240,10 @@
                             <div class="line-right" id="chooseLists" style="line-height: 70px">
                                  <c:choose>
 					            	<c:when test="${companyInfo.logoType=='picture' }">
-					            		<input type="radio" checked="checked" name="com" value="logo"/>LOGO &nbsp;&nbsp; <input class="iconfont" type="radio" name="com" value="comname"/>公司名称
+					            		<input type="radio"  name="com" value="logo"/>LOGO &nbsp;&nbsp; <input class="iconfont" checked="checked" type="radio" name="com" value="comname"/>公司名称
 					            	</c:when>
 					            	<c:otherwise>
-					            		<input type="radio" name="com" value="logo"/>LOGO &nbsp;&nbsp; <input class="iconfont" type="radio" checked="checked" name="com" value="comname"/>公司名称
+					            		<input type="radio" name="com" value="logo"/>LOGO &nbsp;&nbsp; <input class="iconfont" checked="checked" type="radio" checked="checked" name="com" value="comname"/>公司名称
 					            	</c:otherwise>
 					            </c:choose>
                             </div>
@@ -265,9 +266,23 @@
                             
                              <div id="twoDiv" class="line-right" style="display: none;">
 				            	<div style="float: left;">
-				            		<div> 
-				            			<span id="spanName">${companyInfo.logoText }</span>
-				            			<input id="upName" type="text" style="display: none;" maxlength="8" value="${companyInfo.logoText }"/>
+				            		<div>
+				            			<c:choose>
+                                    		<c:when test="${!empty companyInfo && companyInfo.logoText ne 'test' }">
+                                    			 <span id="spanName">${companyInfo.logoText }</span>
+				            					 <input id="upName" type="text" style="display: none;" maxlength="8" value="${companyInfo.logoText }"/>
+                                    		</c:when>
+                                    		<c:when test="${CURRENT_IS_AREA eq 0}">
+                                    			<span id="spanName">${companyInfo.logoText }</span>
+				            					<input id="upName" type="text" style="display: none;" maxlength="8" value="${companyInfo.logoText }"/>
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			 <span id="spanName"></span>
+				            					 <input id="upName" type="text" style="display: none;" maxlength="8" value=""/>
+                                    		</c:otherwise>
+                                    	</c:choose> 
+				            			<%-- <span id="spanName">${companyInfo.logoText }</span>
+				            			<input id="upName" type="text" style="display: none;" maxlength="8" value="${companyInfo.logoText }"/> --%>
 				            		</div>
 				            		<div style="margin-top: 10px;">
 				            			<input type="button" onclick="changen()" id="btnupdate" value="修改" class="btn btn-sm btn-default">
@@ -286,11 +301,14 @@
                                 <div class="right-input">
                                     <form action="">
                                     	<c:choose>
-                                    		<c:when test="${!empty companyInfo }">
+                                    		<c:when test="${!empty companyInfo && companyInfo.overview ne '客户服务热线:400-028-0939' }">
                                     			 <label for="">${companyInfo.overview }</label>
                                     		</c:when>
+                                    		<c:when test="${CURRENT_IS_AREA eq 0}">
+                                    			<label for="">${companyInfo.overview }</label>
+                                    		</c:when>
                                     		<c:otherwise>
-                                    			 <label for="">24小时服务热线：400-965-8366</label>
+                                    			 <label for=""></label>
                                     		</c:otherwise>
                                     	</c:choose>
                                         <input type="text" id="companyOverview" value=""/>
@@ -440,7 +458,14 @@
                                     <div class="content">
                                         <p>
                                             <span class="name">链接地址：</span>
-                                            <input type="text" value="${companyInfo.sinaWeibo }" disabled="disabled" id="sinaNos" class="title-content" placeholder="示例:http://yunduoketang.com/course">
+                                            <c:choose>
+                                    		<c:when test="${CURRENT_IS_AREA eq 0}">
+                                    		 <input type="text" value="${companyInfo.sinaWeibo }" disabled="disabled" id="sinaNos" class="title-content" placeholder="示例:http://yunduoketang.com/course">
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    		 <input type="text" value="${companyInfo.sinaWeibo }" disabled="disabled" id="sinaNos" class="title-content" placeholder="">
+                                    		</c:otherwise>
+                                    	</c:choose> 
                                             <s class="l-btn upload savebtn_mark" mark="sina_mark">编辑</s>
                                             <s class="l-btn upload savebtn_mark" style="display: none;" mark="sina_mark" onclick="updateMarkingInfo(this);">保存</s>
                                             <s class="r-btn marking_cancle" mark="sina_mark" value="${companyInfo.sinaWeibo }">取消</s>
@@ -464,7 +489,17 @@
                                     <div class="content">
                                         <p>
                                             <span class="name">链接地址：</span>
-                                            <input type="text" value="${companyInfo.tencentWeibo }" disabled="disabled" id="tecentMarking" class="title-content" placeholder="示例:http://yunduoketang.com/course">
+                                            <c:choose>
+                                    		<c:when test="${companyInfo.tencentWeibo ne 'tencent://message/?uin=4000280939&site=在线咨询&menu=yes'}">
+                                    		 <input type="text" value="${companyInfo.tencentWeibo }" disabled="disabled" id="tecentMarking" class="title-content" placeholder="">
+                                    		</c:when>
+                                    		<c:when test="${CURRENT_IS_AREA eq 0}">
+                                    		 <input type="text" value="${companyInfo.tencentWeibo }" disabled="disabled" id="tecentMarking" class="title-content" placeholder="示例:http://yunduoketang.com/course">
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    		 <input type="text" value="" disabled="disabled" id="sinaNos" class="title-content" placeholder="">
+                                    		</c:otherwise>
+                                    		</c:choose>
                                             <s class="l-btn upload savebtn_mark" mark="qq_mark">编辑</s>
                                             <s class="l-btn upload savebtn_mark" style="display: none;" mark="qq_mark" onclick="updateMarkingInfo(this);">保存</s>
                                             <s class="r-btn marking_cancle"  mark="qq_mark" value="${companyInfo.tencentWeibo }">取消</s>
@@ -487,7 +522,16 @@
                                     <div class="content">
                                         <p>
                                             <span class="name">图片：</span>
-                                            <input type="text" id="wxPic_marking" value="${companyInfo.tencentWechat }" class="title-content" placeholder="/assets/img/default/weixin.png">
+                                            <c:choose>
+                                    		<c:when test="${companyInfo.tencentWechat ne 'http://images.cdds365.com/company/18113/20170604/82b8c952-14a1-401d-8ffb-1f69cbe93eea.jpg'}">
+                                    		 <input type="text" id="wxPic_marking" value="${companyInfo.tencentWechat }" class="title-content" placeholder="">
+                                    		</c:when>
+                                    		<c:when test="${CURRENT_IS_AREA eq 0}">
+											<input type="text" id="wxPic_marking" value="${companyInfo.tencentWechat }" class="title-content" placeholder="/assets/img/default/weixin.png">                                    		</c:when>
+                                    		<c:otherwise>
+                                    		<input type="text" id="wxPic_marking" value="" class="title-content" placeholder="">
+                                    		</c:otherwise>
+                                    		</c:choose>
                                             <em class="reletive">
                                             <c:choose>
                                             	<c:when test="${empty companyInfo.tencentWechat }">

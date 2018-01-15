@@ -77,6 +77,98 @@ public class ClassTypeVo extends BaseEntity {
 	private Integer subjectClassOrder;//学科课程排序
 	private String  iconLable;
 	private Integer isMicroClass;	//是否微课
+
+    private Integer isOutSource;//是否购买的外校课程
+    private Integer isPublic;  //是否公开课程
+    private Double publicPrice; //公开课程价格
+	
+	private String schoolName;
+	private String domainManage;//来源校域名
+	private String teacherName;
+	private String paperDescription;//试卷描述
+	private String domain;
+	private Integer cddsStatus;//数校上下架状态
+	private Integer cddsRecommendFlag;//数校是否推荐
+	
+	private Integer companyId;
+	private String livestatus;//直播进行状态
+	
+	private String sourceClassTypeId;
+	private String paixu;
+
+
+	public String getPaixu() {
+		return paixu;
+	}
+	public void setPaixu(String paixu) {
+		this.paixu = paixu;
+	}
+	public String getSourceClassTypeId() {
+		return sourceClassTypeId;
+	}
+	public void setSourceClassTypeId(String sourceClassTypeId) {
+		this.sourceClassTypeId = sourceClassTypeId;
+	}
+	public String getDomainManage() {
+		return domainManage;
+	}
+	public void setDomainManage(String domainManage) {
+		this.domainManage = domainManage;
+	}
+	public String getLivestatus() {
+		return livestatus;
+	}
+	public void setLivestatus(String livestatus) {
+		this.livestatus = livestatus;
+	}
+	public Integer getCddsRecommendFlag() {
+		return cddsRecommendFlag;
+	}
+	public void setCddsRecommendFlag(Integer cddsRecommendFlag) {
+		this.cddsRecommendFlag = cddsRecommendFlag;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	public Integer getCddsStatus() {
+		return cddsStatus;
+	}
+	public void setCddsStatus(Integer cddsStatus) {
+		this.cddsStatus = cddsStatus;
+	}
+	public Integer getIsOutSource() {
+		return isOutSource;
+	}
+	public void setIsOutSource(Integer isOutSource) {
+		this.isOutSource = isOutSource;
+	}
+	public Integer getIsPublic() {
+		return isPublic;
+	}
+	public void setIsPublic(Integer isPublic) {
+		this.isPublic = isPublic;
+	}
+	public Double getPublicPrice() {
+		return publicPrice;
+	}
+	public void setPublicPrice(Double publicPrice) {
+		this.publicPrice = publicPrice;
+	}
+	public String getDomain() {
+		return domain;
+	}
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+	public String getPaperDescription() {
+		return paperDescription;
+	}
+	public void setPaperDescription(String paperDescription) {
+		this.paperDescription = paperDescription;
+	}
 	public Integer getCommodityId() {
 		return commodityId;
 	}
@@ -508,5 +600,20 @@ public class ClassTypeVo extends BaseEntity {
 
 	public void setIsMicroClass(Integer isMicroClass) {
 		this.isMicroClass = isMicroClass;
+	}
+	
+
+	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	public String getSchoolName() {
+		return schoolName;
+	}
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 }

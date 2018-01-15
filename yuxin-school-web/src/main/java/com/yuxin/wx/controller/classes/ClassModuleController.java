@@ -577,7 +577,7 @@ public class ClassModuleController {
 	@RequestMapping("/show")
 	public String show(Model model,HttpServletRequest request) throws ParseException{
 		Integer userId = WebUtils.getCurrentUserId(request);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("role", "admin");
 		}else{
 			model.addAttribute("role", "teacher");
@@ -604,7 +604,7 @@ public class ClassModuleController {
 		Integer userId = WebUtils.getCurrentUserId(request);
 		//当前用户 是否是 老师
 		SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(userId);
-		if(authRoleServiceImpl.hasRoleFlag(userId)){
+		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			mlv.setSchoolId(schoolId);
 			if(teacher != null){
 				model.addAttribute("roles", "adminAndTeacher");
@@ -1382,7 +1382,7 @@ public class ClassModuleController {
 		String rols = "";
 		String role = "";
 
-		if(authRoleServiceImpl.hasRoleFlag(user.getId())){
+		if(authRoleServiceImpl.hasRoleFlag(user.getId(),WebUtils.getCurrentCompanyId())){
 			rol = "admin";
 		}
 		if(teacher != null && "PERSON_TEACHER".equals(teacher.getTeacherType())){
@@ -1864,6 +1864,7 @@ public class ClassModuleController {
 //		List<SysConfigItem> item = sysConfigItemServiceImpl.findSysConfigItemByPid("2", oneItem, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentUserSchoolId(request));
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(pid);
+		relation.setCompanyId(WebUtils.getCurrentCompanyId());
 		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -3312,7 +3313,7 @@ public class ClassModuleController {
 			,String lessonHour,String teachers,String teachersName,String assistants
 			,String assistantsName,String lessonName,String classroomName,Integer classroomId
 			,Integer mark,Integer classNoId,Integer supportMobile,String liveClassType,
-			Integer barrage,Integer modetype,String beforeStudyUrl,String afterStudyUrl) throws Exception{
+			Integer barrage,Integer modetype,String beforeStudyUrl,String afterStudyUrl,String beforeStudyName) throws Exception{
 		JSONObject json = new JSONObject();
 		Integer companyId = WebUtils.getCurrentCompanyId();
 
@@ -3360,6 +3361,8 @@ public class ClassModuleController {
 				lesson.setLiveRoom(UUID.randomUUID().toString().replaceAll("-", ""));
 				lesson.setAfterStudyUrl(afterStudyUrl);
 				lesson.setBeforeStudyUrl(beforeStudyUrl);
+				lesson.setBeforeStudyName(beforeStudyName);
+
 				if("TEACH_METHOD_FACE".equals(teachMethod)){
 					lesson.setClassroom(classroomName);
 					lesson.setClassroomId(classroomId);
@@ -3791,7 +3794,7 @@ public class ClassModuleController {
 			String teachMethod,String lessonDate,String lessonTimeStart,String lessonTimeEnd,Integer lessonHour,
 			String teachers,String teachersName,String assistants,String assistantsName,String lessonName,
 			String classroomName,Integer classroomId,Integer mark,Integer moduleId,Integer supportMobile,String liveClassType
-			,Integer barrage ,Integer modetype,String afterStudyUrl,String beforeStudyUrl) throws Exception{
+			,Integer barrage ,Integer modetype,String afterStudyUrl,String beforeStudyUrl,String beforeStudyName) throws Exception{
 		JSONObject json = new JSONObject();
 		Integer companyId = WebUtils.getCurrentCompanyId();
 
@@ -3844,6 +3847,7 @@ public class ClassModuleController {
 		lesson.setLiveRoom(UUID.randomUUID().toString().replaceAll("-", ""));
 		lesson.setAfterStudyUrl(afterStudyUrl);
 		lesson.setBeforeStudyUrl(beforeStudyUrl);
+		lesson.setBeforeStudyName(beforeStudyName);
 		classModuleLessonServiceImpl.insert(lesson);
 		json.put(JsonMsg.MSG, JsonMsg.SUCCESS);
 		//更新直播教室

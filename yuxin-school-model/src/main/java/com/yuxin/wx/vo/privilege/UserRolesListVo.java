@@ -18,7 +18,7 @@ public class UserRolesListVo extends BaseEntity{
     private Integer status;
     private String userRole;
     private Integer companyId;
-    
+    private Integer roleUid;
     private Integer roleId;
     private String roleIds;
     private Date createTime;
@@ -26,8 +26,16 @@ public class UserRolesListVo extends BaseEntity{
     private String roleName;
     private String roleNames;
     
+    private String statusStr;
+    
     private List<AuthRole> arr;
     
+	public String getStatusStr() {
+		return statusStr;
+	}
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
+	}
 	public Integer getUserId() {
 		return userId;
 	}
@@ -120,5 +128,13 @@ public class UserRolesListVo extends BaseEntity{
 	public void setArr(List<AuthRole> arr) {
 		this.arr = arr;
 	}
+	
+    public Integer getRoleUid() {
+    	return roleUid;
+    }
+	
+    public void setRoleUid(Integer roleUid) {
+    	this.roleUid = roleUid;
+    }
     
 }

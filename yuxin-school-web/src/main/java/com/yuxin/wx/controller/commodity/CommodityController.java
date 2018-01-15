@@ -143,7 +143,6 @@ public class CommodityController {
 	@RequestMapping(value="/loadData")
 	public List<CommodityVo> loadData(HttpServletRequest request,CommodityVo search){
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
-//		search.setSchoolId(WebUtils.getCurrentSchoolId());
 		List<Integer> list = new ArrayList<Integer>();
 		if(search.getItemOneId() != null) {
 			list.add(search.getItemOneId());
@@ -219,6 +218,7 @@ public class CommodityController {
 			if(StringUtils.isNotBlank(pageSize)){
 				special.setPageSize(Integer.parseInt(pageSize));
 			}
+			special.setCompanyId(WebUtils.getCurrentCompanyId());
 			List<CommoditySpecial> specialList = commoditySpecialServiceImpl.findSpecialByPage(special);
 			int count = commoditySpecialServiceImpl.findSpecialByPageCount();
 			model.addAttribute("specialList", specialList);
@@ -247,7 +247,8 @@ public class CommodityController {
 			search.setItemType("1");
 			search.setCompanyId(user.getCompanyId());
 			search.setSchoolId(user.getSchoolId());
-			subjectList = sysConfigItemServiceImpl.findItem(search);
+			subjectList = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, user.getCompanyId(),user.getSchoolId());
+			//subjectList = sysConfigItemServiceImpl.findItem(search);
 			String id = request.getParameter("id");
 			if(StringUtils.isNotBlank(id)){
 				CommoditySpecial cs = new CommoditySpecial();
@@ -313,6 +314,7 @@ public class CommodityController {
 			special.setTeacherIds(teacherIds);
 			special.setCommodityIds(commodityIds);
 			special.setCreateTime(new Date());
+			special.setCompanyId(WebUtils.getCurrentCompanyId());
 			if(StringUtils.isBlank(specialId)){
 				special.setStatus(0);
 				commoditySpecialServiceImpl.insert(special);
@@ -347,6 +349,7 @@ public class CommodityController {
 			teacher.setItemOneId(itemOneId);
 			map.put("teacher", teacher);
 			map.put("teacherIds", teacherid);
+			map.put("companyId", WebUtils.getCurrentCompanyId());
 			List<SysConfigTeacher> teacherList = sysConfigTeacherServiceImpl.findTeacherBySubject(map);
 			json.put("teacherList", teacherList);
 		}catch(Exception e){

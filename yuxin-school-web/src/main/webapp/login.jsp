@@ -45,10 +45,10 @@
 					<div class="login-form1">
 						<span class="tips">${info}</span>
 						<div class="c" style="margin-top:10px;">
-							<input type="text" id="username" name="username" class="input-ctrl" placeholder="用户名">
+							<input type="text" id="username" name="username" class="input-ctrl" placeholder="用户名" value="lijt">
 						</div>
 						<div class="c">
-							<input type="password" id="password" name="password"  class="input-ctrl" placeholder="密码">
+							<input type="password" id="password" name="password"  class="input-ctrl" placeholder="密码" value="111111">
 						</div>
 						<div class="c none" id="codes">
 								<input type="text" id="checkcode" name="checkcode" value="" placeholder="图像验证码" class="code input-sm"> 

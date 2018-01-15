@@ -51,6 +51,24 @@
 		item_code,
 		parent_code
 	</sql>
+	<sql id="table_columns_scf">
+		scf.id,
+		scf.item_name,
+		scf.item_type,
+		scf.parent_id,
+		scf.status,
+		scf.del_flag,
+		scf.remark,
+		scf.create_time,
+		scf.creator,
+		scf.update_time,
+		scf.updator,
+		scf.company_id,
+		scf.item_pic,
+		scf.item_back_pic,
+		scf.item_code,
+		scf.parent_code
+	</sql>
 	<sql id="entity_properties">
 		#{id},
 		#{itemName},
@@ -202,12 +220,12 @@
 		from sys_config_item i
 			inner join sys_school_item_relation r
 			on r.item_id = i.id 
-		where r.school_id = #{schoolId} and 
-			i.company_id = #{companyId} and 
-			i.item_type = 1 and 
+		where i.company_id = #{companyId} and 
+			i.item_type = 2 and 
 			i.`status` = 1 and 
 			r.true_del_flag = 0 and 
-			r.del_flag = 0
+			r.del_flag = 0 and 
+			i.parent_code='SUBJECT'
 			order by i.sort ASC,i.id ASC;
 	</select>
 	<select id="queryAll" resultMap="sysConfigItemResultMap">
@@ -250,6 +268,7 @@
 		<include refid="page_where" />
 	</select>
 
+
 	<!-- 其他自定义SQL -->
 	<select id="selectItem" resultMap="sysConfigItemResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigItem">
@@ -267,7 +286,8 @@
 		i.updator,
 		i.company_id,
 		i.item_pic,
-		i.item_back_pic
+		i.item_back_pic,
+		i.item_code
 		from sys_config_item i, sys_school_item_relation r
 		where i.id=r.item_id
 			<if test="id != null and id != ''">and i.id = #{id}</if>
@@ -465,10 +485,8 @@
 			i.parent_code,
 			i.item_back_pic
 		from sys_config_item i
-			inner join sys_school_item_relation r
-			on r.item_id = i.id 
-		where r.school_id = #{schoolId} and 
-			i.company_id = #{companyId} and 
+		inner join sys_school_item_relation r on r.item_id = i.id and r.school_id is not null
+		where i.company_id = #{companyId} and 
 			r.del_flag = 0 and 
 			i.del_flag = 0 and 
 			r.true_del_flag = 0 
@@ -504,6 +522,7 @@
 		from sys_config_item i
 			inner join sys_school_item_relation r
 			on r.item_id = i.id 
+		inner join sys_config_item_relation sci on sci.item_code=i.item_code  and sci.company_id =#{companyId}
 		where r.school_id = #{schoolId} and 
 			i.company_id = #{companyId} and 
 			i.item_type = #{itemType} and 
@@ -520,29 +539,67 @@
 			</if>
 			order by i.sort,i.id
 	</select>
-	
+	<select id="findFirstStatus" parameterType="com.yuxin.wx.model.system.SysConfigItem" resultMap="sysConfigItemResultMap">
+		select 
+			i.id,
+			i.item_name,
+			i.item_type,
+			i.parent_id,
+			i.`status`,
+			i.del_flag,
+			i.remark,
+			i.create_time,
+			i.creator,
+			i.update_time,
+			i.updator,
+			i.company_id,
+			i.item_pic,
+			i.item_code,
+			i.parent_code,
+		r.del_flag relation_status,
+			i.item_back_pic
+		from sys_config_item i
+			inner join sys_school_item_relation r
+			on r.item_id = i.id 
+		where r.school_id = #{schoolId} and 
+			i.company_id = #{companyId} and 
+			i.item_type = #{itemType} and 
+			i.`status` = 1 and i.item_code='type' and
+			r.true_del_flag = 0
+			<if test="parentId != null and parentId != ''">
+				and i.parent_id = #{parentId}
+			</if>
+		<if test="parentCode != null and parentCode != ''">
+			and i.parent_code = #{parentCode}
+		</if>
+			<if test="delFlag!= null">
+				and r.del_flag = #{delFlag}
+			</if>
+			order by i.sort,i.id
+	</select>
 	<select id="findNotInByItemId" resultMap="sysConfigItemResultMap" parameterType="map">
-		select <include refid="table_columns"/>
-		from sys_config_item
-		where company_id = #{companyId}
+		select <include refid="table_columns_scf"/>
+		from sys_config_item scf
+		inner join sys_config_item_relation sci on sci.item_code=scf.item_code  and sci.company_id =#{companyId}
+		where scf.company_id = #{companyId}
 		<if test="parentId != null and parentId != ''">
-			and parent_id = #{parentId}
+			and scf.parent_id = #{parentId}
 		</if>
 		<if test="companyIds != null and companyIds != ''">
-			and id not in 
+			and scf.id not in 
 				<foreach collection="companyIds" item="item" open="(" separator="," close=")">
 					#{item}
 				</foreach>
 		</if>
 		<if test="twoIds != null and twoIds != ''">
-			and id not in 
+			and scf.id not in 
 				<foreach collection="twoIds" item="item" open="(" separator="," close=")">
 					#{item}
 				</foreach>
 		</if>
-		and item_type = #{itemType} 
-		and status = 1
-		order by sort,id
+		and scf.item_type = #{itemType} 
+		and scf.status = 1
+		order by scf.sort,scf.id
 	</select>
 	<!-- 查询是否是空 或者删除 -->
 	<select id="findDelNullByName" parameterType="com.yuxin.wx.model.system.SysConfigItem" resultMap="sysConfigItemResultMap">
@@ -583,5 +640,11 @@
 			close=")">
 			#{item}
 		</foreach>
+	</select>
+	
+	
+	
+	<select id="findschooIdByCompanyId" resultType="int" parameterType="string">
+		select id from sys_config_school where company_id=#{companyId}
 	</select>
 </mapper>

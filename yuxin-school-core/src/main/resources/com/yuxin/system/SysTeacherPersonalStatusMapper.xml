@@ -156,7 +156,7 @@
 	</select>
 	<select id="findManageHotStatusByTeacherId" resultMap="sysTeacherPersonalStatusResultVoMap" parameterType="com.yuxin.wx.vo.system.TeacherDynamicsVo">
 		select a.id,a.content,a.publish_time,a.teacher_id,a.top_flag,a.del_flag,a.school_id,a.company_id ,
-		(select COUNT(*) from sys_teacher_personal_status_replay WHERE status_id=a.id) replayCount
+		(select COUNT(1) from sys_teacher_personal_status_replay WHERE status_id=a.id) replayCount
 		from sys_teacher_personal_status a 
 		where del_flag=0 
 		<if test="teacherIdList != null">

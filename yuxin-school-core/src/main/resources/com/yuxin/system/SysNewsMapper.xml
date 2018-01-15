@@ -267,7 +267,7 @@
 	</select>
 	
 	<select id="pageCount" resultType="int" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
-		select count(*) from sys_news a left join users b on a.creator=b.id
+		select count(1) from sys_news a left join users b on a.creator=b.id
 		   where a.company_id = #{companyId}
 		    <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>
 			<if test="newsStatus != null and newsStatus != ''">and news_status = #{newsStatus}</if>
@@ -286,7 +286,7 @@
 	</select>
 	
 	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.system.SysNewsVo">
-		select count(*) from sys_news a left join users b on a.creator=b.id
+		select count(1) from sys_news a left join users b on a.creator=b.id
 		LEFT JOIN (select * from sys_news_type where del_flag='0') c ON a.news_type=c.id
 		   where a.company_id = #{companyId}
 		    <if test="newsTitle != null and newsTitle != ''">and news_title like '%${newsTitle}%'</if>

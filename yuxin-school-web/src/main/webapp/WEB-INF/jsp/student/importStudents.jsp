@@ -35,6 +35,7 @@
 <input type="hidden" id="markUrl" value=""/>
 <form action="<%=rootPath %>/excelImportStudents/queryData" id="DataForm" method="post">
 	<input type="hidden" id="stuMobiles" value="" name="stuMobiles"/>
+	<input type="hidden" id="xuesheng" value="1" name="xuesheng"/>
 </form>
 <div class="u-wrap set-system">
     <div class="mainbackground nopadding">
@@ -44,7 +45,7 @@
         </div>
         <div class="main-content">
         	<div class="top-content">
-	          	<span class="c-title">规则说明：</span><br/>
+	          	<span class="c-title">规则说明1：</span><br/>
 	          	<span class="c-content">	
 		          	1、导入的文件是excel文件。<br/>
 					2、请下载示例模板，按照示例模板中的格式准备数据。<br/>
@@ -86,8 +87,8 @@
           		<div>
           			<span>
           				<a href="javascript:;" class="btn btn-primary chooseFile none">重新选择</a>
-          				<a href="javascript:;" mark="update" class="btn btn-primary allupdate student-import none">全部更新并导入</a>
-          				<a href="javascript:;" mark="insert" class="btn btn-primary newinsert student-import none">只导入新增学员</a>
+          				<!-- <a href="javascript:;" mark="update" class="btn btn-primary allupdate student-import none">全部更新并导入</a>
+          				<a href="javascript:;" mark="insert" class="btn btn-primary newinsert student-import none">只导入新增学员</a> -->
           				<a href="javascript:;" mark="insert" class="btn btn-primary chooseInsert student-import none">确认导入</a>
           			</span>
           		</div>

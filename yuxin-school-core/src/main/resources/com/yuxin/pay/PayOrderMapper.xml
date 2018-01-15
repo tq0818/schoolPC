@@ -437,117 +437,280 @@
 		from pay_order
 		where order_num = #{orderNum} and origin_type=0 limit 1
 	</select>
-	
+
+
+	<!--lym 查询分校收入情况-->
+	<select id="findPrivateSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
+		select * from (
+			select t.orderTime,sum(t.totalMoney)as totalMoney,sum(t.fetchMoney)as fetchMoney,(sum(t.totalMoney)-sum(t.fetchMoney)) as handInMoney  from (
+			select
+				DATE_FORMAT(po.order_time,'%Y-%m-%d') as orderTime,
+				po.pay_price as totalMoney,
+				case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end as fetchMoney
+			 from pay_order po
+			join company c on c.id=po.company_id
+			join class_type ct on ct.id=po.commodity_id
+			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
+			)t GROUP BY t.orderTime)t3
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				where t1.orderTime BETWEEN #{inpstart} and #{inpend}
+			</if>
+			<if test="totalSort != null and totalSort != ''">
+				${totalSort}
+			</if>
+			<if test="fetchSort != null and fetchSort != ''">
+				${fetchSort}
+			</if>
+			<if test="handInSort != null and handInSort != ''">
+				${handInSort}
+			</if>
+
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="findPrivateSchoolMoneyCountByCondition" resultType="int" parameterType="map">
+		select count(1) from (
+			select t.dateTime,sum(t.totalMoney)as totalMoney,sum(t.handInMoney)as handInMoneyfrom from (
+			select
+				DATE_FORMAT(po.order_time,'%Y-%m-%d') as dateTime,
+				po.pay_price as totalMoney,
+				case when ct.is_public=1 then po.pay_price*c.public_cost/100 else po.pay_price*c.private_cost/100 end as handInMoney
+			 from pay_order po
+			join company c on c.id=po.company_id
+			join class_type ct on ct.id=po.commodity_id
+			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
+			)t GROUP BY t.dateTime)t1
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				where t1.dateTime BETWEEN #{inpstart} and #{inpend}
+			</if>
+	</select>
+
+	<!--lym 查询老师在数校收入情况-->
+	<select id="queryTeacherMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
+		select t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (
+			select
+				DISTINCT
+				sct.id,sct.name as teacherName,
+				scd1.item_value as sex,
+				CASE sct.teacher_level
+					WHEN 'GRADE_HIGH' THEN '小学高级'
+					WHEN 'MIDDLE_GRADE_HIGH' THEN '中小学高级'
+					WHEN 'MIDDLE_ONE' THEN '中学一级'
+					WHEN 'MIDDLE_TWO' THEN '中学二级'
+					WHEN 'MIDDLE_HIGH' THEN '中学高级'
+					WHEN 'MIDDLE_SUPER' THEN '特级教师'
+					ELSE
+					 ''
+					END as teacherLevel,
+				ct.id as courseId,
+				case when scd2.item_value is null then sct.school_name ELSE scd2.item_value end as schoolName,
+				 po.pay_price*(100-c.public_cost)/100 as fetchMoney
+
+			from sys_config_teacher sct
+			join sys_config_dict scd1 on scd1.item_code=sct.sex and scd1.dict_code='SEX_CODE'
+			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
+			join company c on c.id=ucr.company_id
+			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
+			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="companyId != null and companyId != ''">
+				where c.id=#{companyId}
+			</if>
+		)t GROUP BY t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName
+		<if test="totalSort != null and totalSort != ''">
+			${totalSort}
+		</if>
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="queryTeacherMoneyCountByCondition" resultType="int" parameterType="map">
+		select count(1) from (
+			select t.id,t.name,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (
+			select
+			DISTINCT
+			sct.id,sct.name,
+			scd1.item_value as sex,
+			CASE sct.teacher_level
+			WHEN 'GRADE_HIGH' THEN '小学高级'
+			WHEN 'MIDDLE_GRADE_HIGH' THEN '中小学高级'
+			WHEN 'MIDDLE_ONE' THEN '中学一级'
+			WHEN 'MIDDLE_TWO' THEN '中学二级'
+			WHEN 'MIDDLE_HIGH' THEN '中学高级'
+			WHEN 'MIDDLE_SUPER' THEN '特级教师'
+			ELSE
+			''
+			END as teacherLevel,
+			ct.id as courseId,
+			case when scd2.item_value is null then sct.school_name ELSE scd2.item_value end as schoolName,
+			po.pay_price*(100-c.public_cost)/100 as fetchMoney
+
+			from sys_config_teacher sct
+			join sys_config_dict scd1 on scd1.item_code=sct.sex and scd1.dict_code='SEX_CODE'
+			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
+			join company c on c.id=ucr.company_id
+			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
+			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="companyId != null and companyId != ''">
+				where c.id=#{companyId}
+			</if>
+		)t GROUP BY t.id,t.name,t.sex,t.teacherLevel,t.schoolName) t1
+	</select>
+
+	<!--lym 查询分校收入情况-->
+	<select id="findSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
+		select * from (
+		select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,
+		sum(CASE WHEN ct.is_public=1 then po.pay_price*(100-t2.public_cost)/100
+		WHEN ct.is_public=0 then po.pay_price*(100-t2.private_cost)/100 end) as fetchMoney
+		from pay_order po
+		join class_type ct on ct.id=po.commodity_id
+		join (select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is null)t1 on t1.id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		union
+		select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is not null) t1 on t1.parent_item_id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		union
+		select '--' as item_value,company_name,id as company_id,0 as private_cost,0 as public_cost from company where is_area=0
+		<if test="aereId != null and aereId != ''">
+			and id= 0
+		</if>
+		)t2 on t2.companyId=po.company_id
+		<if test="companyId != null and companyId != ''">
+			and po.company_id=#{companyId}
+		</if>
+		where po.pay_status='PAY_SUCCESS'
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
+		GROUP BY t2.aeraName,t2.company_name)t3
+		<if test="totalSort != null and totalSort != ''">
+			${totalSort}
+		</if>
+		<if test="fetchSort != null and fetchSort != ''">
+			${fetchSort}
+		</if>
+
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="findSchoolMoneyCountByCondition" resultType="int" parameterType="map">
+		select count(1) from (select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,
+		sum(CASE WHEN ct.is_public=1 then po.pay_price*(100-t2.public_cost)/100
+		WHEN ct.is_public=0 then po.pay_price*(100-t2.private_cost)/100 end) as fetchMoney
+		from pay_order po
+		join class_type ct on ct.id=po.commodity_id
+		join (select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is null)t1 on t1.id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		union
+		select scd1.item_value as aeraName,t1.company_name,t1.companyId,t1.private_cost,t1.public_cost from sys_config_dict scd1 join (
+		select scd.id,scd.item_code,c.company_name,c.id as companyId,scd.parent_item_id,c.private_cost,c.public_cost from company c
+		join sys_config_dict scd on scd.item_code=c.edu_area_school
+		where scd.parent_item_id is not null) t1 on t1.parent_item_id=scd1.id
+		<if test="aereId != null and aereId != ''">
+			and scd1.id=#{aereId}
+		</if>
+		union
+		select '--' as item_value,company_name,id as company_id,0 as private_cost,0 as public_cost from company where is_area=0
+		<if test="aereId != null and aereId != ''">
+			and id= 0
+		</if>
+		)t2 on t2.companyId=po.company_id
+		<if test="companyId != null and companyId != ''">
+			and po.company_id=#{companyId}
+		</if>
+		where po.pay_status='PAY_SUCCESS'
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
+		GROUP BY t2.aeraName,t2.company_name)t3
+	</select>
 	
 	<select id="findPayOrderByParams" resultMap="payOrderResultMap" parameterType="map">
-		select  po.id,
-				po.order_num,
-				po.pay_num,
-				po.pay_time,
-				po.order_time,
-				po.commodity_name,
-				po.commdity_type,
-				po.commodity_id,
-				po.pay_price,
-				po.pay_type,
-				po.pay_status,
-				po.company_id,
-				po.collection_time,
-				po.remark,
-				 uf.mobile as discount_no,
-				 uf.username as coupon_code
-		from pay_order po  left join users_front uf on  uf.id = po.user_id where po.company_id = #{companyId} and po.origin_type=0 
-		<if test="payStatus != null and payStatus !=''">
-			<if test="payStatus == 1">
-				and po.pay_status = 'PAY_NON'
-			</if>
-			<if test="payStatus == 2">
-				and po.pay_status = 'PAY_REMIT' 
-			</if>
-			<if test="payStatus == 3">
-				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
-			</if>
+		SELECT
+		po.id,
+		po.order_num,
+		po.pay_num,
+		po.pay_time,
+		po.order_time,
+		po.commodity_name,
+		po.commdity_type,
+		po.commodity_id,
+		po.pay_price,
+		po.pay_type,
+		po.pay_status,
+		po.company_id,
+		po.collection_time,
+		po.remark,
+		uf.mobile AS discount_no,
+		uf.username AS coupon_code,
+		st.name as stuName
+		FROM
+		pay_order po
+		JOIN users_front uf ON uf.id = po.user_id
+		join student st on st.user_id=uf.id
+		WHERE
+		po.origin_type = 0
+		<if test="companyId != null and companyId != ''">
+			and po.company_id = #{companyId}
 		</if>
-		<if test="payType != null and payType !=''">
-			<if test="payType == 1">
-				and po.pay_type = 'PAY_TYPE_ZFB' 
-			</if>
-			<if test="payType == 2">
-				and po.pay_type = 'PAY_TYPE_GRDB' 
-			</if>
-			<if test="payType == 3">
-				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
-			</if>
-			<if test="payType == 4">
-				and po.pay_type = 'PAY_TYPE_WX_GZH'
-			</if>
-			<if test="payType == 5">
-				and po.pay_type = 'PAY_TYPE_STUDYCARD'
-			</if>
+
+		<if test="orderNum != null and orderNum != ''">
+			and po.order_num like '%${orderNum}%'
 		</if>
-		<if test="timeLen !=null and timelen != -1 and payTime != null and payTime !='nos'">
-			<choose>
-				<when test="payTime == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<when test="payTime == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<otherwise>
-				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
-				</otherwise>
-			</choose>
+		<if test="payMethod != null and payMethod != ''">
+			and po.pay_type=#{payMethod}
 		</if>
-		<if test="startDate != null and startDate != ''">and po.order_time <![CDATA[>=]]> #{startDate}</if>
-		<if test="endDate != null and endDate != ''"> and po.order_time <![CDATA[<=]]> #{endDate}</if>
-		<if test="mobile != null and mobile != ''">
-			 and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%') 
+		<if test="firstPrice != null and firstPrice != '' and secondPrice != null and secondPrice != ''">
+			and po.pay_price BETWEEN #{firstPrice} and #{firstPrice}
 		</if>
-		<if test="schoolId != null and schoolId != ''">and po.school_id = #{schoolId}</if>
-		order by order_time desc
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
+		</if>
+		order by po.order_time desc
 		limit #{page},#{pageSize}
 	</select>
 	
 	<select id="findCountByParams" resultType="int" parameterType="map">
-		select  count(po.id) 
-		from pay_order po <if test="mobile != null and mobile != ''"> left join users_front uf on  uf.id = po.user_id </if> where po.company_id = #{companyId}  and po.origin_type=0 
-		<if test="payStatus != null and payStatus !=''">
-			<if test="payStatus == 1">
-				and po.pay_status = 'PAY_NON'
-			</if>
-			<if test="payStatus == 2">
-				and po.pay_status = 'PAY_REMIT' 
-			</if>
-			<if test="payStatus == 3">
-				and  ( po.pay_status = 'PAY_SUCCESS' or po.pay_status = "PAY_REMIT_CONFIRM") 
-			</if>
+		SELECT
+		count(1)
+		FROM
+		pay_order po
+		JOIN users_front uf ON uf.id = po.user_id
+		join student st on st.user_id=uf.id
+		WHERE
+		po.origin_type = 0
+
+		<if test="companyId != null and companyId != ''">
+			and po.company_id = #{companyId}
 		</if>
-		<if test="payType != null and payType !=''">
-			<if test="payType == 1">
-				and po.pay_type = 'PAY_TYPE_ZFB' 
-			</if>
-			<if test="payType == 2">
-				and po.pay_type = 'PAY_TYPE_GRDB' 
-			</if>
-			<if test="payType == 3">
-				and ( po.pay_type = 'PAY_TYPE_REMIT' or po.pay_type = 'PAY_TYPE_ZFB_ZZ' or po.pay_type = 'PAY_TYPE_WX_PERSON')
-			</if>
-			<if test="payType == 4">
-				and po.pay_type = 'PAY_TYPE_WX_GZH'
-			</if>
-			<if test="payType == 5">
-				and po.pay_type = 'PAY_TYPE_STUDYCARD'
-			</if>
+
+		<if test="orderNum != null and orderNum != ''">
+			and po.order_num like '%${orderNum}%'
 		</if>
-		<if test="timeLen !=null and timelen != -1 and payTime != null and payTime != 'nos'">
-			<choose>
-				<when test="payTime == 'today'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<when test="payTime == 'yesday'">and (TO_DAYS(NOW())-TO_DAYS(po.order_time))=#{timeLen}</when>
-				<otherwise>
-				and TO_DAYS(NOW())-TO_DAYS(po.order_time)<![CDATA[<=]]>#{timeLen}
-				</otherwise>
-			</choose>
+		<if test="payMethod != null and payMethod != ''">
+			and po.pay_type=#{payMethod}
 		</if>
-		<if test="startDate != null and startDate != ''">and po.order_time <![CDATA[>=]]> #{startDate}</if>
-		<if test="endDate != null and endDate != ''"> and po.order_time <![CDATA[<=]]> #{endDate}</if>
-		<if test="mobile != null and mobile != ''">
-		 	and (uf.mobile like '%${mobile}%' or uf.username like '%${mobile}%')
+		<if test="firstPrice != null and firstPrice != '' and secondPrice != null and secondPrice != ''">
+			and po.pay_price BETWEEN #{firstPrice} and #{secondPrice}
+		</if>
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			and po.order_time BETWEEN #{inpstart} and #{inpend}
 		</if>
 		
 	</select>
@@ -767,7 +930,11 @@
 				spm.apply_channel_code as applyChannelCode,
 				cmlc.name as orderMemberLevel,
 				po.member_length as memberLength
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		from pay_order po  
+		left join users_front uf on  uf.id = po.user_id 
+		left join student s on s.user_id=uf.id 
+		left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  
+		left join company_member_level_config cmlc on cmlc.id=po.member_id
 		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -790,7 +957,10 @@
 	
 	<select id="findVipPayOrderListCount" resultType="int" parameterType="com.yuxin.wx.vo.system.PayOrderVipVo">
 		select  count(po.id)
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		from pay_order po  left join users_front uf on  uf.id = po.user_id 
+		left join student s on s.user_id=uf.id 
+		left join student_pay_master spm on spm.pay_order_id=po.id and spm.origin_type=0  
+		left join company_member_level_config cmlc on cmlc.id=po.member_id
 		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 			<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -832,7 +1002,9 @@
 				spm.apply_channel_code as applyChannelCode,
 				cmlc.name as orderMemberLevel,
 				po.member_length as memberLength
-		from pay_order po  left join users_front uf on  uf.id = po.user_id left join student s on s.user_id=uf.id left join student_pay_master spm on spm.pay_order_id=po.id  and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
+		from pay_order po  left join users_front uf on  uf.id = po.user_id 
+		left join student s on s.user_id=uf.id 
+		left join student_pay_master spm on spm.pay_order_id=po.id  and spm.origin_type=0  left join company_member_level_config cmlc on cmlc.id=po.member_id
 		where po.company_id = #{companyId} and po.commdity_type='MEMBER'  and po.pay_status='PAY_SUCCESS' and po.origin_type=0 
 		<if test="stuName != null and stuName != ''">and s.name like '%${stuName}%'</if>
 	    <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>

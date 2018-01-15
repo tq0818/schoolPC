@@ -1,15 +1,12 @@
 package com.yuxin.wx.query.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import com.yuxin.wx.common.BaseMapper;
-import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.statistics.Statistics;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
-import com.yuxin.wx.vo.student.StudentListVo;
-import com.yuxin.wx.vo.user.UsersAreaRelation;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service Interface:Users
@@ -25,6 +22,8 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
 	List<UserVideoVo> queryUserVideoList(UserVideoVo userVideVo);
+	List<UserVideoVo> queryNewUserVideoList(UserVideoVo userVideVo);
+	List<UserVideoVo> queryNewUserVideoPage(UserVideoVo userVideVo);
 
 	/**
 	 * 查询视频资源播放情况
@@ -32,6 +31,7 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
 	Integer queryUserVideoCount(UserVideoVo userVideVo);
+	Integer queryNewUserVideoPageCount(UserVideoVo userVideVo);
 
 	/**
 	 * 查询视频资源播放情况
@@ -160,6 +160,8 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryHistoryAll();
+
+    List<Map<String,Object>> queryPlayLogsByParam(Map<String, Object> param);
 
 	/**
 	 * 查询视频资源在区域下播放情况人次

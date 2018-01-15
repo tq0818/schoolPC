@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysSchoolItemRelation;
@@ -173,49 +173,41 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 
 	@Override
 	public Integer findProjectBySchoolId(Integer schoolId) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findProjectBySchoolId(schoolId);
 	}
 
 	@Override
 	public List<SysConfigItem> findItemByCompanyId(Integer itemType, Integer companyId) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findItemByCompanyId(itemType, companyId);
 	}
 
 	@Override
 	public List<SysConfigItem> findTwoByOneId(Integer oneItemId) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findTwoByOneId(oneItemId);
 	}
 
 	@Override
 	public void insertRelation(Map<String, Object> param) {
-		// TODO Auto-generated method stub
 		sysConfigItemMapper.insertRelation(param);
 	}
 
 	@Override
 	public Integer findUnquieItem(Map<String, Object> param) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findUnquieItem(param);
 	}
 
 	@Override
 	public void updateTwoByOne(SysConfigItem sci) {
-		// TODO Auto-generated method stub
 		sysConfigItemMapper.updateTwoByOne(sci);
 	}
 
 	@Override
 	public SysSchoolItemRelation findExist(Map<String, Object> params) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findExist(params);
 	}
 
 	@Override
 	public void updateRelation(Map<String, Object> params) {
-		// TODO Auto-generated method stub
 		sysConfigItemMapper.updateRelation(params);
 	}
 
@@ -232,43 +224,40 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 
 	@Override
 	public List<SysConfigItem> findStatus(SysConfigItem item) {
-		// TODO Auto-generated method stub
-		return sysConfigItemMapper.findStatus(item);
+		if("1".equals(item.getItemType())){
+			return sysConfigItemMapper.findFirstStatus(item);
+		}else{
+			return sysConfigItemMapper.findStatus(item);
+		}
 	}
 
 	@Override
 	public List<SysConfigItem> findNotInByItemId(Map<String,Object> param) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findNotInByItemId(param);
 	}
 
 	@Override
 	public Integer findUnquieItemByUpdate(Map<String, Object> param) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findUnquieItemByUpdate(param);
 	}
 
 	@Override
 	public List<SysConfigItem> selectSecondItem(SysConfigItem item) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.selectSecondItem(item);
 	}
 
 	@Override
 	public SysConfigItem findDelNullByName(SysConfigItem item) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findDelNullByName(item);
 	}
 
 	@Override
 	public List<SysSchoolItemRelation> findUseByItemId(Map<String, Object> param) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findUseByItemId(param);
 	}
 	
 	@Override
 	public List<SysConfigItem> findItemByIds(List<Integer> list) {
-		// TODO Auto-generated method stub
 		return sysConfigItemMapper.findItemByIds(list);
 	}
 
@@ -276,6 +265,12 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 	public List<SysConfigItem> findByParentCode(SysConfigItem item) {
 		return sysConfigItemMapper.findByParentCode(item);
 	}
+
+	@Override
+    public Integer findschooIdByCompanyId(Integer companyId) {
+		Integer id=sysConfigItemMapper.findschooIdByCompanyId(companyId);
+	    return id;
+    }
 
 
 }

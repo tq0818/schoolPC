@@ -31,7 +31,7 @@ public class CourseExerciseVo extends BaseEntity {
 	private String chapterName;
 	private String sectionName;
 	private String paperName;
-
+	
 	// Constructor
 	public CourseExerciseVo() {
 	}

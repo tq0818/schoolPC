@@ -7,23 +7,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>教师管理</title>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/resource.css"/>
+<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 <link href="<%=rootPath%>/stylesheets/user.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/jquery.datetimepicker.css" />
 <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/plugins/jcrop/css/jquery.Jcrop.css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/bootstrap-fileupload/bootstrap-fileupload.css" />
-    <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
-    <style type="text/css">
-    	.classes .mainbackground .c-main .add-classes p.h{
-    		margin-bottom: 15px;
-    	}
-    </style>
+<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
+<link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/select2/select2.css"/>
+ <style type="text/css">
+ 	.classes .mainbackground .c-main .add-classes p.h{
+ 		margin-bottom: 15px;
+ 	}
+ </style>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.datetimepicker.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/plugins/bootstrap-fileupload/bootstrap-fileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/plugins/jcrop/js/jquery.Jcrop.js"></script>
-   <script type="text/javascript" src="<%=rootPath %>/javascripts/resource/teacher/headPicInit.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/resource/teacher/headPicInit.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/plugins/select2/select2.js"></script> 
 <style>
 	.hide{display:none}
 	.show{display:block}
@@ -67,13 +70,11 @@ $(function(){
 		    <div class="mainbackground">
 		        <div class="heading">
 		            <h2 class="h5">老师</h2>
-		            <!-- <div class="search">
-		                <input type="text" class="input-ctrl">
-		                <input type="button" class="btn btn-sm" value="搜索">
-		            </div> -->
 		            <span class="line"></span>
 		        </div>
 		        <form method="post" id="teacherManageForm">
+		        <input type="hidden" id="companyId" name="companyId" value="${companyId}"/>
+		        <input type="hidden" id="moduleIds" name="moduleIds"/>
 		        <div class="main-content" style="margin-bottom: -100px;">
                 <div class="m-title">
                     <h2 class="h6">账户信息</h2>
@@ -110,7 +111,7 @@ $(function(){
                         <p class='c'>
                             <span class="c-title">密码</span>
                             <span class="c-content">
-                                <input type="password" name="pwd" id="pwd">
+                                <input type="password" name="pwd" id="pwd" >
                             </span>
                         </p>
                     </li>
@@ -274,7 +275,13 @@ $(function(){
 								<p class="c">
 									<span class="c-title">学校名称<em>*</em></span>
 										<span class="c-content" style="width: 60%">
-											<input name="schoolName" id="schoolName" value="${teacher.schoolName}" type="text" style="width:350px">
+											<select name="schoolCode" id="schoolCode" style="width:250px">
+												<option value="" >请选择学校</option>
+												<c:forEach items="${schools }" var="sch">
+													<option value="${sch.itemCode }" <c:if test="${sch.itemValue eq teacher.schoolName}">selected="selected"</c:if> >${sch.itemValue }</option>
+												</c:forEach>
+											</select>
+											<input name="schoolName" id="schoolName" value="${teacher.schoolName}" type="hidden" style="width:350px">
 										</span>
 								</p>
 							</li>
@@ -377,7 +384,6 @@ $(function(){
 		                                	<c:choose>
 											       <c:when test="${item.id== teacher.itemOneId}">
 											                <a href="javascript:;" itemOneId="${item.id }"  class="btn btn-mini btn-success itemOne">${item.itemName }</a>
-											                <input type="hidden" value="${item.id}" name="itemOneId" id="itemOneId"/>
 											       </c:when>
 											       <c:otherwise>
 											                <a href="javascript:;" itemOneId="${item.id }"  class="btn btn-mini btn-default itemOne">${item.itemName }</a>
@@ -386,7 +392,7 @@ $(function(){
 		                                </c:forEach>
 		                            </span>
 		                        </p>
-                                <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
+                               <%--  <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
                                 	<c:choose>
 									       <c:when test="${secondMap.key == teacher.itemOneId}">
 									              <p class='c secondItem show' item-one-id=${secondMap.key }>
@@ -409,8 +415,9 @@ $(function(){
 										    </c:forEach>
 									    </span>
 								    </p>
-								</c:forEach>
-								<input type="hidden" value="" name="itemSecondId" id="itemSecondId"/>
+								</c:forEach> --%>
+								<input type="hidden" value="" name="itemOneId" id="itemOneId"/>
+								
 		                    </li>
 		                </ul>
 		                <%-- <div class="box-config">
@@ -517,6 +524,7 @@ $(function(){
 <script>
 	$(function(){
 		$selectSubMenu('resource_teacher');
+		$("#schoolCode").select2();
 	});
 </script>	
 </body>

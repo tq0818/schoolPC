@@ -47,6 +47,10 @@
 		<result property="itemThirdCode" column="item_third_code" />
 		<result property="itemFourthCode" column="item_fourth_code" />
 		<result property="paperDescription" column="paper_description" />
+		
+		<result property="isOutSource" column="is_out_source" />
+		<result property="isPublic" column="is_public" />
+		<result property="publicPrice" column="public_price" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
@@ -102,6 +106,16 @@
 		<result property="iconLable" column="icon_lable"/>
 		<result property="subjectClassOrder" column="subject_class_order"/>
 		<result property="isMicroClass" column="is_micro_class"/>
+		
+		<result property="isOutSource" column="is_out_source" />
+		<result property="isPublic" column="is_public" />
+		<result property="publicPrice" column="public_price" />
+		
+		<result property="schoolName" column="school_name"/>
+		<result property="sourceClassTypeId" column="class_type_id"/>
+		<result property="domainManage" column="domain_manage"/>
+		<result property="teacherName" column="teacher_name"/>
+		<result property="domain" column="domain"/>
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -150,7 +164,9 @@
 		item_third_code,
 		item_fourth_code,
 		is_micro_class,
-		paper_description
+		paper_description,
+		is_public,
+		public_price
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -198,7 +214,10 @@
 		#{itemThirdCode},
 		#{itemFourthCode},
 		#{isMicroClass},
-		#{paperDescription}
+		#{paperDescription},
+		#{isPublic},
+		#{publicPrice}
+		
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -247,7 +266,9 @@
 		#{item.itemThirdCode},
 		#{item.itemFourthCode},
 		#{item.isMicroClass},
-		#{item.paperDescription}
+		#{item.paperDescription},
+		#{item.isPublic},
+		#{item.publicPrice}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -325,10 +346,14 @@
 			<if test="itemSecondCode != null  and itemSecondCode != ''">item_second_code = #{itemSecondCode},</if>
 			<if test="itemThirdCode != null  and itemThirdCode != ''">item_third_code = #{itemThirdCode},</if>
 			<if test="itemFourthCode != null  and itemFourthCode != ''">item_fourth_code = #{itemFourthCode},</if>
-		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null</if>
-		    <if test="isMicroClass != null">is_micro_class = #{isMicroClass}</if>
+		    <if test="isPublic != null">is_public = #{isPublic},</if>
+		    <choose>
+	        	<when test="publicPrice != null">public_price = #{publicPrice},</when>
+	        	<when test="isPublic == 0">public_price = null,</when>
+	        </choose>
+		    <if test="publishStatus == 'CLASS_STOP_SALE' or delFlag ==1">subject_class_order = null,</if>
+		    <if test="isMicroClass != null">is_micro_class = #{isMicroClass},</if>
 		    <if test="paperDescription != null and paperDescription!=''">paper_description = #{paperDescription}</if>
-
 		 </trim>
 		<where>id = #{id}</where>
 	</update>
@@ -404,9 +429,9 @@
 		 a.item_fourth_code AS itemFourthName
 		FROM
 		  class_type a
-		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code
-		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code
-		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code
+		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code and b.company_id=#{companyId} and b.del_flag=0
+		LEFT JOIN sys_config_item c on c.item_code = a.item_second_code and c.company_id=#{companyId} and c.del_flag=0
+		LEFT JOIN sys_config_item d on d.item_code = a.item_third_code and d.del_flag=0 and d.company_id=#{companyId}
 		where a.id = #{classId} and a.origin_type=0
 		limit 1
 	</select>
@@ -450,11 +475,11 @@
 	
 	<!-- 查询班型并分页 -->
 	<select id="queryClassTypesByPage" resultMap="classTypeVoResultMap" parameterType="map">
-		SELECT a.*, c.buy_num as actualNum
+		SELECT a.*, c.buy_num as actualNum,c.id as com_id
         FROM class_type a left join commodity_product_realtion pr on
 		pr.product_id = a.id
 		INNER JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
-		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS' and a.origin_type=0
+		where a.del_flag=0 and a.company_id = #{classType.companyId} and c.type='COMMODITY_CLASS' and a.origin_type=0 and a.is_out_source=0
 		<if test="classType.name != null and classType.name != ''">and a.name like '%${classType.name}%'</if>
 		<if test="classType.itemOneId != null and classType.itemOneId != ''">and a.item_one_id = #{classType.itemOneId}</if>
 		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and a.item_second_id = #{classType.itemSecondId}</if>
@@ -482,7 +507,7 @@
 	
 	<select id="queryCounts" resultType="int" parameterType="map">
 		SELECT count(id) FROM class_type
-		where del_flag=0 and company_id = #{classType.companyId} and origin_type=0
+		where del_flag=0 and company_id = #{classType.companyId} and origin_type=0 and is_out_source=0
 		<if test="classType.name != null and classType.name != ''">and name like '%${classType.name}%'</if>
 		<if test="classType.itemOneId != null and classType.itemOneId != ''">and item_one_id = #{classType.itemOneId}</if>
 		<if test="classType.itemSecondId != null and classType.itemSecondId != ''">and item_second_id = #{classType.itemSecondId}</if>
@@ -658,7 +683,9 @@
 			a.base_num,
 			a.item_one_id,
 			a.item_second_id,
-			a.detail_desc
+			a.detail_desc,
+			a.is_public,
+			a.public_price
 		FROM
 			class_type a,
 			commodity_product_realtion b
@@ -763,4 +790,182 @@
 	<select id="countSubjectClassOrder" resultType="Integer" parameterType="String">
 	     select count(id) from class_type  where  item_one_code = #{itemOneCode}  and del_flag = 0  and origin_type=0 and publish_status = 'CLASS_ON_SALE' and  subject_class_order > 0
 	</select>
+	
+	<!-- 查询分校直播课程  -->
+	<select id="queryLiveClassOfBranchSchool" resultMap="classTypeVoResultMap" parameterType="map">
+			SELECT ct.id,ct.name,sd.item_name as itemThirdName,c1.company_name as schoolName,c1.domain as domain_manage,s.source_class_type_id class_type_id,
+				<![CDATA[ (CASE 	WHEN t.min_time is null or t.max_time is null then 0 	
+						WHEN NOW()<t.min_time then 0 	
+						WHEN t.min_time<=NOW() and NOW()<=t.max_time  then 1
+						WHEN t.max_time<NOW() then 2 ELSE 0 END ) as livestatus	]]>
+			from class_type ct
+			JOIN commodity_product_realtion pr on pr.product_id = ct.id
+			JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
+			JOIN school_share_class_type s on s.target_class_type_id=ct.id
+			JOIN company c1 on c1.id=s.source_company_id
+			Left JOIN sys_config_item sd on sd.item_code=ct.item_third_code and sd.company_id=ct.company_id and sd.parent_code='SUBJECT'
+			LEFT JOIN ( 
+				SELECT	min(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_start,':00'),'%Y-%m-%d %H:%i:%S') ) as min_time,
+						max(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_end,':00'),'%Y-%m-%d %H:%i:%S')) as max_time,
+						mr.class_type_id
+				from 	class_module m, class_type_module_relation mr ,class_module_no mn,class_module_lesson ml
+				where 	m.id=mr.module_id and mn.module_id=m.id and ml.module_no_id=mn.id 
+						and ml.lesson_date is not null and ml.lesson_time_start is not null and ml.lesson_time_end is not null
+						and m.company_id= #{companyId}
+				GROUP BY 	mr.class_type_id
+			) t on t.class_type_id=ct.id
+			where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0  and ct.is_out_source=1 
+				and ct.live_flag=1 and ct.company_id = #{companyId} 
+				<if test="name != null and name != ''">and (ct.name like '%${name}%' or sd.item_name  like '%${name}%') </if>
+				<if test="livestatus != null and livestatus != ''">
+					<choose>
+						<when test="livestatus =='nostart'">
+						 	<![CDATA[and (t.min_time is null or t.max_time is null or NOW()<t.min_time)]]>
+						</when>
+						<when test="livestatus =='start'">
+							<![CDATA[and t.min_time is not null and t.max_time is not null and t.min_time<=NOW() and NOW()<=t.max_time]]>
+						</when>
+						<when test="livestatus =='over'">
+							<![CDATA[and t.min_time is not null and t.max_time is not null and t.max_time<NOW()]]>
+						</when>
+						<otherwise></otherwise>
+					</choose>
+				</if>
+			ORDER BY ct.create_time desc
+			limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCountLiveClassOfBranchSchool" resultType="int" parameterType="map">
+			SELECT count(ct.id) from class_type ct
+			join commodity_product_realtion pr on pr.product_id = ct.id
+			JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
+			JOIN school_share_class_type s on s.target_class_type_id=ct.id
+			Left join sys_config_item sd on sd.item_code=ct.item_third_code and sd.company_id=ct.company_id and sd.parent_code='SUBJECT'
+			LEFT JOIN ( 
+				SELECT	min(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_start,':00'),'%Y-%m-%d %H:%i:%S') ) as min_time,
+						max(STR_TO_DATE(CONCAT(DATE_FORMAT(ml.lesson_date,'%Y-%m-%d'),' ',ml.lesson_time_end,':00'),'%Y-%m-%d %H:%i:%S')) as max_time,
+						mr.class_type_id
+				from 	class_module m, class_type_module_relation mr ,class_module_no mn,class_module_lesson ml
+				where 	m.id=mr.module_id and mn.module_id=m.id and ml.module_no_id=mn.id 
+						and ml.lesson_date is not null and ml.lesson_time_start is not null and ml.lesson_time_end is not null
+						and m.company_id= #{companyId}
+				GROUP BY 	mr.class_type_id
+			) t on t.class_type_id=ct.id
+			where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0  and ct.is_out_source=1
+				 and ct.live_flag=1 and ct.company_id = #{companyId}
+				<if test="name != null and name != ''">and (ct.name like '%${name}%' or sd.item_name  like '%${name}%') </if>
+				<if test="livestatus != null and livestatus != ''">
+					<choose>
+						<when test="livestatus =='nostart'">
+						 	<![CDATA[and (t.min_time is null or t.max_time is null or NOW()<t.min_time)]]>
+						</when>
+						<when test="livestatus =='start'">
+							<![CDATA[and t.min_time is not null and t.max_time is not null and t.min_time<=NOW() and NOW()<=t.max_time]]>
+						</when>
+						<when test="livestatus =='over'">
+							<![CDATA[and t.min_time is not null and t.max_time is not null and t.max_time<NOW()]]>
+						</when>
+						<otherwise></otherwise>
+					</choose>
+				</if>
+	</select>
+	
+	<!-- 查询分校直播课程  -->
+	<select id="queryClassOfBranchSchool" resultMap="classTypeVoResultMap" parameterType="map">
+		SELECT ct.id,ct.name,sci.item_name as item_third_name,t.name as teacher_name,
+				ct.live_flag ,ct.face_flag ,ct.video_flag ,ct.remote_flag ,
+				c.buy_num as buy_num_max,c.base_num+c.buy_num as actualNum,cp.domain
+		from class_type ct
+		join commodity_product_realtion pr on pr.product_id=ct.id
+		join commodity c on c.id=pr.com_id and c.origin_type=0
+		join company cp on cp.id=ct.company_id
+		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.company_id=ct.company_id and sci.parent_code='SUBJECT'
+		LEFT JOIN sys_config_teacher t on t.id=ct.teacher_id
+		where  ct.origin_type=0  and ct.is_out_source=0 and ct.company_id=#{companyId}
+		<if test="lable != null and lable != ''">
+			<choose>
+				<when test="lable=='live'">	and ct.live_flag =1	</when>
+				<when test="lable=='video'">and ct.video_flag =1</when>
+				<when test="lable=='face'">and ct.face_flag =1</when>
+				<otherwise> </otherwise>
+			</choose>
+		</if>
+		<if test="name != null and name != ''">
+			and (ct.name like '%${name}%' or sci.item_name like '%${name}%' or t.name like '%${name}%')
+		</if>
+		ORDER BY
+			<if test="order_signup != null and order_signup != '' ">
+				<choose>
+					<when test="order_signup==1">c.buy_num asc,</when>
+					<otherwise>c.buy_num desc,</otherwise>
+				</choose>
+			</if>
+			<if test="order_buy != null and order_buy != '' ">
+				<choose>
+					<when test="order_buy==1">(c.base_num+c.buy_num) asc,</when>
+					<otherwise>(c.base_num+c.buy_num) desc,</otherwise>
+				</choose>
+			</if>
+		<if test="paixu == null or paixu == ''">ct.create_time desc </if>
+		<if test="paixu != null and paixu == 1">c.buy_num ASC </if>
+		<if test="paixu != null and paixu == 2">c.buy_num DESC </if>
+		<if test="paixu != null and paixu == 3">(c.base_num+c.buy_num) asc </if>
+		<if test="paixu != null and paixu == 4">(c.base_num+c.buy_num) DESC  </if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCountClassOfBranchSchool" resultType="int" parameterType="map">
+		SELECT count(ct.id) from class_type ct
+		join commodity_product_realtion pr on pr.product_id=ct.id
+		join commodity c on c.id=pr.com_id and c.origin_type=0
+		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.company_id=ct.company_id and sci.parent_code='SUBJECT'
+		LEFT JOIN sys_config_teacher t on t.id=ct.teacher_id
+		where  ct.origin_type=0 and  ct.is_out_source=0  and ct.company_id=#{companyId}
+		<if test="lable != null and lable != ''">
+			<choose>
+				<when test="lable=='live'">	and ct.live_flag =1	</when>
+				<when test="lable=='video'">and ct.video_flag =1</when>
+				<when test="lable=='face'">and ct.face_flag =1</when>
+				<otherwise>		</otherwise>
+			</choose>
+		</if>
+		<if test="name != null and name != ''">
+			and (ct.name like '%${name}%' or sci.item_name like '%${name}%' or t.name like '%${name}%')
+		</if>
+	</select>
+	
+	
+	<!-- 查询其他分校直播课程  -->
+	<select id="queryLiveClassOfOtherSchool" resultMap="classTypeVoResultMap" parameterType="map">
+		SELECT ct.id,ct.name,sd.item_name as itemThirdName,c1.company_name as schoolName,c1.domain
+		from class_type ct
+		JOIN commodity_product_realtion pr on pr.product_id = ct.id
+		JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
+		JOIN company c1 on c1.id=ct.company_id and c1.is_area != 0
+		Left JOIN sys_config_item sd on sd.item_code=ct.item_third_code and sd.company_id=ct.company_id and sd.parent_code='SUBJECT'
+		where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0  and ct.publish_status='CLASS_ON_SALE'
+			  and ct.is_out_source=0 and ct.live_flag=1 and ct.company_id != #{companyId}
+			<if test="className != null and className != ''">
+				and ct.name like '%${className}%' 
+			</if>
+			<if test="schoolName != null and schoolName != ''">
+				and c1.company_name like '%${schoolName}%'
+			</if>
+		ORDER BY ct.create_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryCountLiveClassOfOtherSchool" resultType="int" parameterType="map">
+		SELECT count(ct.id)
+		from class_type ct
+		JOIN commodity_product_realtion pr on pr.product_id = ct.id
+		JOIN commodity c ON c.id = pr.com_id and c.origin_type=0
+		JOIN company c1 on c1.id=ct.company_id and c1.is_area=2
+		where ct.del_flag=0 and c.type='COMMODITY_CLASS' and ct.origin_type=0 and ct.publish_status='CLASS_ON_SALE'
+			  and ct.is_out_source=0 and ct.live_flag=1 and ct.company_id != #{companyId}
+			<if test="className != null and className != ''">
+				and ct.name like '%${className}%' 
+			</if>
+			<if test="schoolName != null and schoolName != ''">
+				and c1.company_name like '%${schoolName}%'
+			</if>
+	</select>
+	
 </mapper>

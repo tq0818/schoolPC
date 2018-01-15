@@ -11,6 +11,10 @@
      <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/operate.css" />
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
     
+    <style type="text/css">
+    	.tabsn li.b6{ background: limegreen;}
+    	.tabsn li.b6:hover{ background: chartreuse;}
+    </style>
 </head>
 <body style="position:relative;">
 <input type="hidden" id="one" value="${itemOneId }"/>
@@ -27,6 +31,7 @@
                <i class="tips" id="tip" style="display: none;">没有查到相关信息!</i>
                 <input type="text" id="classTypeName" placeholder="请输入课程名称">
                 <input onclick="Form.queryCommodityByName()" type="button" class="btn btn-default btn-sm" placeholder="输入商品名称" value="搜索">
+                <input type="hidden" id="isArea" value="${isArea }"/>
             </span>
         </div>
     </div>
@@ -34,38 +39,40 @@
 <div class="u-wrap classes">
     <div class="mainbackground nopadding">
         <div class="classes-type">
-            <p class="c">
+           <p class="c">
                 <span class="t-title">分类</span>
                 <span class="t-content" id="itemOneCodeList">
                     <a href="javascript:Form.queryAllCommdityByItemNew(1,'all');" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
                    <c:forEach items="${firstItem }" var="type" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1,'${type.itemCode }');" data-code="${type.itemCode }" class="btn btn-mini btn-default">${type.itemName }</a>
+                       <a href="javascript:Form.queryAllCommdityByItemNew(1,'${type.itemCode }');" ids="${type.id}" data-code="${type.itemCode }" class="btn btn-mini btn-default">${type.itemName }</a>
                    </c:forEach>
                 </span>
             </p>
-            <p class="c">
-                <span class="t-title">学段</span>
-                <span class="t-content" id="itemSecondCodeList">
-                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all" class="btn btn-mini btn-default btn-success">全部</a>
-                   <c:forEach items="${secondItem }" var="second" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${second.itemCode }" class="btn btn-mini btn-default">${second.itemName }</a>
-                   </c:forEach>
+                <p class="c">
+                    <span class="t-title">学段</span>
+                    <span class="t-content" id="itemSecondCodeList">
+                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" id="xueduan" data-code="all" class="btn btn-mini btn-default btn-success">全部</a>
+                     <c:forEach items="${secondItem }" var="second" varStatus="status">
+                         <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${second.itemCode }"  parentId="${second.parentId}" ids="${second.id}" class="btn btn-mini btn-default parentId">${second.itemName }</a>
+                     </c:forEach>
                 </span>
             </p>
+
             <p class="c">
                 <span class="t-title">学科</span>
                 <span class="t-content" id="itemThirdCodeList">
-                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all"  class="btn btn-mini btn-default btn-success">全部</a>
+                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="all" id="xueke" class="btn btn-mini btn-default btn-success">全部</a>
                    <c:forEach items="${thirdItem }" var="third" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${third.itemCode }"  class="btn btn-mini btn-default">${third.itemName }</a>
+                           <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${third.itemCode }" parentId="${third.parentId}"  ids="${third.id}"  class="btn btn-mini btn-default thirdId">${third.itemName }</a>
                    </c:forEach>
+
                 </span>
             </p>
             <p class="c">
                 <span class="t-title">知识点</span>
                 <span class="t-content" id="itemFourthCodeList">
                    <c:forEach items="${fourthItem }" var="fourth" varStatus="status">
-                           <a href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }"  class="btn btn-mini btn-default">${fourth.itemName }</a>
+                           <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }" parentId="${fourth.parentId}" ids="${fourth.id}"  class="btn btn-mini btn-default fourthId">${fourth.itemName }</a>
                    </c:forEach>
                 </span>
             </p>
@@ -115,8 +122,10 @@
                 	<a href="javascript:Form.queryAllCommdityByItemNew(1)" ids="all" class="btn btn-mini btn-default btn-success">全部</a>
                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_LIVE" class="btn btn-mini btn-default">直播</a>
                     <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_VIDEO" class="btn btn-mini btn-default">录播</a>
-                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_FACE" class="btn btn-mini btn-default">面授</a>
-                    <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_REMOTE" class="btn btn-mini btn-default">其他</a>
+                    <c:if test="${isArea eq 0}">
+                        <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_FACE" class="btn btn-mini btn-default">面授</a>
+                        <a href="javascript:Form.queryAllCommdityByItemNew(1);" ids="IS_REMOTE" class="btn btn-mini btn-default">其他</a>
+                    </c:if>
                 </span>
             </p>
         </div>
@@ -147,65 +156,232 @@
    </div>
 </div>
 <div class="add-layer-bg none"></div>
+<%--//分类，学段，学科，知识点联动--%>
+<script>
+    function showList(type) {
+        if(type == 0){
+            $("#itemSecondCodeList").children('a').removeClass('btn-success');
+            $("#itemThirdCodeList").children('a').removeClass('btn-success');
+            $("#itemFourthCodeList").children('a').removeClass('btn-success');
+            $("#xueduan").addClass('btn-success');
+            $("#xueke").addClass('btn-success');
+            for(var i = 0;i<$('.thirdId').length;i++){
+                $('.thirdId').eq(i).hide();
+            }
+            for(var i = 0;i<$('.fourthId').length;i++){
+                $('.fourthId').eq(i).hide();
+            }
+        }
+        if(type==1){
+            $("#itemThirdCodeList").children('a').removeClass('btn-success');
+            $("#itemFourthCodeList").children('a').removeClass('btn-success');
+            $("#xueke").addClass('btn-success');
+            for(var i = 0;i<$('.fourthId').length;i++){
+                $('.fourthId').eq(i).hide();
+            }
+        }
+    }
+    //点击分类
+    $('#itemOneCodeList').children('a').click(function () {
+        showList(0);
+        if($(this).index()!=0){
+            var id= $(this).attr('ids');
+            for(var i = 0;i<$('.parentId').length;i++){
+                if(id==$('.parentId').eq(i).attr('parentId')){
+                    $('.parentId').eq(i).show();
+                }else {
+                    $('.parentId').eq(i).hide();
+                }
+            }
+        }else{
+            for(var i = 0;i<$('.parentId').length;i++){
+                $('.parentId').eq(i).hide();
+            }
+        }
+    });
+    //点击学段
+    $('#itemSecondCodeList').children('a').click(function () {
+        showList(1);
+        if($(this).index()!=0){
+            var id= $(this).attr('ids');
+            for(var i = 0;i<$('.thirdId').length;i++){
+                if(id==$('.thirdId').eq(i).attr('parentId')){
+                    $('.thirdId').eq(i).show();
+                }else {
+                    $('.thirdId').eq(i).hide();
+                }
+            }
+        }else{
+            for(var i = 0;i<$('.thirdId').length;i++){
+                $('.thirdId').eq(i).hide();
+            }
+        }
+    });
+    $('#itemThirdCodeList').children('a').click(function () {
+        $("#itemFourthCodeList").children('a').removeClass('btn-success');
+        if($(this).index()!=0){
+            var id= $(this).attr('ids');
+            for(var i = 0;i<$('.fourthId').length;i++){
+                if(id==$('.fourthId').eq(i).attr('parentId')){
+                    $('.fourthId').eq(i).show();
+                }else {
+                    $('.fourthId').eq(i).hide();
+                }
+            }
+        }else{
+            for(var i = 0;i<$('.fourthId').length;i++){
+                $('.fourthId').eq(i).hide();
+            }
+        }
+    });
+</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
-			url : rootPath + "/companyServiceStatic/queryCompanyNoServices",
+			url : rootPath + "/companyServiceStatic/queryCompanyNoServices",//查询未开通的服务
 			type : "post",
 			dataType : 'json',
 			success : function(jsonData) {
+				var isArea=$("#isArea").val();
+				var b6="";
+				if("0"==isArea){
+					b6="<li class=\"b6 classTypeManage\">分校课程</li>";
+				}else{
+					b6="<li class=\"b6 buyClassType\">已购课程</li>";
+				}
 				var count=jsonData.length;
 				var html="";
-				if(count==1){
-					$.each(jsonData,function(i,item){
-						if(item.groupCode=='SERVICE_LIVE'){
-							html+='<ul class="tabsn c4"><li class="b2">录播</li>'+
-					   			'<li class="b3">面授</li>'+
-						   		'<li class="b4">混合</li>'+
-						   		'<li class="b5">其他</li></ul>';
-						}else if(item.groupCode=='SERVICE_VIDEO'){
-								html+='<ul class="tabsn c4"><li class="b1">直播</li>'+
-					   			'<li class="b3">面授</li>'+
-						   		'<li class="b4">混合</li>'+
-						   		'<li class="b5">其他</li></ul>';
-						}else if(item.groupCode=='SERVICE_FACE'){
-								html+='<ul class="tabsn c4"><li class="b1">直播</li>'+
-					   			'<li class="b2">录播</li>'+
-						   		'<li class="b4">混合</li>'+
-						   		'<li class="b5">其他</li></ul>';
-						}
-					});
-				}else if(count==2){
-					var num1,num2;
-					$.each(jsonData,function(i,item){
-						if(i==0){
-							num1=item.groupCode;
-						}else{
-							num2=item.groupCode;
-						}
-					})
-					if((num1=="SERVICE_LIVE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_LIVE")){
-						html+='<ul class="tabsn c2"><li class="b3">面授</li>'+
-				   		'<li class="b5">其他</li></ul>';
-					}
-					if((num1=="SERVICE_LIVE"&&num2=="SERVICE_FACE")||(num1=="SERVICE_FACE"&&num2=="SERVICE_LIVE")){
-						html+='<ul class="tabsn c2"><li class="b2">录播</li>'+
-				   		'<li class="b5">其他</li></ul>';
-					}
-					if((num1=="SERVICE_FACE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_FACE")){
-						html+='<ul class="tabsn c2"><li class="b1">直播</li>'+
-				   		'<li class="b5">其他</li></ul>';
-					}
-				}else if(count==3){
-					html+='<ul class="tabsn c8">'+
-			   		'<li class="b5">其他</li></ul>';
-				}else{
-					html+='<ul class="tabsn"><li class="b1">直播</li>'+
-					'<li class="b2">录播</li>'+
-		   			'<li class="b3">面授</li>'+
-			   		'<li class="b4">混合</li>'+
-			   		'<li class="b5">其他</li></ul>';
-				}
+				if("0"==isArea){
+                    if(count==1){
+                        $.each(jsonData,function(i,item){
+                            if(item.groupCode=='SERVICE_LIVE'){
+                                html+='<ul class="tabsn"><li class="b2">录播</li>'+
+                                    /* '<li class="b3">面授</li>'+
+                                    '<li class="b4">混合</li>'+ */
+                                    '<li class="b5">其他</li>'+
+                                    b6+'</ul>';
+                            }else if(item.groupCode=='SERVICE_VIDEO'){
+                                html+='<ul class="tabsn"><li class="b1">直播</li>'+
+                                    /* '<li class="b3">面授</li>'+
+                                    '<li class="b4">混合</li>'+ */
+                                    '<li class="b5">其他</li>'+
+                                    b6+'</ul>';
+                            }else if(item.groupCode=='SERVICE_FACE'){
+                                html+='<ul class="tabsn"><li class="b1">直播</li>'+
+                                    '<li class="b2">录播</li>'+
+                                    /* '<li class="b4">混合</li>'+ */
+                                    '<li class="b5">其他</li>'+
+                                    b6+'</ul>';
+                            }
+                        });
+                    }else if(count==2){
+                        var num1,num2;
+                        $.each(jsonData,function(i,item){
+                            if(i==0){
+                                num1=item.groupCode;
+                            }else{
+                                num2=item.groupCode;
+                            }
+                        })
+                        if((num1=="SERVICE_LIVE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_LIVE")){
+                            html+=/*'<ul class="tabsn c2"><li class="b3">面授</li>' */'<li class="b5">其他</li>'+
+                                b6+'</ul>';
+                        }
+                        if((num1=="SERVICE_LIVE"&&num2=="SERVICE_FACE")||(num1=="SERVICE_FACE"&&num2=="SERVICE_LIVE")){
+                            html+='<ul class="tabsn"><li class="b2">录播</li>'+
+                                '<li class="b5">其他</li>'+
+                                b6+'</ul>';
+                        }
+                        if((num1=="SERVICE_FACE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_FACE")){
+                            html+='<ul class="tabsn"><li class="b1">直播</li>'+
+                                '<li class="b2">录播</li>'+
+                                /* '<li class="b3">面授</li>'+
+                                '<li class="b4">混合</li>'+ */
+                                '<li class="b5">其他</li>'+
+                                b6+'</ul>';
+                        }
+                    }else if(count==3){
+                        html+='<ul class="tabsn">'+
+                            '<li class="b2">录播</li>'+
+                            /* '<li class="b3">面授</li>'+
+                            '<li class="b4">混合</li>'+ */
+                            '<li class="b5">其他</li>'+
+                            b6+'</ul>';
+                    }else{
+                        html+='<ul class="tabsn"><li class="b1">直播</li>'+
+                            	'<li class="b2">录播</li>'+
+                                   /* '<li class="b3">面授</li>'+
+                                   '<li class="b4">混合</li>'+ */
+                            '<li class="b5">其他</li>'+
+                            b6+'</ul>';
+                    }
+                }else{
+                    if(count==1){
+                        $.each(jsonData,function(i,item){
+                            if(item.groupCode=='SERVICE_LIVE'){
+                                html+='<ul class="tabsn">' +
+                                    '<li class="b2">录播</li>'+
+                                    b6+'</ul>';
+                            }else if(item.groupCode=='SERVICE_VIDEO'){
+                                html+='<ul class="tabsn">' +
+                                    '<li class="b1">直播</li>'+
+                                    b6+'</ul>';
+                            }else{
+                                html+='<ul class="tabsn">' +
+                                    '<li class="b1">直播</li>'+
+                                    '<li class="b2">录播</li>'+
+                                    b6+'</ul>';
+                            }
+                        });
+                    }else if(count==2){
+                        var num1,num2;
+                        $.each(jsonData,function(i,item){
+                            if(i==0){
+                                num1=item.groupCode;
+                            }else{
+                                num2=item.groupCode;
+                            }
+                        })
+                        /* if((num1=="SERVICE_LIVE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_LIVE")){
+                            html+='<ul class="tabsn">' +
+                                '<li class="b1">直播</li>'+
+                                '<li class="b2">录播</li>'+
+                                b6+'</ul>';
+                        }
+                        if((num1=="SERVICE_LIVE"&&num2=="SERVICE_FACE")||(num1=="SERVICE_FACE"&&num2=="SERVICE_LIVE")){
+                            html+='<ul class="tabsn">' +
+                                '<li class="b1">直播</li>'+
+                                '<li class="b2">录播</li>'+
+                                b6+'</ul>';
+                        }
+                        if((num1=="SERVICE_FACE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_FACE")){
+                            html+='<ul class="tabsn">' +
+                                '<li class="b1">直播</li>'+
+                                '<li class="b2">录播</li>'+
+                                b6+'</ul>';
+                        } */
+                        if((num1=="SERVICE_LIVE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_LIVE")){
+                            html+='<ul class="tabsn">'+
+                                b6+'</ul>';
+                        }
+                        if((num1=="SERVICE_LIVE"&&num2=="SERVICE_FACE")||(num1=="SERVICE_FACE"&&num2=="SERVICE_LIVE")){
+                            html+='<ul class="tabsn">'
+                                '<li class="b2">录播</li>'+
+                                b6+'</ul>';
+                        }
+                        if((num1=="SERVICE_FACE"&&num2=="SERVICE_VIDEO")||(num1=="SERVICE_VIDEO"&&num2=="SERVICE_FACE")){
+                            html+='<ul class="tabsn">' +
+                                '<li class="b2">录播</li>'+
+                                b6+'</ul>';
+                        }
+                    }else if(count==3){
+                        html+='<ul class="tabsn">'+
+                            b6+'</ul>';
+                    }else{
+                        html+='<ul class="tabsn">'+b6+'</ul>';
+                    }
+                }
+
 				/* $("#lsOne").append(html); */
 				$(html).appendTo("#lsOne");
 			}
@@ -216,5 +392,12 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/simpleclasses/classIndex.js"></script>
  <script type="text/javascript" src="<%=rootPath %>/javascripts/classes.js"></script>
  <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
+
+
+<script>
+
+
+
+</script>
 </body>
 </html>

@@ -1,13 +1,21 @@
 package com.yuxin.wx.controller.task;
 
 import com.google.gson.Gson;
+import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.api.company.ICompanyLiveConfigService;
 import com.yuxin.wx.api.company.ICompanyPayConfigService;
+import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
+import com.yuxin.wx.api.system.ISysKnowledgeTreeStatisticsService;
 import com.yuxin.wx.api.user.IUserHistoryService;
+import com.yuxin.wx.api.user.IUsersFrontService;
 import com.yuxin.wx.api.watchInfo.IWatchInfoService;
 import com.yuxin.wx.common.LiveRoomConstant;
+import com.yuxin.wx.model.classes.ClassModuleLesson;
 import com.yuxin.wx.model.company.CompanyLiveConfig;
 import com.yuxin.wx.model.company.CompanyPayConfig;
+import com.yuxin.wx.model.system.SysKnowledgeTree;
+import com.yuxin.wx.model.system.SysKnowledgeTreeStatistics;
+import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.model.watchInfo.ClassRoomRelation;
 import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
@@ -42,11 +50,19 @@ public class TestTask {
     private ICompanyPayConfigService companyPayConfigServiceImpl;
     @Autowired
     private ICompanyLiveConfigService companyLiveConfigServiceImpl;
-
+    @Autowired
+    private ISysKnowledgeTreeService sysKnowledgeTreeServiceImpl;
+    @Autowired
+    private IClassModuleLessonService classModuleLessonServiceImpl;
+    @Autowired
+    private IUsersFrontService usersFrontServiceImpl;
+    @Autowired
+    private ISysKnowledgeTreeStatisticsService  sysKnowledgeTreeStatisticsServiceImpl;
     private Log log = LogFactory.getLog("log");
+    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 //    @RequestMapping(value="/getInfo")
-    @Scheduled(cron = "0 0 1 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+//    @Scheduled(cron = "0 0/5 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void test() {
         //获取当日的课次
 //        Date date = new Date();
@@ -102,8 +118,17 @@ public class TestTask {
                     lesson.setDevice(mUser.getDevice());
                     lesson.setId(null);
                     watchInfoServiceImpl.addWatchInfo(lesson);
+                    try {
+                        setLiveKnowledgeTreeStaticis(lesson,lesson.getUserId());
+                    } catch (ParseException e) {
+                        log.info("树结构数据转换出错");
+                        e.printStackTrace();
+                    }
                 }
             }
+
+
+
         }
         //获取前一天课次下所有课件
         log.info("获取昨天直播观看信息-----结束");
@@ -114,6 +139,144 @@ public class TestTask {
 
 
 
+    }
+    public void setLiveKnowledgeTreeStaticis (WatchInfo lesson,Integer userId) throws ParseException {
+        //统计数据写入
+        log.info("知识树统计数据写入-----开始");
+        SysKnowledgeTree tree = new SysKnowledgeTree();
+        tree.setLessonId(lesson.getLessonId());
+        List<SysKnowledgeTree> nodes = sysKnowledgeTreeServiceImpl.findKnowledgeTreeByClass(tree);
+        if(nodes.size()>0){
+            SysKnowledgeTree node = nodes.get(0);
+            //获取总时长
+            Map map = new HashMap();
+            map.put("lessonId",lesson.getLessonId());
+           // Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
+
+            //获取所有用户
+            List<UsersFront> users  = usersFrontServiceImpl.queryAll();
+
+
+
+                map.put("userId",userId);
+                List<SysKnowledgeTreeStatistics> list =  sysKnowledgeTreeStatisticsServiceImpl.findStatistics(map);
+                if(list.size()>0){
+                    SysKnowledgeTreeStatistics obj = list.get(0);
+                    //计算观看比例
+                    if((float)(lesson.getWatchTime()/1000/60)>=30){
+                        obj.setLiveFlag(2);
+                    }else{
+                        obj.setLiveFlag(1);
+                    }
+                    sysKnowledgeTreeStatisticsServiceImpl.updateStatistics(obj);
+                }else{
+                    SysKnowledgeTreeStatistics obj = new SysKnowledgeTreeStatistics();
+                    obj.setUserId(userId);
+                    obj.setCommodityId(node.getCommodityId());
+                    obj.setClasstypeId(node.getClasstypeId());
+                    obj.setLessonId(node.getLessonId());
+                    obj.setVideoFlag(0);
+                    obj.setVideoLectrueId(node.getCommodityIdHuikan());
+                    obj.setVideoWeikeFlag(0);
+                    obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
+                    obj.setPaperFlag(0);
+                    obj.setPaperId(node.getPaperId());
+
+                    if((float)(lesson.getWatchTime()/1000/60)>30){
+                        obj.setLiveFlag(2);
+                    }else{
+                        obj.setLiveFlag(1);
+                    }
+                    sysKnowledgeTreeStatisticsServiceImpl.addStatistics(obj);
+                }
+
+
+        }
+    }
+    public void setVideoKnowledgeTreeStaticis (Integer lectureId,Integer userId,Integer watchLength) throws ParseException {
+        //统计数据写入
+        log.info("知识树统计数据写入-----开始");
+        SysKnowledgeTree tree = new SysKnowledgeTree();
+        tree.setCommodityIdHuikan(lectureId);
+        List<SysKnowledgeTree> nodes = sysKnowledgeTreeServiceImpl.findKnowledgeTreeByClass(tree);
+        String flag = "huikan";
+        if(nodes.size()==0){
+            tree.setCommodityIdHuikan(null);
+            tree.setCommodityIdWeike(lectureId);
+            nodes = sysKnowledgeTreeServiceImpl.findKnowledgeTreeByClass(tree);
+            flag="weike";
+        }
+        if(nodes.size()>0){
+            SysKnowledgeTree node = nodes.get(0);
+            //获取总时长
+            Map map = new HashMap();
+            map.put("id",lectureId);
+            Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
+            long h  = (long)classInfo.get("h")*60*60;
+            long m  = (long)classInfo.get("m")*60;
+            long s  = (long)classInfo.get("s");
+            long total = h+m+s;
+            //获取所有用户
+            //List<UsersFront> users  = usersFrontServiceImpl.queryAll();
+
+
+            map.clear();
+            if(flag.equals("huikan")){
+                map.put("videoLectrueId",lectureId);
+            }
+            else if(flag.equals("weike")){
+                map.put("videoLectrueWeikeId",lectureId);
+            }
+            map.put("userId",userId);
+            List<SysKnowledgeTreeStatistics> list =  sysKnowledgeTreeStatisticsServiceImpl.findStatistics(map);
+            if(list.size()>0){
+                SysKnowledgeTreeStatistics obj = list.get(0);
+                //计算观看比例
+                if(flag.equals("huikan")){
+                    if((float)(watchLength/total)>=0.7){
+                        obj.setVideoFlag(2);
+                    }else{
+                        obj.setVideoFlag(1);
+                    }
+                } else if(flag.equals("weike")){
+                    if((float)(watchLength/total)>=0.8){
+                        obj.setVideoWeikeFlag(2);
+                    }else{
+                        obj.setVideoWeikeFlag(1);
+                    }
+                }
+
+                sysKnowledgeTreeStatisticsServiceImpl.updateStatistics(obj);
+            }else{
+                SysKnowledgeTreeStatistics obj = new SysKnowledgeTreeStatistics();
+                obj.setUserId(userId);
+                obj.setCommodityId(node.getCommodityId());
+                obj.setClasstypeId(node.getClasstypeId());
+                obj.setLessonId(node.getLessonId());
+                obj.setVideoLectrueId(node.getCommodityIdHuikan());
+                obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
+                obj.setPaperFlag(0);
+                obj.setPaperId(node.getPaperId());
+                obj.setLiveFlag(0);
+                if(flag.equals("huikan")){
+                    obj.setVideoWeikeFlag(0);
+                    if((float)(watchLength/total)>=0.7){
+                        obj.setVideoFlag(2);
+                    }else{
+                        obj.setVideoFlag(1);
+                    }
+                } else if(flag.equals("weike")){
+                    obj.setVideoFlag(0);
+                    if((float)(watchLength/total)>=0.8){
+                        obj.setVideoWeikeFlag(2);
+                    }else{
+                        obj.setVideoWeikeFlag(1);
+                    }
+                }
+                sysKnowledgeTreeStatisticsServiceImpl.addStatistics(obj);
+            }
+
+        }
     }
 
     //获取回看记录
@@ -395,6 +558,7 @@ public class TestTask {
                 uha.setStudyTime(date);
                 uha.setDevice(play.getDevice());
                 userHistoryServiceImpl.insertPlayLogs(uha);
+                setVideoKnowledgeTreeStaticis(uha.getLectureId(),uha.getUserId(),uha.getStudyLength());
             }
             if(playLog.size()==1000){
                 addPlayLog(date,companyPayConfig,index+1,sdf);

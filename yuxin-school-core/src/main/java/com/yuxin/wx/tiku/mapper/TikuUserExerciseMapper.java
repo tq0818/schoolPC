@@ -136,4 +136,6 @@ public interface TikuUserExerciseMapper extends BaseMapper<TikuUserExercise> {
     List<TikuUserExerciseVo> findAllPaperRspdInfo(TikuUserExercise exercise);
 
     Map<String,Object> findExamAccuracyByParam(TikuUserExerciseAnswerAccuracy tueaa);
+
+    List<Map<String,Object>> findTikuPaperByParam(Map<String, Object> param);
 }

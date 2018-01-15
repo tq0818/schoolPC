@@ -1,10 +1,12 @@
 package com.yuxin.wx.model.user;
 
 import java.util.Date;
+import java.util.List;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import com.yuxin.wx.util.ShortDateSerializer;
 
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.util.ShortDateSerializer;
 
 /**
  * POJO:Users
@@ -49,7 +51,38 @@ public class Users extends BaseEntity {
 	private String  schoolName;
 	private String domain;/*公司域名*/
 	private Integer proxyOrgId;
+	private String eduAreaSchool;
+	private String isArea;
+	//返回状态码，0代表未查询到对应的用户，1代表查询到非本校用户，2代表查询到本校用户
+	private String statusCode;
+	//错误信息
+	private String errorMsg;
+	
+	//用户所有合法分校集合
+	private List<Integer> companyIds;
+	
+	public List<Integer> getCompanyIds() {
+		return companyIds;
+	}
+	public void setCompanyIds(List<Integer> companyIds) {
+		this.companyIds = companyIds;
+	}
+	public String getStatusCode() {
+		return statusCode;
+	}
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
 
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+
+	private Integer IsUsed;
 	// Constructor
 	public Users() {
 	}
@@ -95,6 +128,14 @@ public class Users extends BaseEntity {
 	
 	public String getUsername() {
 		return username;
+	}
+
+	public Integer getIsUsed() {
+		return IsUsed;
+	}
+
+	public void setIsUsed(Integer isUsed) {
+		IsUsed = isUsed;
 	}
 
 	public Users setUsername(String username) {
@@ -419,4 +460,27 @@ public class Users extends BaseEntity {
 	public void setProxyOrgId(Integer proxyOrgId) {
 		this.proxyOrgId = proxyOrgId;
 	}
+
+	
+    public String getEduAreaSchool() {
+    	return eduAreaSchool;
+    }
+
+	
+    public void setEduAreaSchool(String eduAreaSchool) {
+    	this.eduAreaSchool = eduAreaSchool;
+    }
+
+	
+    public String getIsArea() {
+    	return isArea;
+    }
+
+	
+    public void setIsArea(String isArea) {
+    	this.isArea = isArea;
+    }
+
+ 
+	
 }

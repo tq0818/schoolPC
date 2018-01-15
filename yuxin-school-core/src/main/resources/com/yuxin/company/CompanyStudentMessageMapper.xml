@@ -294,14 +294,18 @@
 		<if test="itemThirdCode != null and  itemThirdCode !=''">
 			and item_second_code = #{itemThirdCode}
 		</if>
-		<if test="messageType != null and messageType != '' and messageType != 'all'">
+		<if test="messageType != null and messageType != '' and messageType != 'all' and messageType!='brachAll'">
 			and message_type = #{messageType}
 		</if>
+		<if test="messageType=='brachAll'">
+			and message_type in('STUDENT_MESSAGE_CLASSTYPE','STUDENT_MESSAGE_AFFICHE')
+		</if>
 		<if
-			test="messageMethod != null and messageMethod != '' and 
-
-messageMethod != 'all'">
+			test="messageMethod != null and messageMethod != '' and messageMethod != 'all' and messageMethod!='brachAll'">
 			and message_method = #{messageMethod}
+		</if>
+		<if test="messageMethod=='brachAll'">
+			and message_method in('STUDENT_MESSAGE_WEB')
 		</if>
 		order by create_time desc
 		limit #{firstIndex},#{pageSize}
@@ -330,11 +334,17 @@ messageMethod != 'all'">
 		<if test="messageType != null and messageType != '' and messageType != 'all'">
 			and message_type = #{messageType}
 		</if>
+		<if test="messageType=='brachAll'">
+			and message_type in('STUDENT_MESSAGE_CLASSTYPE','STUDENT_MESSAGE_AFFICHE')
+		</if>
 		<if
 			test="messageMethod != null and messageMethod != '' and 
 
 messageMethod != 'all'">
 			and message_method = #{messageMethod}
+		</if>
+		<if test="messageMethod=='brachAll'">
+			and message_method in('STUDENT_MESSAGE_WEB')
 		</if>
 	</select>
 	
@@ -433,9 +443,9 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 	<select id="findStudentMsgCountByModuleId" resultType="Integer" 
 
 parameterType="com.yuxin.wx.vo.student.StuMessageVo">
-		select count(*)
+		select count(1)
 		from(
-			select count(*)
+			select count(1)
 			from student s 
 			<choose>
 				<when test="messageMethod == 'STUDENT_MESSAGE_EMAIL'">inner join company_email_history h on s.user_id = h.receiver_user_id</when>
@@ -496,7 +506,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 	<select id="findNoticeList" resultMap="stuMessageVoResultMap" parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 		select h.id,
 			s.name,
-			s.company_id,
+			h.company_id,
 			h.send_time as apply_time,
 		 <choose>
 			<when test="messageMethod == 'STUDENT_MESSAGE_EMAIL'">
@@ -516,7 +526,7 @@ parameterType="com.yuxin.wx.vo.student.StuMessageVo">
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="findNoticeListCount" resultType="Integer" parameterType="com.yuxin.wx.vo.student.StuMessageVo">
-		select count(*)
+		select count(1)
 		 <choose>
 			<when test="messageMethod == 'STUDENT_MESSAGE_EMAIL'">
 				from company_email_history h

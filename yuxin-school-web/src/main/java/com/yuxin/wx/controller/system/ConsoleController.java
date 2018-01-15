@@ -125,7 +125,7 @@ public class ConsoleController {
 	 */
 	@RequestMapping(value = {"","/index"})
 	public String show(Model model,HttpServletRequest request){
-		if(!authRoleServiceImpl.checkUserHasPrivilege(WebUtils.getCurrentUserId(request), "system_privilege_config")){
+		if(!authRoleServiceImpl.checkUserHasPrivilege(WebUtils.getCurrentUserId(request), "system_privilege_config",WebUtils.getCurrentCompanyId())){
  			return "404";
  		}
 		return "console/redis";

@@ -66,7 +66,7 @@
 		dr.item_value as school_step_name
 		from
 		sys_play_logs pl
-		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -75,13 +75,19 @@
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
@@ -163,7 +169,7 @@
 		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate
 		from
 		sys_play_logs pl
-		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
@@ -172,6 +178,12 @@
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
 		<if test="courseName!=null and courseName!=''">and t.name = #{courseName}</if>
@@ -187,20 +199,26 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		inner join users_front uf on uf.id = s.user_id
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
@@ -234,15 +252,15 @@
 		dr.item_value as school_step_name
 		from
 		sys_play_logs pl
-		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict dr on dr.item_code = r.edu_step_new_code
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
@@ -271,14 +289,14 @@
 		pl.class_type_id
 		from
 		sys_play_logs pl
-		JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
 		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
 		left join sys_config_dict d on d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where  s.`edu_area` IS NOT NULL
@@ -300,12 +318,19 @@
 		  pl.user_id as totleNum
 		from
 		  sys_play_logs pl
+		  inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
               LEFT JOIN student s
           ON s.user_id = pl.user_id
           AND s.edu_identity = 0
       WHERE s.`edu_area` IS NOT NULL
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
@@ -318,12 +343,19 @@
 		count(1) as personNum
 		from
 		sys_play_logs pl
+		inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
 		LEFT JOIN student s
 		ON s.user_id = pl.user_id
 		AND s.edu_identity = 0
 		WHERE s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
 		and s.delete_flag = 0
+		<if test="eduMasterClass !=null and eduMasterClass != ''">
+			and
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
@@ -342,8 +374,8 @@
             s.edu_area
           FROM
             sys_play_logs pl
-			join commodity c on c.id=pl.commodity_id and c.origin_type=0
-		LEFT JOIN student s
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
+            LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
           WHERE s.`edu_area` IS NOT NULL
@@ -391,7 +423,7 @@
             s.edu_school
           FROM
             sys_play_logs pl
-			join commodity c on c.id=pl.commodity_id and c.origin_type=0
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
             LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
@@ -446,8 +478,8 @@
 		LEFT JOIN sys_config_dict d ON d.`item_code` = td.`edu_area`
 		LEFT JOIN sys_config_dict d1 ON d1.`item_code` = td.`edu_school`
 		LEFT JOIN class_type t ON t.id = td.`class_type_id`  and t.origin_type=0
-		LEFT JOIN sys_config_item it ON it.`item_code` = t.`item_second_code`
-		LEFT JOIN sys_config_item it1 ON it1.`item_code` = t.`item_third_code`
+		LEFT JOIN sys_config_item it ON it.`item_code` = t.`item_second_code` and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 ON it1.`item_code` = t.`item_third_code` and it1.company_id=t.company_id
 		GROUP BY td.`edu_area`,
 		td.`edu_school`,
 		t.`item_second_code`,
@@ -465,8 +497,8 @@
             s.`edu_school`
           FROM
             sys_play_logs pl
-		join commodity c on c.id=pl.commodity_id and c.origin_type=0
-		LEFT JOIN student s
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
+            LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
           where s.`edu_area` is not null
@@ -493,8 +525,8 @@
             s.`edu_school`
           FROM
             sys_play_logs pl
-		join commodity c on c.id=pl.commodity_id and c.origin_type=0
-		LEFT JOIN student s
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
+            LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
           WHERE s.`edu_area` IS NOT NULL
@@ -521,8 +553,8 @@
 			s.`edu_school`
 		  FROM
 			sys_play_logs pl
-			join class_type t
-			  on t.id = pl.`class_type_id`  and t.origin_type=0
+			left join class_type t
+			  on t.id = pl.`class_type_id`  and t.origin_type=0 and t.company_id=#{companyId}
 			LEFT JOIN student s
 			  ON s.user_id = pl.user_id
 			  AND s.edu_identity = 0
@@ -550,7 +582,7 @@
         v.video_cc_id as videoid
         FROM
         sys_play_logs pl
-        join class_type t
+        left join class_type t
         on t.id = pl.`class_type_id`  and t.origin_type=0
         LEFT JOIN student s
         ON s.user_id = pl.user_id
@@ -640,8 +672,8 @@
 		<if test="companyId!=null and companyId!=''">AND t.company_id = #{companyId}</if>
 		GROUP BY pl.lecture_id,
 		pl.user_id) td
-		LEFT JOIN sys_config_item it ON it.item_code = td.item_third_code
-		LEFT JOIN sys_config_item it1 ON it1.item_code = td.item_second_code
+		LEFT JOIN sys_config_item it ON it.item_code = td.item_third_code and it.company_id= #{companyId}
+		LEFT JOIN sys_config_item it1 ON it1.item_code = td.item_second_code and it1.company_id= #{companyId}
 		GROUP BY td.`item_second_code`,
 		td.`item_third_code`
 		<choose>
@@ -662,8 +694,8 @@
 		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
 		left join sys_config_teacher ut on ut.id = t.teacher_id
 		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
-		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code
-		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
 		left join course_video_lecture cl on cl.id = pl.`lecture_id`
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where  s.`edu_area` IS NOT NULL
@@ -700,4 +732,187 @@
 		  AND uh.study_time IS NOT NULL
 		  AND v.video_time IS NOT NULL
 	</select>
+
+
+
+	<select id="queryNewUserVideoPage" resultMap="userVideoResultMap" parameterType="com.yuxin.wx.vo.course.UserVideoVo">
+		select
+		pl.id,
+		v.video_cc_id as video_id,
+		t.name as course_name,
+		d.item_value as area_name,
+		d1.item_value as school_name,
+		d2.item_value as step_name,
+		it1.item_name AS course_step_name,
+		it.item_name as subject_name,
+		s.name,
+		uf.username,
+		s.edu_year as year_name,
+		s.edu_class as class_name,
+		COUNT(pl.class_type_id) AS view_num,
+        concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
+		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate,
+		dr.item_value as school_step_name
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left join sys_config_teacher ut on ut.id = t.teacher_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		inner join users_front uf on uf.id = s.user_id
+		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
+		left join sys_config_dict dr on r.edu_step_new_code = dr.item_code
+		left join sys_config_dict d on d.item_code = s.edu_area
+		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
+		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id and v.origin_type=0
+		where s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+        and s.delete_flag = 0
+        <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+        and s.is_base_school=1
+        </if>
+        and t.video_flag=1
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="eduClass!=null and eduClass!=''">and s.edu_class like #{eduClass}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
+		<if test="className!=null and className!=''">and t.name = #{className} </if>
+		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
+		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
+		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile like '%${username}%')</if>
+		group by t.name,pl.user_id
+		<choose>
+			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
+			<otherwise>order by t.name</otherwise>
+		</choose>
+		<choose>
+			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
+		</choose>
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="queryNewUserVideoPageCount" resultType="int" parameterType="com.yuxin.wx.vo.course.UserVideoVo">
+		SELECT COUNT(1) FROM (select
+		pl.class_type_id
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left join sys_config_teacher ut on ut.id = t.teacher_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		inner join users_front uf on uf.id = s.user_id
+		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
+		left join sys_config_dict d on d.item_code = s.edu_area
+		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id and v.origin_type=0
+		where s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+        and s.delete_flag = 0
+        <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+        and s.is_base_school=1
+        </if>
+        and t.video_flag=1
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="eduClass!=null and eduClass!=''">and s.edu_class like #{eduClass}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
+		<if test="className!=null and className!=''">and t.name = #{className} </if>
+		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
+		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
+		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile like '%${username}%')</if>
+		group by pl.lecture_id,pl.user_id) t
+	</select>
+
+
+
+	<select id="queryNewUserVideoList" resultMap="userVideoResultMap" parameterType="com.yuxin.wx.vo.course.UserVideoVo">
+		select
+		pl.id,
+		v.video_cc_id as video_id,
+		t.name as course_name,
+		d.item_value as area_name,
+		d1.item_value as school_name,
+		d2.item_value as step_name,
+		it1.item_name AS course_step_name,
+		it.item_name as subject_name,
+		s.name,
+		uf.username,
+		s.edu_year as year_name,
+		s.edu_class as class_name,
+		COUNT(pl.class_type_id) AS view_num,
+        concat(SEC_TO_TIME(SUM(pl.study_length)),'') AS totle_study_length,
+		round(SUM(pl.study_length) / (COUNT(pl.class_type_id) * TIME_TO_SEC(v.video_time)) * 100,2) as study_rate,
+		dr.item_value as school_step_name
+		from
+		sys_play_logs pl
+		left JOIN class_type t on t.id = pl.class_type_id  and t.origin_type=0
+		left join sys_config_teacher ut on ut.id = t.teacher_id
+		left join student s on s.user_id = pl.user_id and s.edu_identity = 0
+		inner join users_front uf on uf.id = s.user_id
+		left join edu_step_school_relation r on r.edu_school_code = s.edu_school
+		left join sys_config_dict dr on r.edu_step_new_code = dr.item_code
+		left join sys_config_dict d on d.item_code = s.edu_area
+		LEFT JOIN sys_config_dict d1 on d1.item_code = s.edu_school
+		LEFT JOIN sys_config_dict d2 on d2.item_code = s.edu_step
+		LEFT JOIN sys_config_item it on it.item_code = t.item_third_code and it.company_id=t.company_id
+		LEFT JOIN sys_config_item it1 on it1.item_code = t.item_second_code and it1.company_id=t.company_id
+		left join course_video_lecture cl on cl.id = pl.`lecture_id`
+		left join video v on v.id = cl.video_id and v.origin_type=0
+		where s.`edu_area` IS NOT NULL
+		AND s.`edu_school` IS NOT NULL
+        and s.delete_flag = 0 and s.is_base_school=1 and video_flag=1
+		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
+		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
+		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
+		<if test="eduYear!=null and eduYear!=''">and s.edu_year = #{eduYear}</if>
+		<if test="eduStep!=null and eduStep!=''">and s.edu_step = #{eduStep}</if>
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		<if test="eduClass!=null and eduClass!=''">and s.edu_class like #{eduClass}</if>
+		<if test="companyId!=null and companyId!=''">and t.company_id = #{companyId}</if>
+		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
+		<if test="className!=null and className!=''">and t.name = #{className} </if>
+		<if test="classStep!=null and classStep!=''">and t.item_second_code = #{classStep}</if>
+		<if test="classSubject!=null and classSubject!=''">and t.item_third_code = #{classSubject}</if>
+		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile like '%${username}%')</if>
+		group by pl.lecture_id,pl.user_id
+		<choose>
+			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
+			<otherwise>order by t.name</otherwise>
+		</choose>
+		<choose>
+			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
+		</choose>
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="queryPlayLogsByParam" resultType="Map" parameterType="Map">
+		SELECT
+		user_id as userId,
+		p.`lecture_id` as lectureId,
+		CASE WHEN p.`study_length` - (TIME_TO_SEC(v.video_time)/10*6)>0
+		THEN 2
+		ELSE 1
+		END as videoFlag
+		FROM
+		`sys_play_logs` p
+		LEFT JOIN `course_video_lecture` vl ON vl.`id` = p.`lecture_id`
+		LEFT JOIN video v ON v.id = vl.`video_id`
+		where p.commodity_id = #{commodityId}
+	</select>
+
 </mapper>

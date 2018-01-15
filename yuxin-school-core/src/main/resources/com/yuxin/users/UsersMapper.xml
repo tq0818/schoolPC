@@ -12,7 +12,6 @@
 		<result property="phone" column="phone" />
 		<result property="userType" column="user_type" />
 		<result property="sex" column="sex" />
-		<result property="schoolId" column="school_id" />
 		<result property="identityTypeCode" column="identity_type_code" />
 		<result property="identityId" column="identity_id" />
 		<result property="age" column="age" />
@@ -22,7 +21,6 @@
 		<result property="officePhone" column="office_phone" />
 		<result property="weixinId" column="weixin_id" />
 		<result property="status" column="status" />
-		<result property="companyId" column="company_id" />
 		<result property="emergencyContactName" column="emergency_contact_name" />
 		<result property="emergencyContactMobile" column="emergency_contact_mobile" />
 		<result property="hkAddress" column="hk_address" />
@@ -35,6 +33,17 @@
 		<result property="userRole" column="user_role" />
 		<result property="schoolName" column="school_name" />
 		<result property="proxyOrgId" column="proxy_org_id" />
+		<result property="companyId" column="company_id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.model.user.Users" id="usersCompanyIdResultMap">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="sex" column="sex" />
+		<result property="companyId" column="company_id" />
+		<result property="realName" column="real_name" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.user.UsersAreaRelation" id="usersAreaRelationMap">
@@ -69,7 +78,6 @@
 		phone,
 		user_type,
 		sex,
-		school_id,
 		identity_type_code,
 		identity_id,
 		age,
@@ -79,7 +87,6 @@
 		office_phone,
 		weixin_id,
 		status,
-		company_id,
 		emergency_contact_name,
 		emergency_contact_mobile,
 		hk_address,
@@ -90,6 +97,38 @@
 		uuid,
 		head_pic_url,
 		proxy_org_id
+    </sql>
+    <sql id="table_columns_u">
+		u.id,
+		u.username,
+		u.password,
+		u.real_name,
+		u.mobile,
+		u.email,
+		u.qq_no,
+		u.phone,
+		u.user_type,
+		u.sex,
+		u.identity_type_code,
+		u.identity_id,
+		u.age,
+		u.birthday,
+		u.education_code,
+		u.home_phone,
+		u.office_phone,
+		u.weixin_id,
+		u.status,
+		u.emergency_contact_name,
+		u.emergency_contact_mobile,
+		u.hk_address,
+		u.email_auth_sign,
+		u.email_auth_sendtime,
+		u.email_auth_code,
+		u.user_city,
+		u.uuid,
+		u.head_pic_url,
+		u.proxy_org_id,
+		ur.company_id
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -102,7 +141,6 @@
 		#{phone},
 		#{userType},
 		#{sex},
-		#{schoolId},
 		#{identityTypeCode},
 		#{identityId},
 		#{age},
@@ -112,7 +150,6 @@
 		#{officePhone},
 		#{weixinId},
 		#{status},
-		#{companyId},
 		#{emergencyContactName},
 		#{emergencyContactMobile},
 		#{hkAddress},
@@ -129,6 +166,17 @@
 	<insert id="insert" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
 		insert into users( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
+	</insert>
+	
+	<insert id="grantUserInCompany" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into users_comany_relation(user_id,company_id) 
+		values (#{userId},#{companyId})
+	</insert>
+		
+	<insert id="insertUsersComanyRelation" parameterType="com.yuxin.wx.model.teacher.UsersComanyRelation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO users_comany_relation(id,user_id,company_id,is_used)
+		SELECT null,#{userId},#{companyId},#{isUsed} from DUAL
+		where NOT EXISTS (SELECT 1 from users_comany_relation where user_id=#{userId} and company_id=#{companyId})
 	</insert>
 	
 	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
@@ -155,6 +203,14 @@
 		</foreach>
 	</delete>
 	
+	<delete id="deleteAuthUserRole">
+		delete from auth_user_role 
+		where user_id=#{0} and role_uid in (#{1})
+	</delete>
+	<delete id="deleteUsersComanyRelation">
+		delete from users_comany_relation where user_id=#{0} and company_id=#{1}
+	</delete>
+	
 	<update id="update" parameterType="com.yuxin.wx.model.user.Users">
 		update users 
 		<trim prefix="set" suffixOverrides=",">
@@ -167,7 +223,6 @@
 			<if test="phone != null and phone != ''">phone = #{phone},</if>
 			<if test="userType != null and userType != ''">user_type = #{userType},</if>
 			<if test="sex != null and sex != ''">sex = #{sex},</if>
-			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
 			<if test="identityTypeCode != null and identityTypeCode != ''">identity_type_code = #{identityTypeCode},</if>
 			<if test="identityId != null and identityId != ''">identity_id = #{identityId},</if>
 			<if test="age != null and age != ''">age = #{age},</if>
@@ -177,7 +232,6 @@
 			<if test="officePhone != null and officePhone != ''">office_phone = #{officePhone},</if>
 			<if test="weixinId != null and weixinId != ''">weixin_id = #{weixinId},</if>
 			<if test="status != null">status = #{status},</if>
-			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
 			<if test="emergencyContactName != null and emergencyContactName != ''">emergency_contact_name = #{emergencyContactName},</if>
 			<if test="emergencyContactMobile != null and emergencyContactMobile != ''">emergency_contact_mobile = #{emergencyContactMobile},</if>
 			<if test="hkAddress != null and hkAddress != ''">hk_address = #{hkAddress},</if>
@@ -196,6 +250,9 @@
 		update users set status=#{status}
 			where id=#{id}
 	</update>
+	<update id="updateUsersComanyRelationStatus" parameterType="com.yuxin.wx.model.user.Users">
+		update users_comany_relation set is_used=#{status} where user_id=#{id} and company_id=#{companyId}
+	</update>
 	
 	<select id="findById" resultMap="usersResultMap" parameterType="String" >
 		select <include refid="table_columns" />
@@ -203,14 +260,30 @@
 		where id = #{id}
 	</select>
 	
+	<select id="findUsersById" resultMap="usersResultMap" parameterType="map" >
+		select u.* , ucr.is_used as isUsed
+		from users u
+		join users_comany_relation ucr on ucr.user_id=u.id and ucr.company_id=#{companyId}
+		where u.id = #{userId}
+	</select>
+	
 	<select id="findUserByCompanyIdAndUserType" resultMap="usersResultMap" parameterType="Integer">
-		select <include refid="table_columns" />
-		from users
-		where user_type = 'USER_TYPE_ORG' and company_id = #{companyId} limit 1
+		select <include refid="table_columns_u" />
+		from users u
+		inner join users_comany_relation ur on u.id=ur.user_id and ur.is_used=1
+		where u.user_type = 'USER_TYPE_ORG'  limit 1
+	</select>
+	
+	<select id="findUserByCompanyIdAndUserId" resultMap="usersResultMap" parameterType="Integer">
+		select <include refid="table_columns_u" />
+		from users u
+		inner join users_comany_relation ur on u.id=ur.user_id and ur.is_used=1
+		where u.user_type = 'USER_TYPE_ORG' and u.id=#{userId} and ur.company_id=#{companyId}
 	</select>
 	
 	<update id="updateUserByCompanyIdAndUserType" parameterType="com.yuxin.wx.model.user.Users">
-		update users 
+		update users u
+		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1 and ur.company_id=#{companyId}
 		<trim prefix="set" suffixOverrides=",">
 			<if test="username != null and username != ''">username = #{username},</if>
 			<if test="password != null and password != ''">password = #{password},</if>
@@ -220,7 +293,6 @@
 			<if test="phone != null and phone != ''">phone = #{phone},</if>
 			<if test="userType != null and userType != ''">user_type = #{userType},</if>
 			<if test="sex != null and sex != ''">sex = #{sex},</if>
-			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
 			<if test="realName !=null" >real_name = #{realName},</if>
 			<if test="identityTypeCode!=null and identityTypeCode!=''" >identity_type_code = #{identityTypeCode},</if>
 			<if test="identityId !=null and identityId!=''" >identity_id =#{identityId},</if>
@@ -234,7 +306,7 @@
 			<if test="emergencyContactName!=null" >emergency_contact_name=#{emergencyContactName},</if>
 			<if test="emergencyContactMobile!=null" >emergency_contact_mobile=#{emergencyContactMobile},</if>
 		</trim>
-		<where>user_type = 'USER_TYPE_ORG' and company_id = #{companyId}</where>
+		<where>user_type = 'USER_TYPE_ORG'</where>
 	</update>
 	
 	<select id="queryByName" resultMap="usersResultMap" parameterType="String" >
@@ -248,7 +320,7 @@
 		u.phone,
 		u.user_type userType,
 		u.sex,
-		u.school_id schoolId,
+		s.id schoolId,
 		u.identity_type_code identityTypeCode,
 		u.identity_id identityId,
 		u.age,
@@ -258,7 +330,7 @@
 		u.office_phone officePhone,
 		u.weixin_id weixinId,
 		u.status,
-		u.company_id companyId,
+		ur.company_id companyId,
 		u.emergency_contact_name emergencyContactName,
 		u.emergency_contact_mobile emergencyContactMobile,
 		u.hk_address,
@@ -269,8 +341,50 @@
 		u.uuid,
 		u.head_pic_url headPicUrl,s.school_name,
 		u.proxy_org_id  
-		from users u left join sys_config_school s on u.school_id = s.id
-		where username = #{userName} limit 1
+		from users u 
+		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1
+		inner join sys_config_school s on s.company_id=ur.company_id
+		where u.username = #{userName} limit 1
+	</select>
+	
+	<select id="queryUserByCondition" resultMap="usersResultMap" parameterType="String" >
+		select distinct  u.id,
+		u.username,
+		u.password,
+		u.real_name realName,
+		u.mobile,
+		u.email,
+		u.qq_no qqNo,
+		u.phone,
+		u.user_type userType,
+		u.sex,
+		s.id schoolId,
+		u.identity_type_code identityTypeCode,
+		u.identity_id identityId,
+		u.age,
+		u.birthday,
+		u.education_code educationCode,
+		u.home_phone homePhone,
+		u.office_phone officePhone,
+		u.weixin_id weixinId,
+		u.status,
+		uc.company_id companyId,
+		u.emergency_contact_name emergencyContactName,
+		u.emergency_contact_mobile emergencyContactMobile,
+		u.hk_address,
+		u.email_auth_sign emailAuthSign,
+		u.email_auth_sendtime emailAuthSendtime,
+		u.email_auth_code emailAuthCode,
+		u.user_city userCity,
+		u.uuid,
+		u.head_pic_url headPicUrl,s.school_name,
+		u.proxy_org_id  
+		from users u
+		inner join users_comany_relation uc on uc.user_id=u.id and uc.is_used=1 and uc.company_id=#{companyId}
+		left join sys_config_school s on uc.company_id = s.company_id
+		inner join auth_user_role aur on aur.user_id=u.id
+		inner join auth_role ar on ar.id=aur.role_uid
+		where u.username =#{userName} limit 1
 	</select>
 	
 	<select id="queryAll" resultMap="usersResultMap">
@@ -289,7 +403,6 @@
 			<if test="phone != null and phone != ''">and phone = #{phone}</if>
 			<if test="userType != null and userType != ''">and user_type = #{userType}</if>
 			<if test="sex != null and sex != ''">and sex = #{sex}</if>
-			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
 		</trim>
 	</sql>
 	
@@ -313,25 +426,33 @@
 	
 	<select id="findUserList" resultMap="usersResultMap" parameterType="com.yuxin.wx.vo.privilege.UserRoleVo">
 		select distinct u.*
-		from users u left join auth_user_role ur on u.id=ur.user_id  where  u.user_type='USER_TYPE_ORG' and company_id=#{companyId} and u.status = #{status}
+		from users u 
+		inner join users_comany_relation ucr on ucr.user_id=u.id and ucr.is_used=1
+		inner join sys_config_school scs on scs.company_id=ucr.company_id
+		left join auth_user_role ur on u.id=ur.user_id  
+		where  u.user_type='USER_TYPE_ORG' and ucr.company_id=#{companyId} and u.status = #{status}
 		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
-		<if test="schoolId != null and schoolId != ''">and u.school_id = #{schoolId}</if>
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="roleId != null and roleId != ''">and ur.role_id = #{roleId}</if>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
 	<select id="pageCount2" resultType="Integer" parameterType="com.yuxin.wx.vo.privilege.UserRoleVo">
-		select count(distinct u.id) from users u left join auth_user_role ur on u.id=ur.user_id where u.user_type='USER_TYPE_ORG' and company_id=#{companyId}
+		select count(distinct u.id) from users u 
+		inner join users_comany_relation ucr on ucr.user_id=u.id and ucr.is_used=1
+		inner join sys_config_school scs on scs.company_id=ucr.company_id
+		left join auth_user_role ur on u.id=ur.user_id 
+		where u.user_type='USER_TYPE_ORG' and ucr.company_id=#{companyId}
 		<if test="realName != null and realName != ''">and u.real_name like  '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
-		<if test="schoolId != null and schoolId != ''">and u.school_id = #{schoolId}</if>
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="status != null and status != ''">and u.status = #{status}</if>
 		<if test="roleId != null and roleId != ''">and ur.role_id = #{roleId}</if>
 	</select>
 	
 	<select id="checkValid" resultType="Integer" parameterType="String">
-		select count(*) from users where 1=1
+		select count(1) from users where 1=1
 		<if test="username != null and username != ''"> and username = #{username}</if>
 		<if test="mobile != null and mobile != ''"> and mobile = #{mobile}</if>
 		<if test="identityId != null and identityId != ''"> and identity_id = #{identityId}</if>
@@ -339,7 +460,11 @@
 	</select>
 	
 	<select id="findUsersByRoleId" resultMap="usersResultMap"  parameterType="com.yuxin.wx.vo.privilege.RoleVo">
-		select u.* from users u,auth_user_role ur where u.id=ur.user_id and u.user_type='USER_TYPE_ORG' and ur.role_id=#{roleId} and u.status=1 and u.company_id=#{companyId}
+		select u.* from users u
+		inner join users_comany_relation ucr on ucr.user_id=u.id and ucr.is_used=1
+		inner join sys_config_school scs on scs.company_id=ucr.company_id
+		inner join auth_user_role ur on u.id=ur.user_id 
+		where u.id=ur.user_id and u.user_type='USER_TYPE_ORG' and ur.role_id=#{roleId} and u.status=1 and ucr.company_id=#{companyId}
 	</select>
 	
 	<select id="findIdByName" resultType="int"  parameterType="String">
@@ -361,16 +486,23 @@
 	</select>
 	
 	<select id="selectCount" parameterType="String" resultType="int">
-		select count(id) from users where company_id=#{companyId}
+		select count(u.id) from users u
+		inner join users_comany_relation ucr on ucr.user_id=u.id and ucr.is_used=1
+		where ucr.company_id=#{companyId}
 	</select>
 	
 	<select id="findByUserTypeAndCompanyId" parameterType="com.yuxin.wx.model.user.Users" resultMap="usersResultMap">
-		select school_id,id,mobile,phone from users where user_type=#{userType} and company_id = #{companyId} limit 1
+		select scs.id,u.id,u.mobile,u.phone from users u
+		inner join users_comany_relation ucr on ucr.user_id=u.id and ucr.is_used=1
+		inner join sys_config_school scs on scs.company_id=ucr.company_id
+		where u.user_type=#{userType} and ucr.company_id = #{companyId} limit 1
 	</select>
 	
 	<select id="isExixits" parameterType="com.yuxin.wx.model.user.Users" resultType="Integer">
-		select count(*) from company as c,users as u where c.id = u.company_id
-		and c.domain = #{domain} and u.username = #{username} and u.mobile = #{mobile} limit 1
+		select count(1) from company as c
+		inner join users_comany_relation ur on ur.company_id=c.id and ur.is_used=1
+		inner join users u on u.id= ur.user_id
+		where c.domain = #{domain} and u.username = #{username} and u.mobile = #{mobile} limit 1
 	</select>
 	
 	<!-- 根据用户数登录时间统计人数 -->
@@ -393,7 +525,7 @@
 		 group by date_format(login_time, "%Y-%m-%d") limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryUserTotalCount" parameterType="com.yuxin.wx.model.user.UserLoginSession" resultType="int">
-		select count(*) from (select date_format(login_time, "%Y-%m-%d") as loginTime,COUNT(DISTINCT user_id) as loginNum from users_login_session
+		select count(1) from (select date_format(login_time, "%Y-%m-%d") as loginTime,COUNT(DISTINCT user_id) as loginNum from users_login_session
 		<where>
 			1=1
 			<if test="timeLen !=null and marks != null">
@@ -446,6 +578,10 @@
 		where id = #{id}
 	</select>
 	
+	<select id="queryCompanyByUserId" resultType="Integer" parameterType="Integer">
+		select company_id from users_comany_relation where user_id=#{userId}
+	</select>
+	
 	<select id="findUsersByConfition" resultMap="usersResultMap" parameterType="com.yuxin.wx.model.user.Users" >
 		select <include refid="table_columns" />
 		from users
@@ -456,8 +592,26 @@
 		select <include refid="table_columns" /> 
 		from users where username = #{username}
 	</select>
+	
+	<select id="queryuserByUserNameOrMobile" resultMap="usersCompanyIdResultMap" parameterType="com.yuxin.wx.model.user.Users">
+		select u.id,u.sex,u.email,u.mobile,uc.company_id,u.real_name,u.username from users u
+		left join users_comany_relation uc on u.id=uc.user_id and uc.is_used=1
+		where username =#{username} or u.mobile=#{username}
+	</select>
 
 	<select id="findUsersAreaRelation" resultMap="usersAreaRelationMap" parameterType="java.lang.Integer">
-		select * from users_area_relation where user_id = #{id}
+		select * from users_area_relation where user_id = #{id} limit 1
 	</select>
+	<select id="findUsersAreaRelationT" resultMap="usersAreaRelationMap" parameterType="map">
+		select edu_area,edu_school from edu_master_class where user_id = #{id} and edu_school=#{eduCode} limit 1
+	</select>
+	<select id="findUsersAreaRelationR" resultMap="usersAreaRelationMap" parameterType="map">
+		select t1.edu_area as edu_area,t1.edu_school as edu_school from edu_subject_class_teacher t
+		LEFT JOIN edu_master_class t1 ON t1.id=t.class_id 
+		where t.user_id = #{id} and t1.edu_school=#{eduCode} limit 1
+	</select>
+	<insert id="insertUserCompanyRalation" parameterType="map" useGeneratedKeys="true">
+		insert into users_comany_relation(user_id,company_id,is_used)
+		values(#{userId},#{companyId},1)
+	</insert>
 </mapper>

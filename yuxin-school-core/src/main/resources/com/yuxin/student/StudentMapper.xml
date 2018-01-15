@@ -26,7 +26,6 @@
 		<result property="updateTime" column="update_time" />
 		<result property="updator" column="updator" />
 		<result property="deleteFlag" column="delete_flag" />
-		<result property="companyId" column="company_id"/>
 		<result property="userId" column="user_id"/>
 		<result property="province" column="province"/>
 		<result property="city" column="city"/>
@@ -81,7 +80,6 @@
 		<result property="lessonTypeName" column="lesson_type_name" />
 		<result property="lessonTypeHour" column="lesson_type_hour" />
 		<result property="stuId" column="stu_id" />
-		<result property="campusId" column="campus_id" />
 		<result property="applyPlaceId" column="apply_place_id" />
 		<result property="applyChannelCode" column="apply_channel_code" />
 		<result property="payStatusCode" column="pay_status_code" />
@@ -98,7 +96,6 @@
 		<result property="paymentTypeCode" column="payment_type_code" />
 		<result property="remark" column="remark" />
 		<result property="relatedPayId" column="related_pay_id" />
-		<result property="companyId" column="company_id"/>
 		<result property="username" column="username"/>
 
 		<result property="eduIdentity" column="edu_identity"/>
@@ -142,8 +139,6 @@
 		<result property="updateTime" column="update_time" />
 		<result property="updator" column="updator" />
 		<result property="deleteFlag" column="delete_flag" />
-		<result property="companyId" column="company_id"/>
-		<result property="schoolId" column="school_id"/>
 		<result property="status" column="status" />
 		<result property="emailAuthSign" column="email_auth_sign" />
 		<result property="emailAuthSendtime" column="email_auth_sendtime" />
@@ -190,7 +185,6 @@
 		<result property="password" column="password" />
 		<result property="mobile" column="mobile" />
 		<result property="email" column="email" />
-		<result property="schoolId" column="school_id" />
 		<result property="status" column="status" />
 		<result property="companyId" column="company_id" />
 		<result property="emailAuthSign" column="email_auth_sign" />
@@ -231,7 +225,6 @@
 		<result property="updateTime" column="update_time" />
 		<result property="updator" column="updator" />
 		<result property="deleteFlag" column="delete_flag" />
-		<result property="schoolId" column="school_id" />
 		<result property="companyId" column="company_id" />
 		<result property="remarkName" column="remark_name" />
 		
@@ -244,6 +237,13 @@
 		
 		<result property="weibo" column="weibo" />
 		<result property="invitCode" column="invite_code"/>
+	</resultMap>
+	<resultMap type="com.yuxin.wx.model.system.SysConfigDict" id="sysConfigDict">
+		<result property="id" column="id"/>
+		<result property="dictCode" column="dict_code"/>
+		<result property="itemCode" column="item_code"/>
+		<result property="itemValue" column="item_value"/>
+		<result property="parentItemId" column="parent_item_id"/>
 	</resultMap>
 	
 	<sql id="table_columns">
@@ -271,8 +271,6 @@
 		update_time,
 		updator,
 		delete_flag,
-		company_id,
-		school_id,
 		user_id,
 		province,
 		city,
@@ -286,7 +284,48 @@
 		edu_school,
 		edu_step,
 		edu_year,
-		edu_class
+		edu_class,
+		is_in_school
+    </sql>
+    <sql id="table_columns_s">
+		s.id,
+		s.name,
+		s.sex,
+		s.identity_type_code,
+		s.identity_id,
+		s.age,
+		s.birthday,
+		s.education_code,
+		s.hk_address,
+		s.mobile,
+		s.email,
+		s.qq,
+		s.home_phone,
+		s.office_phone,
+		s.weixin_id,
+		s.emergency_contact,
+		s.emergency_phone,
+		s.remark,
+		s.remark_name,
+		s.create_time,
+		s.creator,
+		s.update_time,
+		s.updator,
+		s.delete_flag,
+		s.user_id,
+		s.province,
+		s.city,
+		s.county,
+		s.address_detail,
+		s.group_one_id,
+		s.group_two_id,
+		s.proxy_org_id,
+		s.edu_identity,
+		s.edu_area,
+		s.edu_school,
+		s.edu_step,
+		s.edu_year,
+		s.edu_class
     </sql>
     <sql id="table_vo_columns">
 		u.id,
@@ -294,9 +333,7 @@
 		u.password,
 		u.mobile,
 		u.email,
-		u.school_id,
 		u.status,
-		u.company_id,
 		u.email_auth_sign,
 		u.email_auth_sendtime,
 		u.email_auth_code,
@@ -334,8 +371,6 @@
 		s.update_time,
 		s.updator,
 		s.delete_flag,
-		s.school_id,
-		s.company_id,
 		s.remark_name,
 		u.member_level,
 		u.member_id,
@@ -379,8 +414,6 @@
 		#{updateTime},
 		#{updator},
 		#{deleteFlag},
-		#{companyId},
-		#{schoolId},
 		#{userId},
 		#{province},
 		#{city},
@@ -394,7 +427,8 @@
 		#{eduSchool},
 		#{eduStep},
 		#{eduYear},
-		#{eduClass}
+		#{eduClass},
+		#{isInSchool}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
@@ -453,7 +487,6 @@
 			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
 			<if test="updator != null and updator != ''">updator = #{updator},</if>
 			<if test="deleteFlag != null and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
-			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
 			<if test="userId != null and userId != ''">user_id = #{userId},</if>
 			<if test="province != null and province != ''">province = #{province},</if>
 			<if test="city != null and city != ''">city = #{city},</if>
@@ -471,6 +504,7 @@
 			<if test="eduStep != null">edu_step = #{eduStep},</if>
 			<if test="eduYear != null">edu_year = #{eduYear},</if>
 			<if test="eduClass != null">edu_class = #{eduClass},</if>
+			<if test="isInSchool != null">is_in_school = #{isInSchool},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -511,10 +545,10 @@
 			<if test="eduStep != null and eduStep != ''">edu_step = #{eduStep},</if>
 			<if test="eduYear != null and eduYear != ''">edu_year = #{eduYear},</if>
 			<if test="eduClass != null and eduClass != ''">edu_class = #{eduClass},</if>
+			<if test="isInSchool != null">is_in_school = #{isInSchool},</if>
 		</trim>
 		<where>
-			company_id=#{companyId}
-			and mobile=#{mobile}	
+			1=1 and mobile=#{mobile}	
 		</where>
 	</update>
 	
@@ -554,12 +588,8 @@
 			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
 			<if test="updator != null and updator != ''">and updator = #{updator}</if>
 			<if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
-			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 			<if test="groupOneId != null and groupOneId != ''">and group_one_id = #{groupOneId}</if>
 			<if test="groupTwoId != null and groupTwoId != ''">and group_two_id = #{groupTwoId}</if>
-
-
-
 
 			<if test="eduIdentity != null">and edu_identity = #{eduIdentity}</if>
 			<if test="eduArea != null and eduArea != ''">and edu_area = #{eduArea}</if>
@@ -567,7 +597,6 @@
 			<if test="eduStep != null and eduStep != ''">and edu_step = #{eduStep}</if>
 			<if test="eduYear != null and eduYear != ''">and edu_year = #{eduYear}</if>
 			<if test="eduClass != null and eduClass != ''">and edu_class = #{eduClass}</if>
-
 		</trim>
 	</sql>
 	
@@ -626,9 +655,9 @@
 		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,
 		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
 		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,(select username from users where id=p.updator) as updator,p.delete_flag  as deleteFlag,uf.username as username
-		from student as s,student_pay_master as p ,users_front as uf
+		from student as s,student_pay_master as p ,users_front as uf,company c
 		where s.id=p.stu_id  and p.origin_type=0 and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'  and s.user_id=uf.id
-		 and p.school_id=#{schoolId} and s.company_id=#{companyId} and p.is_agent=1
+		 and p.school_id=#{schoolId} and c.id=#{companyId} and p.is_agent=1 and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
@@ -651,9 +680,9 @@
 		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,
 		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,p.is_agent as isAgent,p.is_agent_material_complete as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
 		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,(select username from users where id=p.updator) as updator,p.delete_flag  as deleteFlag,uf.username as username
-		from student as s,student_pay_master as p ,users_front as uf
+		from student as s,student_pay_master as p ,users_front as uf,company c
 		where s.id=p.stu_id and p.origin_type=0  and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'  and s.user_id=uf.id
-		 and p.school_id=#{schoolId} and s.company_id=#{companyId} and p.is_agent=1
+		 and p.school_id=#{schoolId} and c.id=#{companyId} and p.is_agent=1 and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
@@ -671,10 +700,10 @@
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="pageCount2New" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentVo">
-		select count(*) 
-		from student as s,student_pay_master as p ,users_front as uf
+		select count(1) 
+		from student as s,student_pay_master as p ,users_front as uf,company c
 		where s.id=p.stu_id and p.origin_type=0  and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'  and s.user_id=uf.id
-		 and p.school_id=#{schoolId} and s.company_id=#{companyId} and p.is_agent=1
+		 and p.school_id=#{schoolId} and c.id=#{companyId} and p.is_agent=1 and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
@@ -696,19 +725,19 @@
 		p.id as pid,p.apply_time as applyTime,p.exam_term_id as examTermId,p.exam_term_name as examTermName,p.item_one_id as itemOneId,p.item_one_name as itemOneName,p.item_second_id as itemSecondId,p.item_second_name as itemSecondName,p.commodity_id as classTypeId,p.class_type_name as classTypeName,p.class_type_hour as classTypeHour,p.stu_id as stuId,
 		p.campus_id as campusId,p.apply_place_id as applyPlaceId,p.apply_channel_code as applyChannelCode,p.pay_status_code as payStatusCode,p.biz_status_code as bizStatusCode,case p.is_agent when 1 then '是' else '否' end as isAgent,case p.is_agent_material_complete when 1 then '是' else '否' end as isAgentMaterialComplete,p.is_agent_complete as isAgentComplete,p.agent_remark as agentRemark,p.training_fee as trainingFee,p.exam_agent_fee as examAgentFee,
 		p.offer_type_code as offerTypeCode,p.offer_amount as offerAmount,p.total_amount as totalAmount,p.payment_type_code as paymentTypeCode,p.remark,p.related_pay_id as relatedPayId,p.create_time as createTime,p.creator,p.update_time as updateTime,(select real_name from users where id=p.updator) as updator,p.delete_flag  as deleteFlag
-		from student as s,student_pay_master as p
+		from student as s,student_pay_master as p,company c
 		where s.id=p.stu_id  and p.origin_type=0 and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS' 
-		 and p.school_id=#{schoolId} and s.company_id=#{companyId}
+		 and p.school_id=#{schoolId} and c.id=#{companyId} and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="mobile != null and mobile != ''"> and s.mobile=#{mobile}</if>
 	</select>
 	<select id="pageCount2" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentVo">
-		select count(*) 
-		from student as s,student_pay_master as p ,users_front as uf
+		select count(1) 
+		from student as s,student_pay_master as p ,users_front as uf,company c
 		where s.id=p.stu_id  and p.origin_type=0 and s.delete_flag=0 and p.delete_flag=0 and p.commodity_type='COMMODITY_CLASS'  and s.user_id=uf.id
-		 and p.school_id=#{schoolId} and s.company_id=#{companyId} and p.is_agent=1
+		 and p.school_id=#{schoolId} and c.id=#{companyId} and p.is_agent=1 and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemOneId != null and itemOneId != ''">and p.item_one_id=#{itemOneId}</if>
 		<if test="examTermId != null and examTermId != ''">and p.exam_term_id=#{examTermId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
@@ -728,9 +757,9 @@
 	<select id="queryListByPayment2" resultType="com.yuxin.wx.vo.student.StudentVo" parameterType="com.yuxin.wx.vo.student.StudentVo">
 		select DISTINCT s.id, s.name,s.sex,s.age,s.education_code as educationCode,s.mobile,
 		str_to_date(p.apply_time,'%Y-%m-%d') as applyTime,p.class_type_name as classTypeName,p.total_amount as totalAmount,p.updator
-		from student as s,student_pay_master as p,class_type as t
+		from student as s,student_pay_master as p,class_type as t,company c
 		where s.id=p.stu_id and p.origin_type=0  and s.delete_flag=0 and p.delete_flag=0 and t.id=p.commodity_id and p.commodity_type='COMMODITY_CLASS' and t.origin_type=0
-		and p.item_one_id=#{itemOneId} and p.school_id=#{schoolId} and s.company_id=#{companyId}
+		and p.item_one_id=#{itemOneId} and p.school_id=#{schoolId} and c.id=#{companyId} and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="classTypeId != null and classTypeId != ''">and p.commodity_id like '%${classTypeId}%'</if>
 		<if test="tpublishStatus != null and tpublishStatus != ''">and t.publish_status like '%${tpublishStatus}%'</if>
@@ -739,17 +768,17 @@
 		<select id="findListByPayment2" resultType="com.yuxin.wx.vo.student.StudentVo" parameterType="com.yuxin.wx.vo.student.StudentVo">
 		select DISTINCT s.id, s.name,(select item_value from sys_config_dict where item_code=s.sex) as sex,s.age,(select item_value from sys_config_dict where item_code=s.education_code) as educationCode,s.mobile,
 		str_to_date(p.apply_time,'%Y-%m-%d') as applyTime,p.class_type_name as classTypeName,p.total_amount as totalAmount,(select real_name from users where id=p.updator) as updator
-		from student as s,student_pay_master as p,class_type as t
+		from student as s,student_pay_master as p,class_type as t,company c
 		where s.id=p.stu_id  and p.origin_type=0 and s.delete_flag=0 and p.delete_flag=0 and t.id=p.commodity_id and p.commodity_type='COMMODITY_CLASS'  and t.origin_type=0
-		and p.item_one_id=#{itemOneId} and p.school_id=#{schoolId} and s.company_id=#{companyId}
+		and p.item_one_id=#{itemOneId} and p.school_id=#{schoolId} and c.id=#{companyId} and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="classTypeId != null and classTypeId != ''">and p.commodity_id like '%${classTypeId}%'</if>
 		<if test="tpublishStatus != null and tpublishStatus != ''">and t.publish_status like '%${tpublishStatus}%'</if>
 	</select>
 	<select id="pageCount3" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentVo">
-		select count(*) from student as s,student_pay_master as p ,class_type as t 
+		select count(1) from student as s,student_pay_master as p ,class_type as t,company c
 		where s.id=p.stu_id and p.origin_type=0  and s.delete_flag=0 and p.delete_flag=0 and p.commodity_id=t.id and p.commodity_type='COMMODITY_CLASS'  and t.origin_type=0
-		and p.item_one_id=#{itemOneId} and p.school_id=#{schoolId} and s.company_id=#{companyId}
+		and p.item_one_id=#{itemOneId} and p.school_id=#{schoolId} and c.id=#{companyId} and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="classTypeId != null and classTypeId != ''">and p.commodity_id like '%${classTypeId}%'</if>
 		<if test="tpublishStatus != null and tpublishStatus != ''">and t.publish_status like '%${tpublishStatus}%'</if>
@@ -758,9 +787,9 @@
 	
 	<select id="queryListByPayment3" resultType="com.yuxin.wx.vo.student.StudentVo" parameterType="com.yuxin.wx.vo.student.StudentVo">
 		select distinct s.id , s. NAME, s.mobile, p.class_type_name AS classTypeName, m.name as nname, str_to_date(p.apply_time,'%Y-%m-%d') as applyTime,(select real_name from users where id=p.updator) as updator
-		from student AS s ,student_pay_master AS p , student_pay_slave AS l ,class_module_no as m
-		where s.id = p.stu_id and p.origin_type=0  and p.id = l.pay_master_id and m.id=l.resource_id  and 
-		s.delete_flag = 0 AND p.delete_flag = 0 AND p.item_one_id =#{itemOneId} and p.school_id=#{schoolId} and s.company_id=#{companyId}
+		from student AS s ,student_pay_master AS p , student_pay_slave AS l ,class_module_no as m,company c
+		where s.id = p.stu_id and p.origin_type=0  and p.id = l.pay_master_id and m.id=l.resource_id  and c.id=#{companyId} and (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school)
+		s.delete_flag = 0 AND p.delete_flag = 0 AND p.item_one_id =#{itemOneId} and p.school_id=#{schoolId} 
 		<if test="itemSecondId != null and itemSecondId != ''">and p.item_second_id=#{itemSecondId}</if>
 		<if test="nname != null and nname != ''">and m.name like '%${nname}%'</if>
 		<if test="npublishStatus != null and npublishStatus != ''">and m.publish_status =#{npublishStatus}</if>
@@ -778,8 +807,11 @@
 		limit 1
 	</select>
 	<select id="queryList"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
-		select s.id,s.name,s.mobile,s.sex,s.age,s.education_code,s.home_phone,s.hk_address,s.user_id,s.company_id from student as s
-		where delete_flag=0  and s.company_id=#{companyId}
+		select s.id,s.name,s.mobile,s.sex,s.age,s.education_code,s.home_phone,s.hk_address,s.user_id,c.id company_id 
+		from student as s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where delete_flag=0  and c.id=#{companyId}
 		<if test="mobile != null and mobile != ''"> and s.mobile=#{mobile}</if>
 		<if test="userId != null"> and s.user_id=#{userId}</if>
 		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
@@ -788,8 +820,10 @@
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryCount" resultType="int"  parameterType="com.yuxin.wx.model.student.Student">
-		select count(s.id) from student as s where delete_flag=0  and s.company_id=#{companyId}
-		 and s.company_id=#{companyId}
+		select count(s.id) from student as s 
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where delete_flag=0  and c.id=#{companyId}
 		<if test="mobile != null and mobile != ''"> and s.mobile=#{mobile}</if>
 		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
 		<if test="identityId != null and identityId != ''"> and s.identity_id =#{identityId}</if>
@@ -797,11 +831,17 @@
 	</select>
 	
 	<select id="queryByCode"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
-		select <include refid="table_columns" /> from student where name=#{name} and identity_id=#{identityId} and delete_flag=0  and s.company_id=#{companyId} limit 1
+		select <include refid="table_columns" /> from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where name=#{name} and identity_id=#{identityId} and delete_flag=0  and c.id=#{companyId} limit 1
 	</select>
 	
 	<select id="queryByCode2"  resultMap="studentResultMap"  parameterType="hashmap">
-		select <include refid="table_columns" /> from student where  identity_id=#{identityId} and delete_flag=0  and s.company_id=#{companyId} limit 0,1
+		select <include refid="table_columns_s" /> from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where  identity_id=#{identityId} and delete_flag=0  and c.id=#{companyId} limit 0,1
 	</select>
 		
 	<select id="findMessageByMobile" parameterType="map" resultMap="studentResultMap">
@@ -809,24 +849,25 @@
 			a.*,
 			u.username,
 			u.teacher_flag as teacherFlag
-		from student a LEFT JOIN users_front u on a.user_id=u.id
+		from student a 
+		inner join company c on c.is_area=0 or c.is_area=1 and a.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=a.edu_school
+		LEFT JOIN users_front u on a.user_id=u.id
 		where 
 			a.delete_flag=0
 		and
-			a.company_id=#{companyId}
+			c.id=#{companyId}
 		and 
 		   (a.mobile=#{mobile} or u.username=#{mobile})
 		limit 0,1
 	</select>
 	<select id="queryByMobile"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
-		from student 
-		where  delete_flag=0  and company_id=#{companyId} and mobile=#{mobile}  limit 0,1
+		from student where  delete_flag=0 and mobile=#{mobile} and is_in_school=1 limit 0,1
 	</select>
 	<select id="queryByUsername"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
 		from student 
-		where  delete_flag=0  and user_id=(select id from users_front where company_id=#{companyId} and username=#{username}) 
+		where  delete_flag=0  and user_id=(select id from users_front where username=#{username}) 
 	</select>
 	<select id="queryByIdentityId" resultMap="studentResultMap" parameterType="com.yuxin.wx.model.student.Student">
 		select <include refid="table_columns" /> 
@@ -835,9 +876,12 @@
 	</select>
 	<!-- 根据 分校 id 查询 人数 -->
 	<select id="findCountBySchoolId" parameterType="Integer" resultType="Integer">
-		select count(id)
-		from student
-		where school_id = #{schoolId}
+		select count(s.id)
+		from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		inner join sys_config_school scs on scs.company_id=c.id
+		where scs.id = #{schoolId}
 	</select>
 	
 	<select id="findStuByNoId" parameterType="com.yuxin.wx.vo.student.StuVo" resultMap="stuVoResultMap">
@@ -849,8 +893,7 @@
 				b.mobile,
 				m.apply_channel_code
 		from student_pay_slave s
-		inner join student_pay_master m 
-			on s.pay_master_id = m.id and m.origin_type=0 
+		inner join student_pay_master m on s.pay_master_id = m.id and m.origin_type=0 
 		inner join student b on b.id = s.stu_id
 		where s.resource_id = #{resourceId} 
 		 and (m.pay_status_code='ORDER_PAID' or m.pay_status_code='ORDER_PART_PAY' or m.pay_status_code='ORDER_FINISHED' or m.pay_status_code='ORDER_PAID_NO_COURSE')
@@ -934,14 +977,15 @@
 	</select>
 	
 	<select id="findByPhone" resultMap="studentResultMap" parameterType="map">
-		select id,
-			name,
-			mobile,
-			user_id
-		from student
-		where mobile = #{phone} and
-			company_id = #{companyId}
-		order by id desc
+		select s.id,
+			s.name,
+			s.mobile,
+			s.user_id
+		from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where mobile = #{phone} and c.id = #{companyId}
+		order by s.id desc
 		limit 0,1
 	</select>
 	<select id="findByUserId" resultMap="studentResultMap" parameterType="Integer">
@@ -962,18 +1006,209 @@
 	<select id="queryStudentsList" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 		select  s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,u.member_id,u.member_level,u.member_buy_length,u.member_status,
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,u.member_id,u.member_level,u.member_buy_length,u.member_status,
 	ccpo.name as proxyOrgName,s.edu_identity,d.item_value as edu_area,d1.item_value as edu_school,d2.item_value as edu_step,s.edu_year,
 		s.edu_class,u.teacher_flag as teacherFlag
+		from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
+	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
+	 LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
+	 LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
+	 LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
+	 where 1=1 
+	 <if test="eduMasterClass !=null and eduMasterClass != ''">
+		and 
+		<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+			s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+		</foreach>
+	 </if>
+	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
+	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+	 <if test="renke != null and renke != ''">
+	 	and  
+	 	<foreach item="renke" collection="renke" open="(" separator="or" close=")">
+			(s.edu_step=#{renke.eduStep} and s.edu_year=#{renke.eduYear} and s.edu_class=#{renke.eduClass})
+		</foreach>
+	 </if>
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
+	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
+	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+	 <if test="username != null and username != ''">and u.username like '%${username}%'</if>
+	 <if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
+	 <if test="classTypeId != null and classTypeId != ''">and sp.commodity_id = #{classTypeId} and sp.delete_flag = 0</if>
+	 <if test="registType != null">
+	 	<choose>
+	 		<when test="registType == 1">
+	 			and u.id is not null
+	 		</when>
+	 		<otherwise>
+	 			and u.id is null
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="status != null">
+	 	<choose>
+	 		<when test="status == 1">
+	 			and u.status = #{status}
+	 		</when>
+	 		<otherwise>
+	 			and (u.status != 1 or u.status is null)
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="paymaterCount != null">
+	 	<choose>
+	 		<when test="paymaterCount == 1">
+	 			and u.vip_flag<![CDATA[>=]]>1
+	 		</when>
+	 		<otherwise>
+	 			and u.vip_flag<![CDATA[<=]]>0
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="isMember != null and isMember==1">
+	 		and u.member_status=1 and (u.member_buy_length>0 || u.member_buy_length=-1)
+	 </if>
+	 <if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 <if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	  <if test="province != null and province != ''">and province='${province}'</if>
+	  <if test="city != null and city != ''">and city= '${city}'</if>
+	  <if test="county != null and county != ''">and county= '${county}'</if>
+	  <if test="groupOneId != null and groupOneId != ''">and group_one_id= '${groupOneId}'</if>
+	  <if test="groupTwoId != null and groupTwoId != ''">and group_two_id= '${groupTwoId}'</if>
+	  <if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
+	  <if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
+		<if test="isStu != null and isStu == 1"> and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
+		<if test="sourceFromStatic!= 1">and s.is_in_school=1</if>
+		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
+		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
+		<if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
+		GROUP by s.id
+	 order by s.id DESC
+	limit #{firstIndex},#{pageSize}
 
-		from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  LEFT JOIN users_front u on s.user_id=u.id
+<!--
+		left join (
+		select stu_id,
+		is_Agent
+		from student_pay_master
+		where (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0
+		and is_Agent = 1 and commodity_type= 'COMMODITY_CLASS'
+		GROUP BY stu_id
+		) as agent on agent.stu_id = s.id
+		left join (
+		select stu_id,
+		"1" as Ispay
+		from student_pay_master
+		where pay_status_code='ORDER_PART_PAY' and delete_flag=0
+		and commodity_type= 'COMMODITY_CLASS'
+		GROUP BY stu_id
+		) as agent2 on agent.stu_id = s.id
+		-->
+	</select>
+
+	<select id="queryStudentsListCount" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
+		select count(DISTINCT(s.id))
+	 from student s
+	LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0 
+	LEFT JOIN users_front u on s.user_id=u.id
+	inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	inner join sys_config_school scs on scs.company_id=c.id
+	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
+	 where 1=1
+	 <if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
+	 <if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+	 <if test="renke != null and renke != ''">
+	 	and  
+	 	<foreach item="renke" collection="renke" open="(" separator="or" close=")">
+			(s.edu_step=#{renke.eduStep} and s.edu_year=#{renke.eduYear} and s.edu_class=#{renke.eduClass})
+		</foreach>
+	 </if>
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
+	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
+	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+	 <if test="username != null and username != ''">and u.username like '%${username}%'</if>
+	 <if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
+	 <if test="classTypeId != null and classTypeId != ''">and sp.commodity_id = #{classTypeId}</if>
+	<if test="registType != null">
+	 	<choose>
+	 		<when test="registType == 1">
+	 			and u.id is not null
+	 		</when>
+	 		<otherwise>
+	 			and u.id is null
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="status != null">
+	 	<choose>
+	 		<when test="status == 1">
+	 			and u.status = #{status}
+	 		</when>
+	 		<otherwise>
+	 			and (u.status != 1 or u.status is null)
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	  <if test="paymaterCount != null">
+	 	<choose>
+	 		<when test="paymaterCount == 1">
+	 			and u.vip_flag<![CDATA[>=]]>1
+	 		</when>
+	 		<otherwise>
+	 			and u.vip_flag<![CDATA[<=]]>0
+	 		</otherwise>
+	 	</choose>
+	 </if>
+	 <if test="isMember != null and isMember==1">
+	 		and u.member_status=1 and (u.member_buy_length>0 || u.member_buy_length=-1)
+	 </if>
+	 <if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 <if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	  <if test="province != null and province != ''">and province='${province}'</if>
+	  <if test="city != null and city != ''">and city= '${city}'</if>
+	  <if test="county != null and county != ''">and county= '${county}'</if>
+	  <if test="groupOneId != null and groupOneId != ''">and group_one_id= '${groupOneId}'</if>
+	  <if test="groupTwoId != null and groupTwoId != ''">and group_two_id= '${groupTwoId}'</if>
+	   <if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
+	  <if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
+		<if test="isStu != null and isStu == 1"> and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
+		<if test="sourceFromStatic!= 1">and s.is_in_school=1</if>
+		<if test="eduStep != null and eduStep != ''"> and edu_step = #{eduStep}</if>
+		<if test="eduYear != null and eduYear != ''"> and edu_year = #{eduYear}</if>
+		<if test="eduClass != null and eduClass != ''"> and edu_class = #{eduClass}</if>
+	</select>
+	
+	
+	
+	
+	<!-- 学员列表功能 -->
+	<select id="queryNewStudentsList" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
+		select  s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
+	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,u.member_id,u.member_level,u.member_buy_length,u.member_status,
+	ccpo.name as proxyOrgName,s.edu_identity,d.item_value as edu_area,d1.item_value as edu_school,d2.item_value as edu_step,s.edu_year,
+		s.edu_class,u.teacher_flag as teacherFlag
+		from student s 
+		LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  
+		LEFT JOIN users_front u on s.user_id=u.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		inner join sys_config_school scs on scs.company_id=c.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
 	 LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
 	 LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
 	 LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
 	 where 1=1
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	 <if test="username != null and username != ''">and u.username like '%${username}%'</if>
@@ -1030,35 +1265,18 @@
 		GROUP by s.id
 	 order by s.id DESC
 	limit #{firstIndex},#{pageSize}
-
-<!--
-		left join (
-		select stu_id,
-		is_Agent
-		from student_pay_master
-		where (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0
-		and is_Agent = 1 and commodity_type= 'COMMODITY_CLASS'
-		GROUP BY stu_id
-		) as agent on agent.stu_id = s.id
-		left join (
-		select stu_id,
-		"1" as Ispay
-		from student_pay_master
-		where pay_status_code='ORDER_PART_PAY' and delete_flag=0
-		and commodity_type= 'COMMODITY_CLASS'
-		GROUP BY stu_id
-		) as agent2 on agent.stu_id = s.id
-		-->
 	</select>
 
-	<select id="queryStudentsListCount" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
+	<select id="queryNewStudentsListCount" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
 		select count(DISTINCT(s.id))
 	 from student s
+	inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	inner join sys_config_school scs on scs.company_id=c.id
 	LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0 
 	LEFT JOIN users_front u on s.user_id=u.id
 	 left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
 	 where 1=1
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	 <if test="username != null and username != ''">and u.username like '%${username}%'</if>
@@ -1113,14 +1331,26 @@
 		<if test="eduYear != null and eduYear != ''"> and edu_year = #{eduYear}</if>
 		<if test="eduClass != null and eduClass != ''"> and edu_class = #{eduClass}</if>
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<select id="queryStudentsList1" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 		select s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount
-	 from student s LEFT JOIN users_front u on s.user_id=u.id
-	 where s.company_id=#{companyId}
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id company_id,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount
+	 from student s 
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
+	 where c.id=#{companyId}
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	 <if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
@@ -1167,9 +1397,12 @@
 	
 	<select id="queryStudentsListCount1" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
 		select count(s.id)
-	 from student s LEFT JOIN users_front u on s.user_id=u.id
-	 where s.company_id=#{companyId}
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 from student s 
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 where c.id=#{companyId}
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	 <if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
@@ -1212,32 +1445,40 @@
 	<!-- 查询当前公司最后一个学员的id -->
 	<select id="queryMaxIdByCompany" resultType="Integer" parameterType="Integer">
 		select max(id)
-		from student 
-		where company_id=#{companyId} 
+		from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where c.id=#{companyId} 
 	</select>
 	
 	<!-- 查询导入成功后的学员 -->
 	<select id="queryImportStudentsBycondition" resultMap="studentResultMap" parameterType="map">
-		select <include refid="table_columns" /> 
-		from student 
-		where  delete_flag=0  and company_id=#{companyId} 
-		<if test="id != null">and id > #{id}</if>
+		select <include refid="table_columns_s" /> 
+		from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where  delete_flag=0  and c.id=#{companyId} 
+		<if test="id != null">and s.id > #{id}</if>
 	</select>
 	
 	<!-- 课程下学员管理 -->
 	<select id="queryStudentsListByClassTypeId" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 		select DISTINCT(s.id),s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,<if test="protocolConfig == 1">cpur.potocol_id as protocol_id,</if>
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,sp.is_agent as isAgent,
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id company_id,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,#{companyId} company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,sp.is_agent as isAgent,
 	(max(sp.apply_time)) AS signUpTime,
 	(select MAX(login_time) from users_front_login_session where user_id = u.id) as lastLoginTime
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 LEFT JOIN users_front u on s.user_id=u.id 
+	 from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 left join company c on (c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school) and c.id=#{companyId}
+	 left join sys_config_school scs on scs.company_id=c.id
 	 <if test="protocolConfig == 1">left JOIN course_potocol_user_relation cpur ON (cpur.course_id = sp.commodity_id and cpur.user_id = u.id)</if>
-	 where s.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' ) and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
+	 where sp.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' ) and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS'
 	 <if test="protocolConfig == 1 and protocolStatus == 1"> and cpur.id is not null</if>
 	 <if test="protocolConfig == 1 and protocolStatus == 2"> and cpur.id is null</if>
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and sp.school_id=#{schoolId}</if>
 	  <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	  <if test="username != null and username != ''">and u.username like '%${username}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
@@ -1283,12 +1524,14 @@
 	
 	<select id="queryStudentsListCountByClassId" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
 		select count(DISTINCT(s.id))
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 LEFT JOIN users_front u on s.user_id=u.id
+	 from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 
+	 LEFT JOIN users_front u on s.user_id=u.id
 	 <if test="protocolConfig == 1">left JOIN course_potocol_user_relation cpur ON (cpur.course_id = sp.commodity_id and cpur.user_id = u.id)</if>
-	 where s.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS' 
+	 where sp.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS' 
 	 <if test="protocolConfig == 1 and protocolStatus == 1"> and cpur.id is not null</if>
 	 <if test="protocolConfig == 1 and protocolStatus == 2"> and cpur.id is null</if>
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and sp.school_id=#{schoolId}</if>
 	  <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 	 <if test="username != null and username != ''">and u.username like '%${username}%'</if>
@@ -1330,8 +1573,11 @@
 	
 	<select id="queryStudentsListByClassTypeId2" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 	select DISTINCT(s.id),u.status 
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  LEFT JOIN users_front u on s.user_id=u.id
-	 where s.company_id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' or sp.pay_status_code='ORDER_CREATED') and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS' 
+	 from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 where c.id=#{companyId} and sp.commodity_id=#{classTypeId} and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' or sp.pay_status_code='ORDER_CREATED') and sp.delete_flag=0 and sp.commodity_type='COMMODITY_CLASS' 
 	 order by s.id DESC
 	</select>
 	
@@ -1339,18 +1585,21 @@
 	<select id="queryStudentsList2" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 		select s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount
-	 from student s LEFT JOIN users_front u on s.user_id=u.id
-	 where s.company_id=#{companyId}
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id company_id,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount
+	 from student s 
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
+	 where c.id=#{companyId}
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name = #{name}</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile = #{mobile}</if>
 	 <if test="identityId != null and identityId != ''">and s.identity_id = #{identityId}</if>
 	 <if test="startTime != null and startTime != ''">and (s.create_time <![CDATA[>=]]> '${startTime}'</if>
 	 <if test="endTime != null and endTime != ''">and s.create_time <![CDATA[<=]]> '${endTime}'</if>
 	 <if test="userId != null">and s.creator = #{userId})</if>
-	 <if test="stusMobile != null and stusMobile != ''">or (s.company_id=#{companyId} and (s.mobile in(${stusMobile}) or u.username in(${stusMobile})))</if>
+	 <if test="stusMobile != null and stusMobile != ''">or (c.id=#{companyId} and (s.mobile in(${stusMobile}) or u.username in(${stusMobile})))</if>
 	 order by s.id DESC
 	</select>
 	
@@ -1418,7 +1667,7 @@
 						WHERE q.user_id = (SELECT a.id from users_front a LEFT JOIN student b ON b.user_id = a.id WHERE b.id = #{stuId}) 
 						AND q.lecture_id = f.id 
 						GROUP BY q.lecture_id),0) as last_lean_time,
-				IFNULL((SELECT COUNT(*) FROM user_history_all a where a.lecture_id = f.id AND a.user_id = 
+				IFNULL((SELECT COUNT(1) FROM user_history_all a where a.lecture_id = f.id AND a.user_id = 
 						(SELECT a.id from users_front a LEFT JOIN student b ON b.user_id = a.id WHERE b.id = #{stuId})
 						GROUP BY a.lecture_id),'0') as lean_count,
 				 IFNULL((SELECT a.study_status FROM user_history a WHERE a.lecture_id = f.id AND a.user_id = 
@@ -1661,7 +1910,7 @@
 			CASE WHEN
 				a.correct_topic is NULL
 			THEN
-				(SELECT COUNT(*)
+				(SELECT COUNT(1)
 				FROM tiku_user_exercise x 
 				INNER JOIN tiku_user_exercise_answer y
 		     	on x.id = y.user_exercise_id
@@ -1675,7 +1924,7 @@
 			CASE WHEN
 				a.error_topic is NULL
 			THEN
-				(SELECT COUNT(*)
+				(SELECT COUNT(1)
 				FROM tiku_user_exercise x 
 				INNER JOIN tiku_user_exercise_answer y
 		     	on x.id = y.user_exercise_id
@@ -1686,7 +1935,7 @@
 				)
 			ELSE a.error_topic
 			END as error_count,
-			(select count(*) from tiku_user_exercise tue,tiku_user_exercise_answer tuea where tue.id = tuea.user_exercise_id and tue.id = a.id) as user_do
+			(select count(1) from tiku_user_exercise tue,tiku_user_exercise_answer tuea where tue.id = tuea.user_exercise_id and tue.id = a.id) as user_do
 		FROM tiku_user_exercise a 
 		INNER JOIN tiku_category b
 		ON a.category_id = b.id and b.origin_type=0 
@@ -1704,7 +1953,7 @@
 		LIMIT #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryStudentTikuExperiseCount" parameterType="com.yuxin.wx.vo.student.StudentTiKuExcipseVo" resultType="int">
-		SELECT count(*)
+		SELECT count(1)
 		FROM tiku_user_exercise a 
 		INNER JOIN tiku_category b
 		ON a.category_id = b.id and b.origin_type=0 
@@ -1763,7 +2012,7 @@
 		LIMIT #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryStudentLecLeanDetailCount" parameterType="com.yuxin.wx.vo.student.StudentClassLeanDetailVo" resultType="int">
-		SELECT count(*)
+		SELECT count(1)
 		FROM class_type a
 		INNER JOIN class_type_module_relation b 
 		ON a.id = b.class_type_id
@@ -1920,12 +2169,16 @@
 	<select id="findClassPackageByCommodityId" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 	select DISTINCT(s.id),s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,<if test="protocolConfig == 1">cpur.potocol_id as protocol_id,</if>
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,sp.is_agent as isAgent,(select login_time from users_front_login_session where id=(select max(id) from users_front_login_session where user_id=u.id)) as lastLoginTime,
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id company_id,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,sp.is_agent as isAgent,(select login_time from users_front_login_session where id=(select max(id) from users_front_login_session where user_id=u.id)) as lastLoginTime,
 	(max(sp.apply_time)) AS signUpTime
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  LEFT JOIN users_front u on s.user_id=u.id
+	 from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
 	 <if test="protocolConfig == 1">left JOIN course_potocol_user_relation cpur ON (cpur.class_package_id = sp.commodity_id and cpur.user_id = u.id)</if>
-	 where s.company_id=#{companyId} and sp.commodity_id=#{commodityId} and sp.commodity_type='COMMODITY_PACKAGE' and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0
+	 where c.id=#{companyId} and sp.commodity_id=#{commodityId} and sp.commodity_type='COMMODITY_PACKAGE' and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0
 	 <if test="protocolConfig == 1 and protocolStatus == 1"> and cpur.id is not null</if>
 	 <if test="protocolConfig == 1 and protocolStatus == 2"> and cpur.id is null</if>
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
@@ -1970,12 +2223,16 @@
 	</select>
 	<select id="findCountByCommodityId" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
 		select count(DISTINCT(s.id))
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0  LEFT JOIN users_front u on s.user_id=u.id
+	 from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0 
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 inner join sys_config_school scs on scs.company_id=c.id
 	 <if test="protocolConfig == 1">left JOIN course_potocol_user_relation cpur ON (cpur.class_package_id = sp.commodity_id and cpur.user_id = u.id)</if>
-	 where s.company_id=#{companyId} and sp.commodity_id=#{commodityId} and sp.commodity_type='COMMODITY_PACKAGE' and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0
+	 where c.id=#{companyId} and sp.commodity_id=#{commodityId} and sp.commodity_type='COMMODITY_PACKAGE' and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE') and sp.delete_flag=0
 	 <if test="protocolConfig == 1 and protocolStatus == 1"> and cpur.id is not null</if>
 	 <if test="protocolConfig == 1 and protocolStatus == 2"> and cpur.id is null</if>
-	 <if test="schoolId != null">and s.school_id=#{schoolId}</if>
+	 <if test="schoolId != null">and scs.id=#{schoolId}</if>
 	 <if test="name != null and name != ''">and s.name = #{name}</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile = #{mobile}</if>
 	 <if test="identityId != null and identityId != ''">and s.identity_id = #{identityId}</if>
@@ -2016,12 +2273,14 @@
 	
 	<select id="findStuInfos" parameterType="map" resultMap="studentResultMap">
 		select 
-			<include refid="table_columns" />
-		from student 
-		where delete_flag=0
-		and company_id=#{companyId}
-		<if test="mobile != null and mobile != ''">and mobile=#{mobile}</if>
-		<if test="stuName != null and stuName != ''">and name=#{stuName}</if>
+			<include refid="table_columns_s" />
+		from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where s.delete_flag=0
+		and c.id=#{companyId}
+		<if test="mobile != null and mobile != ''">and s.mobile=#{mobile}</if>
+		<if test="stuName != null and stuName != ''">and s.name=#{stuName}</if>
 	</select>
 	
 	
@@ -2057,8 +2316,7 @@
 		ON a.class_type_id = b.id and b.origin_type=0
 		INNER JOIN question c
 		ON b.id = c.course_id
-		INNER JOIN student d
-		ON c.user_id = d.user_id
+		INNER JOIN student d ON c.user_id = d.user_id
 		where d.id = #{stuId} and a.id = #{classPackageId}  ;
 	</select>
 	<!-- 课程包评价次数 -->
@@ -2697,10 +2955,14 @@ select * from (
 	<select id="exportClassPackageBycommodityId" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
 	select DISTINCT(s.id),s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.delete_flag,s.school_id,s.company_id,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,sp.is_agent as isAgent,(select login_time from users_front_login_session where id=(select max(id) from users_front_login_session where user_id=u.id)) as lastLoginTime
-	 from student s LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 LEFT JOIN users_front u on s.user_id=u.id
-	 where s.company_id=#{companyId} and sp.commodity_id=#{commodityId} and sp.commodity_type='COMMODITY_PACKAGE' and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' or sp.pay_status_code='ORDER_CREATED') and sp.delete_flag=0
+	s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id company_id,u.id as userId,u.username,u.mobile,u.email,scs.id school_id,
+	u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount,sp.is_agent as isAgent,(select login_time from users_front_login_session where id=(select max(id) from users_front_login_session where user_id=u.id)) as lastLoginTime
+	 from student s 
+	 LEFT JOIN student_pay_master sp on s.id=sp.stu_id  and sp.origin_type=0 
+	 LEFT JOIN users_front u on s.user_id=u.id
+	 left join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+	 left join sys_config_school scs on scs.company_id=c.id
+	 where c.id=#{companyId} and sp.commodity_id=#{commodityId} and sp.commodity_type='COMMODITY_PACKAGE' and (sp.pay_status_code='ORDER_PAID' or sp.pay_status_code='ORDER_PART_PAY' or sp.pay_status_code='ORDER_FINISHED' or sp.pay_status_code='ORDER_PAID_NO_COURSE' or sp.pay_status_code='ORDER_CREATED') and sp.delete_flag=0
 	 <if test="name != null and name != ''">and s.name like '%${name}%'</if>
 	 <if test="mobile != null and mobile != ''">and s.mobile like  '%${mobile}%'</if>
 	 <if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
@@ -2740,15 +3002,17 @@ select * from (
 	</select>
 	
 	<select id="findStuInfoByUserId" resultMap="studentResultMap" parameterType="map" >
-		select <include refid="table_columns" />
-		from student
-		where company_id=#{companyId} and user_id = #{userId} 
+		select <include refid="table_columns_s" />
+		from student s
+		inner join users_front uf on s.user_id=uf.id 
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		where c.id=#{companyId} and user_id = #{userId} 
 	</select>
 	
 	<select id="checkUsersFrontByUsername" resultType="int" parameterType="com.yuxin.wx.model.student.Student">
-		select count(*)
+		select count(1)
 		from users_front 
-		where ( username=#{username} || mobile=#{username} ) and company_id=#{companyId}
+		where ( username=#{username} || mobile=#{username} )
 	</select>
 	
 	<select id="queryStuInfoByWhere"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
@@ -2776,8 +3040,8 @@ select * from (
 		s.update_time,
 		s.updator,
 		s.delete_flag,
-		s.company_id,
-		s.school_id,
+		c.id company_id,
+		scs.id school_id,
 		s.user_id,
 		s.province,
 		s.city,
@@ -2786,8 +3050,11 @@ select * from (
 		s.group_one_id,
 		s.group_two_id,
 		u.username
-		from student s left join users_front u on s.user_id=u.id
-		where  s.delete_flag <![CDATA[<>]]> 1  and s.company_id=#{companyId} and (s.mobile=#{mobile} or u.username=#{mobile}) limit 0,1
+		from student s 
+		left join users_front u on s.user_id=u.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		inner join sys_config_school scs on scs.company_id=c.id
+		where  s.delete_flag <![CDATA[<>]]> 1  and c.id=#{companyId} and (s.mobile=#{mobile} or u.username=#{mobile}) limit 0,1
 	</select>
 	
 	<select id="queryStuInfoByUserId"  resultMap="studentResultMap"  parameterType="com.yuxin.wx.model.student.Student">
@@ -2815,15 +3082,13 @@ select * from (
 		s.update_time,
 		s.updator,
 		s.delete_flag,
-		s.company_id,
-		s.school_id,
 		s.user_id,
 		s.province,
 		s.city,
 		s.county,
 		s.address_detail
 		from student s 
-		where  s.delete_flag=0  and s.company_id=#{companyId} and s.user_id=#{userId} limit 0,1
+		where  s.delete_flag=0  and s.user_id=#{userId} limit 0,1
 	</select>
 	
 	
@@ -2831,7 +3096,7 @@ select * from (
 	<select id="findByGroupId"  resultType="int"  parameterType="map">
 		select count(id)
 		from student s 
-		where  s.delete_flag=0  and s.company_id=#{companyId}
+		where  s.delete_flag=0 
 		<choose>
 			<when test="groupOneId != null and groupOneId != ''">and s.group_one_id = #{groupOneId}</when>
 			<when test="groupTwoId != null and groupTwoId != ''">and s.group_two_id = #{groupTwoId}</when>
@@ -2841,7 +3106,7 @@ select * from (
 	<select id="findGroupStu"  resultMap="studentResultMap"  parameterType="map">
 		select *
 		from student s 
-		where  s.delete_flag=0  and s.company_id=#{companyId}
+		where  s.delete_flag=0 
 		<choose>
 			<when test="groupOneId != null and groupOneId != ''">and s.group_one_id = #{groupOneId}</when>
 			<when test="groupTwoId != null and groupTwoId != ''">and s.group_two_id = #{groupTwoId}</when>
@@ -2851,7 +3116,7 @@ select * from (
 	<select id="findByEmail"  resultMap="studentResultMap"  parameterType="map">
 		select *
 		from student s 
-		where  s.delete_flag=0  and s.company_id=#{companyId}
+		where  s.delete_flag=0 
 		<if test="email!=null and email!=''">and s.email=#{email}</if>
 		limit 1;
 	</select>
@@ -2864,12 +3129,12 @@ select * from (
 	<select id="findStudentCountOnlyByMobile" resultType="int" parameterType="com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo">
 		select count(s.id)
 		from student s
-		where s.company_id = #{companyId} and s.mobile = #{mobile}
+		where  s.mobile = #{mobile}
 	</select>
 	<select id="findStudentOnlyByMobile" resultMap="studentResultMap" parameterType="com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo">
 		select <include refid="table_columns" />
 		from student s
-		where s.company_id = #{companyId} and s.mobile = #{mobile}
+		where s.mobile = #{mobile}
 		limit 0,1
 	</select>
 	<select id="queryAllStudentsByCompanyId" resultType="com.yuxin.wx.vo.student.StudentImportVo"  parameterType="int"> 
@@ -2883,13 +3148,12 @@ select * from (
 			s.emergency_contact as emergencyContact,
 			s.emergency_phone as emergencyPhone,
 			s.delete_flag as deleteFlag,
-			s.company_id as companyId,
-			s.school_id as schoolId,
 			s.user_id as userId,
 			uf.password as password,
-			uf.username as username
-		from student s left join users_front uf on s.user_id = uf.id
-		where s.company_id = #{companyId}
+			uf.username as username,
+			s.is_in_school as isInSchool
+		from student s 
+		left join users_front uf on s.user_id = uf.id ORDER BY s.id desc  
 	</select>
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />
@@ -2900,13 +3164,163 @@ select * from (
 	<select id="queryStudentsListByIds" parameterType="Integer[]" resultMap="studentsListMap">
 		select s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
 	s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
-	s.create_time,s.creator,s.update_time,s.updator,s.delete_flag,s.school_id,s.company_id,u.id as userId,u.username,u.mobile,u.email,u.school_id,
-	u.status,u.company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount
-	 from student s LEFT JOIN users_front u on s.user_id=u.id
+	s.create_time,s.creator,s.update_time,s.updator,s.delete_flag,u.id as userId,u.username,u.mobile,u.email,
+	u.status,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as paymaterCount
+	 from student s 
+	 LEFT JOIN users_front u on s.user_id=u.id
 	 where s.id in 
 		<foreach item="ids" collection="array" open="(" separator="," close=")">
 			#{ids}
 		</foreach>
 	 order by s.id DESC
 	</select>
+	
+	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="eduMasterClassResultMap">
+		<result property="id" column="id" />
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="eduYear" column="edu_year"/>
+		<result property="eduClass" column="edu_class"/>
+		<result property="eduStepName" column="eduStepName"/>
+	</resultMap>
+	<select id="findClassByTeacherId" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">
+		select scd.item_value as eduStepName ,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass 
+		from edu_master_class t1
+		LEFT JOIN sys_config_dict scd ON scd.item_code=t1.edu_step 
+		where t1.is_used=1 
+		<if test="userId != null and userId != ''"> and t1.user_id=#{userId}</if>
+	 	<if test="eduSchool != null and eduSchool != ''"> and t1.edu_school=#{eduSchool}</if>
+	 	<if test="eduStep != null and eduStep != ''"> GROUP BY t1.edu_step</if>
+	 	<if test="eduYear != null and eduYear != ''"> GROUP BY t1.edu_year</if>
+	 	<if test="eduClass != null and eduClass != ''"> GROUP BY t1.edu_class</if>
+	 	ORDER BY t1.id
+	</select>
+	
+	<select id="findSubjectClassByTeacherId" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">
+		select scd.item_value as eduStepName ,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass 
+		from edu_subject_class_teacher e1 
+		inner join edu_master_class t1 on e1.class_id=t1.id and t1.is_used=1
+		LEFT JOIN sys_config_dict scd ON scd.item_code=t1.edu_step 
+		where e1.is_used=1
+		<if test="userId != null and userId != ''"> and e1.user_id=#{userId}</if>
+	 	<if test="eduSchool != null and eduSchool != ''"> and t1.edu_school=#{eduSchool}</if>
+	 	<if test="eduStep != null and eduStep != ''"> GROUP BY t1.edu_step</if>
+	 	<if test="eduYear != null and eduYear != ''"> GROUP BY t1.edu_year</if>
+	 	<if test="eduClass != null and eduClass != ''"> GROUP BY t1.edu_class</if>
+	 	ORDER BY t1.id
+	</select>
+	
+	<select id="findClassByRKTeacherId" resultMap="eduMasterClassResultMap" parameterType="int">
+		select emc.edu_area ,emc.edu_school,edu_step,edu_year,edu_class from edu_subject_class_teacher esc
+		LEFT JOIN edu_master_class emc ON esc.class_id=emc.id
+		where esc.user_id=#{id} and esc.is_used=1
+	</select>
+	
+	
+	<select id="sysConfigDict" resultMap="sysConfigDict" > 
+		select id,dict_code,item_value,item_code,parent_item_id from sys_config_dict where dict_code='EDU_SCHOOL_AREA' or dict_code='EDU_SCHOOL';
+	</select>
+	
+	
+	<resultMap type="com.yuxin.wx.vo.student.StudentListVo" id="queryUserListDataMap">
+		<result property="name" column="name"/>
+		<result property="eduIdentityName" column="edu_identity"/>
+		<result property="mobile" column="mobile"/>
+		<result property="createTime" column="create_time"/>
+		<result property="finishCount" column="baoming_count"/>
+		<result property="totalCount" column="stu_count"/>
+		<result property="payPrice" column="price_count"/>
+	</resultMap>
+	<!-- <select id="queryUserListData" resultMap="queryUserListDataMap" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select s.`name`,s.mobile,
+		(CASE when s.edu_identity=1 then '普通用户' else '学生'  end) as edu_identity,
+		u.regist_time,COUNT(po.commodity_id) as baoming_count,
+		(COUNT(swi.id)+COUNT(cvr.id)) as study_count,SUM(po.pay_price) as price_count  
+		from users_front u
+		LEFT JOIN student s ON u.id=s.user_id
+		LEFT JOIN pay_order po ON po.user_id=u.id
+		LEFT JOIN sys_watch_info  swi ON swi.user_id=u.id
+		LEFT JOIN company_video_record cvr ON cvr.user_id=u.id
+		where po.pay_status='PAY_SUCCESS' and u.status=1 
+		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
+		<if test="eduStep != null and eduStep != ''"> and s.edu_step=#{eduStep}</if>
+		<if test="eduYear != null and eduYear != ''"> and s.edu_year=#{eduYear}</if>
+		<if test="eduClass != null and eduClass != ''"> and s.edu_class=#{eduClass}</if>
+		GROUP BY u.id  
+		LIMIT #{firstIndex},#{pageSize}
+	</select> -->
+	<select id="queryUserListData" resultMap="queryUserListDataMap" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select if(isnull(s.name),'',s.name) name,s.mobile, 
+		(CASE when s.edu_identity=1 then '普通用户' else '学生' end) as edu_identity, 
+		s.create_time,(count(distinct ct.id)+count(distinct ctt.id)) stu_count,
+		SUM(if(isnull(po.pay_price),0,po.pay_price)) as price_count,COUNT(distinct po.commodity_id) as baoming_count
+		from student s
+		LEFT JOIN pay_order po ON po.user_id=s.user_id and po.pay_status='PAY_SUCCESS' and po.company_id=#{companyId}
+		LEFT JOIN sys_watch_info swi ON swi.user_id=s.user_id
+		left join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+		LEFT JOIN sys_play_logs cvr ON cvr.user_id=s.user_id
+		left join class_type ctt on ctt.id=cvr.class_type_id and ctt.company_id=#{companyId}
+		where  s.is_in_school=0 and s.delete_flag=0
+		<if test="name != null and name != ''"> and s.name like '%${name}%'</if>
+		<if test="eduIdentity != null and eduIdentity != ''"> and s.edu_identity=#{eduIdentity}</if>
+		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		GROUP BY s.id
+		order by 
+		<if test="paixu == null or paixu == ''">s.create_time desc </if>
+		<if test="paixu != null and paixu == 1">s.create_time ASC </if>
+		 <if test="paixu != null and paixu == 2">s.create_time DESC </if>
+		 <if test="paixu != null and paixu == 3">baoming_count ASC </if>
+		<if test="paixu != null and  paixu == 4">baoming_count  DESC  </if>
+		<if test="paixu != null and  paixu == 5">price_count ASC </if>
+		 <if test="paixu != null and paixu == 6">price_count DESC </if>
+		 <if test="paixu != null and paixu == 7">stu_count ASC </if>
+		 <if test="paixu != null and paixu == 8">stu_count DESC </if>
+		LIMIT #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="exportUserInfo" resultType="Map" parameterType="Map"> 
+		select if(isnull(s.name),'',s.name) name,s.mobile, 
+		(CASE when s.edu_identity=1 then '普通用户' else '学生' end) as edu_identity, 
+		s.create_time,(count(distinct ct.id)+count(distinct ctt.id)) stu_count,
+		SUM(if(isnull(po.pay_price),0,po.pay_price)) as price_count,COUNT(distinct po.commodity_id) as baoming_count
+		from student s
+		LEFT JOIN pay_order po ON po.user_id=s.user_id and po.pay_status='PAY_SUCCESS' and po.company_id=#{companyId}
+		LEFT JOIN sys_watch_info swi ON swi.user_id=s.user_id
+		left join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+		LEFT JOIN sys_play_logs cvr ON cvr.user_id=s.user_id
+		left join class_type ctt on ctt.id=cvr.class_type_id and ctt.company_id=#{companyId}
+		where  s.is_in_school=0 and s.delete_flag=0
+		<if test="name != null and name != ''"> and s.name like '%${name}%'</if>
+		<if test="eduIdentity != null and eduIdentity != ''"> and s.edu_identity=#{eduIdentity}</if>
+		<if test="eduArea != null and eduArea != ''"> and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and s.edu_school=#{eduSchool}</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		GROUP BY s.id
+		order by
+		<if test="paixu == null or paixu ==''">s.create_time desc </if>
+		<if test="paixu != null and paixu == 1">s.create_time ASC </if>
+		 <if test="paixu != null and paixu == 2">s.create_time DESC </if>
+		 <if test="paixu != null and paixu == 3">baoming_count ASC </if>
+		<if test="paixu != null and  paixu == 4">baoming_count  DESC  </if>
+		<if test="paixu != null and  paixu == 5">price_count ASC </if>
+		 <if test="paixu != null and paixu == 6">price_count DESC </if>
+		 <if test="paixu != null and paixu == 7">stu_count ASC </if>
+		 <if test="paixu != null and paixu == 8">stu_count DESC </if>
+	</select>
+	 
+	<select id="queryUserListDataCount" resultType="int" parameterType="com.yuxin.wx.vo.student.StudentListVo"> 
+		select count(1) from student where is_in_school=0 and delete_flag=0
+		<if test="name != null and name != ''"> and name like '%${name}%'</if>
+		<if test="eduIdentity != null and eduIdentity != ''"> and edu_identity=#{eduIdentity}</if>
+		<if test="eduArea != null and eduArea != ''"> and edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''"> and edu_school=#{eduSchool}</if>
+		<if test="startTime != null and startTime != ''">and date_format(create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+	 	<if test="endTime != null and endTime != ''">and date_format(create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	</select> 
 </mapper>

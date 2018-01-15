@@ -76,7 +76,7 @@
 	var student=function(){
 		this.settings={
 				 title : {
-				        text: '学员趋势图',
+				        text: '学员趋势图11',
 				        subtext: ''
 				    },
 				    tooltip : {

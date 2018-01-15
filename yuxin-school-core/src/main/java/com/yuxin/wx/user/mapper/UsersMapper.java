@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.teacher.UsersComanyRelation;
 import com.yuxin.wx.model.user.UserLoginSession;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
 import com.yuxin.wx.vo.privilege.UserRoleVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
-import com.yuxin.wx.vo.user.UsersVo;
 /**
  * Service Interface:Users
  * @author wang.zx
@@ -26,6 +26,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	 * @return
 	 */
 	public Users queryByName(String userName);
+	
+	Users queryUserByCondition(Map<String,Object> params);
 	
 	/**
 	 * 
@@ -58,11 +60,15 @@ public interface UsersMapper extends BaseMapper<Users> {
 	
 	List<Users> findUsersByRoleId (RoleVo roleVo);
 	
+	Users findUsersById(Map<String, Object> param);
+	
 	Integer findIdByName(String userName);
 	
 	Users findUserByName(String userName);
 	
 	Users findUserByCompanyIdAndUserType(Integer companyId);
+	
+	Users findUserByCompanyIdAndUserId(Map<String,Object> params);
 	
 	void updateUserByCompanyIdAndUserType(Users users);
 	
@@ -71,6 +77,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	public int selectCount(Integer companyId);
 	
 	void updateStatus(Users users);
+	
+	void updateUsersComanyRelationStatus(Users users);
 	
 	 Users findByUserTypeAndCompanyId(Users users);
 	 
@@ -121,11 +129,63 @@ public interface UsersMapper extends BaseMapper<Users> {
 	  Users findUsersByConfition(Users user);
 	  
 	  List<Users> queryuserIsExist(Users user);
-
+	  /**
+	   * 根据用户名或手机号查询用户
+	   * @param user
+	   * @return
+	   */
+	  List<Users> queryuserByUserNameOrMobile(Users user);
 	/**
 	 * 通过用户id获取对应区域信息
 	 * @param id
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    /***
+     * 
+     * @author jishangyang 2017年12月27日 下午9:25:27
+     * @Method: findUsersAreaRelationT 
+     * @Description: 通过用户id获取对应区域信息（班主任）
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationT(Map<String,Object> params);
+    /***
+     * 
+     * @author jishangyang 2017年12月27日 下午9:25:27
+     * @Method: findUsersAreaRelationT 
+     * @Description: 通过用户id获取对应区域信息（任课教师）
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationR(Map<String,Object> params);
+    /**
+     * 授权当前用户在当前学校为合法用户
+     * @param params
+     */
+    void grantUserInCompany(Map<String,Object> params);
+    /**
+     * 通过用户查询用户所在机构集合
+     * @param userId
+     * @return
+     */
+    List<Integer> queryCompanyByUserId(Integer userId);
+    /**
+     * 插入用户关系表
+     * @param params 插入用户关系表
+     */
+    void insertUserCompanyRalation(Map<String,Object> params);
+    
+    /**
+     * 添加教师学校关系表
+     * @param ucr
+     */
+    void insertUsersComanyRelation(UsersComanyRelation ucr);
+    
+
+    void deleteAuthUserRole(Integer userId, Integer companyId);
+
+    void deleteUsersComanyRelation(Integer userId, Integer companyId);
 }

@@ -69,12 +69,18 @@ public interface StudentStatisticsMapper extends BaseMapper<Statistics> {
 	List<Map> watchAllChartData(Map<String, Object> map);
 
     List<WatchInfoResult> queryStudentsWatchInfoList(WatchInfoResult search);
+    List<WatchInfoResult> queryNewStudentsWatchInfoList(WatchInfoResult search);
+    List<WatchInfoResult> queryRecirdWatchInfoList(WatchInfoResult search);
 
 	Integer queryStudentsWatchInfoListCount(WatchInfoResult search);
+	Integer queryNewStudentsWatchInfoListCount(WatchInfoResult search);
+	Integer queryRecirdWatchInfoListCount(WatchInfoResult search);
 
     List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search);
+    List<WatchInfoResult> exportNewStudentsWatchInfoList(WatchInfoResult search);
 
     Integer totalPayMasterCount(WatchInfoResult search);
+    Integer totalNewPayMasterCount(WatchInfoResult search);
 
     List<Map> getEduYearBySchool(Map<String, Object> map);
 

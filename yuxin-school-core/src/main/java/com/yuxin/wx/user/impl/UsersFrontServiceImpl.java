@@ -72,6 +72,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
     public void update(UsersFront entity) {
         this.usersFrontMapper.update(entity);
     };
+ 
 
     /**
      * 
@@ -285,7 +286,11 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         // TODO Auto-generated method stub
         return this.usersFrontMapper.findConponsUsersByCondition(u);
     }
-
+    @Override
+    public List<UsersFront> findConponsUsersByConditionIn(UsersFront u) {
+        // TODO Auto-generated method stub
+        return this.usersFrontMapper.findConponsUsersByConditionIn(u);
+    }
     @Override
     public UsersFront findUsersFrontByUsername(UsersFront uf) {
         return this.usersFrontMapper.findUsersFrontByUsername(uf);
@@ -325,4 +330,10 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	public Integer findUsersfrontCountByMobileOrUsername(SelectStudentOrUsersfrontVo search) {
 		return usersFrontMapper.findUsersfrontCountByMobileOrUsername(search);
 	}
+
+    @Override
+    public List<UsersFront> queryAll() {
+        return usersFrontMapper.queryAll();
+    }
+
 }

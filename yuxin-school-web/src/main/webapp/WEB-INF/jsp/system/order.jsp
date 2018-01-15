@@ -80,7 +80,7 @@
 					</span>
 				</p> -->
 				<p class="c">
-					<span class="t-title" style="width: 92px;">手机号/用户名</span>
+					<span class="t-title" style="width: 90px;margin-bottom: 20px;margin-right: 5px;">手机号/用户名</span>
 					<span class="t-content">
 						<input type="text" id="mobile" class="txt" onkeyup="this.value=this.value.replace(/[^u4e00-u9fa5w]/g,'')";/>
 						<a href="javascript:;" class="btn btn-sm btn-primary search" pay-status="0">搜索</a>
@@ -89,8 +89,11 @@
 				</p>
 			</div>
 		</div>
+		<%--放入订单列表--%>
 		<div class="mainbackground nopadding">
-			<div class="a-list o-list"></div>
+			<div class="a-list o-list">
+
+			</div>
 		</div>
 		<div class="pages">
 			<ul class="pagination">

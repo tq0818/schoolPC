@@ -6,7 +6,8 @@
 (function($){
 	var Form={
 			condition:undefined,//用户名或者手机号或者姓名
-			
+			roleUid:undefined,//角色标识号
+			status:undefined,//是否启用
 			init : function(){
 				var $this = this;
 //				$(".footer").addClass("footer-fixed");
@@ -24,10 +25,23 @@
 				//搜索
 				$('#search_condition').on('click',function(){
 					var condition = $.trim($('#condition').val());
+					var roleUid = $.trim($('#roleUid').val());
+					var status = $.trim($('#status').val());
 					if(!condition){
 						$this.condition = undefined;
 					}else{
 						$this.condition = condition;
+					}
+					
+					if(!roleUid){
+						$this.roleUid = undefined;
+					}else{
+						$this.roleUid = roleUid;
+					}
+					if(!status){
+						$this.status = undefined;
+					}else{
+						$this.status = status;
 					}
 					
 					$this.queryUserRolesList(1,'');
@@ -68,6 +82,10 @@
 				data.schoolId = schoolId;
 				if(_this.condition)
 					data.condition = _this.condition;
+				if(_this.roleUid)
+					data.roleUid = _this.roleUid;
+				if(_this.status)
+					data.status = _this.status;
 				$.ajax({
 					url : rootPath + "/authPrivilege/queryUserRoles",
 					type : "post",
@@ -104,7 +122,7 @@
 				});
 			},
 			changUserStatus : function(id){
-				var kg=0;
+				/*var kg=0;
 				$.ajax({
 					url : rootPath + "/authRole/queryRoleFlag/"+id,
 					type : "post",
@@ -118,7 +136,7 @@
 				if(kg>0){
 					$.msg("该用户不能被禁用");
 					return;
-				}
+				}*/
 				var status=$("#com"+id).attr("marks");
 				if(status=="0"){
 					status=1;
@@ -177,7 +195,7 @@
 				});
 			},
 			deleteUser : function(id){
-				var kg=0;
+				/*var kg=0;
 				$.ajax({
 					url : rootPath + "/authRole/queryRoleFlag/"+id,
 					type : "post",
@@ -191,7 +209,7 @@
 				if(kg>0){
 					$.msg("该用户不能删除");
 					return;
-				}
+				}*/
 				$.confirm("您确定要删除吗?",function(b){
 					if(b){
 						$.ajax({

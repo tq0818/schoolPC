@@ -170,15 +170,17 @@ public class AuthRoleController {
 
  	@ResponseBody
 	@RequestMapping(value="/queryRolesById/{userId}",method=RequestMethod.POST)
-	public List<AuthRole> queryAuthRoleListByUser(@PathVariable Integer userId){
- 		List<AuthRole> arr= authRoleServiceImpl.queryAuthRoleListByUser(userId);
+	public List<AuthRole> queryAuthRoleListByUser(@PathVariable Integer userId,Integer companyId){
+ 		 Integer ccompanyId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+ 		List<AuthRole> arr= authRoleServiceImpl.queryAuthRoleListByUser(userId,ccompanyId);
 		return arr;
 	}
  	
  	@ResponseBody
- 	@RequestMapping(value="/queryRoleFlag/{userId}")
- 	public boolean queryAuthRoleFlag(@PathVariable Integer userId){
- 		if(authRoleServiceImpl.hasRoleFlag(userId)){
+ 	@RequestMapping(value="/queryRoleFlag/{userId}/{companyId}")
+ 	public boolean queryAuthRoleFlag(@PathVariable Integer userId,@PathVariable Integer companyId){
+ 		Integer cId=companyId==null?WebUtils.getCurrentCompanyId():companyId;
+ 		if(authRoleServiceImpl.hasRoleFlag(userId,cId)){
  			return true;
  		}
  		return false;
@@ -188,7 +190,7 @@ public class AuthRoleController {
  	@RequestMapping(value="/authAdmin")
  	public boolean queryAuthRoleIsAdmin(HttpServletRequest request){
  		Integer userId = WebUtils.getCurrentUserId(request);
- 		if(authRoleServiceImpl.hasRoleFlag(userId)){
+ 		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
  			return true;
  		}
  		return false;
@@ -200,10 +202,10 @@ public class AuthRoleController {
  		Integer userId = WebUtils.getCurrentUserId(request);
 		Users user = WebUtils.getCurrentUser();
  		Subject subject = SecurityUtils.getSubject();
- 		if(authRoleServiceImpl.hasRoleFlag(userId) && user.getUserType()!=null && user.getUserType().equals("USER_TYPE_ORG")){
+ 		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId()) && user.getUserType()!=null && user.getUserType().equals("USER_TYPE_ORG")){
  			return "1";
  		}
- 		else if(subject.hasRole("直播老师")&& !authRoleServiceImpl.hasRoleFlag(userId)){
+ 		else if(subject.hasRole("直播老师")&& !authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
  			return "2";
  		}
  		return "";
@@ -223,7 +225,7 @@ public class AuthRoleController {
  	 */
  	@RequestMapping(value="/configRole")
  	public String configCompanyRoles(Model model,HttpServletRequest request){
- 		if(!authRoleServiceImpl.checkUserHasPrivilege(WebUtils.getCurrentUserId(request), "system_privilege_config")){
+ 		if(!authRoleServiceImpl.checkUserHasPrivilege(WebUtils.getCurrentUserId(request), "system_privilege_config",WebUtils.getCurrentCompanyId())){
  			return "404";
  		}
  		List<AuthRole> authRoleList= authRoleServiceImpl.findAll();

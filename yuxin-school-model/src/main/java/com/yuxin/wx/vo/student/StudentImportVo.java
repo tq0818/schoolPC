@@ -20,6 +20,13 @@ public class StudentImportVo extends BaseEntity {
 	private Integer userId;
 	private String password;
 	private String username;
+	private String eduArea;
+	private String eduSchool;
+	private String eduStep;
+	private String eduYear;
+	private String eduClass;
+	private String isInSchool;
+	private Integer updateB;
 
 	public String getName() {
 		return name;
@@ -132,6 +139,76 @@ public class StudentImportVo extends BaseEntity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	
+    public String getEduArea() {
+    	return eduArea;
+    }
+
+	
+    public void setEduArea(String eduArea) {
+    	this.eduArea = eduArea;
+    }
+
+	
+    public String getEduSchool() {
+    	return eduSchool;
+    }
+
+	
+    public void setEduSchool(String eduSchool) {
+    	this.eduSchool = eduSchool;
+    }
+
+	
+    public String getEduStep() {
+    	return eduStep;
+    }
+
+	
+    public void setEduStep(String eduStep) {
+    	this.eduStep = eduStep;
+    }
+
+	
+    public String getEduYear() {
+    	return eduYear;
+    }
+
+	
+    public void setEduYear(String eduYear) {
+    	this.eduYear = eduYear;
+    }
+
+	
+    public String getEduClass() {
+    	return eduClass;
+    }
+
+	
+    public void setEduClass(String eduClass) {
+    	this.eduClass = eduClass;
+    }
+
+	
+    public String getIsInSchool() {
+    	return isInSchool;
+    }
+
+	
+    public void setIsInSchool(String isInSchool) {
+    	this.isInSchool = isInSchool;
+    }
+
+	
+    public Integer getUpdateB() {
+    	return updateB;
+    }
+
+	
+    public void setUpdateB(Integer updateB) {
+    	this.updateB = updateB;
+    }
 
 	@Override
 	public String toString() {

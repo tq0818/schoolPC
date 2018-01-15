@@ -880,6 +880,12 @@ public class ClassModuleLessonController {
 	public String noticeDetail(Model model,HttpServletRequest request,CompanyStudentMessage companyStudentMessage){
 		companyStudentMessage.setCompanyId(WebUtils.getCurrentCompanyId());
 		companyStudentMessage.setSchoolId(WebUtils.getCurrentUserSchoolId(request));
+		if(!"0".equals(WebUtils.getCurrentIsArea())&&"all".equals(companyStudentMessage.getMessageMethod())){
+			companyStudentMessage.setMessageMethod("brachAll");
+		}
+		if(!"0".equals(WebUtils.getCurrentIsArea())&&"all".equals(companyStudentMessage.getMessageType())){
+			companyStudentMessage.setMessageType("brachAll");
+		}
 		List<CompanyStudentMessage> msgList = companyStudentMessageServiceImpl.selMsgByCond(companyStudentMessage);
 		//查询总数
 		Integer count = companyStudentMessageServiceImpl.selMsgCount(companyStudentMessage);

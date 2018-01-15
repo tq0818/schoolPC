@@ -3,6 +3,7 @@ package com.yuxin.wx.system.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.common.BaseMapper;
 /**
@@ -25,14 +26,37 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 		List<SysConfigDict> findDictByClassroom();
 
 		List<SysConfigDict> findByDicCode(String code);
+
+		List<SysConfigDict> findByParentId(String parentId);
 		
 		List<SysConfigDict> queryConfigDictList();
 		
 		List<SysConfigDict> findByCompanyId(Integer companyId);
 		List<SysConfigDict> queryConfigDictListByDictCode(SysConfigDict sysConfigDict);
+		List<SysConfigDict> querySchoolByArea(SysConfigDict sysConfigDict);
+		List<SysConfigDict> queryAreaBySchool(String str);
 	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
 
     List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict);
 
     List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map);
+  //获取服务类型及服务名称
+    List<SysConfigDict> querSysConfigDictList(Map<String, Object> map);
+    Integer querSysConfigDictCount(Integer companyId);
+    /**
+ 	  * 
+ 	  * @author jishangyang 2017年12月17日 下午4:09:11
+ 	  * @Method: queryEduMasterClass 
+ 	  * @Description: 查询学段，学年，班级
+ 	  * @param ems
+ 	  * @return 
+ 	  * @throws
+ 	  */
+    List<EduMasterClass> queryEduMasterClass(EduMasterClass ems);
+
+	List<SysConfigDict> findAreaIds();
+
+	List<SysConfigDict> findSchoolByCondition(Map<String, Object> paramMap);
+
+	List<SysConfigDict> queryAllSchool();
 }

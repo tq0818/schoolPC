@@ -714,7 +714,8 @@ input.btn {
 .btn.btn-mini, input.btn-mini {
     padding: 5px 13px;
     font-size: 12px;
-    font-size: 1.2rem
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 .btn-block {
@@ -1219,10 +1220,10 @@ span.mintitle{
     cursor: default;
 }
 .txt-required{color:red;margin-right: 5px;}
-.table.table-center .btn-sort{ background: url(../images/query/ico-sort.png) no-repeat;
+.table.table-center .btn-sort{ background: url(../images/query/ico-sort.png) no-repeat 85% center;
   /*  text-align: left;*/
 
-    background-position: right center;
+    /*background-position: right center;*/
     cursor: pointer;
 }
 .table .amassCount,.table .max-imum,.table .learning-style{
@@ -1239,3 +1240,6 @@ span.mintitle{
 .content-right .daysTab.active,.content-right .daysTab:hover{
     color:#fff;
     background: #79c6f8;}
+body{
+    min-width: 1300px;
+}

@@ -20,13 +20,16 @@
 	</resultMap>
 	
 	<insert id="insert" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" useGeneratedKeys="true" keyProperty="id">
-	   insert into commodity_special(title,label,cover_pic_url,descript,detail_title,detail_cover_pic_url,detail_text,teacher_ids,commodity_ids,create_time,order_flag,status,update_time,subject_id)
-	   values(#{title},#{label},#{coverPicUrl},#{descript},#{detailTitle},#{detailCoverPicUrl},#{detailText},#{teacherIds},#{commodityIds},#{createTime},#{orderFlag},#{status},#{updateTime},${subjectId})
+	   insert into commodity_special(company_id,title,label,cover_pic_url,descript,detail_title,detail_cover_pic_url,detail_text,teacher_ids,commodity_ids,create_time,order_flag,status,update_time,subject_id)
+	   values(#{companyId},#{title},#{label},#{coverPicUrl},#{descript},#{detailTitle},#{detailCoverPicUrl},#{detailText},#{teacherIds},#{commodityIds},#{createTime},#{orderFlag},#{status},#{updateTime},${subjectId})
 	</insert>
 
     <select id="findSpecialByPage" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" resultMap="commoditySpecialMap">
         select 
-        id,title,label,order_flag,status from commodity_special order by status desc, order_flag is null,order_flag asc limit #{firstIndex},#{pageSize}
+        id,title,label,order_flag,status 
+        from commodity_special 
+        where company_id=#{companyId}
+        order by status desc, order_flag is null,order_flag asc limit #{firstIndex},#{pageSize}
     </select>
 
     <select id="findSpecialByPageCount"  resultType="int">

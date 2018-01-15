@@ -88,13 +88,13 @@
 			<div class="heading L-heading">
 				<h2 class="h5">资源库</h2>
 			    <span class="line"></span>
-                <span class="space">资源空间
-                    <i>${comService.videoStorage}/${comMember.videoStorage + comMember.giveVideoStorage}</i>
+                <span class="space" >资源空间
+                    <i id="spaceRoom">${comService.videoStorage}/${comMember.videoStorage + comMember.giveVideoStorage}</i>
 					<em style="top:0px;">GB</em>
                 </span>
                 
                 <span class="space" style="margin-left: 260px">资源流量
-                    <i>${comService.videoFlow}/${comMember.videoFlow + comMember.giveVideoFlow}</i>
+                    <i id="spaceFlow">${comService.videoFlow}/${comMember.videoFlow + comMember.giveVideoFlow}</i>
 					<em style="top:0px;">GB</em>
                 </span>
 				<span class="upload-tns">
@@ -126,12 +126,11 @@
 						</span>
 					</div>
 
-					<div class="w secTwo">
+			<!-- 	<div class="w secTwo"  style="display: none;">
 						<span class="class_number_name">学科小类：</span>
                         <span class="s-list secItemInfo">
                             <a class="btn btn-sm btn-default oneItem" href="javascript:;" itemId="">全部</a>
-                        </span>
-					</div>
+                        </span> -->
 					<div class="w">
 						<span class="class_number_name">状态：</span> 
 						<span class="s-list">
@@ -225,12 +224,12 @@
                         <option value="">人力</option>
                     </select>
                 </div>
-                <div class="L-poR">
+             <!--    <div class="L-poR">
                     <span>学科小类</span>
                     <select id="itemSecondId" name="itemSecondId">
                         <option value=""></option>
                     </select>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

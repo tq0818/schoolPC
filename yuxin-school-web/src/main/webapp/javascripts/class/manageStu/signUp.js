@@ -1,4 +1,31 @@
 ;(function($){
+	
+	$("#eduArea").change(function(){
+        var area = $(this).find(":selected").attr("data-id");
+        //var schoolVal = $.trim($("#eduSchool").attr("data-id"));
+        if(area==null || area==""){
+            $("#eduSchool").html('<option value="">请选择所在学校</option>');
+        }else{
+            $.ajax({
+                url: rootPath + "/student/getSchoolList/"+area,
+                type: "post",
+                success: function (data) {
+                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                    var options = '';
+                    $.each(data,function(i,j){
+                       /* if(schoolVal==j.itemValue){
+                            options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
+                        }else{*/
+                            options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+                       // }
+
+                    });
+                    $("#eduSchool").append(options);
+                }
+            });
+        }
+    });
+	
 	var convertToJson=function(src){
 		var  str=src.substr(src.indexOf("["));
 		str=str.replace("[","").replace("]","");
@@ -293,6 +320,11 @@
 						type: "post",
 						dataType :"json",
 						success: function(jsonData){
+							if(null!=jsonData || ''!=jsonData){
+								alert("手机号重复,请重新填写");
+								$("#stuMobiles").val('');
+								return;
+							}
 							if(jsonData && jsonData.id){
 								$("#stuMobiles").next().remove();
 								$this.options.student=jsonData;
@@ -324,6 +356,11 @@
 						type: "post",
 						dataType :"json",
 						success: function(jsonData){
+							if(null!=jsonData || ''!=jsonData){
+								alert("用户名重复,请重新填写");
+								$("#stuUserNames").val('');
+								return;
+							}
 							if(jsonData && jsonData.id){
 								$("#stuMobiles").next().remove();
 								jsonData.username=mob;
@@ -444,16 +481,7 @@
 	                    mobile:{
 	                    	required: true,
 	                    	isMobile: true
-//	                    	remote: {
-//	                    		url: rootPath+"/student/check",
-//	                    		type:"post",
-//	                    		dataType:"json",
-//	                    		data:{
-//	                    			mobile: function(){
-//	                    				return $(".mobile").val();
-//	                    			}
-//	                    		}
-//	                    	}
+
 	                    }
 	                },
 	                messages: {
@@ -1053,6 +1081,75 @@
 				var data=$("#studentForm").getParams()+"&id="+$this.options.student.id;//+"&mobile="+$(".mobile").val();
 			}else{
 				//新增
+			    var rules = {
+			            errorElement: 'span',
+			            errorClass: 'tips',
+			            focusInvalid: false,
+			            ignore: "",
+			            rules: {
+			            	stuMobiles: {
+			                    required: true,
+			                    minlength: 8,
+			                    maxlength: 11,
+			                    isMobile: true,
+			                    remote: {
+			                        url: rootPath + "/student/checkMobileExist",
+			                        type: "post",
+			                        dataType: "json",
+			                        data: {
+			                            mobile: function () {
+			                                return $("#stuMobiles").val();
+			                            }
+			                        }
+			                    }
+			                },
+			                stuUserNames:{
+			                	required: true,
+			                	remote: {
+			                         url: rootPath + "/student/checkFrontUserName",
+			                         type: "post",
+			                         dataType: "json",
+			                         data: {
+			                             username: function () {
+			                                 return $("#stuUserNames").val();
+			                             }
+			                         }
+			                    }
+			                },
+			            },
+			            messages: {
+			            	stuMobiles: {
+			                    required: "手机号不能为空",
+			                    maxlength: "请输入正确手机号",
+			                    minlength: "请输入正确手机号",
+			                    isMobile: "请输入正确手机号",
+			                    remote: "手机号已经存在"
+			                },
+			                suserName:{
+			                	 required: "用户名不能为空",
+			                	 remote: "用户名已经存在"
+			                },
+			                nPassword: {
+			                    required: "密码不能为空，且最少为六位数字或英文字母",
+			                    minlength: "密码最少为6位数字或英文字母"
+			                },
+			                rPassword: {
+			                    required: "请重复输入密码",
+			                    equalTo: "2次密码不一致，请修改"
+			                },
+			                sEmail:{
+			                	remote: "邮箱已经存在"
+			                }
+
+			            },
+			            success: function (label) {
+
+			            },
+			            submitHandler: function (form) {
+			                form.submit();
+			            },
+			            onkeyup: false
+			        }
 				var data=$("#studentForm").getParams(); //+"&mobile="+$(".mobile").val();;
 			}
 			if(document.getElementById("studentG1")){
@@ -1060,6 +1157,31 @@
 			}
 			if(document.getElementById("studentG2")){
 				data+="&groupTwoId="+$("#studentG2").val();
+			}
+			var eduArea=$("#eduArea").val();
+			if(null==eduArea || ''==eduArea){
+				 $.msg("请选择所在区域");
+				 return;
+			}
+			var eduSchool=$("#eduSchool").val();
+			if(null == eduSchool || ''==eduSchool){
+				  $.msg("请选择学校");
+                  return;
+			}
+			var eduStep=$("#eduStep").val();
+			if(null==eduStep || ''==eduStep){
+				 $.msg("请选择学段");
+                 return;
+			}
+			var eduYear=$("#eduYear").val();
+			if(null==eduYear || ''==eduYear){
+				 $.msg("请选择学年");
+                return;
+			}
+			var eduClass=$("#eduClass").val();
+			if(null==eduClass || ''==eduClass){
+				 $.msg("请选择班级");
+               return;
 			}
 			$.ajax({
 				url: rootPath+"/student/saveStudent",

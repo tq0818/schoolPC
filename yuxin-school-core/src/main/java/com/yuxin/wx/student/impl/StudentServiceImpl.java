@@ -8,20 +8,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yuxin.wx.common.PageFinder2;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yuxin.wx.api.student.IStudentService;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
 import com.yuxin.wx.company.mapper.CompanyRegisterConfigMapper;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.student.StudentPayMaster;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.student.mapper.StudentMapper;
@@ -29,11 +32,9 @@ import com.yuxin.wx.student.mapper.StudentPayMasterMapper;
 import com.yuxin.wx.system.mapper.SysConfigSchoolMapper;
 import com.yuxin.wx.user.mapper.UsersFrontMapper;
 import com.yuxin.wx.user.mapper.UsersLoginSessionMapper;
-import com.yuxin.wx.util.FilesizeUtil;
 import com.yuxin.wx.util.ParameterUtil;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
-import com.yuxin.wx.vo.student.StudentAll4CompanyVo;
 import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
 import com.yuxin.wx.vo.student.StudentClassLeanRecordVo;
 import com.yuxin.wx.vo.student.StudentImportVo;
@@ -499,6 +500,51 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				search.getPage(), search.getPageSize(), count, data);
 		return pageFinder;
 	}
+	@Override
+	public PageFinder2<StudentListVo> queryUserListData(StudentListVo search) {
+		List<StudentListVo> data = studentMapper.queryUserListData(search);
+		Integer count = studentMapper.queryUserListDataCount(search);
+		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
+				search.getPage(), search.getPageSize(), count, data);
+		return pageFinder;
+	}
+	
+	@Override
+	public List<Map<String, Object>> exportUserInfo(StudentListVo search) {
+		return studentMapper.exportUserInfo(search);
+	}
+
+	@Override
+	public PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("commodityType", "COMMODITY_CLASS");
+		List<StudentListVo> data = studentMapper.queryNewStudentsList(search);
+		for(StudentListVo stus:data){
+			if(null!=stus && null!=stus.getPaymaterCount() && stus.getPaymaterCount()>0){//已报名学员
+				map.put("stuId", stus.getId());
+				List<StudentPayMaster> pay=studentPayMasterMapper.findpayIdByStudentsId(map);
+				//代报考
+				for(StudentPayMaster spm:pay){
+					if(null!=spm&&null!=spm.getIsAgent()&&!"".equals(spm.getIsAgent())&&"1".equals(spm.getIsAgent())){
+						stus.setIsAgent(spm.getIsAgent());
+						break;
+					}
+				}
+				//分期,补费
+				for(StudentPayMaster spm:pay){
+					if(null!=spm && null!=spm.getPayStatusCode() && "ORDER_PART_PAY".equals(spm.getPayStatusCode())){
+						stus.setIspay("1");
+						break;
+					}
+				}
+				stus.setAgentFlag(search.getAgentFlag());
+			}
+		}
+		Integer count = studentMapper.queryNewStudentsListCount(search);
+		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
+				search.getPage(), search.getPageSize(), count, data);
+		return pageFinder;
+	}
 
 	
 	
@@ -515,197 +561,265 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	 */
 	@Override
 	public String insertSupportExcel(Student student, boolean isUserFront) {
-		
-		String mobile = student.getMobile();
-		String identityTypeCode = student.getIdentityTypeCode();
-		String identityId = student.getIdentityId();
-		String name = student.getName();
-		String email = student.getEmail();
-		String username=student.getUsername();
-		String emergencyPhone = student.getEmergencyPhone();
-		if(null!=student.getAddFlag() && "username".equals(student.getAddFlag())){
-			// 判断是否为身份证
-			if ("ID_IDCARD".equals(identityTypeCode)) {
-				if (!(identityId == null || "".equals(identityId))) {
-					// 判断是否含有非数字
-					if (!identityId.matches("(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])")) {
-						return "0302";
-					}
-					// 判断字符串是否为15或者18
-					if (identityId.trim().length() != 15
-							&& identityId.trim().length() != 18) {
-						return "0302";
-					}
-					Student result = studentMapper.queryByIdentityId(student);
-					// 判断身份证号是否已存在
-					if (result != null) {
-						return "0303";
+		SelectStudentOrUsersfrontVo search=new SelectStudentOrUsersfrontVo();
+		search.setMobile(student.getMobile());
+		Student stt=studentMapper.findStudentOnlyByMobile(search);
+		search.setUsername(student.getUsername());
+		UsersFront ufft=usersFrontMapper.findUsersFrontOnlyByUsername(search);
+		if(null!=stt){
+			if(student.getMobile() != null) stt.setMobile(student.getMobile());
+			if(student.getName() != null) stt.setName(student.getName());
+			if(student.getIdentityTypeCode() != null) stt.setIdentityTypeCode(student.getIdentityTypeCode());
+			if(student.getIdentityId() != null) stt.setIdentityId(student.getIdentityId());
+			if(student.getEmail() != null) stt.setEmail(student.getEmail());
+			if(student.getQq() != null) stt.setQq(student.getQq());
+			if(student.getEmergencyContact() != null) stt.setEmergencyContact(student.getEmergencyContact());
+			if(student.getEmergencyPhone() != null) stt.setEmergencyPhone(student.getEmergencyPhone());
+			if(student.getCompanyId() != null) stt.setCompanyId(student.getCompanyId());
+			if(student.getSchoolId() != null) stt.setSchoolId(student.getSchoolId());
+			if(student.getEduArea() != null) stt.setEduArea(student.getEduArea());
+			if(student.getEduSchool() != null) stt.setEduSchool(student.getEduSchool());
+			if(student.getEduStep() != null) stt.setEduStep(student.getEduStep());
+			if(student.getEduYear() != null) stt.setEduYear(student.getEduYear());
+			if(student.getEduClass() != null) stt.setEduClass(student.getEduClass());
+			if(student.getDeleteFlag() != null) stt.setDeleteFlag(student.getDeleteFlag());
+			stt.setIsInSchool(1);
+			studentMapper.update(stt);
+			UsersFront  search1 = new UsersFront();
+			search1.setMobile(student.getMobile());
+			UsersFront uff=usersFrontMapper.findUsersFrontByMobile(search1);
+			uff.setUsername(student.getUsername());
+			uff.setPassword(student.getPassword());
+			uff.setMobile(student.getMobile());
+			uff.setEmail(student.getEmail());
+			uff.setVipFlag(0);
+			uff.setStatus(1);
+			uff.setRegistType(2);
+			uff.setSchoolId(student.getSchoolId());
+			uff.setRegistTime(new Date());
+			usersFrontMapper.update(uff);
+		}else if(null!=ufft){
+			ufft.setPassword(student.getPassword());
+			ufft.setMobile(student.getMobile());
+			ufft.setEmail(student.getEmail());
+			ufft.setVipFlag(0);
+			ufft.setStatus(1);
+			ufft.setRegistType(2);
+			ufft.setSchoolId(student.getSchoolId());
+			ufft.setRegistTime(new Date());
+			usersFrontMapper.update(ufft);
+			Student sts=studentMapper.findByUserId(ufft.getId());
+			if(student.getMobile() != null) sts.setMobile(student.getMobile());
+			if(student.getName() != null) sts.setName(student.getName());
+			if(student.getIdentityTypeCode() != null) sts.setIdentityTypeCode(student.getIdentityTypeCode());
+			if(student.getIdentityId() != null) sts.setIdentityId(student.getIdentityId());
+			if(student.getEmail() != null) sts.setEmail(student.getEmail());
+			if(student.getQq() != null) sts.setQq(student.getQq());
+			if(student.getEmergencyContact() != null) sts.setEmergencyContact(student.getEmergencyContact());
+			if(student.getEmergencyPhone() != null) sts.setEmergencyPhone(student.getEmergencyPhone());
+			if(student.getCompanyId() != null) sts.setCompanyId(student.getCompanyId());
+			if(student.getSchoolId() != null) sts.setSchoolId(student.getSchoolId());
+			if(student.getEduArea() != null) sts.setEduArea(student.getEduArea());
+			if(student.getEduSchool() != null) sts.setEduSchool(student.getEduSchool());
+			if(student.getEduStep() != null) sts.setEduStep(student.getEduStep());
+			if(student.getEduYear() != null) sts.setEduYear(student.getEduYear());
+			if(student.getEduClass() != null) sts.setEduClass(student.getEduClass());
+			if(student.getDeleteFlag() != null) sts.setDeleteFlag(student.getDeleteFlag());
+			sts.setIsInSchool(1);
+			studentMapper.update(sts);
+		}else{
+			String mobile = student.getMobile();
+			String identityTypeCode = student.getIdentityTypeCode();
+			String identityId = student.getIdentityId();
+			String name = student.getName();
+			String email = student.getEmail();
+			String username=student.getUsername();
+			String emergencyPhone = student.getEmergencyPhone();
+			if(null!=student.getAddFlag() && "username".equals(student.getAddFlag())){
+				// 判断是否为身份证
+				if ("ID_IDCARD".equals(identityTypeCode)) {
+					if (!(identityId == null || "".equals(identityId))) {
+						// 判断是否含有非数字
+						if (!identityId.matches("(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])")) {
+							return "0302";
+						}
+						// 判断字符串是否为15或者18
+						if (identityId.trim().length() != 15
+								&& identityId.trim().length() != 18) {
+							return "0302";
+						}
+						Student result = studentMapper.queryByIdentityId(student);
+						// 判断身份证号是否已存在
+						if (result != null) {
+							return "0303";
+						}
 					}
 				}
-			}
-			// 判断姓名是否合法
-			if (name == null || "".equals(name)) {
-				return "0201";
-			}
-			// 判断email
-			if (!(email == null || "".equals(email))) {
-				if (!ParameterUtil.isEmail(email)) {
-					return "0402";
+				// 判断姓名是否合法
+				if (name == null || "".equals(name)) {
+					return "0201";
 				}
-			}
-			// 判断紧急联系人电话
-			if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
-				// 判断紧急手机号格式是否正确
-				if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
-					return "0702";
+				// 判断email
+				if (!(email == null || "".equals(email))) {
+					if (!ParameterUtil.isEmail(email)) {
+						return "0402";
+					}
 				}
-			}
-			Date nowTime = new Date();
-			student.setCreateTime(nowTime);
-			student.setDeleteFlag(0);
-			//如果该手机号已经在前台注册，则直接关联此前台账号
-			UsersFront uf=new UsersFront();
-			uf.setUsername(student.getUsername());
-			uf.setCompanyId(student.getCompanyId());
-			UsersFront f=usersFrontMapper.findUsersFrontByUsername(uf);
-			if(f!=null){
-				student.setUserId(f.getId());
-				Student st=studentMapper.queryStuInfoByUserId(student);
-				if(null==st){
+				// 判断紧急联系人电话
+				if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
+					// 判断紧急手机号格式是否正确
+					if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
+						return "0702";
+					}
+				}
+				Date nowTime = new Date();
+				student.setCreateTime(nowTime);
+				student.setDeleteFlag(0);
+				//如果该手机号已经在前台注册，则直接关联此前台账号
+				UsersFront uf=new UsersFront();
+				uf.setUsername(student.getUsername());
+				uf.setCompanyId(student.getCompanyId());
+				UsersFront f=usersFrontMapper.findUsersFrontByUsername(uf);
+				if(f!=null){
+					student.setUserId(f.getId());
+					Student st=studentMapper.queryStuInfoByUserId(student);
+					if(null==st){
+						studentMapper.insert(student);
+					}
+				}else{
 					studentMapper.insert(student);
 				}
-			}else{
-				studentMapper.insert(student);
-			}
-			//如果根据手机号查询不到前台账号，则新建前台账号并绑定
-			if (isUserFront && f==null && student!=null) {
-					UsersFront usersFront = new UsersFront();
-					if(null!=username && !"".equals(username)){
-						usersFront.setUsername(username.toLowerCase());
-					}
-					usersFront.setPassword(student.getPassword());
-					usersFront.setMobile(mobile);
-					usersFront.setEmail(student.getEmail());
-					usersFront.setCompanyId(student.getCompanyId());
-					usersFront.setVipFlag(0);
-					usersFront.setStatus(1);
-					usersFront.setRegistType(2);
-					usersFront.setSchoolId(student.getSchoolId());
-					usersFront.setRegistTime(nowTime);
-//					UsersFront usersFrontExists=usersFrontMapper.findUsersFrontByUsername(usersFront);
-//					if(usersFrontExists!=null){
+				//如果根据手机号查询不到前台账号，则新建前台账号并绑定
+				if (isUserFront && f==null && student!=null) {
+						UsersFront usersFront = new UsersFront();
+						if(null!=username && !"".equals(username)){
+							usersFront.setUsername(username.toLowerCase());
+						}
+						usersFront.setPassword(student.getPassword());
+						usersFront.setMobile(mobile);
+						usersFront.setEmail(student.getEmail());
+						usersFront.setCompanyId(student.getCompanyId());
+						usersFront.setVipFlag(0);
+						usersFront.setStatus(1);
+						usersFront.setRegistType(2);
+						usersFront.setSchoolId(student.getSchoolId());
+						usersFront.setRegistTime(nowTime);
+//						UsersFront usersFrontExists=usersFrontMapper.findUsersFrontByUsername(usersFront);
+//						if(usersFrontExists!=null){
 
-//					}else{
-						usersFrontMapper.insert(usersFront);
-//					}
-					student.setUserId(usersFront.getId());
-					studentMapper.update(student);
-					return "success";
-			}
-		}else{
-			// 判断手机号是否为空
-			if (mobile == null || "".equals(mobile)) {
-				return "0101";
+//						}else{
+							usersFrontMapper.insert(usersFront);
+//						}
+						student.setUserId(usersFront.getId());
+						studentMapper.update(student);
+						return "success";
+				}
 			}else{
-				// 判断手机号格式是否正确
-				if (!ParameterUtil.isMobilePhone(mobile)) {
-					return "0102";
+				// 判断手机号是否为空
+				if (mobile == null || "".equals(mobile)) {
+					return "0101";
+				}else{
+					// 判断手机号格式是否正确
+					if (!ParameterUtil.isMobilePhone(mobile)) {
+						return "0102";
+					}
 				}
-			}
-			
-			// 判断是否为身份证
-			if ("ID_IDCARD".equals(identityTypeCode)) {
-				if (!(identityId == null || "".equals(identityId))) {
-//					return "0301";
 				
-					// 判断是否含有非数字
-					if (!identityId.matches("(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])")) {
-						return "0302";
-					}
-					// 判断字符串是否为15或者18
-					if (identityId.trim().length() != 15
-							&& identityId.trim().length() != 18) {
-						return "0302";
-					}
-					Student result = studentMapper.queryByIdentityId(student);
-					// 判断身份证号是否已存在
-					if (result != null) {
-						return "0303";
+				// 判断是否为身份证
+				if ("ID_IDCARD".equals(identityTypeCode)) {
+					if (!(identityId == null || "".equals(identityId))) {
+//						return "0301";
+					
+						// 判断是否含有非数字
+						if (!identityId.matches("(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])")) {
+							return "0302";
+						}
+						// 判断字符串是否为15或者18
+						if (identityId.trim().length() != 15
+								&& identityId.trim().length() != 18) {
+							return "0302";
+						}
+						Student result = studentMapper.queryByIdentityId(student);
+						// 判断身份证号是否已存在
+						if (result != null) {
+							return "0303";
+						}
 					}
 				}
-			}
-			// 判断手机号是否已经存在
-			if (studentMapper.queryByMobile(student) != null) {
-				return "0103";
-			}
-			// 判断姓名是否合法
-			if (name == null || "".equals(name)) {
-				return "0201";
-			}
-//			if (!name.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
-//				return "0202";
-//			}
-			// 判断email
-			if (!(email == null || "".equals(email))) {
-				if (!ParameterUtil.isEmail(email)) {
-					return "0402";
+				// 判断手机号是否已经存在
+				if (studentMapper.queryByMobile(student) != null) {
+					return "0103";
 				}
-			}
-			
-			// 判断紧急联系人
-//			if (!(emergencyName == null || "".equals(emergencyName))) {
-//				if (!emergencyName.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
-//					return "0602";
+				// 判断姓名是否合法
+				if (name == null || "".equals(name)) {
+					return "0201";
+				}
+//				if (!name.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
+//					return "0202";
 //				}
-//			}
-			
-			// 判断紧急联系人电话
-			if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
-				// 判断紧急手机号格式是否正确
-				if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
-					return "0702";
-				}
-			}
-			Date nowTime = new Date();
-			student.setCreateTime(nowTime);
-			student.setDeleteFlag(0);
-			//如果该手机号已经在前台注册，则直接关联此前台账号
-			UsersFront uf=new UsersFront();
-			uf.setMobile(student.getMobile());
-			uf.setCompanyId(student.getCompanyId());
-			UsersFront f=usersFrontMapper.findUsersFrontByMobile(uf);
-			if(f!=null){
-				student.setUserId(f.getId());
-			}
-			studentMapper.insert(student);
-			//如果根据手机号查询不到前台账号，则新建前台账号并绑定
-			if (isUserFront && f==null && student!=null) {
-					UsersFront usersFront = new UsersFront();
-					if(null!=username && !"".equals(username)){
-						usersFront.setUsername(username);
+				// 判断email
+				if (!(email == null || "".equals(email))) {
+					if (!ParameterUtil.isEmail(email)) {
+						return "0402";
 					}
-					usersFront.setPassword(student.getPassword());
-					usersFront.setMobile(mobile);
-					usersFront.setEmail(student.getEmail());
-					usersFront.setCompanyId(student.getCompanyId());
-					usersFront.setVipFlag(0);
-					usersFront.setStatus(1);
-					usersFront.setRegistType(2);
-					usersFront.setSchoolId(student.getSchoolId());
-					usersFront.setRegistTime(nowTime);
-					//2017-01-17 目前findUsersFrontByMobile有问题不是only by mobile
-//					UsersFront usersFrontExists=usersFrontMapper.findUsersFrontByMobile(usersFront);
-//					if(usersFrontExists!=null){
-//						usersFront.setId(usersFrontExists.getId());
-//						usersFrontMapper.update(usersFront);
-//					}else{
-						usersFrontMapper.insert(usersFront);
+				}
+				
+				// 判断紧急联系人
+//				if (!(emergencyName == null || "".equals(emergencyName))) {
+//					if (!emergencyName.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
+//						return "0602";
 //					}
-					student.setUserId(usersFront.getId());
-					studentMapper.update(student);
-					return "success";
-			}
+//				}
+				
+				// 判断紧急联系人电话
+				if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
+					// 判断紧急手机号格式是否正确
+					if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
+						return "0702";
+					}
+				}
+				Date nowTime = new Date();
+				student.setCreateTime(nowTime);
+				student.setDeleteFlag(0);
+				//如果该手机号已经在前台注册，则直接关联此前台账号
+				UsersFront uf=new UsersFront();
+				uf.setMobile(student.getMobile());
+				uf.setCompanyId(student.getCompanyId());
+				UsersFront f=usersFrontMapper.findUsersFrontByMobile(uf);
+				if(f!=null){
+					student.setUserId(f.getId());
+				}
+				studentMapper.insert(student);
+				//如果根据手机号查询不到前台账号，则新建前台账号并绑定
+				if (isUserFront && f==null && student!=null) {
+						UsersFront usersFront = new UsersFront();
+						if(null!=username && !"".equals(username)){
+							usersFront.setUsername(username);
+						}
+						usersFront.setPassword(student.getPassword());
+						usersFront.setMobile(mobile);
+						usersFront.setEmail(student.getEmail());
+						usersFront.setCompanyId(student.getCompanyId());
+						usersFront.setVipFlag(0);
+						usersFront.setStatus(1);
+						usersFront.setRegistType(2);
+						usersFront.setSchoolId(student.getSchoolId());
+						usersFront.setRegistTime(nowTime);
+						//2017-01-17 目前findUsersFrontByMobile有问题不是only by mobile
+//						UsersFront usersFrontExists=usersFrontMapper.findUsersFrontByMobile(usersFront);
+//						if(usersFrontExists!=null){
+//							usersFront.setId(usersFrontExists.getId());
+//							usersFrontMapper.update(usersFront);
+//						}else{
+							usersFrontMapper.insert(usersFront);
+//						}
+						student.setUserId(usersFront.getId());
+						studentMapper.update(student);
+						return "success";
+				}
+			}	
 		}
+		
 		return "success";
 	}
 
@@ -1511,6 +1625,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		return studentMapper.findStudentCountOnlyByMobile(search);
 	}
 
+
 	@Override
 	public List<StudentImportVo> queryAllStudentsByCompanyId(Integer companyId) {
 		return studentMapper.queryAllStudentsByCompanyId(companyId);
@@ -1521,153 +1636,98 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	public List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId) {
 		
 		List<Integer> studentIds = new ArrayList<Integer>();
-		
-		/* 机构注册方式 */
-		String flag = getCompanyRegisterFlag(students.get(0).getCompanyId());
-		
-		/* 机构学员 */
-		StudentAll4CompanyVo allStudents = getCompanyAllStudents(students.get(0).getCompanyId());
-		
 		Student s = null;
 		UsersFront usersFront = null;
-		
+		Date date = new Date();
 		for (StudentImportVo student : students) {
-			Date date = new Date();
-			//判断是否为更新
-			String updateFlag = "no";
-			switch (flag) {
-				case "mobile":
-					if(allStudents.getMobiles().contains(student.getMobile())){
-						updateFlag = "mobile";
-					}
-					break;
-				case "username":
-					if(allStudents.getUsernames().contains(student.getUsername())){
-						updateFlag = "username";
-					}
-					break;
-				case "all":
-					if(allStudents.getMobiles().contains(student.getMobile())){
-						updateFlag = "mobile";
-						break;
-					}
-					if(allStudents.getUsernames().contains(student.getUsername())){
-						updateFlag = "username";
-					}
-					break;
-				default:
-					break;
-			}
-			//选择
-			switch (updateFlag) {
-				case "no": // 没有数据
-					/* 生成student */
-					s = new Student();
-					if(student.getMobile() != null) s.setMobile(student.getMobile());
-					if(student.getName() != null) s.setName(student.getName());
-					if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
-					if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
-					if(student.getEmail() != null) s.setEmail(student.getEmail());
-					if(student.getQq() != null) s.setQq(student.getQq());
-					if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
-					if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
-					if(student.getCompanyId() != null) s.setCompanyId(student.getCompanyId());
-					if(student.getSchoolId() != null) s.setSchoolId(student.getSchoolId());
-					if(student.getDeleteFlag() != null) s.setDeleteFlag(student.getDeleteFlag());
-					if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
-					if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
-					s.setCreateTime(date);
-					s.setCreator(userId);
-					s.setDeleteFlag(0);
-					
-					this.studentMapper.insert(s);
-					
-					/* 生成usersfront */
-					usersFront = new UsersFront();
-					if(student.getUsername() != null) usersFront.setUsername(student.getUsername().toLowerCase());
-					if(student.getPassword() != null) usersFront.setPassword(student.getPassword());
-					if(student.getMobile() != null) usersFront.setMobile(student.getMobile());
-					if(student.getEmail() != null) usersFront.setEmail(student.getEmail());
-					if(student.getCompanyId() != null) usersFront.setCompanyId(student.getCompanyId());
-					if(student.getSchoolId() != null) usersFront.setSchoolId(student.getSchoolId());
-					usersFront.setVipFlag(0);
-					usersFront.setStatus(1);
-					usersFront.setRegistType(2);
-					usersFront.setRegistTime(date);
-					
-					this.usersFrontMapper.insert(usersFront);
-					
-					/* 更新student */
-					s.setUserId(usersFront.getId());
-					this.studentMapper.update(s);
-					
-					studentIds.add(s.getId());
-					break;
-				case "mobile": // 手机重复
-					SelectStudentOrUsersfrontVo search = new SelectStudentOrUsersfrontVo();
-					search.setMobile(student.getMobile());
-					search.setCompanyId(student.getCompanyId());
-					/* 更新student */
-					s = this.studentMapper.findStudentOnlyByMobile(search); 
-					if(student.getName() != null) s.setName(student.getName());
-					if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
-					if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
-					if(student.getEmail() != null) s.setEmail(student.getEmail());
-					if(student.getQq() != null) s.setQq(student.getQq());
-					if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
-					if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
-					if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
-					if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
-					s.setUpdateTime(date);
-					s.setUpdator(userId);
-					this.studentMapper.update(s);
-					
-					usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);
-					if(usersFront == null){
-						/* 生成usersfront */
-						usersFront = new UsersFront();
-						if(student.getUsername() != null) usersFront.setUsername(student.getUsername());
-						if(student.getPassword() != null) usersFront.setPassword(student.getPassword());
-						if(student.getMobile() != null) usersFront.setMobile(student.getMobile());
-						if(student.getEmail() != null) usersFront.setEmail(student.getEmail());
-						if(student.getCompanyId() != null) usersFront.setCompanyId(student.getCompanyId());
-						if(student.getSchoolId() != null) usersFront.setSchoolId(student.getSchoolId());
-						usersFront.setVipFlag(0);
-						usersFront.setStatus(1);
-						usersFront.setRegistType(2);
-						usersFront.setRegistTime(date);
-						
-						this.usersFrontMapper.insert(usersFront);
-						
-						/* 更新student */
-						s.setUserId(usersFront.getId());
-						this.studentMapper.update(s);
-					}
-					studentIds.add(s.getId());
-					break;
-				case "username": //用户名重复
-					boolean saveOk = false; //判断是否可以更新手机号
+			if( student.getUpdateB()==0){
+				//新增学生集合
+				s = new Student();
+				if(student.getMobile() != null) s.setMobile(student.getMobile());
+				if(student.getName() != null) s.setName(student.getName());
+				if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
+				if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
+				if(student.getEmail() != null) s.setEmail(student.getEmail());
+				if(student.getQq() != null) s.setQq(student.getQq());
+				if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
+				if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
+				if(student.getCompanyId() != null) s.setCompanyId(student.getCompanyId());
+				if(student.getSchoolId() != null) s.setSchoolId(student.getSchoolId());
+				if(student.getEduArea() != null) s.setEduArea(student.getEduArea());
+				if(student.getEduSchool() != null) s.setEduSchool(student.getEduSchool());
+				if(student.getEduStep() != null) s.setEduStep(student.getEduStep());
+				if(student.getEduYear() != null) s.setEduYear(student.getEduYear());
+				if(student.getEduClass() != null) s.setEduClass(student.getEduClass());
+				if(student.getDeleteFlag() != null) s.setDeleteFlag(student.getDeleteFlag());
+				if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
+				if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
+				s.setCreateTime(date);
+				s.setCreator(userId);
+				s.setDeleteFlag(0);
+				s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
+				s.setEduIdentity(0);
+				this.studentMapper.insert(s);
+				
+				/* 生成usersfront */
+				usersFront = new UsersFront();
+				if(student.getUsername() != null) usersFront.setUsername(student.getUsername().toLowerCase());
+				if(student.getPassword() != null) usersFront.setPassword(student.getPassword());
+				if(student.getMobile() != null) usersFront.setMobile(student.getMobile());
+				if(student.getEmail() != null) usersFront.setEmail(student.getEmail());
+				if(student.getCompanyId() != null) usersFront.setCompanyId(student.getCompanyId());
+				if(student.getSchoolId() != null) usersFront.setSchoolId(student.getSchoolId());
+				usersFront.setVipFlag(0);
+				usersFront.setStatus(1);
+				usersFront.setRegistType(2);
+				usersFront.setRegistTime(date);
+				
+				this.usersFrontMapper.insert(usersFront);
+				
+				/* 更新student */
+				s.setUserId(usersFront.getId());
+				this.studentMapper.update(s);
+				
+				studentIds.add(s.getId());
+			}else{
+
+				//更新学生
+				SelectStudentOrUsersfrontVo search = new SelectStudentOrUsersfrontVo();
+				search.setMobile(student.getMobile());
+				search.setCompanyId(student.getCompanyId());
+				s = new Student();
+				//先看时候是电话重复  如果电话重复 直接更新学生及学生账号
+				s = this.studentMapper.findStudentOnlyByMobile(search); 
+				if(null!=s){
+				if(student.getMobile() != null) s.setMobile(student.getMobile());
+				if(student.getName() != null) s.setName(student.getName());
+				if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
+				if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
+				if(student.getEmail() != null) s.setEmail(student.getEmail());
+				if(student.getQq() != null) s.setQq(student.getQq());
+				if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
+				if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
+				if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
+				if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
+				s.setUpdateTime(date);
+				s.setUpdator(userId);
+				s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
+				this.studentMapper.update(s);
+				usersFront =new UsersFront();
+				usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);
+				usersFront.setEmail(student.getEmail());
+				usersFront.setQq(student.getQq());
+				usersFront.setUsername(student.getUsername());
+				usersFront.setPassword(student.getPassword());
+				usersFront.setStatus(1);
+				this.usersFrontMapper.update(usersFront);
+				}else{
+					//不是手机号重复   而是账号重复       通过账号去修改学生信息  在修改账号信息
 					SelectStudentOrUsersfrontVo search1 = new SelectStudentOrUsersfrontVo();
-					if(student.getMobile()!=null) {
-						search1.setMobile(student.getMobile());
-					}
 					search1.setUsername(student.getUsername());
-					search1.setCompanyId(student.getCompanyId());
 					usersFront = this.usersFrontMapper.findUsersFrontOnlyByUsername(search1);
-					if(usersFront.getMobile() == null){
-						Integer count = this.studentMapper.findStudentCountOnlyByMobile(search1);
-						if(count <= 0){
-							saveOk = true;
-						}
-					}
-					
-					/* 更新usersfront */
-					if(saveOk && student.getMobile() != null) usersFront.setMobile(student.getMobile());
-					this.usersFrontMapper.update(usersFront);
-					
 					s = this.studentMapper.findStudentOnlyByUserId(usersFront.getId());
 					if(s != null){
-						/* 更新student */
+						if(student.getMobile() != null) s.setMobile(student.getMobile());
 						if(student.getName() != null) s.setName(student.getName());
 						if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
 						if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
@@ -1679,80 +1739,67 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 						if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
 						s.setUpdateTime(date);
 						s.setUpdator(userId);
+						s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
 						this.studentMapper.update(s);
-					}else{
-						/* 生成student */
-						s = new Student();
-						if(saveOk && student.getMobile() != null) s.setMobile(student.getMobile());
-						if(student.getName() != null) s.setName(student.getName());
-						if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
-						if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
-						if(student.getEmail() != null) s.setEmail(student.getEmail());
-						if(student.getQq() != null) s.setQq(student.getQq());
-						if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
-						if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
-						if(student.getCompanyId() != null) s.setCompanyId(student.getCompanyId());
-						if(student.getSchoolId() != null) s.setSchoolId(student.getSchoolId());
-						if(student.getDeleteFlag() != null) s.setDeleteFlag(student.getDeleteFlag());
-						if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
-						if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
-						s.setCreateTime(date);
-						s.setCreator(userId);
-						s.setDeleteFlag(0);
 						
-						this.studentMapper.insert(s);
+						usersFront.setEmail(student.getEmail());
+						usersFront.setQq(student.getQq());
+						usersFront.setUsername(student.getUsername());
+						usersFront.setPassword(student.getPassword());
+						usersFront.setStatus(1);
+						this.usersFrontMapper.update(usersFront);
 					}
-					studentIds.add(s.getId());
-					break;
-				default:
-					break;
+				}
+				studentIds.add(s.getId());
 			}
 			
 		}
+			
+			
 		
 		return studentIds;
 	}
 	
-	/*  
-	 *	机构注册方式
-	 */
-	private String getCompanyRegisterFlag(Integer companyId){
-		
-		CompanyRegisterConfig crc = new CompanyRegisterConfig();
-		crc.setCompanyId(companyId);
-		crc = this.companyRegisterConfigMapper.queryByCompanyId(crc);
-		
-		if( crc.getMobileFlag() != null && crc.getMobileFlag() == 1 && crc.getUsernameFlag() != null && crc.getUsernameFlag() == 1 ){
-			return "all";
-		}
-		if( crc.getMobileFlag() != null && crc.getMobileFlag() == 1 ){
-			return "mobile";
-		}
-		if( crc.getUsernameFlag() != null && crc.getUsernameFlag() == 1 ){
-			return "username";
-		}
-		
-		return "mobile";	/* 默认手机注册 */
-	}
-	
-	/*
-	 * 机构所有学员
-	 */
-	private StudentAll4CompanyVo getCompanyAllStudents(Integer companyId){
-		
-		List<StudentImportVo> studentslist = this.studentMapper.queryAllStudentsByCompanyId(companyId);
-		
-		StudentAll4CompanyVo allStudents = new StudentAll4CompanyVo();
-		for (int i = 0; i < studentslist.size(); i++) {
-			if( studentslist.get(i).getMobile() != null ){
-				allStudents.getMobiles().add(studentslist.get(i).getMobile());
-			}
-			if( studentslist.get(i).getUsername() != null ){
-				allStudents.getUsernames().add(studentslist.get(i).getUsername());
-			}
-		}
-		return allStudents;
-	}
+//	/*  
+//	 *	机构注册方式
+//	 */
+//	private String getCompanyRegisterFlag(Integer companyId){
+//		
+//		CompanyRegisterConfig crc = new CompanyRegisterConfig();
+//		crc.setCompanyId(companyId);
+//		crc = this.companyRegisterConfigMapper.queryByCompanyId(crc);
+//		
+//		if( crc.getMobileFlag() != null && crc.getMobileFlag() == 1 && crc.getUsernameFlag() != null && crc.getUsernameFlag() == 1 ){
+//			return "all";
+//		}
+//		if( crc.getMobileFlag() != null && crc.getMobileFlag() == 1 ){
+//			return "mobile";
+//		}
+//		if( crc.getUsernameFlag() != null && crc.getUsernameFlag() == 1 ){
+//			return "username";
+//		}
+//		
+//		return "mobile";	/* 默认手机注册 */
+//	}
+//	
+//	/*
+//	 * 机构所有学员
+//	 */
+//	private StudentAll4CompanyVo getCompanyAllStudents(Integer companyId){
+//		
+//		List<StudentImportVo> studentslist = this.studentMapper.queryAllStudentsByCompanyId(companyId);
+//		
+//		StudentAll4CompanyVo allStudents = new StudentAll4CompanyVo();
+//		for (int i = 0; i < studentslist.size(); i++) {
+//			if( studentslist.get(i).getMobile() != null ){
+//				allStudents.getMobiles().put(studentslist.get(i).getMobile(), studentslist.get(i));
+//			}
+//			if( studentslist.get(i).getUsername() != null ){
+//				allStudents.getUsernames().put(studentslist.get(i).getUsername(), studentslist.get(i));
+//			}
+//		}
+//		return allStudents;
+//	}
 	
 	@Override
 	public List<StudentListVo> queryStudentsListByIds(String ids) {
@@ -1779,4 +1826,25 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		return data;
 	}
 	
+	@Override
+	public List<EduMasterClass> findClassByTeacherId(EduMasterClass ets,String eduSchool) {
+		ets.setEduSchool(eduSchool);
+		return studentMapper.findClassByTeacherId(ets);
+	}
+	
+	@Override
+	public List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets) {
+		return studentMapper.findSubjectClassByTeacherId(ets);
+	}
+
+	@Override
+	public List<EduMasterClass> findClassByRKTeacherId(Integer id) {
+		return studentMapper.findClassByRKTeacherId(id);
+	}
+
+	@Override
+    public List<SysConfigDict> findEduAreaList() {
+		
+		return studentMapper.sysConfigDict();
+    }
 }

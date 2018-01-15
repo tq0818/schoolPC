@@ -39,6 +39,10 @@
 	            	number:true,
 	            	max:99999
 	            },
+	            publicPrice:{
+	            	number:true,
+	            	max:99999
+	            },
 	            baseNum:{
 	            	required: true,
 	            	digits:true,
@@ -89,6 +93,10 @@
 	            },
 	            realPrice:{
 	            	required:true,
+	            	number:true,
+	            	max:99999
+	            }, 
+	            publicPrice:{
 	            	number:true,
 	            	max:99999
 	            },
@@ -158,7 +166,7 @@
 					}else{
 						$(this).addClass("btn-success");
 					}
-				});
+				});				
 
 				$(".prices").bind("keyup",function(event){
 	    			//先把非数字的都替换掉，除了数字和.
@@ -204,6 +212,19 @@
 			        $(this).val(tmptxt.replace(/\D/g,''));
 			    }).css("ime-mode", "disabled");
 
+				//公开课程价格
+				$("input[name='isPublic']").on('click',function(){
+					var ispublic=$(this).val();
+					if('1'==ispublic){
+						$(".publicPrice").removeClass("none");
+						$("#discriblePub").show();
+					}else{
+						$(".publicPrice").addClass("none");
+						$("#publicPrice").val(null);
+						$("#discriblePub").hide();
+					}
+				});			
+				
 	    		Form.queryCourseSetting();
 	    		this.queryCourseProtocolConfig();
 			},
@@ -421,6 +442,7 @@
 			    		$(".loading-bg").hide();
 			    	}
 			    }else{
+			    	
                     var tId=$("#itemOneCodeList").val();
                     if(tId==""||tId==null){
                         $.msg("请选择分类");
@@ -437,7 +459,14 @@
                         $.msg("请选择学科");
                         return;
                     }
-			    	$("#addFormOne").validate(rules);
+                    $("#addFormOne").validate(rules);
+                    var ispublic=$("input[name='isPublic']:checked").val();
+                    var publicPrice=$("#publicPrice").val();
+                    if('1'==ispublic&&!publicPrice){
+                    	$.msg("请设置公开课程价格!");
+                        return;
+                    }
+			    	
 			    	if($("#addFormOne").valid()){
 			    		$.ajax({
 			    			url: rootPath+"/simpleClasses/checkClassTypeName",

@@ -39,6 +39,7 @@
 <form action="<%=rootPath %>/classStu/queryData" id="DataForm" method="post">
 	<input type="hidden" value="${classType.id }" id="stuClassTypeId" name="id"/>
 	<input type="hidden" value="${lable }" id="lableTypes" name="lable"/>
+	<input type="hidden" value="2" id="keche" name="keche"/>
 	<input type="hidden" id="stuMobiles" value="" name="stuMobiles"/>
 </form>
 
@@ -49,7 +50,7 @@
 
 		    <div class="mainbackground nopadding" style="min-height: 546px;">
 		        <div class="heading">
-		            <h2 class="h5">导入用户</h2>
+		            <h2 class="h5">导入用户2</h2>
 		            <span class="line"></span>
 		        </div>
 		        <div class="main-content">
@@ -95,8 +96,8 @@
 		          		<div>
 		          			<span>
 		          				<a href="javascript:;" class="btn btn-primary chooseFile none">重新选择</a>
-		          				<a href="javascript:;" mark="update" class="btn btn-primary allupdate student-import none">全部更新并导入</a>
-		          				<a href="javascript:;" mark="insert" class="btn btn-primary newinsert student-import none">只导入新增学员</a>
+		          			<!-- 	<a href="javascript:;" mark="update" class="btn btn-primary allupdate student-import none">全部更新并导入</a>
+		          				<a href="javascript:;" mark="insert" class="btn btn-primary newinsert student-import none">只导入新增学员</a> -->
 		          				<a href="javascript:;" mark="insert" class="btn btn-primary chooseInsert student-import none">确认导入</a>
 		          			</span>
 		          		</div>

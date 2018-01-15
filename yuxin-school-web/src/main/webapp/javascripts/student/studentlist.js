@@ -215,6 +215,40 @@
         	$("#selectCounts").val($("#selectCount").val());
         	student.search();
         },
+        changeLevel:function(obj){
+        	var levelCode=$(obj).val();
+        	$("#EduClasses").find("option").each(function(){
+        		var optionClass=$(this).attr("class");
+        		$(this).attr('selected',false);
+        		if(optionClass==''||optionClass==undefined)
+        			return;
+        	});
+        	$("#EduYears").find("option").each(function(){
+        		var optionClass=$(this).attr("class");
+        		$(this).attr('selected',false);
+        		if(optionClass==''||optionClass==undefined)
+        			return;
+        		if(levelCode==optionClass){
+        			$(this).attr('style','display:block');
+        		}else{
+        			$(this).attr('style','display:none');
+        		}
+        	});
+        },
+        changeGrade:function(obj){
+        	var gradeCode=$(obj).val();
+        	$("#EduClasses").find("option").each(function(){
+        		var optionClass=$(this).attr("class");
+        		$(this).attr('selected',false);
+        		if(optionClass==''||optionClass==undefined)
+        			return;
+        		if(gradeCode==optionClass){
+        			$(this).attr('style','display:block');
+        		}else{
+        			$(this).attr('style','display:none');
+        		}
+        	});
+        },
         search: function (page) {
             var $this = this;
             var data = {};
@@ -224,6 +258,7 @@
             data.identityId = $("#sfzh").val();
             data.startTime = $(".from").val();
             data.endTime = $(".to").val();
+            data.isStu ="1";
             data.status = $("#registStatus").val();// 注册状态
             data.registType = $("#registMethods").val();// 注册方式
             data.paymaterCount = $("#payStatus").val();// 报名状态
@@ -234,6 +269,9 @@
 			data.groupTwoId=$("#studentG2").val();
             data.eduArea=$("#eduArea").val();
             data.eduSchool=$("#eduSchool").val();
+            data.eduStep=$("#EduSteps").val();
+            data.eduYear=$("#EduYears").val();
+            data.eduClass=$("#EduClasses").val();
             data.page = page ? page : 1;
             data.pageSize=$("#selectCounts").val() || 10;
             data.proxyOrgName = $('#proxyOrgName').val();
@@ -278,7 +316,8 @@
                         $(".loading-bg").show();
                     },
                     success: function (jsonData) {
-                       
+                       var isArea=$("#eduArea").val();
+                       var roleType=$("#roleType").val();
                         if (jsonData.data.length == 0) {
                         	if(userorg_roleopenflag == 1 && proxyOrgRole == 1){
 	                            $(".user-list")
@@ -292,6 +331,7 @@
 	                                '<tr><td colspan="14">没有查找到数据</td></tr>');
                         	}
                         }
+                        var html;
                         $.each(jsonData.data,function (i, stu) {
                             var eduIdentity = null;
                             if(stu.teacherFlag!=null){
@@ -302,10 +342,8 @@
                             if(eduIdentity==null){
                                 eduIdentity = (stu.eduIdentity!=null ? (stu.eduIdentity==0?"学生":"普通用户"): "")
                             }
-                                $(".user-list")
-                                    .find("table")
-                                    .append(
-                                    '<tr data-buy="'+(stu.paymaterCount>0)+'">'
+                                
+                                    html+= '<tr data-buy="'+(stu.paymaterCount>0)+'">'
                                     + '<td>'
                                     + '<input type="checkbox" class="signUpMany" uName="'+(stu.username?stu.username:"")+'" value="' + (stu.mobile?stu.mobile:"") + '">'
                                     + '</td>'
@@ -355,17 +393,21 @@
                                     + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'
                                         : '未报名')
-                                    + '</td>'
-                                    + '<td class="slink">'
+                                    + '</td>';
+                                    if(roleType==1 || roleType==0 || roleType==3){
+                                	html+= '<td class="slink">'
                                     + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
                                     + '<a class="studentDetail" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">详情</a>|'
                                     + '<a class="more" href="javascript:void(0);">更多</a>'
                                     + '<ul class="none box">'
                                     + ' <li><a class="updateStudentMsg" stuId="' + stu.id + '" href="javascript:void(0);">修改信息</a></li>'
-                                    +(($("#isDelete").val()==1)?((stu.paymaterCount > 0)?' <li><a class="delStudent" stuId="'+stu.id+'" href="javascript:void(0);">取消报名</a></li>':""):"")
-                                    + (stu.userId ? (stu.status == 1 ? '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">禁用用户</a></li>'
-                                        : '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">启用用户</a></li>' ) : '')
-                                    + (stu.status == 1 ? '<li><a class="changePwd" userId="' + stu.userId + '" href="javascript:void(0);">修改密码</a></li>' : '')
+                                    +(($("#isDelete").val()==1)?((stu.paymaterCount > 0)?' <li><a class="delStudent" stuId="'+stu.id+'" href="javascript:void(0);">取消报名</a></li>':""):"");
+                                    if(isArea==0){
+                                    	 html+= (stu.userId ? (stu.status == 1 ? '<li><a class="updateStatus"  userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">禁用用户</a></li>' : '<li><a class="updateStatus" userId="' + stu.userId + '" status="' + stu.status + '" href="javascript:void(0);">启用用户</a></li>' ) : '');	
+                                    }else{
+                                    	 html+='<li><a class="updateStuStatus" stuId="' + stu.id+ '" href="javascript:void(0);">移除用户</a></li>';	
+                                    }
+                                    html+=  '<li><a class="changePwd" userId="' + stu.userId + '" href="javascript:void(0);">修改密码</a></li>' ;
                                     +(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportStudyRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllCl?stuId='+stu.id+'" target="_blank">学习记录</a></li>' : '')
 									+(stu.status == 1 && stu.paymaterCount > 0 ? '<li><a class="exportExcleRecord" stuId="'+stu.id+'" href="'+rootPath+'/student_detail/openStdentAllExt?stuId='+stu.id+'" target="_blank">做题记录</a></li>' : '')
                                     + ((stu.paymaterCount > 0 && stu.commodityType!='COMMODITY_PACKAGE') ? '<li><a class="toTransaction" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">异动</a></li>' : '')
@@ -377,9 +419,14 @@
                                                 : '')
                                             : '')
                                         : '')
-                                    + '</ul></td>'
-                                    + '</tr>');
+                                    + '</ul></td>';
+                                    }
+                                   html+= '</tr>';
+                                   
                             });
+                        $(".user-list")
+                        .find("table")
+                        .append(html);
                         $("#rowCount").remove();
                         $("#pageNo").remove();
                         $.ajax({
@@ -932,6 +979,7 @@
                         data: {
                             "userId": userId,
                             "status": status,
+                            
                         },
                         dataType: 'json',
                         success: function (jsonData) {
@@ -945,6 +993,29 @@
                             }
                         }
                     });
+                })
+                .on("click", ".updateStuStatus", function () {
+                	var userId = $(this).attr("stuId");
+                	$.ajax({
+                		type: 'post',
+                		url: rootPath + "/student/updateStatus",
+                		data: {
+                			"userId": userId,
+                			"status": null,
+                			
+                		},
+                		dataType: 'json',
+                		success: function (jsonData) {
+                			if (jsonData == "success") {
+                				$.msg("修改成功");
+                				var pageNo=$("#pageNo").val();
+                				student.search(pageNo);
+                			}
+                			else {
+                				$.msg("发生错误，请重新修改");
+                			}
+                		}
+                	});
                 })
                 .on("mouseenter.link", ".slink .more", function () {
                     $(this).nextAll("ul").show();
@@ -1103,16 +1174,10 @@
         addTeacher: function () {
             if ($("#addStudentForm").valid()) {
                 var add_eduIdentity = 1;
-                if($('input:radio[name="addeduIdentity"]:checked').val()=="0"){
-                    add_eduIdentity = 0;
-                }else{
-                    $("#addEduStep").find("option[value='']").prop("selected","true");
-                    //$("#addEduArea").find("option[value='']").attr("selected","true");
-                    $("#addEduSchool").find("option[value='']").prop("selected","true");
-                    $("#addEduYear").find("option[value='']").prop("selected","true");
-                }
-
+                
             	var data={};
+            	data.roleType=$("#roleType").val();
+            	data.isArea=$("#isArea").val();
                 data.name = $("#sName").val();
                 data.sex = $('input:radio[name="sSex"]:checked').val();
                 data.birthday = $("#sBirth").val();
@@ -1134,38 +1199,46 @@
                 data.city=$("#sAddress").find("#city").val();
                 data.county=$("#sAddress").find("#dist").val();
                 data.addressDetail=$("#sAddressDetail").val();
-                data.isUserFront = $('input:radio[name="sUserFront"]:checked').val()==1;
                 data.username=$("#suserName").val();
                 data.groupOneId=$("#studentG1_add").val();
                 data.groupTwoId=$("#studentG2_add").val();
-
-                data.eduIdentity=add_eduIdentity;
                 data.eduArea=$("#addEduArea").val();
-                data.eduSchool=$("#addEduSchool").val();
-                data.eduStep=$("#addEduStep").val();
-                data.eduYear=$("#addEduYear").val();
-                data.eduClass=$("#addEduClass").val();
-
-
-                if(add_eduIdentity==0){
-                    if(data.eduArea==""){
-                        $.msg("请选择所在区域");
-                        return;
-                    }
-                    if(data.eduSchool==""){
-                        $.msg("请选择学校");
-                        return;
-                    }
-                    if(data.eduStep=="" || data.eduYear==""){
-                        $.msg("请选择班级");
-                        return;
+                if(null==$("#addEduArea").val() ||''==$("#addEduArea").val()){
+                	 $.msg("请选择所在区域");
+                    return;
+               }
+                if(data.isArea==1||data.isArea==0){
+                	 data.eduSchool=$("#addEduSchool").val();
+                	 if(null==$("#addEduSchool").val() ||''==$("#addEduSchool").val()){
+                    	 $.msg("请选择学校");
+                         return;
                     }
                 }else{
-                    if(data.eduArea==""){
-                        $.msg("请选择所在区域");
-                        return;
+        			data.eduSchool=$("#addEduSchools").val();
+        			if(null==$("#addEduSchools").val() ||''==$("#addEduSchools").val()){
+                    	 $.msg("请选择学校");
+                         return;
                     }
                 }
+               
+                data.eduStep=$("#addEduStep").val();
+                if(null==$("#addEduStep").val() ||''==$("#addEduStep").val()){
+                	$.msg("请选择学段");
+                	return;
+                }
+                data.eduYear=$("#addEduYear").val();
+                if(null==$("#addEduYear").val() ||''==$("#addEduYear").val()){
+                	$.msg("请选择学年");
+                	return;
+                }
+                data.eduClass=$("#addEduClass").val();
+                if(null==$("#addEduClass").val() ||''==$("#addEduClass").val()){
+                	$.msg("请选择班级");
+                	return;
+                }
+                data.isUserFront = $('input:radio[name="sUserFront"]:checked').val()==1;
+                data.eduIdentity=add_eduIdentity;
+               
                 $(".customData").find(".field").each(function(){
                 	data[$(this).attr("name")]=$(this).val();
                 });

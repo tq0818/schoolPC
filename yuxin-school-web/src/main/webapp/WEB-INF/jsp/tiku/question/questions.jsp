@@ -4,14 +4,17 @@
 <html>
 <head>
 <title>试题</title>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/tiku/question/question.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
+<style>
+    .iconHide{display: none;}
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/tiku/tikuHeader.jsp"></jsp:include>
 <%-- 控制  分页 查询 条数 --%>
 <input type="hidden" value="${cate.id }" id="tikuId"/>
-<input type="hidden" value="5" id="pageSize"/>
+<input type="hidden" value="10" id="pageSize"/>
 <input type="hidden" value="${cate.id }" id="categoryId"/>
 <input type="hidden" value="${subId }" id="subId"/>
 <input type="hidden" value="${status }" id="status"/>
@@ -24,11 +27,26 @@
         <div class="classes-type">
             <p class="c title-p clear">
                 <span class="t-title fl-left margin-t3">科目</span>
-                <span class="t-content fl-left">
-                   	<c:forEach var="s" items="${subList }">
-                   		<a class="btn btn-mini btn-default subject" href="javascript:;" data-id="${s.id }">${s.subjectName }</a>
-                   	</c:forEach>
+                <span class="t-content fl-left iconSubject">
+                	<span class="subList" style="width: auto;">
+	                   	<c:forEach var="s" items="${subList }">
+	                          <a class="btn btn-mini btn-default subject" href="javascript:;" data-id="${s.id }">${s.subjectName }</a>
+	                   	</c:forEach>
+                   	</span>
+                   	
+	               <!--  <span  class="editorbtn "style="width: auto;margin-left: 10px;">
+	                 	<i class="icon iconfont icon-edit">&#xe625;</i>
+	                    <i class="icon iconfont icon-del">&#xe626;</i>
+	                	<a href="javascript:;" class="btn btn-sm btn-success btn-add">添加科目</a>
+	                </span>
+	                <span  class="editorContent" style="width: auto;display: none;margin-left: 10px;">
+	                	<input type="text" maxlength="22" id="subName" style="width: 153px;"/>
+	                    <a href="javascript:;" class="btn btn-mini btn-success btn-save" data-id="">保存</a>
+	                    <a href="javascript:;" class="btn btn-mini btn-default btn-cancle">取消</a>
+	                </span> -->
+	                
                 </span>
+                
             </p>
             <p class="c clear">
                 <span class="t-title">试题状态</span>
@@ -85,5 +103,12 @@
     </div>
     <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
+<script>
+//    科目编辑和删除
+   /*  $('.iconSubject').children('a.subject').hover(function(){
+        $(this).siblings('.iconHide').show();
+    }); */
+
+</script>
 </body>
 </html>

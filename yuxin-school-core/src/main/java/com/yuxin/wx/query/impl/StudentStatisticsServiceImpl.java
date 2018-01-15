@@ -1,20 +1,19 @@
 package com.yuxin.wx.query.impl;
 
-import com.yuxin.wx.api.query.IStudentStatisticsService;
-import com.yuxin.wx.common.PageFinder2;
-import com.yuxin.wx.model.system.SysConfigItemRelation;
-import com.yuxin.wx.model.system.SysConfigTeacher;
-import com.yuxin.wx.model.watchInfo.WatchInfoResult;
-import com.yuxin.wx.query.mapper.StudentStatisticsMapper;
-import com.yuxin.wx.vo.student.StudentListVo;
-import com.yuxin.wx.vo.user.UsersAreaRelation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yuxin.wx.api.query.IStudentStatisticsService;
+import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.watchInfo.WatchInfoResult;
+import com.yuxin.wx.query.mapper.StudentStatisticsMapper;
+import com.yuxin.wx.vo.student.StudentListVo;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 /**
  * Created by Administrator on 2017/6/6.
@@ -36,16 +35,19 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         return studentstatisticsMapper.getAllStudentNumOfComplete(usersAreaRelation);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> getAreaStudentStatistics() {
         return studentstatisticsMapper.getAreaStudentStatistics();
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> getOrgStudentStatisticsByAreaAndStep(Map<String, Object> map) {
         return studentstatisticsMapper.getOrgStudentStatisticsByAreaAndStep(map);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> getOrgStudentStatistics(Map<String, Object> map) {
         return studentstatisticsMapper.getOrgStudentStatistics(map);
@@ -61,21 +63,25 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         return studentstatisticsMapper.getAreaStudentCountList(search);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> getWatchInfoIndex(Map<String, Object> map) {
         return studentstatisticsMapper.watchInfoIndex(map);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> getWatchInfoAll(Map<String, Object> map) {
         return studentstatisticsMapper.watchInfoAll(map);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> watchIndexChartData(Map<String, Object> map) {
         return studentstatisticsMapper.watchIndexChartData(map);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> watchAllChartData(Map<String, Object> map) {
         return studentstatisticsMapper.watchAllChartData(map);
@@ -96,6 +102,36 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
                 search.getPage(), search.getPageSize(), count, data);
         return pageFinder;
     }
+    @Override
+    public PageFinder2<WatchInfoResult> queryNewStudentsWatchInfoList(WatchInfoResult search) {
+    	List<WatchInfoResult> data = studentstatisticsMapper.queryNewStudentsWatchInfoList(search);
+    	for(WatchInfoResult re  : data){
+    		re.setWatchTime(re.getWatchTime()/1000);
+    		int s = (int) (re.getWatchTime() % 60);
+    		int m = (int) (re.getWatchTime() / 60 % 60);
+    		int h = (int) (re.getWatchTime() / 3600);
+    		re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+    	}
+    	Integer count = studentstatisticsMapper.queryNewStudentsWatchInfoListCount(search);
+    	PageFinder2<WatchInfoResult> pageFinder = new PageFinder2<WatchInfoResult>(
+    			search.getPage(), search.getPageSize(), count, data);
+    	return pageFinder;
+    }
+    @Override
+    public PageFinder2<WatchInfoResult> queryRecirdWatchInfoList(WatchInfoResult search) {
+    	List<WatchInfoResult> data = studentstatisticsMapper.queryRecirdWatchInfoList(search);
+    	for(WatchInfoResult re  : data){
+    		re.setWatchTime(re.getWatchTime()/1000);
+    		int s = (int) (re.getWatchTime() % 60);
+    		int m = (int) (re.getWatchTime() / 60 % 60);
+    		int h = (int) (re.getWatchTime() / 3600);
+    		re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+    	}
+    	Integer count = studentstatisticsMapper.queryRecirdWatchInfoListCount(search);
+    	PageFinder2<WatchInfoResult> pageFinder = new PageFinder2<WatchInfoResult>(
+    			search.getPage(), search.getPageSize(), count, data);
+    	return pageFinder;
+    }
 
     @Override
     public List<WatchInfoResult> exportStudentsWatchInfoList(WatchInfoResult search) {
@@ -109,11 +145,28 @@ public class StudentStatisticsServiceImpl implements IStudentStatisticsService{
         }
         return  data;
     }
+    @Override
+    public List<WatchInfoResult> exportNewStudentsWatchInfoList(WatchInfoResult search) {
+    	List<WatchInfoResult> data  =studentstatisticsMapper.exportNewStudentsWatchInfoList(search);
+    	for(WatchInfoResult re  : data){
+    		re.setWatchTime(re.getWatchTime()/1000);
+    		int s = (int) (re.getWatchTime() % 60);
+    		int m = (int) (re.getWatchTime() / 60 % 60);
+    		int h = (int) (re.getWatchTime() / 3600);
+    		re.setStudyTime( h + "小时" + m + "分" + s +"秒");
+    	}
+    	return  data;
+    }
 
     @Override
     public Integer totalPayMasterCount(WatchInfoResult search) {
         return studentstatisticsMapper.totalPayMasterCount(search);
     }
+    @Override
+    public Integer totalNewPayMasterCount(WatchInfoResult search) {
+    	return studentstatisticsMapper.totalNewPayMasterCount(search);
+    }
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Map> getEduYearBySchool(Map<String, Object> map) {
         return studentstatisticsMapper.getEduYearBySchool(map);

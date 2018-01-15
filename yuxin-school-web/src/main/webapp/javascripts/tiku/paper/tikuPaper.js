@@ -14,12 +14,62 @@
 					subId=id;
 					$("#subId").val(subId);
 				}
-			}).click(function(){
+			})
+			/*.click(function(){
 				subId = $(this).attr("subId");
 				$(this).addClass("btn-success").siblings(".subject").removeClass("btn-success");
 				$("#subId").val(subId);
 				Forms.loadAjaxInfo(1,subId, paperType, paperStatus, paperName, tikuId);
+			});*/
+			
+			//点击更换
+		    $("#subList").on("click","a",function(){
+		    	$(this).addClass("btn-success").siblings(".subject").removeClass("btn-success");
+				subId = $(this).attr("subId");
+				$("#subId").val(subId);
+				Forms.loadAjaxInfo(1,subId, paperType, paperStatus, paperName, tikuId);
 			});
+			
+			$(".icon-edit").click(function(){
+		    	var subName=$(".btn-success.subject").text();
+		    	var subId=$(".btn-success.subject").attr("subId");
+		    	$("#subName").val(subName);
+		    	$(".btn-save").attr("data-id",subId);
+		    	$(".editorContent").show();
+		    	$(".editorbtn").hide();
+		    });
+		    
+		    $(".icon-del").click(function(){
+		    	var subId=$(".btn-success.subject").attr("subId");
+		    	Forms.delSubject(subId);
+		    });
+		    
+		    $(".btn-add").click(function(){
+		    	$("#subName").val("");
+		    	$(".btn-save").attr("data-id","");
+		    	$(".editorContent").show();
+		    	$(".editorbtn").hide();
+		    });
+		    
+		    $(".btn-save").click(function(){
+		    	var subId=$(this).attr("data-id");
+		    	var newSubName=$.trim($("#subName").val());
+		    	if(!newSubName){
+		    		alert("请输入科目名称");
+		    		return false;
+		    	}else if(subId){
+		    		Forms.updateSubject(subId,newSubName);
+		    	}else{
+		    		Forms.addSubject(newSubName);
+		    	}
+		    });
+		    
+		    $(".btn-cancle").click(function(){
+		    	$("#subName").val("");
+		    	$(".btn-save").attr("data-id","");
+		    	$(".editorContent").hide();
+		    	$(".editorbtn").show();
+		    });
 			
 			$(".paperType").click(function(){
 				$(this).addClass("btn-success").siblings(".paperType").removeClass("btn-success");
@@ -157,7 +207,127 @@
 		},
 		statistics : function(obj){
 			location.href=rootPath+"/tikuExamUserRelation/paperStatisticsIndex?id="+$(obj).attr("paperId")+"&tikuCategoryId="+$("#tikuId").val();
+		},
+		
+		addSubject : function(subjectName){
+	        $.ajax({
+	            url: rootPath + "/tikuSubject/checkSubName",
+	            type: "post",
+	            data: { "subjectName": subjectName, "categoryId": $("#tikuId").val()},
+	            success: function (data) {
+	                if (data) {
+	                	$.ajax({
+	                        url: rootPath + "/tikuSubject/add1",
+	                        type: "post",
+	                        data: {"subjectName": subjectName,"categoryId": $("#tikuId").val(), "delFlag": 0  },
+	                        beforeSend: function (XMLHttpRequest) {
+	                                $(".loading").show();
+	                                $(".loading-bg").show();
+	                            },
+	                            success: function (data) {
+	                                if (data.result == "success") {
+	                                   var a="<a href=\"javascript:;\" class=\"btn btn-mini btn-default subject\" subId=\""+data.subId+"\">"+subjectName+"</a>";
+	                                   $('.subList').append(a);
+	                                   $(".btn-cancle").click();
+	                                }
+	                            },
+	                            complete: function (XMLHttpRequest, textStatus) {
+	                                $(".loading").hide();
+	                                $(".loading-bg").hide();
+	                            }
+	                    });
+	                } else {
+	                    alert("科目名称不允许重复");
+	                    return;
+	                }
+	            }
+	        });
+		},
+		updateSubject:function(subId, newSubName){
+			var $containsItem = $('.subList').children('a.subject');
+	        var $contains = new Array();
+	        $.each($containsItem, function (i, e) {
+	        	if(subId!=$(this).attr("subId")){
+	        		$contains.push($(this).text().replace(/(^\s*)|(\s*$)/g, ""));
+	        	}
+	        });
+	        if ($contains.includes(newSubName)) {
+	            alert("科目已存在");
+	            return false;
+	        }else{
+	        	$.ajax({
+	                url: rootPath + "/tikuSubject/update",
+	                type: "post",
+	                data: {"id": subId,"subjectName": newSubName},
+	                beforeSend: function (XMLHttpRequest) {
+	                        $(".loading").show();
+	                        $(".loading-bg").show();
+	                },
+	                success: function (data) {
+	                    if (data == "success") {
+	                    	$(".subject[subId='" +subId+ "']").text(newSubName);
+	                    	$(".btn-cancle").click();
+	                    }
+	                },
+	                complete: function (XMLHttpRequest, textStatus) {
+	                    $(".loading").hide();
+	                    $(".loading-bg").hide();
+	                }
+	            });
+	        }
+		},
+		delSubject:function(subId){
+			if($('.subList').children('a.subject').length <= 1){
+	    		alert("最后要一个科目不允许删除");
+	    		return false;
+	    	}else{
+		        $.ajax({
+		            url: rootPath + "/tikuSubject/checkSubjectIsHasChapter",
+		            type: "post",
+		            data: { "subId": subId },
+		            success: function (data) {
+		                if (data) {
+		                	$.confirm("该科目下存在试题信息是否继续删除？", function (result) {
+		                        if (result) {
+		                            $.ajax({
+		                                url: rootPath + "/tikuSubject/delSubById",
+		                                type: "post",
+		                                data: { "id": subId  },
+		                                beforeSend: function (XMLHttpRequest) {
+		                                    $(".loading").show();
+		                                    $(".loading-bg").show();
+		                                },
+		                                success: function (data) {
+		                                    if (data == "success") {
+		    	                            	$(".subject[subId='" +subId+ "']").remove();
+		                                        $(".subject:eq(0)").click();
+		                                    }
+		                                },
+		                                complete: function (XMLHttpRequest, textStatus) {
+		                                    $(".loading").hide();
+		                                    $(".loading-bg").hide();
+		                                }
+		                            });
+		                        }
+		                    });
+		                } else {
+		                    $.ajax({
+		                        url: rootPath + "/tikuSubject/delSubById",
+		                        type: "post",
+		                        data: {"id": subId},
+		                        success: function (data) {
+		                            if (data == "success") {
+		                            	$(".subject[subId='" +subId+ "']").remove();
+		                            	 $(".subject:eq(0)").click();
+		                            }
+		                        }
+		                    });
+		                }
+		            }
+		        });
+	    	}
 		}
+		
 	}
 	$(document).ready(function() {
 		Forms.init();

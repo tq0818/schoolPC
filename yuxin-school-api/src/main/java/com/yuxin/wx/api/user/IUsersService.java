@@ -4,17 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.company.Company;
-
-import com.yuxin.wx.model.company.CompanyMemberService;
-import com.yuxin.wx.model.company.CompanyPayConfig;
-import com.yuxin.wx.model.company.CompanyServiceStatic;
-import com.yuxin.wx.model.system.SysCcAccount;
 import com.yuxin.wx.model.system.SysConfigSchool;
-import com.yuxin.wx.model.system.SysCyclePic;
-import com.yuxin.wx.model.system.SysNews;
-import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.user.UserLoginSession;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.privilege.RoleVo;
@@ -101,6 +92,8 @@ public interface IUsersService  {
 	* @date 2014-12-5
 	* @user by wangzx
 	 */
+	Users findUsersById(Map<String, Object> param);
+
 	Users findUsersById(Integer id);
 	
 	/**
@@ -125,6 +118,13 @@ public interface IUsersService  {
 	 * @return
 	 */
 	Users queryUserByName(String userName);
+	/**
+	 * 通过用户名称和companyId查询用户
+	 * @param userName 用户名称
+	 * @param companyId 机构标识号
+	 * @return 用户
+	 */
+	Users queryUserByCondition(String userName,Integer companyId);
 	
 	/**
 	 * 
@@ -199,6 +199,8 @@ public interface IUsersService  {
   * @return
   */
  Users findUserByCompanyIdAndUserType(Integer companyId);
+ 
+ Users findUserByCompanyIdAndUserType(Integer companyId,Integer userId);
 /**
  * 
  * Class Name: IUsersService.java
@@ -384,6 +386,26 @@ public interface IUsersService  {
    * @return
    */
   List<Users> queryuserIsExist(Users user);
+  
+  /**
+   * 
+   * Class Name: IUsersService.java
+   * @Description: 根据用户名或者手机号查询用户
+   * @author zhang.zx
+   * @date 2015年11月5日 下午6:00:21
+   * @modifier
+   * @modify-date 2015年11月5日 下午6:00:21
+   * @version 1.0
+   * @param user
+   * @return
+   */
+  List<Users> queryuserByUserNameOrMobile(Users user);
+  /**
+   * 授权当前用户
+   * @param id 用户标识号
+   * @param companyId 机构标识号
+   */
+  void grantUserInCompany(String id,Integer companyId);
 
 	/**
 	 * 根据用户名获取对应区域信息
@@ -391,4 +413,33 @@ public interface IUsersService  {
 	 * @return
 	 */
     UsersAreaRelation findUsersAreaRelation(Integer id);
+    /**
+     * 
+     * @author jishangyang 2017年12月27日 下午9:27:53
+     * @Method: findUsersAreaRelationT 
+     * @Description: 根据用户名获取对应区域信息(班主任)
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationT(Integer id,String eduCode);
+    /**
+     * 
+     * @author jishangyang 2017年12月27日 下午9:27:53
+     * @Method: findUsersAreaRelationT 
+     * @Description: 根据用户名获取对应区域信息(任课教师)
+     * @param id
+     * @return 
+     * @throws
+     */
+    UsersAreaRelation findUsersAreaRelationR(Integer id,String eduCode);
+    /**
+     * 用户标识号
+     * @param userId 用户标识号
+     * @param companyId 机构标识号
+     */
+    void insertUserCompanyRalation(Integer userId,Integer companyId);
+
+    void deleteByUserId(Integer userId, Integer companyId,String[]roleUid);
+    
 }

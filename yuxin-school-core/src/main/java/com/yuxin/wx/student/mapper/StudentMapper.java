@@ -6,8 +6,10 @@ import java.util.Map;
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StuVo;
 import com.yuxin.wx.vo.student.StudentClassLeanDetailVo;
@@ -129,7 +131,13 @@ public interface StudentMapper extends BaseMapper<Student> {
 	
 	//学员列表
 	List<StudentListVo> queryStudentsList(StudentListVo search);
+	List<StudentListVo> queryUserListData(StudentListVo search);
+	List<Map<String, Object>> exportUserInfo(StudentListVo search);
 	Integer queryStudentsListCount(StudentListVo search);
+	Integer queryUserListDataCount(StudentListVo search);
+	
+	List<StudentListVo> queryNewStudentsList(StudentListVo search);
+	Integer queryNewStudentsListCount(StudentListVo search);
 
 	List<StudentListVo> queryStudentsList1(StudentListVo search);
 	Integer queryStudentsListCount1(StudentListVo search);
@@ -295,4 +303,31 @@ public interface StudentMapper extends BaseMapper<Student> {
 	Student findStudentOnlyByUserId(Integer id);
 	
 	List<StudentListVo> queryStudentsListByIds(Integer[] ids);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月17日 下午5:52:45
+	 * @Method: findClassByTeacherId 
+	 * @Description: 通过班主任ID 查询班级
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findClassByTeacherId(EduMasterClass ets);
+	/**
+	 * 查询任课教师信息
+	 * @param ets 
+	 * @return
+	 */
+	List<EduMasterClass> findSubjectClassByTeacherId(EduMasterClass ets);
+	/**
+	 * 
+	 * @author jishangyang 2017年12月20日 下午5:57:30
+	 * @Method: findClassByRKTeacherId 
+	 * @Description: 查询任课教师
+	 * @param id
+	 * @return 
+	 * @throws
+	 */
+	List<EduMasterClass> findClassByRKTeacherId(Integer id);
+	List<SysConfigDict> sysConfigDict();
 }

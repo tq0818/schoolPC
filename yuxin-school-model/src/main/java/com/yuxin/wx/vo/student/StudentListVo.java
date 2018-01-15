@@ -1,10 +1,12 @@
 package com.yuxin.wx.vo.student;
 
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.yuxin.wx.common.BaseEntity;
+import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.util.LongDateSerializer;
 import com.yuxin.wx.util.ShortDateSerializer;
 
@@ -36,6 +38,7 @@ public class StudentListVo extends BaseEntity{
 	private Integer	deleteFlag;		 /* 删 */ 
 	private Integer	schoolId;		 /* 所属校区id */ 
 	private Integer companyId;
+	private String paixu;
 	
 	/** 用户信息*/
 	private Integer userId;
@@ -91,15 +94,43 @@ public class StudentListVo extends BaseEntity{
 	private Integer protocolId;//协议id
 	private Integer protocolConfig;//机构是否开启课程协议 1为开启状态
 	private Integer protocolStatus;//筛选条件，是否签署课程协议
-	
+	private String payPrice;
 	private Integer proxyOrgId;
 	private String proxyOrgName;
 	private Integer eduIdentity;
+	private String eduIdentityName;
 	private String eduArea;
 	private String eduSchool;
 	private String eduStep;
 	private String eduYear;
 	private Integer isStu; //是否学生，1是。0否
+	private Integer sourceFromStatic;//来源，1来源于统计，0来源于学员管理
+	private List<EduMasterClass> renke;
+	private List<EduMasterClass> eduMasterClass;
+	
+	public String getPaixu() {
+		return paixu;
+	}
+
+	public void setPaixu(String paixu) {
+		this.paixu = paixu;
+	}
+
+	public List<EduMasterClass> getEduMasterClass() {
+		return eduMasterClass;
+	}
+
+	public void setEduMasterClass(List<EduMasterClass> eduMasterClass) {
+		this.eduMasterClass = eduMasterClass;
+	}
+
+	public Integer getSourceFromStatic() {
+		return sourceFromStatic;
+	}
+
+	public void setSourceFromStatic(Integer sourceFromStatic) {
+		this.sourceFromStatic = sourceFromStatic;
+	}
 
 	public Integer getIsStu() {
 		return isStu;
@@ -679,5 +710,35 @@ public class StudentListVo extends BaseEntity{
 	public void setProxyOrgName(String proxyOrgName) {
 		this.proxyOrgName = proxyOrgName;
 	}
+
 	
+    public List<EduMasterClass> getRenke() {
+    	return renke;
+    }
+
+	
+    public void setRenke(List<EduMasterClass> renke) {
+    	this.renke = renke;
+    }
+
+	
+    public String getPayPrice() {
+    	return payPrice;
+    }
+
+	
+    public void setPayPrice(String payPrice) {
+    	this.payPrice = payPrice;
+    }
+
+	
+    public String getEduIdentityName() {
+    	return eduIdentityName;
+    }
+
+	
+    public void setEduIdentityName(String eduIdentityName) {
+    	this.eduIdentityName = eduIdentityName;
+    }
+
 }

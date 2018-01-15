@@ -14,7 +14,6 @@ import java.util.Map;
 
 import com.yuxin.wx.api.classes.IClassModuleLessonService;
 import com.yuxin.wx.model.classes.ClassModuleLesson;
-import com.yuxin.wx.model.system.SysConfigClassroom;
 import com.yuxin.wx.vo.classes.ClassModuleLessonVo;
 import com.yuxin.wx.vo.classes.CmlVo;
 import com.yuxin.wx.vo.classes.LessonVo;
@@ -40,7 +39,7 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 	private UsersFrontMapper usersFrontMapper;
 
 
-	
+
 	/**
 	 * 
 	* @Title: saveClassModuleLesson
@@ -56,6 +55,11 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 		classModuleLessonMapper.insert(classModuleLesson);
 	}
 	
+	@Override
+	public void insert1(ClassModuleLesson classModuleLesson){
+		classModuleLessonMapper.insert1(classModuleLesson);
+	}
+
 	/**
 	 * 
 	* @Title: batchSaveClassModuleLesson 
@@ -167,6 +171,12 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 	}
 	
 	@Override
+	public List<ClassModuleLesson> findClassModuleLessonByModuleNoId1(
+			Integer moduleNoId) {
+		return classModuleLessonMapper.findClassModuleLessonByModuleNoId1(moduleNoId);
+	}
+
+	@Override
 	public List<ClassModuleLesson> findcmlByModuleNoId(Integer moduleNoId) {
 		return classModuleLessonMapper.findcmlByModuleNoId(moduleNoId);
 	}
@@ -255,6 +265,11 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 		Map<String,Object> map = new HashMap<>();
 		map.put("id",id);
 		return classModuleLessonMapper.findLessonByCommodityIdNotDel(map);
+	}
+
+	@Override
+	public List<ClassModuleLesson> findLessonByCommodityIds(String[] ids) {
+		return classModuleLessonMapper.findLessonByCommodityIds(ids);
 	}
 
 	@Override

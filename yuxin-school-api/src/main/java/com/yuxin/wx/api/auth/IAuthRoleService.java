@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.auth.AuthRole;
-import com.yuxin.wx.model.auth.AuthRolePrivilege;
 import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.vo.privilege.AreaInfoVo;
+import com.yuxin.wx.vo.privilege.EduSubjectClassTeacherInfo;
+import com.yuxin.wx.vo.privilege.GradeInfoVo;
+import com.yuxin.wx.vo.privilege.SubjectInfoVo;
 import com.yuxin.wx.vo.privilege.TreeNode;
 import com.yuxin.wx.vo.privilege.UserRolesListVo;
 
@@ -139,6 +142,7 @@ public interface IAuthRoleService  {
   * @return
   */
  PageFinder<UserRolesListVo>  queryAllUser(UserRolesListVo search);
+ PageFinder<UserRolesListVo>  queryNewAllUser(UserRolesListVo search);
  
  /**
   * 
@@ -152,7 +156,7 @@ public interface IAuthRoleService  {
   * @param userId
   * @return
   */
- List<AuthRole> queryAuthRoleListByUser(Integer userId);
+ List<AuthRole> queryAuthRoleListByUser(Integer userId,Integer companyId);
  /**
   * 
   * Class Name: IAuthRoleService.java
@@ -197,6 +201,34 @@ public interface IAuthRoleService  {
  /**
   * 
   * Class Name: IAuthRoleService.java
+  * @Description: 条件查询角色信息
+  * @author zhang.zx
+  * @date 2015年6月17日 下午12:01:55
+  * @modifier
+  * @modify-date 2015年6月17日 下午12:01:55
+  * @version 1.0
+  * @param search
+  * @return
+  */
+ List<AuthRole> queryRolesByConditionInfo(AuthRole search);
+ 
+ /**
+  * 
+  * Class Name: IAuthRoleService.java
+  * @Description: 查询所有的区，学校
+  * @author zhang.zx
+  * @date 2015年6月17日 下午12:01:55
+  * @modifier
+  * @modify-date 2015年6月17日 下午12:01:55
+  * @version 1.0
+  * @param userId 用户标识号，isArea 当前校所属的行政级别，0数校，1区，2学校，areaCode 当前学校机构代码
+  * @return
+  */
+ List<AreaInfoVo> queryAreaSchoolInfo(String userId,String isArea,String areaCode,String roleName);
+ 
+ /**
+  * 
+  * Class Name: IAuthRoleService.java
   * @Description: 自定义角色菜单
   * @author zhang.zx
   * @date 2016年1月11日 下午5:35:12
@@ -224,7 +256,7 @@ public interface IAuthRoleService  {
   */
  List<AuthRole> queryRolesByUid(String rUids);
  
- 	boolean hasRoleFlag(Integer userId);
+ 	boolean hasRoleFlag(Integer userId,Integer companyId);
  	
  	/**
  	 * 
@@ -239,5 +271,19 @@ public interface IAuthRoleService  {
  	 * @param privilegeCode 权限名称
  	 * @return true:有此权限，false:无此权限
  	 */
- 	boolean checkUserHasPrivilege(Integer userId,String privilegeCode);
+ 	boolean checkUserHasPrivilege(Integer userId,String privilegeCode,Integer companyId);
+ 	/**
+ 	 * 查询该分校所有的科目
+ 	 * @return
+ 	 */
+ 	List<SubjectInfoVo> queryAllSubjectInfo(String companyId);
+ 	
+ 	List<GradeInfoVo> queryAllGradeInfos(String areaCode,String userId,String roleName);
+ 	/**
+ 	 * 查询用户任课班级
+ 	 * @param areaCode
+ 	 * @param userId
+ 	 * @return
+ 	 */
+ 	List<EduSubjectClassTeacherInfo> queryEduSubjectClassTeacherInfo(String areaCode,String userId);
 }

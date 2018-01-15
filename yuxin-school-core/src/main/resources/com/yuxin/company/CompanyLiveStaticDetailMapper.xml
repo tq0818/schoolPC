@@ -306,7 +306,7 @@ AND s.user_id = uf.id
 	</select>
 	<select id="pageCountQueryAllCompanyLiveStaticDetailByStudentNamePhone" resultType="int"
 		parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
-		select count(*)
+		select count(1)
 		FROM student_pay_master spm
 		INNER JOIN student_pay_slave sps ON sps.pay_master_id = spm.id
 		INNER JOIN class_module_no cmn ON sps.resource_id = cmn.id
@@ -324,7 +324,7 @@ AND s.user_id = uf.id
 	</select>
 	<!-- 查询合计上课次数 -->
 	<select id="sumCountClass"  resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyLiveStaticDetailVo">
-		SELECT COUNT(*) FROM (
+		SELECT COUNT(1) FROM (
 			SELECT DISTINCT e.id
 			FROM users_front uf 
 			INNER JOIN student s ON uf.id = s.user_id

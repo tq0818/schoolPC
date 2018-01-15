@@ -9,13 +9,18 @@
      <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/system.css"/>
     <script type="text/javascript" src="<%=rootPath %>/javascripts/system.js"></script>
-     <script type="text/javascript" src="<%=rootPath %>/plugins/jquery-validation/jquery.validate.js"></script>
+     <script type="text/javascript" src="<%=rootPath %>/javascripts/my.jquery.validate.js"></script>
     
      <script type="text/javascript">
     	$(function(){
     		$selectSubMenu('sys_user_auth');
     	});
     </script>
+	<style>
+		.editToB select{margin: 5px 0}
+		.editDelete{color: red !important;}
+		.Confirm_Close{display:none;}
+	</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_system.jsp"></jsp:include>
@@ -25,43 +30,26 @@
             <h2 class="h5">${type=='save'?'新增用户':'编辑用户' }</h2>
             <span class="line"></span>
         </div>
-        <div class="users-infos">            
+        <div class="users-infos">
+        <form id="saveUserForm" method="post">
             <div class="sm-heading">
                 <h2 class="h6">基本信息</h2>
             </div>
-            <form id="saveUserForm" method="post">
             	<input id="uId" type="hidden" name="id" value="${user.id }"/>
   				<input type="hidden" name="type" id="type" value="${type }"/>
   				<input type="hidden" name="teachersId" id="teachersId"/>
   				<input type="hidden" name="rolesId" id="rolsesId"/>
+  				<input type="hidden" name="companyId" id="companyId"/>
   				<input type="hidden" name="usernames" id="usernames"/>
   				<input type="hidden" name="tId" id="tsId"/>
   				<input type="hidden" name="proxyOrgId" id="proxyOrgId" value="${user.proxyOrgId }"/>
   				<input type="hidden" value="${user.userType }" id="userType_status"/>
 	            <div class="users-infos-list">
-	                <p class="c" id="pcOne">
-	                    <span class="c-title">所属分校</span>
-	                    <span class="c-content">
-	                    	<select name="schoolId" id="schoolId">
-				       			<c:forEach items="${schoolList }" var="school">
-				       				<c:if test="${school.id==schoolId }">
-				       					<option value="${school.id }" selected="selected">${school.schoolName }</option>
-				       				</c:if>
-				       				<c:if test="${school.id!=schoolId }">
-				       					<option value="${school.id }">${school.schoolName }</option>
-				       				</c:if>
-				       			</c:forEach>
-				       			<c:if test="${empty schoolList }">
-				       				<option value="${school1.id }" selected="selected">${school1.schoolName }</option>
-				       		    </c:if>
-				       		</select>
-	                    </span>
-	                </p>
 	                <p class="c">
 	                    <span class="c-title">登录账号&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
-	                    <span class="c-content">
+	                    <span class="c-content" id="ucontent">
 	                    	<c:if test="${type=='save' }">
-	                    	  <input id="userName" name="username" type="text">
+	                    	  <input id="userName" name="username" type="text" placeholder="输入账号或手机号"/>
 	                    	</c:if>
 	                    	<c:if test="${type!='save' }">
 	                    	  <input id="nameMark" disabled="disabled" name="usernames" type="text" value="${user.username }" disabled/>
@@ -90,7 +78,10 @@
 	                </p>
 	                <p class="c">
 	                    <span class="c-title">密码&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
-	                    <span class="c-content"><input id="password" name="password" type="password"></span>
+	                    <span class="c-content" id="pcontent">
+	                    	<input id="password1" name="password1" type="password" style="display:none;"/>
+	                    	<input id="password" name="password" type="password"/>
+	                    </span>
 	                </p>
 	                <p class="c">
 	                    <span class="c-title">确认密码&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
@@ -106,23 +97,37 @@
 	                </p>
 	                  <p class="c">
 	                    <span class="c-title">手机号&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
-	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile }"></span>
+	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile}"></span>
+						<span style="display: none" ><input id="mobile1" name="mobile1" type="text" value="${user.mobile}"></span>
 	                </p>
 	            </div>
-            </form>
             <div class="sm-heading">
                 <h2 class="h6">角色选择</h2>
             </div>
             <div class="people-list">
             	<c:forEach items="${authRoleList }" var="role">
-            		<c:choose>
-            			<c:when test="${role.roleName == '代理机构' }">
-            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
-            			</c:when>
-            			<c:otherwise>
-            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
-            			</c:otherwise>
-            		</c:choose>
+            		<c:if test="${role.roleName ne '班主任' and role.roleName ne '任课老师' and role.roleName ne '区县负责人' and role.roleName ne '学校负责人'}">
+	            		<c:choose>
+	            			<c:when test="${role.roleName == '代理机构' }">
+	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
+	            			</c:when>
+	            			<c:otherwise>
+	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
+	            			</c:otherwise>
+	            		</c:choose>
+            		</c:if>
+            		<c:if test="${role.roleName=='区县负责人'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default areamaster">区县负责人</a>
+            		</c:if>
+            		<c:if test="${role.roleName=='学校负责人'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default schoolmaster">学校负责人</a>
+            		</c:if>
+            		<c:if test="${role.roleName=='班主任'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default headmaster">班主任</a>
+            		</c:if>
+            		<c:if test="${role.roleName=='任课老师'}">
+            			<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default classTeacher">任课老师</a>
+            		</c:if>
             	</c:forEach>
             </div>
             <div id="org-manage-list" style="display: none;">
@@ -141,11 +146,10 @@
             </div>
             </div>
             <div class="pri-list">
-                <ul class="clear">
+                <ul class="clear" id="menuList">
                 <c:forEach items="${privilegeList }" var="category">
                 		<li style="display: none;">
 	                        <p class="c-title" marks="${category.id }">
-<!-- 	                            <i class="iconfont">&#xe60a;</i> -->
 	                            <span>${category.categoryName }</span>
 	                        </p>
 	                        <c:forEach items="${category.arr }" var="childCategory">
@@ -154,8 +158,12 @@
 		                            <span>${childCategory.description }</span>
 		                        </p>
 	                        </c:forEach>
-                       </li>
+                        </li>
                 </c:forEach>
+                <li class="editToB areamasterToB"></li>
+                <li class="editToB schoolmasterToB"></li>
+                <li class="editToB classTeacherToB"></li>
+                <li class="editToB headmasterToB"></li>
                 </ul>
             </div>
             <div id="contactTeacher" style="display: none;">
@@ -175,15 +183,50 @@
             </div>
             <div class="t-btns">
                 <p class="text-center">
-                    <a href="javascript:Form.editUserMsg();" class="btn btn-primary">保存</a>
+                    <input type="submit" class="btn btn-primary" value="保存" onclick="return Form.editUserMsg(event);"></input>
                     <a href="javascript:history.go(-1);" class="btn btn-default">取消</a>
                 </p>
             </div>
+             </form>
         </div>
     </div>
 </div>
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/system/editSystemAuth.js"></script>
  <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
+
+
+<script>
+    <%--任课老师点击删除，删除该班级--%>
+	 $('.editToB').on('click','.editDelete',function(){
+	    $(this).parent('.c').remove();
+	});
+	//	点击任课老师，出来任课老师权限
+	$('.headmaster').click(function(){
+	    if(!$(this).hasClass('btn-success')){
+        }else{
+            $('.areamasterToB').empty();
+        }
+	});
+    $('.classTeacher').click(function(){
+        if(!$(this).hasClass('btn-success')){
+        }else{
+            $('.headmasterToB').empty();
+        }
+    });
+    
+    $('.areamaster').click(function(){
+        if(!$(this).hasClass('btn-success')){
+        }else{
+            $('.areamasterToB').empty();
+        }
+    });
+    $('.schoolmaster').click(function(){
+	    if(!$(this).hasClass('btn-success')){
+        }else{
+            $('.schoolmasterToB').empty();
+        }
+	});
+</script>
 </body>
 </html>

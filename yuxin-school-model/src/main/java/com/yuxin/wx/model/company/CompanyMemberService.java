@@ -44,7 +44,7 @@ public class CompanyMemberService extends BaseEntity {
 	private Double emailPrice;			/*邮件单价*/
 	private Double liveConcurrentPrice;	/*并发单价*/
 	private Double memberPrice;/*saas服务费*/
-	
+	private Integer zhuCompanyId;
 	/*private Integer resourceStorge;
 	private Integer resourceFlow;
 	private Double resourceStoragePrice;
@@ -325,5 +325,15 @@ public class CompanyMemberService extends BaseEntity {
 	public void setMemberPrice(Double memberPrice) {
 		this.memberPrice = memberPrice;
 	}
+
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 	
 }

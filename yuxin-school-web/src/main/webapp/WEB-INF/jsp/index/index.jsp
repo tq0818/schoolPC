@@ -28,7 +28,7 @@
                 <li class="item-list fl toService liveService" data-url="/companyMemberService/toLiveStatistics">
                     <p class="L-hover">
 	                    <span class="item-back zhibo"></span>
-	                    <span class="list-title">直播</span>
+	                    <span class="list-title">直播概况</span>
                     </p>
                     <p class="list-text clear">
                         <span class="text-left fl">当月可用并发</span>
@@ -48,7 +48,7 @@
                 <li class="item-list fl toService videoService" data-url="/companyMemberService/toVideoStatistics">
                     <p class="L-hover">
 	                    <span class="item-back cunchu"></span>
-	                    <span class="list-title">存储</span>
+	                    <span class="list-title">点播概况</span>
                     </p>
                     <p class="list-text clear">
                         <span class="text-left fl">流量详情</span>
@@ -64,7 +64,13 @@
                     </p>
                 </li>
                 </c:if>
-                <li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics">
+                <c:if test="${serviceMsg}">
+                <c:if test="${CURRENT_IS_AREA eq 0}">
+                	<li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics">
+                </c:if>
+                <c:if test="${CURRENT_IS_AREA ne 0}">
+                	<li class="item-list fl toService messageService" data-url="/companyMemberService/toMessageStatistics" style="display: none">
+                </c:if>
                     <p class="L-hover">
 	                    <span class="item-back duanxin"></span>
 	                    <span class="list-title">短信</span>
@@ -82,7 +88,8 @@
                         <span class="text-right red fr"></span>
                     </p>
                 </li>
-                <li class="item-list fl toService emailService" data-url="/companyMemberService/toEmailStatistics">
+                </c:if>
+                <!-- <li class="item-list fl toService emailService" data-url="/companyMemberService/toEmailStatistics">
                     <p class="L-hover">
 	                    <span class="item-back email"></span>
 	                    <span class="list-title">邮件</span>
@@ -99,12 +106,12 @@
                         <span class="text-left fl">剩余量</span>
                         <span class="text-right red fr"></span>
                     </p>
-                </li>
+                </li> -->
                 <c:if test="${!liveService}">
                 <li class="item-list fl">
                     <p>
 	                    <span class="item-back zhiboNo"></span>
-	                    <span class="list-title">直播</span>
+	                    <span class="list-title">直播概况</span>
                     </p>
                     <p class="list-text clear">
                         <span class="text-left fl"></span>
@@ -124,8 +131,28 @@
                 <li class="item-list fl" data-url="/companyMemberService/toVideoStatistics">
                     <p>
 	                    <span class="item-back cunchuNo"></span>
-	                    <span class="list-title">存储</span>
+	                    <span class="list-title">点播概况</span>
 	                </p>
+                    <p class="list-text clear">
+                        <span class="text-left fl"></span>
+                        <span class="text-right red fr"></span>
+                    </p>
+                    <p class="list-text clear">
+                        <span class="text-left textNo">您未开通此服务</span>
+                        <span class="text-right red fr"></span>
+                    </p>
+                    <p class="list-text clear">
+                        <span class="text-left fl"></span>
+                        <span class="text-right red fr"></span>
+                    </p>
+                </li>
+                </c:if>
+                 <c:if test="${!serviceMsg}">
+                <li class="item-list fl" style="display: none">
+                    <p>
+	                    <span class="item-back zhiboNo"></span>
+	                    <span class="list-title">短信</span>
+                    </p>
                     <p class="list-text clear">
                         <span class="text-left fl"></span>
                         <span class="text-right red fr"></span>

@@ -339,15 +339,18 @@ button.cloze {
             <shiro:hasPermission name="statistics_org">
                 <li code="statistics_org"><a href="<%=rootPath %>/company/orgstatistics/firstTransferStation" >总览</a></li>
             </shiro:hasPermission>
+             <shiro:hasPermission name="brach_school">
+                <li code="brach_school"><a href="<%=rootPath %>/berkeley/berkeleyIndex" >分校</a></li>
+            </shiro:hasPermission>
         </ul>
         <ul class="nav nav-right">
             <c:choose>
             	<c:when test="${sessionScope.loginUser.realName != null && sessionScope.loginUser.realName != ''}">
-            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.loginUser.schoolName}&nbsp;${sessionScope.loginUser.realName}</a><i class="iii">
+            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.company.companyName}&nbsp;${sessionScope.loginUser.realName}</a><i class="iii">
             		</i>	<ul class="dropdown" style="display: none;overflow: hidden;"></ul></li>
             	</c:when>
             	<c:otherwise>
-            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.loginUser.schoolName}&nbsp;${sessionScope.loginUser.username}</a><i class="iii">
+            		<li class="uInfo"><a href="javascript:;" class="u" style="cursor: pointer;">${sessionScope.company.companyName}&nbsp;${sessionScope.loginUser.username}</a><i class="iii">
             		</i>	<ul class="dropdown" style="display: none;overflow: hidden;"></ul></li>
             	</c:otherwise>
             </c:choose>

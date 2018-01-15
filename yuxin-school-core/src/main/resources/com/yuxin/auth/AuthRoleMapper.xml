@@ -14,6 +14,37 @@
 		<result property="updator" column="updator" />
 	</resultMap>
 	
+	<resultMap type="com.yuxin.wx.vo.privilege.AreaSchoolInfoVo" id="areaSchoolInfoVoMap">
+		<result property="code" column="item_code"/>
+		<result property="codeName" column="item_value" />
+		<result property="parentCode" column="parent_code" />
+		<result property="parentName" column="parent_name" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.privilege.ClassInfoVo" id="classInfoVoMap">
+		<result property="gradeName" column="grade_name"/>
+		<result property="className" column="edu_class" />
+		<result property="userId" column="user_id" />
+		<result property="classId" column="id" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.privilege.EduSubjectClassTeacherInfo" id="eduSubjectClassTeacherInfoMap">
+		<result property="gradeName" column="grade_name"/>
+		<result property="eduClass" column="edu_class" />
+		<result property="classId" column="id" />
+		<result property="subjectCode" column="subject_code" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.privilege.SubjectInfoVo" id="subjectInfoVoMap">
+		<result property="subjectCode" column="item_code"/>
+		<result property="subjectName" column="item_name" />
+	</resultMap>
+	
+	<resultMap type="com.yuxin.wx.vo.user.UsersAreaRelation" id="usersAreaRelationMap">
+		<result property="eduArea" column="edu_area"/>
+		<result property="eduSchool" column="edu_school" />
+	</resultMap>
+	
 	<resultMap type="com.yuxin.wx.vo.privilege.UserRolesListVo" id="userRoleListVoResultMap">
 		<result property="userId" column="id"/>
 		<result property="username" column="username"/>
@@ -182,22 +213,59 @@
 		select r.id roleId,r.role_name roleName,ul.create_time from auth_role r,auth_user_role ul where ul.role_id=r.id and ul.user_id=#{userId}
 	</select>
 	
-	<select id="findAuthRoleListByUser" resultMap="authRoleList" parameterType="int">
-		select distinct r.id,r.role_uid,r.role_name roleName,r.role_flag roleFlag,ul.create_time from auth_role r,auth_user_role ul where ul.role_uid=r.role_uid and ul.user_id=#{userId}
+	<select id="findAuthRoleListByUser" resultMap="authRoleList" parameterType="map">
+		select distinct r.id,r.role_uid,r.role_name roleName,r.role_flag roleFlag,ul.create_time 
+		from auth_role r,auth_user_role ul where ul.role_uid=r.role_uid and ul.user_id=#{userId} and r.company_id=#{companyId}
 	</select>
 	
 	<select id="queryAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
-		select u.id,u.username,u.real_name,u.sex,u.status,u.mobile,u.company_id,u.school_id from users u
-		where u.company_id=#{companyId} and u.school_id = #{schoolId}
+		select distinct u.id,u.username,u.real_name,sct.sex,ur.is_used as status,u.mobile,ur.company_id,scs.id school_id
+		from users u
+		inner join users_comany_relation ur on ur.user_id=u.id and ur.company_id=#{companyId}
+		left join auth_user_role aur on aur.user_id=u.id
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		LEFT JOIN sys_config_teacher sct on sct.mobile = u.mobile
+		where 1=1
+		<!-- <if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if> -->
+		<if test="username != null and username != ''">and concat(u.real_name,u.username,u.mobile) like '%${username}%'</if>
+		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
+		<if test="statusStr != null and statusStr != ''">and ur.is_used=#{statusStr}</if>
+		limit #{firstIndex},#{pageSize}
+	</select>
+	
+	<select id="queryAllUserCount" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultType="int">
+		select count(distinct u.id) from users u
+		inner join users_comany_relation ur on ur.user_id=u.id and ur.company_id=#{companyId}
+		left join auth_user_role aur on aur.user_id=u.id
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where 1=1
+		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
+		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
+		<if test="status != null and status != ''">and ur.is_used=#{status}</if>
+	</select>
+	
+	
+	<select id="queryNewAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
+		select t2.role_name,u.id,u.username,u.real_name,u.sex,u.status,u.mobile,t2.company_id company_id,t2.company_id 
+		from users u
+		INNER JOIN auth_user_role t1 ON t1.user_id=u.id
+		INNER JOIN auth_role t2 ON t2.id=t1.role_uid 
+		where t2.company_id=#{companyId} 
 		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
 		limit #{firstIndex},#{pageSize}
 	</select>
 	
-	<select id="queryAllUserCount" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultType="int">
+	<select id="queryNewAllUserCount" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultType="int">
 		select count(u.id) from users u
-		where u.company_id=#{companyId} and u.school_id = #{schoolId}
+		INNER JOIN auth_user_role t1 ON t1.user_id=u.id 
+		INNER JOIN auth_role t2 ON t2.id=t1.role_uid 
+		where t2.company_id=#{companyId} 
 		<if test="realName != null and realName != ''">and u.real_name like '%${realName}%'</if>
 		<if test="mobile != null and mobile != ''">and u.mobile = #{mobile}</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
@@ -208,7 +276,7 @@
 		from auth_role
 		where company_id = #{companyId} and company_id!=-1
 	</select>
-	
+
 	<select id="queryRolesByCondition" resultMap="authRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthRole">
 		select <include refid="table_columns" /> 
 		from auth_role
@@ -219,11 +287,48 @@
 		order by id asc
 	</select>
 	
+	<select id="queryRolesByConditionInfo" resultMap="authRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthRole">
+		select <include refid="table_columns" /> 
+		from auth_role
+		where 1=1
+		<if test="roleUid != null">and role_uid= #{roleUid}</if>
+		<if test="companyId != null">and company_id = #{companyId}</if>
+		order by id asc
+	</select>
+	
 	<select id="queryRolesByUid" resultMap="authRoleResultMap" parameterType="String">
 		select <include refid="table_columns" /> 
 		from auth_role where 1=1
 		<if test="roleUid != null">and role_uid not in(${roleUid})</if>
 		order by id asc
 	</select>
+	<select id="queryAreaSchoolInfo" resultMap="areaSchoolInfoVoMap">
+		select scd.item_code,scd.item_value,pscd.item_code parent_code,pscd.item_value parent_name from sys_config_dict scd
+		left join sys_config_dict pscd on pscd.id=scd.parent_item_id and pscd.dict_code like 'EDU_SCHOOL%'
+		where scd.dict_code like 'EDU_SCHOOL%'
+		order by parent_code
+	</select>
 	
+	<select id="queryUsersAreaRelationByUserId" resultMap="usersAreaRelationMap" parameterType="String">
+		select edu_area,edu_school from users_area_relation where user_id=#{userId}
+	</select>
+	
+	<select id="queryAllSubjectInfo" resultMap="subjectInfoVoMap" parameterType="String">
+		select item_name,item_code from sys_config_item where parent_code='SUBJECT' and company_id=#{companyId}
+	</select>
+	<select id="queryEduSubjectClassTeacherInfo" resultMap="eduSubjectClassTeacherInfoMap" parameterType="map">
+		select CONCAT(substring(scd.item_value,1,1),emc.edu_year) grade_name,emc.edu_class,emc.id,est.subject_code
+		from edu_master_class emc
+		inner join sys_config_dict scd on emc.edu_step=scd.item_code
+		inner join edu_subject_class_teacher est on est.class_id=emc.id
+		where emc.is_used=1 and emc.edu_school=#{areaCode} and est.user_id=#{userId}
+	</select>
+	
+	<select id="queryAllGradeInfos" resultMap="classInfoVoMap" parameterType="map">
+		select CONCAT(substring(scd.item_value,1,1),emc.edu_year) grade_name,emc.edu_class,emc.id,emc.user_id
+		from edu_master_class emc
+		inner join sys_config_dict scd on emc.edu_step=scd.item_code
+		where emc.is_used=1 and emc.edu_school=#{areaCode}
+		order by scd.item_code,CAST(edu_class AS DECIMAL)
+	</select>
 </mapper>

@@ -365,7 +365,7 @@
                 }
                 
                 //精品微课
-                if(scipt.moduleType == 11){
+                if(scipt.moduleType == 12){
                 	$div.find('.swText').val(scipt.customName || scipt.moduleName);
                     $div.find('li').eq(1).find('p input').each(function(index, el) {
                     	if($(this).data('limit') == scipt.dataLimitNum){
@@ -376,7 +376,7 @@
                 }
                 
                 //专题课堂
-                if(scipt.moduleType == 11){
+                if(scipt.moduleType == 13){
                 	$div.find('.swText').val(scipt.customName || scipt.moduleName);
                     $div.find('li').eq(1).find('p input').each(function(index, el) {
                     	if($(this).data('limit') == scipt.dataLimitNum){
@@ -387,7 +387,7 @@
                 }
                 
                 //名师推荐
-                if(scipt.moduleType == 11){
+                if(scipt.moduleType == 14){
                 	$div.find('.swText').val(scipt.customName || scipt.moduleName);
                     $div.find('li').eq(1).find('p input').each(function(index, el) {
                     	if($(this).data('limit') == scipt.dataLimitNum){
@@ -657,8 +657,6 @@
                 		if($(this).data('id') == _scipt.moduleType){
                 			$(this).show().siblings().hide();
                 			_this.initRightHtml($(this),_scipt,_uuid);
-                			console.log(_uuid);
-                			console.log(_scipt);
                 			return;
                 		}
                 	});

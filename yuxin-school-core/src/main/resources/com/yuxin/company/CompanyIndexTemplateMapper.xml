@@ -118,7 +118,7 @@
 		from company_index_template
 		where company_id=#{companyId}
 		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
-		order by id desc;
+		order by id desc
 	</select>
 	
 	<insert id="copyToCompany" parameterType="com.yuxin.wx.model.company.CompanyIndexTemplate" useGeneratedKeys="true" keyProperty="id">

@@ -100,7 +100,7 @@ public class CommoditySpecial extends BaseEntity implements Serializable{
 	 */
 	private Integer ucId;
 	
-	
+	private Integer companyId;
 	
 	public Integer getUcId() {
 		return ucId;
@@ -240,6 +240,14 @@ public class CommoditySpecial extends BaseEntity implements Serializable{
 
 	public void setCommodityType(String commodityType) {
 		this.commodityType = commodityType;
+	}
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 	
 }

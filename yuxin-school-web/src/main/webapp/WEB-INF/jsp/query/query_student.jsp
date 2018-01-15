@@ -34,12 +34,10 @@
 				</div>
 				<form method="post" id="searchForm">
 					<div>
-						<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
-						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
 						<input type="text" id="stuName" name="name" placeholder="姓名"/>
 						<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
 						<input type="hidden" id="isStu" name="isStu" value="1"/>
-
+						<input type="hidden" id="sourceFromStatic" value='1'/>		
 						<select name="eduArea" id="eduArea">
 							<option value="">请选择区域</option>
 							<c:forEach items="${areas}" var="area" >

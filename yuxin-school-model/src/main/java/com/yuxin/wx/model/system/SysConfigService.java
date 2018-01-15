@@ -21,7 +21,7 @@ public class SysConfigService extends BaseEntity {
 	private Integer	companyId;		 /* 公司ID */ 
 	private Integer	delFlag;		 /* 删除标记 */ 
 	private Integer groupSequence; /*组合排序标记*/
-	
+	private Integer zhuCompanyId;
 	private Integer headFlag;   /* 页头是否显示*/
 
 	// Constructor
@@ -107,6 +107,17 @@ public class SysConfigService extends BaseEntity {
 	public void setHeadFlag(Integer headFlag) {
 		this.headFlag = headFlag;
 	}
+
+	
+	
+    public Integer getZhuCompanyId() {
+    	return zhuCompanyId;
+    }
+
+	
+    public void setZhuCompanyId(Integer zhuCompanyId) {
+    	this.zhuCompanyId = zhuCompanyId;
+    }
 
 	@Override
 	public String toString() {

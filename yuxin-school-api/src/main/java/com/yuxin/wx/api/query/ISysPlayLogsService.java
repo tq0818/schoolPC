@@ -25,6 +25,7 @@ public interface ISysPlayLogsService {
      * @return
      */
     PageFinder<UserVideoVo> queryUserVideoPage(UserVideoVo userVideoVo);
+    PageFinder<UserVideoVo> queryNewUserVideoPage(UserVideoVo userVideoVo);
 
     /**
      * 查询用户观看视频资源情况
@@ -32,6 +33,7 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<UserVideoVo> queryUserVideoList(UserVideoVo userVideoVo);
+    List<UserVideoVo> queryNewUserVideoList(UserVideoVo userVideoVo);
 
     /**
      * 查询视频资源播放情况
@@ -154,6 +156,13 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<Map<String,Object>> queryHistoryAll();
+
+    /**
+     * 统计时长最大的值
+     * @param param
+     * @return
+     */
+    List<Map<String,Object>> queryPlayLogsByParam(Map<String, Object> param);
 
     /**
      * 查询区域的录播观看人数

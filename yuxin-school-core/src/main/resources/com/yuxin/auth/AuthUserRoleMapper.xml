@@ -10,6 +10,9 @@
 		<result property="updateTime" column="update_time" />
 		<result property="updator" column="updator" />
 	</resultMap>
+	<resultMap type="com.yuxin.wx.model.auth.AuthRole" id="authRoleMap">
+		<result property="roleName" column="role_name"/>
+	</resultMap>
 	
 	<sql id="table_columns">
 		id,
@@ -137,9 +140,60 @@
 		delete from auth_user_role
 		where user_id = #{userId}
 	</delete>
+	<!-- 其他自定义SQL -->
+	<delete id="deleteByUsers" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		delete from auth_user_role where user_id = #{userId} and role_uid in 
+		<foreach item="item" collection="roles" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<delete id="deleteByReUsers" parameterType="com.yuxin.wx.model.auth.AuthUserRole">
+		delete aur from auth_user_role aur 
+		inner join auth_role ar on aur.role_uid=ar.id and ar.company_id=#{companyId}
+		where aur.user_id=#{userId}
+	</delete>
 	<select id="findByRoleId" parameterType="String" resultMap="authUserRoleResultMap">
 		select <include refid="table_columns"/>
 		from auth_user_role
 		where user_id = #{id}
 	</select>
+	<select id="findAuthUserRoleByCompanyAndUserId" parameterType="com.yuxin.wx.model.auth.AuthUserRole" resultMap="authUserRoleResultMap">
+		select t2.role_uid as role_uid from auth_user_role t
+		LEFT JOIN auth_role t2 ON t.role_uid=t2.id where t2.company_id=#{companyId} and t.user_id=#{userId}
+	</select>
+	<select id="findRoleName" parameterType="java.util.List" resultMap="authRoleMap">
+		select role_name from auth_role where id in(
+			<foreach item="item" collection="list" separator="," >
+				#{item}
+			</foreach>
+		)
+	</select>
+	
+	<delete id="deleteUserAreaRalation" parameterType="int">
+		delete from users_area_relation where user_id=#{userId} and (edu_school is null or edu_school='')
+	</delete>
+	<delete id="deleteUserSchoolRalation" parameterType="int">
+		delete from users_area_relation where user_id=#{userId} and edu_school is not null and edu_school!=''
+	</delete>
+	<delete id="deleteTeacherSubject" parameterType="map">
+		delete esc from edu_subject_class_teacher esc inner join edu_master_class emc on esc.class_id=emc.id where esc.user_id=#{userId} and emc.edu_school=#{areaCompanyCode}
+	</delete>
+	
+	<insert id="insertUserAreaRalation" parameterType="map" useGeneratedKeys="true">
+		insert into users_area_relation(user_id,edu_area,edu_school,user_type,create_time)
+		values(#{userId},#{earaCode},#{eduSchool},1,now())
+	</insert>
+	<update id="updateUserClassInvalid" parameterType="map">
+		update edu_master_class set user_id=null where  edu_school=#{areaCompanyCode} and user_id=#{userId}
+	</update>
+	
+	<update id="updateUserClassValid" parameterType="map">
+		update edu_master_class set user_id=#{userId} where  edu_school=#{areaCompanyCode} and edu_step=#{levelCode} and edu_year=#{gradeCode} and edu_class=#{classCode}
+	</update>
+	<insert id="insertTeacherSubject" parameterType="com.yuxin.wx.vo.privilege.EduMasterClassVo" useGeneratedKeys="true">
+		insert into edu_subject_class_teacher(subject_code,class_id,user_id,is_used) 
+		select #{subjectCode},id,#{userId},1 from edu_master_class 
+		where edu_school=#{eduSchool} and edu_step=#{eduStep} and edu_year=#{eduYear} and edu_class=#{eduClass}
+	</insert>
+	
 </mapper>

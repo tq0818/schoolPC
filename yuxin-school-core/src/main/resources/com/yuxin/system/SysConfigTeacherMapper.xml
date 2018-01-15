@@ -21,7 +21,6 @@
 		<result property="emergencyContactName" column="emergency_contact_name" />
 		<result property="emergencyContactPhone" column="emergency_contact_phone" />
 		<result property="workTime" column="work_time" />
-		<result property="schoolId" column="school_id" />
 		<result property="unionpayNo" column="unionpay_no" />
 		<result property="bankName" column="bank_name" />
 		<result property="bankAccountName" column="bank_account_name" />
@@ -32,7 +31,6 @@
 		<result property="creator" column="creator" />
 		<result property="updateTime" column="update_time" />
 		<result property="updator" column="updator" />
-		<result property="companyId" column="company_id" />
 		<result property="resume" column="resume" />
 		<result property="teacherId" column="teacher_id" />
 		<result property="educationCode" column="education_code" />
@@ -46,6 +44,8 @@
 		<result property="schoolName" column="school_name" />
 		<result property="sortId" column="sort_id" />
 		<result property="schoolShortName" column="school_short_name" />
+		<result property="eduAreaSchool" column="edu_area_school" />
+		
 		<result property="remark" column="remark" />
 	</resultMap>
 
@@ -70,7 +70,6 @@
 		<result property="name" column="name" />
 		<result property="teacherType" column="teacher_type" />
 		<result property="mobile" column="mobile" />
-		<result property="companyId" column="company_id" />
 		<result property="resume" column="resume" />
 		<result property="headpicUrl" column="headpic_url" />
 		<result property="schoolId" column="school_id"/>
@@ -105,7 +104,6 @@
 		emergency_contact_name,
 		emergency_contact_phone,
 		work_time,
-		school_id,
 		unionpay_no,
 		bank_name,
 		bank_account_name,
@@ -116,7 +114,6 @@
 		creator,
 		update_time,
 		updator,
-		company_id,
 		resume,
 		education_code,
 		headpic_url,
@@ -129,6 +126,90 @@
 		sort_id,
 		school_short_name,
 		remark
+	</sql>
+	<sql id="table_columns_sct">
+		sct.id,
+		sct.name,
+		sct.teacher_type,
+		sct.sex,
+		sct.mobile,
+		sct.home_phone,
+		sct.birthday,
+		sct.id_number,
+		sct.email,
+		sct.job_type,
+		sct.home_address,
+		sct.address,
+		sct.company,
+		sct.post,
+		sct.work_phone,
+		sct.emergency_contact_name,
+		sct.emergency_contact_phone,
+		sct.work_time,
+		sct.unionpay_no,
+		sct.bank_name,
+		sct.bank_account_name,
+		sct.bank_account_num,
+		sct.status_code,
+		sct.del_flag,
+		sct.create_time,
+		sct.creator,
+		sct.update_time,
+		sct.updator,
+		sct.resume,
+		sct.education_code,
+		sct.headpic_url,
+		sct.user_id,
+		sct.is_distinguished,
+		sct.invite_code,
+		sct.teacher_level,
+		sct.teacher_area,
+		sct.school_name,
+		sct.sort_id,
+		sct.school_short_name,
+		sct.remark
+	</sql>
+	<sql id="table_columns_new">
+		t1.id,
+		t1.name,
+		t1.teacher_type,
+		t1.sex,
+		t1.mobile,
+		t1.home_phone,
+		t1.birthday,
+		t1.id_number,
+		t1.email,
+		t1.job_type,
+		t1.home_address,
+		t1.address,
+		t1.company,
+		t1.post,
+		t1.work_phone,
+		t1.emergency_contact_name,
+		t1.emergency_contact_phone,
+		t1.work_time,
+		t1.unionpay_no,
+		t1.bank_name,
+		t1.bank_account_name,
+		t1.bank_account_num,
+		t1.status_code,
+		t1.del_flag,
+		t1.create_time,
+		t1.creator,
+		t1.update_time,
+		t1.updator,
+		t1.resume,
+		t1.education_code,
+		t1.headpic_url,
+		t1.user_id,
+		t1.is_distinguished,
+		t1.invite_code,
+		t1.teacher_level,
+		t1.teacher_area,
+		t1.school_name,
+		t1.sort_id,
+		t1.school_short_name,
+		t1.remark
 	</sql>
 	<sql id="entity_properties">
 		#{id},
@@ -149,7 +230,6 @@
 		#{emergencyContactName},
 		#{emergencyContactPhone},
 		#{workTime},
-		#{schoolId},
 		#{unionpayNo},
 		#{bankName},
 		#{bankAccountName},
@@ -160,7 +240,6 @@
 		#{creator},
 		#{updateTime},
 		#{updator},
-		#{companyId},
 		#{resume},
 		#{educationCode},
 		#{headpicUrl},
@@ -179,10 +258,10 @@
 	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into sys_config_teacher(
-		<include refid="table_columns" />
+		<include refid="table_columns" />,edu_area_school
 		)
 		values (
-		<include refid="entity_properties" />
+		<include refid="entity_properties" />,#{eduAreaSchool}
 		)
 	</insert>
 
@@ -236,7 +315,6 @@
 			<if test="emergencyContactName != null and emergencyContactName != ''">emergency_contact_name = #{emergencyContactName},</if>
 			<if test="emergencyContactPhone != null and emergencyContactPhone != ''">emergency_contact_phone = #{emergencyContactPhone},</if>
 			<if test="workTime != null and workTime != ''">work_time = #{workTime},</if>
-			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
 			<if test="unionpayNo != null and unionpayNo != ''">unionpay_no = #{unionpayNo},</if>
 			<if test="bankName != null and bankName != ''">bank_name = #{bankName},</if>
 			<if test="bankAccountName != null and bankAccountName != ''">bank_account_name = #{bankAccountName},</if>
@@ -247,7 +325,6 @@
 			<if test="creator != null and creator != ''">creator = #{creator},</if>
 			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
 			<if test="updator != null and updator != ''">updator = #{updator},</if>
-			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
 			<if test="resume != null ">resume = #{resume},</if>
 			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
 			<if test="educationCode != null and educationCode != ''">education_code = #{educationCode},</if>
@@ -261,6 +338,8 @@
 			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
 			<if test="schoolShortName != null and schoolShortName !=''">school_short_name = #{schoolShortName},</if>
 			<if test="remark != null ">remark = #{remark},</if>
+			<if test="eduAreaSchool != null ">edu_area_school = #{eduAreaSchool},</if>
+			
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -285,7 +364,6 @@
 			<if test="emergencyContactName != null and emergencyContactName != ''">emergency_contact_name = #{emergencyContactName},</if>
 			<if test="emergencyContactPhone != null and emergencyContactPhone != ''">emergency_contact_phone = #{emergencyContactPhone},</if>
 			<if test="workTime != null and workTime != ''">work_time = #{workTime},</if>
-			<if test="schoolId != null and schoolId != ''">school_id = #{schoolId},</if>
 			<if test="unionpayNo != null and unionpayNo != ''">unionpay_no = #{unionpayNo},</if>
 			<if test="bankName != null and bankName != ''">bank_name = #{bankName},</if>
 			<if test="bankAccountName != null and bankAccountName != ''">bank_account_name = #{bankAccountName},</if>
@@ -296,7 +374,6 @@
 			<if test="creator != null and creator != ''">creator = #{creator},</if>
 			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
 			<if test="updator != null and updator != ''">updator = #{updator},</if>
-			<if test="companyId != null and companyId != ''">company_id = #{companyId},</if>
 			<if test="resume != null and resume != ''">resume = #{resume},</if>
 			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
 			<if test="educationCode != null and educationCode != ''">education_code = #{educationCode},</if>
@@ -353,7 +430,6 @@
 			<if test="emergencyContactPhone != null and emergencyContactPhone != ''">and emergency_contact_phone = #{emergencyContactPhone}
 			</if>
 			<if test="workTime != null and workTime != ''">and work_time = #{workTime}</if>
-			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
 			<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
 			<if test="itemSecondId != null and itemSecondId != ''">and item_second_id = #{itemSecondId}</if>
 			<if test="unionpayNo != null and unionpayNo != ''">and unionpay_no = #{unionpayNo}</if>
@@ -366,7 +442,6 @@
 			<if test="creator != null and creator != ''">and creator = #{creator}</if>
 			<if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
 			<if test="updator != null and updator != ''">and updator = #{updator}</if>
-			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 			<if test="educationCode != null and educationCode != ''">and education_code = #{educationCode}</if>
 			<if test="headpicUrl != null and headpicUrl != ''">and headpic_url = #{headpicUrl}</if>
 			<if test="userId != null and userId !=''">and user_id = #{userId}</if>
@@ -382,8 +457,6 @@
 			<if test="name != null and name != ''">and name = #{name}</if>
 			<if test="teacherType != null and teacherType != ''">and teacher_type = #{teacherType}</if>
 			<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
-			<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
-			<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
 			<if test="delFlag != null">and del_flag = #{delFlag}</if>
 		</trim>
 	</sql>
@@ -392,13 +465,15 @@
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select
 		<include refid="table_columns" />
-		from sys_config_teacher
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
 		where teacher_type!='PERSON_TEACHER'
 		<if test="name != null and name != ''">and name like '%${name}%'</if>
 		<if test="teacherType != null and teacherType != ''">and teacher_type = #{teacherType}</if>
 		<if test="statusCode != null and statusCode != ''">and status_code = #{statusCode}</if>
 		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
-		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="userId != null and userId !=''">and user_id = #{userId}</if>
 		ORDER BY update_time DESC
 		limit #{firstIndex},#{pageSize}
@@ -433,8 +508,10 @@
 		SELECT
 		sct.id,
 		sct.name
-		FROM sys_config_teacher sct WHERE
-		sct.school_id = #{schoolId} and
+		FROM sys_config_teacher sct 
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		WHERE scs.id = #{schoolId} and
 		sct.teacher_type != 'PERSON_TEACHER'
 		and sct.del_flag = 0
 	</select>
@@ -445,11 +522,12 @@
 		sct.name
 		FROM
 		sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
 		sctl.teacher_id
 		WHERE
-		sct.school_id = #{schoolId} and sct.teacher_type =
-		#{teacherType} and sctl.module_id = #{moduleId} and sct.del_flag = 0
+		scs.id = #{schoolId} and sct.teacher_type=#{teacherType} and sctl.module_id = #{moduleId} and sct.del_flag = 0
 	</select>
 
 
@@ -457,12 +535,12 @@
 	<select id="queryTeachersByKeys" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		SELECT
-		*
+		a.*,b.*
 		FROM
 		sys_config_teacher a
-		left join
-		sys_config_teacher_lesson b
-		on a.id = b.teacher_id
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		left join sys_config_teacher_lesson b on a.id = b.teacher_id
 		WHERE a.teacher_type='PERSON_TEACHER'
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id= #{itemSecondId}</if>
@@ -471,7 +549,7 @@
 		<if test="mobile != null and mobile != ''">and a.mobile = #{mobile}</if>
 		<if test="statusCode != null and statusCode != ''">and status_code = #{statusCode}</if>
 		<if test="idNumber != null and idNumber != ''">and id_number = #{idNumber}</if>
-		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		GROUP BY a.id
 		ORDER BY a.update_time DESC
 		limit #{firstIndex},#{pageSize}
@@ -483,8 +561,9 @@
 		a.id
 		FROM
 		sys_config_teacher a
-		left join
-		sys_config_teacher_lesson b
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		left join sys_config_teacher_lesson b
 		on a.id = b.teacher_id
 		WHERE a.teacher_type='PERSON_TEACHER'
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
@@ -492,7 +571,7 @@
 		<if test="name != null and name != ''">and a.name like '%${name}%'</if>
 		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
 		<if test="statusCode != null and statusCode != ''">and status_code = #{statusCode}</if>
-		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		GROUP BY a.id
 		) teacher limit 1
 	</select>
@@ -509,85 +588,112 @@
 	<select id="queryForClassType" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
 		select a.id,a.name
-		from sys_config_teacher
-		a,sys_config_teacher_lesson b
-		where
-		a.id=b.teacher_id
-		and
-		b.item_one_id = #{itemOneId}
-		and
-		b.item_second_id= #{itemSecondId}
-		and
-		a.school_id=#{schoolId}
+		from sys_config_teacher a,sys_config_teacher_lesson b,users_comany_relation ur,sys_config_school scs
+		where a.id=b.teacher_id and ur.user_id=a.user_id and ur.is_used=1 and scs.company_id=ur.company_id
+		and b.item_one_id = #{itemOneId}
+		and b.item_second_id= #{itemSecondId}
+		and scs.id=#{schoolId}
 	</select>
 
 	<!-- 根据公司id 和 工作类型 查询 -->
 	<select id="findTeacherBySchoolId" resultType="Integer"
 		parameterType="Integer">
-		select count(id)
-		from sys_config_teacher
-		where teacher_type = 'PERSON_TEACHER'
-		and school_id = #{school_id}
-		and del_flag = 0
+		select count(sct.id)
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where sct.teacher_type = 'PERSON_TEACHER'
+		and scs.id = #{school_id}
+		and sct.del_flag = 0
 	</select>
 	<select id="findSenateBySchoolId" resultType="Integer"
 		parameterType="Integer">
-		select count(id)
-		from sys_config_teacher
-		where teacher_type not in('PERSON_TEACHER')
-		and school_id = #{school_id}
-		and del_flag = 0
+		select count(sct.id)
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where sct.teacher_type not in('PERSON_TEACHER')
+		and scs.id = #{school_id}
+		and sct.del_flag = 0
 	</select>
 	<!-- ycl-start -->
 	<select id="findByCompany" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select
-		<include refid="table_columns" />
-		from sys_config_teacher
-		where del_flag = 0 and company_id =
-		#{companyId} and school_id = #{schoolId}
+		<include refid="table_columns_sct" />
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where sct.del_flag = 0 and scs.company_id = #{companyId}
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
-				and (teacher_type = 'PERSON_MANAGER' or teacher_type =
+				and (sct.teacher_type = 'PERSON_MANAGER' or sct.teacher_type =
 				'PERSON_ASSISTANT' or teacher_type = 'PERSON_WAITER')
 			</if>
 			<if test="teacherType != 'all'">
-				and teacher_type = #{teacherType}
+				and sct.teacher_type = #{teacherType}
 			</if>
 		</if>
-		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
-		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		and status_code = 'TEACHER_USERD' order by sort_id is null, sort_id asc, create_time desc
+		<if test="mobile != null and mobile != ''">and sct.mobile = #{mobile}</if>
+		<if test="name != null and name != ''">and sct.name LIKE '%${name}%'</if>
+		and sct.status_code = 'TEACHER_USERD' order by sct.sort_id is null, sct.sort_id asc, sct.create_time desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="findByNewCompany" resultMap="sysConfigTeacherResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		select t1.*  from sys_config_teacher t1
+		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
+		inner join users u on u.id=t1.user_id
+		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id 
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=t1.user_id and ucr.is_used=1
+		where t1.del_flag = 0 and t3.company_id = #{companyId} 
+		<if test="teacherType != null and teacherType != ''">
+			<if test="teacherType == 'all'">
+				and (t1.teacher_type = 'PERSON_MANAGER' or t1.teacher_type =
+				'PERSON_ASSISTANT' or t1.teacher_type = 'PERSON_WAITER')
+			</if>
+			<if test="teacherType != 'all'">
+				and t1.teacher_type = #{teacherType}
+			</if>
+		</if>
+		<if test="mobile != null and mobile != ''">and t1.mobile = #{mobile}</if>
+		<if test="name != null and name != ''">and t1.name LIKE '%${name}%'</if>
+		and t1.status_code = 'TEACHER_USERD' order by t1.sort_id is null, t1.sort_id asc, t1.create_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 
 	<select id="findByCompanyCount" resultType="Integer"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select count(id)
-		from sys_config_teacher
-		where del_flag = 0 and company_id = #{companyId}
-		and school_id = #{schoolId}
-		<if test="teacherType != null and teacherType != ''">
+		select count(t1.id)
+		from sys_config_teacher t1
+		inner join users u on u.id=t1.user_id
+		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
+		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=t1.user_id and ucr.is_used=1
+		where t1.del_flag = 0 and t3.company_id = #{companyId} 
+				<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
-				and (teacher_type = 'PERSON_MANAGER' or teacher_type =
-				'PERSON_ASSISTANT' or teacher_type = 'PERSON_WAITER')
+				and (t1.teacher_type = 'PERSON_MANAGER' or t1.teacher_type =
+				'PERSON_ASSISTANT' or t1.teacher_type = 'PERSON_WAITER')
 			</if>
 			<if test="teacherType != 'all'">
-				and teacher_type = #{teacherType}
+				and t1.teacher_type = #{teacherType}
 			</if>
 		</if>
-		<if test="mobile != null and mobile != ''">and mobile = #{mobile}</if>
-		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		and status_code = 'TEACHER_USERD' order by sort_id is null,sort_id asc
+		<if test="mobile != null and mobile != ''">and t1.mobile = #{mobile}</if>
+		<if test="name != null and name != ''">and t1.name LIKE '%${name}%'</if>
+		and t1.status_code = 'TEACHER_USERD'
 	</select>
 
 	<select id="findTeacherIdByMobile" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"
 		resultMap="sysConfigTeacherResultMap">
 		select
-		<include refid="table_columns" />
-		from sys_config_teacher
-		where del_flag = 0 and company_id =
-		#{companyId} and mobile = ${mobile}
+		<include refid="table_columns_sct" />
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		where sct.del_flag = 0 
+		<if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if>
+		 and sct.mobile = ${mobile}
 	</select>
 	<!-- ycl-end -->
 
@@ -595,6 +701,44 @@
 	<!-- 如果以上的方法没用的话，会直接删除 2015-05-04. 如果有新增加的方法，则写到该注释的下方 -->
 
 	<select id="queryAllTeachersWithItemOneId" resultMap="sysConfigTeacherResultMap"
+		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		SELECT
+		sct.id,
+		sct.`name`,
+		sct.mobile,
+		sct.home_phone,
+		sct.sex,
+		sct.birthday,
+		sct.id_number,
+		sct.email,
+		sct.home_address,
+		sct.address,
+		sct.bank_name,
+		sct.bank_account_name,
+		sct.bank_account_num,
+		sct.work_phone,
+		sct.emergency_contact_name,
+		sct.emergency_contact_phone,
+		sct.resume,
+		sct.sort_id,
+		sct.is_distinguished,
+		sct.remark,
+		sct.school_name,
+		sct.school_short_name
+		FROM
+		sys_config_teacher sct
+		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
+		sctl.teacher_id
+		inner join users u on u.id=sct.user_id
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=sct.user_id and ucr.is_used=1
+		WHERE
+		sct.teacher_type = 'PERSON_TEACHER'
+		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
+		AND sct.del_flag = 0 AND sctl.item_one_id =
+		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc
+		limit #{firstIndex},#{pageSize}
+	</select>
+	<select id="queryAllNewTeachersWithItemOneId" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		SELECT
 		sct.id,
@@ -624,7 +768,7 @@
 		WHERE
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
-		AND sct.del_flag = 0 AND sctl.item_one_id =
+		AND sct.del_flag = 0 AND sctl.item_second_id =
 		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc
 		limit #{firstIndex},#{pageSize}
 	</select>
@@ -638,6 +782,8 @@
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON
 		sct.id = sctl.teacher_id
+		inner join users u on u.id=sct.user_id
+		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=sct.user_id and ucr.is_used=1
 		WHERE
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
@@ -648,22 +794,25 @@
 
 	<select id="findAssistantBySchool" resultMap="sysConfigTeacherResultMap">
 		select
-		<include refid="table_columns" />
-		from sys_config_teacher
-		where school_id = #{schoolId} and
-		teacher_type = 'PERSON_ASSISTANT' and
-		del_flag = 0
+		<include refid="table_columns_sct" />
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where scs.id = #{schoolId} and
+		sct.teacher_type = 'PERSON_ASSISTANT' and
+		sct.del_flag = 0
 	</select>
 
 	<select id="queryTeacherByName" parameterType="com.yuxin.wx.vo.system.SysConfigTeachersVo"
 		resultMap="teacheDtailMap">
-		select distinct a.id,a.name,a.sex,a.mobile from sys_config_teacher a
+		select distinct a.id,a.name,a.sex,a.mobile 
+		from sys_config_teacher a
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
 		LEFT JOIN sys_config_teacher_lesson b on a.id=b.teacher_id
-		where status_code='TEACHER_USERD' and del_flag=0
+		where status_code='TEACHER_USERD' and a.del_flag=0
 		<if test="teacherName != null and teacherName != ''">and a.name LIKE '%${teacherName}%'</if>
-		<if test="userId != null and userId != ''">and user_id = #{userId}</if>
-		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
-		<if test="companyId != null and companyId != ''">and company_id = #{companyId}</if>
+		<if test="userId != null and userId != ''">and a.user_id = #{userId}</if>
+		<if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if>
 		<if test="teacherType ==6  and teacherType != null">and a.teacher_type = 'PERSON_TEACHER'</if>
 		<if test="teacherType ==7  and teacherType != null">and a.teacher_type != 'PERSON_TEACHER'</if>
 	</select>
@@ -681,11 +830,13 @@
 	<select id="queryTeachers" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
 		select DISTINCT a.id,a.name,a.teacher_type from sys_config_teacher a
+		inner join users_comany_relation ur on a.user_id=ur.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_teacher_lesson b
 		on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
 		a.teacher_type='PERSON_TEACHER' and a.del_flag=0 and
-		a.company_id=#{companyId}
-		<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		scs.company_id=#{companyId}
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id= #{itemSecondId}</if>
 		<if test="id != null and id != ''">and a.id = #{id}</if>
@@ -695,12 +846,13 @@
 	<!-- 查询所有教务 -->
 	<select id="findAssistants" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
-		select DISTINCT a.id,a.name,a.teacher_type from sys_config_teacher a
-		LEFT JOIN sys_config_teacher_lesson b
-		on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
-		a.teacher_type='PERSON_ASSISTANT' and a.del_flag=0 and
-		a.company_id=#{companyId}
-		<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		select DISTINCT a.id,a.name,a.teacher_type 
+		from sys_config_teacher a
+		inner join users_comany_relation ur on a.user_id=ur.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		LEFT JOIN sys_config_teacher_lesson b on a.id=b.teacher_id 
+		where a.status_code='TEACHER_USERD' and a.teacher_type='PERSON_ASSISTANT' and a.del_flag=0 and ur.company_id=#{companyId}
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id= #{itemSecondId}</if>
 		order by a.id desc
@@ -718,10 +870,11 @@
 	<select id="queryTeachersBycondition" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
 		select DISTINCT a.id,a.name,a.teacher_type from sys_config_teacher a
-		LEFT JOIN sys_config_teacher_lesson b
-		on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
-		a.del_flag=0 and a.company_id=#{companyId}
-		<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		LEFT JOIN sys_config_teacher_lesson b on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
+		a.del_flag=0 and ur.company_id=#{companyId}
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id= #{itemSecondId}</if>
 		<if test="userId != null and userId != ''">and a.user_id = #{userId}</if>
@@ -735,7 +888,6 @@
 			</otherwise>
 		</choose>
 		</if>
-<!-- 		<if test="teacherType != null and teacherType != ''">and a.teacher_type= #{teacherType}</if> -->
 		order by a.id desc
 	</select>
 
@@ -746,39 +898,45 @@
 	</select>
 	<select id="findSysConfigTeacherByCompany" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select <include refid="table_columns" /> from sys_config_teacher
-		where status_code='TEACHER_USERD' and del_flag=0 and
-		company_id=#{companyId}
+		select <include refid="table_columns_sct" /> from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where sct.status_code='TEACHER_USERD' and sct.del_flag=0 and ur.company_id=#{companyId}
 		<if test="teacherType != null and teacherType != ''">
-			and teacher_type = #{teacherType}
+			and sct.teacher_type = #{teacherType}
 		</if>
-		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
-		<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
+		<if test="userId != null and userId != ''">and sct.user_id = #{userId}</if>
 		order by id desc
 	</select>
 	<select id="findSysConfigTeacherByName" resultMap="sysConfigTeacherResultMap"
 		parameterType="java.util.Map">
-		select id, name, mobile from sys_config_teacher
-		where status_code='TEACHER_USERD' and del_flag=0 and
-		company_id=#{companyId}
-		<if test="schoolId != null and schoolId != ''">and school_id = #{schoolId}</if>
-		<if test="teacherName != null and teacherName != ''">and name like '%${teacherName}%'</if>
-		order by id desc
+		select sct.id,sct.name, sct.mobile from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		where sct.status_code='TEACHER_USERD' and sct.del_flag=0 and ur.company_id=#{companyId}
+		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
+		<if test="teacherName != null and teacherName != ''">and sct.name like '%${teacherName}%'</if>
+		order by sct.id desc
 	</select>
 	<select id="findMobileCount" resultType="int" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select count(mobile) 
-		from sys_config_teacher
-		where mobile = #{mobile} and company_id = #{companyId}
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		where mobile = #{mobile} and ur.company_id = #{companyId}
 	</select>
 	
 	<select id="findTeacherByUserId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher" resultType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select * from sys_config_teacher where teacher_type = 'PERSON_TEACHER' and company_id = #{companyId} and user_id = #{userId}
+		select * from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		where teacher_type = 'PERSON_TEACHER' and ur.company_id = #{companyId} and user_id = #{userId}
 	</select>
     <select id="findByInviteCode" resultMap="sysConfigTeacherResultMap" parameterType="com.yuxin.wx.vo.system.TeachersVo">
         select <include refid="table_columns" />
-        from sys_config_teacher
-        where company_id = #{companyId}
-        <if test="inviteCode != null and inviteCode != ''">and invite_code = #{inviteCode}</if>
+        from sys_config_teacher sct
+        inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+        where ur.company_id = #{companyId}
+        <if test="inviteCode != null and inviteCode != ''">and sct.invite_code = #{inviteCode}</if>
         limit 1
     </select>
     
@@ -794,6 +952,8 @@
 		class_type.courseNum,
 		commodity.stuNum
 		from sys_config_teacher a
+		inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
+		inner join sys_config_school scs on scs.company_id=ur.company_id
 		left join (
 		SELECT
 		count(id) as courseNum,
@@ -822,9 +982,9 @@
 		AND a.is_distinguished = 1
 	  <if test="name != null and name != ''">and a.name like '%${name}%'</if>
 	  <choose>
-			<when test="schoolsId != null and schoolsId != ''">and a.school_id in(${schoolsId})</when>
+			<when test="schoolsId != null and schoolsId != ''">and scs.id in(${schoolsId})</when>
 			<otherwise>
-				<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+				<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 			</otherwise>
 	 </choose>
       <if test="cusorder != null and cusorder != '' and cusorder=='all'">
@@ -834,12 +994,14 @@
 	</select>
 	<select id="queryTeachersDataCount" resultType="Integer" parameterType="com.yuxin.wx.vo.system.TeachersVo">
 	   select count(a.id) from sys_config_teacher a 
-	where a.status_code='TEACHER_USERD' and a.teacher_type='PERSON_TEACHER' and a.del_flag=0 and a.is_distinguished=1 and a.company_id=#{companyId}
+	inner join users_comany_relation ur on ur.user_id=a.user_id and ur.is_used=1
+	inner join sys_config_school scs on scs.company_id=ur.company_id
+	where a.status_code='TEACHER_USERD' and a.teacher_type='PERSON_TEACHER' and a.del_flag=0 and a.is_distinguished=1 and ur.company_id=#{companyId}
 	 <if test="name != null and name != ''">and a.name like '%${name}%'</if>
       <choose>
-			<when test="schoolsId != null and schoolsId != ''">and a.school_id in(${schoolsId})</when>
+			<when test="schoolsId != null and schoolsId != ''">and scs.id in(${schoolsId})</when>
 			<otherwise>
-				<if test="schoolId != null and schoolId != ''">and a.school_id = #{schoolId}</if>
+				<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 			</otherwise>
 	 </choose>
       <if test="cusorder != null and cusorder != '' and cusorder=='all'">
@@ -860,15 +1022,14 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
 		parameterType="map">
 		select
 		sct.id,sct.name
-		from sys_config_teacher sct,sys_config_item sci,sys_config_teacher_lesson sctl
-		where sci.id = #{teacher.itemOneId}
+		from sys_config_teacher sct,sys_config_item sci,sys_config_teacher_lesson sctl,users_comany_relation ur
+		where sci.id = #{teacher.itemOneId} and sci.company_id=#{companyId} and sct.user_id=ur.user_id and ur.is_used=1 and ur.company_id=#{companyId}
 		<if test="teacherIds!=null and teacherIds!=''">
 			and sct.id not in
 			<foreach item="item" collection="teacherIds" open="(" separator=","  close=")">
 				#{item}
 			</foreach>
 		</if>
-
 		and sci.id = sctl.item_one_id and sci.status = 1 and sci.del_flag = 0 and sctl.teacher_id = sct.id and sct.teacher_type ='PERSON_TEACHER' and sct.status_code = 'TEACHER_USERD' and sct.del_flag = 0
         group by sct.id
 		

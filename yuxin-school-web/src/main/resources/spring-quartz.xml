@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!--&lt;!&ndash; ======================== 定时任务调度工厂 ======================== &ndash;&gt;-->
+	<import resource="classpath*:/applicationContext.xml" />
+	<!-- ======================== 业务任务调度 ======================== -->
+
+	<!--  总管理类如果将lazy-init='false'那么容器启动就会执行调度程序   -->
+	<bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" >
+		<property name="dataSource">
+			<ref bean="dataSourceSchool" />
+		</property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="triggers">
+			<list>
+				<ref local="paperTrigger"/>
+				<ref local="sendWeixinTrigger"/>
+				<ref local="liveHistoryTrigger"/>
+				<ref local="videoPlaylogTrigger"/>
+				<ref local="liveRoomUsageTrigger"/>
+			</list>
+		</property>
+	</bean>
+	<!-- 试卷定时 -->
+	<bean id="paperTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="paperDetail" />
+		<property name="cronExpression" value="0 0 * * * ?" />
+	</bean>
+	<bean id="paperDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<!-- 指定任务Bean的实现类 -->
+		<property name="jobClass">
+			<value>com.yuxin.wx.controller.task.TimerTaskPaper</value>
+		</property>
+	</bean>
+
+	<!-- 微信发送定时 -->
+	<bean id="sendWeixinTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="paperDetail" />
+		<property name="cronExpression" value="0 0 20 * * ?" />
+	</bean>
+	<bean id="sendWeixinDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<!-- 指定任务Bean的实现类 -->
+		<property name="jobClass">
+			<value>com.yuxin.wx.controller.task.TimerTaskSendWeixinMsg</value>
+		</property>
+	</bean>
+
+	<!-- 直播定时 -->
+	<bean id="liveHistoryTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="liveHistoryDetail" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+	<bean id="liveHistoryDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<!-- 指定任务Bean的实现类 -->
+		<property name="jobClass">
+			<value>com.yuxin.wx.controller.task.TimerTaskLiveHistory</value>
+		</property>
+	</bean>
+
+	<!-- 录播定时 -->
+	<bean id="videoPlaylogTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="videoPlaylogDetail" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+	<bean id="videoPlaylogDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<!-- 指定任务Bean的实现类 -->
+		<property name="jobClass">
+			<value>com.yuxin.wx.controller.task.TimerTaskVideoPlaylog</value>
+		</property>
+	</bean>
+
+	<!-- 直播历史定时 -->
+	<bean id="liveRoomUsageTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="liveRoomUsageDetail" />
+		<property name="cronExpression" value="0 0 1 * * ?" />
+	</bean>
+	<bean id="liveRoomUsageDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<!-- 指定任务Bean的实现类 -->
+		<property name="jobClass">
+			<value>com.yuxin.wx.controller.task.TimerTaskLiveRoomUsage</value>
+		</property>
+	</bean>
+</beans>

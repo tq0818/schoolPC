@@ -1,12 +1,13 @@
 package com.yuxin.wx.model.watchInfo;
 
+import java.util.List;
+
 import com.yuxin.wx.common.BaseEntity;
-
-import java.util.Date;
-
+import com.yuxin.wx.model.classes.EduMasterClass;
 /**
  * Created by Administrator on 2017/10/18.
  */
+@SuppressWarnings("serial")
 public class WatchInfoResult extends BaseEntity {
     private String className;//课程名称
     private String lessonName;//课次名称
@@ -30,8 +31,38 @@ public class WatchInfoResult extends BaseEntity {
     private String schoolType;
     private String orderBy;
     private String userId;
+    private String isBaseSchool;//基地校
+    private String videoFlag;//录播
+    private String liveFlag;//直播
+    private String isFromBrachSchool;
+    private Integer companyId;//机构标识号
+    private List<EduMasterClass> eduMasterClass;
 
-    public String getUserId() {
+    public List<EduMasterClass> getEduMasterClass() {
+		return eduMasterClass;
+	}
+
+	public void setEduMasterClass(List<EduMasterClass> eduMasterClass) {
+		this.eduMasterClass = eduMasterClass;
+	}
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getIsFromBrachSchool() {
+		return isFromBrachSchool;
+	}
+
+	public void setIsFromBrachSchool(String isFromBrachSchool) {
+		this.isFromBrachSchool = isFromBrachSchool;
+	}
+
+	public String getUserId() {
         return userId;
     }
 
@@ -206,4 +237,35 @@ public class WatchInfoResult extends BaseEntity {
     public void setSchoolType(String schoolType) {
         this.schoolType = schoolType;
     }
+
+	
+    public String getIsBaseSchool() {
+    	return isBaseSchool;
+    }
+
+	
+    public void setIsBaseSchool(String isBaseSchool) {
+    	this.isBaseSchool = isBaseSchool;
+    }
+
+	
+    public String getVideoFlag() {
+    	return videoFlag;
+    }
+
+	
+    public void setVideoFlag(String videoFlag) {
+    	this.videoFlag = videoFlag;
+    }
+
+	
+    public String getLiveFlag() {
+    	return liveFlag;
+    }
+
+	
+    public void setLiveFlag(String liveFlag) {
+    	this.liveFlag = liveFlag;
+    }
+    
 }

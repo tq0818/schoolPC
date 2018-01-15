@@ -240,4 +240,46 @@ public interface IPayOrderService  {
 	 * @return
 	 */
 	Integer queryOrderBuyClassCountByUserId(Map<String,Object> map);
+
+	/**
+	 * 根据条件查询分销收入情况
+	 * @param map
+	 * @return
+     */
+	public List<PayOrder> findSchoolMoneyByCondition(Map<String, Object> map);
+
+	/**
+	 * 根据条件查询分校收入条数
+	 * @param map
+	 * @return
+     */
+	Integer findSchoolMoneyCountByCondition(Map<String, Object> map);
+
+	/**
+	 * 查询老师收入情况
+	 * @param map
+	 * @return
+     */
+	List<PayOrder> queryTeacherMoneyByCondition(Map<String, Object> map);
+
+	/**
+	 * 查询老师收入情况计数
+	 * @param map
+	 * @return
+     */
+	Integer queryTeacherMoneyCountByCondition(Map<String, Object> map);
+
+	/**
+	 * 查询分校收入情况
+	 * @param map
+	 * @return
+     */
+	List<PayOrder> findPrivateSchoolMoneyByCondition(Map<String, Object> map);
+
+	/**
+	 * 查询分校收入情况统计
+	 * @param map
+	 * @return
+     */
+	Integer findPrivateSchoolMoneyCountByCondition(Map<String, Object> map);
 }

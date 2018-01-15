@@ -39,6 +39,10 @@
 	            	number:true,
 	            	max:99999
 	            },
+	            publicPrice:{
+	            	number:true,
+	            	max:99999
+	            },
 	            baseNum:{
 	            	required: true,
 	            	digits:true,
@@ -89,6 +93,10 @@
 	            },
 	            realPrice:{
 	            	required:true,
+	            	number:true,
+	            	max:99999
+	            },
+	            publicPrice:{
 	            	number:true,
 	            	max:99999
 	            },
@@ -301,6 +309,18 @@
 			        var tmptxt=$(this).val();     
 			        $(this).val(tmptxt.replace(/\D/g,''));     
 			    }).css("ime-mode", "disabled"); 
+				
+				//公开课程价格
+				$("input[name='isPublic']").on('click',function(){
+					var ispublic=$(this).val();
+					if('1'==ispublic){
+						$(".publicPrice").removeClass("none");
+					}else{
+						$(".publicPrice").addClass("none");
+						$("#publicPrice").val(null);
+					}
+				});		
+				
 				//判断是否显示三级标签
 	    		$.ajax({
 					url : rootPath + "/serviceGroup/lableSetting",
@@ -597,6 +617,12 @@
 			    		return;
 			    	}
 			    	$("#addFormOne").validate(rules);
+			    	var ispublic=$("input[name='isPublic']:checked").val();
+                    var publicPrice=$("#publicPrice").val();
+                    if('1'==ispublic&&!publicPrice){
+                    	$.msg("请设置公开课程价格!");
+                        return;
+                    }
 			    	if($("#addFormOne").valid()){
 			    		$.ajax({
 			    			url: rootPath+"/simpleClasses/checkClassTypeName",

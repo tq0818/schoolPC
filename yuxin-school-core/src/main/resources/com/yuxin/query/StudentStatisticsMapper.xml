@@ -111,13 +111,16 @@
 	<select id="getAreaStudentCountList" resultType="Map" parameterType="Map">
 		select IFNULL(d1.item_value,'') as eduSchool,IFNULL(d2.item_value,'') as eduStep,IFNULL(count(distinct(s.id )), 0) as registerNum,
 		sum(u.vip_flag) as paymaterCount
-		from student s INNER JOIN users_front u on s.user_id=u.id
+		from student s
+		INNER JOIN users_front u on s.user_id=u.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
+		inner join sys_config_school scs on scs.company_id=c.id
 		left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
 		LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
 		LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
 		where 1=1
-		<if test="schoolId != null">and s.school_id=#{schoolId}</if>
+		<if test="schoolId != null">and scs.id=#{schoolId}</if>
 		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
 		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
@@ -176,9 +179,9 @@
 	</select>
 
 	<select id="watchInfoIndex"  parameterType="Map" resultType="Map">
-		select sum(a.times) as times from (select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
-		JOIN commodity m ON m.id = swf.commodity_id
-		AND m.origin_type = 0
+		select sum(a.times) as times from (select COUNT(DISTINCT(swf.user_id)) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year
+		from sys_watch_info  swf
+		inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
 		where s.edu_identity=0
@@ -193,8 +196,7 @@
 
 	<select id="watchInfoAll" parameterType="Map" resultType="Map">
 		select COUNT(1) as times,swf.user_id,swf.lesson_date,s.edu_school,s.edu_area,s.edu_year from sys_watch_info  swf
-		JOIN commodity m ON m.id = swf.commodity_id
-		AND m.origin_type = 0
+		inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
 		LEFT JOIN student s on s.user_id = swf.user_id
 		LEFT JOIN edu_step_school_relation essr  on  essr.edu_school_code  = s.edu_school
 		where s.edu_identity=0
@@ -227,7 +229,7 @@
 			s.edu_year
 		FROM
 			sys_watch_info swf
-		join commodity c on c.id=swf.commodity_id and c.origin_type=0
+		inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
 		LEFT JOIN student s ON s.user_id = swf.user_id
 		Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 		where s.edu_identity=0
@@ -269,7 +271,7 @@
                 s.edu_year
                 FROM
                 sys_watch_info swf
-				join commodity c on c.id=swf.commodity_id and c.origin_type=0
+                inner join class_type ct on ct.id=swf.classtype_id and ct.company_id=#{companyId}
                 LEFT JOIN student s ON s.user_id = swf.user_id
 				Left JOIN  edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 				where s.edu_identity=0
@@ -314,16 +316,22 @@
 					dstep.item_value as edu_step
                 FROM
                     sys_watch_info swi
-				JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+                inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
                 LEFT JOIN student s ON s.user_id = swi.user_id
                 LEFT JOIN users_front sf ON sf.id = s.user_id
-
+                LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 				LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
 				LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
 				LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 				LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
                 WHERE
                     s.edu_identity=0
+                    <if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+					</if>
                     <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                     <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                     <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -365,15 +373,22 @@
 						dnstep.item_value as school_type
                         FROM
                         sys_watch_info swi
-						JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+                        inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
 						LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
 						LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
 						LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
                         WHERE
                         s.edu_identity=0
+                        <if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
                         <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                         <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                         <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -412,9 +427,10 @@
                         s.edu_year
                         FROM
                         sys_watch_info swi
-						JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+                        inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
                         LEFT JOIN edu_step_school_relation essr on essr.edu_school_code = s.edu_school
                         LEFT JOIN sys_config_dict scd1 on  scd1.item_code = essr.edu_step_new_code
                         LEFT JOIN sys_config_dict scd2 on  scd2.item_code = s.edu_school
@@ -422,6 +438,12 @@
                         LEFT JOIN sys_config_dict scd4 on  scd4.item_code = s.edu_area
                         WHERE
                         s.edu_identity=0
+                        <if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
                         <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
                         <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
                         <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -448,7 +470,13 @@
 						LEFT JOIN  commodity_product_realtion cpr on  cpr.com_id = spm.commodity_id
 						LEFT JOIN  class_module_no_onsale cmno on cmno.classtype_id = cpr.product_id
 						LEFT JOIN  class_module_lesson  cml  on cml.module_no_id = cmno.module_no_id
-						where  s.edu_identity=0 and spm.origin_type=0 
+						where  s.edu_identity=0 and spm.origin_type=0 and spm.company_id=#{companyId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
 						<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 						<if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
@@ -471,17 +499,30 @@
 						LEFT JOIN class_module_lesson cml on  cml.module_no_id = cmno.module_no_id
 						LEFT JOIN commodity m ON m.id = cpr.com_id and m.origin_type=0
 						LEFT JOIN student s  on  s.id = spm.stu_id
-						WHERE spm.origin_type=0  and
+						WHERE spm.origin_type=0  and spm.company_id=#{companyId} and
 						s.edu_year > 0  and s.edu_school = #{schoolId}
 						AND s.edu_identity = 0 and s.delete_flag =  0  AND m.live_flag =1
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and  DATE(spm.apply_time) >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and  DATE(spm.apply_time) <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY s.edu_year asc
 					</select>
 					<select id="watchSchoolChartData" parameterType="Map" resultType="Map">
 						SELECT SUM(a.times) as times,a.edu_year from (select COUNT(DISTINCT(swi.user_id)) as times,s.edu_year from sys_watch_info  swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s  on s.user_id = swi.user_id
 						where  s.edu_year >0  and s.edu_school = #{schoolId} and s.edu_identity = 0 and s.delete_flag =  0
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY s.edu_year,swi.liveroom_id
@@ -497,8 +538,15 @@
 
 					<select id="getWatchNumBySchool" parameterType="Map" resultType="int">
 						select SUM(a.times) from (select  count(DISTINCT (swi.user_id)) as times from  sys_watch_info swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0   and s.edu_school=#{schoolId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						GROUP BY swi.liveroom_id) a
@@ -506,15 +554,29 @@
 					</select>
 					<select id="getWatchTimeLengthBySchool" parameterType="Map" resultType="Long">
 						select  IFNULL(sum(swi.watch_time),0) as watch_time from  sys_watch_info swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0  and s.edu_school=#{schoolId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 					</select>
 					<select id="getWatchTotalBySchool" parameterType="Map" resultType="int">
 						select  count(1) from  sys_watch_info swi
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
 						LEFT JOIN student s on  s.user_id = swi.user_id
 						where s.edu_identity = 0 and s.delete_flag =  0   and s.edu_school=#{schoolId}
+						<if test="eduMasterClass !=null and eduMasterClass != ''">
+							and
+							<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+								 s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+							</foreach>
+						</if>
 						<if test="startDate !=null and startDate != ''">and swi.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and swi.lesson_date <![CDATA[<=]]> #{endDate}</if>
 					</select>
@@ -538,10 +600,11 @@
 						FROM
 							sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+						inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-						LEFT JOIN commodity m ON m.id = swi.commodity_id
+						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
-						where s.edu_identity = 0 and s.delete_flag =  0 and m.origin_type=0
+						where s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
@@ -558,10 +621,11 @@
 						FROM
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
+						inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-						LEFT JOIN commodity m ON m.id = swi.commodity_id
+						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
-						where s.edu_identity = 0 and s.delete_flag =  0 and m.origin_type=0
+						where s.edu_identity = 0 and s.delete_flag =  0
 						<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
 						<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
 						<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
@@ -586,9 +650,9 @@
 		sys_watch_info_history swih
 		LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
 		LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
-		LEFT JOIN commodity m ON m.id = swi.commodity_id
+		LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 		LEFT JOIN student s ON  s.user_id = swi.user_id
-		where s.edu_identity = 0 and s.delete_flag =  0 and m.origin_type=0
+		where s.edu_identity = 0 and s.delete_flag =  0
 		<if test="startDate !=null and startDate != ''">and cml.lesson_date >= #{startDate}</if>
 		<if test="endDate !=null and endDate != ''">and cml.lesson_date <![CDATA[<=]]> #{endDate}</if>
 		<if test="secondItemCode !=null and secondItemCode != ''">and m.item_second_code = #{secondItemCode}</if>
@@ -598,6 +662,280 @@
 		GROUP BY swi.liveroom_id,swih.room_id
 		limit #{pageSize}
 	</select>
+
+
+
+
+
+
+
+
+
+
+	<select id="totalNewPayMasterCount" resultType="int" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult">
+						select COUNT(1) from student_pay_master  spm
+						LEFT JOIN  student s on  s.id = spm.stu_id
+						LEFT JOIN users_front sf ON sf.id = s.user_id
+						LEFT JOIN  commodity c on c.id = spm.commodity_id and c.origin_type=0
+						LEFT JOIN  edu_step_school_relation essr on essr.edu_school_code = s.edu_school
+						LEFT JOIN  commodity_product_realtion cpr on  cpr.com_id = spm.commodity_id
+						LEFT JOIN  class_module_no_onsale cmno on cmno.classtype_id = cpr.product_id
+						LEFT JOIN  class_module_lesson  cml  on cml.module_no_id = cmno.module_no_id
+						where  s.edu_identity=0 and spm.origin_type=0
+							<if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+								and s.is_base_school=1
+							</if>
+						and c.live_flag=1
+						<if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
+						<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
+						<if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
+						<if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+						<if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+						<if test="itemThirdCode !=null and itemThirdCode != ''">and c.item_third_code = #{itemThirdCode}</if>
+						<if test="commodityId !=null and commodityId != ''">and c.id = #{commodityId}</if>
+						<if test="lessonId !=null and lessonId != ''">and cml.id = #{lessonId}</if>
+						<if test="startTime !=null and startTime != ''">and spm.apply_time >= #{startTime}</if>
+						<if test="endTime !=null and endTime != ''">and spm.apply_time <![CDATA[<=]]> #{endTime}</if>
+						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
+					</select>
+		<!-- 直播 -->
+		<select id="queryNewStudentsWatchInfoList" resultMap="watchInfoResultMap" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult">
+                    SELECT
+                     swi. NAME AS class_name,
+                    swi.lesson_name,
+					swi.lesson_id,
+                    s. NAME AS student_name,
+                    sf.username as user_name,
+					sf.id as user_id,
+					s.edu_year,
+                    CONCAT(s.edu_class,'班') as study_class,
+                    COUNT(swi.user_id) as times,
+                    SUM(swi.watch_time) as watch_time,
+					ds.item_value  as edu_school,
+					dstep.item_value as edu_step
+                FROM
+                    sys_watch_info swi
+                LEFT JOIN student s ON s.user_id = swi.user_id
+                LEFT JOIN users_front sf ON sf.id = s.user_id
+                LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+				LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
+				LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
+				LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
+				LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
+                WHERE
+                    s.edu_identity=0
+                    <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+                    	and s.is_base_school=1
+                    </if>
+                    and m.live_flag=1
+                    <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
+                    <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
+                    <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
+                    <if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+                    <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+                    <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+                    <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
+                    <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
+                    <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
+                    <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
+					<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
+                    <if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
+               		 GROUP BY
+                    swi.lesson_id,
+                    swi.user_id
+					<if test="orderBy !=null and orderBy != ''">ORDER  BY  ${orderBy}</if>
+                    limit #{firstIndex},#{pageSize}
+                </select>
+	 <select id="queryNewStudentsWatchInfoListCount" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult" resultType="int">
+                        select  count(1) from (SELECT
+                        swi. NAME AS class_name,
+                        swi.lesson_name,
+                        s. NAME AS student_name,
+                        sf.username as user_name,
+						s.edu_year,
+						s.edu_class,
+                        CONCAT(
+                        s.edu_year,
+                        '级',
+                        s.edu_class,
+                        '班'
+                        ) as study_class,
+                        COUNT(swi.user_id) as times,
+                        SUM(swi.watch_time) as watch_time,
+						ds.item_value  as edu_school,
+						dstep.item_value as edu_step,
+						dnstep.item_value as school_type
+                        FROM
+                        sys_watch_info swi
+                        LEFT JOIN student s ON s.user_id = swi.user_id
+                        LEFT JOIN users_front sf ON sf.id = s.user_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+						LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
+						LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
+						LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
+						LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
+                        WHERE
+                        s.edu_identity=0 and s.is_base_school=1 and m.live_flag=1
+                        <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
+                        <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
+                        <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
+                        <if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+                        <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+                        <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+                        <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
+                        <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
+                        <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
+                        <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
+						<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
+						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
+                        GROUP BY
+                        swi.lesson_id,
+                        swi.user_id) a
+                    </select>
+       <!-- 录播 -->
+		<select id="queryRecirdWatchInfoList" resultMap="watchInfoResultMap" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult">
+                    SELECT
+                     swi. NAME AS class_name,
+                    swi.lesson_name,
+					swi.lesson_id,
+                    s. NAME AS student_name,
+                    sf.username as user_name,
+					sf.id as user_id,
+					s.edu_year,
+                    CONCAT(s.edu_class,'班') as study_class,
+                    COUNT(swi.user_id) as times,
+                    SUM(swi.watch_time) as watch_time,
+					ds.item_value  as edu_school,
+					dstep.item_value as edu_step
+                FROM
+                    sys_watch_info swi
+                LEFT JOIN student s ON s.user_id = swi.user_id
+                LEFT JOIN users_front sf ON sf.id = s.user_id
+                LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+				LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
+				LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
+				LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
+				LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
+                WHERE
+                    s.edu_identity=0 and s.is_base_school=1 and m.video_flag=1
+                    <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
+                    <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
+                    <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
+                    <if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+                    <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+                    <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+                    <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
+                    <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
+                    <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
+                    <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
+					<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
+                    <if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
+               		 GROUP BY
+                    swi.lesson_id,
+                    swi.user_id
+					<if test="orderBy !=null and orderBy != ''">ORDER  BY  ${orderBy}</if>
+                    limit #{firstIndex},#{pageSize}
+                </select>
+	 <select id="queryRecirdWatchInfoListCount" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult" resultType="int">
+                        select  count(1) from (SELECT
+                        swi. NAME AS class_name,
+                        swi.lesson_name,
+                        s. NAME AS student_name,
+                        sf.username as user_name,
+						s.edu_year,
+						s.edu_class,
+                        CONCAT(
+                        s.edu_year,
+                        '级',
+                        s.edu_class,
+                        '班'
+                        ) as study_class,
+                        COUNT(swi.user_id) as times,
+                        SUM(swi.watch_time) as watch_time,
+						ds.item_value  as edu_school,
+						dstep.item_value as edu_step,
+						dnstep.item_value as school_type
+                        FROM
+                        sys_watch_info swi
+                        LEFT JOIN student s ON s.user_id = swi.user_id
+                        LEFT JOIN users_front sf ON sf.id = s.user_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+						LEFT JOIN sys_config_dict ds on  ds.item_code  = s.edu_school
+						LEFT JOIN  sys_config_dict dstep on  dstep.item_code  = s.edu_step
+						LEFT JOIN edu_step_school_relation essr on  essr.edu_school_code = s.edu_school
+						LEFT JOIN  sys_config_dict  dnstep on  dnstep.item_code = essr.edu_step_new_code
+                        WHERE
+                        s.edu_identity=0 and s.is_base_school=1 and m.video_flag=1
+                        <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
+                        <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
+                        <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
+                        <if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+                        <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+                        <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+                        <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
+                        <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
+                        <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
+                        <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
+						<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
+						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like ${userNameOrMobile} or  sf.mobile like ${userNameOrMobile})</if>
+                        GROUP BY
+                        swi.lesson_id,
+                        swi.user_id) a
+                    </select>
+
+
+
+
+
+
+
+
+
+                    <select id="exportNewStudentsWatchInfoList" resultMap="watchInfoResultMap" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult">
+                        SELECT
+                        swi. NAME AS class_name,
+                        swi.lesson_name,
+                        s. NAME AS student_name,
+                        sf.username as user_name,
+                        CONCAT( s.edu_class,'班') as study_class,
+                        COUNT(swi.user_id) as times,
+                        SUM(swi.watch_time) as watch_time,
+                        scd1.item_value as school_type,
+                        scd2.item_value as edu_school,
+                        scd3.item_value as edu_step,
+                        scd4.item_value as edu_area,
+                        s.edu_class,
+                        s.edu_year
+                        FROM
+                        sys_watch_info swi
+                        LEFT JOIN student s ON s.user_id = swi.user_id
+                        LEFT JOIN users_front sf ON sf.id = s.user_id
+                        LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
+                        LEFT JOIN edu_step_school_relation essr on essr.edu_school_code = s.edu_school
+                        LEFT JOIN sys_config_dict scd1 on  scd1.item_code = essr.edu_step_new_code
+                        LEFT JOIN sys_config_dict scd2 on  scd2.item_code = s.edu_school
+                        LEFT JOIN sys_config_dict scd3 on  scd3.item_code = s.edu_step
+                        LEFT JOIN sys_config_dict scd4 on  scd4.item_code = s.edu_area
+                        WHERE
+                        s.edu_identity=0 and s.is_base_school =1 and m.live_flag=1
+                        <if test="eduArea !=null and eduArea != ''">and s.edu_area = #{eduArea}</if>
+                        <if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
+                        <if test="eduStep !=null and eduStep != ''">and s.edu_step = #{eduStep}</if>
+                        <if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+                        <if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+                        <if test="itemThirdCode !=null and itemThirdCode != ''">and m.item_third_code = #{itemThirdCode}</if>
+                        <if test="commodityId !=null and commodityId != ''">and m.id = #{commodityId}</if>
+                        <if test="lessonId !=null and lessonId != ''">and swi.lesson_id = #{lessonId}</if>
+                        <if test="startTime !=null and startTime != ''">and swi.lesson_date >= #{startTime}</if>
+                        <if test="endTime !=null and endTime != ''">and swi.lesson_date <![CDATA[<=]]> #{endTime}</if>
+						<if test="schoolType !=null and schoolType != ''">and essr.edu_step_new_code = #{schoolType}</if>
+						<if test="userNameOrMobile !=null and userNameOrMobile != ''">and (sf.username like '%${userNameOrMobile}%'or  sf.mobile like '%${userNameOrMobile}%')</if>
+                        GROUP BY
+                        swi.lesson_name,
+                        swi.user_id
+                        limit #{pageSize}
+                    </select>
+  </mapper>
 
 	<select id="getAreaTotalStatistics" parameterType="map" resultType="map">
 		SELECT

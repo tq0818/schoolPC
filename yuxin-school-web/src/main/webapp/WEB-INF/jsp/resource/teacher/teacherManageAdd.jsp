@@ -11,7 +11,8 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/jquery.datetimepicker.css" />
 <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/plugins/jcrop/css/jquery.Jcrop.css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/bootstrap-fileupload/bootstrap-fileupload.css" />
-    <link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">
+<link rel="stylesheet"  type="text/css" href="<%=rootPath %>/stylesheets/classes.css">	
+<link rel="stylesheet" type="text/css" href="<%=rootPath %>/plugins/select2/select2.css"/>
     <style type="text/css">
     	.classes .mainbackground .c-main .add-classes p.h{
     		margin-bottom: 15px;
@@ -70,6 +71,7 @@ $(function(){
 		        </div>
 		        <div class="mark-more">
 		        <form method="post" id="teacherManageForm">
+		        <input type="hidden" id="companyId" value="${companyId }" name="companyId"/>
 		        <%-- <c:if test="${empty teacher.id}"> --%>
 		        <div class="main-content" style="margin-bottom: -100px;">
                 <div class="m-title">
@@ -257,16 +259,22 @@ $(function(){
 								<p class="c">
 									<span class="c-title">学校名称<em>*</em></span>
 										<span class="c-content" style="width: 60%">
-											<input name="schoolName" id="schoolName" type="text" style="width:350px">
+											<select name="schoolCode" id="schoolCode" style="width:350px">
+												<option value="" >请选择学校</option>
+												<c:forEach items="${schools }" var="sch">
+													<option value="${sch.itemCode }" >${sch.itemValue }</option>
+												</c:forEach>
+											</select>
 										</span>
+										<input name="schoolName" id="schoolName" type="hidden" style="width:350px">
 								</p>
 							</li>
 							<li>
 								<p class="c">
 									<span class="c-title">学校简称<em>*</em></span>
-										<span class="c-content">
-											<input name="schoolShortName" id="schoolShortName" type="text" maxlength="6">
-										</span>
+									<span class="c-content">
+										<input name="schoolShortName" id="schoolShortName" type="text" maxlength="6">
+									</span>
 								</p>
 							</li>
 		                   <li style="width:100%;">
@@ -359,17 +367,17 @@ $(function(){
 		                                <c:forEach items="${firstItems }" var="item" varStatus="index">
 		                                	<c:choose>
 											       <c:when test="${index.index == 0}">
-											                <a href="javascript:;" itemOneId="${item.id }" onclick="chooseOneItem(this, ${item.id})" class="btn btn-mini btn-success itemOne">${item.itemName }</a>
-											                <input type="hidden" value="${item.id}" name="itemOneId" id="itemOneId"/>
+											             <a href="javascript:;" itemOneId="${item.id }" onclick="chooseOneItem(this, ${item.id})" class="btn btn-mini btn-success itemOne">${item.itemName }</a>
+											                <%-- <input type="hidden" value="${item.id}" name="itemOneId" id="itemOneId"/> --%>
 											       </c:when>
 											       <c:otherwise>
-											               <a href="javascript:;" itemOneId="${item.id }" onclick="chooseOneItem(this, ${item.id})"  class="btn btn-mini btn-default itemOne">${item.itemName }</a>
+											            <a href="javascript:;" itemOneId="${item.id }" onclick="chooseOneItem(this, ${item.id})"  class="btn btn-mini btn-default itemOne">${item.itemName }</a>
 											       </c:otherwise>
 											</c:choose>
 		                                </c:forEach>
 		                            </span>
 		                        </p>
-                                <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
+                                <%-- <c:forEach var="secondMap" items="${secondItemMap }" varStatus="index">
                                 	<c:choose>
 									       <c:when test="${index.index == 0}">
 									              <p class='c secondItem show' item-one-id=${secondMap.key }>
@@ -392,8 +400,8 @@ $(function(){
 										    </c:forEach>
 									    </span>
 								    </p>
-								</c:forEach>
-								<input type="hidden" value="" name="itemSecondId" id="itemSecondId"/>
+								</c:forEach> --%>
+								<input type="hidden" value="" name="itemOneId" id="itemOneId"/>
 		                    </li>
 		                </ul>
 		                <!-- <div class="box-config">
@@ -489,9 +497,11 @@ $(function(){
     <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 	<!--  ajax加载中div结束 -->
 	<script type="text/javascript" src="<%=rootPath%>/javascripts/resource/teacher/teacherManage.js"></script>
+	<script type="text/javascript" src="<%=rootPath %>/plugins/select2/select2.js"></script> 
 	<script>
 		$(function(){
 			$selectSubMenu('resource_teacher');
+			$("#schoolCode").select2();
 		});
 	</script>	
 </body>

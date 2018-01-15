@@ -62,7 +62,7 @@ public class TestTask {
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 //    @RequestMapping(value="/getInfo")
-    @Scheduled(cron = "0 0/5 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+//    @Scheduled(cron = "0 0/5 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void test() {
         //获取当日的课次
 //        Date date = new Date();

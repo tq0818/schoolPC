@@ -38,7 +38,7 @@
 
 	<!-- 微信发送定时 -->
 	<bean id="sendWeixinTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="paperDetail" />
+		<property name="jobDetail" ref="sendWeixinDetail" />
 		<property name="cronExpression" value="0 0 20 * * ?" />
 	</bean>
 	<bean id="sendWeixinDetail" class="org.springframework.scheduling.quartz.JobDetailBean">

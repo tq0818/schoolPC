@@ -22,17 +22,15 @@
 	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
 		<constructor-arg index="0" ref="jedisPoolConfig" />
 		<!-- 端口，默认6379 -->
-	    <constructor-arg index="2"  name="port" type="int">
+	    <constructor-arg index="2" type="int">
 	    	<value>${yunduoketang.redis.port}</value>
 	    </constructor-arg>
-	    <constructor-arg index="3" value="5000"  name="timeout" type="int"/>
-	    <constructor-arg index="1" name="host" type="java.lang.String">
+	    <constructor-arg index="3" value="5000"  type="int"/>
+	    <constructor-arg index="1" type="java.lang.String">
 	    	<value>${yunduoketang.redis.host}</value>
 	    </constructor-arg>
-	    <!-- 如果你需要配置密码，请打开这里。
-	        <constructor-arg index="4" value="你的密码" name="password" type="java.lang.String"/>
-	    -->
-		<constructor-arg index="4" value="scpt123" name="password" type="java.lang.String"/>
+	    <!-- 如果你需要配置密码，请打开这里。-->
+		<constructor-arg index="4" value="${yunduoketang.redis.password}" type="java.lang.String"/>
 	</bean>
 	<!--
 		这种 arguments 构造的方式，之前配置有缺点。

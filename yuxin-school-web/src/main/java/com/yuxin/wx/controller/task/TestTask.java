@@ -337,7 +337,7 @@ public class TestTask {
 
     //获取前一天录播观看个人信息
 //    @RequestMapping(value="/getPlayInfo")
-    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+//    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
         log.info("获取昨天录播观看信息-----执行时间：" + new Date());
         String a = "";
@@ -398,7 +398,7 @@ public class TestTask {
 
 
     //获取前一天课次历史并发记录
-    @Scheduled(cron = "0 0 1 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
+//    @Scheduled(cron = "0 0 1 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getWatchInfoHistory(){
         log.info("获取昨天直播并发信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

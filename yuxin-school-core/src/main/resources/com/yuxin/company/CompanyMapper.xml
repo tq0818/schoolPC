@@ -1666,8 +1666,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<update id="editCompanyMemberService" parameterType="com.yuxin.wx.model.company.CompanyMemberService">
 	  update company_member_service
 		<trim prefix="set" suffixOverrides=",">
-			<if test="videoStorage != null and videoStorage != ''">video_storage =video_storage + #{videoStorage},</if>
-			<if test="videoFlow != null and videoFlow != ''">video_flow =video_flow + #{videoFlow}</if>
+			<if test="videoStorage != null and videoStorage != ''">video_storage =#{videoStorage},</if>
+			<if test="videoFlow != null and videoFlow != ''">video_flow =#{videoFlow}</if>
 		</trim>
 		<where>company_id = #{companyId}</where>
 	</update>

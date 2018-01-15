@@ -319,13 +319,15 @@ $(function () {
             var mm = $("#mm").val() == "" ? 0 : $("#mm").val();
             var ss = $("#ss").val() == "" ? 0 : $("#ss").val();
             /* alert(oneItemId + "\n" + twoItemId + "\n" + videoName + "\n" + url + "\n" + outUrl + "\n" + videoType); */
-            if (oneItemId == null || twoItemId == null || oneItemId == "" || twoItemId == "" || oneItemId < 0 || twoItemId < 0) {
+            // || twoItemId == "" || twoItemId < 0 || twoItemId == null
+            if (oneItemId == null  || oneItemId == "" || oneItemId < 0 ) {
                 $('<div class="c-fa" style="z-index;102;">请选择科目</div>').appendTo('body').fadeIn(100).delay(1000).fadeOut(200, function () {
                     $(this).remove();
                 });
                 return false;
             }
-            if (url == "" || outUrl == "" || videoType == "") {
+            // || outUrl == "" || videoType == ""
+            if (url == "" ) {
                 $('<div class="c-fa" style="z-index;102;">请添加外部链接地址</div>').appendTo('body').fadeIn(100).delay(1000).fadeOut(200, function () {
                     $(this).remove();
                 });

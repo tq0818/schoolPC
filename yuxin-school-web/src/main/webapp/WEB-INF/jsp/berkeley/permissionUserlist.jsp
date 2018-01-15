@@ -47,10 +47,14 @@
 		    </td>
 		    <td class="status" id="status${user.userId }">${user.status==1?'启用':'禁用' }</td>
 		    <td class="btnsList">
-		        <a href="javascript:Form.editUser('update',${user.userId })" class="btn btn-mini btn-primary">编辑</a>
-	        	<c:if test="${userId != user.userId }">
-	        		<a href="javascript:Form.changUserStatus(${user.userId })" id="com${user.userId }" marks="${user.status }" class="btn btn-mini btn-primary">${user.status==1?'禁用':'启用' }</a>
-	        	</c:if>
+		        <a href="javascript:Form.editUser('update',${user.userId})" class="btn btn-mini btn-primary">编辑</a>
+	        	<c:choose>
+					<c:when test="${userId != user.userId && user.realName ne '机构管理员'}">
+						<a href="javascript:Form.changUserStatus(${user.userId })" id="com${user.userId }" marks="${user.status }" class="btn btn-mini btn-primary">${user.status==1?'禁用':'启用' }</a>
+					</c:when>
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
 		        <c:if test="${peoplemark=='admin' }">
 		        	<a href="javascript:Form.deleteUser(${user.userId })" class="btn btn-mini btn-primary">删除</a>
 		        </c:if>

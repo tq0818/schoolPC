@@ -114,8 +114,10 @@ function closeBtn(companyId,itemCode,delFlag) {
                     	var companyName=jsonData.companyName;
                     	var eduArea=jsonData.eduArea;
                     	var dictCode=jsonData.dictCode;
+                    	var schoolProperty=jsonData.schoolProperty;
                     	$('#branchSchool').text(companyName);
                     	$('#eara').text(eduArea);
+                    	$('#schoolProperty').text(schoolProperty);
                     	$('#isArea').val(dictCode);
                     	if(companyName==eduArea){
                     		var options = document.getElementById('schoolProperties').children;
@@ -299,17 +301,17 @@ function addBerkeley(biaoshi){
     	               	$('#branchSchool').text(companyName);
     	               	$('#eara').text(eduArea);
     	               	$('#isArea').val(dictCode);
-    	               	if(companyName==eduArea){
-                    		var options = document.getElementById('schoolProperties').children;
+    	               	/*if(companyName==eduArea){
+                    		var options = document.getElementById("schoolProperty");
                         	options[0].selected=true;
                         	document.getElementById("schoolProperties").disabled=true;	
                     	}else{
                     		document.getElementById("schoolProperties").disabled=false;	
-                    	}
+                    	}*/
     	               	var branchSchool=$("#branchSchool").text();var branchCode=$("#branchCode").val();
     	        		var isArea=$("#isArea").val();
     	        		var eara=$("#eara").text();
-    	        		var schoolProperties=$("#schoolProperties").val();
+    	        		var schoolProperties=document.getElementById("schoolProperty").innerHTML;
     	        		/*if(branchSchool!=eara){
     	    				if(null== schoolProperties || ''==schoolProperties){
     	            			alert("学校性质不能为空");

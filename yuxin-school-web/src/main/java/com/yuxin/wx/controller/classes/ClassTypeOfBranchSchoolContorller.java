@@ -199,7 +199,7 @@ public class ClassTypeOfBranchSchoolContorller {
 			
 		}
     	queryParams.put("firstIndex", classtype.getFirstIndex());
-    	queryParams.put("pageSize", classtype.getPageSize());
+    	queryParams.put("pageSize", 10);
     	
     	//查询分校课程
     	List<ClassTypeVo> clist=classTypeOfBranchSchoolService.queryClassTypeOfBranchSchool(queryParams);

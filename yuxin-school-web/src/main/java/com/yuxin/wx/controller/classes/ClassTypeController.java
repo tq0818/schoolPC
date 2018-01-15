@@ -1828,6 +1828,7 @@ public class ClassTypeController {
 		commodity.setUpdateTime(new Date());
 		commodity.setUpdator(WebUtils.getCurrentUserId(request));
 		commodity.setStatus("0");
+		commodity.setCddsStatus(0);
 		
 		commodityServiceImpl.update(commodity);
 		

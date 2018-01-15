@@ -27,12 +27,12 @@
             <shiro:hasPermission name="resource_video">  
             <li code="resource_video"><a href="<%=request.getContextPath() %>/video/toVideo">资源库</a></li>
             </shiro:hasPermission>
-            <c:if test="${isAreaSchool1 eq 0}">
-            <li id="resourceProtocol" code="resource_protocol" ><a href="<%=request.getContextPath() %>/courseProtocolConfig/toProtocolList" id="resource_protocol">课程协议</a></li>
-        	<shiro:hasPermission name="resource_org">  
-            <li code="resource_org" id="resourceOrg"><a href="<%=request.getContextPath() %>/companyConfigProxyOrg/viewPrxoyList">代理机构</a></li>
-            </shiro:hasPermission>
-            </c:if>
+            <%--<c:if test="${isAreaSchool1 eq 0}">--%>
+            <%--<li id="resourceProtocol" code="resource_protocol" ><a href="<%=request.getContextPath() %>/courseProtocolConfig/toProtocolList" id="resource_protocol">课程协议</a></li>--%>
+        	<%--<shiro:hasPermission name="resource_org">--%>
+            <%--<li code="resource_org" id="resourceOrg"><a href="<%=request.getContextPath() %>/companyConfigProxyOrg/viewPrxoyList">代理机构</a></li>--%>
+            <%--</shiro:hasPermission>--%>
+            <%--</c:if>--%>
         </ul>
     </div>
 </div>

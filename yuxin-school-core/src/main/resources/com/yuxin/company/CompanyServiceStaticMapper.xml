@@ -163,10 +163,9 @@
 	
 	<!-- 其他自定义SQL -->
 	<select id="findByCompanyId" resultMap="companyServiceStaticResultMap" parameterType="Integer">
-		select 	id,company_id, live_concurrent, video_storage, video_flow, face_student,
-		sum(message_send) as message_send, email_send, school_num, online_student,
-		resource_storage, resource_flow from company_service_static
-		where  company_id=#{companyId}
+		select <include refid="table_columns"/>
+		from company_service_static
+		where company_id = #{companyId};
 	</select>
 	<!-- 添加更新流量储存的方法-->
 	<update id="updateByCompanyStatus" parameterType="Integer" >

@@ -81,7 +81,13 @@
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
-        and s.delete_flag = 0
+        and s.delete_flag = 0 
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and 
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
@@ -172,6 +178,12 @@
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and 
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="classTypeId!=null and classTypeId!=''">and t.id = #{classTypeId}</if>
 		<if test="courseName!=null and courseName!=''">and t.name = #{courseName}</if>
@@ -201,6 +213,12 @@
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and 
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
@@ -300,12 +318,19 @@
 		  pl.user_id as totleNum
 		from
 		  sys_play_logs pl
+		  inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
               LEFT JOIN student s
           ON s.user_id = pl.user_id
           AND s.edu_identity = 0
       WHERE s.`edu_area` IS NOT NULL
         AND s.`edu_school` IS NOT NULL
         and s.delete_flag = 0
+        <if test="eduMasterClass !=null and eduMasterClass != ''">
+			and 
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
@@ -318,12 +343,19 @@
 		count(1) as personNum
 		from
 		sys_play_logs pl
+		inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
 		LEFT JOIN student s
 		ON s.user_id = pl.user_id
 		AND s.edu_identity = 0
 		WHERE s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
 		and s.delete_flag = 0
+		<if test="eduMasterClass !=null and eduMasterClass != ''">
+			and 
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")" >
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
 		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
 		<if test="eduArea!=null and eduArea!=''">and s.`edu_area` = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.`edu_school` = #{eduSchool}</if>
@@ -340,6 +372,7 @@
             s.edu_area
           FROM
             sys_play_logs pl
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
             LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
@@ -366,6 +399,7 @@
             s.edu_school
           FROM
             sys_play_logs pl
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
             LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
@@ -439,6 +473,7 @@
             s.`edu_school`
           FROM
             sys_play_logs pl
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
             LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
@@ -466,6 +501,7 @@
             s.`edu_school`
           FROM
             sys_play_logs pl
+            inner join class_type ct on ct.id=pl.class_type_id and ct.company_id=#{companyId}
             LEFT JOIN student s
               ON s.user_id = pl.user_id
               AND s.edu_identity = 0
@@ -494,7 +530,7 @@
 		  FROM
 			sys_play_logs pl
 			left join class_type t
-			  on t.id = pl.`class_type_id`  and t.origin_type=0
+			  on t.id = pl.`class_type_id`  and t.origin_type=0 and t.company_id=#{companyId}
 			LEFT JOIN student s
 			  ON s.user_id = pl.user_id
 			  AND s.edu_identity = 0
@@ -710,7 +746,11 @@
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
-        and s.delete_flag = 0 and s.is_base_school=1 and t.video_flag=1
+        and s.delete_flag = 0 
+        <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+        and s.is_base_school=1 
+        </if>
+        and t.video_flag=1
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>
@@ -753,7 +793,11 @@
 		left join video v on v.id = cl.video_id and v.origin_type=0 
 		where s.`edu_area` IS NOT NULL
 		AND s.`edu_school` IS NOT NULL
-        and s.delete_flag = 0 and s.is_base_school=1 and t.video_flag=1
+        and s.delete_flag = 0 
+        <if test="isFromBrachSchool !=null and isFromBrachSchool != ''">
+        and s.is_base_school=1 
+        </if>
+        and t.video_flag=1
 		<if test="eduArea!=null and eduArea!=''">and s.edu_area = #{eduArea}</if>
 		<if test="eduSchool!=null and eduSchool!=''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduSchoolStep!=null and eduSchoolStep!=''">and r.edu_step_new_code = #{eduSchoolStep}</if>

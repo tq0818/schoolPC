@@ -1210,10 +1210,16 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!--分校首页学校列表-->
 	<select id="queryReCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="map">
 		select * from (select su.* from (
-			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,count(distinct emc.id) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
-			left join edu_master_class emc on emc.edu_area=co.edu_area_school and emc.is_used=1
+			left join (
+				select edu_area,count(1) count from edu_master_class where is_used=1 and edu_area in(
+					<foreach item="item" collection="areaCompanyList" separator="," >
+						#{item.eduAreaSchool}
+					</foreach>
+				) group by edu_area
+			) sm on sm.edu_area=co.edu_area_school
 			left join commodity cc on cc.company_id=co.id
 			left join student s on 1=1 and s.edu_area in(
 			<foreach item="item" collection="areaCompanyList" separator="," >
@@ -1353,12 +1359,15 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</select>
 	
 	<select id="queryCompanyVoByCondition" resultType="com.yuxin.wx.model.company.CompanyVo" parameterType="map">
-		select syd.item_value companyName,psyd.item_value eduArea,syd.dict_code dictCode from sys_config_dict syd
+		select syd.item_value companyName,psyd.item_value eduArea,syd.dict_code dictCode,t4.item_value  schoolProperty
+		from sys_config_dict syd
 		inner join sys_config_dict psyd on psyd.id=syd.parent_item_id
 		left join company co on syd.item_code=co.edu_area_school
+		LEFT JOIN edu_step_school_relation esr ON esr.edu_school_code = syd.item_code
+		LEFT JOIN sys_config_dict t4 ON esr.edu_step_new_id = t4.id
 		where syd.dict_code='EDU_SCHOOL' and co.id is null and syd.item_code=#{brachCode}
 		union
-		select syd.item_value companyName,syd.item_value eduArea,syd.dict_code dictCode from sys_config_dict syd
+		select syd.item_value companyName,syd.item_value eduArea,syd.dict_code dictCode,syd.id from sys_config_dict syd
 		left join company co on syd.item_code=co.edu_area_school
 		where syd.dict_code='EDU_SCHOOL_AREA' and co.id is null and syd.item_code=#{brachCode}
 	</select>
@@ -1698,7 +1707,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<select id="findClassByEduAreaSchool" resultMap="classResultMap" parameterType="String">
 		select id,edu_step,edu_year,count(edu_class) as edu_class from edu_master_class emc 
 		where edu_year <![CDATA[ <= ]]> (select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW()) else (YEAR(NOW())-1) end)
-		and edu_year<![CDATA[ > ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
+		and edu_year<![CDATA[ >= ]]>(select CASE when ((select  month(NOW()))<![CDATA[ > ]]>9) then YEAR(NOW())-7 else (YEAR(NOW())-6) end)
 		and edu_school=#{eduAreaSchool}
 		GROUP BY edu_step,edu_year 
 		ORDER BY edu_step ,edu_year desc

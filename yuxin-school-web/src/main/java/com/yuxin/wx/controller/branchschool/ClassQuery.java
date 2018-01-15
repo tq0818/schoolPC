@@ -69,7 +69,8 @@ public class ClassQuery {
     	queryParams.put("order_signup", req.getParameter("order_signup"));
     	queryParams.put("order_buy", req.getParameter("order_buy"));
     	queryParams.put("firstIndex", classtype.getFirstIndex());
-    	queryParams.put("pageSize", classtype.getPageSize());
+//    	queryParams.put("pageSize", classtype.getPageSize());
+    	queryParams.put("pageSize", 10);
     	String paixu=req.getParameter("paixu");
     	queryParams.put("paixu", paixu);
 

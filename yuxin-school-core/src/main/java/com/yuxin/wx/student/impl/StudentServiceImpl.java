@@ -508,6 +508,12 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				search.getPage(), search.getPageSize(), count, data);
 		return pageFinder;
 	}
+	
+	@Override
+	public List<Map<String, Object>> exportUserInfo(StudentListVo search) {
+		return studentMapper.exportUserInfo(search);
+	}
+
 	@Override
 	public PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search) {
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -1821,7 +1827,8 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	}
 	
 	@Override
-	public List<EduMasterClass> findClassByTeacherId(EduMasterClass ets) {
+	public List<EduMasterClass> findClassByTeacherId(EduMasterClass ets,String eduSchool) {
+		ets.setEduSchool(eduSchool);
 		return studentMapper.findClassByTeacherId(ets);
 	}
 	

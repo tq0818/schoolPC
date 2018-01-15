@@ -14,6 +14,7 @@
 		<result property="isDirectly" column="is_directly" />
 		<result property="delFlag" column="del_flag" />
 		<result property="groupCode" column="group_code" />
+		<result property="isArea" column="is_area" />
 	</resultMap>
 	<resultMap type="com.yuxin.wx.model.classes.EduMasterClass" id="eduMasterClassResultMap">
 		<result property="id" column="id" />
@@ -153,6 +154,22 @@
 		where dict_code=#{code} 
 		order by id
 	</select>
+
+	<select id="findAreaIds" parameterType="String" resultMap="sysConfigDictResultMap">
+		select tmp1.item_code,tmp1.id,tmp1.item_value from (
+		select DISTINCT scd.item_code,scd.id,scd.item_value from sys_config_dict scd
+		 join (
+		select scd.*,c.is_area,c.id as companyId from sys_config_dict scd
+		join company c on c.edu_area_school = scd.item_code
+		where scd.parent_item_id is not null
+		)tmp on tmp.parent_item_id=scd.id
+		union
+		select  scd.item_code,scd.id,scd.item_value from sys_config_dict scd
+		join company c on c.edu_area_school = scd.item_code
+		where parent_item_id is null
+		)tmp1 ORDER BY tmp1.id
+	</select>
+
 	<select id="queryAreaBySchool" parameterType="String" resultMap="sysConfigDictResultMap">
 		select t2.id,t2.dict_code,t2.item_code,t2.item_value from sys_config_dict t1
 		LEFT JOIN sys_config_dict t2 ON t1.parent_item_id=t2.id where t1.item_code=#{str}
@@ -180,6 +197,20 @@
 			from sys_config_dict
 		where company_id = #{companyId}
 	</select>
+
+	<select id="findSchoolByCondition" resultMap="sysConfigDictResultMap" parameterType="map">
+		select scd.item_code,scd.id,c.id as company_id,c.company_name as item_value from company c
+		join sys_config_dict scd on c.edu_area_school=scd.item_code
+		where 1=1
+		and (scd.parent_item_id=#{parentId} or scd.id=#{parentId})
+		ORDER BY scd.id
+	</select>
+
+	<!--查询所有已知分校-->
+	<select id="queryAllSchool" resultMap="sysConfigDictResultMap" parameterType="map">
+		select id as company_id,company_name as item_value from company ORDER BY id
+	</select>
+
 	<select id="queryConfigDictValue" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
 		select item_value from sys_config_dict
 		where dict_code=#{dictCode} and item_code = #{itemCode}

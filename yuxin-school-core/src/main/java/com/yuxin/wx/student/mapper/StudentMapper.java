@@ -132,6 +132,7 @@ public interface StudentMapper extends BaseMapper<Student> {
 	//学员列表
 	List<StudentListVo> queryStudentsList(StudentListVo search);
 	List<StudentListVo> queryUserListData(StudentListVo search);
+	List<Map<String, Object>> exportUserInfo(StudentListVo search);
 	Integer queryStudentsListCount(StudentListVo search);
 	Integer queryUserListDataCount(StudentListVo search);
 	

@@ -34,10 +34,10 @@
 	            realName:{
 	            	 required: true
 	            },
-	            email:{
+	            /*email:{
 	            	required:true,
 	            	email:true
-	            },
+	            },*/
 	            mobile:{
 	            	required:true,
 	            	maxlength:11,
@@ -54,10 +54,10 @@
 	        	realName:{
 	        		required:"姓名不能为空"
 	        	},
-	        	email: {
+	        	/*email: {
 	        		required:"邮箱不能为空",
 	        		email:"请输入正确格式的电子邮件"
-	        	},
+	        	},*/
 				confirmPassword: {
 					equalTo:"密码输入不一致"
 				},
@@ -81,7 +81,7 @@
 				$.extend($.validator.messages, {
 				    required: "必选字段",
 					remote: "请修正该字段",
-					email: "请输入正确格式的电子邮件",
+					/*email: "请输入正确格式的电子邮件",*/
 					url: "请输入合法的网址",
 					date: "请输入合法的日期",
 					dateISO: "请输入合法的日期 (ISO).",
@@ -480,6 +480,7 @@
 						});
 						//获取所选角色
 						var roleName=result.roleName;
+						console.log(roleName);
 						//获得区、校
 						if("区县负责人"==roleName){
 							$('.areamasterToB').attr("style","display:block");
@@ -520,6 +521,7 @@
 									optionStr+='<option value="'+data.areaCode+'">'+data.areaName+'</option>';
 								}
 							});
+                            $('.schoolmasterToB').html("");
 							htmlContent+=optionStr+'</select><select name="schoolCode" id="schoolCode" style="width:200px;">';
 							//填充学校
 							var optionSchoolStr="";

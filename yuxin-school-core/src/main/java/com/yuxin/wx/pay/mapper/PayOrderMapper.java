@@ -62,4 +62,8 @@ public interface PayOrderMapper extends BaseMapper<PayOrder> {
 	List<PayOrder> findPrivateSchoolMoneyByCondition(Map<String, Object> map);
 
 	Integer findPrivateSchoolMoneyCountByCondition(Map<String, Object> map);
+
+	List<PayOrder> queryTeacherMoneyDetails(Map<String, Object> map);
+
+	Integer queryTeacherMoneyDetailsCount(Map<String, Object> map);
 }

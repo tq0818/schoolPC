@@ -204,7 +204,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
 
     @Override
     public Integer findCountByParams(Map<String, Object> params) {
-        this.dateStr2Ddate(params);
+//        this.dateStr2Ddate(params);
         return payOrderMapper.findCountByParams(params);
     }
 
@@ -323,6 +323,16 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
     @Override
     public Integer findPrivateSchoolMoneyCountByCondition(Map<String, Object> map) {
         return payOrderMapper.findPrivateSchoolMoneyCountByCondition(map);
+    }
+
+    @Override
+    public List<PayOrder> queryTeacherMoneyDetails(Map<String, Object> map) {
+        return payOrderMapper.queryTeacherMoneyDetails(map);
+    }
+
+    @Override
+    public Integer queryTeacherMoneyDetailsCount(Map<String, Object> map) {
+        return payOrderMapper.queryTeacherMoneyDetailsCount(map);
     }
 
 }

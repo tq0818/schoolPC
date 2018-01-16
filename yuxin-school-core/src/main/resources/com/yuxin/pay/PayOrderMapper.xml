@@ -453,7 +453,7 @@
 			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
 			)t GROUP BY t.orderTime)t3
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				where t1.orderTime BETWEEN #{inpstart} and #{inpend}
+				where t3.orderTime BETWEEN #{inpstart} and #{inpend}
 			</if>
 			<if test="totalSort != null and totalSort != ''">
 				${totalSort}
@@ -481,8 +481,57 @@
 			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
 			)t GROUP BY t.dateTime)t1
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				where t1.dateTime BETWEEN #{inpstart} and #{inpend}
+				where t3.dateTime BETWEEN #{inpstart} and #{inpend}
 			</if>
+	</select>
+
+
+	<!--lym 查询老师在数校收入情况(明细)-->
+	<select id="queryTeacherMoneyDetails" resultMap="payOrderResultMap" parameterType="map">
+		select * from (
+			select
+			ct.name as commodityName,
+			<choose>
+				<when test="areaFlag != null and areaFlag != ''">
+					sum(po.pay_price*(100-c.public_cost)/100) as fetchMoney
+				</when>
+				<otherwise>
+					sum(case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end) as fetchMoney
+				</otherwise>
+			</choose>
+			from
+			pay_order po
+			join class_type ct on ct.id=po.commodity_id
+			join company c on c.id = ct.company_id and po.company_id=c.id
+			where po.pay_status='PAY_SUCCESS' and ct.is_out_source=0 and ct.teacher_id = #{teacherId}
+		<if test="areaFlag != null and areaFlag != ''">
+				and ct.live_flag=1 and ct.is_public=1
+			</if>
+			GROUP BY ct.name)t
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="queryTeacherMoneyDetailsCount" resultType="int" parameterType="map">
+		select count(1) from (
+		select
+		ct.name as commodityName,
+		<choose>
+			<when test="areaFlag != null and areaFlag != ''">
+				sum(po.pay_price*(100-c.public_cost)/100) as fetchMoney
+			</when>
+			<otherwise>
+				sum(case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end) as fetchMoney
+			</otherwise>
+		</choose>
+		from
+		pay_order po
+		join class_type ct on ct.id=po.commodity_id
+		join company c on c.id = ct.company_id and po.company_id=c.id
+		where po.pay_status='PAY_SUCCESS' and ct.is_out_source=0 and ct.teacher_id = #{teacherId}
+		<if test="areaFlag != null and areaFlag != ''">
+			and ct.live_flag=1 and ct.is_public=1
+		</if>
+		GROUP BY ct.name)t
 	</select>
 
 	<!--lym 查询老师在数校收入情况-->
@@ -511,8 +560,15 @@
 			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
 			join company c on c.id=ucr.company_id
 			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
-			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			left join class_type ct on ct.teacher_id=sct.id
+			<if test="areaFlag != null and areaFlag != ''">
+				and ct.live_flag=1 and ct.is_public=1
+			</if>
+			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				and po.order_time BETWEEN #{inpstart} and #{inpend}
+			</if>
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}
 			</if>
@@ -549,8 +605,15 @@
 			join users_comany_relation  ucr on ucr.user_id=sct.user_id and ucr.is_used=1
 			join company c on c.id=ucr.company_id
 			left join sys_config_dict scd2 on scd2.item_code=sct.edu_area_school
-			left join class_type ct on ct.teacher_id=sct.id and ct.live_flag=1 and ct.is_public=1 and ct.is_out_source=0
+			left join class_type ct on ct.teacher_id=sct.id
+			<if test="areaFlag != null and areaFlag != ''">
+				and ct.live_flag=1 and ct.is_public=1
+			</if>
+			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+				and po.order_time BETWEEN #{inpstart} and #{inpend}
+			</if>
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}
 			</if>

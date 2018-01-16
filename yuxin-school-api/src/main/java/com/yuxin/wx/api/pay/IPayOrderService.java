@@ -282,4 +282,18 @@ public interface IPayOrderService  {
 	 * @return
      */
 	Integer findPrivateSchoolMoneyCountByCondition(Map<String, Object> map);
+
+	/**
+	 * 查询老师收入明细
+	 * @param map
+	 * @return
+     */
+	List<PayOrder> queryTeacherMoneyDetails(Map<String, Object> map);
+
+	/**
+	 * 查询老师收入明细统计
+	 * @param map
+	 * @return
+     */
+	Integer queryTeacherMoneyDetailsCount(Map<String, Object> map);
 }

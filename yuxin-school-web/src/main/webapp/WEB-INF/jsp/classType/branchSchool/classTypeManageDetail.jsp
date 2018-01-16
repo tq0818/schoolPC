@@ -17,6 +17,10 @@
                 	</c:choose>
                 </td>
                 <td>
+                	<c:if test="${m.liveFlag eq '1'}">直播</c:if>
+                	<c:if test="${m.videoFlag eq '1'}">录播</c:if>
+                </td>
+                <td>
                 	<fmt:formatDate value="${m.createTime }" pattern="yyyy-MM-dd"/>
                 </td>
                 <td  class="slink">

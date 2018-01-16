@@ -286,13 +286,18 @@ function addBerkeley(biaoshi){
 				return;
 		   }
 		   var schoolSummary=$("#schoolSummary").val();
-		   if(null==schoolSummary || ''==schoolSummary){
-				alert("学校简介不能为空");
+			var synopsis = schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
+			var synopsisNew = synopsis.replace(/\s/g,"");
+			if(null==schoolSummary || ''==schoolSummary || null==synopsisNew || ''==synopsisNew){
+				alert("分校简介不能为空");
 				return;
-		   }else{
+			}else if (synopsis.length>200){
+				alert("分校简介不能超过200个字符");
+				return;
+			}else{
 				schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
-				schoolSummary = schoolSummary.replace(/\s/g,"");
-		   }
+				/*schoolSummary = schoolSummary.replace(/\s/g,"");*/
+			}
    			var companyId=$("#companyId").val();
 			$.ajax({
 	   	        type : 'post',

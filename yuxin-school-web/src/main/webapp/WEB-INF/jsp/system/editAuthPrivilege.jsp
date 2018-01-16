@@ -91,10 +91,10 @@
 	                    <span class="c-title">姓名&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
 	                    <span class="c-content"><input id="realName" name="realName" type="text" value="${user.realName }"></span>
 	                </p>
-	                <p class="c">
+	                <%--<p class="c">
 	                    <span class="c-title">邮箱&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
 	                    <span class="c-content"><input id="email" name="email" type="text" value="${user.email }"></span>
-	                </p>
+	                </p>--%>
 	                  <p class="c">
 	                    <span class="c-title">手机号&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
 	                    <span class="c-content"><input id="mobile" name="mobile" type="text" value="${user.mobile}"></span>

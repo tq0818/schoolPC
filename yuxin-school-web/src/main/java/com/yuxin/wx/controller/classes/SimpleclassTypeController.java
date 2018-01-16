@@ -1481,6 +1481,22 @@ public class SimpleclassTypeController {
 			model.addAttribute("chapterName", "章");
 			model.addAttribute("lectureName", "节");
 		}
+		Map<String,Integer> itema=new HashMap<String,Integer>();
+		itema.put("companyId",WebUtils.getCurrentCompanyId());
+		List<SysConfigItem> names=sysConfigItemServiceImpl.findItemNameByItemCode(itema);
+		for (SysConfigItem sci:names) {
+			if(null!= sci.getItemCode() || "".equals(sci.getItemCode())){
+				if(sci.getItemCode().equals(ct.getItemOneCode())){
+					ct.setItemOneName(sci.getItemName());
+				}
+				if(sci.getItemCode().equals(ct.getItemSecondCode())){
+					ct.setItemSecondName(sci.getItemName());
+				}
+				if(sci.getItemCode().equals(ct.getItemThirdCode())){
+					ct.setItemThirdName(sci.getItemName());
+				}
+			}
+		}
 		model.addAttribute("chapterList", chapterList);
 		model.addAttribute("listModule", listModule);
 		model.addAttribute("ct", ct);

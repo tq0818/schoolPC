@@ -318,22 +318,22 @@ function addBerkeley(biaoshi){
     	            			return;
     	            		}
     	    			}*/
-    	        		/*var linkPerson=$("#linkPerson").val();
-    	        		if(null==linkPerson || ''==linkPerson){
+    	        		var linkPerson=$("#linkPerson").val();
+    	        		/*if(null==linkPerson || ''==linkPerson){
     	        			alert("联系人不能为空");
     	        			return;
-    	        		}
+    	        		}*/
     	        		var linkPhone=$("#linkPhone").val();
-    	        		if(null==linkPhone || ''==linkPhone){
+    	        		/*if(null==linkPhone || ''==linkPhone){
     	        			alert("联系方式不能为空");
     	        			return;
-    	        		}else if(linkPhone.length!=11){
+    	        		}else*/ if(linkPhone.length!=11){
                             alert("联系方式不是11位有效电话");
                             return;
 						}else if(!(/^1[34578]\d{9}$/.test(linkPhone))){
                             alert("手机号码有误，请重填");
                             return ;
-                        }*/
+                        }
                            var domain=$("#domain").val();
     	        		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
     	        		domain = domain.replace(/\s/g,"");
@@ -405,15 +405,17 @@ function addBerkeley(biaoshi){
         	            			            					return;
         	            			            				}
 	        	            			            			var schoolSummary=$("#schoolSummary").val();
-        	            			            				if(null==schoolSummary || ''==schoolSummary){
+	        	            			            			var synopsis = schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
+	        	            			            			var synopsisNew = synopsis.replace(/\s/g,"");
+        	            			            				if(null==schoolSummary || ''==schoolSummary || null==synopsisNew || ''==synopsisNew){
         	            			            					alert("分校简介不能为空");
         	            			            					return;
-        	            			            				}else if (schoolSummary.length>200){
+        	            			            				}else if (synopsis.length>200){
         	            			            					alert("分校简介不能超过200个字符");
         	            			            					return;
 																}else{
         	            			            					schoolSummary=schoolSummary.replace(/(^\s+)|(\s+$)/g,"");
-        	            			            					schoolSummary = schoolSummary.replace(/\s/g,"");
+        	            			            					/*schoolSummary = schoolSummary.replace(/\s/g,"");*/
         	            			            				}
                                                                $.confirm("保存后，部分属性无法修改，是否继续？",function (r) {
         	            			            				if(r){

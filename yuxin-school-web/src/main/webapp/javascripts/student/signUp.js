@@ -982,13 +982,13 @@
 			// 	$.msg("请选择学科");
 			// 	return false;
 			// }
-			// payMaster.itemOneName=$(".itemOne").find("option:selected").text();
+			payMaster.itemOneName=$(".itemOne").find("option:selected").text();
 			// payMaster.itemSecondId=$(".itemSecond").val();
 			// if(!payMaster.itemSecondId){
 			// 	$.msg("请选择学科小类");
 			// 	return false;
 			// }
-			// payMaster.itemSecondName=$(".itemSecond").find("option:selected").text();
+			payMaster.itemSecondName=$(".itemSecond").find("option:selected").text();
 			payMaster.commodityId=$("select.classType").val();
 			if(!payMaster.commodityId){
 				$.msg("请选择课程");

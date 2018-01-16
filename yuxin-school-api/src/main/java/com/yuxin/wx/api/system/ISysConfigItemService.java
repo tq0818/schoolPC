@@ -303,8 +303,11 @@ public interface ISysConfigItemService  {
 
 	List<SysConfigItem> findItemByIds(List<Integer> list);
 	List<SysConfigItem>  findByParentCode(SysConfigItem item);
+	List<SysConfigItem> findItemNameByItemCode(Map<String,Integer> itema);
+
 	/**
-	 * 
+	 *
+	 *
 	 * @author jishangyang 2017年12月9日 下午3:10:25
 	 * @Method: findschooIdByCompanyId 
 	 * @Description:根据公司ID查询学校ID

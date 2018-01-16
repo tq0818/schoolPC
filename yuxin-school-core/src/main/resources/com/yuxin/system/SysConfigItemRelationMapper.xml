@@ -192,7 +192,7 @@
          SELECT   c.*
         FROM
          sys_knowledge_tree_item_relation kt LEFT JOIN sys_config_item c ON kt.`item_grade` = c.`item_code`
-         WHERE kt.`edu_step` = #{eduStep} and kt.`comapny_id` = #{companyId} ORDER BY sort
+         WHERE kt.`edu_step` = #{eduStep} and kt.`comapny_id` = #{companyId} and c.company_id = #{companyId} ORDER BY sort
     </select>
 
 
@@ -201,6 +201,6 @@
         SELECT  DISTINCT(t.id),t.*
         FROM
         sys_config_item_relation_front rf LEFT JOIN sys_config_item t ON rf.`item_code` = t.`item_code`
-        WHERE rf.origin_type=0 AND rf.`company_id` = #{companyId} and rf.parent_code = #{parentCode} ORDER BY sort
+        WHERE rf.origin_type=0 AND rf.`company_id` = #{companyId} and rf.parent_code = #{parentCode} and t.company_id = #{companyId} ORDER BY sort
     </select>
 </mapper>

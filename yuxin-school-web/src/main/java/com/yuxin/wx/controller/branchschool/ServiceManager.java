@@ -53,14 +53,23 @@ public class ServiceManager {
          map.put("companyId", companyId);
         List<SysConfigDict> scd = iSysConfigDictService.querSysConfigDictList(map);
         List<SysConfigDict> scd1 =new ArrayList<SysConfigDict>();
-        for (SysConfigDict s:scd) {
-            if( ! s.getDictName().trim().equals("短信")){
-                scd1.add(s);
-            }
-        }
         //获取服务总数
         int count = iSysConfigDictService.querSysConfigDictCount(companyId);
-
+       if("1".equals(company.getIsArea()) ){
+           for(SysConfigDict s:scd){
+               if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_CLASS_SET".equals(s.getGroupCode())){
+                   scd1.add(s);
+               }
+           }
+           count =count - 2;
+       }else{
+           for(SysConfigDict s:scd){
+               if( ! s.getDictName().trim().equals("短信")){
+                   scd1.add(s);
+               }
+           }
+           count =count - 1;
+       }
         PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(page,10, count-1, scd1);
         model.addAttribute("sysConfigDicts", pageFinder);
         model.addAttribute("companyId", companyId);

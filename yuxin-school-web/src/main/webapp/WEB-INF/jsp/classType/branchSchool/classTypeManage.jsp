@@ -113,6 +113,7 @@
                 <th width="10%">学段</th>
                 <th width="10%">学科</th>
                 <th width="10%">上下架状态</th>
+                <th width="10%">授课方式</th>
                 <th width="15%">添加时间</th>
                 <th width="15%">操作</th>
             </tr>

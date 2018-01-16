@@ -1220,7 +1220,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 					</foreach>
 				) group by edu_area
 			) sm on sm.edu_area=co.edu_area_school
-			left join commodity cc on cc.company_id=co.id
+			left join commodity cc on cc.company_id=co.id and cc.origin_type=0 
 			left join student s on 1=1 and s.edu_area in(
 			<foreach item="item" collection="areaCompanyList" separator="," >
 					#{item.eduAreaSchool}
@@ -1243,7 +1243,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
 			left join edu_master_class emc on emc.edu_school=co.edu_area_school and emc.is_used=1
-			left join commodity cc on cc.company_id=co.id
+			left join commodity cc on cc.company_id=co.id and cc.origin_type=0 
 			left join student s on 1=1 and s.edu_school in(
 			<foreach item="item" collection="schoolCompanyList" separator="," >
 					#{item.eduAreaSchool}

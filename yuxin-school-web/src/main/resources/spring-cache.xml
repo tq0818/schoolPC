@@ -19,7 +19,7 @@
 <!--        <property name="testOnReturn" value="true"/>-->
     </bean>
 	<!-- redis 配置,也可以把配置挪到properties配置文件中,再读取 -->
-	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">
 		<constructor-arg index="0" ref="jedisPoolConfig" />
 		<!-- 端口，默认6379 -->
 	    <constructor-arg index="2" type="int">

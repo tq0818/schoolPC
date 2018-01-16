@@ -44,7 +44,7 @@
         	<input type="hidden" id="companyId" value="${companyId }">
 			<input type="hidden" id="rowCount"/>
 			<input type="hidden" id="pageNo"/>
-			<input type="hidden" id="pageSize" value="5"/>
+			<input type="hidden" id="pageSize" value="10"/>
             <input type="text" id="name" name="name" placeholder="课程名称/科目/老师"/>
             <select name="lable" id="lable">
                 <option value="">请选择课程类型</option>

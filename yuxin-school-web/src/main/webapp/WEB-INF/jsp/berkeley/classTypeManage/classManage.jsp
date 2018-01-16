@@ -46,7 +46,7 @@
         	<input type="hidden" id="schoolId" value="${school.id }">
 			<input type="hidden" id="rowCount"/>
 			<input type="hidden" id="pageNo"/>
-			<input type="hidden" id="pageSize" value="5"/>
+			<input type="hidden" id="pageSize" value="10"/>
             <input type="text" id="name" name="name" placeholder="课程名称"/>
             <select name="livestatus" id="livestatus">
                 <option value="">请选择直播课状态</option>

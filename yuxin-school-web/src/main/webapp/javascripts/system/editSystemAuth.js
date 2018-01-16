@@ -609,7 +609,7 @@
 									});
 									
 									//循环班级
-									optionStr+='</select><select name="subjectClassCode">';
+									optionStr+='</select><br/><select name="subjectClassCode">';
 									$.each(gradeInfoVos[selectCount].classInfos,function(i,dat){
 										if(dat.className==classNo){
 											optionStr+='<option value="'+dat.className+'" selected ="selected">'+dat.className+'班</option>';
@@ -627,7 +627,7 @@
 									optionStr+='<option value="'+dt.gradeName+'">'+dt.gradeName+'级</option>';
 								});
 								//循环班级
-								optionStr+='</select><select name="subjectClassCode">';
+								optionStr+='</select><br/><select name="subjectClassCode">';
 								$.each(gradeInfoVos[selectCount].classInfos,function(i,dat){
 									optionStr+='<option value="'+dat.className+'" >'+dat.className+'班</option>';
 								});

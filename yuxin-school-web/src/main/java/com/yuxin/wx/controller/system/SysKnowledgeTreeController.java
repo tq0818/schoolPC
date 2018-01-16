@@ -178,7 +178,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
 
 
     /**
-     * 根据学员学段，查询课程年级
+     * 根据课程年级查询学科
      * @return
      */
     @ResponseBody

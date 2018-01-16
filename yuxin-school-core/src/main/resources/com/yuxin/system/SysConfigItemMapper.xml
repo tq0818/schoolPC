@@ -176,6 +176,7 @@
 		i.company_id=#{companyId} and r.school_id=#{schoolId} and r.del_flag=0 and i.status = 1
 		<if test="parentCode != null and parentCode != ''">and i.parent_code=#{parentCode}</if>
 	</select>
+
 <select id="findByItemTwo" resultMap="sysConfigItemResultMap"
 		parameterType="hashmap">
 		select

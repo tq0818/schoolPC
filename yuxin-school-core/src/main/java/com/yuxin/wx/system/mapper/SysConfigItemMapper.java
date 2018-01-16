@@ -20,6 +20,8 @@ public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	
 	List<SysConfigItem> selectItem(SysConfigItem search);
 	List<SysConfigItem> findByParentCode(SysConfigItem item);
+	List<SysConfigItem> findItemNameByItemCode(Map<String,Integer> companyId);
+
 	/**
 	 * 
 	 * Class Name: SysConfigItemMapper.java

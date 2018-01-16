@@ -265,8 +265,13 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 	public List<SysConfigItem> findByParentCode(SysConfigItem item) {
 		return sysConfigItemMapper.findByParentCode(item);
 	}
+	@Override
+	public List<SysConfigItem> findItemNameByItemCode(Map<String,Integer> companyId) {
+		return sysConfigItemMapper.findItemNameByItemCode(companyId);
+	}
 
 	@Override
+
     public Integer findschooIdByCompanyId(Integer companyId) {
 		Integer id=sysConfigItemMapper.findschooIdByCompanyId(companyId);
 	    return id;

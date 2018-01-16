@@ -3390,6 +3390,7 @@ public class StudentController {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
             search.setPageSize(20000);
+            search.setCompanyId(WebUtils.getCurrentCompanyId());
             al = studentServiceImpl.findStudentsData(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();

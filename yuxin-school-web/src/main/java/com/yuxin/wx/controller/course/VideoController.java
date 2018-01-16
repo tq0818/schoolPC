@@ -898,7 +898,7 @@ public class VideoController {
     public String toVideo(Model model, HttpServletRequest request) {
         Integer companyId = WebUtils.getCurrentCompanyId();
         serviceStaticService.updateByCompanyStatus(companyId);
-        serviceStaticService.updateByCompanyStatusl(companyId);
+      //  serviceStaticService.updateByCompanyStatusl(companyId);
         CompanyMemberService comMember = memberServiceService.findByCompanyId(companyId);
         CompanyServiceStatic comService = serviceStaticService.findByCompanyId(companyId);
         List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(),

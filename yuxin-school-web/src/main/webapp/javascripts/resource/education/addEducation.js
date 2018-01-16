@@ -42,7 +42,7 @@ $(function(){
 		$("#teaType").val(teacherType);
 	});
 	$("#userName").blur(function(){
-		var userName = $("#userName").val();
+		/*var userName = $("#userName").val();
 		$.ajax({
 			type : "post",
 			data : {
@@ -54,7 +54,9 @@ $(function(){
 				backResult = data;
 				checkUserName();
 			}
-		});
+		});*/
+		ajaxCheckUserName();
+		checkUserName();
 	});
 	//ajax请求添加老师的名称是否存在
 		$("#tName").blur(function(){
@@ -201,7 +203,7 @@ function addClass(obj) {
 }
 
 function checkTeacherName(){
-	var teacherName = $("#tName").val();
+	/*var teacherName = $("#tName").val();
 	var agoTName = $("#agoTName").val();
 	var agoTeaType = $("#agoTeaType").val();
 	var teaType = $("#teaType").val();
@@ -229,8 +231,8 @@ function checkTeacherName(){
 		}
 	}else{
 		return true;
-	}
-	
+	}*/
+	return true;
 }
 
 function checkMobileNum(){
@@ -286,7 +288,21 @@ function checkUserName(){
 		}
 	}
 }
-
+function ajaxCheckUserName(){
+	var userName = $("#userName").val();
+	$.ajax({
+		type : "post",
+		async : false,
+		data : { "userName" : userName },
+		url : rootPath + "/authPrivilege/checkUserName",
+		success : function(data) {
+			if(data!="true"){
+				alertMsg(data)
+			}
+			backResult = data;
+		}
+	});
+}
 function alertMsg(obj){
 	$('<div class="c-fa">'+obj+'</div>').appendTo('body').fadeIn(100).delay(1000).fadeOut(200,function() {
 		$(this).remove();

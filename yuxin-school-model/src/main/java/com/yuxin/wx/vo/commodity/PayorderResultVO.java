@@ -1,7 +1,7 @@
 package com.yuxin.wx.vo.commodity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 /**
  * 订单结果
  * @author admin
@@ -26,6 +26,7 @@ public class PayorderResultVO implements Serializable {
 	private Double realPrice;//真实价格
 	private String orderNum;//订单编号
 	private Date orderTime;//订单时间
+	private Integer comId;//商品id
 	public Integer getUserId() {
 		return userId;
 	}
@@ -97,6 +98,12 @@ public class PayorderResultVO implements Serializable {
 	}
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
+	}
+	public Integer getComId() {
+		return comId;
+	}
+	public void setComId(Integer comId) {
+		this.comId = comId;
 	}
 	
 }

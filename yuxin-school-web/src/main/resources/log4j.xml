@@ -63,8 +63,8 @@
 		</filter>
 	</appender>
 
-	<!-- begin mybatis 日志-->
-	<logger name="com.ibatis" additivity="true">
+	<!-- begin mybatis develop日志-->
+	<!-- <logger name="com.ibatis" additivity="true">
 		<level value="DEBUG" />
 	</logger>
 	<logger name="java.sql.Connection" additivity="true">
@@ -78,7 +78,25 @@
 	</logger>
 	<logger name="java.sql.ResultSet" additivity="true">
 		<level value="INFO" />
-	</logger>
+	</logger> -->
+	<!-- end mybatis 日志 -->
+	
+	<!-- begin mybatis test 日志-->
+	 <logger name="com.ibatis" additivity="true"> 
+	  <level value="EORROR" /> 
+	 </logger> 
+	 <logger name="java.sql.Connection" additivity="true"> 
+	  <level value="EORROR"/> 
+	 </logger> 
+	 <logger name="java.sql.Statement" additivity="true"> 
+	  <level value="EORROR"/> 
+	 </logger> 
+	 <logger name="java.sql.PreparedStatement" additivity="true"> 
+	  <level value="EORROR"/> 
+	 </logger> 
+	 <logger name="java.sql.ResultSet" additivity="true"> 
+	  <level value="EORROR"/> 
+	 </logger>
 	<!-- end mybatis 日志 -->
 
 	<logger name="com.yuxin.tools">

@@ -106,6 +106,7 @@ public class PermissionManger {
 		}
         search.setSchoolId(schoolId);
         search.setPage(page);
+        search.setPageSize(10);
         
         //获取用户列表
         PageFinder<UserRolesListVo> pageFinder = authRoleServiceImpl.queryAllUser(search);

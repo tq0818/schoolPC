@@ -106,7 +106,7 @@
         <script type="text/javascript" src="<%=rootPath %>/javascripts/branchschool/permissionManagement.js"></script>
     </div>
 </div>
-<input type="hidden" value="5" id="pageSize">
+<input type="hidden" value="10" id="pageSize">
 <input type="hidden" value="${companyId}" id="companyId">
 
 
@@ -117,7 +117,7 @@
     </p>
 </div>
 
-<div class="pages pagination"></div>
+<div class="pages pagination" style="display: none"></div>
 <div class="loading-bg lp-units-loading-bg" style="display: none"></div>
 <!--  ajax加载中div结束 -->
 

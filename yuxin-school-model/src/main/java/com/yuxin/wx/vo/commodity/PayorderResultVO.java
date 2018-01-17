@@ -27,6 +27,10 @@ public class PayorderResultVO implements Serializable {
 	private String orderNum;//订单编号
 	private Date orderTime;//订单时间
 	private Integer comId;//商品id
+	private String payType;//支付类型
+	private String payInfo;//wap端支付地址
+	private String wxCodeImgUrl;//微信支付地址
+	private String zfbCodeImgUrl;//支付宝支付地址
 	public Integer getUserId() {
 		return userId;
 	}
@@ -104,6 +108,30 @@ public class PayorderResultVO implements Serializable {
 	}
 	public void setComId(Integer comId) {
 		this.comId = comId;
+	}
+	public String getPayType() {
+		return payType;
+	}
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+	public String getPayInfo() {
+		return payInfo;
+	}
+	public void setPayInfo(String payInfo) {
+		this.payInfo = payInfo;
+	}
+	public String getWxCodeImgUrl() {
+		return wxCodeImgUrl;
+	}
+	public void setWxCodeImgUrl(String wxCodeImgUrl) {
+		this.wxCodeImgUrl = wxCodeImgUrl;
+	}
+	public String getZfbCodeImgUrl() {
+		return zfbCodeImgUrl;
+	}
+	public void setZfbCodeImgUrl(String zfbCodeImgUrl) {
+		this.zfbCodeImgUrl = zfbCodeImgUrl;
 	}
 	
 }

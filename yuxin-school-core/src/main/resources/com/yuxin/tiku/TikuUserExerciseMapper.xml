@@ -397,20 +397,36 @@
 	</select>
 
 	<select id="findTikuPaperByParam" parameterType="map" resultType="map">
-		select
-		tu.`user_id` as userId,
-		(select
-		CASE WHEN count(1) = 0 THEN 2
-		ELSE 1 END
-		from
-		`tiku_user_wrong` uw
-		left join tiku_paper_topic tpt
-		on tpt.topic_id = uw.topic_id
-		where tpt.paper_id = #{paperId}
-		and uw.user_id = tu.user_id) as paperFlag
-		from
-		`tiku_user_exercise` tu
-		where tu.exercise_id = #{paperId}
-		and tu.exercise_type = 'EXERCISE_TYPE_PAPER'
+		SELECT
+		  t.user_id AS userId,
+		  t.id,
+		  CASE
+			WHEN t.total_topic = t.correct_topic
+			THEN 2
+			ELSE 1
+		  END as paperFlag,
+		  (SELECT
+			CASE
+			  WHEN COUNT(1) = 0
+			  THEN 2
+			  ELSE 1
+			END
+		  FROM
+			tiku_user_wrong uw
+			LEFT JOIN tiku_paper_topic tpt
+			  ON tpt.topic_id = uw.topic_id
+		  WHERE tpt.paper_id = #{paperId}
+			AND uw.user_id = t.user_id) AS wrongFlag
+		FROM
+		  (SELECT
+			tu.*
+		  FROM
+			`tiku_user_exercise` tu
+		  WHERE tu.exercise_id = #{paperId}
+			AND tu.exercise_type = 'EXERCISE_TYPE_PAPER'
+			AND tu.status = 'EXERCISE_STATUS_FINISH'
+		  ORDER BY id DESC) t
+		GROUP BY t.user_id
 	</select>
+
 </mapper>

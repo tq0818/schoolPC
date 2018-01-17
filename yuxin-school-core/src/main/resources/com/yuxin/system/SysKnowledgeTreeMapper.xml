@@ -75,6 +75,9 @@
             <if test="eduSeason!=null and eduSeason!=''">
                 and edu_season = #{eduSeason}
             </if>
+            <if test="eduStep!=null and eduStep!=''">
+                and edu_step = #{eduStep}
+            </if>
             <if test="itemSecondCode!=null and itemSecondCode!=''">
                 and item_second_code = #{itemSecondCode}
             </if>
@@ -94,6 +97,7 @@
         delete from sys_knowledge_tree
         where edu_year = #{eduYear}
             and edu_season = #{eduSeason}
+            and edu_step = #{eduStep}
             and item_second_code = #{itemSecondCode}
             and item_three_code = #{itemThreeCode}
             and company_id = #{companyId}

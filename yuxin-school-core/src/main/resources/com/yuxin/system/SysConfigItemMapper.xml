@@ -176,6 +176,18 @@
 		i.company_id=#{companyId} and r.school_id=#{schoolId} and r.del_flag=0 and i.status = 1
 		<if test="parentCode != null and parentCode != ''">and i.parent_code=#{parentCode}</if>
 	</select>
+	<select id="findItemNameByItemCode" resultMap="sysConfigItemResultMap"
+			parameterType="Map">
+		SELECT DISTINCT
+		i.item_name,
+		i.item_code
+		FROM
+		sys_config_item i
+		WHERE
+		i.item_type = 2
+		and i.company_id =#{companyId}
+
+	</select>
 
 <select id="findByItemTwo" resultMap="sysConfigItemResultMap"
 		parameterType="hashmap">

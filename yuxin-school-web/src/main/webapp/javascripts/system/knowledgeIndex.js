@@ -63,6 +63,7 @@
                 var data = {};
                 data.eduYear = $("#eduYear").val();
                 data.eduSeason=$("#eduSeason").val();
+                data.eduStep=$("#eduStep").val();
                 data.itemSecondCode = $("#itemSecondCode").val();
                 data.itemThreeCode = $("#itemThreeCode").val();
                 data.idstr = idsData;
@@ -111,6 +112,7 @@
             var data = {};
             data.eduYear = $("#eduYear").val();
             data.eduSeason=$("#eduSeason").val();
+            data.eduStep=$("#eduStep").val();
             data.itemSecondCode = $("#itemSecondCode").val();
             data.itemThreeCode = $("#itemThreeCode").val();
             data.page = page ? page : 1;
@@ -251,6 +253,7 @@
             var data = {};
             data.eduYear = $("#eduYear").val();
             data.eduSeason=$("#eduSeason").val();
+            data.eduStep=$("#eduStep").val();
             data.itemSecondCode = $("#itemSecondCode").val();
             data.itemThreeCode = $("#itemThreeCode").val();
             $.ajax({

@@ -438,6 +438,7 @@ public interface ISysConfigTeacherService {
      * @return
      */
     Integer findMobileCount(SysConfigTeacher sct);
+    Integer checkTeacher(String teachers);
 
     List<SysConfigTeacher> findTeacherByUserId(SysConfigTeacher search);
 

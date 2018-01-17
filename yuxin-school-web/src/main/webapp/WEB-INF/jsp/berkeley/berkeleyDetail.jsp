@@ -25,6 +25,7 @@
             margin-left: 10px;
             margin-right: 11px;
         }
+        #schoolSummary{height: 210px;margin-left: 10px !important;width: 200px;}
     </style>
     <%--tob--%>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
@@ -88,7 +89,7 @@
             <li>
                 <label>分校简介:</label>
                 <%--<input type="text" disabled="disabled" value="${schoolProperty }" class="editState" style="margin-left: 50px;">--%>
-                <textarea  cols="25" rows="5" id="schoolSummary" style="margin-left: 50px;overflow:hidden; resize:none;" disabled="disabled">${company.schoolSummary }</textarea>
+                <textarea  cols="25" rows="5" id="schoolSummary" style="overflow:hidden; resize:none;" disabled="disabled">${company.schoolSummary }</textarea>
                 <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
             </li>
         </ul>

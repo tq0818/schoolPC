@@ -191,13 +191,13 @@
                 </li>
                 <li style="margin-bottom: 10px">
                     <label for="">cc账号:</label><br/>
-                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;margin-bottom: 5px;" type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
-                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;" type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
+                    <i style="color: red;margin-left: 55px;" class="iconfont ico"></i><input style="margin-bottom: 5px;" type="text" placeholder="账号" name="ccUserName" id="ccUserName"/><br/>
+                    <i style="color: red;margin-left: 55px;" class="iconfont ico"></i><input  type="password" placeholder="密码" name="ccPwd" id="ccPwd"/>
                 </li>
                 <li style="margin-bottom: 10px">
                     <label for="">展视互动账号:</label><br/>
-                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;margin-bottom: 5px;" type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/><br/>
-                    <i style="color: red;" class="iconfont ico"></i><input style="margin-left: 55px;" type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
+                    <i style="color: red;margin-left: 55px;" class="iconfont ico"></i><input style="margin-bottom: 5px;" type="text"  placeholder="账号" name="zsUserName" id="zsUserName"/><br/>
+                    <i style="color: red;margin-left: 55px;" class="iconfont ico"></i><input  type="password" placeholder="密码" name="zsPwd" id="zsPwd"/>
                 </li>
                 <li>
                     <label>分校简介<i style="color: red;" class="iconfont ico"></i></label><br/>

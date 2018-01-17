@@ -111,10 +111,10 @@ public class ClassTypeManageContorller {
     	try {
     		//判断该课程是否已添加
     		Integer count=this.classTypeOfBranchSchoolService.findSchoolShareClassType(params);
-    		if(null!=count&&count>1){
+    		/*if(null!=count&&count>1){
     			json.put(JsonMsg.RESULT, "该分校已经添加该课程");
     			return json;
-    		}
+    		}*/
     		//复制课程
 			String result=this.classTypeOfBranchSchoolService.copyClassTypeToTargetCompany(params);
     		if("success"==result){

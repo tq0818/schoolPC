@@ -143,7 +143,7 @@
 </div>
 <div class="add-layer w800 none" style="z-index:1001;margin-top:-260px">
     <h3 class="add-layer-tit tabs">
-				<span class="tab1 active" ids="neibu">内部视频</span> 
+				<span class="tab1 active" ids="neibu">内部视频</span>
 				<span class="tab2" ids="outside">外部视频</span>
 			</h3>
 			<i class="iconfont close q-close"></i>
@@ -154,14 +154,17 @@
 							class="term-title"> <select name="" id="choose_itemOne"
 							class="itemOne">
 						</select>
-						</span> <span class="term-title q-term-title">学科小类</span> <span
-							class="term-title"> <select name="" id="choose_itemSecond"
-							class="itemSecond">
-						</select>
-						</span> <span class="term-title q-term-title"></span> <span
+						</span>
+						<%--<span class="term-title q-term-title">学科小类</span> <span--%>
+							<%--class="term-title"> <select name="" id="choose_itemSecond"--%>
+							<%--class="itemSecond">--%>
+						<%--</select>--%>
+						<%--</span> --%>
+						<span class="term-title q-term-title"></span> <span
 							class="term-title"> <input type="text" id="choose_paper1"
 							class="q-select">
-						</span> <span class="btn btn-sm btn-default q-btn-primary q-btn-primary1"
+						</span>
+						<span class="btn btn-sm btn-default q-btn-primary q-btn-primary1"
 						>搜索 </span>
 					</div>
 					<div class="term-list q-term-list">

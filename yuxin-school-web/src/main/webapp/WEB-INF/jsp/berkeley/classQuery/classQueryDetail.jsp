@@ -36,7 +36,7 @@
 		$("#rowCount").val("${msgPage.rowCount }");
 		$("#pageNo").val("${msgPage.pageNo }");
 		$("#pageSize").val("${msgPage.pageSize }");
-		$(".pagination").html("");
+//		$(".pagination").html("");
 		$(".pagination").pagination($("#rowCount").val(), {
 			next_text : "下一页",
 			prev_text : "上一页",

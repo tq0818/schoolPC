@@ -280,7 +280,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 sphf.setCompanyId(ids);
 		 sphf.setSchoolId(school.getId());
 		 sphf.setZhuCompanyId(zhuCompanyId);
-		 List<SysPageHeadFoot> list =companyMapper.selectAllUrl();
+	/*	 List<SysPageHeadFoot> list =companyMapper.selectAllUrl();
 		for (SysPageHeadFoot sphfnew:list) {
 			String[] url1=sphfnew.getUrl().split("\\/");
 			String url2 ="";
@@ -300,8 +300,8 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 			sphfnew.setSchoolId(school.getId());
 			companyMapper.addSysPageHeadFootAll(sphfnew);
 		}
-
-//		 companyMapper.addSysPageHeadFoot(sphf);
+*/
+		 companyMapper.addSysPageHeadFoot(sphf);
 		 //company_service_static
 		 CompanyServiceStatic csc=new CompanyServiceStatic();
 		 csc.setCompanyId(ids);

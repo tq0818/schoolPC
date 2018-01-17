@@ -296,6 +296,8 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 				}
 				sphfnew.setUrl(url2);
 			}
+			sphfnew.setCompanyId(ids);
+			sphfnew.setSchoolId(school.getId());
 			companyMapper.addSysPageHeadFootAll(sphfnew);
 		}
 

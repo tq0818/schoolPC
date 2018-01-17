@@ -231,6 +231,9 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addCompanyRegisterConfig(SysConfigIndexPageTemplate scipt);
 	public void addSysLogManagerOption(SysLogManagerOption smo);
 	public void addSysPageHeadFoot(SysPageHeadFoot sphf);
+	public void addSysPageHeadFootAll(SysPageHeadFoot sphf);
+
+	public List<SysPageHeadFoot> selectAllUrl();
 	public void addCompanyServiceStatic(CompanyServiceStatic csc);
 	public void addSysConfigPageRedirect(SysConfigPageRedirect scpr);
 	

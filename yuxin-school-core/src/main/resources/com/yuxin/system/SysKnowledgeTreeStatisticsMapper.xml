@@ -17,8 +17,6 @@
     </resultMap>
     <sql id="table_columns">
         id,
-        user_id,
-        classtype_id,
         knowledge_tree_id,
         user_id,
         classtype_id,
@@ -30,15 +28,12 @@
         video_weike_flag,
         paper_id,
         paper_flag
-
     </sql>
     <sql id="entity_properties">
         #{id},
         #{knowledgeTreeId},
         #{userId},
-        #{userId},
         #{classtypeId},
-        #{knowledgeTreeId},
         #{lessonId},
         #{liveFlag},
         #{videoLectrueId},

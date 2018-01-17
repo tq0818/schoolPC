@@ -1303,7 +1303,14 @@
                             }else if(jsonData=="0702" ){
                                 $.msg("紧急联系人电话不正确，请修改！");
                                 return;
-                            }else{
+                            }else if(jsonData=="0703"){
+                                $.msg("入学年份不正确，请修改！");
+                                return;
+                            }else if(jsonData=="0704"){
+                                $.msg("班级不正确，请修改！");
+                                return;
+                            }
+                            else{
                                 $.msg("格式错误，请重新修改");
                             }
                         }

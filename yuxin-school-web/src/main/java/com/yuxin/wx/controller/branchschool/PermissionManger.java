@@ -320,14 +320,17 @@ public class PermissionManger {
 		}
 		userServiceImpl.update(user);
 		//修改用户角色
-		if(rolesId!=null&&!"".equals(rolesId)){
+		AuthUserRole role=new AuthUserRole();
+		role.setUserId(user.getId());
+		role.setCompanyId(ccompanyId);
+		if("".equals(rolesId)){
+			authUserRoleServiceImpl.deleteAuthUserRoleById(role);
+		}
+		else {
 			//清除原来用户角色
 			String r=rolesId.substring(0, rolesId.length()-1);
 			String[] roles=r.split(",");
-			AuthUserRole role=new AuthUserRole();
-			role.setUserId(user.getId());
 			role.setRoles(roles);
-			role.setCompanyId(ccompanyId);
 			authUserRoleServiceImpl.deleteAuthUserRoleById(role);
 			for(int i=0;i<roles.length;i++){
 				 AuthUserRole authUserRole=new AuthUserRole();

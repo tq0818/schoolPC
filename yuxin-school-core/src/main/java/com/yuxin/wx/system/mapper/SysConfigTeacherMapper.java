@@ -133,6 +133,7 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
     void updateauthTeacher(SysConfigTeacher teacher);
 
     Integer findMobileCount(SysConfigTeacher sct);
+    Integer checkTeacher(String teachers);
 
     List<SysConfigTeacher> findTeacherByUserId(SysConfigTeacher search);
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.system.mapper.SysPageHeadFootMapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
@@ -44,12 +45,15 @@ import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.tiku.TikuSet;
 import com.yuxin.wx.model.user.Users;
+import sun.org.mozilla.javascript.internal.NativeArray;
+
 @Service
 @Transactional
 public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		ICompanyManageService {
 	@Autowired
 	private CompanyMapper companyMapper;
+
 	@Override
 	public PageFinder2<CompanyVo> queryCompanyVoListByCondition(CompanyVo search) {
 		
@@ -271,12 +275,31 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 //		 smo.setUserId(user.getId());
 //		 smo.setZhuCompanyId(zhuCompanyId);
 //		 companyMapper.addSysLogManagerOption(smo);
-		 //sys_page_head_foot
+		 //sys_page_head_footSysPageHeadFoot SysPageHeadFoot
 		 SysPageHeadFoot sphf=new SysPageHeadFoot();
 		 sphf.setCompanyId(ids);
 		 sphf.setSchoolId(school.getId());
 		 sphf.setZhuCompanyId(zhuCompanyId);
-		 companyMapper.addSysPageHeadFoot(sphf);
+		 List<SysPageHeadFoot> list =companyMapper.selectAllUrl();
+		for (SysPageHeadFoot sphfnew:list) {
+			String[] url1=sphfnew.getUrl().split("\\/");
+			String url2 ="";
+			if (url1.length>3){
+				for (int i =0 ;i<url1.length;i++) {
+					if(i==2){
+						url2=url2+"/"+search.getDomain();
+					}else if(i==0){
+						url2 =(url1[i])+"/";
+					}else {
+						url2 =url2+"/"+(url1[i]);
+					}
+				}
+				sphfnew.setUrl(url2);
+			}
+			companyMapper.addSysPageHeadFootAll(sphfnew);
+		}
+
+//		 companyMapper.addSysPageHeadFoot(sphf);
 		 //company_service_static
 		 CompanyServiceStatic csc=new CompanyServiceStatic();
 		 csc.setCompanyId(ids);

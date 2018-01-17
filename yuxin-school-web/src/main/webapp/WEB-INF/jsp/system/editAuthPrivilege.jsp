@@ -175,8 +175,8 @@
 	                <input type="button" onclick="Form.searchTeacher()" class="btn btn-default btn-sm" value="搜索">
 	            </div>
 	             <div class="teacher-list">
-	             	<c:forEach items="${teacherList }" var="t">
-	             		<a href="javascript:;" style="width:300px;"><input type="checkbox" name="tlist" checked="checked" value="${t.id }"/><span>${t.teacherName } ${wx:dictCode2Name(t.sex)} ${t.mobile }</span></a>
+					<c:forEach items="${teacherList }" var="t">
+	             		<a href="javascript:;" style="width:300px;"><input type="checkbox" name="tlist" checked="checked" value="${t.id }"/><span>${t.teacherName } ${wx:dictCode2Name(user.sex)} ${t.mobile }</span></a>
 	             	</c:forEach>
 	             	<div id="tList"></div>
 	            </div>

@@ -38,6 +38,28 @@
 		<result property="eduAreaSchool" column="edu_area_school"/>
 	</resultMap>
 
+	<resultMap type="com.yuxin.wx.model.system.SysPageHeadFoot" id="sysPageHeadFootResultMap">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="parentId" column="parent_id" />
+		<result property="pageType" column="page_type" />
+		<result property="fileUrl" column="file_url" />
+		<result property="content" column="content" />
+		<result property="companyId" column="company_id" />
+		<result property="schoolId" column="school_id" />
+		<result property="validFlag" column="valid_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="creator" column="creator" />
+		<result property="updateTime" column="update_time" />
+		<result property="updator" column="updator" />
+		<result property="sequence" column="sequence"/>
+		<result property="pageHeadType" column="page_head_type"/>
+		<result property="configId" column="config_id"/>
+		<result property="urlType" column="url_type"/>
+	</resultMap>
+
+
 	<resultMap type="com.yuxin.wx.vo.company.CompanyVo" id="companyVoResultMap">
 		<result property="id" column="id" />
 		<result property="companyName" column="company_name" />
@@ -76,7 +98,6 @@
 		<result property="buyFlag" column="buy_flag" />
 		<result property="comType" column="con_type"/>
 	</resultMap>
-	
 	<resultMap type="com.yuxin.wx.model.company.CompanyVo" id="companyVooResultMap">
 		<result property="isArea" column="is_area" />
 		<result property="eduAreaSchool" column="edu_area_school" />
@@ -86,7 +107,6 @@
 		<result property="id" column="id"/>
 		<result property="domainName" column="domain_name"/>
 	</resultMap>
-
 	<resultMap type="com.yuxin.wx.vo.company.CompanyPicsVo" id="companyPicsMap">
 	    <result property="picName" column="pic_name"/>
 	    <result property="picOriginalUrl" column="pic_original_url"/>
@@ -1220,7 +1240,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 					</foreach>
 				) group by edu_area
 			) sm on sm.edu_area=co.edu_area_school
-			left join commodity cc on cc.company_id=co.id
+			left join commodity cc on cc.company_id=co.id and cc.origin_type=0 
 			left join student s on 1=1 and s.edu_area in(
 			<foreach item="item" collection="areaCompanyList" separator="," >
 					#{item.eduAreaSchool}
@@ -1243,7 +1263,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
 			left join edu_master_class emc on emc.edu_school=co.edu_area_school and emc.is_used=1
-			left join commodity cc on cc.company_id=co.id
+			left join commodity cc on cc.company_id=co.id and cc.origin_type=0 
 			left join student s on 1=1 and s.edu_school in(
 			<foreach item="item" collection="schoolCompanyList" separator="," >
 					#{item.eduAreaSchool}
@@ -1623,6 +1643,18 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type
 		from sys_page_head_foot where company_id=#{zhuCompanyId} and page_type != 'foot')
 	</insert>
+	<insert id="addSysPageHeadFootAll" parameterType="com.yuxin.wx.model.system.SysPageHeadFoot" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_page_head_foot (company_id,school_id,name,url,parent_id,page_type,file_url,content,
+		valid_flag,open_type,sequence,page_head_type,create_time,creator,update_time,updator,config_id,url_type)
+		VALUES ( #{companyId},#{schoolId},#{name},#{url},#{parentId},#{pageType},#{fileUrl},#{content},
+		#{validFlag},#{openType},#{sequence},#{pageHeadType},#{createTime},#{creator},#{updateTime},#{updator},#{configId},#{urlType}
+		)
+	</insert>
+
+	<select id="selectAllUrl" resultMap="sysPageHeadFootResultMap">
+		SELECT * from sys_page_head_foot where company_id=18113
+	</select>
+
 	<!-- company_service_static -->
 	<insert id="addCompanyServiceStatic" parameterType="com.yuxin.wx.model.company.CompanyServiceStatic" useGeneratedKeys="true" keyProperty="id">
 		insert into company_service_static (company_id)  values (#{companyId})

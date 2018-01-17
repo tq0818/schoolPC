@@ -219,7 +219,7 @@
 	</select>
 	
 	<select id="queryAllUser" parameterType="com.yuxin.wx.vo.privilege.UserRolesListVo" resultMap="userRoleListVoResultMap">
-		select distinct u.id,u.username,u.real_name,sct.sex,ur.is_used as status,u.mobile,ur.company_id,scs.id school_id
+		select distinct u.id,u.username,u.real_name,u.sex,ur.is_used as status,u.mobile,ur.company_id,scs.id school_id
 		from users u
 		inner join users_comany_relation ur on ur.user_id=u.id and ur.company_id=#{companyId}
 		left join auth_user_role aur on aur.user_id=u.id

@@ -229,7 +229,7 @@ function  init() {
                     $.each(jsonData.data,function (i, stu) {
                         var str = null;
                         if($("#role").val()!='school'){
-                            str  =" <td>"+ stu.eduSchool+ "</td>"+" <td>"+ stu.eduStep+ "</td>"+" <td>"+ stu.eduYear+ "</td>";
+                            str  =" <td>"+ stu.eduSchool+ "</td>"+" <td>"+ stu.eduStep+ "</td>"+" <td>"+ stu.studyClass+ "</td>";
                         }else
                         {
                             str  = " <td>"+stu.studyClass+ "</td>";
@@ -242,7 +242,7 @@ function  init() {
                             + stu.lessonName
                             + '</td>'
                             + '<td>'
-                            + stu.userName
+                            + (stu.userName!=null?stu.userName:'')
                             + '</td>'
                             + '<td>'
                             + stu.studentName

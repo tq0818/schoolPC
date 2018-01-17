@@ -306,9 +306,45 @@ public class StudentExcelImportController {
 						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
 							error.add("第" + (i + 2) + "行中手机号不正确!");
 						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中班级不能为空!");
+						}
 						/* 用户名 */
 						if( list.get(i).getUsername() != null && !ParameterUtil.isUserName(list.get(i).getUsername()) ){
 							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中入班级不能为空!");
 						}
 						break;
 					case "username":
@@ -321,6 +357,24 @@ public class StudentExcelImportController {
 							error.add("第" + (i + 2) + "行中用户名不能为空!");
 						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
 							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中入班级不能为空!");
 						}
 						break;
 					case "all":
@@ -335,6 +389,24 @@ public class StudentExcelImportController {
 							error.add("第" + (i + 2) + "行中用户名不能为空!");
 						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
 							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中班级不能为空!");
 						}
 						break;
 					default:
@@ -463,6 +535,24 @@ public class StudentExcelImportController {
 						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getMobile()) ){
 							error.add("第" + (i + 2) + "行中手机号不正确!");
 						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中班级不能为空!");
+						}
 						/* 用户名 */
 						if( list.get(i).getUsername() != null && !ParameterUtil.isUserName(list.get(i).getUsername()) ){
 							error.add("第" + (i + 2) + "行中用户名不正确!");
@@ -479,6 +569,24 @@ public class StudentExcelImportController {
 						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
 							error.add("第" + (i + 2) + "行中用户名不正确!");
 						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中班级不能为空!");
+						}
 						break;
 					case "all":
 						/* 手机号 */
@@ -492,6 +600,24 @@ public class StudentExcelImportController {
 							error.add("第" + (i + 2) + "行中用户名不能为空!");
 						} else if ( !ParameterUtil.isUserName(list.get(i).getUsername()) ){
 							error.add("第" + (i + 2) + "行中用户名不正确!");
+						}
+						/* 紧急联系人电话 */
+						if( list.get(i).getEmergencyPhone() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不能为空!");
+						} else if ( !ParameterUtil.isMobilePhone(list.get(i).getEmergencyPhone()) ){
+							error.add("第" + (i + 2) + "行中紧急联系人手机号不正确!");
+						}
+						/* 紧急联系人姓名 */
+						if( list.get(i).getEmergencyContact() == null ){
+							error.add("第" + (i + 2) + "行中紧急联系人不能为空!");
+						}
+						/* 入学年份 */
+						if( list.get(i).getEduYear() == null ){
+							error.add("第" + (i + 2) + "行中入学年份不能为空!");
+						}
+						/* 班级 */
+						if( list.get(i).getEduClass() == null ){
+							error.add("第" + (i + 2) + "行中班级不能为空!");
 						}
 						break;
 					default:

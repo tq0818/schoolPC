@@ -635,6 +635,9 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 			String email = student.getEmail();
 			String username=student.getUsername();
 			String emergencyPhone = student.getEmergencyPhone();
+			String emergencyName = student.getEmergencyContact();
+			String eduYear = student.getEduYear();
+			String eduClass = student.getEduClass();
 			if(null!=student.getAddFlag() && "username".equals(student.getAddFlag())){
 				// 判断是否为身份证
 				if ("ID_IDCARD".equals(identityTypeCode)) {
@@ -671,6 +674,34 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 					if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
 						return "0702";
 					}
+				}
+				//判断紧急联系人
+				if(emergencyName == null || "".equals(emergencyName)){
+					return "0602";
+				}
+//				if (!(emergencyName == null || "".equals(emergencyName))) {
+//					if (!emergencyName.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
+//						return "0602";
+//					}
+//				}
+
+				// 判断紧急联系人电话
+				if(emergencyPhone == null || "".equals(emergencyPhone)){
+					return "0702";
+				}
+				if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
+					// 判断紧急手机号格式是否正确
+					if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
+						return "0702";
+					}
+				}
+				//判断入学年份
+				if(eduYear == null || "".equals(eduYear)){
+					return "0703";
+				}
+				//判断班级
+				if(eduClass == null || "".equals(eduClass)){
+					return "0704";
 				}
 				Date nowTime = new Date();
 				student.setCreateTime(nowTime);
@@ -764,7 +795,10 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 					}
 				}
 				
-				// 判断紧急联系人
+				 //判断紧急联系人
+				if(emergencyName == null || "".equals(emergencyName)){
+					return "0602";
+				}
 //				if (!(emergencyName == null || "".equals(emergencyName))) {
 //					if (!emergencyName.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
 //						return "0602";
@@ -772,11 +806,20 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 //				}
 				
 				// 判断紧急联系人电话
+				if(emergencyPhone == null || "".equals(emergencyPhone)){
+					return "0702";
+				}
 				if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
 					// 判断紧急手机号格式是否正确
 					if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
 						return "0702";
 					}
+				}
+				if(eduYear == null || "".equals(eduYear)){
+					return "0703";
+				}
+				if(eduClass == null || "".equals(eduClass)){
+					return "0704";
 				}
 				Date nowTime = new Date();
 				student.setCreateTime(nowTime);
@@ -1086,6 +1129,9 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		String email = student.getEmail();
 		String emergencyPhone = student.getEmergencyPhone();
 		String username = student.getUsername();
+		String emergencyName = student.getEmergencyContact();
+		String eduYear = student.getEduYear();
+		String eduClass = student.getEduClass();
 		
 		if(null!=student.getAddFlag() && "username".equals(student.getAddFlag())){
 			// 判断是否为身份证
@@ -1119,6 +1165,34 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
 					return "0702";
 				}
+			}
+			//判断紧急联系人
+			if(emergencyName == null || "".equals(emergencyName)){
+				return "0602";
+			}
+//				if (!(emergencyName == null || "".equals(emergencyName))) {
+//					if (!emergencyName.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
+//						return "0602";
+//					}
+//				}
+
+			// 判断紧急联系人电话
+			if(emergencyPhone == null || "".equals(emergencyPhone)){
+				return "0702";
+			}
+			if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
+				// 判断紧急手机号格式是否正确
+				if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
+					return "0702";
+				}
+			}
+			//判断入学年份
+			if(eduYear == null || "".equals(eduYear)){
+				return "0703";
+			}
+			//判断班级
+			if(eduClass == null || "".equals(eduClass)){
+				return "0704";
 			}
 			Date nowTime = new Date();
 			student.setCreateTime(nowTime);
@@ -1249,6 +1323,34 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
 					return "0702";
 				}
+			}
+			//判断紧急联系人
+			if(emergencyName == null || "".equals(emergencyName)){
+				return "0602";
+			}
+//				if (!(emergencyName == null || "".equals(emergencyName))) {
+//					if (!emergencyName.matches("([0-9A-Za-z]|[\\u4e00-\\u9fa5])+")) {
+//						return "0602";
+//					}
+//				}
+
+			// 判断紧急联系人电话
+			if(emergencyPhone == null || "".equals(emergencyPhone)){
+				return "0702";
+			}
+			if (!(emergencyPhone == null || "".equals(emergencyPhone))) {
+				// 判断紧急手机号格式是否正确
+				if (!ParameterUtil.isMobilePhone(emergencyPhone)) {
+					return "0702";
+				}
+			}
+			//判断入学年份
+			if(eduYear == null || "".equals(eduYear)){
+				return "0703";
+			}
+			//判断班级
+			if(eduClass == null || "".equals(eduClass)){
+				return "0704";
 			}
 			Date nowTime = new Date();
 			student.setCreateTime(nowTime);

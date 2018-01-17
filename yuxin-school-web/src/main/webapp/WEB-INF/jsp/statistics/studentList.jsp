@@ -35,8 +35,8 @@
 		        <div class="heading clear">
 		            <h2 class="h5" style="float:left;">学员列表</h2>
 		             <div style="position: absolute;right: 0;top: -8px;padding:0 10px;">
-	             		<span><a href="javascript:;" class="btn btn-primary addStudent">添加学员</a></span>
-	             		<span><a href="javascript:;" class="btn btn-primary importexcle">导入学员</a></span>
+	             		<%--<span><a href="javascript:;" class="btn btn-primary addStudent">添加学员</a></span>--%>
+	             		<%--<span><a href="javascript:;" class="btn btn-primary importexcle">导入学员</a></span>--%>
 			        	<span><a href="javascript:;" class="btn btn-primary exportexcle">导出学员</a></span>
 			        	<span><a href="javascript:;" class="btn btn-primary exportStudyPercent">导出学习进度</a></span>
 			        </div>

@@ -323,7 +323,12 @@
                             b6+'</ul>';
                     }
                 }else{
-                    if(count==1){
+                	if(count==0){
+                		html+='<ul class="tabsn">' +
+                        '<li class="b1">直播</li>'+
+                        '<li class="b2">录播</li>'+
+                        b6+'</ul>';
+                	}else if(count==1){
                         $.each(jsonData,function(i,item){
                             if(item.groupCode=='SERVICE_LIVE'){
                                 html+='<ul class="tabsn">' +

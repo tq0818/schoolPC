@@ -443,7 +443,7 @@
 		JOIN commodity c on c.id=pr.com_id and c.origin_type=0
 		JOIN company c1 on c1.id=ct.company_id and c1.is_area != 0
 		<if test="areaId != null and areaId != ''">
-			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
+			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school AND (sd.parent_item_id = #{areaId} or sd.id =#{areaId})
 		</if>
 		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code and sci1.company_id=ct.company_id
 		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code and sci2.company_id=ct.company_id

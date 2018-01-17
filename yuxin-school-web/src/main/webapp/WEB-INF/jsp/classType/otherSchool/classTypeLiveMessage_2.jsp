@@ -262,9 +262,9 @@
                         </p>
 
                         <p class="c">
-                            <span class="c-title">课程所属学校 </span>
+                            <span class="c-title">授课教师 </span>
                             <span class="c-content">
-                            	<input type="text" class="readonly" value="${ct.schoolName }" readonly="readonly"/>
+                            	<input type="text" class="readonly" value="${teacher.name }" readonly="readonly"/>
                             </span>
                         </p>
                         <p class="c">
@@ -367,8 +367,8 @@
                 <select name="" id="choose_itemOne" class="itemOne">
                 </select>
             </span>
-            <span class="term-title">学科小类</span>
-            <span class="term-title">
+            <span style="display: none" class="term-title">学科小类</span>
+            <span style="display: none" class="term-title">
                 <select name="" id="choose_itemSecond" class="itemSecond">
                 </select>
             </span>

@@ -182,8 +182,8 @@
 	</insert>
 	<!-- 适用于主键自增类型 -->
 	<insert id="insert1" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson" useGeneratedKeys="true" keyProperty="id">
-		insert into class_module_lesson( <include refid="table_columns" />,is_out_source )
-		values ( <include refid="entity_properties" />,#{isOutSource} )
+		insert into class_module_lesson( <include refid="table_columns" />)
+		values ( <include refid="entity_properties" />)
 	</insert>
 
 	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->

@@ -242,9 +242,11 @@ public class TeacherManger {
 //                secondItemMap.put(keyMap, dateList);
 //            }
 //        }
+        Company company = companyService.findCompanyById(companyId);
         List<SysConfigDict> schools=sysConfigDictServiceImpl.findByDicCode("EDU_SCHOOL");
 		model.addAttribute("schools", schools);
         model.addAttribute("firstItems", firstItems);
+        model.addAttribute("company", company);
        // model.addAttribute("secondItemMap", secondItemMap);
         model.addAttribute("imgUrl", "http://" + properties.getProjectImageUrl() + "/");
         if (teacher == null) {

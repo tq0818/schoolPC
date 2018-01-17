@@ -697,4 +697,20 @@ public class AuthPrivilegeController {
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
+	/***
+	 * 检查老师是否被绑定
+	 * @param mobile
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/checkTeacher",method=RequestMethod.POST)
+	public boolean checkTeacher(String teachersId,HttpServletRequest request){
+		String t=teachersId.substring(0, teachersId.length()-1);
+		Integer checkTeacher = sysConfigTeacherServiceImpl.checkTeacher(t);
+		if(checkTeacher!=null&&checkTeacher>0){
+			return false;
+		}
+		return true;
+	}
 }

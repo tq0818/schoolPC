@@ -262,9 +262,9 @@
                         </p>
 
                         <p class="c">
-                            <span class="c-title">课程所属学校 </span>
+                            <span class="c-title">授课教师 </span>
                             <span class="c-content">
-                            	<input type="text" class="readonly" value="${ct.schoolName }" readonly="readonly"/>
+                            	<input type="text" class="readonly" value="${teacher.name }" readonly="readonly"/>
                             </span>
                         </p>
                         <p class="c">

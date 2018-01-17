@@ -42,7 +42,7 @@
         <span class="line"></span>
 		<input type="hidden" id="rowCount"/>
 		<input type="hidden" id="pageNo" value="1"/>
-		<input type="hidden" id="pageSize" value="5"/>
+		<input type="hidden" id="pageSize" value="10"/>
     </div>
     <div style="margin-top: 10px;">
         <ul class="baseSchoolLiveLabel">

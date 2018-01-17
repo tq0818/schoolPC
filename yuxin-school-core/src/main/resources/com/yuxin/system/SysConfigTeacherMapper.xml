@@ -1036,7 +1036,7 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
         group by sct.id
 		
 	</select>
-
+	
 
 	<!-- 根据ID查询 -->
 	<select id="findByIds" resultMap="sysConfigTeacherResultMap">
@@ -1046,5 +1046,11 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
 				 close=")">
 			#{item}
 		</foreach>
+	</select>
+	<select id="checkTeacher" resultType="Integer" parameterType="String">
+		select COUNT(1) from sys_config_teacher sct
+			LEFT JOIN users  s ON sct.mobile = s.mobile
+			where s.id != sct.user_id
+			and sct.id = #{t}
 	</select>
 </mapper>

@@ -469,7 +469,7 @@
 					<label class="col-md-2 control-label">个人身份<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input type="radio" value="0" name="editeduIdentity" checked="checked" id="edit_eduIdentity_stu">学生
-						<input type="radio" value="1" name="editeduIdentity" id="edit_eduIdentity_normal">普通用户
+						<!-- <input type="radio" value="1" name="editeduIdentity" id="edit_eduIdentity_normal">普通用户 -->
 					</div>
 				</div>
 

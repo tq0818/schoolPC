@@ -114,28 +114,28 @@
                         <div class="mainbackground u-content clear">
                             <div class="full-wrap buy-box">
                                 <div class="buy-title">
-                                    <div class="heading">
+                                    <!-- <div class="heading">
                                         <b class="brand-text">短信购买</b>
-                                    </div>
-                                    <div class="title-infos">
+                                    </div> -->
+                                    <%-- <div class="title-infos">
                                         <span class="infos"><em style="font-size: 14px;margin-right: ">${css.messageSend }</em>本月发送<span
                                                         class="iconfont ask" title="已使用短信条数">&#xe60f;</span></span>
                                         <span class="infos"><em style="font-size: 14px;">${cms.messageTotal + cms.giveMessage - css.messageSend }</em>条剩余</span>
-                                    </div>
+                                    </div> --%>
                                 </div>
-                                    <div class="w">
+                                    <!-- <div class="w">
                                         <span class="class_number_name">起始时间：</span>
                                         <input type="text" class="laydate-icon" readonly="readonly" id="start" style="width:200px"><span>至 </span>
                                         <input type="text" readonly="readonly" class="laydate-icon" id="end" style="width:200px">
                                         <input type="button" value="搜索" class="btn btn-sm selectInfos">
-                                    </div>
-                                    <div id="tb" style="margin-top: 20px;">
-                                        <div id="lineDomMessageDetail" style="height: 400px; width: 100%;"></div>
+                                    </div> -->
+                                   <div id="tb" style="margin-top: 20px;">
+                                        <div id="lineDomMessageDetail" style="height: 400px; width: 100%;display:none"></div>
                                     </div>
                             </div>
                         </div>
                     </div>
-                    <div class="p-1" id="pageTwo">
+                    <!-- <div class="p-1" id="pageTwo">
                         <div class="w" style="padding-left: 10px;">
                             <span class="class_number_name">起始时间：</span>
                             <input type="text" class="laydate-icon" readonly="readonly" id="startTwo" style="width:200px">
@@ -151,7 +151,7 @@
                         <div id="tb" style="margin-top: 20px;">
                             <div id="lineDomFlowDetail" style="height: 400px; width: 100%;"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

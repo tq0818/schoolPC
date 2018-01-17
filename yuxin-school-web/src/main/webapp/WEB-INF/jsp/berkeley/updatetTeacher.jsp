@@ -18,6 +18,9 @@
     	.classes .mainbackground .c-main .add-classes p.h{
     		margin-bottom: 15px;
     	}
+    	.u-wrap .mainbackground{
+    		padding: 0 !important;
+    	}
     </style>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.datetimepicker.js"></script>

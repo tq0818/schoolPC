@@ -3389,7 +3389,7 @@ public class StudentController {
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(20000);
+            search.setPageSize(9999999);
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             al = studentServiceImpl.findStudentsData(search);
         }

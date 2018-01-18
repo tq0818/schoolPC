@@ -724,12 +724,17 @@ public class SysConfigItemController extends BaseWebController {
     @RequestMapping(value = "/changeStatus", method = RequestMethod.POST)
     public JSONObject changeStatus(HttpServletRequest request, SysConfigItem sysConfigItem) {
         JSONObject json = new JSONObject();
+        String delflag =request.getParameter("delflag");
+        Integer id =sysConfigItem.getId();
         Integer companyId = WebUtils.getCurrentCompanyId();
         try {
             // 查询 学校关系
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("schoolId", WebUtils.getCurrentUserSchoolId(request));
             params.put("itemId", sysConfigItem.getId());
+            if (delflag.trim().equals("1")){
+                sysConfigItemServiceImpl.updateDelFlag(id);
+            }
             SysSchoolItemRelation rel = sysConfigItemServiceImpl.findExist(params);
             if (rel != null && rel.getDelFlag() == 0) {
                 // 项目下无上架班型允许停用
@@ -784,6 +789,7 @@ public class SysConfigItemController extends BaseWebController {
                     return json;
                 }
             }
+
             json.put("flag", true);
             return json;
         } catch (Exception e) {

@@ -105,7 +105,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                     },
                     success: function (jsonData) {
                     	if(jsonData==null || jsonData==''){
-                    		alert("输入错误");
+                    		alert("机构已存在");
                     		$("#branchCode").val("");
                     		$("#branchSchool").text("");
                     		$("#eara").text("");
@@ -119,7 +119,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                     	$('#eara').text(eduArea);
                     	$('#schoolProperty').text(schoolProperty);
                     	$('#isArea').val(dictCode);
-                    	if(companyName==eduArea){
+                    	/*if(companyName==eduArea){
                     		var options = document.getElementById('schoolProperties').children;
                         	options[0].selected=true;
                         	document.getElementById("schoolProperties").disabled=true;
@@ -129,7 +129,7 @@ function closeBtn(companyId,itemCode,delFlag) {
                             document.getElementById("selectSchoolProperties").style.display="";
                             document.getElementById("selectSchoolProperties1").style.display="none";
                     		document.getElementById("schoolProperties").disabled=false;
-                    	}
+                    	}*/
                     	
                     	
                     },
@@ -289,7 +289,7 @@ function addBerkeley(biaoshi){
     	               },
     	               success: function (jsonData) {
     	               	if(jsonData==null || jsonData==''){
-    	               		alert("输入错误");
+    	               		alert("机构已存在");
     	               		$("#branchCode").val("");
     	               		$("#branchSchool").text("");
     	               		$("#eara").text("");
@@ -327,13 +327,13 @@ function addBerkeley(biaoshi){
     	        		/*if(null==linkPhone || ''==linkPhone){
     	        			alert("联系方式不能为空");
     	        			return;
-    	        		}else*/ if(linkPhone.length!=11){
+    	        		}else*/ /*if(linkPhone.length!=11){
                             alert("联系方式不是11位有效电话");
                             return;
 						}else if(!(/^1[34578]\d{9}$/.test(linkPhone))){
                             alert("手机号码有误，请重填");
                             return ;
-                        }
+                        }*/
                            var domain=$("#domain").val();
     	        		domain=domain.replace(/(^\s+)|(\s+$)/g,"");
     	        		domain = domain.replace(/\s/g,"");

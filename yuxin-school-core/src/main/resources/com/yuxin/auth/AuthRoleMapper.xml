@@ -246,6 +246,7 @@
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
 		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
 		<if test="status != null and status != ''">and ur.is_used=#{status}</if>
+		<if test="statusStr != null and statusStr != ''">and ur.is_used=#{statusStr}</if>
 	</select>
 	
 	

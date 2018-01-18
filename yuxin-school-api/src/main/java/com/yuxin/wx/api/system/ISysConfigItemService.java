@@ -200,6 +200,7 @@ public interface ISysConfigItemService  {
 	 * @return
 	 */
 	SysSchoolItemRelation findExist(Map<String,Object> params);
+	void updateDelFlag(Integer id);
 	
 	/**
 	 * 

@@ -89,7 +89,7 @@ public class ClassTypeManageContorller {
        	queryParams.put("schoolName", req.getParameter("schoolName"));
 
        	queryParams.put("firstIndex", classtype.getFirstIndex());
-       	queryParams.put("pageSize", classtype.getPageSize());
+       	queryParams.put("pageSize", 5);
        	
        	//查询分校购买的直播课程
        	List<ClassTypeVo> clist=classTypeService.queryLiveClassOfOtherSchool(queryParams);

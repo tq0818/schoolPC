@@ -19,7 +19,7 @@ function test(){
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp"/>
-<input type="hidden" value="5" id="pageSize"/>
+<input type="hidden" value="10" id="pageSize"/>
 	<div class="u-wrap student">
     <div class="mainbackground">
         <div class="main-content nospace">

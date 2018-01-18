@@ -17,9 +17,11 @@ import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSGet;
 import com.yuxin.wx.model.watchInfo.WatchInfoFromZSResult;
 import com.yuxin.wx.vo.classes.*;
+import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

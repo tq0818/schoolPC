@@ -982,7 +982,7 @@
 			// 	$.msg("请选择学科");
 			// 	return false;
 			// }
-			payMaster.itemOneName=$(".itemOne").find("option:selected").text();
+			payMaster.itemOneName=$(".itemThird").find("option:selected").text();
 			// payMaster.itemSecondId=$(".itemSecond").val();
 			// if(!payMaster.itemSecondId){
 			// 	$.msg("请选择学科小类");

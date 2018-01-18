@@ -124,10 +124,10 @@
         <div id="navBar" class="operate_main operate_vedio_main L-video-con clear">
             <ul class="L-ul">
                 <li name="video" for="video" class="L-ac">视频</li>
-                <li name="flash" for="resource">flash</li>
-                <li name="audio"  for="resource">音频</li>
-                <li name="ppt" for="resource">PPT</li>
-                <li name="docs" for="resource">文档</li>
+                <%--<li name="flash" for="resource">flash</li>--%>
+                <%--<li name="audio"  for="resource">音频</li>--%>
+                <%--<li name="ppt" for="resource">PPT</li>--%>
+                <%--<li name="docs" for="resource">文档</li>--%>
             </ul>
             <div id="content" class="L-operate_vedio">
                <div name="video" >

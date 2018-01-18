@@ -289,7 +289,7 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 					if(i==2){
 						url2=url2+"/"+search.getDomain();
 					}else if(i==0){
-						url2 =(url1[i])+"/";
+						url2 =url1[i];
 					}else {
 						url2 =url2+"/"+(url1[i]);
 					}

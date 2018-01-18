@@ -207,6 +207,11 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 	}
 
 	@Override
+	public void updateDelFlag(Integer id) {
+		sysConfigItemMapper.updateDelFlag(id);
+	}
+
+	@Override
 	public void updateRelation(Map<String, Object> params) {
 		sysConfigItemMapper.updateRelation(params);
 	}

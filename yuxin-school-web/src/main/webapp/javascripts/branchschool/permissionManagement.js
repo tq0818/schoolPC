@@ -93,11 +93,11 @@
 			        },
 					success : function(result) {
 						$(".user-list").html(result);
-						$("td.status").each(function(i){
-							if($(this).text()=="禁用"){
-								$(this).css("color","red");
-							}
-						});
+                        $("td.status").each(function(i){
+                            if($(this).text()=="禁用"){
+                                $(this).css("color","red");
+                            }
+                        });
 						var pmark=$("#peopleMark").val();
 						$(".btnsList:eq(0)").find("a.btn").each(function(){
 							var st=$(this).parent().siblings("td.rNameSta").find("input").val();
@@ -119,21 +119,21 @@
 				});
 			},
 			changUserStatus : function(id){
-				var kg=0;
+				/*var kg=0;
 				$.ajax({
 					url : rootPath + "/authRole/queryRoleFlag/"+id+"/"+$('#companyId').val(),
 					type : "post",
 					async:false,
 					success : function(result) {
 						if(result){
-							kg++;
-						}
-					}
-				});
+                        kg++;
+                   		 }
+               		 }
+					});
 				if(kg>0){
 					$.msg("该用户不能被禁用");
 					return;
-				}
+				}*/
 				var status=$("#com"+id).attr("marks");
 				if(status=="0"){
 					status=1;
@@ -192,13 +192,13 @@
 				});
 			},
 			deleteUser : function(id){
-				var kg=0;
+				/*var kg=0;
 				$.ajax({
 					url : rootPath + "/authRole/queryRoleFlag/"+id+"/"+$('#companyId').val(),
 					type : "post",
 					async:false,
 					success : function(result) {
-						if(result){
+						if(!result){
 							kg++;
 						}
 					}
@@ -206,7 +206,7 @@
 				if(kg>0){
 					$.msg("该用户不能删除");
 					return;
-				}
+				}*/
 				$.confirm("您确定要删除吗?",function(b){
 					if(b){
 						var companyId=$("#companyId").val();

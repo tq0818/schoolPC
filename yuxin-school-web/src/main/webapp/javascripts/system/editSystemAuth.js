@@ -563,7 +563,7 @@
 							//填充学校
 							var gradeInfo = JSON.stringify(gradeInfoVos); 
 							sessionStorage.setItem("gradeInfo",gradeInfo);
-							var classInfoStr='<p class="c-title"><span>班主任</span></p><p class="c" ><span>班级：</span><br/><select name="gradeCode" id="gradeCode" onChange="Form.getClassInfo(this);">';
+							var classInfoStr='<p class="c-title"><span>班主任</span></p><p class="c" ><span>班级：</span><select name="gradeCode" id="gradeCode" onChange="Form.getClassInfo(this);">';
 							var optionStr="";
 							var selectCount=0;
 							//年级
@@ -628,7 +628,7 @@
 									});
 									
 									//循环班级
-									optionStr+='</select><br/><select name="subjectClassCode">';
+									optionStr+='</select><select name="subjectClassCode">';
 									$.each(gradeInfoVos[selectCount].classInfos,function(i,dat){
 										if(dat.className==classNo){
 											optionStr+='<option value="'+dat.className+'" selected ="selected">'+dat.className+'班</option>';
@@ -646,7 +646,7 @@
 									optionStr+='<option value="'+dt.gradeName+'">'+dt.gradeName+'级</option>';
 								});
 								//循环班级
-								optionStr+='</select><br/><select name="subjectClassCode">';
+								optionStr+='</select><select name="subjectClassCode">';
 								$.each(gradeInfoVos[selectCount].classInfos,function(i,dat){
 									optionStr+='<option value="'+dat.className+'" >'+dat.className+'班</option>';
 								});

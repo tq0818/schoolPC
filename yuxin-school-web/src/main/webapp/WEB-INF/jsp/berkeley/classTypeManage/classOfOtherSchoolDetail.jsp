@@ -22,8 +22,11 @@
         </tr>
 	</c:otherwise>
 </c:choose>
+<input type="hidden" id="sRowCount" value="${resPage.rowCount }"/>
+<input type="hidden" id="sPageNo" value="${resPage.pageNo -1}"/>
+<input type="hidden" id="sPageSize" value="${resPage.pageSize}"/>
 <script type="text/javascript">
-	$(function(){
+	/* $(function(){
 		$(".classpagination").html("");
 		$(".classpagination").pagination("${resPage.rowCount }", {
 			next_text : "下一页",
@@ -38,6 +41,6 @@
 				classListOfOtherSchool(pageNo);
 			}
 		});
-	});
+	}); */
 	
 </script>

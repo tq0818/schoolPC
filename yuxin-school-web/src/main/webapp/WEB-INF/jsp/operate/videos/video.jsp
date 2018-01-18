@@ -110,10 +110,10 @@
                             <span  class="s-list">
                                 <!-- <a searchType="all" class="btn btn-sm btn-default " href="javascript:;">全部</a> -->
                                 <a searchType="video" class="btn btn-sm btn-default active" href="javascript:;">视频</a>
-                                <a searchType="flash" class="btn btn-sm btn-default " href="javascript:;" >flash</a>
-                                <a searchType="audio" class="btn btn-sm btn-default " href="javascript:;" >音频</a>
-                                <a searchType="ppt" class="btn btn-sm btn-default" href="javascript:;" >PPT</a>
-                                <a searchType="docs" class="btn btn-sm btn-default" href="javascript:;" >文档</a>
+                                <%--<a searchType="flash" class="btn btn-sm btn-default " href="javascript:;" >flash</a>--%>
+                                <%--<a searchType="audio" class="btn btn-sm btn-default " href="javascript:;" >音频</a>--%>
+                                <%--<a searchType="ppt" class="btn btn-sm btn-default" href="javascript:;" >PPT</a>--%>
+                                <%--<a searchType="docs" class="btn btn-sm btn-default" href="javascript:;" >文档</a>--%>
                             </span>
                     </div>
 					<div class="w">

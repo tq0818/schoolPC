@@ -20,6 +20,9 @@
 		.editToB select{margin: 5px 0}
 		.editDelete{color: red !important;}
 		.Confirm_Close{display:none;}
+		.set-system .users-infos .pri-list ul li{
+			width:210px !important;
+		}
 	</style>
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/company.css" />
     <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/admin.css" />

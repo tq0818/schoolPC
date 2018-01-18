@@ -15,7 +15,7 @@
 	               <col width="15%">
 	               <tr>
 	                   <td rowspan="2">
-	                       <span class="c-title">公告通知111</span>
+	                       <span class="c-title">公告通知</span>
 	                   </td>
 	                   <td>
 	                       <span class="t-title">发送时间：</span>

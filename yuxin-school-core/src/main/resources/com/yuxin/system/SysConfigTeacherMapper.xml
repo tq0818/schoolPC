@@ -157,7 +157,7 @@
 		sct.update_time,
 		sct.updator,
 		sct.resume,
-		sct.education_code,
+		scd.item_value as education_code,
 		sct.headpic_url,
 		sct.user_id,
 		sct.is_distinguished,
@@ -624,6 +624,7 @@
 		from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
 		inner join sys_config_school scs on scs.company_id=ur.company_id
+		INNER JOIN sys_config_dict scd ON sct.education_code = scd.item_code
 		where sct.del_flag = 0 and scs.company_id = #{companyId}
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
@@ -726,13 +727,15 @@
 		sct.school_name,
 		sct.school_short_name,
 		sct.teacher_level,
-		sct.teacher_area
+		sct.teacher_area,
+		scd.item_value as education_code
 		FROM
 		sys_config_teacher sct
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
 		sctl.teacher_id
 		inner join users u on u.id=sct.user_id
 		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=sct.user_id and ucr.is_used=1
+		INNER JOIN sys_config_dict scd ON sct.education_code = scd.item_code
 		WHERE
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
@@ -814,7 +817,7 @@
 		where status_code='TEACHER_USERD' and a.del_flag=0
 		<if test="teacherName != null and teacherName != ''">and a.name LIKE '%${teacherName}%'</if>
 		<if test="userId != null and userId != ''">and a.user_id = #{userId}</if>
-		<if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if>
+		<!-- <if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if> -->
 		<if test="teacherType ==6  and teacherType != null">and a.teacher_type = 'PERSON_TEACHER'</if>
 		<if test="teacherType ==7  and teacherType != null">and a.teacher_type != 'PERSON_TEACHER'</if>
 	</select>

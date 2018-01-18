@@ -184,6 +184,9 @@
 						if(cid==6){
 							$("#contactTeacher").css("display","none");
 						}
+						if(cid==884){
+							$("#contactTeacher").css("display","none");
+						}
 						if($(".people-list").find("a.btn-success").length){
 							$.ajax({
 								url : rootPath + "/authRolePrivilege/Category/"+cid,
@@ -238,6 +241,9 @@
 						var cid=$(this).attr("ids");
 						if(cid==6){
 							type=cid;
+						}
+						if(cid==884){
+							type=6;
 						}
 					}
 				});
@@ -658,6 +664,9 @@
 					}
 				});
 				if(cid==6){
+					$("#contactTeacher").css("display","block");
+				}
+				if(cid==884){
 					$("#contactTeacher").css("display","block");
 				}
 			}

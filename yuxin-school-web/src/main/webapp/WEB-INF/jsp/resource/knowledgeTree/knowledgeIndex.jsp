@@ -4,7 +4,7 @@
 <html>
 <head>
 	<title>知识树</title>
-	<link rel="stylesheet" href="<%=rootPath%>/stylesheets/knowledgetree/index.css">
+	<link rel="stylesheet" href="<%=rootPath%>/stylesheets/system/knowledgeIndex.css">
 	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery-ui.js"></script>
     <script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>

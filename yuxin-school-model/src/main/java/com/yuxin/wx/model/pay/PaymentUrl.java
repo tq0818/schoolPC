@@ -18,6 +18,7 @@ public class PaymentUrl implements Serializable {
 	private String wxCodeImgUrl;
 	private String zfbCodeImgUrl;
 	private String payInfo;
+	private Integer userId;
 	public Integer getId() {
 		return id;
 	}
@@ -49,5 +50,11 @@ public class PaymentUrl implements Serializable {
 	public void setPayInfo(String payInfo) {
 		this.payInfo = payInfo;
 	}
-
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 }

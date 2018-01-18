@@ -1581,11 +1581,15 @@
                         })
 
                         $("#editEduArea option[value="+eduArea+"]").prop("selected",true);
-
+                        $("#editEduArea").attr("disabled",true);
                         $("#editEduStep option[value="+jsonData.eduStep+"]").prop("selected",true);
+                        $("#editEduStep").attr("disabled",true);
                         $("#editEduYear option[value="+jsonData.eduYear+"]").prop("selected",true);
+                        $("#editEduYear").attr("disabled",true);
                         $("#editEduClass option[value="+jsonData.eduClass+"]").prop("selected",true);
+                        $("#editEduClass").attr("disabled",true);
                         $("#editEduSchool").attr("data-id",jsonData.eduSchool);
+                        $("#editEduSchool").attr("disabled",true);
                         $("#editEduArea").change();
 
                     }

@@ -229,7 +229,7 @@ function  init() {
                     $.each(jsonData.data,function (i, stu) {
                         var str = null;
                         if($("#role").val()!='school'){
-                            str  =" <td>"+ stu.eduSchool+ "</td>"+" <td>"+ stu.eduStep+ "</td>"+" <td>"+ stu.studyClass+ "</td>";
+                            str  =" <td>"+ stu.eduSchool+ "</td>"+" <td>"+ stu.eduStep+ "</td>"+" <td>"+stu.studentName+ stu.eduYear+"年"+ stu.studyClass+ "</td>";
                         }else
                         {
                             str  = " <td>"+stu.studyClass+ "</td>";

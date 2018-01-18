@@ -170,7 +170,7 @@
                                     '<tr><td colspan="14">没有查找到数据</td></tr>');
                         }
                     }
-                    $.each(jsonData.data,function (i, videoCourse) {
+                    $.each(jsonData.data,function (i, videoCourse , stu) {
                         $(".user-list")
                             .find("table")
                             .append(
@@ -192,7 +192,7 @@
                                     : "")
                                 + '</td>'
                                 + '<td>'
-                                + (videoCourse.className ? videoCourse.className + "班"
+                                + videoCourse.stepName+videoCourse.yearName+"年"+(videoCourse.className ? videoCourse.className + "班"
                                     : "")
                                 + '</td>'
                                 + '<td>'

@@ -65,10 +65,10 @@
 			    	       '         <span class="p-title">学费</span> '+
 			    	       '         <span class="p-content">'+$.formatMoney(spm.totalAmount)+'</span> '+
 			    	       '     </p> '+
-			    	       '     <p class="h c"> '+
+			    	       /* '     <p class="h c"> '+
 			    	       '         <span class="p-title">学科小类</span> '+
 			    	       '         <span class="p-content">'+itemSecondNameNew+'</span> '+
-			    	       '     </p> '+
+			    	       '     </p> '+  */
 			    	       '     <p class="h c"> '+
 			    	       '         <span class="p-title">已缴</span> '+
 			    	       '         <span class="p-content">'+$.formatMoney(spm.hasPay)+'</span> '+

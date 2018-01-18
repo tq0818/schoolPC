@@ -4381,7 +4381,7 @@ public class StudentController {
     	}
     	CompanyOrgMessageVo search = new CompanyOrgMessageVo();
     	search.setPage(pageNum);
-    	search.setPageSize(5);
+    	search.setPageSize(10);
     	search.setMessageType(AFFICHE_TYPE);
     	search.setCompanyId(WebUtils.getCurrentCompanyId());
     	PageFinder<CompanyOrgMessageVo> msgPage = companyServiceImpl.findMessageList(search);

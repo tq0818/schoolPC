@@ -85,7 +85,7 @@ function classListOfOtherSchool(pageNo){
 		url : rootPath + "/classTypeManage/classListOfOtherSchool",
 		type:"post",
 		data:{"companyId":$("#companyId").val(),"className":$("#searchClassName").val(),
-			"schoolName":$("#searchSchoolName").val(),"page":pageNo,"pageSize":'10'},
+			"schoolName":$("#searchSchoolName").val(),"page":pageNo,"pageSize":'5'},
 		dataType:"html",
 		beforeSend:function(XMLHttpRequest){
               $(".loading").show();
@@ -93,6 +93,7 @@ function classListOfOtherSchool(pageNo){
          },
 		success:function(data){
 			$(".searchList").html(data);
+			pageOtherData();
 		},
 		complete:function(XMLHttpRequest,textStatus){
 			$(".loading").hide();
@@ -100,7 +101,25 @@ function classListOfOtherSchool(pageNo){
         }
 		});
 }
-
+function pageOtherData(){
+	$(".classpagination").html("");
+	var rowCount=$('#sRowCount').val();
+	var pageNo=$("#sPageNo").val();
+	var pageSize=$("#sPageSize").val();
+	$(".classpagination").pagination(rowCount, {
+		next_text : "下一页",
+		prev_text : "上一页",
+		current_page :pageNo,
+		link_to : "javascript:;",
+		num_display_entries : 5,
+		items_per_page :pageSize,
+		num_edge_entries : 1,
+		callback : function(page, jq) {
+			var pageNo = page + 1;
+			classListOfOtherSchool(pageNo);
+		}
+	});
+}
 function showCourse(obj){
 	 $('.popupContainerCourse').show();
      $('.popupOpacity').show();

@@ -343,14 +343,14 @@
 						<input class="form-control" id="sOfficeTel" name="sOfficeTel" type="text" />
 						<span class="tips" style="color:red;"></span>
 					</div>
-					<label class="col-md-2 control-label">紧急联系人</label>
+					<label class="col-md-2 control-label">紧急联系人<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input class="form-control" id="sEmergencyContact" name="sEmergencyContact" type="text" />
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">紧急联系人电话</label>
+					<label class="col-md-2 control-label">紧急联系人电话<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input class="form-control" id="sEmergencyPhone" name="sEmergencyPhone" type="text" />
 						<span class="tips" style="color:red;"></span>
@@ -551,14 +551,14 @@
 						<input class="form-control" id="uOfficeTel" name="uOfficeTel" type="text" />
 						<span class="tips" style="color:red;"></span>
 					</div>
-					<label class="col-md-2 control-label">紧急联系人</label>
+					<label class="col-md-2 control-label">紧急联系人 <i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input class="form-control" id="uEmergencyContact" name="uEmergencyContact" type="text" />
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">紧急联系人电话</label>
+					<label class="col-md-2 control-label">紧急联系人电话 <i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input class="form-control" id="uEmergencyPhone" name="uEmergencyPhone" type="text" />
 						<span class="tips" style="color:red;"></span>

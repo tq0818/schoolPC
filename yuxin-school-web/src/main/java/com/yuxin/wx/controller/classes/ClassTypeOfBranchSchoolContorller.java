@@ -305,6 +305,8 @@ public class ClassTypeOfBranchSchoolContorller {
        }
        model.addAttribute("ct", ct);
        model.addAttribute("lable", lable);
+       Integer currentCompanyId = WebUtils.getCurrentCompanyId();
+       model.addAttribute("currentCompanyId", currentCompanyId);
        return "classType/branchSchool/classTypeVideoMessage_3";
     }
 

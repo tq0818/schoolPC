@@ -17,6 +17,8 @@ import com.yuxin.wx.common.BaseMapper;
 public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	List<SysConfigItem> findByItemTwo(HashMap map);
 	List<SysConfigItem> findByItemOne(@Param("companyId") String companyId,@Param("schoolId") String schoolId);
+
+	void updateDelFlag(Integer id);
 	
 	List<SysConfigItem> selectItem(SysConfigItem search);
 	List<SysConfigItem> findByParentCode(SysConfigItem item);

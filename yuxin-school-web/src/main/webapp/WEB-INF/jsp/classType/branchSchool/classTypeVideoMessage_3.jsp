@@ -3,7 +3,7 @@
 <html lang="zh-cn">
 <head>
 <%@include file="/decorators/import.jsp" %>
-    <title>课程-增加视频</title>
+    <title>视频课</title>
    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/company.css"/>
@@ -47,8 +47,10 @@
                         
                     </ul>
                 </div>
+                <c:if test="${ct.companyId eq currentCompanyId}">
                 <div class="t-c-r right" >
                 </div>
+                </c:if>
             </div>
         </div>   
     </div>

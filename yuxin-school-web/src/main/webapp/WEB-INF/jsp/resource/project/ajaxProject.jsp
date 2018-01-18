@@ -19,9 +19,9 @@
 <c:if test="${one.relationStatus == 1 && one.status != 0}">
 	<div class="block ui-state-default" data-type="stop" style="background:#EEEEEE" data-id="${one.id}">
 		<div class="hidden">
-	<input type="hidden" class="oneId" value="${one.id }" />
-			<input type="hidden" class="parentCode" value="${one.itemCode }" />
-<input type="hidden" class="oneStatus" value="${one.relationStatus }" />
+		<input type="hidden" class="oneId" value="${one.id }" />
+		<input type="hidden" class="parentCode" value="${one.itemCode }" />
+		<input type="hidden" class="oneStatus" value="${one.relationStatus }" />
 		<div class="b-title">
 			<div class="icon"><i class="iconfont"><img src="http://${ImagePath }/${one.itemBackPic }"/></i></div>
 			<div class="tt">

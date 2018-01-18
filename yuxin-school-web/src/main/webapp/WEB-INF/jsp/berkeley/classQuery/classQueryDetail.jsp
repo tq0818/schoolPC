@@ -36,6 +36,9 @@
 		$("#rowCount").val("${msgPage.rowCount }");
 		$("#pageNo").val("${msgPage.pageNo }");
 		$("#pageSize").val("${msgPage.pageSize }");
+		if(${msgPage.rowCount <= 10 }){
+            $(".pagination").html("");
+        }
 //		$(".pagination").html("");
 		$(".pagination").pagination($("#rowCount").val(), {
 			next_text : "下一页",

@@ -118,7 +118,7 @@ $(function() {
 				return;
 			}
 		}
-		if(pwd.length<6){
+		if(pwd.length<6 && pwd.length>0){
 			$.msg("密码长度不能低于6位");
 			$(this).focus();
 			return false;

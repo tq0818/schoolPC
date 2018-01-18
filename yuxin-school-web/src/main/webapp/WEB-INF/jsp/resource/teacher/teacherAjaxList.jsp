@@ -170,7 +170,7 @@
              <p class="c">
                  <span class="c-title">最高学历</span>
                  <span class="c-content">
-                     <input type="text" class="readonly" value="<c:choose><c:when test="${item.educationCode eq 'UNDER_JUNIOR'}">大专以下</c:when><c:when test="${item.educationCode eq 'JUNIOR'}">大专</c:when><c:when test="${item.educationCode eq 'BECHELOR'}">本科</c:when><c:when test="${item.educationCode eq 'POSTGRADUATE'}">研究生</c:when><c:when test="${item.educationCode eq 'DOCTOR'}">博士生及以上</c:when><c:otherwise>大专以下</c:otherwise></c:choose>" readonly>
+                     <input type="text" class="readonly" value="${item.educationCode}" readonly>
                  </span>
              </p>
              <p class="c">

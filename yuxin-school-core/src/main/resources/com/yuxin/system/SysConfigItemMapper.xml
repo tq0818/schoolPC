@@ -654,10 +654,12 @@
 			#{item}
 		</foreach>
 	</select>
-	
-	
-	
+
 	<select id="findschooIdByCompanyId" resultType="int" parameterType="string">
 		select id from sys_config_school where company_id=#{companyId}
 	</select>
+	<!--通过id修改目录树删除状态-->
+	<update id="updateDelFlag" parameterType="java.lang.Integer">
+		UPDATE sys_config_item set del_flag=1 where id=#{Id};
+	</update>
 </mapper>

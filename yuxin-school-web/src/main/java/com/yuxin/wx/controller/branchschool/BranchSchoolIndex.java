@@ -296,11 +296,11 @@ public class BranchSchoolIndex {
      * @throws
      */
     @ResponseBody
-    @RequestMapping(value = "/queryCompanyVo")
+    @RequestMapping(value = "/queryCompanyVo" )
     public CompanyVo queryCompanyVo(Model model,String brachCode){
     	if(brachCode==null||brachCode=="") return null;
     	CompanyVo dto=companyManageServiceImpl.queryCompanyVoByCondition(brachCode);
-    	if(dto.getDictCode().equals("EDU_SCHOOL_AREA")){
+    	if(dto!=null && dto.getDictCode().equals("EDU_SCHOOL_AREA")){
     		dto.setSchoolProperty("无");
     	}
     	return dto;

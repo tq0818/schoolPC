@@ -169,7 +169,7 @@ $(function(){
     			$.ajax({
 					url:rootPath + "/sysConfigItem/changeStatus",
 					type:"post",
-					data:{"id":twoId,"status":$(this).parent().find(".twoStatus").val()},
+					data:{"id":twoId,"status":$(this).parent().find(".twoStatus").val(),"delflag":1},
 					dataType:"json",
 					beforeSend:function(XMLHttpRequest){
 			              $(".loading-bg").show();

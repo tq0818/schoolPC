@@ -1676,6 +1676,13 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		topic_audit_yes,topic_audit_no,paper_audit_yes,paper_audit_no,tiku_category_id,#{companyId} from tiku_set where company_id=#{zhuCompanyId}
 	</insert>
 	
+	<!-- course_video_look_auth -->
+	<insert id="addCourseVideoLookAuth" parameterType="com.yuxin.wx.model.course.CourseVideoLookAuth" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `course_video_look_auth` (`test_listen_auth`, `over_flow_time`, `over_flow_info`, `user_see_auth`, `set_point_name`, `named_time`, `named_num`, `company_id`, `creator`, `create_time`, `updator`, `update_time`)
+		select test_listen_auth,over_flow_time,over_flow_info,user_see_auth,set_point_name,named_time,named_num, #{companyId}, creator, now(), updator, now() 
+		from course_video_look_auth where company_id =#{zhuCompanyId}
+	</insert>
+	
 	<select id="findCompanyVoById" resultMap="companyVoNewResultMap" parameterType="String">
 		select <include refid="table_columns_company" /> from company t1
 		LEFT JOIN sys_config_dict t2 ON t2.item_code=t1.edu_area_school

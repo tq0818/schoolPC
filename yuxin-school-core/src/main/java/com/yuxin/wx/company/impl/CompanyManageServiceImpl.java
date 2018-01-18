@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yuxin.wx.system.mapper.SysPageHeadFootMapper;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,7 @@ import com.yuxin.wx.model.company.CompanyPics;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.CompanyVo;
+import com.yuxin.wx.model.course.CourseVideoLookAuth;
 import com.yuxin.wx.model.system.SysConfigCampus;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
@@ -45,7 +44,6 @@ import com.yuxin.wx.model.system.SysConfigSchool;
 import com.yuxin.wx.model.system.SysPageHeadFoot;
 import com.yuxin.wx.model.tiku.TikuSet;
 import com.yuxin.wx.model.user.Users;
-import sun.org.mozilla.javascript.internal.NativeArray;
 
 @Service
 @Transactional
@@ -318,6 +316,11 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 tikuSet.setCompanyId(ids);
 		 tikuSet.setZhuCompanyId(zhuCompanyId);
 		 companyMapper.addTiKuSet(tikuSet);
+		 //course_video_look_auth
+		 CourseVideoLookAuth courseVideoLookAuth=new CourseVideoLookAuth();
+		 courseVideoLookAuth.setCompanyId(ids);
+		 courseVideoLookAuth.setZhuCompanyId(zhuCompanyId);
+		 companyMapper.addCourseVideoLookAuth(courseVideoLookAuth);
     }
 	@Override
     public void eidtBerkeley(CompanyVo search, CompanyMemberService cms, CompanyLiveConfig clc, CompanyPayConfig cpc) {

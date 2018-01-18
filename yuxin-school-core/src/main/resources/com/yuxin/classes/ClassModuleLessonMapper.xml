@@ -261,17 +261,6 @@
 		from class_module_lesson where del_flag = 0
 	</select>
 	
-	<select id="queryCompanyIdByLessonId" resultType="int" parameterType="int" >
-		select cm.company_id from class_module_lesson cml
-		inner join class_module cm on cml.module_no_id=cm.id
-		where cml.id=#{id}
-	</select>
-	
-	<select id="queryCompanyIdByVideoId" resultType="int" parameterType="int">
-		select company_id from live_open_course where id=#{id}
-	</select>
-	
-	
 	<!-- 使用like用法：columnName like concat('%',#columnName#,'%') -->
 	<sql id="page_where">
 		<trim prefix="where" prefixOverrides="and | or ">

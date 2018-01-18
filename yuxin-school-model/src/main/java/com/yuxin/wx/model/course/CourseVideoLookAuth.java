@@ -1,9 +1,10 @@
 package com.yuxin.wx.model.course;
 
 import java.util.Date;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import com.yuxin.wx.util.ShortDateSerializer;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.yuxin.wx.util.ShortDateSerializer;
 import com.yuxin.wx.common.BaseEntity;
 
 /**
@@ -27,7 +28,16 @@ public class CourseVideoLookAuth extends BaseEntity {
 	private Integer	creator;		
 	private Date	createTime;		
 	private Integer	updator;		
-	private Date	updateTime;		
+	private Date	updateTime;	
+	private Integer zhuCompanyId;//主要机构标识号
+
+	public Integer getZhuCompanyId() {
+		return zhuCompanyId;
+	}
+
+	public void setZhuCompanyId(Integer zhuCompanyId) {
+		this.zhuCompanyId = zhuCompanyId;
+	}
 
 	// Constructor
 	public CourseVideoLookAuth() {

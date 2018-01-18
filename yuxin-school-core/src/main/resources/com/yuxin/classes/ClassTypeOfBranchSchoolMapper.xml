@@ -484,45 +484,49 @@
 			limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryCountClassTypeOfBranchSchool" resultType="int" parameterType="map">
-		SELECT count(ct.id)	from class_type ct
+		SELECT count(*)
+		from class_type ct
 		join commodity_product_realtion pr on pr.product_id=ct.id
 		JOIN commodity c on c.id=pr.com_id and c.origin_type=0
-		JOIN company c1 on c1.id=ct.company_id and c1.is_area=2
+		JOIN company c1 on c1.id=ct.company_id and c1.is_area != 0
 		<if test="areaId != null and areaId != ''">
-			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school and sd.parent_item_id=#{areaId}
+			JOIN sys_config_dict sd on sd.item_code=c1.edu_area_school AND (sd.parent_item_id = #{areaId} or sd.id =#{areaId})
 		</if>
+		LEFT JOIN sys_config_item sci1 on sci1.item_code=ct.item_one_code and sci1.company_id=ct.company_id
+		LEFT JOIN sys_config_item sci2 on sci2.item_code=ct.item_second_code and sci2.company_id=ct.company_id
+		LEFT JOIN sys_config_item sci3 on sci3.item_code=ct.item_third_code and sci3.company_id=ct.company_id
 		where ct.origin_type=0 and ct.is_public=1 and  ct.publish_status='CLASS_ON_SALE'
-			   and ct.is_out_source=0	
-			<if test="schoolCode != null and schoolCode != ''">
-				and c1.edu_area_school=#{schoolCode}
-			</if>
-			<if test="firstItemCode != null and firstItemCode != ''">
-				and ct.item_one_code=#{firstItemCode}
-			</if>
-			<if test="secondItemCode != null and secondItemCode != ''">
-				and ct.item_second_code=#{secondItemCode}
-			</if>
-			<if test="thirdItemCode != null and thirdItemCode != ''">
-				and ct.item_third_code=#{thirdItemCode}
-			</if>
-			<if test="name != null and name != ''">
-				and ct.name like '%${name}%'
-			</if>
-			<if test="cddsStatus != null and cddsStatus != ''">
-				and c.cdds_status=#{cddsStatus}
-			</if>
-			<if test="startTime != null and startTime != ''">
-				<![CDATA[and ct.create_time >= #{startTime} ]]>
-			</if>
-			<if test="endTime != null and endTime != ''">
-				<![CDATA[and ct.create_time <=#{endTime} ]]>
-			</if>
-			<if test="liveFlag != null and liveFlag != ''">
-				and ct.live_flag=1
-			</if>
-			<if test="videoFlag != null and videoFlag != ''">
-				and ct.video_flag=1
-			</if>
+		and ct.is_out_source=0
+		<if test="schoolCode != null and schoolCode != ''">
+			and c1.edu_area_school=#{schoolCode}
+		</if>
+		<if test="firstItemCode != null and firstItemCode != ''">
+			and ct.item_one_code=#{firstItemCode}
+		</if>
+		<if test="secondItemCode != null and secondItemCode != ''">
+			and ct.item_second_code=#{secondItemCode}
+		</if>
+		<if test="thirdItemCode != null and thirdItemCode != ''">
+			and ct.item_third_code=#{thirdItemCode}
+		</if>
+		<if test="name != null and name != ''">
+			and ct.name like '%${name}%'
+		</if>
+		<if test="cddsStatus != null and cddsStatus != ''">
+			and c.cdds_status=#{cddsStatus}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[and ct.create_time >= #{startTime} ]]>
+		</if>
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[and ct.create_time <=#{endTime} ]]>
+		</if>
+		<if test="liveFlag != null and liveFlag != ''">
+			and ct.live_flag=1
+		</if>
+		<if test="videoFlag != null and videoFlag != ''">
+			and ct.video_flag=1
+		</if>
 	</select>
 	
 	<select id="findItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="map">

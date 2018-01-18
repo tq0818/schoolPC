@@ -914,19 +914,21 @@
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryCountClassOfBranchSchool" resultType="int" parameterType="map">
-		SELECT count(ct.id) from class_type ct
+		SELECT count(*)
+		from class_type ct
 		join commodity_product_realtion pr on pr.product_id=ct.id
-		join commodity c on c.id=pr.com_id and c.origin_type=0 
+		join commodity c on c.id=pr.com_id and c.origin_type=0
+		join company cp on cp.id=ct.company_id
 		LEFT JOIN sys_config_item sci on sci.item_code=ct.item_third_code and sci.company_id=ct.company_id and sci.parent_code='SUBJECT'
 		LEFT JOIN sys_config_teacher t on t.id=ct.teacher_id
-		where  ct.origin_type=0 and  ct.is_out_source=0  and ct.company_id=#{companyId}
-		and ct.publish_status ='CLASS_ON_SALE'
+		where  ct.origin_type=0  and ct.company_id=#{companyId}
+		and ct.publish_status ='CLASS_ON_SALE' and ct.is_out_source=0
 		<if test="lable != null and lable != ''">
 			<choose>
 				<when test="lable=='live'">	and ct.live_flag =1	</when>
 				<when test="lable=='video'">and ct.video_flag =1</when>
 				<when test="lable=='face'">and ct.face_flag =1</when>
-				<otherwise>		</otherwise>
+				<otherwise> </otherwise>
 			</choose>
 		</if>
 		<if test="name != null and name != ''">

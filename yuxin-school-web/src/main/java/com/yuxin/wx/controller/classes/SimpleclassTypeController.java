@@ -229,8 +229,9 @@ public class SimpleclassTypeController {
 			}
 		}*/
 		for(SysConfigItemRelation re : first){
-			if(re.getLevel()==0){
-				firstItem.add(re);
+			if(re.getLevel()==0 ){
+				if(""!=re.getItemName()&& null!=re.getItemName()){
+				firstItem.add(re);}
 			}else if(re.getLevel()==1){
 				secondItem.add(re);
 			}else if(re.getLevel()==2){

@@ -25,7 +25,7 @@
 			            <div class="sanjiao"></div>
 			        </div>
          	 </c:otherwise>
-         </c:choose>
+	  </c:choose>
         <div class="class-title">课程名称 ： ${ct.name }</div>
         <div class="sum">
         	<c:choose>
@@ -56,7 +56,7 @@
           	 <c:otherwise>
           	 	<button class="public_course" ids="${ct.id }" mark="sale">发布</button>
           	 </c:otherwise>
-          </c:choose>
+		</c:choose>
     </div>
 </div>
 

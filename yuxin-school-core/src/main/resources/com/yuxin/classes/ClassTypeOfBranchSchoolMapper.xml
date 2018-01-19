@@ -601,6 +601,11 @@
 		LEFT JOIN sys_config_item d on d.item_code = ct.item_third_code and ct.company_id=d.company_id
 		where a.is_out_source=1 and a.origin_type=0 and a.id = #{classId} 
 	</select>
+
+	<select id="findItemFourthCode" resultType="String" parameterType="Integer">
+	select item_fourth_code from class_type
+	where id = (select source_class_type_id from school_share_class_type where target_class_type_id = #{id} )
+	</select>
 	
 	<select id="findListByClassId" resultMap="classModuleResultMap"	parameterType="map">
 		select distinct m.*

@@ -63,9 +63,11 @@ public class GenseeLiveRoomServiceImpl extends BaseServiceImpl implements ILiveR
 		String detail;
 		try {
 			detail = HttpPostRequest.post(url, param);
+			System.out.println(url+""+param);
 			if("subject exists".equals(JSONObject.fromObject(detail).get("message"))){
 				param.put("subject", param.get("subject")+"_" + lessonId);
 				detail = HttpPostRequest.post(url, param);
+				System.out.println(url+""+param+"----------");
 			}
 			log.info("调用展示互动创建直播教室接口,返回信息如下：" + detail + ", 创建的课堂名称为："+param.get("subject"));
 			return detail;

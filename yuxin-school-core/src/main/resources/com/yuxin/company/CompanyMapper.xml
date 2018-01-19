@@ -1423,8 +1423,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	</insert>
 	<!-- 展视互动账号-->
 	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
-		insert into company_live_config(id,company_id,login_name,password,live_type)
-		 VALUES(#{id},#{companyId},#{loginName},#{password},#{liveType})
+		insert into company_live_config(company_id,domain,teacher_token,assistant_token,student_web_token,student_client_token,login_name,password,live_type)
+		select #{companyId},domain,teacher_token,assistant_token,student_web_token,student_client_token,#{loginName},#{password},live_type from company_live_config where company_id=18129
 	</insert>
 	<!-- 添加服务信息-->
 	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
@@ -1485,7 +1485,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		and role_name<![CDATA[ <>]]>'总校管理员' 
 		and role_name<![CDATA[ <>]]>'课程顾问'
 		and role_name<![CDATA[ <>]]>'教科院'
-		and role_name<![CDATA[ <>]]>'文轩教育')
+		and role_name<![CDATA[ <>]]>'文轩教育'
+		and role_name<![CDATA[ <>]]>'分校管理员')
 	</insert>
 	<insert id="addAuth2Role" parameterType="com.yuxin.wx.model.auth.AuthRole" useGeneratedKeys="true" keyProperty="id">
 		insert into  auth_role
@@ -1496,7 +1497,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		and role_name<![CDATA[ <>]]>'课程顾问'
 		and role_name<![CDATA[ <>]]>'教科院'
 		and role_name<![CDATA[ <>]]>'文轩教育'
-		and role_name<![CDATA[ <>]]>'区县负责人')
+		and role_name<![CDATA[ <>]]>'区县负责人'
+		and role_name<![CDATA[ <>]]>'分校管理员')
 	</insert>
 	<update id="updateAuthRole" parameterType="com.yuxin.wx.model.auth.AuthRole">
 	  update auth_role set role_uid=id where role_uid is null
@@ -1517,7 +1519,10 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		select t1.id,t3.privilege_id,NOW() from auth_role t1
 		INNER JOIN auth_role t2 ON t1.role_name=t2.role_name
 		INNER JOIN  auth_role_privilege t3  ON t3.role_uid=t2.role_uid
-		where t1.company_id=#{companyId} and (t2.company_id=#{zhuCompanyId} or (t2.company_id=0 and t2.role_name in('班主任','任课老师')));
+		inner join auth_privilege ap on t3.privilege_id=ap.id
+		where t1.company_id=#{companyId} and (t2.company_id=#{zhuCompanyId} and t2.role_name not in('运营','客服','题库','题库管理员') 
+		or (t2.company_id=0 and t2.role_name in('班主任','任课老师')) or t2.company_id=18113 and t2.role_name in('运营','客服','题库','题库管理员') and ap.privilege_name not in('student_message','student_head','student_manage','student_star'
+		,'tiku_subject','stage_head','student_agent','company_member_vip','student_urge_fee'))
 	</insert>
 	
 	<!-- 插入用户 -->

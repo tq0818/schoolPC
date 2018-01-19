@@ -6,8 +6,8 @@ import com.yuxin.wx.common.BaseEntity;
 public class SysKnowledgeTreeStatistics extends BaseEntity {
     private Integer userId;//用户ID
     private Integer knowledgeTreeId;//树节点ID
-    private String  itemSecondCode;//年级
     private String  itemThreeCode;//学科
+    private String  itemSecondCode;//年级
     private Integer commodityId;//商品ID
     private Integer classtypeId;//课程ID
     private Integer lessonId;//课次ID

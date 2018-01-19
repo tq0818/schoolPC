@@ -134,6 +134,7 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
         //查询微课
         if(sysKnowledgeTree.getCommodityIdWeike() != null){
             param.put("commodityId", sysKnowledgeTree.getCommodityIdWeike());
+            param.put("num", 8);
             List<Map<String, Object>> weikeList = sysPlayLogsServiceImpl.queryPlayLogsByParam(param);
             for(int i=0; i<weikeList.size(); i++){
                 resultMap = weikeList.get(i);
@@ -159,6 +160,7 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
         //查询回放
         if(sysKnowledgeTree.getCommodityIdHuikan() != null){
             param.put("commodityId", sysKnowledgeTree.getCommodityIdHuikan());
+            param.put("num", 7);
             List<Map<String, Object>> huifangList = sysPlayLogsServiceImpl.queryPlayLogsByParam(param);
             for(int i=0; i<huifangList.size(); i++){
                 resultMap = huifangList.get(i);

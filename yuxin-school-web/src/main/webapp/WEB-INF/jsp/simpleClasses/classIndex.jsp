@@ -81,7 +81,7 @@
             <p class="c">
                 <span class="t-title">知识点</span>
                 <span class="t-content" id="itemFourthCodeList">
-                    <a  data-code="all" id="zhishidian" class="btn btn-mini btn-default btn-success" href="##">全部</a>
+                    <a   id="zhishidian" class="btn btn-mini btn-default btn-success" href="##">全部</a>
                    <c:forEach items="${fourthItem }" var="fourth" varStatus="status">
                            <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }" parentId="${fourth.parentId}" ids="${fourth.id}"  class="btn btn-mini btn-default fourthId">${fourth.itemName }</a>
                    </c:forEach>

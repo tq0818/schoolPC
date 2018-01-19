@@ -34,7 +34,7 @@ public class QuestionAnswer extends BaseEntity {
 	private String name;			/*回复人*/
 	private String imgurl;			/*头像地址*/
 	private String times;			/*时间*/
-
+	private Integer companyId;
 	// Constructor
 	public QuestionAnswer() {
 	}
@@ -215,4 +215,13 @@ public class QuestionAnswer extends BaseEntity {
 	public void setReplyUserType(String replyUserType) {
 		this.replyUserType = replyUserType;
 	}
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	
 }

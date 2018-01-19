@@ -27,6 +27,7 @@ public class ClassFavVo extends BaseEntity {
 	private String commodityType;/*商品类型*/
 	private String subjectCode;/*学科*/
 	private Date today;/*当天*/
+	private Integer companyId;
 	public Integer getStuId() {
 		return stuId;
 	}
@@ -85,4 +86,11 @@ public class ClassFavVo extends BaseEntity {
 	public void setToday(Date today) {
 		this.today = today;
 	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	
 }

@@ -177,7 +177,7 @@
             	$this.searchTeacher(_tid);
             }else{
             	$this.search(1);
-            	$this.searchTeacher();
+            	$this.searchTeacher(null);
             }
         },
         search: function (page, teacherId,id) {
@@ -297,7 +297,7 @@
         },
         searchTeacher: function (_tid) {
         	var _index ;
-            $(".teahcerName").html("");
+          /*  $(".teahcerName").html("");*/
             $.ajax({
                 url: rootPath + "/classModule/teacherJson",
                 type: "post",

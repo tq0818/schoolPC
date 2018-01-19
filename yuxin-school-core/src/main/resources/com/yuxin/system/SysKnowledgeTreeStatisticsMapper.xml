@@ -99,7 +99,7 @@
     </select>
 
     <select id="findLessonInfo" parameterType="Map" resultType="Map">
-        SELECT l.id,SUBSTRING(v.video_time,1,2) as h,SUBSTRING(v.video_time,4,2) as m,SUBSTRING(v.video_time,7,2) as s, v.video_time from course_video_lecture l
+        SELECT l.id,TIME_TO_SEC(v.video_time) as times,SUBSTRING(v.video_time,1,2) as h,SUBSTRING(v.video_time,4,2) as m,SUBSTRING(v.video_time,7,2) as s, v.video_time from course_video_lecture l
       LEFT JOIN video v  on  v.id = L.video_id
         where l.id =#{id}
 
@@ -112,8 +112,11 @@
             <if test="classtypeId != null and classtypeId != ''">classtype_id = #{classtypeId},</if>
             <if test="knowledgeTreeId != null and knowledgeTreeId != ''">knowledge_tree_id = #{knowledgeTreeId},</if>
             <if test="lessonId != null and lessonId != ''">lesson_id = #{lessonId},</if>
+            <if test="liveFlag != null and liveFlag != ''">live_flag = #{liveFlag},</if>
             <if test="videoLectrueId != null and videoLectrueId != ''">video_lectrue_id = #{videoLectrueId},</if>
+            <if test="videoFlag != null and videoFlag != ''">video_flag = #{videoFlag},</if>
             <if test="videoLectrueWeikeId != null and videoLectrueWeikeId != ''">video_lectrue_weike_id = #{videoLectrueWeikeId},</if>
+            <if test="videoWeikeFlag != null and videoWeikeFlag != ''">video_weike_flag = #{videoWeikeFlag},</if>
             <if test="paperId != null and paperId != ''">paper_id = #{paperId},</if>
         </trim>
         <where>id = #{id}</where>

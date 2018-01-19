@@ -554,22 +554,22 @@
                 '<input type="radio" name="type-set" class="radio" id="type-paper" value="paper" checked="true">'+
                 '<label style="display:inline;" for="type-paper">视频</label>	'+
                 '</a>'+
-                   '<a href="javascript:;" class="q-type-choice"  >'+
-                       '<input type="radio" name="type-set" class="radio" id="type-paper2" value="chapter">'+
-                   '<label style="display:inline;" for="type-paper2">Flash</label>'+	
-                   '</a>'+
-                   '<a href="javascript:;" class="q-type-choice" >'+
-                   '<input type="radio" name="type-set" class="radio" id="type-paper3" value="paper" >'+
-                   '<label style="display:inline;" for="type-paper3">音频</label>'+
-                   '</a>'+
-                   '<a href="javascript:;" class="q-type-choice"  >'+
-                   '<input type="radio" name="type-set" class="radio" id="type-paper4" value="chapter" >'+
-                   '<label style="display:inline;" for="type-paper4">PPT</label>'+
-                   '</a>'+
-                   '<a href="javascript:;" class="q-type-choice"  >'+
-                   '<input type="radio" name="type-set" class="radio" id="type-paper5" value="paper" >'+
-                   '<label style="display:inline;" for="type-paper5">文档</label>	'+
-                   '</a>'+
+                   // '<a href="javascript:;" class="q-type-choice"  >'+
+                   //     '<input type="radio" name="type-set" class="radio" id="type-paper2" value="chapter">'+
+                   // '<label style="display:inline;" for="type-paper2">Flash</label>'+
+                   // '</a>'+
+                   // '<a href="javascript:;" class="q-type-choice" >'+
+                   // '<input type="radio" name="type-set" class="radio" id="type-paper3" value="paper" >'+
+                   // '<label style="display:inline;" for="type-paper3">音频</label>'+
+                   // '</a>'+
+                   // '<a href="javascript:;" class="q-type-choice"  >'+
+                   // '<input type="radio" name="type-set" class="radio" id="type-paper4" value="chapter" >'+
+                   // '<label style="display:inline;" for="type-paper4">PPT</label>'+
+                   // '</a>'+
+                   // '<a href="javascript:;" class="q-type-choice"  >'+
+                   // '<input type="radio" name="type-set" class="radio" id="type-paper5" value="paper" >'+
+                   // '<label style="display:inline;" for="type-paper5">文档</label>	'+
+                   // '</a>'+
                    '</span>'+
                    '</p>'+
 				'<p class="c">'+

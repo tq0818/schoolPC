@@ -29,15 +29,15 @@
             });
             $("#editEduArea").change(function(){
                 var area = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#editEduSchool").attr("data-id"));
+                var schoolVal = $.trim($("#addEduSchoolQuery").attr("data-id"));
                 if(area==null || area==""){
-                    $("#editEduSchool").html('<option value="">请选择所在学校</option>');
+                    $("#addEduSchoolQuery").html('<option value="">请选择所在学校</option>');
                 }else{
                     $.ajax({
                         url: rootPath + "/student/getSchoolList/"+area,
                         type: "post",
                         success: function (data) {
-                            $("#editEduSchool").html('<option value="">请选择所在学校</option>');
+                            $("#addEduSchoolQuery").html('<option value="">请选择所在学校</option>');
                             var options = '';
                             $.each(data,function(i,j){
                                 if(schoolVal==j.itemCode){
@@ -47,22 +47,22 @@
                                 }
 
                             });
-                            $("#editEduSchool").append(options);
+                            $("#addEduSchoolQuery").append(options);
                         }
                     });
                 }
             });
             $("#addEduArea").change(function(){
                 var area = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#addEduSchool").attr("data-id"));
+                var schoolVal = $.trim($("#addEduSchoolQuery").attr("data-id"));
                 if(area==null || area==""){
-                    $("#addEduSchool").html('<option value="">请选择所在学校</option>');
+                    $("#addEduSchoolQuery").html('<option value="">请选择所在学校</option>');
                 }else{
                     $.ajax({
                         url: rootPath + "/student/getSchoolList/"+area,
                         type: "post",
                         success: function (data) {
-                            $("#addEduSchool").html('<option value="">请选择所在学校</option>');
+                            $("#addEduSchoolQuery").html('<option value="">请选择所在学校</option>');
                             var options = '';
                             $.each(data,function(i,j){
                                 if(schoolVal==j.itemValue){
@@ -72,13 +72,23 @@
                                 }
 
                             });
-                            $("#addEduSchool").append(options);
+                            $("#addEduSchoolQuery").append(options);
                         }
                     });
                 }
             });
             $("#addEduArea").change();
-
+            // 打开添加学生
+            $(".addStudent").on('click', function () {
+            	$(".addStudentPopup1").show();
+                $(".addStudentPopup").popup("show");
+                $(".addStudentPopup").css("top", "2%");
+                $("#add_div_school").show();
+                $("#add_div_class").show();
+                Form.clearData();
+                $('#insertman').prop("checked", true);
+                $(".colsekuang").hide();
+            });
             $("#add_eduIdentity_stu").click(function(){
                 //$("#add_div_school").show();
                 $("#addEduSchool").show();
@@ -1183,6 +1193,22 @@
                         $.msg("请选择所在区域");
                         return;
                     }
+                }
+                var asdasd =$("#addEduSchoolQuery").val();
+                data.eduSchool = asdasd;
+    			if(null==$("#addEduSchoolQuery").val() ||''==$("#addEduSchoolQuery").val()){
+                	 $.msg("请选择学校");
+                     return;
+    			}
+    			data.eduStep=$("#addEduStepQuery").val();
+                if(null==$("#addEduStepQuery").val() ||''==$("#addEduStepQuery").val()){
+                	$.msg("请选择学段");
+                	return;
+                }
+                data.eduYear=$("#addEduYearQuery").val();
+                if(null==$("#addEduYearQuery").val() ||''==$("#addEduYearQuery").val()){
+                	$.msg("请选择学年");
+                	return;
                 }
                 $(".customData").find(".field").each(function(){
                 	data[$(this).attr("name")]=$(this).val();

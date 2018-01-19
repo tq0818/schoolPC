@@ -136,10 +136,11 @@
 <!--发布后查询SQL-->
     <select id="findFirstLevelFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="int">
-        select
-        <include refid="table_columns" />
-        from sys_config_item_relation_front
-        where level = 0  and origin_type=0 and company_id=#{companyId}
+       select
+         a.*
+        from sys_config_item_relation_front a
+         LEFT JOIN sys_config_item s on s.item_code=a.item_code
+        where a.level = 0  and a.origin_type=0 and s.company_id=#{companyId} and s.del_flag=0
     </select>
     <select id="findChildrenFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
@@ -159,9 +160,9 @@
         SELECT DISTINCT
         scir.id,(select item_name from sys_config_item sci where sci.item_code=scir.item_code and sci.company_id=#{companyId})as item_name,
         scir.item_code,scir.level,scir.parent_id  FROM
-        sys_config_item_relation scir
+        sys_config_item_relation_front scir
         LEFT JOIN  sys_config_item c on c.item_code=scir.item_code
-        <where>    c.del_flag != 1
+        <where> scir.origin_type=0 and   c.del_flag != 1
         <if test="companyId != null and companyId !='' ">and  scir.company_id=#{companyId}</if>
         <if test="level != null ">and scir.level=#{level}</if>
         <if test="parentId != null  "> and scir.parent_id=#{parentId}</if>

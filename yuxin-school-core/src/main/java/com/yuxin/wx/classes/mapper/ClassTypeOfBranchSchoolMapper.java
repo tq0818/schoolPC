@@ -119,5 +119,8 @@ public interface ClassTypeOfBranchSchoolMapper extends BaseMapper<ClassType> {
 	
 	List<ClassType> validateOnSaleOfModuleNoOnSale(Map<String, Object> param);
 	List<ClassType> validateOnSaleOfSubject(Map<String, Object> param);
+
+
+	String findItemFourthCode(Integer id);
 	
 }

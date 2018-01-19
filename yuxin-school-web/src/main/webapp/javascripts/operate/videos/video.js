@@ -395,6 +395,7 @@ function loadVideoInfo(nearOneItemId, itemSecondId, beginTime, endTime, videoSta
                                                     }
                                                 }
                                             });
+                                            window.location.reload();
                                         } else {
                                             $('<div class="c-fa">' + "该视频不属于该校区" + '</div>').appendTo('body').fadeIn(100).delay(1000).fadeOut(200, function () {
                                                 $(this).remove();

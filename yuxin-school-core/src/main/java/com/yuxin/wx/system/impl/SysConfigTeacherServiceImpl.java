@@ -314,6 +314,7 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         users.setStatus(1);
         users.setRealName(sysConfigTeacher.getName());
         users.setMobile(sysConfigTeacher.getMobile());
+        users.setSex(sysConfigTeacher.getSex());
         usersMapper.insert(users);
         //添加教师学校关系表
         UsersComanyRelation ucr=new UsersComanyRelation();
@@ -582,6 +583,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
             sysConfigTeacherLessonMapper.insert(lesson);
 
             sysConfigTeacherMapper.update(sysConfigTeacher);
+            Users users = new Users();
+            users.setSex(sysConfigTeacher.getSex());
+            users.setId(sysConfigTeacher.getUserId());
+            users.setMobile(sysConfigTeacher.getMobile());
+            users.setRealName(sysConfigTeacher.getName());
+            usersMapper.update(users);
         }
     }
 

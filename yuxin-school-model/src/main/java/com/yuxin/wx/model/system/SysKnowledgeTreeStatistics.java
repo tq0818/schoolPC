@@ -6,8 +6,8 @@ import com.yuxin.wx.common.BaseEntity;
 public class SysKnowledgeTreeStatistics extends BaseEntity {
     private Integer userId;//用户ID
     private Integer knowledgeTreeId;//树节点ID
-    private String  itemSecondCode;//年级
     private String  itemThreeCode;//学科
+    private String  itemSecondCode;//年级
     private Integer commodityId;//商品ID
     private Integer classtypeId;//课程ID
     private Integer lessonId;//课次ID
@@ -18,6 +18,7 @@ public class SysKnowledgeTreeStatistics extends BaseEntity {
     private Integer videoWeikeFlag;//微课观看状态 0：未看  1:80%  2:大于80%
     private Integer paperId;//试卷ID
     private Integer paperFlag;//试卷状态 0：未做  1：做了 2: 全错
+    private Integer colorFlag;//叶子颜色  0 灰色  1 红色 2 黄色 3绿色
 
     public Integer getUserId() {
         return userId;
@@ -129,5 +130,13 @@ public class SysKnowledgeTreeStatistics extends BaseEntity {
 
     public void setPaperFlag(Integer paperFlag) {
         this.paperFlag = paperFlag;
+    }
+
+    public Integer getColorFlag() {
+        return colorFlag;
+    }
+
+    public void setColorFlag(Integer colorFlag) {
+        this.colorFlag = colorFlag;
     }
 }

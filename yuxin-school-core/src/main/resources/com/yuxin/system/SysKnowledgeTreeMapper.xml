@@ -106,13 +106,13 @@
         select * from sys_knowledge_tree
         where  1=1
         <if test="lessonId!=null ">
-            and lessonId = #{lessonId}
+            and lesson_id = #{lessonId}
         </if>
-        <if test="classtypeIdWeike!=null ">
-            and classtype_id_weike = #{classtypeIdWeike}
+        <if test="commodityIdWeike!=null ">
+            and commodity_id_weike = #{commodityIdWeike}
         </if>
-        <if test="classtypeIdHuikan!=null ">
-            and classtype_id_huikan = #{classtypeIdHuikan}
+        <if test="commodityIdHuikan!=null ">
+            and commodity_id_huikan = #{commodityIdHuikan}
         </if>
         <if test="paperId!=null ">
             and paper_id = #{paperId}

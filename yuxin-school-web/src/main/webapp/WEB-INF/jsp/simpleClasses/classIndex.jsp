@@ -18,6 +18,7 @@
         margin-top: -121px;box-shadow: 0 0 25px #666 !important;}
         .tabsn{margin: 0 !important;padding: 25px 22px 0;}
         .tabsn li.b5{margin-right: 0 !important;}
+        .tabsn{text-align: center;}
 
 
 

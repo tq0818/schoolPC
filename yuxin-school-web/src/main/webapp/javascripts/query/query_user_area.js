@@ -330,7 +330,7 @@
                             if(eduIdentity==null){
                                 eduIdentity = (stu.eduIdentity!=null ? (stu.eduIdentity==0?"学生":"普通用户"): "")
                             }
-                                $(".user-list")
+                                $(".user-lists")
                                     .find("table")
                                     .append(
                                     '<tr data-buy="'+(stu.paymaterCount>0)+'">'
@@ -1120,7 +1120,7 @@
             	 $(".changePw1").hide();
             })
             Validator = $("#addStudentForm").validate(rules);
-			$("#sAddress").cityselect({
+			$("#sAddressNew").cityselect({
 				url:rootPath + "/javascripts/company/city.min.js",
 			    prov:"", //省份 
 			    city:"",     //市

@@ -163,7 +163,16 @@ public class StudentStatisticsController {
         } else {
             model.addAttribute("address", 0);
         }
-
+        areaDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("steps", steps);
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<6;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
         return "/query/query_student";
@@ -437,13 +446,25 @@ public class StudentStatisticsController {
     	search.setCompanyId(WebUtils.getCurrentCompanyId());
     	//查询学校所在区域
     	SysConfigDict areaDict = new SysConfigDict();
+    	areaDict.setDictCode("EDU_STEP");
+    	List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+    	model.addAttribute("steps", steps);
+    	//年份列表
+    	List<Integer> years = new ArrayList<Integer>();
+    	int curYear = DateUtil.getCurYear();
+    	for(int year = 0;year<6;year++){
+    		years.add(curYear-year);
+    	}
+    	model.addAttribute( "years", years);
     	areaDict.setDictCode("EDU_SCHOOL_AREA");
     	areaDict.setItemCode(uersAreaRelation.getEduArea());
     	List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+    	model.addAttribute("areas", areas);
+    	/*List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
     	if(areas!=null && areas.get(0)!=null){
     		model.addAttribute("area", areas.get(0));
-    	}
-    	
+    	}*/
+
     	// 学员分组
 //    	CompanyFunctionSet companyFunctionSet = new CompanyFunctionSet();
 //    	companyFunctionSet.setCompanyId(WebUtils.getCurrentCompanyId());

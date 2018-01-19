@@ -194,26 +194,12 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = allMap.get(resultMap.get("userId").toString());
                     sysKnowledgeTreeStatistics.setPaperId(sysKnowledgeTree.getPaperId());
                     Integer paperFlag = resultMap.get("paperFlag")!=null ? Integer.valueOf(resultMap.get("paperFlag").toString()):0;
-                    Integer wrongFlag = resultMap.get("wrongFlag")!=null ? Integer.valueOf(resultMap.get("wrongFlag").toString()):0;
-                    if(paperFlag == 2){//如果试卷有最近一次全对，那么试卷状态为"已完成"
-                        sysKnowledgeTreeStatistics.setPaperFlag(2);
-                    }else if(paperFlag == 1 && wrongFlag == 2){//如果试卷没有全对，那么看错题是否全部修改完
-                        sysKnowledgeTreeStatistics.setPaperFlag(2);
-                    }else{//两者都不满足，代表没有完成
-                        sysKnowledgeTreeStatistics.setPaperFlag(1);
-                    }
+                    sysKnowledgeTreeStatistics.setPaperFlag(paperFlag);
                 }else{
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
                     sysKnowledgeTreeStatistics.setPaperId(sysKnowledgeTree.getPaperId());
                     Integer paperFlag = resultMap.get("paperFlag")!=null ? Integer.valueOf(resultMap.get("paperFlag").toString()):0;
-                    Integer wrongFlag = resultMap.get("wrongFlag")!=null ? Integer.valueOf(resultMap.get("wrongFlag").toString()):0;
-                    if(paperFlag == 2){//如果试卷有最近一次全对，那么试卷状态为"已完成"
-                        sysKnowledgeTreeStatistics.setPaperFlag(2);
-                    }else if(paperFlag == 1 && wrongFlag == 2){//如果试卷没有全对，那么看错题是否全部修改完
-                        sysKnowledgeTreeStatistics.setPaperFlag(2);
-                    }else{//两者都不满足，代表没有完成
-                        sysKnowledgeTreeStatistics.setPaperFlag(1);
-                    }
+                    sysKnowledgeTreeStatistics.setPaperFlag(paperFlag);
                     sysKnowledgeTreeStatistics.setClasstypeId(sysKnowledgeTree.getClasstypeId());
                     sysKnowledgeTreeStatistics.setCommodityId(sysKnowledgeTree.getCommodityId());
                     sysKnowledgeTreeStatistics.setItemSecondCode(sysKnowledgeTree.getItemSecondCode());

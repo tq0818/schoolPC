@@ -401,22 +401,10 @@
 		  t.user_id AS userId,
 		  t.id,
 		  CASE
-			WHEN t.total_topic = t.correct_topic
+			WHEN t.total_topic = t.error_topic
 			THEN 2
 			ELSE 1
-		  END as paperFlag,
-		  (SELECT
-			CASE
-			  WHEN COUNT(1) = 0
-			  THEN 2
-			  ELSE 1
-			END
-		  FROM
-			tiku_user_wrong uw
-			LEFT JOIN tiku_paper_topic tpt
-			  ON tpt.topic_id = uw.topic_id
-		  WHERE tpt.paper_id = #{paperId}
-			AND uw.user_id = t.user_id) AS wrongFlag
+		  END as paperFlag
 		FROM
 		  (SELECT
 			tu.*

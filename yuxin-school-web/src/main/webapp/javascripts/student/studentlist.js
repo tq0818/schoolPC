@@ -710,16 +710,16 @@
                 maxlength: 20,
                 digits: true
             },
-            uTel:{
+            /*uTel:{
             	  minlength: 8,
             	  maxlength: 20,
                   digits: true
-            },
-            uOfficeTel:{
+            },*/
+            /*uOfficeTel:{
             	  minlength: 8,
             	  maxlength: 20,
                   digits: true
-            },
+            },*/
             uQQ:{
             	maxlength: 15,
             	digits: true

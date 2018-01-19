@@ -157,11 +157,10 @@
     </select>
     <select id="findAllItemRelation" resultMap="sysConfigItemRelationResultMap" parameterType="Map">
         SELECT DISTINCT
-        scir.id,(select item_name from sys_config_item sci where sci.item_code=scir.item_code and sci.company_id=#{companyId})as item_name,
+        scir.id,(select item_name from sys_config_item sci where sci.item_code=scir.item_code and  sci.del_flag != 1 and sci.company_id=#{companyId})as item_name,
         scir.item_code,scir.level,scir.parent_id  FROM
-        sys_config_item_relation scir
-        LEFT JOIN  sys_config_item c on c.item_code=scir.item_code
-        <where>    c.del_flag != 1
+        sys_config_item_relation_front scir
+        <where> scir.origin_type=0
         <if test="companyId != null and companyId !='' ">and  scir.company_id=#{companyId}</if>
         <if test="level != null ">and scir.level=#{level}</if>
         <if test="parentId != null  "> and scir.parent_id=#{parentId}</if>

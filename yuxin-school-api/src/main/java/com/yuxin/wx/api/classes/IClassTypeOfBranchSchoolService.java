@@ -61,6 +61,8 @@ public interface IClassTypeOfBranchSchoolService  {
     
 
     ClassTypeVo findClassTypeDetail1(Map<String, String> param);
+
+	String findItemFourthCode(Integer id);
     
     void setCddsRecommendFlag(Map<String, Object> param);
     

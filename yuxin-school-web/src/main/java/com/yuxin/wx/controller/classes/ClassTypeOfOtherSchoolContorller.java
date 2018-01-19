@@ -296,7 +296,9 @@ public class ClassTypeOfOtherSchoolContorller {
         Map<String, String> map = new HashMap<String, String>();
         map.put("classId", String.valueOf(id));
         ClassTypeVo classType = this.classTypeOfBranchSchoolService.findClassTypeDetail1(map);
-        
+        //查询原课程所属知识点
+        String itemFourthCode = classTypeOfBranchSchoolService.findItemFourthCode(id);
+        model.addAttribute("itemFourthCodes", itemFourthCode);
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");

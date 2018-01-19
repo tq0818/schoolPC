@@ -28,7 +28,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,10 +39,10 @@ import java.util.*;
 /**
  * Created by Administrator on 2017/10/19.
  */
-//@Controller
-@Component
-@Transactional
-//@RequestMapping("/watchInfo")
+@Controller
+/*@Component
+@Transactional*/
+@RequestMapping("/watchInfo")
 public class TestTask {
     @Autowired
     private IWatchInfoService watchInfoServiceImpl;
@@ -61,7 +63,7 @@ public class TestTask {
     private Log log = LogFactory.getLog("log");
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-//    @RequestMapping(value="/getInfo")
+    @RequestMapping(value="/getInfo")
 //    @Scheduled(cron = "0 0/5 * * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void test() {
         //获取当日的课次
@@ -70,6 +72,7 @@ public class TestTask {
         log.info("获取昨天直播观看信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
+        ca.add(Calendar.DAY_OF_YEAR,-2);
         //ca.set(Calendar.MONTH,7);
         ca.add(Calendar.DAY_OF_MONTH,-1);
         String lessonDate = sdf.format(ca.getTime());
@@ -79,16 +82,16 @@ public class TestTask {
         Map<String,Object> map = new HashMap();
         CompanyLiveConfig config = companyLiveConfigServiceImpl.findByCompanyId(18113);
         String url ="";
-        if(config==null){
+       // if(config==null){
             map.put("loginName", LiveRoomConstant.LOGIN_NAME);
             map.put("password",LiveRoomConstant.PASSWORD);
             url = LiveRoomConstant.DOMIN_NAME;
 
-        }else{
-            map.put("loginName", config.getLoginName());
-            map.put("password",config.getPassword());
-            url = config.getDomain();
-        }
+       // }else{
+         //   map.put("loginName", config.getLoginName());
+        //    map.put("password",config.getPassword());
+      //     url = config.getDomain();
+       // }
 
         map.put("startTime",lessonDate+" 00:00:00");
         map.put("endTime",lessonDate+" 23:59:59");
@@ -117,7 +120,7 @@ public class TestTask {
                     lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
                     lesson.setDevice(mUser.getDevice());
                     lesson.setId(null);
-                    watchInfoServiceImpl.addWatchInfo(lesson);
+                   // watchInfoServiceImpl.addWatchInfo(lesson);
                     try {
                         setLiveKnowledgeTreeStaticis(lesson,lesson.getUserId());
                     } catch (ParseException e) {
@@ -154,7 +157,7 @@ public class TestTask {
            // Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
 
             //获取所有用户
-            List<UsersFront> users  = usersFrontServiceImpl.queryAll();
+           // List<UsersFront> users  = usersFrontServiceImpl.queryAll();
 
 
 
@@ -172,6 +175,7 @@ public class TestTask {
                 }else{
                     SysKnowledgeTreeStatistics obj = new SysKnowledgeTreeStatistics();
                     obj.setUserId(userId);
+                    obj.setKnowledgeTreeId(node.getId());
                     obj.setCommodityId(node.getCommodityId());
                     obj.setClasstypeId(node.getClasstypeId());
                     obj.setLessonId(node.getLessonId());
@@ -212,33 +216,33 @@ public class TestTask {
             Map map = new HashMap();
             map.put("id",lectureId);
             Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
-            long h  = (long)classInfo.get("h")*60*60;
-            long m  = (long)classInfo.get("m")*60;
-            long s  = (long)classInfo.get("s");
-            long total = h+m+s;
+            long total = (long)classInfo.get("times");
             //获取所有用户
             //List<UsersFront> users  = usersFrontServiceImpl.queryAll();
 
 
             map.clear();
-            if(flag.equals("huikan")){
+            /*if(flag.equals("huikan")){
                 map.put("videoLectrueId",lectureId);
             }
             else if(flag.equals("weike")){
                 map.put("videoLectrueWeikeId",lectureId);
-            }
+            }*/
             map.put("userId",userId);
+            map.put("knowledgeTreeId",node.getId());
             List<SysKnowledgeTreeStatistics> list =  sysKnowledgeTreeStatisticsServiceImpl.findStatistics(map);
             if(list.size()>0){
                 SysKnowledgeTreeStatistics obj = list.get(0);
                 //计算观看比例
                 if(flag.equals("huikan")){
+                    obj.setVideoLectrueId(lectureId);
                     if((float)(watchLength/total)>=0.7){
                         obj.setVideoFlag(2);
                     }else{
                         obj.setVideoFlag(1);
                     }
                 } else if(flag.equals("weike")){
+                    obj.setVideoLectrueWeikeId(lectureId);
                     if((float)(watchLength/total)>=0.8){
                         obj.setVideoWeikeFlag(2);
                     }else{
@@ -252,6 +256,7 @@ public class TestTask {
                 obj.setUserId(userId);
                 obj.setCommodityId(node.getCommodityId());
                 obj.setClasstypeId(node.getClasstypeId());
+                obj.setKnowledgeTreeId(node.getId());
                 obj.setLessonId(node.getLessonId());
                 obj.setVideoLectrueId(node.getCommodityIdHuikan());
                 obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
@@ -336,7 +341,7 @@ public class TestTask {
 
 
     //获取前一天录播观看个人信息
-//    @RequestMapping(value="/getPlayInfo")
+    @RequestMapping(value="/getPlayInfo")
 //    @Scheduled(cron = "0 0 8 * * ?") //4小时(参数分别为:秒、分、时、日期、月份、星期、年)0 0 0/4 * * ?
     public void getPlayInfo() {
         log.info("获取昨天录播观看信息-----执行时间：" + new Date());
@@ -557,7 +562,7 @@ public class TestTask {
                 uha.setStudyLength(play.getPlay_duration());
                 uha.setStudyTime(date);
                 uha.setDevice(play.getDevice());
-                userHistoryServiceImpl.insertPlayLogs(uha);
+                //userHistoryServiceImpl.insertPlayLogs(uha);
                 setVideoKnowledgeTreeStaticis(uha.getLectureId(),uha.getUserId(),uha.getStudyLength());
             }
             if(playLog.size()==1000){

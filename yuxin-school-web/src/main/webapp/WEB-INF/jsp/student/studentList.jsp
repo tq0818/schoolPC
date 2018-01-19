@@ -15,6 +15,7 @@
    	.tips{
    		color:red;
    	}
+	.u-wrap .mainbackground{height: 800px;}
     </style>
 </head>
 

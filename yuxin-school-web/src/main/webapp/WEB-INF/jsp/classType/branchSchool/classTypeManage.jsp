@@ -107,15 +107,15 @@
         <table class="table table-center" id="tableList">
             <tr data-buy="true">
                 <th width="5%"><input type="checkbox" class="checkboxAll"></th>
-                <th width="10%">课程名称</th>
-                <th width="10%">所属学校</th>
+                <th width="18%">课程名称</th>
+                <th width="18%">所属学校</th>
                 <th width="5%">分类</th>
-                <th width="10%">学段</th>
-                <th width="10%">学科</th>
+                <th width="7%">学段</th>
+                <th width="7%">学科</th>
                 <th width="10%">上下架状态</th>
                 <th width="10%">授课方式</th>
-                <th width="15%">添加时间</th>
-                <th width="15%">操作</th>
+                <th width="10%">添加时间</th>
+                <th width="10%">操作</th>
             </tr>
             <tbody class="tbodyList">
             

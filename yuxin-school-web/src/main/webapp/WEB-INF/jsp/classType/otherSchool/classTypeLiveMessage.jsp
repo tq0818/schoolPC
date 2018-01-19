@@ -91,7 +91,7 @@
                             <option  value="" data-id="">请选择</option>
                         </select>
                         <span style="color: red;">原知识点：</span>
-                        <input type="text" class="readonly" style="color: red;" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>
+                        <input type="text" class="readonly" style="color: red;" id="itemFourthName" marks="${classType.itemFourthCode }" value="${itemFourthCodes}" readonly/>
                     </span>
                 </p>
                 <p class="c">

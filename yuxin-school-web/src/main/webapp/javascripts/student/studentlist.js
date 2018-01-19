@@ -710,16 +710,16 @@
                 maxlength: 20,
                 digits: true
             },
-            uTel:{
+            /*uTel:{
             	  minlength: 8,
             	  maxlength: 20,
                   digits: true
-            },
-            uOfficeTel:{
+            },*/
+            /*uOfficeTel:{
             	  minlength: 8,
             	  maxlength: 20,
                   digits: true
-            },
+            },*/
             uQQ:{
             	maxlength: 15,
             	digits: true
@@ -1283,7 +1283,7 @@
                                 $.msg("手机号为空，请添加！");
                                 return;
                             }else if(jsonData=="0102"){
-                                $.msg("手机号格式不正确，请修改！");
+                                $.msg("无效手机号");
                                 return;
                             }else if(jsonData=="0302"){
                                 $.msg("身份证号格式不正确，请修改！");

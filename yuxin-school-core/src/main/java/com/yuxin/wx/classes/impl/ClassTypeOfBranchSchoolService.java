@@ -184,6 +184,11 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 	}
 
 	@Override
+	public String findItemFourthCode(Integer id) {
+		return classTypeOfBranchSchoolMapper.findItemFourthCode(id);
+	}
+
+	@Override
 	public void setCddsRecommendFlag(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		classTypeOfBranchSchoolMapper.setCddsRecommendFlag(param);

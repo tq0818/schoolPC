@@ -3386,10 +3386,11 @@ public class StudentController {
     @RequestMapping(value = "/exportExcle")
     public ModelAndView exportStudentsExcle(Model model, StudentListVo search) {
         List<StudentListVo> al = new ArrayList<StudentListVo>();
+        List<StudentListVo> al2 = new ArrayList<StudentListVo>();
         if (EntityUtil.isNotBlank(search)) {
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
-            search.setPageSize(9999999);
+            search.setPageSize(20000);
             search.setCompanyId(WebUtils.getCurrentCompanyId());
             al = studentServiceImpl.findStudentsData(search);
         }

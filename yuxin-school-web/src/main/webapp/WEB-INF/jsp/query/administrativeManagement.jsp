@@ -112,33 +112,33 @@
 		<!--  ajax加载中div结束 -->
 
 		<%--新增学校弹窗--%>
-		<%--<div>--%>
-			<%--<h2>添加分校</h2>--%>
-			<%--<ul>--%>
-				<%--<li>--%>
-					<%--<label for="">组织结构代码：</label>--%>
-					<%--<input type="text">--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<label for="">学校名称：</label>--%>
-					<%--<input type="text">--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<label for="">区域：</label>--%>
-					<%--<select name="" id="">--%>
-						<%--<option value="">请选择区域</option>--%>
-						<%--<option value="">1</option>--%>
-					<%--</select>--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<label for="">性质：</label>--%>
-					<%--<select name="" id="">--%>
-						<%--<option value="">请选择学校性质</option>--%>
-						<%--<option value="">2</option>--%>
-					<%--</select>--%>
-				<%--</li>--%>
-			<%--</ul>--%>
-		<%--</div>--%>
+		<div>
+			<h2>添加分校</h2>
+			<ul>
+				<li>
+					<label for="">组织结构代码：</label>
+					<input type="text">
+				</li>
+				<li>
+					<label for="">学校名称：</label>
+					<input type="text">
+				</li>
+				<li>
+					<label for="">区域：</label>
+					<select name="" id="">
+						<option value="">请选择区域</option>
+						<option value="">1</option>
+					</select>
+				</li>
+				<li>
+					<label for="">性质：</label>
+					<select name="" id="">
+						<option value="">请选择学校性质</option>
+						<option value="">2</option>
+					</select>
+				</li>
+			</ul>
+		</div>
 
 	</div>
 
@@ -164,8 +164,6 @@
 
 
 	$selectSubMenu('AdministrativeManagement');
-
-
 </script>
 </body>
 </html>

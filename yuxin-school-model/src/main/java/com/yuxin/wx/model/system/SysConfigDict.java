@@ -26,6 +26,7 @@ public class SysConfigDict extends BaseEntity {
 	private Integer delFlag;
 	private String groupCode;
 	private String isArea; /*0总校  1区级分校   2校级分校*/
+	private String firstLetter; /*学校名称首字母*/
 	// Constructor
 	public SysConfigDict() {
 	}
@@ -33,7 +34,7 @@ public class SysConfigDict extends BaseEntity {
 	/**
 	 * full Constructor
 	 */
-	public SysConfigDict(Integer id, String dictCode, String dictName, String itemCode, String itemValue, Integer parentItemId, String itemStatusCode, Integer displaySeq) {
+	public SysConfigDict(Integer id, String dictCode, String dictName, String itemCode, String itemValue, Integer parentItemId, String itemStatusCode, Integer displaySeq,String firstLetter) {
 		setId(id);
 		this.dictCode = dictCode;
 		this.dictName = dictName;
@@ -42,6 +43,7 @@ public class SysConfigDict extends BaseEntity {
 		this.parentItemId = parentItemId;
 		this.itemStatusCode = itemStatusCode;
 		this.displaySeq = displaySeq;
+		this.firstLetter = firstLetter;
 	}
 
 	public String getIsArea() {
@@ -170,6 +172,14 @@ public class SysConfigDict extends BaseEntity {
     public void setGroupCode(String groupCode) {
     	this.groupCode = groupCode;
     }
+    
+	public String getFirstLetter() {
+		return firstLetter;
+	}
+
+	public void setFirstLetter(String firstLetter) {
+		this.firstLetter = firstLetter;
+	}
 
 	@Override
 	public String toString() {

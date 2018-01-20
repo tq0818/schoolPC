@@ -51,7 +51,7 @@
         	价格：${ct.publicPrice }元
         </div>
         <c:choose>
-          	 <c:when test="${ct.publishStatus=='CLASS_ON_SALE'  }">
+          	 <c:when test="${ct.cddsStatus=='1'  }">
           		<button class="public_course" ids="${ct.id }" mark="nosale">下架</button>
           	 </c:when>
           	 <c:otherwise>

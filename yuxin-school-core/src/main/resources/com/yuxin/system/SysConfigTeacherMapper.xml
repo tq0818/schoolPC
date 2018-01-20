@@ -664,13 +664,9 @@
 		select
 		<include refid="table_columns_sct" />
 		from sys_config_teacher sct
-<<<<<<< HEAD
+		inner join users u on u.mobile=sct.mobile
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
 		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
-=======
-		inner join users u on u.mobile=sct.mobile
-		inner join users_comany_relation ur on ur.user_id=u.id and ur.is_used=1
->>>>>>> branch 'develop' of http://git.winshare-edu.com:80/winshare/winshare-yuxin-school.git
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		INNER JOIN sys_config_dict scd ON sct.education_code = scd.item_code
 		where sct.del_flag = 0 and scs.company_id = #{companyId}

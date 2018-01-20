@@ -97,6 +97,8 @@ public class UsersFrontVo extends BaseEntity {
     private String isInSchool;//是否为校内学生，1代表校内，0代表校外
     
     private String isBaseSchool;//是否为基地校学生
+
+    private String isArea;
     
     public String getIsInSchool() {
 		return isInSchool;
@@ -788,4 +790,11 @@ public class UsersFrontVo extends BaseEntity {
         this.vipIsOverdue = vipIsOverdue;
     }
 
+    public String getIsArea() {
+        return isArea;
+    }
+
+    public void setIsArea(String isArea) {
+        this.isArea = isArea;
+    }
 }

@@ -61,7 +61,6 @@ $(function(){
 	<!-- 二级导航开始 -->
 	<%@include file="/WEB-INF/jsp/menu/menu_resource.jsp"%>
 	<!-- 二级导航结束 -->
-	
 	<!--  内容开始 -->
 		<div class="u-wrap resource">
 		    <div class="mainbackground">
@@ -71,7 +70,10 @@ $(function(){
 		        </div>
 		        <div class="mark-more">
 		        <form method="post" id="teacherManageForm">
-		        <input type="hidden" id="companyId" value="${companyId }" name="companyId"/>
+
+					<input type="hidden" value="${isInsertUserId}" name="isInsertUserId" id="isInsertUserId"/>
+
+					<input type="hidden" id="companyId" value="${companyId }" name="companyId"/>
 		        <%-- <c:if test="${empty teacher.id}"> --%>
 		        <div class="main-content" style="margin-bottom: -100px;">
                 <div class="m-title">

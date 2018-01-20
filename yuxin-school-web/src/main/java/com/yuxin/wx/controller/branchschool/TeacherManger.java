@@ -407,6 +407,7 @@ public class TeacherManger {
     	sysConfigTeacher.setUserName(sysConfigTeacherModel.getUserName());
     	sysConfigTeacher.setWorkPhone(sysConfigTeacherModel.getWorkPhone());
     	sysConfigTeacher.setWorkTime(sysConfigTeacherModel.getWorkTime());
+        sysConfigTeacher.setIsInsertUserId(sysConfigTeacherModel.getIsInsertUserId());
     	return sysConfigTeacher;
     }
 }

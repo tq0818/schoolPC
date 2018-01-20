@@ -55,6 +55,15 @@ public class JspBaseController {
         return "system/allOrder";
     }
 
+    /**
+     *学校行政管理
+     * @return
+     */
+    @RequestMapping(value = "/AdministrativeManagement")
+    public String AdministrativeManagement(){
+        return "query/administrativeManagement";
+    }
+
 
 
     /**
@@ -103,5 +112,6 @@ public class JspBaseController {
         model.addAttribute("isArea",isArea);
         return "system/teacherIncome";
     }
+
 
 }

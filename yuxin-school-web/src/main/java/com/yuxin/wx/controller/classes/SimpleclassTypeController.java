@@ -326,20 +326,25 @@ public class SimpleclassTypeController {
 		SysConfigItemRelation relation = new SysConfigItemRelation();
 		relation.setId(null);
 		relation.setCompanyId(WebUtils.getCurrentCompanyId());
-		List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(relation);
+		List<SysConfigItemRelation> relations1 = sysConfigItemRelationServiceImpl.findItemFront(relation);
 		SysConfigItem item = new SysConfigItem();
 		item.setCompanyId(WebUtils.getCurrentCompanyId());
 		item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
 		item.setItemType("2");
 		item.setParentCode("TYPE");
 		List<SysConfigItem> names = sysConfigItemServiceImpl.findByParentCode(item);
-		for(SysConfigItemRelation re : relations){
+		for(SysConfigItemRelation re : relations1){
 			for(SysConfigItem name :names){
 				if(re.getItemCode().equals(name.getItemCode())){
 					re.setItemName(name.getItemName());
 					break;
 				}
 			}
+		}
+		List<SysConfigItemRelation> relations =new ArrayList<SysConfigItemRelation>();
+		for (SysConfigItemRelation re:relations1) {
+			if(""!=re.getItemName()&& null!=re.getItemName()){
+				relations.add(re);}
 		}
 
 		model.addAttribute("typeItems", relations);

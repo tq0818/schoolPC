@@ -114,6 +114,9 @@
 	            			<c:when test="${role.roleName == '代理机构' }">
 	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
 	            			</c:when>
+	            			<c:when test="${role.roleName == '直播老师' }">
+	            				<a href="javascript:;" ids="${role.roleUid }" id="zhiboTeacher" class="btn btn-mini btn-default">${role.roleName }</a>
+	            			</c:when>
 	            			<c:otherwise>
 	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
 	            			</c:otherwise>

@@ -175,16 +175,27 @@
 					if(!status){
 						 _this.addClass('btn-success');
 						var cid=_this.attr("ids");
+						var s = document.getElementById('zhiboTeacher').innerHTML;
 						window.Form.addCatgory(cid);
+						/*if(cid==6){
+							$("#contactTeacher").css("display","block");
+						}*/
+						/*if(cid==750){
+							$("#contactTeacher").css("display","block");
+						}*/
+						if(s=='直播老师'){
+							$("#contactTeacher").css("display","block");
+						}
 					}else{
 						_this.removeClass('btn-success');
 						$(".pri-list").find("li").hide().find(".iconfont").html('&#xe609;');
 						
 						var cid=_this.attr("ids");
-						if(cid==6){
+						var s = document.getElementById('zhiboTeacher').innerHTML;
+						/*if(cid==6){
 							$("#contactTeacher").css("display","none");
-						}
-						if(cid==884){
+						}*/
+						if(s=='直播老师'){
 							$("#contactTeacher").css("display","none");
 						}
 						if($(".people-list").find("a.btn-success").length){
@@ -663,12 +674,12 @@
 						}
 					}
 				});
-				if(cid==6){
+				/*if(cid==750){
 					$("#contactTeacher").css("display","block");
 				}
-				if(cid==884){
+				if(s=='直播老师'){
 					$("#contactTeacher").css("display","block");
-				}
+				}*/
 			}
 		}
 	$(document).ready(function(){

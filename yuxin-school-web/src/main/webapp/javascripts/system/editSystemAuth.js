@@ -181,12 +181,10 @@
 						$(".pri-list").find("li").hide().find(".iconfont").html('&#xe609;');
 						
 						var cid=_this.attr("ids");
-						if(cid==6){
+						if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
 							$("#contactTeacher").css("display","none");
 						}
-						if(cid==884){
-							$("#contactTeacher").css("display","none");
-						}
+
 						if($(".people-list").find("a.btn-success").length){
 							$.ajax({
 								url : rootPath + "/authRolePrivilege/Category/"+cid,
@@ -239,10 +237,7 @@
 					var status=$(this).hasClass("btn-success");
 					if(status){
 						var cid=$(this).attr("ids");
-						if(cid==6){
-							type=cid;
-						}
-						if(cid==884){
+						if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
 							type=6;
 						}
 					}
@@ -285,7 +280,7 @@
 					if(sta){
 						rolesId+=$(this).attr("ids")+",";
 						var t=$(this).attr("ids");
-						if(t==6){
+						if('直播老师'== $.trim($(this).html())){
 							$(".teacher-list").find("a input[type=checkbox]").each(function(){
 								var _status=$(this).is(":checked");
 								if(_status){
@@ -324,27 +319,29 @@
 					$(".loading-bg").hide();
 					return false;
 				}
-				$("#teachersId").val(teachersId);
-				$("#tsId").val(tId);
-				//代理机构
-				var checkTeacherUse = true;
-				$.ajax({
-					url : rootPath+"/authPrivilege/checkTeacher",
-					type : "post",
-					dataType : "json",
-					async:false, 
-					data:{teachersId : teachersId},
-					success : function(result) {
-						if(!result){
-							checkTeacherUse = false;
-						}
-					}
-				});
-				if(!checkTeacherUse){
-					$.msg("该教师已经被绑定，无法重复绑定");
-					evt.preventDefault();
-					$(".loading-bg").hide();
-					return false;
+				if(count == 1){
+                    $("#teachersId").val(teachersId);
+                    $("#tsId").val(tId);
+                    //代理机构
+                    var checkTeacherUse = true;
+                    $.ajax({
+                        url : rootPath+"/authPrivilege/checkTeacher",
+                        type : "post",
+                        dataType : "json",
+                        async:false,
+                        data:{teachersId : teachersId},
+                        success : function(result) {
+                            if(!result){
+                                checkTeacherUse = false;
+                            }
+                        }
+                    });
+                    if(!checkTeacherUse){
+                        $.msg("该教师已经被绑定，无法重复绑定");
+                        evt.preventDefault();
+                        $(".loading-bg").hide();
+                        return false;
+                    }
 				}
 				var proxyOrgId;
 				if($('#org-manage').hasClass('btn-success')){
@@ -365,7 +362,7 @@
 							url : rootPath+"/register/checkMobile",
 							type : "post",
 							dataType : "json",
-							async:false, 
+							async:false,
 							data:{mobile : mob},
 							success : function(result) {
 								if(!result){
@@ -419,7 +416,6 @@
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
-                                console.log(222);
 								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();
@@ -663,10 +659,7 @@
 						}
 					}
 				});
-				if(cid==6){
-					$("#contactTeacher").css("display","block");
-				}
-				if(cid==884){
+				if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
 					$("#contactTeacher").css("display","block");
 				}
 			}

@@ -478,6 +478,15 @@
 			del_flag = 0 and 
 			item_type = 2
 	</update>
+	<select id="findItemNameByLessonMap" parameterType="map" resultType="Integer">
+		select
+		DISTINCT i.id
+		from sys_config_item i
+		inner join class_type r on r.item_third_code =#{itemId}
+		where i.company_id=#{companyId}
+		and i.item_code=r.item_third_code
+	</select>
+
 	
 	<select id="findItemBySchoolCompanyId" parameterType="map" resultMap="sysConfigItemResultMap">
 		select 

@@ -2,6 +2,7 @@ package com.yuxin.wx.system.impl;
 
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -334,7 +335,9 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         		}
         	}
         }
-        sysConfigTeacher.setUserId(users.getId());
+        if(StringUtils.isBlank(sysConfigTeacher.getIsInsertUserId())){
+            sysConfigTeacher.setUserId(users.getId());
+        }
         sysConfigTeacherMapper.insert(sysConfigTeacher);
         
         SysConfigTeacherLesson lesson = new SysConfigTeacherLesson();
@@ -692,7 +695,12 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 		return list;
 	}
 
-	@Override
+    @Override
+    public List<SysConfigTeachersVo> findLiveTeacher(SysConfigTeachersVo sysConfigTeacher) {
+        return sysConfigTeacherMapper.findLiveTeacher(sysConfigTeacher);
+    }
+
+    @Override
 	public Integer checkTeacher(String teachers) {
 		Integer checkTeacher = sysConfigTeacherMapper.checkTeacher(teachers);
 		return checkTeacher;

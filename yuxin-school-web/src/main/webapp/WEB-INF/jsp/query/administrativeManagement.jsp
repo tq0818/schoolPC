@@ -22,6 +22,22 @@
    	}
 	.u-wrap .mainbackground{height: 800px;}
 	table .editDisable{text-align: center;background: #f6f6f6 !important;border: none !important;-webkit-appearance:none;}
+	.opacityPopup,.opacityPopupAccount{display: none;position: fixed;left: 50%;top: 50%;width: 570px;height: 260px;background: #fff;z-index: 1000;
+		text-align: left;margin-top: -130px;margin-left: -275px;border: 1px solid #b2b2b2;border-radius: 5px;}
+	.opacityPopupBg{display: none;width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;left: 0;top: 0;}
+	.opacityPopup li{height: 35px;line-height: 35px;}
+	.opacityPopup label{color: #868686;font-size: 14px;display: inline-block;width: 226px;text-align: right;margin-right: 14px;}
+	.opacityPopup h2,.opacityPopupAccount h2{font-size: 16px;color: #333333;font-weight: normal;height: 38px;line-height: 38px;text-align: center;}
+	.btnOpacity{text-align: center;}
+	.btnOpacity a{display: inline-block;margin: 20px 50px;}
+	.opacityPopupAccount >span{display: inline-block;width: 100%;text-align: center;height: 20px;line-height: 20px;}
+	.chooseBtn{margin-bottom: 10px;height: 34px;line-height: 34px;text-align: center;}
+	.chooseBtn li{display: inline-block;width: 148px;font-size: 12px;color: #333333;}
+	.chooseBtn li.active{border-bottom: 1px solid #797979;}
+	.modefyPassword label{display: inline-block;width: 200px;text-align: right;margin-right: 16px;color: #333333; }
+	.modefyPassword li{height: 44px;line-height: 44px;}
+	.resetPassword{width: 100%;text-align: center;height: 88px;line-height: 88px;color: #333333;font-size: 14px;}
+	.resetPassword{display: none;}
 	</style>
 </head>
 <body>
@@ -52,8 +68,10 @@
 						<select >
 							<option value="">请选择学校性质</option>
 						</select>
-						<a href="##" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 10px;">搜索</a>
-						<a href="##" class="btn btn-primary" style="margin-left: 5px;float: right;">新增学校</a>
+
+							<a href="##" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 10px;">搜索</a>
+							<a href="##" class="btn btn-primary addNewSchool" style="margin-left: 5px;float: right;">新增学校</a>
+
 					</div>
 				</form>
 				<div class="user-list">
@@ -86,7 +104,7 @@
 							</td>
 							<td>
 								<a href="##" class="modify">修改</a>/
-								<a href="##">账号设置</a>
+								<a href="##" class="accountSettings">账号设置</a>
 							</td>
 						</tr>
 						<%--<c:choose>--%>
@@ -104,6 +122,8 @@
 				</div>
 			</div>
 		</div>
+
+
 		<!-- ajax加载中div开始 -->
 		<div class="loading lp-units-loading" style="display:none">
 			<p><i></i>加载中,请稍后...</p>
@@ -111,36 +131,70 @@
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
 
-		<%--新增学校弹窗--%>
-		<%--<div>--%>
-			<%--<h2>添加分校</h2>--%>
-			<%--<ul>--%>
-				<%--<li>--%>
-					<%--<label for="">组织结构代码：</label>--%>
-					<%--<input type="text">--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<label for="">学校名称：</label>--%>
-					<%--<input type="text">--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<label for="">区域：</label>--%>
-					<%--<select name="" id="">--%>
-						<%--<option value="">请选择区域</option>--%>
-						<%--<option value="">1</option>--%>
-					<%--</select>--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<label for="">性质：</label>--%>
-					<%--<select name="" id="">--%>
-						<%--<option value="">请选择学校性质</option>--%>
-						<%--<option value="">2</option>--%>
-					<%--</select>--%>
-				<%--</li>--%>
-			<%--</ul>--%>
-		<%--</div>--%>
+
 
 	</div>
+<%--新增学校弹窗--%>
+<div class="opacityPopup">
+	<h2>添加分校</h2>
+	<ul>
+		<li>
+			<label for="">组织结构代码：</label>
+			<input type="text">
+		</li>
+		<li>
+			<label for="">学校名称：</label>
+			<input type="text">
+		</li>
+		<li>
+			<label for="">区域：</label>
+			<select name="" id="">
+				<option value="">请选择区域</option>
+				<option value="">1</option>
+			</select>
+		</li>
+		<li>
+			<label for="">性质：</label>
+			<select name="" id="">
+				<option value="">请选择学校性质</option>
+				<option value="">2</option>
+			</select>
+		</li>
+	</ul>
+	<div class="btnOpacity">
+		<a href="##" class="btn btn-primary">确认添加</a>
+		<a href="##" class="btn btn-primary">取消</a>
+	</div>
+</div>
+<div class="opacityPopupBg"></div>
+<%--账号设置弹窗--%>
+<div class="opacityPopupAccount">
+	<h2>分校管理员账号设置</h2>
+	<span style="color: #ff0000">字水中学</span>
+	<ul class="chooseBtn">
+		<li class="active"><a href="##">修改密码</a></li>
+		<li><a href="##">重置密码</a></li>
+	</ul>
+	<div>
+		<ul class="modefyPassword" >
+			<li>
+				<label for="">输入密码：</label>
+				<input type="password">
+			</li>
+			<li>
+				<label for="">确认密码：</label>
+				<input type="password">
+			</li>
+		</ul>
+		<div class="resetPassword">
+			重置账号密码为初始化密码？
+		</div>
+	</div>
+	<div class="btnOpacity">
+		<a href="##" class="btn btn-primary">确认添加</a>
+		<a href="##" class="btn btn-primary">取消</a>
+	</div>
+</div>
 
 
 <%--<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student.js"></script>--%>
@@ -160,11 +214,45 @@
 	//点击修改
 	$('.modify').click(function(){
 	    $(this).parent('td').siblings('td').children().removeClass('editDisable').attr('disabled',false);
+	    if($(this).html()=='修改'){
+            $(this).html("保存");
+		}else {
+            $(this).html("修改");
+            $(this).parent('td').siblings('td').children().addClass('editDisable').attr('disabled',true);
+		}
+	});
+	//点击确定取消，隐藏弹窗
+	$('.btnOpacity').children().click(function () {
+		$('.opacityPopup').fadeOut();
+		$('.opacityPopupBg').fadeOut();
+        $('.opacityPopupAccount').fadeOut();
+    });
+	//点新增页面弹出弹窗
+	$('.addNewSchool').click(function(){
+        $('.opacityPopup').fadeIn();
+        $('.opacityPopupBg').fadeIn();
+	});
+	//点击账号设置弹出弹窗
+	$('.accountSettings').click(function(){
+        $('.opacityPopupAccount').fadeIn();
+        $('.opacityPopupBg').fadeIn();
+    });
+	//修改密码和重置密码的切换
+	$('.chooseBtn').children().click(function(){
+	    $(this).addClass("active");
+        $(this).siblings('li').removeClass("active");
+	    if($(this).index()==0){
+	        $('.modefyPassword').show();
+	        $('.resetPassword').hide();
+        }else {
+            $('.modefyPassword').hide();
+            $('.resetPassword').show();
+		}
 	});
 
 
 	$selectSubMenu('AdministrativeManagement');
-
+    $selectThirdMenu('AdministrativeManagement');
 
 </script>
 </body>

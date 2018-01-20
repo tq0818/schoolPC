@@ -453,4 +453,11 @@ public interface ISysConfigTeacherService {
 	int checkSortCount(Integer companyId);
 	
 	List<SysConfigTeacher> findTeacherBySubject(Map<String, Object> map);
+
+    /**
+     * 获取关联老师
+     * @param sysConfigTeacher
+     * @return
+     */
+    List<SysConfigTeachersVo> findLiveTeacher(SysConfigTeachersVo sysConfigTeacher);
 }

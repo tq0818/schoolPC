@@ -649,6 +649,7 @@ public class SysConfigTeacherController {
 		// 查询当前分校中有哪些一级项目
 		List<SysConfigItem> firstItems = sysConfigItemServiceImpl.findSysConfigItemByPid(SysConfigConstant.ITEMTYPE_FIRST, null, WebUtils.getCurrentCompanyId(), WebUtils.getCurrentSchoolId());
 		model.addAttribute("items", firstItems);
+		model.addAttribute("isInsertUserId",request.getParameter("isInsertUserId"));
 		return "resource/teacher/teacherIndex";
 	}
 
@@ -785,6 +786,7 @@ public class SysConfigTeacherController {
 		model.addAttribute("companyId", user.getCompanyId());
 		//model.addAttribute("secondItemMap", secondItemMap);
 		model.addAttribute("imgUrl", "http://"+properties.getProjectImageUrl()+"/");
+		model.addAttribute("isInsertUserId",request.getParameter("isInsertUserId"));
 		if(teacher == null){
 			teacher = new SysConfigTeacher();
 			teacher.setId(0);

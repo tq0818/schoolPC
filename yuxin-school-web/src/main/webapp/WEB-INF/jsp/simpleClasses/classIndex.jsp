@@ -55,6 +55,7 @@
                    <c:forEach items="${firstItem }" var="type" varStatus="status">
                        <a href="javascript:Form.queryAllCommdityByItemNew(1,'${type.itemCode }');" ids="${type.id}" data-code="${type.itemCode }" class="btn btn-mini btn-default">${type.itemName }</a>
                    </c:forEach>
+
                 </span>
             </p>
                 <p class="c">
@@ -80,6 +81,7 @@
             <p class="c">
                 <span class="t-title">知识点</span>
                 <span class="t-content" id="itemFourthCodeList">
+                    <a   id="zhishidian" class="btn btn-mini btn-default btn-success" href="##">全部</a>
                    <c:forEach items="${fourthItem }" var="fourth" varStatus="status">
                            <a style="display: none" href="javascript:Form.queryAllCommdityByItemNew(1);" data-code="${fourth.itemCode }" parentId="${fourth.parentId}" ids="${fourth.id}"  class="btn btn-mini btn-default fourthId">${fourth.itemName }</a>
                    </c:forEach>
@@ -174,6 +176,7 @@
             $("#itemFourthCodeList").children('a').removeClass('btn-success');
             $("#xueduan").addClass('btn-success');
             $("#xueke").addClass('btn-success');
+            $("#zhishidian").addClass('btn-success');
             for(var i = 0;i<$('.thirdId').length;i++){
                 $('.thirdId').eq(i).hide();
             }
@@ -185,6 +188,7 @@
             $("#itemThirdCodeList").children('a').removeClass('btn-success');
             $("#itemFourthCodeList").children('a').removeClass('btn-success');
             $("#xueke").addClass('btn-success');
+            $("#zhishidian").addClass('btn-success');
             for(var i = 0;i<$('.fourthId').length;i++){
                 $('.fourthId').eq(i).hide();
             }
@@ -228,6 +232,7 @@
     });
     $('#itemThirdCodeList').children('a').click(function () {
         $("#itemFourthCodeList").children('a').removeClass('btn-success');
+        $("#zhishidian").addClass('btn-success');
         if($(this).index()!=0){
             var id= $(this).attr('ids');
             for(var i = 0;i<$('.fourthId').length;i++){
@@ -241,6 +246,14 @@
             for(var i = 0;i<$('.fourthId').length;i++){
                 $('.fourthId').eq(i).hide();
             }
+        }
+    });
+    //知识点
+    $('#itemFourthCodeList').children('a').click(function () {
+        if($(this).index()!=0){
+            $('#zhishidian').removeClass('btn-success');
+        }else {
+            $(this).siblings('a').removeClass('btn-success');
         }
     });
 </script>

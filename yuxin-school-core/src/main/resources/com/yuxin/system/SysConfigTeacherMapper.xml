@@ -906,6 +906,7 @@
 		select <include refid="table_columns_sct" /> from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
 		inner join sys_config_school scs on scs.company_id=ur.company_id
+		inner join sys_config_dict scd ON sct.education_code = scd.item_code
 		where sct.status_code='TEACHER_USERD' and sct.del_flag=0 and ur.company_id=#{companyId}
 		<if test="teacherType != null and teacherType != ''">
 			and sct.teacher_type = #{teacherType}

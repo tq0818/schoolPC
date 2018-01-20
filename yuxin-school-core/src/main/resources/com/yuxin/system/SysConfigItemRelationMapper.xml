@@ -136,19 +136,18 @@
 <!--发布后查询SQL-->
     <select id="findFirstLevelFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="int">
-        select
-        a.*
+       select
+         a.*
         from sys_config_item_relation_front a
-        LEFT JOIN sys_config_item  b on a.item_code = b.item_code
-        where a.level = 0  and a.origin_type=0 and a.company_id=#{companyId} and b.del_flag =0
+         LEFT JOIN sys_config_item s on s.item_code=a.item_code
+        where a.level = 0  and a.origin_type=0 and s.company_id=#{companyId} and s.del_flag=0
     </select>
     <select id="findChildrenFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">
         select
-        a.*
-        from sys_config_item_relation_front a
-        LEFT JOIN sys_config_item  b on a.item_code = b.item_code
-        where a.level = 0  and a.origin_type=0 and a.company_id=#{companyId} and b.del_flag =0
+        <include refid="table_columns" />
+        from sys_config_item_relation_front
+        where parent_id = #{id} and origin_type=0 and company_id=#{companyId}
     </select>
     <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="int">
         SELECT DISTINCT
@@ -159,10 +158,11 @@
     </select>
     <select id="findAllItemRelation" resultMap="sysConfigItemRelationResultMap" parameterType="Map">
         SELECT DISTINCT
-        scir.id,(select item_name from sys_config_item sci where sci.item_code=scir.item_code and  sci.del_flag != 1 and sci.company_id=#{companyId})as item_name,
+        scir.id,(select item_name from sys_config_item sci where sci.item_code=scir.item_code and sci.company_id=#{companyId})as item_name,
         scir.item_code,scir.level,scir.parent_id  FROM
         sys_config_item_relation_front scir
-        <where> scir.origin_type=0
+        LEFT JOIN  sys_config_item c on c.item_code=scir.item_code
+        <where> scir.origin_type=0 and   c.del_flag != 1
         <if test="companyId != null and companyId !='' ">and  scir.company_id=#{companyId}</if>
         <if test="level != null ">and scir.level=#{level}</if>
         <if test="parentId != null  "> and scir.parent_id=#{parentId}</if>

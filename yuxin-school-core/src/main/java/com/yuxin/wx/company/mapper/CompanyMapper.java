@@ -26,6 +26,7 @@ import com.yuxin.wx.model.company.CompanyPics;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.NewCompanyVo;
+import com.yuxin.wx.model.course.CourseVideoLookAuth;
 import com.yuxin.wx.model.system.SysConfigCampus;
 import com.yuxin.wx.model.system.SysConfigIndexPageTemplate;
 import com.yuxin.wx.model.system.SysConfigItem;
@@ -238,6 +239,8 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	public void addSysConfigPageRedirect(SysConfigPageRedirect scpr);
 	
 	public void addTiKuSet(TikuSet tikuSet);
+	
+	public void addCourseVideoLookAuth(CourseVideoLookAuth courseVideoLookAuth);
 	
 	/**
 	 * 

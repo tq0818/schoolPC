@@ -310,6 +310,7 @@
 					}
 				});
 				$("#rolsesId").val(rolesId);
+				console.log(rolesId);
 				//得到选中教师
 				var teachersId="";
 				var tId="";
@@ -335,27 +336,29 @@
 					$(".loading-bg").hide();
 					return false;
 				}
-				$("#teachersId").val(teachersId);
-				$("#tsId").val(tId);
-				//代理机构
-				var checkTeacherUse = true;
-				$.ajax({
-					url : rootPath+"/authPrivilege/checkTeacher",
-					type : "post",
-					dataType : "json",
-					async:false, 
-					data:{teachersId : teachersId},
-					success : function(result) {
-						if(!result){
-							checkTeacherUse = false;
-						}
-					}
-				});
-				if(!checkTeacherUse){
-					$.msg("该教师已经被绑定，无法重复绑定");
-					evt.preventDefault();
-					$(".loading-bg").hide();
-					return false;
+				if(count == 1){
+                    $("#teachersId").val(teachersId);
+                    $("#tsId").val(tId);
+                    //代理机构
+                    var checkTeacherUse = true;
+                    $.ajax({
+                        url : rootPath+"/authPrivilege/checkTeacher",
+                        type : "post",
+                        dataType : "json",
+                        async:false,
+                        data:{teachersId : teachersId},
+                        success : function(result) {
+                            if(!result){
+                                checkTeacherUse = false;
+                            }
+                        }
+                    });
+                    if(!checkTeacherUse){
+                        $.msg("该教师已经被绑定，无法重复绑定");
+                        evt.preventDefault();
+                        $(".loading-bg").hide();
+                        return false;
+                    }
 				}
 				var proxyOrgId;
 				if($('#org-manage').hasClass('btn-success')){

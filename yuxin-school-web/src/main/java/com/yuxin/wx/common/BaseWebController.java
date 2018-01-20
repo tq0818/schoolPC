@@ -382,8 +382,8 @@ public class BaseWebController {
                     mv.setViewName("redirect:index");// 跳首页
                 }
             } catch (UnknownAccountException e) {
-                log.error("该账号已禁用", e);
-                mv.addObject("info", "该账号已禁用");
+                log.error("用户名或密码错误", e);
+                mv.addObject("info", "用户名或密码错误");
             } catch (IncorrectCredentialsException e) {
                 mv.addObject("info", "用户名或密码错误");
                 log.error("用户名或密码错误", e);

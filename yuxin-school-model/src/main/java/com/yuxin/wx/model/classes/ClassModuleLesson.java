@@ -80,6 +80,17 @@ public class ClassModuleLesson extends BaseEntity {
     private String commodityName;
     private Integer commodityId;
     private Integer classTypeId;
+    private Integer outSourceLlessionId;
+    
+    
+
+	public Integer getOutSourceLlessionId() {
+		return outSourceLlessionId;
+	}
+
+	public void setOutSourceLlessionId(Integer outSourceLlessionId) {
+		this.outSourceLlessionId = outSourceLlessionId;
+	}
 
 	public Integer getIsOutSource() {
 		return isOutSource;

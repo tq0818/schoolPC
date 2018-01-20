@@ -60,6 +60,11 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 		classModuleLessonMapper.insert1(classModuleLesson);
 	}
 
+	@Override
+	public void updateShareClassLesson(ClassModuleLesson classModuleLesson) {
+		classModuleLessonMapper.updateShareLesson(classModuleLesson);
+	}
+
 	/**
 	 * 
 	* @Title: batchSaveClassModuleLesson 

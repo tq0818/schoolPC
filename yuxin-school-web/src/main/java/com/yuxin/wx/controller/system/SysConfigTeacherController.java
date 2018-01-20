@@ -1153,6 +1153,7 @@ public class SysConfigTeacherController {
 				return "排序设置已超过8个，请修改后再设置";
 			}
 		}
+		teacher.setCompanyId(WebUtils.getCurrentCompanyId());
 		int index = sysConfigTeacherServiceImpl.updateSortId(teacher);
 		if(index ==1){
 			return "保存成功";  
@@ -1162,6 +1163,6 @@ public class SysConfigTeacherController {
 		
 	}
 	public int checkSortCount(){
-		return sysConfigTeacherServiceImpl.checkSortCount();
+		return sysConfigTeacherServiceImpl.checkSortCount(WebUtils.getCurrentCompanyId());
 	}
 }

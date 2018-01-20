@@ -668,14 +668,22 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 
 	@Override
 	public int updateSortId(SysConfigTeacher search) {
-		// TODO Auto-generated method stub
+		//先删除原有的排序
+		sysConfigTeacherMapper.deleteSortId(search);
+		if(search.getSortId()==null||search.getSortId()==0){
+			return 1;
+		}
 		return sysConfigTeacherMapper.updateSortId( search);
 	}
-
 	@Override
 	public int checkSortCount() {
 		// TODO Auto-generated method stub
 		return sysConfigTeacherMapper.checkSortCount();
+	}
+	@Override
+	public int checkSortCount(Integer companyId) {
+		// TODO Auto-generated method stub
+		return sysConfigTeacherMapper.checkSortCountLast(companyId);
 	}
 
 	@Override

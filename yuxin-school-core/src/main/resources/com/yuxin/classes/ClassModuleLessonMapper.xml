@@ -91,7 +91,7 @@
 		is_out_source,
 		before_study_name,
 		before_study_url,
-		after_study_url
+		after_study_url,out_source_lession_id
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -131,7 +131,8 @@
 		#{isOutSource},
 		#{beforeStudyName},
 		#{beforeStudyUrl},
-		#{afterStudyUrl}
+		#{afterStudyUrl},
+		#{outSourceLlessionId}
 	</sql>
 	
 	<sql id="batch_entity_properties">
@@ -248,6 +249,18 @@
 			<if test="beforeStudyName != null ">before_study_name = #{beforeStudyName},</if>
 		</trim>
 		<where>id = #{id}</where>
+	</update>
+	
+	<update id="updateShareLesson" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		update class_module_lesson alias 
+		inner join class_module_lesson cml on cml.id=alias.out_source_lession_id
+		set alias.`lesson_name`=cml.`lesson_name`,alias.`lesson_date`=cml.`lesson_date`,alias.`scope`=cml.`scope`,alias.`week_type`=cml.`week_type`,
+		  alias.`lesson_time_start`=cml.`lesson_time_start`,alias.`lesson_time_end`=cml.`lesson_time_end`,
+		  alias.`lesson_hour`=cml.`lesson_hour`,alias.`teachers`=cml.`teachers`,alias.`assistants`=cml.`assistants`,alias.`masters`=cml.`masters`,alias.`teachers_name`=cml.`teachers_name`,
+		  alias.`assistants_name`=cml.`assistants_name`,alias.`masters_name`=cml.`masters_name`,alias.`classroom_id`=cml.`classroom_id`,alias.`classroom`=cml.`classroom`,
+		  alias.`live_room`=cml.`live_room`,alias.`remark`=cml.`remark`,alias.`live_company_type`=cml.`live_company_type`,alias.`liveroom_id_gh`=cml.`liveroom_id_gh`,alias.`student_url_gh`=cml.`student_url_gh`,
+		alias.`teacher_url_gh`=cml.`teacher_url_gh`,alias.`assistant_url_gh`=cml.`assistant_url_gh`,alias.`replay_url_gh`=cml.`replay_url_gh`,alias.`del_flag`=cml.`del_flag`,alias.`sort`=cml.`sort`,alias.`chapter_flag`=cml.`chapter_flag`,alias.`support_mobile`=cml.`support_mobile`,alias.`live_class_type`=cml.`live_class_type`,alias.`creator`=cml.`creator`,alias.`create_time`=cml.`create_time`,alias.`barrage`=cml.`barrage`,alias.`modetype`=cml.`modetype`
+		<where>alias.out_source_lession_id = #{id}</where>
 	</update>
 	
 	<select id="findById" resultMap="classModuleLessonResultMap" parameterType="String" >

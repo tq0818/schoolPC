@@ -144,8 +144,12 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
 	Integer queryTeachersDataCount(TeachersVo teacher);
 	
 	int updateSortId(SysConfigTeacher search);
+	
+	void deleteSortId(SysConfigTeacher search);
 
 	int checkSortCount();
+	
+	int checkSortCountLast(Integer companyId);
 	
 	List<SysConfigTeacher> findTeacherBySubject(Map<String, Object> map);
 

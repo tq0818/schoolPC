@@ -165,7 +165,7 @@
 		sct.teacher_level,
 		sct.teacher_area,
 		sct.school_name,
-		sct.sort_id,
+		tsc.sort_id,
 		sct.school_short_name,
 		sct.remark
 	</sql>
@@ -623,6 +623,7 @@
 		<include refid="table_columns_sct" />
 		from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		INNER JOIN sys_config_dict scd ON sct.education_code = scd.item_code
 		where sct.del_flag = 0 and scs.company_id = #{companyId}
@@ -637,7 +638,7 @@
 		</if>
 		<if test="mobile != null and mobile != ''">and sct.mobile = #{mobile}</if>
 		<if test="name != null and name != ''">and sct.name LIKE '%${name}%'</if>
-		and sct.status_code = 'TEACHER_USERD' order by sct.sort_id is null, sct.sort_id asc, sct.create_time desc
+		and sct.status_code = 'TEACHER_USERD' order by tsc.sort_id is null, tsc.sort_id asc, sct.create_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="findByNewCompany" resultMap="sysConfigTeacherResultMap"
@@ -721,7 +722,7 @@
 		sct.emergency_contact_name,
 		sct.emergency_contact_phone,
 		sct.resume,
-		sct.sort_id,
+		tsc.sort_id,
 		sct.is_distinguished,
 		sct.remark,
 		sct.school_name,
@@ -731,6 +732,7 @@
 		scd.item_value as education_code
 		FROM
 		sys_config_teacher sct
+		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
 		LEFT JOIN sys_config_teacher_lesson sctl ON sct.id =
 		sctl.teacher_id
 		inner join users u on u.id=sct.user_id
@@ -740,7 +742,7 @@
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
 		AND sct.del_flag = 0 AND sctl.item_one_id =
-		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc
+		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by tsc.sort_id is null,tsc.sort_id asc
 		limit #{firstIndex},#{pageSize}
 	</select>
 	<select id="queryAllNewTeachersWithItemOneId" resultMap="sysConfigTeacherResultMap"
@@ -793,7 +795,7 @@
 		sct.teacher_type = 'PERSON_TEACHER'
 		<if test="name != null and name != ''">and name LIKE '%${name}%'</if>
 		AND sct.del_flag = 0 AND sctl.item_one_id =
-		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id order by sct.sort_id is null,sct.sort_id asc)
+		#{itemOneId} and sct.status_code = 'TEACHER_USERD' GROUP BY sct.id)
 		noTable
 	</select>
 
@@ -1016,14 +1018,19 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
       </if>
 	</select>
 	<update id="updateSortId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		update sys_config_teacher set
-		sort_id = #{sortId} where id =  #{id}
+		insert into teacher_sort_count(teacher_id,sort_id,create_time,company_id)
+		values(#{id},#{sortId},now(),#{companyId})
 	</update>
 	<select id="checkSortCount" resultType="Integer">
 		select count(sort_id) from sys_config_teacher
 	</select>
 	
-	
+	<select id="checkSortCountLast" resultType="Integer" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		select count(sort_id) from teacher_sort_count where company_id=#{companyId} and teacher_id=#{id}
+	</select>
+	<delete id="deleteSortId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		delete from teacher_sort_count where company_id=#{companyId} and teacher_id=#{id}
+	</delete>
 	<select id="findTeacherBySubject" resultMap="sysConfigTeacherResultMap"
 		parameterType="map">
 		select

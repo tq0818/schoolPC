@@ -55,6 +55,11 @@ public interface IClassModuleLessonService  {
 	* @user by wangzx
 	 */
 	void update(ClassModuleLesson classModuleLesson);
+	/**
+	 * 更新分享课次
+	 * @param classModuleLesson
+	 */
+	void updateShareClassLesson(ClassModuleLesson classModuleLesson);
 	
 	/**
 	 * 

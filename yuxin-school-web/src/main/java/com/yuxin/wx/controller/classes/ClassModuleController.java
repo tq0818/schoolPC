@@ -606,6 +606,10 @@ public class ClassModuleController {
 		SysConfigTeacher teacher = sysConfigTeacherServiceImpl.findByUserId(userId);
 		if(authRoleServiceImpl.hasRoleFlag(userId,WebUtils.getCurrentCompanyId())){
 			mlv.setSchoolId(schoolId);
+			Subject subject = SecurityUtils.getSubject();
+			if(subject.hasRole("直播老师")){
+				mlv.setTeacherId(userId);
+			}
 			if(teacher != null){
 				model.addAttribute("roles", "adminAndTeacher");
 			}
@@ -4927,6 +4931,8 @@ public class ClassModuleController {
 			}
 			classModuleLessonServiceImpl.update(lec);
 		}
+		//查询该直播课是否有对应的分享课次
+		classModuleLessonServiceImpl.updateShareClassLesson(lesson);
 		//更新班号表信息
 		ClassModuleLesson classModuleLessonObj = classModuleLessonServiceImpl.findClassModuleLessonById(lesson.getId());
 		List<ClassModuleLesson> lessons=classModuleLessonServiceImpl.findClassModuleLessonByModuleNoId(classModuleLessonObj.getModuleNoId());
@@ -4938,7 +4944,6 @@ public class ClassModuleController {
 			moduleNo.setTotalHours(count);
 			moduleNo.setId(classModuleLessonObj.getModuleNoId());
 			classModuleNoServiceImpl.update(moduleNo);
-
 
 			ClassModuleNo classModuleNo = classModuleNoServiceImpl.findClassModuleNoById(moduleNo.getId());
 			ClassModule module=new ClassModule();

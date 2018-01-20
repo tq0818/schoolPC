@@ -595,7 +595,8 @@
         <pattern>/jsp/teacherIncome</pattern>
         <!-- 课程查询 -->
         <pattern>/classManager/getClassList</pattern>
-
+        <!-- 学校行政管理 -->
+        <pattern>/jsp/AdministrativeManagement</pattern>
 
 
 

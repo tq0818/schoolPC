@@ -29,7 +29,8 @@
                     <li class="item-child" code="teacherVideoList" mark="/query/statistics/teacherVideoList">教师授课详情</li>
                     <li class="item-child" code="userVideoList" mark="/query/statistics/userVideoList">用户点播统计</li>
                 </ul>
-                </li>
+            </li>
+            <li class="subentry" code="AdministrativeManagement" mark="/jsp/AdministrativeManagement"><p class="managelist-parent">学校行政管理</p></li>
             </shiro:hasAnyRoles>
        </ul>
     </div>

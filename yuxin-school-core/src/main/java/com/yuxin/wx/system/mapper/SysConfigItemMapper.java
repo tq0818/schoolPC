@@ -209,4 +209,5 @@ public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	 * @throws
 	 */
 	Integer findschooIdByCompanyId(Integer companyId);
+	Integer findItemNameByLessonMap(Map<String,Object> lessonMap);
 }

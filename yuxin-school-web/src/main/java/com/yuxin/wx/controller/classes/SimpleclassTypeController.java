@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.yuxin.wx.api.course.ICourseExerciseService;
 import com.yuxin.wx.api.system.*;
 import com.yuxin.wx.model.system.*;
+import com.yuxin.wx.system.impl.SysConfigItemServiceImpl;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -176,6 +178,7 @@ public class SimpleclassTypeController {
 	private ICourseExerciseService courseExerciseServiceImpl;
 	@Autowired
 	private ISysConfigItemRelationService sysConfigItemRelationServiceImpl;
+
 
 	/**
 	 * 
@@ -723,7 +726,7 @@ public class SimpleclassTypeController {
 	 * @return
 	 */
 	@RequestMapping(value="/addClassPackage",method=RequestMethod.POST)
-	public String addClassTypePackage(Model model,HttpServletRequest request,ClassType classType,String mark,String lable,Integer moduleId){
+	public String addClassTypePackage(Model model,HttpServletRequest request,SysConfigItem sysConfigItem,ClassType classType,String mark,String lable,Integer moduleId){
 		//保存并退出
 		if("saveandtui".equals(mark)){
 			return "redirect:showClassTypePage";
@@ -731,6 +734,11 @@ public class SimpleclassTypeController {
 		ClassType cst=classTypeServiceImpl.findClassTypeById(classType.getId());
 		model.addAttribute("ct", cst);
 		model.addAttribute("lable", lable);
+
+		Map<String,Object> lessonMap = new HashMap<String,Object>();
+		lessonMap.put("companyId",WebUtils.getCurrentCompanyId()+"");
+		lessonMap.put("itemId",cst.getItemThirdCode());
+		Integer sci = sysConfigItemServiceImpl.findItemNameByLessonMap(lessonMap);
 		
 	 	 //根据班型id查询商品信息id
 	    CommodityProductRealtion comm=commodityProductRealtionServiceImpl.findByClassTypeId(classType.getId()+"");
@@ -740,7 +748,7 @@ public class SimpleclassTypeController {
 		teacherMap.put("schoolId", WebUtils.getCurrentSchoolId() + "");
 		
 		model.addAttribute("cId", cId);
-		model.addAttribute("itemOneid", classType.getItemOneId());
+		model.addAttribute("itemOneid", sci);
 		model.addAttribute("classTypeId", cst.getId());
 		model.addAttribute("itemSecondId", cst.getItemSecondId());
 		Subject subject = SecurityUtils.getSubject();

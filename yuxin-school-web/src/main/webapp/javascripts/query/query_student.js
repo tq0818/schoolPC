@@ -380,10 +380,10 @@
                                     + (stu.status == 1 ? '正常'
                                         : '异常')
                                     + '</td>'
-                                    + '<td class="baoming" value="' + stu.ispay + '">'
+                                  /*  + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'
                                         : '未报名')
-                                    + '</td>'
+                                    + '</td>'*/
                                     // + '<td class="slink">'
                                     // + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
                                     // + '<a class="studentDetail" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">详情</a>|'
@@ -459,11 +459,11 @@
                                 $(this).css("color", "red");
                             }
                         });
-                        $(".baoming").each(function (i) {
+                       /* $(".baoming").each(function (i) {
                             if ($.trim($(this).text()) == "未报名") {
                                 $(this).css("color", "red");
                             }
-                        });
+                        });*/
                     },
                     complete: function (XMLHttpRequest, textStatus) {
                         $(".loading").hide();

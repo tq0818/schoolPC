@@ -368,11 +368,11 @@ input+span{
                 <select name="" id="choose_itemOne" class="itemOne">
                 </select>
             </span>
-            <span class="term-title">学科小类</span>
+           <%-- <span style="display: none" class="term-title">学科小类</span>
             <span class="term-title">
                 <select name="" id="choose_itemSecond" class="itemSecond">
                 </select>
-            </span>
+            </span>--%>
             <span>
             	<input type="text" id="tj" value="" placeholder="查询条件">
               <input type="button" class="btn btn-sm btn-default" value="搜索">

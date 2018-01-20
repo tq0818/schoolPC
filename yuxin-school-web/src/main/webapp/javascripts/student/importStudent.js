@@ -129,7 +129,8 @@
 			})
 			//返回学员列表
 			$(".backreturn").on('click',function(){
-				window.location.href=rootPath+"/student/studentList";
+				/*window.location.href=rootPath+"/student/studentList";*/
+                window.history.go(-1);
 			})
 		},
 		search: function(page){

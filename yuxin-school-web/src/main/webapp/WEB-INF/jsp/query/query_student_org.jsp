@@ -115,8 +115,15 @@
 							<select id="dist" name="county"></select>
 						</span>
 						</c:if>
+
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
-						<span class="fr"><a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
+
+
+
+						<span class="fr">
+							<c:if test="${isArea ne 1}">
+							<a href="javascript:;" class="btn btn-primary importexcle" >导入用户</a></c:if>
+							<a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
 					</div>
 				</form>
 				<div class="user-list">
@@ -135,7 +142,7 @@
 							<th width="8%">创建时间</th>
 							<th width="6%">前台登录账号</th>
 							<th width="6%">前台账号状态</th>
-							<th width="5%">报名状态</th>
+							<%--<th width="5%">报名状态</th>--%>
 							<%--<th width="10%">操作</th>--%>
 						</tr>
 						<c:choose>

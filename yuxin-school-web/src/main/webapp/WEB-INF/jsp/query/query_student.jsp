@@ -14,7 +14,7 @@
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
-	<style type="text/css">
+<style type="text/css">
 		.pages li.disabled{padding:0px;}
    	.tips{
    		color:red;
@@ -340,6 +340,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
 	$selectSubMenu('statistics_org_detail');
+    $selectThirdMenu('studentList');
 </script>
 </body>
 </html>

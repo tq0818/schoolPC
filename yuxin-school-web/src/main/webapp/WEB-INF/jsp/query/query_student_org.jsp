@@ -176,6 +176,8 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
 	$selectSubMenu('statistics_org_detail');
+    //    左侧active切换
+    $selectSubMenus('studentList');
 	
 	function changeGrade (obj){
     	var gradeCode=$(obj).val();

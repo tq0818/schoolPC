@@ -2,6 +2,7 @@ package com.yuxin.wx.controller.jsp;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +28,8 @@ public class JspBaseController {
 
     @Autowired
     private IClassTypeOfBranchSchoolService classTypeOfBranchSchoolService;
-
+    @Autowired
+    private ISysConfigDictService sysConfigDictServiceImpl;
     /**
      * 分校开放课程管理
      * @return
@@ -60,7 +62,15 @@ public class JspBaseController {
      * @return
      */
     @RequestMapping(value = "/AdministrativeManagement")
-    public String AdministrativeManagement(){
+    public String AdministrativeManagement(HttpServletRequest request,Model model){
+    	//查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", area);
+        areaDict.setDictCode("EDU_STEP_NEW");
+        List<SysConfigDict> school = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("school", school);
         return "query/administrativeManagement";
     }
 

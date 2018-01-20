@@ -183,8 +183,8 @@
 						_this.removeClass('btn-success');
 						$(".pri-list").find("li").hide().find(".iconfont").html('&#xe609;');
 						
-						var cid=_this.attr("ids");
-						if(cid==6){
+						var cid=$(this).attr("ids");
+						if('直播老师'== $.trim($(this).html())){
 							$("#contactTeacher").css("display","none");
 						}
 						if($(".people-list").find("a.btn-success").length){
@@ -238,8 +238,7 @@
 				$(".people-list").find("a").each(function(i){
 					var status=$(this).hasClass("btn-success");
 					if(status){
-						var cid=$(this).attr("ids");
-						if(cid==6){
+						if('直播老师'== $.trim($(this).html())){
 							type=cid;
 						}
 					}
@@ -282,7 +281,7 @@
 					if(sta){
 						rolesId+=$(this).attr("ids")+",";
 						var t=$(this).attr("ids");
-						if(t==6){
+						if('直播老师'== $.trim($(this).html())){
 							$(".teacher-list").find("a input[type=checkbox]").each(function(){
 								var _status=$(this).is(":checked");
 								if(_status){
@@ -636,7 +635,7 @@
 						}
 					}
 				});
-				if(cid==6){
+				if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
 					$("#contactTeacher").css("display","block");
 				}
 			}

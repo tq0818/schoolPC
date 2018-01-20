@@ -817,7 +817,7 @@
 		where status_code='TEACHER_USERD' and a.del_flag=0
 		<if test="teacherName != null and teacherName != ''">and a.name LIKE '%${teacherName}%'</if>
 		<if test="userId != null and userId != ''">and a.user_id = #{userId}</if>
-		<!-- <if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if> -->
+		 <if test="companyId != null and companyId != ''">and ur.company_id = #{companyId}</if>
 		<if test="teacherType ==6  and teacherType != null">and a.teacher_type = 'PERSON_TEACHER'</if>
 		<if test="teacherType ==7  and teacherType != null">and a.teacher_type != 'PERSON_TEACHER'</if>
 	</select>

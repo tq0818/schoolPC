@@ -24,9 +24,9 @@
 		        <%-- <c:if test="${empty sessionScope.COURSE_VALIDATE or sessionScope.COURSE_VALIDATE == 1 }">
 		            <li class="subentry" code="course_validate" mark="/classManage/manageCourseValidaty">课程有效期</li>
 		        </c:if> --%>
-		        <c:if test="${empty sessionScope.SIGNUP_NEWS or sessionScope.SIGNUP_NEWS == 1 }">
+		       <%-- <c:if test="${empty sessionScope.SIGNUP_NEWS or sessionScope.SIGNUP_NEWS == 1 }">
 		            <li class="subentry" code="signup_news" mark="/classManage/signup_news">报名通知</li>
-		        </c:if>
+		        </c:if>--%>
 		        <c:if test="${empty sessionScope.COURSE_PL or sessionScope.COURSE_PL == 1 }">
 		            <li class="subentry" code="course_pl" mark="/classManage/manage_classpl">课程评论</li>
 		        </c:if>

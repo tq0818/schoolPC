@@ -234,10 +234,12 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/common/utils.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-<%-- <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script> --%>
+ <%--<script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>--%>
+<%--<script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script> &ndash;%&gt;--%>
 <script type="text/javascript">
 	$selectSubMenu('userList');
+    //    左侧active切换
+    $selectThirdMenu('userList');
 </script>
 </body>
 </html>

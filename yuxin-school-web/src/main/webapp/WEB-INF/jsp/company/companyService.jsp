@@ -345,10 +345,10 @@
 												<%--<c:if test="${empty sessionScope.COURSE_VALIDATE or sessionScope.COURSE_VALIDATE == 1 }">
 													<a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/manageCourseValidaty">课程有效期</a>
 												</c:if>--%>
-												<c:if test="${empty sessionScope.SIGNUP_NEWS or sessionScope.SIGNUP_NEWS == 1 }">
+												<%--<c:if test="${empty sessionScope.SIGNUP_NEWS or sessionScope.SIGNUP_NEWS == 1 }">
 													<a href="javascript:;" class="btn btn-sm btn-default"
 													   data-url="classManage/signup_news">报名通知</a>
-												</c:if>
+												</c:if>--%>
 												<c:if test="${empty sessionScope.COURSE_PL or sessionScope.COURSE_PL == 1 }">
 													<a href="javascript:;" class="btn btn-sm btn-default"
 													   data-url="classManage/manage_classpl">课程评论</a>
@@ -360,8 +360,8 @@
 											</c:when>
 											<c:otherwise>
 												<%--<a href="javascript:;" class="btn btn-sm btn-default" data-url="classManage/manageCourseValidaty">课程有效期</a>--%>
-												<a href="javascript:;" class="btn btn-sm btn-default"
-												   data-url="classManage/signup_news">报名通知</a>
+												<%--<a href="javascript:;" class="btn btn-sm btn-default"
+												   data-url="classManage/signup_news">报名通知</a>--%>
 												<a href="javascript:;" class="btn btn-sm btn-default"
 												   data-url="classManage/manage_classpl">课程评论</a>
 												<a href="javascript:;" class="btn btn-sm btn-default"
@@ -369,7 +369,7 @@
 											</c:otherwise>
 										</c:choose>
 										<a href="javascript:;" class="btn btn-sm btn-default right-btn more"
-										   data-url="classManage/signup_news">更多</a>
+										   data-url="classManage/manage_classpl">更多</a>
 									</p>
 								</shiro:hasPermission>
 							</li>

@@ -16,7 +16,7 @@
 </div>
 <script>
     $(function() {
-        $selectMenu('statistics_area');
+//        $selectMenu('statistics_area');
         $selectSubMenu('statistics_area');
     })
 </script>

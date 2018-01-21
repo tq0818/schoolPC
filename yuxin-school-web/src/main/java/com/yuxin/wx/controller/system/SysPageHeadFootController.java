@@ -154,7 +154,20 @@ public class SysPageHeadFootController {
 		search.setParentId(0);
 		search.setPageType("head");
 		List<SysPageHeadFootVo> IndexheadTitleList=sysPageHeadFootServiceImpl.findSysPageHeadFoot(search);
-		model.addAttribute("IndexheadTitleList", IndexheadTitleList);
+		//判断是数校还是分校
+		Company company = companyService.findCompanyById(WebUtils.getCurrentCompanyId());
+		List<SysPageHeadFootVo> list = new ArrayList<SysPageHeadFootVo>();
+		for (int i = 0; i < IndexheadTitleList.size(); i++) {
+			if (!IndexheadTitleList.get(i).getName().equals("问答") && !company.getIsArea().equals("0")) {
+				list.add(IndexheadTitleList.get(i));
+			}
+		}
+		if(company.getIsArea().equals("0")){
+			model.addAttribute("IndexheadTitleList", IndexheadTitleList);
+		}else{
+			model.addAttribute("IndexheadTitleList", list);
+		}
+
 		//查询所有二级标题
 		List<SysPageHeadFootVo> sysPageChildHead=sysPageHeadFootServiceImpl.queryTwoSysPagerList();
 		model.addAttribute("sysPageChildHead", sysPageChildHead);
@@ -347,7 +360,10 @@ public class SysPageHeadFootController {
 		SysPageHeadFoot sys=new SysPageHeadFoot();
 		sys.setCompanyId(WebUtils.getCurrentCompanyId());
 		sys.setPageType("head");
-		return sysPageHeadFootServiceImpl.queryHeadIsUse(sys);
+
+		List<SysPageHeadFoot> lists = sysPageHeadFootServiceImpl.queryHeadIsUse(sys);
+
+		return lists;
 	}
 	
 	/**

@@ -101,6 +101,7 @@ public class PayOrderController {
     @Autowired
     private IPayOrderService payOrderServiceImpl;
     @Autowired
+
     private ISysLogCouponUseService sysLogCouponUseServiceImpl;
     @Autowired
     private ICommodityService commodityServiceImpl;

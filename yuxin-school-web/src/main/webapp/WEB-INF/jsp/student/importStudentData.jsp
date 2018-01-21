@@ -50,7 +50,7 @@
 				<tr><td colspan="7">暂无数据</td></tr>
 		</table>
 		</div>
-		<div style="text-align: center;"><a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/importPage" class="btn btn-primary">继续导入</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/studentList" class="btn btn-primary">返回</a></div>
+		<div style="text-align: center;"><!-- <a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a> -->&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/importPage" class="btn btn-primary">继续导入</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/studentList" class="btn btn-primary">返回</a></div>
         </div>
     </div>
 </div>

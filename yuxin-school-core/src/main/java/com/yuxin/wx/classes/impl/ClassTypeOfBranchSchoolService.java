@@ -249,6 +249,7 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		targetC.setOriginType(0);
 		targetC.setCddsStatus(0);
 		targetC.setCddsRecommendFlag(0);
+		targetC.setBuyNum(0);
 		classTypeOfBranchSchoolMapper.insertCommodity(targetC);
 		//3.commodity_product_realtion商品课程关系表
 		CommodityProductRealtion commodityProductRealtion = new CommodityProductRealtion();

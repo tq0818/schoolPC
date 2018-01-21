@@ -696,9 +696,10 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 	}
 
     @Override
-    public List<SysConfigTeachersVo> findLiveTeacher(SysConfigTeachersVo sysConfigTeacher) {
-        return sysConfigTeacherMapper.findLiveTeacher(sysConfigTeacher);
+    public void insertTeacherInfo(SysConfigTeacher sysConfigTeacher) {
+        sysConfigTeacherMapper.insert(sysConfigTeacher);
     }
+
 
     @Override
 	public Integer checkTeacher(String teachers) {

@@ -291,6 +291,18 @@ public interface ISysConfigItemService  {
 	/**
 	 * 
 	 * Class Name: ISysConfigItemService.java
+	 * @Description: 查询整个项目是否存在名字
+	 * @author 周文斌
+	 * @date 2015-8-14 下午12:50:18
+	 * @version 1.0
+	 * @param item
+	 * @return
+	 */
+	SysConfigItem dfindDelNullByName(SysConfigItem item);
+	
+	/**
+	 * 
+	 * Class Name: ISysConfigItemService.java
 	 * @Description: 查询是否还有其他分校使用
 	 * @author 周文斌
 	 * @date 2015-8-14 下午3:20:22

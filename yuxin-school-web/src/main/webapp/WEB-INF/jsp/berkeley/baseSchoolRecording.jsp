@@ -52,17 +52,16 @@
 						</c:forEach>
 					</select>
 					<span>学校：</span>
-					<select name="eduSchoolStep" id="eduSchoolStep">
-						<option value="">请选择学校性质</option>
-						<c:forEach items="${stepNews}" var="step" >
-							<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
-						</c:forEach>
-					</select>
-
 					<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 						<option value="">请选择所在学校</option>
 					</select>
-
+					<span style="margin-right: 23px;">学段</span>
+					<select name="eduStep" id="eduStep">
+						<option value="">请选择学段</option>
+						<c:forEach items="${steps}" var="steps" >
+								<option value="${steps.itemCode}" data-id="${steps.id}" >${steps.itemValue}</option>
+						</c:forEach>
+					</select>
 					<span>入学年份：</span>
 					<select name="eduYear" id="eduYear">
 						<option value="">请选择年份</option>
@@ -100,6 +99,7 @@
 						<th width="6%">用户名</th>
 						<th width="7%">姓名</th>
 						<th width="11%">学校</th>
+						<th width="11%">学段</th>
 						<th width="6%">班级</th>
 						<th width="7%" class="btn-sort" fieldName="totle_study_length" sort="">总播放时长</th>
 						<th width="7%" class="btn-sort" fieldName="study_rate" sort="">播完率</th>
@@ -113,8 +113,6 @@
 							<tr><td colspan="14">暂无数据</td></tr>
 						</c:otherwise>
 					</c:choose>
-
-
 				</table>
 				<div class="pages pagination"></div>
 			</div>
@@ -152,6 +150,25 @@
 	});
 //        二级菜单加active
 $selectSubMenu('baseSchoolLive');
+
+//初始化
+var area =$("#eduArea").find(":selected").attr("data-id");
+if (area == null || area == "") {
+        $("#eduSchool").html('<option value="">请选择所在学校</option>');
+} else {
+    $.ajax({
+        url: rootPath + "/student/getSchoolList/" + area,
+        type: "post",
+        success: function (data) {
+            $("#eduSchool").html('<option value="">请选择所在学校</option>');
+            var options = '';
+            $.each(data, function (i, j) {
+                    options += '<option value="' + j.itemCode + '">' + j.itemValue + '</option>';
+            });
+            $("#eduSchool").append(options);
+        }
+    });
+}
 </script>
 </body>
 </html>

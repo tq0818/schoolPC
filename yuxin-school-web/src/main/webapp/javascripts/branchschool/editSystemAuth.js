@@ -277,8 +277,9 @@
 				//得到选中角色
 				var rolesId="";
 				$(".people-list").find("a").each(function(i){
-					var sta=$(this).hasClass("btn-success");
-					if(sta){
+					//var sta=$(this).hasClass("btn-success");
+					var sta = $(this).attr("class").indexOf("btn-success");
+					if(sta>0){
 						rolesId+=$(this).attr("ids")+",";
 						var t=$(this).attr("ids");
 						if('直播老师'== $.trim($(this).html())){

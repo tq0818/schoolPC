@@ -126,11 +126,11 @@
         		<option value="1">已开通</option>
         		<option value="0">未开通</option>
         	</select>
-        	<select id="payStatus" name="paymaterCount">
+        	<!-- <select id="payStatus" name="paymaterCount">
         		<option value="">报名状态</option>
         		<option value="1">已报名</option>
         		<option value="0">未报名</option>
-        	</select>
+        	</select> -->
         	<c:if test="${sgOpen eq 1 }">
 	        	<select id="studentG1" name="groupOneId" onchange="javaScript:selectGroup2(this,'');" >
 	        	</select>
@@ -161,7 +161,7 @@
 	        	<span><a href="javascript:;" class="btn btn-primary addStudent">添加用户</a></span>
 	        	<span><a href="javascript:;" class="btn btn-primary importexcle" target="_blank">导入用户</a></span>
 	        	<span><a href="javascript:;" class="btn btn-primary exportexcle">导出用户</a></span>
-	        	<span><a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a></span>
+	        	<!-- <span><a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a></span> -->
 	        	<c:if test="${showFlag=='show' }">
 	        		<span><a href="javascript:;" class="btn btn-primary exportStudentDatas">导出学员报名数据</a></span>
 	        	</c:if>
@@ -187,7 +187,7 @@
 					<th width="8%">创建时间</th>
 					<th width="6%">前台登录账号</th>
 					<th width="6%">前台账号状态</th>
-					<th width="5%">报名状态</th>
+					<!-- <th width="5%">报名状态</th> -->
 					<c:if test="${roleType ne 2}">
 					<th width="10%">操作</th>
 					</c:if>

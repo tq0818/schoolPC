@@ -81,7 +81,7 @@
                 <p class="c">
                     <span class="c-title">优惠价</span>
                     <span class="c-content">
-                    	<input name="realPrice"  class="readonly" id="realPrice" type="text" class="prices" value="${ct.realPrice }">
+                    	<input name="realPrice"  class="readonly" id="realPrice" type="text" class="prices" value="${ct.publicPrice }">
                     </span>
                 </p>
                 <jsp:include page="/WEB-INF/jsp/classType/branchSchool/common_member_integral.jsp"></jsp:include>

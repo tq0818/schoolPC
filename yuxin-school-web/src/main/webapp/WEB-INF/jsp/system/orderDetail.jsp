@@ -54,18 +54,21 @@
 				</c:otherwise>
 			</c:choose>
 
-			<td>${order.payStatus}</td>
-			<%--<c:choose>
+
+			<c:choose>
 				<c:when test="${order.payStatus=='PAY_SUCCESS'}">
 					<td>已完成</td>
 				</c:when>
 				<c:when test="${order.payStatus=='PAY_NON'}">
 					<td>未付款</td>
 				</c:when>
-				<c:when test="${order.payStatus=='SUB_ORDER_DELTED'}">
+				<%--<c:when test="${order.payStatus=='SUB_ORDER_DELTED'}">
 					<td>已取消</td>
+				</c:when>--%>
+				<c:when test="${order.payStatus=='PAY_FAIL'}">
+					<td>失败</td>
 				</c:when>
-			</c:choose>--%>
+			</c:choose>
 
 			<%--<td><a href="##?orderId=${order.payTime}">查看详情</a></td>--%>
 		</tr>

@@ -729,6 +729,7 @@
 		join student st on st.user_id=uf.id
 		WHERE
 		po.origin_type = 0
+		<if test="payStates != '' and payStates != null " >and po.pay_status=#{payStates}</if>
 		<if test="companyId != null and companyId != ''">
 			and po.company_id = #{companyId}
 		</if>
@@ -758,7 +759,7 @@
 		join student st on st.user_id=uf.id
 		WHERE
 		po.origin_type = 0
-
+		<if test="payStates != '' and payStates != null " >and po.pay_status=#{payStates}</if>
 		<if test="companyId != null and companyId != ''">
 			and po.company_id = #{companyId}
 		</if>

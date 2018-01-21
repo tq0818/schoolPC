@@ -454,4 +454,9 @@ public interface ISysConfigTeacherService {
 	
 	List<SysConfigTeacher> findTeacherBySubject(Map<String, Object> map);
 
+    /**
+     * 插入老师信息
+     * @param sysConfigTeacher
+     */
+    void insertTeacherInfo(SysConfigTeacher sysConfigTeacher);
 }

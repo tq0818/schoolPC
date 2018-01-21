@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yuxin.wx.common.Constant;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -330,9 +331,25 @@ public class AuthPrivilegeController {
 					schoolCode, gradeCode, classCode, subjectCode, 
 					subJectGradeCode, subjectClassCode,r,user.getId());
 		}
-		
+
+		//插入老师信息
+		SysConfigTeacher sysConfigTeacher = new SysConfigTeacher();
+//		sysConfigTeacher.setCreator(user.getId());
+		sysConfigTeacher.setCreateTime(new Date());
+		sysConfigTeacher.setUpdateTime(new Date());
+		sysConfigTeacher.setUpdator(WebUtils.getCurrentUserId(request));
+		sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
+		sysConfigTeacher.setDelFlag(0);
+		sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
+		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
+		sysConfigTeacher.setUserName(user.getUsername());
+		sysConfigTeacher.setName(user.getRealName());
+		sysConfigTeacher.setSex(user.getSex());
+		sysConfigTeacher.setUserId(user.getId());
+		sysConfigTeacher.setMobile(user.getMobile());
+		sysConfigTeacherServiceImpl.insertTeacherInfo(sysConfigTeacher);
 		//修改教师信息
-		if(teachersId!=null&&!"".equals(teachersId)){
+		/*if(teachersId!=null&&!"".equals(teachersId)){
 			String t=teachersId.substring(0, teachersId.length()-1);
 			String[] teachers=t.split(",");
 			for(int i=0;i<teachers.length;i++){
@@ -341,7 +358,7 @@ public class AuthPrivilegeController {
 				sysConfigTeacher.setUserId(user.getId());
 				sysConfigTeacherServiceImpl.updateauthTeacher(sysConfigTeacher);		
 			}
-		}
+		}*/
 		Integer uId=WebUtils.getCurrentUserId(request);
 		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");

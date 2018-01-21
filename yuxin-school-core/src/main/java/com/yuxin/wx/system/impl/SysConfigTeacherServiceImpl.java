@@ -695,6 +695,11 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
 		return list;
 	}
 
+    @Override
+    public void insertTeacherInfo(SysConfigTeacher sysConfigTeacher) {
+        sysConfigTeacherMapper.insert(sysConfigTeacher);
+    }
+
 
     @Override
 	public Integer checkTeacher(String teachers) {

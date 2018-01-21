@@ -313,12 +313,12 @@
 						tId+=$(this).attr("value")+",";
 					}
 				});
-				if(!b){
+				/*if(!b){
 					$.msg("请添加教师");
 					evt.preventDefault();
 					$(".loading-bg").hide();
 					return false;
-				}
+				}*/
 				if(count>1){
 					$.msg("一个账号只能绑定一个老师");
 					evt.preventDefault();
@@ -422,7 +422,6 @@
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
-                                console.log(222);
 								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();

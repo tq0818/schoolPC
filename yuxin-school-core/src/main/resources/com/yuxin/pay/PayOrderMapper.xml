@@ -539,6 +539,7 @@
 		select t.id,t.teacherName,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (
 			select
 				DISTINCT
+				po.id as payId,
 				sct.id,sct.name as teacherName,
 				scd1.item_value as sex,
 				CASE sct.teacher_level
@@ -565,7 +566,7 @@
 				and ct.live_flag=1 and ct.is_public=1
 			</if>
 			and ct.is_out_source=0
-			LEFT JOIN pay_order po on ct.id = po.commodity_id
+			LEFT JOIN pay_order po on ct.id = po.commodity_id and po.pay_status='PAY_SUCCESS'
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
 				and po.order_time BETWEEN #{inpstart} and #{inpend}
 			</if>
@@ -584,6 +585,7 @@
 			select t.id,t.name,t.sex,t.teacherLevel,t.schoolName,sum(t.fetchMoney) as fetchMoney  from (
 			select
 			DISTINCT
+			po.id as payId,
 			sct.id,sct.name,
 			scd1.item_value as sex,
 			CASE sct.teacher_level
@@ -716,7 +718,7 @@
 		po.commodity_id,
 		po.pay_price,
 		po.pay_type,
-		case when po.pay_status='PAY_SUCCESS' then '已完成' when po.pay_status='PAY_NON' then '未付款' when po.pay_status='SUB_ORDER_DELTED' then '已取消' end as pay_status,
+		case when po.pay_status='PAY_SUCCESS' then '已完成' when po.pay_status='PAY_NON' then '未付款' when po.pay_status='PAY_FAIL' then '已取消' end as pay_status,
 		po.company_id,
 		po.collection_time,
 		po.remark,

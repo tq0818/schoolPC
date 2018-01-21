@@ -108,7 +108,17 @@ public class CommodityVo extends BaseEntity {
     private String limitTimeTwo;
     
     private String expiredFlag;
-    
+
+    private String isPublic;
+
+    public String getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(String isPublic) {
+        this.isPublic = isPublic;
+    }
+
     private Double publicPrice;//分校公开课程价格
     private Integer cddsStatus;//课程上架状态(数校)
     private Integer cddsRecommendFlag;//课程推荐状态(数校)

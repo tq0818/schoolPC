@@ -113,6 +113,7 @@ public interface ISysConfigDictService  {
 	List<SysConfigDict> findSysConfigDictByPage(SysConfigDict search);
 
 	List<SysConfigDict> findSysConfigDictList();
+	List<SysConfigDict> queryAllSchools(SysConfigDict search);
 	
 	/**
 	 * 

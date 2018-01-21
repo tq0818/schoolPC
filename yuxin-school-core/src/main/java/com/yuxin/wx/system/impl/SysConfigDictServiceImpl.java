@@ -242,6 +242,12 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	    return sysConfigDictMapper.queryEduMasterClass(ems);
     }
 
+	@Override
+	public List<SysConfigDict> queryAllSchools(SysConfigDict search) {
+		return sysConfigDictMapper.queryAllSchools(search);
+	}
+
+
 
 
 	

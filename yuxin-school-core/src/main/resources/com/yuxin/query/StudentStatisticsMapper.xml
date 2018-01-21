@@ -297,7 +297,7 @@
 
                 <select id="queryStudentsWatchInfoList" resultMap="watchInfoResultMap" parameterType="com.yuxin.wx.model.watchInfo.WatchInfoResult">
                     SELECT
-                     swi. NAME AS class_name,
+                    if(isnull(swi.NAME),'',swi.NAME) AS class_name,
                     swi.lesson_name,
 					swi.lesson_id,
                     s. NAME AS student_name,
@@ -316,7 +316,7 @@
 					dstep.item_value as edu_step
                 FROM
                     sys_watch_info swi
-                inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+                inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId} and ct.origin_type=0
                 LEFT JOIN student s ON s.user_id = swi.user_id
                 LEFT JOIN users_front sf ON sf.id = s.user_id
                 LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
@@ -373,7 +373,7 @@
 						dnstep.item_value as school_type
                         FROM
                         sys_watch_info swi
-                        inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+                        inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId} and ct.origin_type=0 
                         LEFT JOIN student s ON s.user_id = swi.user_id
                         LEFT JOIN users_front sf ON sf.id = s.user_id
                         LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0

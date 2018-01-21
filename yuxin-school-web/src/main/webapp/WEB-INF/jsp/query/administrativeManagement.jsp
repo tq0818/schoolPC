@@ -84,10 +84,11 @@
 							<th width="10%">学校性质</th>
 							<th width="30%">操作</th>
 						</tr>
+						<c:forEach items="${schools}" var="allSchool" varStatus="stauts">
 						<tr>
-							<td>1</td>
-							<td><input type="text" value="成都市三原外国语学校" disabled class="editDisable"></td>
-							<td><input type="text" value="19920129" disabled class="editDisable"></td>
+							<td>${stauts.count}</td>
+							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable"></td>
+							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable"></td>
 							<td>
 								<select name="" id="" disabled class="editDisable">
 									<option value="">新都区</option>
@@ -107,6 +108,7 @@
 								<a href="##" class="accountSettings">账号设置</a>
 							</td>
 						</tr>
+						</c:forEach>
 						<%--<c:choose>--%>
 							<%--<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">--%>
 								<%--<tr><td colspan="15">暂无数据</td></tr>--%>

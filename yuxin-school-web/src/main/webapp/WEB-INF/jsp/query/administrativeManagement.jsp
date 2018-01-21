@@ -39,6 +39,7 @@
 	.resetPassword{width: 100%;text-align: center;height: 88px;line-height: 88px;color: #333333;font-size: 14px;}
 	.resetPassword{display: none;}
 	</style>
+	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
 </head>
 <body>
 <input type="hidden" id="schoolId" value='${schoolId}'/>
@@ -137,6 +138,12 @@
 		</div>
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
+
+			<div class="pages">
+				<ul class="pagination">
+
+				</ul>
+			</div>
 
 <%--新增学校弹窗--%>
 <div class="opacityPopup">
@@ -263,6 +270,25 @@
             $('.resetPassword').show();
 		}
 	});
+
+
+//分页
+    $(".pagination").pagination('',
+        {
+            next_text: "下一页",
+            prev_text: "上一页",
+            current_page: '',
+            link_to: "javascript:void(0)",
+            num_display_entries: 8,
+            items_per_page: 1,
+            num_edge_entries: '',
+            callback: function (page, jq) {
+                var pageNo = page + 1;
+
+            }
+        }
+    );
+
 
 
 	$selectSubMenu('AdministrativeManagement');

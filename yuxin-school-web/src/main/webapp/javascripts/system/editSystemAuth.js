@@ -192,12 +192,11 @@
 						
 						var cid=_this.attr("ids");
 						var s = document.getElementById('zhiboTeacher').innerHTML;
-						/*if(cid==6){
-							$("#contactTeacher").css("display","none");
-						}*/
 						if(s=='直播老师'){
 							$("#contactTeacher").css("display","none");
 						}
+						}
+
 						if($(".people-list").find("a.btn-success").length){
 							$.ajax({
 								url : rootPath + "/authRolePrivilege/Category/"+cid,
@@ -250,10 +249,7 @@
 					var status=$(this).hasClass("btn-success");
 					if(status){
 						var cid=$(this).attr("ids");
-						if(cid==6){
-							type=cid;
-						}
-						if(cid==884){
+						if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
 							type=6;
 						}
 					}
@@ -296,7 +292,7 @@
 					if(sta){
 						rolesId+=$(this).attr("ids")+",";
 						var t=$(this).attr("ids");
-						if(t==6){
+						if('直播老师'== $.trim($(this).html())){
 							$(".teacher-list").find("a input[type=checkbox]").each(function(){
 								var _status=$(this).is(":checked");
 								if(_status){
@@ -310,7 +306,6 @@
 					}
 				});
 				$("#rolsesId").val(rolesId);
-				console.log(rolesId);
 				//得到选中教师
 				var teachersId="";
 				var tId="";
@@ -379,7 +374,7 @@
 							url : rootPath+"/register/checkMobile",
 							type : "post",
 							dataType : "json",
-							async:false, 
+							async:false,
 							data:{mobile : mob},
 							success : function(result) {
 								if(!result){
@@ -433,7 +428,6 @@
 						var pwd=$("#confirmPassword").val();
 						if(pwd!=""){
 							if($("#saveUserForm").valid()){
-                                console.log(222);
 								 $("#saveUserForm").attr("action",rootPath+"/authPrivilege/updateUser");
 							}else{
 								$(".loading-bg").hide();
@@ -677,12 +671,6 @@
 						}
 					}
 				});
-				/*if(cid==750){
-					$("#contactTeacher").css("display","block");
-				}
-				if(s=='直播老师'){
-					$("#contactTeacher").css("display","block");
-				}*/
 			}
 		}
 	$(document).ready(function(){

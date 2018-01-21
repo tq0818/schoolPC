@@ -317,4 +317,5 @@ public interface ISysConfigItemService  {
 	 * @throws
 	 */
 	Integer findschooIdByCompanyId(Integer companyId);
+	Integer findItemNameByLessonMap(Map<String,Object> lessonMap);
 }

@@ -282,5 +282,10 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 	    return id;
     }
 
+	@Override
+	public Integer findItemNameByLessonMap(Map<String,Object> lessonMap) {
+		return sysConfigItemMapper.findItemNameByLessonMap(lessonMap);
+	}
+
 
 }

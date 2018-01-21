@@ -97,7 +97,7 @@
 	                </p>
 	                <p class="c">
 	                    <span class="c-title">确认密码&nbsp;<c:if test="${type=='save' }"><i style="color: red;" class="iconfont ico">&#xe605;</i></c:if></span>
-	                    <span class="c-content"><input id="confirmPassword" name="confirmPassword" value="" type="password"></span>
+	                    <span class="c-content"><input id="confirmPassword" name="confirmPassword" onblur="clearTips($(this));" value="" type="password"></span>
 	                </p>
 	                <p class="c">
 	                    <span class="c-title">姓名&nbsp;<i style="color: red;" class="iconfont ico">&#xe605;</i></span>
@@ -244,6 +244,14 @@
             $('.schoolmasterToB').empty();
         }
 	});
+	function clearTips(obj){
+		if($("#confirmPassword-error")){
+			if(!obj.val()){
+				$("#confirmPassword-error").empty();
+			}
+		}
+	}
+
 </script>
 </body>
 </html>

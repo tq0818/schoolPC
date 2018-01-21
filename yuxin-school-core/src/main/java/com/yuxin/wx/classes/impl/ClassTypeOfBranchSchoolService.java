@@ -584,7 +584,7 @@ public class ClassTypeOfBranchSchoolService extends BaseServiceImpl implements
 		targetCml.setCreator(l.getCreator());
 		targetCml.setBarrage(l.getBarrage());
 		targetCml.setModetype(l.getModetype());
-		
+		targetCml.setOutSourceLlessionId(l.getId());
 		return targetCml;
 	}
 	

@@ -29,7 +29,7 @@
         select{
             width: 100px;
         }
-
+        .baseSchoolLiveLabel select{width: 245px;margin-right: 10px;}
 
     </style>
     <%--tob--%>
@@ -51,7 +51,7 @@
     </div>
     <div style="margin-top: 10px;">
         <ul class="baseSchoolLiveLabel">
-            <li><input type="text" id="name" name="name" placeholder="请输入课程名称"></li>
+            <li><input type="text" id="name" name="name" placeholder="请输入课程名称" style="width: 226px;margin-right: 10px;"></li>
             <li>
                 <select name="areaId" id="areaId" class="areaId">
                     <option value="">请选择区域</option>

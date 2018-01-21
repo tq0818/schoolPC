@@ -79,6 +79,16 @@ public class SysConfigTeacherModel extends BaseEntity{
 	
 	private String eduAreaSchool;
 
+	private String isInsertUserId;
+
+	public String getIsInsertUserId() {
+		return isInsertUserId;
+	}
+
+	public void setIsInsertUserId(String isInsertUserId) {
+		this.isInsertUserId = isInsertUserId;
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -105,6 +105,8 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
     List<ClassModuleLesson> findLessonByCommodityIdNotDel(Map<String, Object> map);
     
     void insert1(ClassModuleLesson classModuleLesson);
+    
+    void updateShareLesson(ClassModuleLesson classModuleLesson);
 
     List<ClassModuleLesson> findLessonByCommodityIds(String[] ids);
 }

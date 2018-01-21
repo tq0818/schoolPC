@@ -70,6 +70,9 @@ public class SysConfigTeacher extends BaseEntity {
 	private Integer sortId;
 
 	private String remark;		//摘要
+
+	private String isInsertUserId;
+
 	
 	/**
 	 * 学校简称
@@ -79,6 +82,14 @@ public class SysConfigTeacher extends BaseEntity {
 	private String schoolName;
 	
 	private String eduAreaSchool;
+
+	public String getIsInsertUserId() {
+		return isInsertUserId;
+	}
+
+	public void setIsInsertUserId(String isInsertUserId) {
+		this.isInsertUserId = isInsertUserId;
+	}
 
 	public String getName() {
 		return name;

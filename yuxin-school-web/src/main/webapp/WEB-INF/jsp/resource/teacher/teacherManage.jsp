@@ -347,7 +347,7 @@ $(function(){
 		                        <p class='c'>
 		                            <span class="c-title">紧急联系人</span>
 		                            <span class="c-content">
-		                                <input type="text" name="emergencyContactName" value="${item.emergencyContactName }">
+		                                <input type="text" name="emergencyContactName" value="${teacher.emergencyContactName }">
 		                            </span>
 		                        </p>
 		                    </li>
@@ -355,7 +355,7 @@ $(function(){
 		                        <p class='c'>
 		                            <span class="c-title">紧急人电话</span>
 		                            <span class="c-content">
-		                                <input type="text" name="emergencyContactPhone" value="${item.emergencyContactPhone }">
+		                                <input type="text" name="emergencyContactPhone" value="${teacher.emergencyContactPhone }">
 		                            </span>
 		                        </p>
 		                    </li>
@@ -363,7 +363,7 @@ $(function(){
 		                        <p class='c'>
 		                            <span class="c-title">邮箱</span>
 		                            <span class="c-content">
-		                                <input type="text" name="email" value="${item.email }">
+		                                <input type="text" name="email" value="${teacher.email }">
 		                            </span>
 		                        </p>
 		                    </li>

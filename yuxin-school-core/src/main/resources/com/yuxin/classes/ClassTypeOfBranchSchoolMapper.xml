@@ -576,7 +576,7 @@
     <select id="findDetailById" resultMap="classTypeVoResultMap" parameterType="map" >
 		SELECT a.*, b.item_name AS itemOneName, c.item_name AS itemSecondName, 
 			d.item_name AS itemThirdName, a.item_fourth_code AS itemFourthName,
-			com.cdds_recommend_flag as cddsRecommendFlag,t.name as teacherName
+			com.cdds_recommend_flag as cddsRecommendFlag,t.name as teacherName,com.cdds_status
 		FROM class_type a
 		join commodity_product_realtion pr on pr.product_id=a.id
 		JOIN commodity com on com.id=pr.com_id and com.origin_type=0

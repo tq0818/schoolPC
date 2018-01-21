@@ -232,6 +232,7 @@
 		<if test="username != null and username != ''">and concat(u.real_name,u.username,u.mobile) like '%${username}%'</if>
 		<if test="roleId != null and roleId != ''">and aur.role_uid=#{roleId}</if>
 		<if test="statusStr != null and statusStr != ''">and ur.is_used=#{statusStr}</if>
+		order by ur.id desc
 		limit #{firstIndex},#{pageSize}
 	</select>
 	

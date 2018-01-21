@@ -159,8 +159,6 @@ public class TestTask {
             //获取所有用户
            // List<UsersFront> users  = usersFrontServiceImpl.queryAll();
 
-
-
                 map.put("userId",userId);
                 List<SysKnowledgeTreeStatistics> list =  sysKnowledgeTreeStatisticsServiceImpl.findStatistics(map);
                 if(list.size()>0){

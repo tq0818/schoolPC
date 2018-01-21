@@ -151,7 +151,7 @@
     </select>
     <select id="findAllItemFront" resultMap="sysConfigItemRelationResultMap" parameterType="int">
         SELECT DISTINCT
-        (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code and sci.company_id=#{companyId})as item_name,
+        (rf.item_code) AS item_code,(select item_name from sys_config_item sci where sci.item_code=rf.item_code and sci.company_id=#{companyId} and sci.del_flag=0 and sci.status = 1 limit 1)as item_name,
         LEVEL
           FROM
         sys_config_item_relation_front rf where rf.origin_type=0 and rf.company_id=#{companyId}

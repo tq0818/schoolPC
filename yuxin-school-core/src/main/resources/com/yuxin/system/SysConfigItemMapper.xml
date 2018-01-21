@@ -636,6 +636,18 @@
 			limit 1
 	</select>
 	
+	<!-- 查询是否是空 或者删除 -->
+	<select id="dfindDelNullByName" parameterType="com.yuxin.wx.model.system.SysConfigItem" resultMap="sysConfigItemResultMap">
+		select <include refid="table_columns"/>
+		from sys_config_item
+		where (item_name = #{itemName} or
+			item_code = #{itemCode}) and
+			company_id = #{companyId} and  
+			item_type = #{itemType} 
+			<if test="parentId != null">and parent_id = #{parentId}</if>
+			limit 1
+	</select>
+	
 	<!-- 查询其他分校是否还有使用 -->
 	<select id="findUseByItemId" parameterType="Integer" resultMap="sysSchoolItemRelationResultMap">
 		select id,

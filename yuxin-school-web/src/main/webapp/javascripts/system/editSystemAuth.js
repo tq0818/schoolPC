@@ -181,12 +181,12 @@
 						$(".pri-list").find("li").hide().find(".iconfont").html('&#xe609;');
 						
 						var cid=_this.attr("ids");
-						if(cid==6){
+						/*if(cid==6){
 							$("#contactTeacher").css("display","none");
 						}
 						if(cid==884){
 							$("#contactTeacher").css("display","none");
-						}
+						}*/
 						if($(".people-list").find("a.btn-success").length){
 							$.ajax({
 								url : rootPath + "/authRolePrivilege/Category/"+cid,
@@ -666,12 +666,12 @@
 						}
 					}
 				});
-				if(cid==6){
+				/*if(cid==6){
 					$("#contactTeacher").css("display","block");
 				}
 				if(cid==884){
 					$("#contactTeacher").css("display","block");
-				}
+				}*/
 			}
 		}
 	$(document).ready(function(){

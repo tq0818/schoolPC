@@ -716,7 +716,7 @@
 		po.commodity_id,
 		po.pay_price,
 		po.pay_type,
-		po.pay_status,
+		case when po.pay_status='PAY_SUCCESS' then '已完成' when po.pay_status='PAY_NON' then '未付款' when po.pay_status='SUB_ORDER_DELTED' then '已取消' end as pay_status,
 		po.company_id,
 		po.collection_time,
 		po.remark,

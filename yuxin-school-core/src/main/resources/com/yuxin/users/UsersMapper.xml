@@ -250,6 +250,10 @@
 		update users set status=#{status}
 			where id=#{id}
 	</update>
+	<update id="updateSchoolPassword" parameterType="com.yuxin.wx.model.user.Users">
+		update users set password=#{password}
+			where edu_area_school=#{eduAreaSchool}
+	</update>
 	<update id="updateUsersComanyRelationStatus" parameterType="com.yuxin.wx.model.user.Users">
 		update users_comany_relation set is_used=#{status} where user_id=#{id} and company_id=#{companyId}
 	</update>

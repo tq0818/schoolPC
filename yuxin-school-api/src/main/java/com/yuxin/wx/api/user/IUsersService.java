@@ -54,6 +54,7 @@ public interface IUsersService  {
 	* @user by wangzx
 	 */
 	void update(Users users);
+	void updateSchoolPassword(Users users);
 	
 	/**
 	 * 

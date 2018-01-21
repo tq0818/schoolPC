@@ -30,6 +30,7 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 		List<SysConfigDict> findByParentId(String parentId);
 		
 		List<SysConfigDict> queryConfigDictList();
+		List<SysConfigDict> findNameAndComId(Integer id);
 		
 		List<SysConfigDict> findByCompanyId(Integer companyId);
 		List<SysConfigDict> queryConfigDictListByDictCode(SysConfigDict sysConfigDict);
@@ -44,6 +45,9 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
   //获取服务类型及服务名称
     List<SysConfigDict> querSysConfigDictList(Map<String, Object> map);
     Integer querSysConfigDictCount(Integer companyId);
+    Integer findId(SysConfigDict areaDict);
+    Integer checkCodeAndName(SysConfigDict areaDict);
+    Integer queryAllSchoolsCount(SysConfigDict areaDict);
     /**
  	  * 
  	  * @author jishangyang 2017年12月17日 下午4:09:11
@@ -60,4 +64,11 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 	List<SysConfigDict> findSchoolByCondition(Map<String, Object> paramMap);
 
 	List<SysConfigDict> queryAllSchool();
+	/**
+	 * 修改学校性质
+	 * @param areaDict
+	 */
+	void updateSchoolProperty(SysConfigDict areaDict);
+	void updateOthserSchoolProperty(SysConfigDict areaDict);
+	void addEduStepSchool(SysConfigDict areaDict);
 }

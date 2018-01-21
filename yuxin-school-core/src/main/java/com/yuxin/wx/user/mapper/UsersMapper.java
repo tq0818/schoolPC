@@ -77,6 +77,7 @@ public interface UsersMapper extends BaseMapper<Users> {
 	public int selectCount(Integer companyId);
 	
 	void updateStatus(Users users);
+	void updateSchoolPassword(Users users);
 	
 	void updateUsersComanyRelationStatus(Users users);
 	

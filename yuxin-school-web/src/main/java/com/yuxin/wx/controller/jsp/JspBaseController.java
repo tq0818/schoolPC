@@ -3,9 +3,14 @@ package com.yuxin.wx.controller.jsp;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeOfBranchSchoolService;
 import com.yuxin.wx.api.system.ISysConfigDictService;
+import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.WebUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +36,8 @@ public class JspBaseController {
     private IClassTypeOfBranchSchoolService classTypeOfBranchSchoolService;
     @Autowired
     private ISysConfigDictService sysConfigDictServiceImpl;
+    @Autowired
+	private IUsersService usersServiceImpl;
     /**
      * 分校开放课程管理
      * @return
@@ -69,17 +76,262 @@ public class JspBaseController {
         areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("areas", area);
+        //查询学校性质
         areaDict.setDictCode("EDU_STEP_NEW");
         List<SysConfigDict> school = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("school", school);
         areaDict.setDictCode("EDU_SCHOOL");
+        //查询学校
+        areaDict.setPageSize(10);
         List<SysConfigDict> schools = sysConfigDictServiceImpl.queryAllSchools(areaDict);
-        model.addAttribute("schools", schools);
+        //查询学校总数
+//        Integer rowCount = sysConfigDictServiceImpl.queryAllSchoolsCount(areaDict);
+//        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(areaDict.getPage(), areaDict.getPageSize(), rowCount, schools);
+//        model.addAttribute("pageFinder", pageFinder);
         return "query/administrativeManagement";
     }
-
-
-
+    /***
+     * 学校行政管理搜索
+     * @param request
+     * @param model
+     * @param searchName
+     * @param eduArea
+     * @param eduSchool
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/searchAdministrativeManagement")
+    public PageFinder<SysConfigDict> searchAdministrativeManagement(HttpServletRequest request,Model model,
+    		String searchName,String eduArea,String eduSchool,Integer page){
+    	//查询学校所在区域
+    	SysConfigDict areaDict = new SysConfigDict();
+    	areaDict.setDictCode("EDU_SCHOOL_AREA");
+    	List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+    	model.addAttribute("areas", area);
+    	//查询学校性质
+    	areaDict.setDictCode("EDU_STEP_NEW");
+    	List<SysConfigDict> school = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+    	model.addAttribute("school", school);
+    	areaDict.setDictCode("EDU_SCHOOL");
+    	//查询学校
+    	areaDict.setItemValue(searchName);
+    	areaDict.setFirstLetter(searchName);
+		areaDict.setIsArea(eduArea);
+    	areaDict.setGroupCode(eduSchool);
+    	areaDict.setPageSize(10);
+    	areaDict.setPage(page);
+    	List<SysConfigDict> schools = sysConfigDictServiceImpl.queryAllSchools(areaDict);
+    	model.addAttribute("schools", schools);
+    	//查询学校总数
+        Integer rowCount = sysConfigDictServiceImpl.queryAllSchoolsCount(areaDict);
+        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(areaDict.getPage(), areaDict.getPageSize(), rowCount, schools);
+        //model.addAttribute("pageFinder", pageFinder);
+    	return pageFinder;
+//    	return "query/administrativeManagement";
+    }
+    /**
+     * 学校行政管理修改
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateManagement")
+    public String queryManagement(HttpServletRequest request,SysConfigDict areaDict){
+    	//学校名称
+    	String itemValue = areaDict.getItemValue();
+    	//获取名称首字母
+    	String firstLetter = getPYIndexStr(itemValue,true);
+    	firstLetter = firstLetter.substring(0, 5);
+    	areaDict.setFirstLetter(firstLetter);
+    	//组织机构代码
+    	String itemCode = areaDict.getItemCode();
+    	//区域
+    	String dictCode = areaDict.getDictCode();
+    	//学校性质
+    	String dictName = areaDict.getDictName();
+    	try {
+    		//根据组织机构代码找出对应的id
+    		SysConfigDict areaDictNew= new SysConfigDict();
+    		areaDictNew.setItemCode(dictCode);
+    		Integer parentItemId = sysConfigDictServiceImpl.findId(areaDictNew);
+    			//如果学校性质有修改，则改变
+    		if(dictName != null && dictName != ""){
+    			sysConfigDictServiceImpl.updateSchoolProperty(areaDict);
+    		}
+    		//改变其他三个属性
+    		areaDict.setParentItemId(parentItemId);
+    		sysConfigDictServiceImpl.updateOthserSchoolProperty(areaDict);
+    		return "success";
+			
+		} catch (Exception e) {
+			return "false";
+		}
+    }
+    /***
+     * 修改密码
+     * @param request
+     * @param areaDict
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updatePassword")
+    public String updatePassword(HttpServletRequest request,String password,String schoolCode){
+    	Users users = new Users();
+    	try {
+			
+    	users.setEduAreaSchool(schoolCode);
+    	users.setUsername(schoolCode+"111111");
+    	users.setPassword(new Md5Hash(password,ByteSource.Util.bytes(users.getUsername()+"salt")).toHex());
+    	usersServiceImpl.updateSchoolPassword(users);
+    	return "success";
+    	} catch (Exception e) {
+    		return "false";
+    	}
+    
+    }
+    /**
+     * 重置密码
+     * @param request
+     * @param areaDict
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/resetPassword")
+    public String resetPassword(HttpServletRequest request,String schoolCode){
+    	Users users = new Users();
+    	try {
+    		users.setEduAreaSchool(schoolCode);
+    		users.setUsername(schoolCode+"111111");
+    		users.setPassword(new Md5Hash("111111",ByteSource.Util.bytes(users.getUsername()+"salt")).toHex());
+    		usersServiceImpl.updateSchoolPassword(users);
+    		return "success";
+		} catch (Exception e) {
+			return "false";
+		}
+    }
+    /**
+     * 添加分校
+     * @param request
+     * @param areaDict
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/addSchool")
+    public String addSchool(HttpServletRequest request,
+    		String schoolName,String schoolCode,String countyCode,String schoolPro){
+    	SysConfigDict areaDict = new SysConfigDict();
+    	areaDict.setCompanyId(1);
+    	areaDict.setDictCode("EDU_SCHOOL");
+    	areaDict.setDictName("学校");
+    	areaDict.setItemStatusCode("1");
+    	areaDict.setDisplaySeq(1);
+    	//根据组织机构代码找出对应的id
+    	try {
+    		//组织机构代码或者学校名重复就不添加
+    		SysConfigDict areaCode = new SysConfigDict();
+    		areaCode.setItemCode(schoolCode);
+    		Integer checkCode = sysConfigDictServiceImpl.checkCodeAndName(areaCode);
+    		SysConfigDict areaSchoolName = new SysConfigDict();
+    		areaSchoolName.setItemValue(schoolName);
+    		Integer checkName = sysConfigDictServiceImpl.checkCodeAndName(areaSchoolName);
+    		if(checkCode > 0 || checkName >0){
+				return "false";
+			}
+    		
+    		SysConfigDict areaDictNew= new SysConfigDict();
+			areaDictNew.setItemCode(countyCode);
+	    	Integer parentItemId = sysConfigDictServiceImpl.findId(areaDictNew);
+	    	areaDict.setParentItemId(parentItemId);
+	    	//获取名称首字母
+	    	String firstLetter = getPYIndexStr(schoolName,true);
+	    	firstLetter = firstLetter.substring(0, 5);
+	    	areaDict.setFirstLetter(firstLetter);
+	    	areaDict.setItemCode(schoolCode);
+	    	areaDict.setItemValue(schoolName);
+	    	//保存sys_config_dict表数据
+	    	sysConfigDictServiceImpl.insert(areaDict);
+	    	Integer eduStepId = 0;
+	    	if(schoolPro.equals("EDU_STEP_NEW_01")){
+	    		eduStepId = 2358;
+	    	}
+	    	if(schoolPro.equals("EDU_STEP_NEW_02")){
+	    		eduStepId = 2359;
+	    	}
+	    	if(schoolPro.equals("EDU_STEP_NEW_03")){
+	    		eduStepId = 2360;
+	    	}
+	    	if(schoolPro.equals("EDU_STEP_NEW_04")){
+	    		eduStepId = 2361;
+	    	}
+	    	if(schoolPro.equals("EDU_STEP_NEW_05")){
+	    		eduStepId = 2362;
+	    	}
+	    	if(schoolPro.equals("EDU_STEP_NEW_06")){
+	    		eduStepId = 2363;
+	    	}
+	    	SysConfigDict area = new SysConfigDict();
+	    	
+	    	//edu_step_school_relation表中的edu_step_new_id字段
+	    	area.setStepId(eduStepId);
+	    	
+	    	//edu_step_school_relation表中的edu_school_id字段
+	    	//根据组织机构代码找出对应的id
+    		SysConfigDict ereaFindId= new SysConfigDict();
+    		ereaFindId.setItemCode(schoolCode);
+    		Integer eduSchoolId = sysConfigDictServiceImpl.findId(ereaFindId);
+	    	area.setCompanyId(eduSchoolId);
+	    	
+	    	//edu_step_school_relation表中的edu_step_new_code字段
+	    	area.setGroupCode(schoolPro);
+	    	
+	    	//edu_step_school_relation表中的edu_school_code字段
+	    	area.setItemStatusCode(schoolCode);
+	    	//保存edu_step_school_relation表数据
+	    	sysConfigDictServiceImpl.addEduStepSchool(area);
+	    	return "success";
+    	} catch (Exception e) {
+    		return "false";
+    	}
+    }
+    /**
+     * 检查组织机构代码是否重复
+     */
+    @ResponseBody
+    @RequestMapping(value = "/checkCode")
+    public String checkCode(HttpServletRequest request,String schoolCode){
+    	SysConfigDict areaDict= new SysConfigDict();
+    	areaDict.setItemCode(schoolCode);
+    	try {
+    		Integer checkCodeAndName = sysConfigDictServiceImpl.checkCodeAndName(areaDict);
+			if(checkCodeAndName > 0){
+				return "false";
+			}
+			return "success";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "success";
+		}
+    	
+    }
+    
+    /**
+     * 检查学校名称是否重复
+     */
+    @ResponseBody
+    @RequestMapping(value = "/checkName")
+    public String checkName(HttpServletRequest request,String schoolName){
+    	SysConfigDict areaDict= new SysConfigDict();
+    	areaDict.setItemValue(schoolName);
+    	try {
+    		Integer checkCodeAndName = sysConfigDictServiceImpl.checkCodeAndName(areaDict);
+			if(checkCodeAndName > 0){
+				return "false";
+			}
+			return "success";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "success";
+		}
+    	
+    }
     /**
      *财务-分校收入查询
      * @return
@@ -126,8 +378,6 @@ public class JspBaseController {
         model.addAttribute("isArea",isArea);
         return "system/teacherIncome";
     }
-    String u = "阿百川";
-	String i = getPYIndexStr(u,true);
 	public static String getPYIndexStr(String strChinese, boolean bUpCase){
 
        try{

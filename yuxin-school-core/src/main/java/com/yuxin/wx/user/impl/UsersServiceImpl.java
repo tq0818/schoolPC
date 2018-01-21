@@ -154,6 +154,10 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	public void update(Users users){
 		usersMapper.update(users);
 	}
+	@Override
+	public void updateSchoolPassword(Users users){
+		usersMapper.updateSchoolPassword(users);
+	}
 	
 	/**
 	 * 

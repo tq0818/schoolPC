@@ -261,7 +261,7 @@ public class AuthPrivilegeController {
 			}
 			SysConfigTeachersVo sysConfigTeacher=new SysConfigTeachersVo();
 			sysConfigTeacher.setUserId(userId);
-			List<SysConfigTeachersVo> arr= sysConfigTeacherServiceImpl.findLiveTeacher(sysConfigTeacher);
+			List<SysConfigTeachersVo> arr= sysConfigTeacherServiceImpl.findSysConfigTeachersByName(sysConfigTeacher);
 			model.addAttribute("teacherList", arr);
 		}
 		//查询菜单列表

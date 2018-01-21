@@ -52,13 +52,6 @@
 						</c:forEach>
 					</select>
 					<span>学校：</span>
-					<%-- <select name="eduSchoolStep" id="eduSchoolStep">
-						<option value="">请选择学校性质</option>
-						<c:forEach items="${stepNews}" var="step" >
-							<option value="${step.itemCode}" data-id="${step.id}" >${step.itemValue}</option>
-						</c:forEach>
-					</select> --%>
-
 					<select name="eduSchool" id="eduSchool" data-id="${student.eduSchool}">
 						<option value="">请选择所在学校</option>
 					</select>

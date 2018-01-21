@@ -148,7 +148,6 @@ $(function() {
 	// 提交添加老师、修改老师表单
 	$(".btn-primary").click(
 		function() {
-			var isInsertUserId = $("#isInsertUserId").val();
 //				// 获取右侧所有的模块ID
 			var moduleIds = "";
 //				$(".right li").each(function() {
@@ -273,11 +272,7 @@ $(function() {
 					$(".loading").hide();
 					$(".loading-bg").hide();
 //					window.location.href = rootPath + "/teacherManger/getFirstItems/"+$("#companyId").val();
-					if(isInsertUserId){
-						window.location.href = rootPath + "/sysConfigTeacher/toTeacherIndex?isInsertUserId="+isInsertUserId;
-					}else{
-						window.location.href = rootPath + "/sysConfigTeacher/toTeacherIndex";
-					}
+					window.location.href = rootPath + "/sysConfigTeacher/toTeacherIndex";
 				},
 			});
 		});

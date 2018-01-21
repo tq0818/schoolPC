@@ -114,6 +114,9 @@
 	            			<c:when test="${role.roleName == '代理机构' }">
 	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default" id="org-manage" style="display: none;">${role.roleName }</a>
 	            			</c:when>
+	            			<c:when test="${role.roleName == '直播老师' }">
+	            				<a href="javascript:;" ids="${role.roleUid }" id="zhiboTeacher" class="btn btn-mini btn-default">${role.roleName }</a>
+	            			</c:when>
 	            			<c:otherwise>
 	            				<a href="javascript:;" ids="${role.roleUid }" class="btn btn-mini btn-default">${role.roleName }</a>
 	            			</c:otherwise>
@@ -171,7 +174,7 @@
             </div>
             <div id="contactTeacher" style="display: none;">
 	            <div class="sm-heading">
-	            		<h2 class="h6">绑定老师<span style="font-size: 10px;color:gray;">&nbsp;&nbsp;请为此账户绑定一个老师，安排给绑定老师的直播课，需要用此账号登陆上课。还没有老师，<a href="<%=rootPath %>/sysConfigTeacher/toTeacherIndex?isInsertUserId=1" style="color:blue;" target="_blank">点我新增老师</a></span></h2>
+	            		<h2 class="h6">绑定老师<span style="font-size: 10px;color:gray;">&nbsp;&nbsp;请为此账户绑定一个老师，安排给绑定老师的直播课，需要用此账号登陆上课。还没有老师，<a href="<%=rootPath %>/sysConfigTeacher/toTeacherIndex" style="color:blue;" target="_blank">点我新增老师</a></span></h2>
 	             </div>
 	            <div class="teacher-type">
 	            	<input type="text" id="teacherName" placeholder="输入教师名称"/>

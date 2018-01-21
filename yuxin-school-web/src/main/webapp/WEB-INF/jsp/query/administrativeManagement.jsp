@@ -39,6 +39,7 @@
 	.resetPassword{width: 100%;text-align: center;height: 88px;line-height: 88px;color: #333333;font-size: 14px;}
 	.resetPassword{display: none;}
 	</style>
+	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
 </head>
 <body>
 <input type="hidden" id="schoolId" value='${schoolId}'/>
@@ -84,10 +85,11 @@
 							<th width="10%">学校性质</th>
 							<th width="30%">操作</th>
 						</tr>
+						<c:forEach items="${schools}" var="allSchool" varStatus="stauts">
 						<tr>
-							<td>1</td>
-							<td><input type="text" value="成都市三原外国语学校" disabled class="editDisable"></td>
-							<td><input type="text" value="19920129" disabled class="editDisable"></td>
+							<td>${stauts.count}</td>
+							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable"></td>
+							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable"></td>
 							<td>
 								<select name="" id="" disabled class="editDisable">
 									<option value="">新都区</option>
@@ -107,6 +109,7 @@
 								<a href="##" class="accountSettings">账号设置</a>
 							</td>
 						</tr>
+						</c:forEach>
 						<%--<c:choose>--%>
 							<%--<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">--%>
 								<%--<tr><td colspan="15">暂无数据</td></tr>--%>
@@ -131,9 +134,12 @@
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
 
+			<div class="pages">
+				<ul class="pagination">
 
+				</ul>
+			</div>
 
-	</div>
 <%--新增学校弹窗--%>
 <div class="opacityPopup">
 	<h2>添加分校</h2>
@@ -251,9 +257,26 @@
 	});
 
 
-	$selectSubMenu('AdministrativeManagement');
-    $selectThirdMenu('AdministrativeManagement');
+//分页
+    $(".pagination").pagination('',
+        {
+            next_text: "下一页",
+            prev_text: "上一页",
+            current_page: '',
+            link_to: "javascript:void(0)",
+            num_display_entries: 8,
+            items_per_page: 1,
+            num_edge_entries: '',
+            callback: function (page, jq) {
+                var pageNo = page + 1;
 
+            }
+        }
+    );
+
+
+
+	$selectSubMenu('AdministrativeManagement');
 </script>
 </body>
 </html>

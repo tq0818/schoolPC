@@ -212,10 +212,13 @@ public class BaseSchoolLive {
         areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("areas", areas);
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+
 
         //查询学校所属学段
         SysConfigDict stepDict = new SysConfigDict();
-        stepDict.setDictCode("EDU_STEP_NEW");
+        stepDict.setDictCode("EDU_STEP");
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
 

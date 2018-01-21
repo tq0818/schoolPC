@@ -2,9 +2,9 @@
 	
     var student = {
         init: function () {
-            $("#eduArea").change(function(){
-                var area = $(this).find(":selected").attr("data-id");
-                //var stepId = $("#eduSchoolStep").find(":selected").attr("data-id");
+            $("#eduArea").change(function () {
+                var area = $(this).find(":selected").attr("data-id")!=null?$(this).find(":selected").attr("data-id"):$("#eduArea").attr("data-id");
+                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
                 if (area == null || area == "") {
                     $("#eduSchool").html('<option value="">请选择所在学校</option>');
                 } else {
@@ -16,7 +16,7 @@
                         	$("#eduSchool").html('<option value="">请选择所在学校</option>');
                             var options = '';
                             $.each(data, function (i, j) {
-                                if (schoolVal== j.itemValue) {
+                                if (schoolVal == j.itemValue) {
                                     options += '<option value="' + j.itemCode + '" selected="selected">' + j.itemValue + '</option>';
                                 } else {
                                     options += '<option value="' + j.itemCode + '">' + j.itemValue + '</option>';
@@ -32,33 +32,34 @@
                     });
                 }
             });
-            $("#eduSchoolStep").change(function(){
-                var area = $("#eduArea").find(":selected").attr("data-id");
-                var stepId = $(this).find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
-                if(stepId==null || stepId==""){
-                    $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
-                    $.ajax({
-                        url: rootPath + "/student/getSchoolListByStep",
-                        data:{stepId:stepId, parentItemId:area},
-                        type: "post",
-                        success: function (data) {
-                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                            var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemValue){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
-                                }
 
-                            });
-                            $("#eduSchool").append(options);
-                        }
-                    });
-                }
-            });
+            if($("#schoolType")) {
+                $("#schoolType").change(function () {
+                    var area = $("#eduArea").attr("data-id");
+                    var schoolVal = $.trim($("#eduSchool").attr("data-id"));
+                    if (area == null || area == "") {
+                    } else {
+                        $.ajax({
+                            url: rootPath + "/student/getSchoolList",
+                            data: {"schoolType": $("#schoolType").val(), 'area': area},
+                            type: "post",
+                            success: function (data) {
+                                $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                                var options = '';
+                                $.each(data, function (i, j) {
+                                    if (schoolVal == j.itemValue) {
+                                        options += '<option value="' + j.itemCode + '" selected="selected">' + j.itemValue + '</option>';
+                                    } else {
+                                        options += '<option value="' + j.itemCode + '">' + j.itemValue + '</option>';
+                                    }
+
+                                });
+                                $("#eduSchool").append(options);
+                            }
+                        });
+                    }
+                });
+            }
             var $this = this;
             // $selectSubMenu('statistics_all_detail');
             // 初始化日期框

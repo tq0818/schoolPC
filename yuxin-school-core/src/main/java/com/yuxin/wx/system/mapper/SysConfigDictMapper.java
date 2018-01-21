@@ -38,6 +38,7 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 	SysConfigDict queryConfigDictValue(SysConfigDict sysConfigDict);
 
     List<SysConfigDict> querySchoolListByStepCode(SysConfigDict areaDict);
+    List<SysConfigDict> queryAllSchools(SysConfigDict areaDict);
 
     List<SysConfigDict> findSchoolBySchoolType(Map<String, Object> map);
   //获取服务类型及服务名称

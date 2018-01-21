@@ -155,5 +155,4 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
 
     List<SysConfigTeacher> findByIds(String[] ids);
 
-    List<SysConfigTeachersVo> findLiveTeacher(SysConfigTeachersVo sysConfigTeacher);
 }

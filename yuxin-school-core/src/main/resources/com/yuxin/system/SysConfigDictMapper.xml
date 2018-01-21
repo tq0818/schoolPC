@@ -238,11 +238,13 @@
 		<if test="itemCode != null and itemCode != ''">and d.item_code = #{itemCode}</if>
 		<if test="itemValue != null and itemValue != ''">and d.item_value = #{itemValue}</if>
 		ORDER by display_seq asc -->
-		select * from sys_config_dict d
+		select d.item_code as item_code,d.item_value as item_value,scd.item_value as dict_code,scd2.item_value as dict_name from sys_config_dict d
+		INNER JOIN edu_step_school_relation esr ON d.item_code = esr.edu_school_code
+		INNER JOIN sys_config_dict scd ON esr.edu_step_new_code = scd.item_code
+		INNER JOIN sys_config_dict scd2 ON d.parent_item_id = scd2.id
 		where d.dict_code = 'EDU_SCHOOL'
-		ORDER BY first_letter 
+		ORDER BY d.first_letter 
 		LIMIT 0,50
-		 
 	</select>
 
 	<select id="findSchoolBySchoolType"  parameterType="Map" resultMap="sysConfigDictResultMap">

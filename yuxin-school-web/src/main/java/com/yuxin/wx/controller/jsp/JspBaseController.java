@@ -74,6 +74,7 @@ public class JspBaseController {
         model.addAttribute("school", school);
         areaDict.setDictCode("EDU_SCHOOL");
         List<SysConfigDict> schools = sysConfigDictServiceImpl.queryAllSchools(areaDict);
+        model.addAttribute("schools", schools);
         return "query/administrativeManagement";
     }
 

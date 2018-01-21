@@ -65,8 +65,11 @@
 							</c:forEach>
 						</select>
 
-						<select >
+						<select name="eduSchool" id="eduSchool">
 							<option value="">请选择学校性质</option>
+							<c:forEach items="${school}" var="school" >
+								<option value="${school.itemCode}" data-id="${school.id}" ${student.eduArea==school.itemValue?"selected":""}>${school.itemValue}</option>
+							</c:forEach>
 						</select>
 
 							<a href="##" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 10px;">搜索</a>
@@ -88,19 +91,21 @@
 						<tr>
 							<td>${stauts.count}</td>
 							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable"></td>
-							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable"></td>
+							<td><input type="text" value="${allSchool.itemCode}" disabled class="editDisable"></td>
 							<td>
-								<select name="" id="" disabled class="editDisable">
-									<option value="">新都区</option>
-									<option value="">新都区</option>
-									<option value="">新都区</option>
+								<select name="schoolArea" id="schoolArea" class="editDisable">
+								<option value="">${allSchool.dictName}</option>
+								<c:forEach items="${areas}" var="area" >
+								<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+								</c:forEach>
 								</select>
 							</td>
 							<td>
-								<select name="" id="" disabled class="editDisable">
-									<option value="">完全中学</option>
-									<option value="">完全中学</option>
-									<option value="">完全中学</option>
+								<select name="schoolNature" id="schoolNature" class="editDisable">
+								<option value="">${allSchool.dictCode}</option>
+								<c:forEach items="${school}" var="school" >
+								<option value="${school.itemCode}" data-id="${school.id}" ${student.eduArea==school.itemValue?"selected":""}>${school.itemValue}</option>
+								</c:forEach>
 								</select>
 							</td>
 							<td>
@@ -149,14 +154,18 @@
 			<label for="">区域：</label>
 			<select name="" id="">
 				<option value="">请选择区域</option>
-				<option value="">1</option>
+				<c:forEach items="${areas}" var="area" >
+					<option value="${area.itemCode}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
+				</c:forEach>
 			</select>
 		</li>
 		<li>
 			<label for="">性质：</label>
 			<select name="" id="">
 				<option value="">请选择学校性质</option>
-				<option value="">2</option>
+				<c:forEach items="${school}" var="school" >
+					<option value="${school.itemCode}" data-id="${school.id}" ${student.eduArea==school.itemValue?"selected":""}>${school.itemValue}</option>
+				</c:forEach>
 			</select>
 		</li>
 	</ul>
@@ -215,9 +224,15 @@
 	    $(this).parent('td').siblings('td').children().removeClass('editDisable').attr('disabled',false);
 	    if($(this).html()=='修改'){
             $(this).html("保存");
+            
 		}else {
             $(this).html("修改");
             $(this).parent('td').siblings('td').children().addClass('editDisable').attr('disabled',true);
+            var data = {};
+            data.eduArea=$("#eduArea").val();
+            data.companyName=$("#companyName").val();
+            data.startTime=$("#startTime").val();
+            data.endTime=$("#endTime").val();
 		}
 	});
 	//点击确定取消，隐藏弹窗

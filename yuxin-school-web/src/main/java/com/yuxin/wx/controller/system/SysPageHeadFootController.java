@@ -158,7 +158,7 @@ public class SysPageHeadFootController {
 		Company company = companyService.findCompanyById(WebUtils.getCurrentCompanyId());
 		List<SysPageHeadFootVo> list = new ArrayList<SysPageHeadFootVo>();
 		for (int i = 0; i < IndexheadTitleList.size(); i++) {
-			if (!IndexheadTitleList.get(i).getName().equals("下载") && !company.getIsArea().equals("0")) {
+			if (!IndexheadTitleList.get(i).getName().equals("问答") && !company.getIsArea().equals("0")) {
 				list.add(IndexheadTitleList.get(i));
 			}
 		}

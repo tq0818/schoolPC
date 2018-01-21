@@ -49,7 +49,7 @@
         	<input type="text" id="stuMobile" name="mobile" placeholder="手机号"/>
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
-        	<input type="text" id="sfzh" name="identityId" placeholder="证件号码"/>
+        	<!-- <input type="text" id="sfzh" name="identityId" placeholder="证件号码"/> -->
         	<select id="registStatus" name="status">
         		<option value="">前台账号状态</option>
         		<option value="1">启用</option>
@@ -57,14 +57,14 @@
         	</select>
         	<span style="margin-left:15px">创建时间</span>
         	<span><input type="text" name="startTime" style="width: 80px;" class="date-picker from"/><em>到</em><input type="text" style="width: 80px;" name="endTime" class="date-picker to"/></span>
-        	<c:if test="${courseProtocolConfig}">
+        	<%-- <c:if test="${courseProtocolConfig}">
 	        	<select id="protocolStatus" name="protocolStatus">
 	        		<option value="">协议签署状态</option>
 	        		<option value="1">已签署</option>
 	        		<option value="2">未签署</option>
 	        	</select>
 	        	<input type="hidden" value="1" name="protocolConfig">
-        	</c:if>
+        	</c:if> --%>
         	<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
 <!--         	<select id="registMethods" name="registType"> -->
 <!--         		<option value="">前台登录账号</option> -->

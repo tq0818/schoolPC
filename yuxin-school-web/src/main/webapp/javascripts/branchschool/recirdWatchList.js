@@ -1,30 +1,33 @@
 (function ($) {
-
+	
     var student = {
         init: function () {
             $("#eduArea").change(function(){
                 var area = $(this).find(":selected").attr("data-id");
-                var stepId = $("#eduSchoolStep").find(":selected").attr("data-id");
-                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
-                if(stepId==null || stepId==""){
+                //var stepId = $("#eduSchoolStep").find(":selected").attr("data-id");
+                if (area == null || area == "") {
                     $("#eduSchool").html('<option value="">请选择所在学校</option>');
-                }else{
+                } else {
+                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
                     $.ajax({
-                        url: rootPath + "/student/getSchoolListByStep",
-                        data:{stepId:stepId, parentItemId:area},
+                        url: rootPath + "/student/getSchoolList/"+ area,
                         type: "post",
                         success: function (data) {
-                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                        	$("#eduSchool").html('<option value="">请选择所在学校</option>');
                             var options = '';
-                            $.each(data,function(i,j){
-                                if(schoolVal==j.itemValue){
-                                    options+='<option value="'+j.itemCode+'" selected="selected">'+j.itemValue+'</option>';
-                                }else{
-                                    options+='<option value="'+j.itemCode+'">'+j.itemValue+'</option>';
+                            $.each(data, function (i, j) {
+                                if (schoolVal== j.itemValue) {
+                                    options += '<option value="' + j.itemCode + '" selected="selected">' + j.itemValue + '</option>';
+                                } else {
+                                    options += '<option value="' + j.itemCode + '">' + j.itemValue + '</option>';
                                 }
 
                             });
-                            $("#eduSchool").append(options);
+                            if($("#schoolType").val()){
+                                $("#schoolType").change();
+                            }else{
+                                $("#eduSchool").append(options);
+                            }
                         }
                     });
                 }
@@ -189,6 +192,10 @@
                                 + '</td>'
                                 + '<td>'
                                 + (videoCourse.schoolName ? videoCourse.schoolName
+                                    : "")
+                                + '</td>'
+                                + '<td>'
+                                + (videoCourse.stepName ? videoCourse.stepName
                                     : "")
                                 + '</td>'
                                 + '<td>'

@@ -219,6 +219,12 @@ public class BaseSchoolLive {
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
 
+        //查询学段
+        SysConfigDict pStepDict = new SysConfigDict();
+        pStepDict.setDictCode("EDU_STEP");
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(pStepDict);
+        model.addAttribute("steps",steps);
+        
         //年份列表
         List<Integer> years = new ArrayList<Integer>();
         int curYear = DateUtil.getCurYear();

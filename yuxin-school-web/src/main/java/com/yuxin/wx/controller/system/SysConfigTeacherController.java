@@ -786,7 +786,6 @@ public class SysConfigTeacherController {
 		model.addAttribute("companyId", user.getCompanyId());
 		//model.addAttribute("secondItemMap", secondItemMap);
 		model.addAttribute("imgUrl", "http://"+properties.getProjectImageUrl()+"/");
-		model.addAttribute("isInsertUserId",request.getParameter("isInsertUserId"));
 		if(teacher == null){
 			teacher = new SysConfigTeacher();
 			teacher.setId(0);

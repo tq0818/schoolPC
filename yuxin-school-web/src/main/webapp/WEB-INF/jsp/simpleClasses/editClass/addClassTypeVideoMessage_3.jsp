@@ -196,11 +196,13 @@
 							class="term-title"> <select name="" id="choose_itemOne"
 							class="itemOne">
 						</select>
-						</span> <span class="term-title q-term-title">学科小类</span> <span
-							class="term-title"> <select name="" id="choose_itemSecond"
-							class="itemSecond">
-						</select>
-						</span> <span class="term-title q-term-title"></span> <span
+						</span>
+						<%--<span class="term-title q-term-title">学科小类</span> <span--%>
+							<%--class="term-title"> <select name="" id="choose_itemSecond"--%>
+							<%--class="itemSecond">--%>
+						<%--</select>--%>
+						<%--</span>--%>
+						<span class="term-title q-term-title"></span> <span
 							class="term-title"> <input type="text" id="choose_paper1"
 							class="q-select">
 						</span> <span class="btn btn-sm btn-default q-btn-primary q-btn-primary1"

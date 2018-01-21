@@ -20,6 +20,7 @@ public class UserCollect extends BaseEntity {
 	private Date	collectDate;		 /* 收藏日期 */ 
 	private Integer	commodityId;		 /* 商品id */ 
 	private String commodityType;
+	private String companyId;
 	
 
 	// Constructor
@@ -36,9 +37,15 @@ public class UserCollect extends BaseEntity {
 		this.commodityType = commodityType;
 	}
 
+	public String getCompanyId() {
+		return companyId;
+	}
 
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 
-	// getter && setter
+// getter && setter
 	// 在setter方法最后加上"return this;"并把返回参数改为UserCollect可以实现连缀设置属性
 	
 	public String getCommodityType() {

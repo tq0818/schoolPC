@@ -1437,7 +1437,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- 添加服务信息-->
 	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO `sys_config_service` (`group_code`, `updator`, `update_time`, `company_id`, `del_flag`,`parent_code`)
-		select scs.group_code,scs.updator,now() update_time,#{companyId},0,parent_code from sys_config_service scs
+		select scs.group_code,scs.updator,now() update_time,#{companyId},case group_code when 'SERVICE_TIKU' then 1 else 0 end,parent_code from sys_config_service scs
 		LEFT JOIN  sys_config_dict scd ON scs.group_code=scd.item_code
 		inner join company c on scs.company_id=c.id and c.is_area=0 and parent_code is not null
 		where  scs.group_code in ('SERVICE_ONLINE_SET','SERVICE_MICROSCHOOL',

@@ -1,5 +1,5 @@
 (function ($) {
-
+	
     var student = {
         init: function () {
             $("#eduArea").change(function () {
@@ -8,11 +8,12 @@
                 if (area == null || area == "") {
                     $("#eduSchool").html('<option value="">请选择所在学校</option>');
                 } else {
+                var schoolVal = $.trim($("#eduSchool").attr("data-id"));
                     $.ajax({
-                        url: rootPath + "/student/getSchoolList/" + area,
+                        url: rootPath + "/student/getSchoolList/"+ area,
                         type: "post",
                         success: function (data) {
-                            $("#eduSchool").html('<option value="">请选择所在学校</option>');
+                        	$("#eduSchool").html('<option value="">请选择所在学校</option>');
                             var options = '';
                             $.each(data, function (i, j) {
                                 if (schoolVal == j.itemValue) {
@@ -192,6 +193,10 @@
                                 + '</td>'
                                 + '<td>'
                                 + (videoCourse.schoolName ? videoCourse.schoolName
+                                    : "")
+                                + '</td>'
+                                + '<td>'
+                                + (videoCourse.stepName ? videoCourse.stepName
                                     : "")
                                 + '</td>'
                                 + '<td>'

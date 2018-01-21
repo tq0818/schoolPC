@@ -118,6 +118,10 @@ $(function(){
                 var itemCode = $(this).prev().val();
 				var parentId = $(this).attr("data-pid");
                 var parentCode = $(this).attr("data-pcode");
+                if(itemCode==""||className==""){
+                	$.msg("名称或者编码不能为空",1000);
+                	return;
+                }
 				//验证学科名称唯一性
 				$.ajax({
 					url : rootPath + "/sysConfigItem/checkName",

@@ -257,6 +257,11 @@ public class SysConfigItemServiceImpl extends BaseServiceImpl implements ISysCon
 	}
 
 	@Override
+	public SysConfigItem dfindDelNullByName(SysConfigItem item) {
+		return sysConfigItemMapper.dfindDelNullByName(item);
+	}
+
+	@Override
 	public List<SysSchoolItemRelation> findUseByItemId(Map<String, Object> param) {
 		return sysConfigItemMapper.findUseByItemId(param);
 	}

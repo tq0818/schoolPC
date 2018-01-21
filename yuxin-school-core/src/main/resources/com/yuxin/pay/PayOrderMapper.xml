@@ -740,7 +740,7 @@
 			and po.pay_type=#{payMethod}
 		</if>
 		<if test="firstPrice != null and firstPrice != '' and secondPrice != null and secondPrice != ''">
-			and po.pay_price BETWEEN #{firstPrice} and #{firstPrice}
+			and po.pay_price BETWEEN #{firstPrice} and #{secondPrice}
 		</if>
 		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
 			and po.order_time BETWEEN #{inpstart} and #{inpend}

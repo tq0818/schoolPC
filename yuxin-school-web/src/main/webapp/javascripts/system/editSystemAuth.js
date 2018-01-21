@@ -589,9 +589,9 @@
 							var optionSchoolStr="";
 							$.each(gradeInfoVos[selectCount].classInfos,function(i,data){
 								if(data.selected){
-									optionSchoolStr+='<option value="'+data.classId+'" selected ="selected">'+data.className+'班</option>';
+									optionSchoolStr+='<option value="'+data.className+'" selected ="selected">'+data.className+'班</option>';
 								}else{
-									optionSchoolStr+='<option value="'+data.classId+'" >'+data.className+'班</option>';
+									optionSchoolStr+='<option value="'+data.className+'" >'+data.className+'班</option>';
 								}
 							});
 							classInfoStr+=optionSchoolStr+'</select></p>';

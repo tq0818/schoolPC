@@ -3197,7 +3197,7 @@ select * from (
 		<result property="eduStepName" column="eduStepName"/>
 	</resultMap>
 	<select id="findClassByTeacherId" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">
-		select scd.item_value as eduStepName ,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass 
+		select scd.item_value as eduStepName,t1.edu_school,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass 
 		from edu_master_class t1
 		LEFT JOIN sys_config_dict scd ON scd.item_code=t1.edu_step 
 		where t1.is_used=1 

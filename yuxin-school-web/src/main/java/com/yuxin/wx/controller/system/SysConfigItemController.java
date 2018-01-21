@@ -732,7 +732,7 @@ public class SysConfigItemController extends BaseWebController {
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("schoolId", WebUtils.getCurrentUserSchoolId(request));
             params.put("itemId", sysConfigItem.getId());
-            if (delflag.trim().equals("1")){
+            if (StringUtils.isNotBlank(delflag)&&delflag.trim().equals("1")){
                 sysConfigItemServiceImpl.updateDelFlag(id);
             }
             SysSchoolItemRelation rel = sysConfigItemServiceImpl.findExist(params);
@@ -890,7 +890,7 @@ public class SysConfigItemController extends BaseWebController {
         try {
             // 查询是否是空或者删除
             wrapperSaveItem(sysConfigItem, SysConfigConstant.OPERATE_ADD, request);
-            SysConfigItem sitem = sysConfigItemServiceImpl.findDelNullByName(sysConfigItem);
+            SysConfigItem sitem = sysConfigItemServiceImpl.dfindDelNullByName(sysConfigItem);
             Map<String, Object> param = new HashMap<String, Object>();
             if (sitem != null && sitem.getStatus().equals("1")) {
                 // 查询关系表是否删除存在
@@ -924,7 +924,28 @@ public class SysConfigItemController extends BaseWebController {
                 scic.setDelFlag(0);
                 scic.setConfigItemId(sysConfigItem.getId());
                 sysConfigItemCourseServiceImpl.updateStatus(scic);
-            } else {
+            }else if(sitem != null &&("0").equals(sitem.getStatus())){
+                SysConfigItemRelation sysConfigItemRelation=new SysConfigItemRelation();
+                sysConfigItemRelation.setCompanyId(sitem.getCompanyId());
+                sysConfigItemRelation.setItemCode(sysConfigItem.getItemCode());
+                List<SysConfigItemRelation> sysConfigItemRelations=sysConfigItemRelationServiceImpl.findSysConfigItemRelationByCode(sysConfigItemRelation);
+                if(sysConfigItemRelations!=null&&sysConfigItemRelations.size()>0){
+                	SysConfigItemRelation sysConfigItemRelationInfo=sysConfigItemRelations.get(0);
+                	SysConfigItemRelation sysConfigItemRelationUpdate=new SysConfigItemRelation();
+                	sysConfigItemRelationUpdate.setId(sysConfigItemRelationInfo.getId());
+                	sysConfigItemRelationUpdate.setItemCode(sysConfigItem.getItemCode());
+                	sysConfigItemRelationServiceImpl.update(sysConfigItemRelationUpdate);
+                }
+                sysConfigItemServiceImpl.update(sysConfigItem);
+                sitem.setStatus("1");
+            	sitem.setDelFlag(0);
+                sitem.setItemName(sysConfigItem.getItemName());
+            	sitem.setItemCode(sysConfigItem.getItemCode());
+            	// 添加关系
+            	sysConfigItem.setId(sitem.getId());
+                addOrUpdateRelation(request, sysConfigItem);
+            	sysConfigItemServiceImpl.update(sitem);
+            }else {
                 sysConfigItemServiceImpl.insert(sysConfigItem);
                 // 添加关系
                 addOrUpdateRelation(request, sysConfigItem);

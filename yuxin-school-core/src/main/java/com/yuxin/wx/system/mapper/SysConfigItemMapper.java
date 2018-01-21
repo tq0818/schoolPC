@@ -185,6 +185,8 @@ public interface SysConfigItemMapper extends BaseMapper<SysConfigItem> {
 	 * @return
 	 */
 	SysConfigItem findDelNullByName(SysConfigItem item);
+	
+	SysConfigItem	dfindDelNullByName(SysConfigItem item);
 
 	/**
 	 * 

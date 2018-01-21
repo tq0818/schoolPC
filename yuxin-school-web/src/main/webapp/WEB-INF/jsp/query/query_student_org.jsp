@@ -117,9 +117,6 @@
 						</c:if>
 
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
-
-
-
 						<span class="fr">
 							<c:if test="${isArea ne 1}">
 							<a href="javascript:;" class="btn btn-primary importexcle" >导入用户</a></c:if>
@@ -182,9 +179,9 @@
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
 <script type="text/javascript">
-	$selectSubMenu('statistics_org_detail');
+	//$selectSubMenu('statistics_org_detail');
     //    左侧active切换
-    $selectSubMenus('studentList');
+   // $selectSubMenus('studentList');
 	
 	function changeGrade (obj){
     	var gradeCode=$(obj).val();
@@ -223,7 +220,7 @@
     }
 	
 	$(document).ready(function(){
-		 var role=$("#role").val();
+		 var role='${role}';
 		 if(role=='2'){
 			 var yearBody ="<option value='"+$("#hiddenEduYear").val()+"'>"+$("#hiddenEduYear").val()+"年</option>";
 			 var classesBody ="<option value='"+$("#hiddenEduClass").val()+"'>"+$("#hiddenEduClass").val()+"班</option>";

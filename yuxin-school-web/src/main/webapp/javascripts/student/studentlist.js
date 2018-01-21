@@ -389,14 +389,14 @@
                                     + '<td class="ustatus">'
                                     + (stu.status == 1 ? '启用'
                                         : '禁用')
-                                    + '</td>'
-                                    + '<td class="baoming" value="' + stu.ispay + '">'
-                                    + (stu.paymaterCount > 0 ? '已报名'
-                                        : '未报名')
                                     + '</td>';
+//                                    + '<td class="baoming" value="' + stu.ispay + '">'
+//                                    + (stu.paymaterCount > 0 ? '已报名'
+//                                        : '未报名')
+//                                    + '</td>';
                                     if(roleType==1 || roleType==0 || roleType==3){
                                 	html+= '<td class="slink">'
-                                    + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
+//                                    + '<a class="showSignUp" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">报名</a>|'
                                     + '<a class="studentDetail" mobile="' + (stu.mobile?stu.mobile:"") + '" uName="'+(stu.username?stu.username:"")+'" href="javascript:void(0);">详情</a>|'
                                     + '<a class="more" href="javascript:void(0);">更多</a>'
                                     + '<ul class="none box">'

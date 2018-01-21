@@ -175,28 +175,18 @@
 					if(!status){
 						 _this.addClass('btn-success');
 						var cid=_this.attr("ids");
-						var s = document.getElementById('zhiboTeacher').innerHTML;
 						window.Form.addCatgory(cid);
-						/*if(cid==6){
-							$("#contactTeacher").css("display","block");
-						}*/
-						/*if(cid==750){
-							$("#contactTeacher").css("display","block");
-						}*/
-						if(s=='直播老师'){
-							$("#contactTeacher").css("display","block");
-						}
 					}else{
 						_this.removeClass('btn-success');
 						$(".pri-list").find("li").hide().find(".iconfont").html('&#xe609;');
 						
 						var cid=_this.attr("ids");
-						var s = document.getElementById('zhiboTeacher').innerHTML;
-						if(s=='直播老师'){
+						/*if(cid==6){
 							$("#contactTeacher").css("display","none");
 						}
-						}
-
+						if(cid==884){
+							$("#contactTeacher").css("display","none");
+						}*/
 						if($(".people-list").find("a.btn-success").length){
 							$.ajax({
 								url : rootPath + "/authRolePrivilege/Category/"+cid,
@@ -249,7 +239,10 @@
 					var status=$(this).hasClass("btn-success");
 					if(status){
 						var cid=$(this).attr("ids");
-						if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
+						if(cid==6){
+							type=cid;
+						}
+						if(cid==884){
 							type=6;
 						}
 					}
@@ -292,7 +285,7 @@
 					if(sta){
 						rolesId+=$(this).attr("ids")+",";
 						var t=$(this).attr("ids");
-						if('直播老师'== $.trim($(this).html())){
+						if(t==6){
 							$(".teacher-list").find("a input[type=checkbox]").each(function(){
 								var _status=$(this).is(":checked");
 								if(_status){
@@ -306,6 +299,7 @@
 					}
 				});
 				$("#rolsesId").val(rolesId);
+				console.log(rolesId);
 				//得到选中教师
 				var teachersId="";
 				var tId="";
@@ -319,12 +313,12 @@
 						tId+=$(this).attr("value")+",";
 					}
 				});
-				if(!b){
+				/*if(!b){
 					$.msg("请添加教师");
 					evt.preventDefault();
 					$(".loading-bg").hide();
 					return false;
-				}
+				}*/
 				if(count>1){
 					$.msg("一个账号只能绑定一个老师");
 					evt.preventDefault();
@@ -594,9 +588,9 @@
 							var optionSchoolStr="";
 							$.each(gradeInfoVos[selectCount].classInfos,function(i,data){
 								if(data.selected){
-									optionSchoolStr+='<option value="'+data.classId+'" selected ="selected">'+data.className+'班</option>';
+									optionSchoolStr+='<option value="'+data.className+'" selected ="selected">'+data.className+'班</option>';
 								}else{
-									optionSchoolStr+='<option value="'+data.classId+'" >'+data.className+'班</option>';
+									optionSchoolStr+='<option value="'+data.className+'" >'+data.className+'班</option>';
 								}
 							});
 							classInfoStr+=optionSchoolStr+'</select></p>';
@@ -671,6 +665,12 @@
 						}
 					}
 				});
+				/*if(cid==6){
+					$("#contactTeacher").css("display","block");
+				}
+				if(cid==884){
+					$("#contactTeacher").css("display","block");
+				}*/
 			}
 		}
 	$(document).ready(function(){

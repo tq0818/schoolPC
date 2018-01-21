@@ -1813,6 +1813,11 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				s.setUpdateTime(date);
 				s.setUpdator(userId);
 				s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
+				s.setEduSchool(student.getEduSchool());
+				s.setEduArea(student.getEduArea());
+				s.setEduClass(student.getEduClass());
+				s.setEduStep(student.getEduStep());
+				s.setEduYear(student.getEduYear());
 				this.studentMapper.update(s);
 				usersFront =new UsersFront();
 				usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);

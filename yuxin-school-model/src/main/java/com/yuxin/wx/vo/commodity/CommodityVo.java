@@ -111,6 +111,13 @@ public class CommodityVo extends BaseEntity {
 
     private String isPublic;
 
+    /**
+     * 涉及查询分校数据时主校id
+     */
+    private String mainCompanyId;
+
+
+
     public String getIsPublic() {
         return isPublic;
     }
@@ -120,6 +127,19 @@ public class CommodityVo extends BaseEntity {
     }
 
     private Double publicPrice;//分校公开课程价格
+
+    public String getMainCompanyId() {
+        return mainCompanyId;
+    }
+
+    public void setMainCompanyId(String mainCompanyId) {
+        this.mainCompanyId = mainCompanyId;
+    }
+
+    public void setPublicPrice(Double publicPrice) {
+        this.publicPrice = publicPrice;
+    }
+
     private Integer cddsStatus;//课程上架状态(数校)
     private Integer cddsRecommendFlag;//课程推荐状态(数校)
     

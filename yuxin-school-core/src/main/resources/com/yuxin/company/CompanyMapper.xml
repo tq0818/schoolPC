@@ -1195,7 +1195,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			left join edu_master_class emc on emc.edu_area=co.edu_area_school and emc.is_used=1
 			left join commodity cc on cc.company_id=co.id
 			left join student s on s.edu_area=co.edu_area_school and s.edu_identity=0
-			where co.is_area=1
+			where co.is_area=1 and is_in_school=1
 			<if test="startTime != null and startTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
 	 		<if test="endTime != null and endTime != ''">and date_format(co.regist_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
 	 		<if test="companyName != null and companyName != ''">and co.company_name like '%${companyName}%'</if>

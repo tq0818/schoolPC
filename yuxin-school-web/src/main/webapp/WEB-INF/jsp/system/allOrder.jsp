@@ -71,7 +71,7 @@
 				<button class="btn btn-primary" code="">全部订单</button>
 				<button class="btn btn-default" code="PAY_NON">未付款</button>
 				<button class="btn btn-default" code="PAY_SUCCESS">已完成</button>
-				<button class="btn btn-default" code="PAY_FAIL">已取消</button>
+				<button class="btn btn-default" code="PAY_FAIL">失败</button>
 			</div>
 			<div class="user-list allOrderTable" id="orderList">
 

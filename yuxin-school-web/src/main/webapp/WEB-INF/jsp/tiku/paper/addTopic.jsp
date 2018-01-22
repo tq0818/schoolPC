@@ -64,7 +64,7 @@
             </c:if>
             <span class="mintitle">编辑：${userName }</span>
             <span class="mintitle">${sub.subjectName }</span>
-            <span class="mintitle">${cate.tikuName }</span>
+            <span class="mintitle" style="margin-right: 100px;">${cate.tikuName }</span>
         </div>
 		<input type="hidden" value="${paper.tikuCategoryId }" id="tikuId"/>
         <input type="hidden" value="${paper.id }" id="paperId"/>

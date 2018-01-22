@@ -606,6 +606,11 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         // TODO Auto-generated method stub
         sysConfigTeacherMapper.updateauthTeacher(teacher);
     }
+    @Override
+    public void updateauthTeacherByUserId(SysConfigTeacher teacher) {
+        // TODO Auto-generated method stub
+        sysConfigTeacherMapper.updateauthTeacherByUserId(teacher);
+    }
 
     @Override
     public Integer findMobileCount(SysConfigTeacher sct) {

@@ -341,8 +341,8 @@ public class BaseWebController {
         			if(sysConfigDict.getItemValue().equals("区县负责人")){
         				request.getSession().setAttribute("isAdministrativeManagement", 2);
         				//对应的区县的sys_config_dict表中的id和item_value值
-        				request.getSession().setAttribute("countyId", 1019);
-        				request.getSession().setAttribute("countyName", "青羊区");
+//        				request.getSession().setAttribute("countyId", 1019);
+//        				request.getSession().setAttribute("countyName", "青羊区");
         				
         			}
         		}

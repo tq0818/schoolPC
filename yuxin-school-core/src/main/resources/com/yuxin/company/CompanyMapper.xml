@@ -529,20 +529,13 @@
 	
 	<!-- 查询公司图片库 -->
 	<select id="queryCompanyPic" resultMap="companyPicsMap" parameterType="com.yuxin.wx.vo.company.CompanyPicsVo">
-	   <!--select id,pic_name,pic_original_url,pic_big_url,pic_middle_url,pic_small_url,pic_tag,pic_type,item_one_id,company_id from company_pics-->
-	   <!--where company_id=#{companyId}-->
-	   <!--<if test="picType != null and picType != ''">and pic_type = #{picType}</if>-->
-	    <!--<if test="picTag != null and picTag != ''">and pic_tag = #{picTag}</if>-->
-	   <!--<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>-->
-	   <!--ORDER BY id DESC-->
-	   <!--limit #{firstIndex},#{pageSize}-->
-
-		select c.* from company_pics c , sys_config_item s
-		where c.company_id=#{companyId}
-		and c.pic_type = "classtype"
-		and c.item_one_id=s.id
-		<if test="companyId != '18113'  ">and s.item_code is not NULL</if>
-		ORDER BY s.id DESC
+		select id,pic_name,pic_original_url,pic_big_url,pic_middle_url,pic_small_url,pic_tag,pic_type,item_one_id,company_id from company_pics
+		where company_id=#{companyId}
+		<if test="picType != null and picType != ''">and pic_type = #{picType}</if>
+		<if test="picTag != null and picTag != ''">and pic_tag = #{picTag}</if>
+		<if test="itemOneId != null and itemOneId != '' ">and item_one_id = #{itemOneId}</if>
+		<if test="companyId != 18113 ">and item_one_id  is not NULL and item_one_id>1725 </if>
+		ORDER BY id DESC
 		limit #{firstIndex},#{pageSize}
 	</select>
 

@@ -1432,7 +1432,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!-- 展视互动账号-->
 	<insert id="companyLiveConfig" parameterType="com.yuxin.wx.model.company.CompanyLiveConfig" useGeneratedKeys="true" keyProperty="id">
 		insert into company_live_config(company_id,domain,teacher_token,assistant_token,student_web_token,student_client_token,login_name,password,live_type)
-		select #{companyId},domain,teacher_token,assistant_token,student_web_token,student_client_token,#{loginName},#{password},live_type from company_live_config where company_id=18129
+		select #{companyId},domain,teacher_token,assistant_token,student_web_token,student_client_token,#{loginName},#{password},live_type from company_live_config where company_id=18113
 	</insert>
 	<!-- 添加服务信息-->
 	<insert id="addSysConfigService" parameterType="string" useGeneratedKeys="true" keyProperty="id">

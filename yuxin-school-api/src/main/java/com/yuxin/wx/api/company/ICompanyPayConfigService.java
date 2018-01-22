@@ -2,6 +2,7 @@ package com.yuxin.wx.api.company;
 
 import java.util.List;
 
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 
 
@@ -55,6 +56,8 @@ public interface ICompanyPayConfigService  {
 	 * @return
 	 */
 	CompanyPayConfig findByCompanyId(Integer companyId);
+	
+	List<Integer> findAllCompanyId();
 	
 	/**
 	 * 

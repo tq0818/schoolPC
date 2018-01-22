@@ -45,7 +45,7 @@ $(function(){
 		  $.ajax({
 			  type:"post",
 			  url:rootPath+"/sysConfigTeacher/updateSortId",
-			  data:{id:id,sortId:sortId,type:type},
+			  data:{id:id,companyId:$('#companyId').val(),sortId:sortId,type:type},
 			  success:function(result){
 				  $.msg(result);
 				  var itemOneId = $("#itemId").val();

@@ -5,10 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.company.ICompanyPayConfigService;
 import com.yuxin.wx.company.mapper.CompanyPayConfigMapper;
+import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyPayConfig;
 
 /**
@@ -41,6 +42,10 @@ public class CompanyPayConfigServiceImpl extends BaseServiceImpl implements ICom
 	public CompanyPayConfig findByCompanyId(Integer companyId){
 		// TODO Auto-generated method stub
 		return payConfigMapper.findByCompanyId(companyId);
+	}
+	@Override
+	public List<Integer> findAllCompanyId(){
+		return payConfigMapper.findAllCompanyId();
 	}
 	@Override
 	public void updateByCompanyId(CompanyPayConfig config) {

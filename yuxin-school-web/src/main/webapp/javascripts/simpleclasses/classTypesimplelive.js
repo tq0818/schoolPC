@@ -1085,6 +1085,7 @@
 							type:"post",
 							data : data,
 							dataType:"json",
+							async: false,
 							success: function(data){
 								$(".addclassLesson").removeClass("disabled");
 								if(data.msg=="success"){
@@ -1097,6 +1098,8 @@
 							}
 
 						 });
+					}else{
+						window.location.reload();
 					}
 				});
 			}else{
@@ -1150,6 +1153,7 @@
 					type:"post",
 					data : data,
 					dataType:"json",
+					async: false,
 					success: function(data){
 						$(".addclassLesson").removeClass("disabled");
 						if(data.msg=="success"){
@@ -1160,8 +1164,8 @@
 						}
 					}
 				 });
+				window.location.reload();
 			}
-            window.location.reload();
 			},
 
 			docChange:function(){

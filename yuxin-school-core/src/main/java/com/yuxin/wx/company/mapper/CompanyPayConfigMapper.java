@@ -31,6 +31,8 @@ public interface CompanyPayConfigMapper extends BaseMapper<Company> {
 
 	CompanyPayConfig findByCompanyId(Integer companyId);
 	
+	List<Integer> findAllCompanyId();
+	
 	void updateByCompanyId(CompanyPayConfig config);
 	
 	Integer findCountByCompanyId(Integer companyId);

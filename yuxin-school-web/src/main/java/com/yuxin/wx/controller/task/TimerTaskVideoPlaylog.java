@@ -50,13 +50,21 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
             long b = System.currentTimeMillis()/1000L;
             String infoUrl ="";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(18113);//暂时写死为数校公司id
-
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DAY_OF_YEAR,-1);
-            Date date  = c.getTime();
-
-            addPlayLog(date,companyPayConfig,1,sdf);
+            //查询出所有的机构
+            List<Integer> comapnyIds=companyPayConfigServiceImpl.findAllCompanyId();
+            if(comapnyIds!=null&&comapnyIds.size()>0){
+            	for(Integer companyId:comapnyIds){
+            		try{
+			            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(companyId);//暂时写死为数校公司id
+			            Calendar c = Calendar.getInstance();
+			            c.add(Calendar.DAY_OF_YEAR,-1);
+			            Date date  = c.getTime();
+			            addPlayLog(date,companyPayConfig,1,sdf);
+            		}catch(Exception e){
+            			e.printStackTrace();
+            		}
+            	}
+            }
         }catch (Exception e){
             e.printStackTrace();
             log.info("初始化watchInfoServiceImpl和companyLiveConfigServiceImpl出现错误！");

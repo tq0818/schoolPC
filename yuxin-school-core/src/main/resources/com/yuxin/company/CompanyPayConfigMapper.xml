@@ -178,6 +178,10 @@
 		where company_id = #{companyId}
 	</select>
 	
+	<select id="findAllCompanyId" resultType="Integer">
+		select id from company
+	</select>
+	
 	<select id="findByComIdAndPayType" resultMap="companyPayConfigResultMap" parameterType="com.yuxin.wx.model.company.CompanyPayConfig">
 		select <include refid="table_columns"/>
 		from company_pay_config

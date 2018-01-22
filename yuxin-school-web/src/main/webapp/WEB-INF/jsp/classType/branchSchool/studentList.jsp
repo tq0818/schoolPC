@@ -38,8 +38,8 @@
 		        <div class="heading clear" data-protocolconfig="${courseProtocolConfig}">
 		            <h2 class="h5" style="float:left;">学员列表</h2>
 		             <div style="position: absolute;right: 0;top: -8px;padding:0 10px;">
-	             		<span><a href="javascript:;" class="btn btn-primary addStudent">添加学员</a></span>
-	             		<span><a href="javascript:;" class="btn btn-primary importexcle">导入学员</a></span>
+	             		<!-- <span><a href="javascript:;" class="btn btn-primary addStudent">添加学员</a></span>
+	             		<span><a href="javascript:;" class="btn btn-primary importexcle">导入学员</a></span> -->
 			        	<span><a href="javascript:;" class="btn btn-primary exportexcle">导出学员</a></span>
 			        	<span><a href="javascript:;" class="btn btn-primary exportStudyPercent">导出学习进度</a></span>
 			        </div>
@@ -51,7 +51,7 @@
 		        	<input type="text" id="stuMobile" name="mobile" placeholder="手机号" style="width:100px;"/>
 		        	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
 		        	<input type="text" id="stuName" name="name" placeholder="姓名" style="width:100px;"/>
-		        	<input type="text" id="sfzh" name="identityId" placeholder="证件号码"/>
+		        	<!-- <input type="text" id="sfzh" name="identityId" placeholder="证件号码"/> -->
 		        	<select id="registStatus" name="status">
 		        		<option value="">前台账号状态</option>
 		        		<option value="1">启用</option>
@@ -59,14 +59,14 @@
 		        	</select>
 		        	<span style="margin-left:15px">创建时间</span>
 		        	<span><input type="text" name="startTime" style="width: 80px;" class="date-picker from"/><em>到</em><input type="text" style="width: 80px;" name="endTime" class="date-picker to"/></span>
-		        	<c:if test="${courseProtocolConfig}">
+		        	<%-- <c:if test="${courseProtocolConfig}">
 			        	<select id="protocolStatus" name="protocolStatus">
 			        		<option value="">协议签署状态</option>
 			        		<option value="1">已签署</option>
 			        		<option value="2">未签署</option>
 			        	</select>
 			        	<input type="hidden" value="1" name="protocolConfig">
-		        	</c:if>
+		        	</c:if> --%>
 		        	<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
 <!-- 		        	<select id="registMethods" name="registType"> -->
 <!-- 		        		<option value="">前台登录账号</option> -->

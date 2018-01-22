@@ -2819,9 +2819,8 @@ public class StudentStatisticsController {
         }else{
             Map<String, Object> papamMap = new HashMap<String, Object>();
             papamMap.put("classId", classId);
-            papamMap.put("className", className);
+            papamMap.put("className",className);
             Map<String, Object> video = sysPlayLogsServiceImpl.queryVideo(papamMap);
-
             if(video!=null){
                 CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
                 long nowtime = System.currentTimeMillis()/1000L;

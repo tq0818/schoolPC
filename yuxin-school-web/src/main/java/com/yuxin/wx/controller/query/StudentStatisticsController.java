@@ -175,25 +175,7 @@ public class StudentStatisticsController {
         model.addAttribute( "years", years);
         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
-        //判断当前用户是否是数校机构管理员，教科院，区县负责人
-        Users user = WebUtils.getCurrentUser();
-        Integer id = user.getId();
-        List<SysConfigDict> sysConfigDictList = sysConfigDictServiceImpl.findNameAndComId(id);
-        for (SysConfigDict sysConfigDict : sysConfigDictList) {
-			if(sysConfigDict.getItemValue().equals("教科院")){
-				//只有这三种权限能看到学校行政管理
-				request.getSession().setAttribute("isAdministrativeManagement", 1);
-			}
-			if(sysConfigDict.getItemValue().equals("机构管理员") && sysConfigDict.getItemCode().equals("18113")){
-				request.getSession().setAttribute("isAdministrativeManagement", 1);
-			}
-			if(sysConfigDict.getItemValue().equals("区县负责人")){
-				request.getSession().setAttribute("isAdministrativeManagement", 2);
-				request.getSession().setAttribute("quyuid", 1019);
-				request.getSession().setAttribute("quyuName", "青羊区");
-				
-			}
-		}
+       
         return "/query/query_student";
     }
 
@@ -216,7 +198,6 @@ public class StudentStatisticsController {
         stepDict.setDictCode("EDU_STEP");
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
-
         return "/query/query_org";
     }
 

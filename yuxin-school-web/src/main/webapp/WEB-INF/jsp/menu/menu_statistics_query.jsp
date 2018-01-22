@@ -30,9 +30,9 @@
                     <li class="item-child" code="userVideoList" mark="/query/statistics/userVideoList">用户点播统计</li>
                 </ul>
             </li>
-            <c:if test="${isAdministrativeManagement eq 1 || isAdministrativeManagement eq 2}">
+           <%-- <c:if test="${isAdministrativeManagement eq 1 || isAdministrativeManagement eq 2}"> --%>
             <li class="subentry" code="AdministrativeManagement" mark="/jsp/AdministrativeManagement"><p class="managelist-parent">学校行政管理</p></li>
-            </c:if>
+            <%-- </c:if> --%>
             </shiro:hasAnyRoles>
        </ul>
     </div>

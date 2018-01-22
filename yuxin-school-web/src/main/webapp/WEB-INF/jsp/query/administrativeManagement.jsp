@@ -39,6 +39,7 @@
 	.modefyPassword li{height: 44px;line-height: 44px;}
 	.resetPassword{width: 100%;text-align: center;height: 88px;line-height: 88px;color: #333333;font-size: 14px;}
 	.resetPassword{display: none;}
+	.schoolNameLength{width: 270px;}
 	</style>
 	<script type="text/javascript" src="<%=rootPath%>/javascripts/plus/jquery.pagination.js"></script>
 </head>
@@ -60,21 +61,21 @@
 				<form method="post" id="searchForm">
 					<div>
 						<input type="text" placeholder="分校名称/组织机构代码" style="margin-right: 5px;" id = "searchName">
-						<c:choose>
+						<%-- <c:choose>
 							<c:when test="${isAdministrativeManagement eq 2}">
 								<select name="eduArea" id="eduArea">
-								<option value="${quyuid}">${quyuName}</option>
+								<option value="${countyId}">${countyName}</option>
 								</select>
 							</c:when>
-							<c:otherwise>
+							<c:otherwise> --%>
 							<select name="eduArea" id="eduArea">
 								<option value="">请选择区域</option>
 								<c:forEach items="${areas}" var="area" >
 									<option value="${area.id}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
 								</c:forEach>
 							</select>
-							</c:otherwise>
-						</c:choose>
+							<%-- </c:otherwise>
+						</c:choose> --%>
 						<select name="eduSchool" id="eduSchool">
 							<option value="">请选择学校性质</option>
 							<c:forEach items="${school}" var="school" >
@@ -215,7 +216,7 @@
 		</div>
 	</div>
 	<div class="btnOpacity">
-		<a href="##" class="btn btn-primary" id = "password">确认添加</a>
+		<a href="##" class="btn btn-primary" id = "password">确认修改</a>
 		<a href="##" class="btn btn-primary">取消</a>
 	</div>
 </div>
@@ -282,7 +283,7 @@
                                     .find("table")
                                     .append('<tr>'+
                                     		'<td>'+((jsonData.pageNo-1)*jsonData.pageSize+i+1)+'</td>'+
-                							'<td>'+'<input type="text" value="'+allSchool.itemValue+'" disabled class="editDisable" >'+'</td>'+
+                							'<td>'+'<input type="text" value="'+allSchool.itemValue+'" disabled class="editDisable schoolNameLength" title="'+allSchool.itemValue+'" >'+'</td>'+
                 							'<td>'+'<input type="text" value="'+allSchool.itemCode+'" disabled  class="editDisableInput">'+'</td>'+
                 							'<td>'+'<select name="schoolArea" disabled class="editDisable">'+
                 								'<option value="">'+allSchool.dictName+'</option>'+
@@ -496,13 +497,18 @@ $(function(){
 	   	        	schoolCode:schoolCode
 	   	        },
 	   	        success : function(data){
+	   	        	if(data=="success"){
+	   	        		$.msg("保存成功");
+	   	        	}else{
+	   	        		alert("保存失败");
+	   	        	}
 	   	        }
 	   	    });
 		}
 		
 	});
 	//点击修改
-	$('.modify').click(function(){
+	$('table').on('click','.modify',function(){
 	    $(this).parent('td').siblings('td').children().removeClass('editDisable').attr('disabled',false);
 	    if($(this).html()=='修改'){
             $(this).html("保存");
@@ -555,7 +561,7 @@ $(function(){
 	//点击账号设置弹出弹窗
 	var schoolName;
 	var schoolCode;
-	$('.accountSettings').click(function(){
+	$('body').on('click','.accountSettings',function(){
         $('.opacityPopupAccount').fadeIn();
         $('.opacityPopupBg').fadeIn();
          schoolName = $(this).parents('td').siblings('td').eq(1).children().val();

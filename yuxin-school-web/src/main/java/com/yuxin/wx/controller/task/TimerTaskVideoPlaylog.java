@@ -141,33 +141,33 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
             Map map = new HashMap();
             map.put("id",lectureId);
             Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
-            long h  = (long)classInfo.get("h")*60*60;
-            long m  = (long)classInfo.get("m")*60;
-            long s  = (long)classInfo.get("s");
-            long total = h+m+s;
+            long total = (long)classInfo.get("times");
             //获取所有用户
             //List<UsersFront> users  = usersFrontServiceImpl.queryAll();
 
 
             map.clear();
-            if(flag.equals("huikan")){
+            /*if(flag.equals("huikan")){
                 map.put("videoLectrueId",lectureId);
             }
             else if(flag.equals("weike")){
                 map.put("videoLectrueWeikeId",lectureId);
-            }
+            }*/
             map.put("userId",userId);
+            map.put("knowledgeTreeId",node.getId());
             List<SysKnowledgeTreeStatistics> list =  sysKnowledgeTreeStatisticsServiceImpl.findStatistics(map);
             if(list.size()>0){
                 SysKnowledgeTreeStatistics obj = list.get(0);
                 //计算观看比例
                 if(flag.equals("huikan")){
+                    obj.setVideoLectrueId(lectureId);
                     if((float)(watchLength/total)>=0.7){
                         obj.setVideoFlag(2);
                     }else{
                         obj.setVideoFlag(1);
                     }
                 } else if(flag.equals("weike")){
+                    obj.setVideoLectrueWeikeId(lectureId);
                     if((float)(watchLength/total)>=0.8){
                         obj.setVideoWeikeFlag(2);
                     }else{
@@ -181,6 +181,7 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
                 obj.setUserId(userId);
                 obj.setCommodityId(node.getCommodityId());
                 obj.setClasstypeId(node.getClasstypeId());
+                obj.setKnowledgeTreeId(node.getId());
                 obj.setLessonId(node.getLessonId());
                 obj.setVideoLectrueId(node.getCommodityIdHuikan());
                 obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());

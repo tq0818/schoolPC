@@ -47,6 +47,7 @@ import com.yuxin.wx.api.company.ICompanyNewStepService;
 import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.company.ICompanyServiceStaticService;
 import com.yuxin.wx.api.company.IOrganLeaveMessageService;
+import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigServiceService;
 import com.yuxin.wx.api.system.ISysServiceDredgeConfigService;
 import com.yuxin.wx.api.user.IUsersLoginSessionService;
@@ -59,6 +60,7 @@ import com.yuxin.wx.model.company.CompanyMemberServiceChangelog;
 import com.yuxin.wx.model.company.CompanyNewStep;
 import com.yuxin.wx.model.company.CompanyServiceStatic;
 import com.yuxin.wx.model.company.OrganLeaveMessage;
+import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.system.SysConfigService;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersLoginSession;
@@ -120,6 +122,8 @@ public class BaseWebController {
     private ISysConfigServiceService sysConfigServiceServiceImpl;
     @Autowired
     private JedisShiroCacheManager jedisShiroCacheManager;
+    @Autowired
+    private ISysConfigDictService sysConfigDictServiceImpl;
 
     @RequestMapping(value = "/index", method = { RequestMethod.POST, RequestMethod.GET })
     public ModelAndView index(HttpServletRequest request, Model model) {

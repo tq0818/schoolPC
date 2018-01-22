@@ -176,6 +176,7 @@ public interface ISysConfigDictService  {
   	Integer findId(SysConfigDict areaDict);
   	Integer checkCodeAndName(SysConfigDict areaDict);
   	Integer queryAllSchoolsCount(SysConfigDict areaDict);
+  	
   	 /**
   	  * 
   	  * @author jishangyang 2017年12月17日 下午4:09:11

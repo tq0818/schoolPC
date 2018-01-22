@@ -30,7 +30,11 @@ public interface IUsersService  {
 	* @user by wangzx
 	 */
 	void insert(Users users);
-	
+	void addNewSchool(Users users);
+	void addUsersAreaRelation(Users users);
+	void addUsersComanyRelation(Users users);
+	void addAuthUserRole(Users users);
+	Integer findRoleUid(Integer currentCompanyId);
 	/**
 	 * 
 	* @Title: batchSaveUsers 
@@ -161,6 +165,7 @@ public interface IUsersService  {
 	 * @return
 	 */
  String addOrganUser(UserRoleVo vo,Integer currtUser);
+ Integer findUserByRealName(String schoolCode);
  /**
   * 
   * Class Name: IUsersService.java

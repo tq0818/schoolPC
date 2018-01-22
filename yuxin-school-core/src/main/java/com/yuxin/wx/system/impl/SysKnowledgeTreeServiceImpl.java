@@ -144,6 +144,7 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     sysKnowledgeTreeStatistics.setVideoWeikeFlag(resultMap.get("videoFlag")!=null ? Integer.valueOf(resultMap.get("videoFlag").toString()):0);
                 }else{
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
+                    sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
                     sysKnowledgeTreeStatistics.setVideoLectrueWeikeId(resultMap.get("lectureId")!=null ? Integer.valueOf(resultMap.get("lectureId").toString()):0);
                     sysKnowledgeTreeStatistics.setVideoWeikeFlag(resultMap.get("videoFlag")!=null ? Integer.valueOf(resultMap.get("videoFlag").toString()):0);
                     sysKnowledgeTreeStatistics.setClasstypeId(sysKnowledgeTree.getClasstypeId());
@@ -170,6 +171,7 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     sysKnowledgeTreeStatistics.setVideoFlag(resultMap.get("videoFlag")!=null ? Integer.valueOf(resultMap.get("videoFlag").toString()):0);
                 }else{
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
+                    sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
                     sysKnowledgeTreeStatistics.setVideoLectrueId(resultMap.get("lectureId")!=null ? Integer.valueOf(resultMap.get("lectureId").toString()):0);
                     sysKnowledgeTreeStatistics.setVideoFlag(resultMap.get("videoFlag")!=null ? Integer.valueOf(resultMap.get("videoFlag").toString()):0);
                     sysKnowledgeTreeStatistics.setClasstypeId(sysKnowledgeTree.getClasstypeId());
@@ -197,6 +199,7 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                     sysKnowledgeTreeStatistics.setPaperFlag(paperFlag);
                 }else{
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
+                    sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
                     sysKnowledgeTreeStatistics.setPaperId(sysKnowledgeTree.getPaperId());
                     Integer paperFlag = resultMap.get("paperFlag")!=null ? Integer.valueOf(resultMap.get("paperFlag").toString()):0;
                     sysKnowledgeTreeStatistics.setPaperFlag(paperFlag);

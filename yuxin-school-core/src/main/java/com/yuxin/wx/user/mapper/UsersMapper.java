@@ -40,6 +40,8 @@ public interface UsersMapper extends BaseMapper<Users> {
 	 * @return
 	 */
 	Integer checkUser(Users user);
+	Integer findUserByRealName(String schoolCode);
+	Integer findRoleUid(Integer currentCompanyId);
 	
 	/**
   * 
@@ -184,6 +186,10 @@ public interface UsersMapper extends BaseMapper<Users> {
      * @param ucr
      */
     void insertUsersComanyRelation(UsersComanyRelation ucr);
+    void addNewSchool(Users user);
+    void addUsersAreaRelation(Users user);
+    void addUsersComanyRelation(Users user);
+    void addAuthUserRole(Users user);
     
 
     void deleteAuthUserRole(Integer userId, Integer companyId);

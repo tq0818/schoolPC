@@ -389,6 +389,51 @@
 		</trim>
 		<where>id = #{id}</where>
 	</update>
+	<update id="updateauthTeacherByUserId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
+		update sys_config_teacher
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="teacherType != null and teacherType != ''">teacher_type = #{teacherType},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+			<if test="homePhone != null and homePhone != ''">home_phone = #{homePhone},</if>
+			<if test="birthday != null and birthday != ''">birthday = #{birthday},</if>
+			<if test="idNumber != null and idNumber != ''">id_number = #{idNumber},</if>
+			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="jobType != null and jobType != ''">job_type = #{jobType},</if>
+			<if test="homeAddress != null and homeAddress != ''">home_address = #{homeAddress},</if>
+			<if test="address != null and address != ''">address = #{address},</if>
+			<if test="company != null and company != ''">company = #{company},</if>
+			<if test="post != null and post != ''">post = #{post},</if>
+			<if test="workPhone != null and workPhone != ''">work_phone = #{workPhone},</if>
+			<if test="emergencyContactName != null and emergencyContactName != ''">emergency_contact_name = #{emergencyContactName},</if>
+			<if test="emergencyContactPhone != null and emergencyContactPhone != ''">emergency_contact_phone = #{emergencyContactPhone},</if>
+			<if test="workTime != null and workTime != ''">work_time = #{workTime},</if>
+			<if test="unionpayNo != null and unionpayNo != ''">unionpay_no = #{unionpayNo},</if>
+			<if test="bankName != null and bankName != ''">bank_name = #{bankName},</if>
+			<if test="bankAccountName != null and bankAccountName != ''">bank_account_name = #{bankAccountName},</if>
+			<if test="bankAccountNum != null and bankAccountNum != ''">bank_account_num = #{bankAccountNum},</if>
+			<if test="statusCode != null and statusCode != ''">status_code = #{statusCode},</if>
+			<if test="delFlag != null and delFlag != ''">del_flag = #{delFlag},</if>
+			<if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+			<if test="creator != null and creator != ''">creator = #{creator},</if>
+			<if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+			<if test="updator != null and updator != ''">updator = #{updator},</if>
+			<if test="resume != null and resume != ''">resume = #{resume},</if>
+			<if test="teacherId != null and teacherId != ''">teacher_id = #{teacherId},</if>
+			<if test="educationCode != null and educationCode != ''">education_code = #{educationCode},</if>
+			<if test="userId != ''">user_id = #{userId},</if>
+			<if test="headpicUrl != null and headpicUrl != ''">headpic_url = #{headpicUrl},</if>
+			<if test="isDistinguished != null">is_distinguished = #{isDistinguished},</if>
+
+			<if test="teacherLevel != null and teacherLevel !=''">teacher_level = #{teacherLevel},</if>
+			<if test="teacherArea != null and teacherArea !=''">teacher_area = #{teacherArea},</if>
+			<if test="schoolName != null and schoolName !=''">school_name = #{schoolName},</if>
+			<if test="schoolShortName != null and schoolShortName !=''">school_short_name = #{schoolShortName},</if>
+
+		</trim>
+		<where> id= #{id}</where>
+	</update>
 
 	<select id="findById" resultMap="sysConfigTeacherResultMap"
 		parameterType="String">

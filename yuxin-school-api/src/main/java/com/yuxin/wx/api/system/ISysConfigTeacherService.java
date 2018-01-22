@@ -423,6 +423,7 @@ public interface ISysConfigTeacherService {
      * @param teacher
      */
     void updateauthTeacher(SysConfigTeacher teacher);
+    void updateauthTeacherByUserId(SysConfigTeacher teacher);
 
     /**
      * 

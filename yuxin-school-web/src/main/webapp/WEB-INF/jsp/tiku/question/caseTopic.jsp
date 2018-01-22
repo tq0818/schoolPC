@@ -25,7 +25,7 @@
                   <c:if test="${t.status eq 'PAPER_STATUS_PUBLISH' or t.status eq 'PAPER_STATUS_AUDIT_FAIL'}">
                   ${t.auditorName }
                   </c:if>
-                  <c:if test="${t.updatorName == null }">${t.creatorName }</c:if>
+                <%--  <c:if test="${t.updatorName == null }">${t.creatorName }</c:if>--%>
                   </em></span>
               </td>
               <td class="text-right">

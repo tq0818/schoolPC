@@ -174,9 +174,9 @@ public class SysConfigServiceServiceImpl extends BaseServiceImpl implements ISys
 		serv.setZhuCompanyId(zhuCompanyId);
 		
 		if(sysConfigServiceMapper.finConfigServiceSet(serv)>0){
-			if(sysConfigServiceMapper.deletConfigService(serv)>0){
+		/*	if(sysConfigServiceMapper.deletConfigService(serv)>0){*/
 				sysConfigServiceMapper.updateFlag(serv);
-			}
+			/*}*/
     	}else{
     		if(sysConfigServiceMapper.addConfigService(serv)>0){
     			sysConfigServiceMapper.updateFlag(serv);

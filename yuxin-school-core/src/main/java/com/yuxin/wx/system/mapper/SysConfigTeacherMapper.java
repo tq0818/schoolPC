@@ -132,6 +132,8 @@ public interface SysConfigTeacherMapper extends BaseMapper<SysConfigTeacher> {
 
     void updateauthTeacher(SysConfigTeacher teacher);
 
+    void updateauthTeacherByUserId(SysConfigTeacher teacher);
+
     Integer findMobileCount(SysConfigTeacher sct);
     Integer checkTeacher(String teachers);
 

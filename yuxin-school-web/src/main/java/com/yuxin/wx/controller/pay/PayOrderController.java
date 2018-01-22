@@ -302,7 +302,16 @@ public class PayOrderController {
         map.put("orderNum",request.getParameter("orderNum"));
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
-        map.put("payMethod",request.getParameter("payMethod"));
+        String payMethod=request.getParameter("payMethod");
+       if(null != payMethod  && !"".equals(payMethod) ){
+            if(payMethod.equals("PAY_TYPE_WX_PERSON")){
+                payMethod="WX";
+            }
+            if(payMethod.equals("PAY_TYPE_ZFB")){
+                payMethod="ZFB";
+            }
+        }
+        map.put("payMethod",payMethod);
         map.put("firstPrice",request.getParameter("firstPrice"));
         map.put("secondPrice",request.getParameter("secondPrice"));
         Integer page = Integer.parseInt(request.getParameter("page"));

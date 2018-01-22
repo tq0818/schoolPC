@@ -430,21 +430,25 @@ public class AuthPrivilegeController {
 					schoolCode, gradeCode, classCode, subjectCode, subJectGradeCode, subjectClassCode,r,user.getId());
 		}
 		//修改教师
-		if(teachersId!=null&&!"".equals(teachersId)){
+		/*if(teachersId!=null&&!"".equals(teachersId)){*/
+		if(user.getId()!=null&&!"".equals(user.getId())){
 			//清除
 			List<SysConfigTeacher> teac=sysConfigTeacherServiceImpl.findTeachersByUserId(user.getId());
 			for(SysConfigTeacher t1:teac){
-				t1.setUserId(null);
-				sysConfigTeacherServiceImpl.updateauthTeacher(t1);
+				t1.setName(user.getRealName());
+				t1.setMobile(user.getMobile());
+				/*t1.setUserId(null);
+				sysConfigTeacherServiceImpl.updateauthTeacher(t1);*/
+				sysConfigTeacherServiceImpl.updateauthTeacherByUserId(t1);
 			}
-			String t=teachersId.substring(0, teachersId.length()-1);
+			/*String t=teachersId.substring(0, teachersId.length()-1);
 			String[] teachers=t.split(",");
 			for(int i=0;i<teachers.length;i++){
 				SysConfigTeacher sysConfigTeacher=new SysConfigTeacher();
 				sysConfigTeacher.setId(Integer.parseInt(teachers[i]));
 				sysConfigTeacher.setUserId(user.getId());
 				sysConfigTeacherServiceImpl.updateauthTeacher(sysConfigTeacher);
-			}
+			}*/
 		}
 		Users user1=userServiceImpl.findUsersById(user.getId());
 		Integer uId=WebUtils.getCurrentUserId(request);

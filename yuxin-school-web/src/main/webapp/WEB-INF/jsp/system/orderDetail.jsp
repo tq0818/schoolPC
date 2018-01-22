@@ -62,8 +62,11 @@
 				<c:when test="${order.payStatus=='PAY_NON'}">
 					<td>未付款</td>
 				</c:when>
-				<c:when test="${order.payStatus=='SUB_ORDER_DELTED'}">
+				&lt;%&ndash;<c:when test="${order.payStatus=='SUB_ORDER_DELTED'}">
 					<td>已取消</td>
+				</c:when>&ndash;%&gt;
+				<c:when test="${order.payStatus=='PAY_FAIL'}">
+					<td>失败</td>
 				</c:when>
 			</c:choose>--%>
 

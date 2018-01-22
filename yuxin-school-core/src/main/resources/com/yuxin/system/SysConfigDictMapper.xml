@@ -38,7 +38,8 @@
 		item_status_code,
 		display_seq,
 		company_id,
-		is_directly
+		is_directly,
+		first_letter
     </sql>
 	<sql id="entity_properties">
 		#{id},
@@ -49,13 +50,35 @@
 		#{parentItemId},
 		#{itemStatusCode},
 		#{displaySeq},
-		#{companyId}
+		#{companyId},
+		#{isDirectly},
+		#{firstLetter}
+	</sql>
+	<sql id="table_relation">
+		id,
+		edu_step_new_id,
+		edu_school_id,
+		edu_step_new_code,
+		edu_school_code
+    </sql>
+	<sql id="entity_relation">
+		#{id},
+		#{stepId},
+		#{companyId},
+		#{groupCode},
+		#{itemStatusCode}
 	</sql>
 	
 	<!-- 适用于主键自增类型 -->
 	<insert id="insert" parameterType="com.yuxin.wx.model.system.SysConfigDict" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_config_dict( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
+	</insert>
+	<insert id="addEduStepSchool" parameterType="com.yuxin.wx.model.system.SysConfigDict" useGeneratedKeys="true" keyProperty="id">
+		insert into edu_step_school_relation
+		( <include refid="table_relation" /> ) 
+		values 
+		( <include refid="entity_relation" /> )
 	</insert>
 	
 	<!-- 批量添加 适用于主键自增类型  不支持返回主键-->
@@ -92,6 +115,22 @@
 			<if test="parentItemId != null and parentItemId != ''">parent_item_id = #{parentItemId},</if>
 			<if test="itemStatusCode != null and itemStatusCode != ''">item_status_code = #{itemStatusCode},</if>
 			<if test="displaySeq != null and displaySeq != ''">display_seq = #{displaySeq},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	<update id="updateSchoolProperty" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		update edu_step_school_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="dictName != null and dictName != ''">edu_step_new_code = #{dictName},</if>
+		</trim>
+		<where> edu_school_id = #{id}</where>
+	</update>
+	<update id="updateOthserSchoolProperty" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		update sys_config_dict 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="dictCode != null and dictCode != ''">parent_item_id = #{parentItemId},</if>
+			<if test="itemValue != null and itemValue != ''">item_value = #{itemValue},</if>
+			<if test="firstLetter != null and firstLetter != ''">first_letter = #{firstLetter},</if>
 		</trim>
 		<where>id = #{id}</where>
 	</update>
@@ -229,20 +268,30 @@
 		ORDER by display_seq asc
 	</select>
 	<select id="queryAllSchools" resultMap="sysConfigDictResultMap" parameterType="com.yuxin.wx.model.system.SysConfigDict">
-		<!-- select d.item_code,d.item_value,d.id from sys_config_dict d
-		left join edu_step_school_relation r
-		on r.edu_school_id = d.id
-		where d.dict_code=#{dictCode} and d.item_status_code = '1'
-		<if test="stepId != null and stepId != ''">and r.edu_step_new_id = #{stepId}</if>
-		<if test="parentItemId != null and parentItemId != ''">and d.parent_item_id = #{parentItemId}</if>
-		<if test="itemCode != null and itemCode != ''">and d.item_code = #{itemCode}</if>
-		<if test="itemValue != null and itemValue != ''">and d.item_value = #{itemValue}</if>
-		ORDER by display_seq asc -->
-		select * from sys_config_dict d
+		select d.id as id,d.item_code as item_code,d.item_value as item_value,scd.item_value as dict_code,scd2.item_value as dict_name 
+		from sys_config_dict d
+		INNER JOIN edu_step_school_relation esr ON d.item_code = esr.edu_school_code
+		INNER JOIN sys_config_dict scd ON esr.edu_step_new_code = scd.item_code
+		INNER JOIN sys_config_dict scd2 ON d.parent_item_id = scd2.id
 		where d.dict_code = 'EDU_SCHOOL'
-		ORDER BY first_letter 
-		LIMIT 0,50
-		 
+		<if test="groupCode != null and groupCode != ''">and esr.edu_step_new_id = #{groupCode}</if>
+		<if test="isArea != null and isArea != ''">and d.parent_item_id = #{isArea}</if>
+		<if test="itemValue != null and itemValue != ''">and d.item_value like '%${itemValue}%'</if>
+		<if test="firstLetter != null and firstLetter != ''">or d.item_code like '%${firstLetter}%'</if>
+		ORDER BY d.first_letter 
+		limit #{firstIndex},#{pageSize}
+	</select>
+    <select id="queryAllSchoolsCount" resultType="Integer" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select count(1)
+		from sys_config_dict d
+		INNER JOIN edu_step_school_relation esr ON d.item_code = esr.edu_school_code
+		INNER JOIN sys_config_dict scd ON esr.edu_step_new_code = scd.item_code
+		INNER JOIN sys_config_dict scd2 ON d.parent_item_id = scd2.id
+		where d.dict_code = 'EDU_SCHOOL'
+		<if test="groupCode != null and groupCode != ''">and esr.edu_step_new_id = #{groupCode}</if>
+		<if test="isArea != null and isArea != ''">and d.parent_item_id = #{isArea}</if>
+		<if test="itemValue != null and itemValue != ''">and d.item_value like '%${itemValue}%'</if>
+		<if test="firstLetter != null and firstLetter != ''">or d.item_code like '%${firstLetter}%'</if>
 	</select>
 
 	<select id="findSchoolBySchoolType"  parameterType="Map" resultMap="sysConfigDictResultMap">
@@ -256,6 +305,12 @@
 			from sys_config_dict
 		where parent_item_id=#{parentId} 
 		order by id
+	</select>
+	<select id="findNameAndComId" parameterType="Integer" resultMap="sysConfigDictResultMap">
+		SELECT ar.role_name as item_value,ar.company_id as item_code from auth_role ar
+			INNER JOIN auth_user_role aur ON ar.role_uid = aur.role_uid
+			INNER JOIN users u ON aur.user_id = u.id
+			where u.id =#{id} 
 	</select>
     <!--获取服务类型及服务名称-->
     <select id="querSysConfigDictList" resultMap="sysConfigDictResultMap" parameterType="Integer">
@@ -273,6 +328,14 @@
 		inner JOIN sys_config_dict scd1 on scs.parent_code=scd1.item_code 
 		where  scs.company_id = #{companyId} and scs.group_code in('SERVICE_ONLINE_SET','SERVICE_MICROSCHOOL'
 		,'SERVICE_LIVE','SERVICE_VIDEO','SERVICE_COURSE_SET','SERVICE_PAY_SET','SERVICE_MSG_SET','SERVICE_MARKETING_SET','SERVICE_CLASS_SET')
+	</select>
+    <select id="findId" resultType="Integer" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select id from sys_config_dict where item_code = #{itemCode}
+	</select>
+    <select id="checkCodeAndName" resultType="Integer" parameterType="com.yuxin.wx.model.system.SysConfigDict">
+		select count(1) from sys_config_dict where 1=1
+		 <if test="itemCode != null and itemCode != ''"> and item_code = #{itemCode}</if>
+		 <if test="itemValue != null and itemValue != ''"> and item_value = #{itemValue}</if>
 	</select>
 	
 	

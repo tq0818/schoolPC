@@ -278,17 +278,17 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 		 sphf.setCompanyId(ids);
 		 sphf.setSchoolId(school.getId());
 		 sphf.setZhuCompanyId(zhuCompanyId);
-		 List<SysPageHeadFoot> list =companyMapper.selectAllUrl();
-		for (SysPageHeadFoot sphfnew:list) {
-			String[] url1=sphfnew.getUrl().split("\\/");
-			String url2 ="";
-			if (url1.length>3){
-				for (int i =0 ;i<url1.length;i++) {
-					if(i==2){
-						url2=url2+"/"+search.getDomain();
-					}else if(i==0){
-						url2 =url1[i];
-					}else {
+		List<SysPageHeadFoot> list = companyMapper.selectAllUrl();
+		for (SysPageHeadFoot sphfnew : list) {
+			String[] url1 = sphfnew.getUrl().split("\\/");
+			String url2 = "";
+			if (url1.length > 3) {
+				for (int i = 0; i < url1.length; i++) {
+					if (i == 2) {
+						url2 = url2 + "/" + search.getDomain();
+					} else if (i == 0) {
+						url2 = url1[i];
+					} else {
 						url2 =url2+"/"+(url1[i]);
 					}
 				}

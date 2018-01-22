@@ -311,7 +311,7 @@ public class PayOrderController {
         payOrder.setPage(page);
         payOrder.setPageSize(pageSize);
         map.put("page",payOrder.getFirstIndex());
-
+        map.put("payStates",request.getParameter("payStates"));
         // 查询 订单 集合
         List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
         // 总数
@@ -320,6 +320,7 @@ public class PayOrderController {
         PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, pageSize, count, cpoList);
 
         model.addAttribute("payPage", payPage);
+        model.addAttribute("payStates",request.getParameter("payStates"));
         return "system/orderDetail";
     }
 

@@ -49,8 +49,8 @@
             <tr>
                 <td>
                     <span class="c">审核者</span>
-                    <c:if test="${t.updatorName == null }">${t.creatorName }</c:if>
-			    	<c:if test="${t.updatorName != null }">${t.updatorName }</c:if>
+                    <c:if test="${t.updatorName == null  } and ${t.status == 'PAPER_STATUS_PUBLISH' }">${t.creatorName }</c:if>
+			    	<c:if test="${t.updatorName != null } ">${t.updatorName }</c:if>
                 </td>
             </tr>
         </table>

@@ -145,7 +145,7 @@ public class StudentStatisticsController {
 
         List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
         model.addAttribute("areas", areas);
-
+        
         // 学员分组
         CompanyFunctionSet companyFunctionSet = new CompanyFunctionSet();
         companyFunctionSet.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -175,6 +175,7 @@ public class StudentStatisticsController {
         model.addAttribute( "years", years);
         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
+       
         return "/query/query_student";
     }
 
@@ -197,7 +198,6 @@ public class StudentStatisticsController {
         stepDict.setDictCode("EDU_STEP");
         List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
         model.addAttribute("stepNews", stepNews);
-
         return "/query/query_org";
     }
 

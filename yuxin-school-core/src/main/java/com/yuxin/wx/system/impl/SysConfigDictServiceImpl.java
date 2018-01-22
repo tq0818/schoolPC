@@ -39,6 +39,10 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	public void insert(SysConfigDict sysConfigDict){
 		sysConfigDictMapper.insert(sysConfigDict);
 	}
+	@Override
+	public void addEduStepSchool(SysConfigDict sysConfigDict){
+		sysConfigDictMapper.addEduStepSchool(sysConfigDict);
+	}
 	
 	/**
 	 * 
@@ -236,6 +240,10 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
     public Integer querSysConfigDictCount(Integer companyId) {
     	return sysConfigDictMapper.querSysConfigDictCount(companyId);
     }
+    @Override
+    public Integer queryAllSchoolsCount(SysConfigDict areaDict) {
+    	return sysConfigDictMapper.queryAllSchoolsCount(areaDict);
+    }
 
 	@Override
     public List<EduMasterClass> queryEduMasterClass(EduMasterClass ems) {
@@ -245,6 +253,32 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	@Override
 	public List<SysConfigDict> queryAllSchools(SysConfigDict search) {
 		return sysConfigDictMapper.queryAllSchools(search);
+	}
+	/**
+	 * 修改学校性质
+	 */
+	@Override
+	public void updateSchoolProperty(SysConfigDict sysConfigDict) {
+		sysConfigDictMapper.updateSchoolProperty(sysConfigDict);
+	}
+
+	@Override
+	public Integer findId(SysConfigDict areaDict) {
+		return sysConfigDictMapper.findId(areaDict);
+	}
+	@Override
+	public Integer checkCodeAndName(SysConfigDict areaDict) {
+		return sysConfigDictMapper.checkCodeAndName(areaDict);
+	}
+
+	@Override
+	public void updateOthserSchoolProperty(SysConfigDict sysConfigDict) {
+		sysConfigDictMapper.updateOthserSchoolProperty(sysConfigDict);
+		
+	}
+	@Override
+	public List<SysConfigDict> findNameAndComId(Integer id) {
+		return sysConfigDictMapper.findNameAndComId(id);
 	}
 
 

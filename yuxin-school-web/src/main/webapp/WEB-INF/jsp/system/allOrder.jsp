@@ -71,7 +71,7 @@
 				<button class="btn btn-primary" code="">全部订单</button>
 				<button class="btn btn-default" code="PAY_NON">未付款</button>
 				<button class="btn btn-default" code="PAY_SUCCESS">已完成</button>
-				<button class="btn btn-default" code="SUB_ORDER_DELTED">已取消</button>
+				<button class="btn btn-default" code="PAY_FAIL">已取消</button>
 			</div>
 			<div class="user-list allOrderTable" id="orderList">
 
@@ -188,7 +188,12 @@ $.jeDate('#inpend',end);
 		}
 
 		function queryOrders(pageNo){
-
+		    var payStates="";
+            $(".allArderState").find("button").each(function(){
+                if($(this).hasClass("btn-primary")){
+                    payStates=$(this).attr("code");
+                }
+            });
 			var orderNum = $.trim($("#orderNum").val());
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
@@ -198,7 +203,7 @@ $.jeDate('#inpend',end);
 			$.ajax({
 				url : "/payOrder/queryAllOrder",
 				type:"post",
-				data:{"page":pageNo,"pageSize":10,"orderNum":orderNum, "inpstart":inpstart, "inpend":inpend, "payMethod":payMethod, "firstPrice":firstPrice, "secondPrice":secondPrice},
+				data:{"page":pageNo,"pageSize":10,"orderNum":orderNum, "inpstart":inpstart, "inpend":inpend, "payMethod":payMethod, "firstPrice":firstPrice, "secondPrice":secondPrice,"payStates":payStates},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();
@@ -223,6 +228,7 @@ $.jeDate('#inpend',end);
 				}else {
                     $(this).addClass('btn-default').removeClass('btn-primary');
 				}
+            queryOrders(1);
 
 		});
 	</script>

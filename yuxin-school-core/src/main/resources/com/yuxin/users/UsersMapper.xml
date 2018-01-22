@@ -167,6 +167,22 @@
 		insert into users( <include refid="table_columns" /> ) 
 		values ( <include refid="entity_properties" /> )
 	</insert>
+	<insert id="addNewSchool" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into users(username,password,real_name,sex,status,is_area) 
+		values (#{username},#{password},#{realName},'MALE',1,0)
+	</insert>
+	<insert id="addUsersAreaRelation" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into users_area_relation(user_id,edu_area,edu_school,user_type,create_time) 
+		values (#{id},#{userCity},#{schoolName},1,NOW())
+	</insert>
+	<insert id="addUsersComanyRelation" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into users_comany_relation(user_id,company_id,is_used)
+		values (#{id},#{companyId},1)
+	</insert>
+	<insert id="addAuthUserRole" parameterType="com.yuxin.wx.model.user.Users" useGeneratedKeys="true" keyProperty="id">
+		insert into auth_user_role(user_id,role_uid,create_time,creator,update_time,updator)
+		values (#{id},#{status},NOW(),#{companyId},NOW(),#{companyId})
+	</insert>
 	
 	<insert id="grantUserInCompany" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		insert into users_comany_relation(user_id,company_id) 
@@ -252,7 +268,7 @@
 	</update>
 	<update id="updateSchoolPassword" parameterType="com.yuxin.wx.model.user.Users">
 		update users set password=#{password}
-			where edu_area_school=#{eduAreaSchool}
+			where username=#{username}
 	</update>
 	<update id="updateUsersComanyRelationStatus" parameterType="com.yuxin.wx.model.user.Users">
 		update users_comany_relation set is_used=#{status} where user_id=#{id} and company_id=#{companyId}
@@ -262,6 +278,15 @@
 		select <include refid="table_columns" />
 		from users
 		where id = #{id}
+	</select>
+	<select id="findUserByRealName" resultType="Integer" parameterType="String" >
+		select id
+		from users
+		where username = #{schoolCode}
+	</select>
+	<select id="findRoleUid" resultType="Integer" parameterType="Integer" >
+		select role_uid from auth_role
+		where role_name = '学校负责人' and company_id = #{currentCompanyId}
 	</select>
 	
 	<select id="findUsersById" resultMap="usersResultMap" parameterType="map" >

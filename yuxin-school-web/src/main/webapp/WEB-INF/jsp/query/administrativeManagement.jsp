@@ -61,21 +61,21 @@
 				<form method="post" id="searchForm">
 					<div>
 						<input type="text" placeholder="分校名称/组织机构代码" style="margin-right: 5px;" id = "searchName">
-						<c:choose>
+						<%-- <c:choose>
 							<c:when test="${isAdministrativeManagement eq 2}">
 								<select name="eduArea" id="eduArea">
 								<option value="${countyId}">${countyName}</option>
 								</select>
 							</c:when>
-							<c:otherwise>
+							<c:otherwise> --%>
 							<select name="eduArea" id="eduArea">
 								<option value="">请选择区域</option>
 								<c:forEach items="${areas}" var="area" >
 									<option value="${area.id}" data-id="${area.id}" ${student.eduArea==area.itemValue?"selected":""}>${area.itemValue}</option>
 								</c:forEach>
 							</select>
-							</c:otherwise>
-						</c:choose>
+							<%-- </c:otherwise>
+						</c:choose> --%>
 						<select name="eduSchool" id="eduSchool">
 							<option value="">请选择学校性质</option>
 							<c:forEach items="${school}" var="school" >
@@ -497,6 +497,11 @@ $(function(){
 	   	        	schoolCode:schoolCode
 	   	        },
 	   	        success : function(data){
+	   	        	if(data=="success"){
+	   	        		$.msg("保存成功");
+	   	        	}else{
+	   	        		alert("保存失败");
+	   	        	}
 	   	        }
 	   	    });
 		}

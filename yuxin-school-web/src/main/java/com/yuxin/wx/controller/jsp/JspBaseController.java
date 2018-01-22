@@ -174,13 +174,12 @@ public class JspBaseController {
     @ResponseBody
     @RequestMapping(value = "/updatePassword")
     public String updatePassword(HttpServletRequest request,String password,String schoolCode){
-    	Users users = new Users();
     	try {
-			
-    	users.setEduAreaSchool(schoolCode);
-    	users.setUsername(schoolCode+"111111");
-    	users.setPassword(new Md5Hash(password,ByteSource.Util.bytes(users.getUsername()+"salt")).toHex());
-    	usersServiceImpl.updateSchoolPassword(users);
+    	Integer userId = usersServiceImpl.findUserByRealName(schoolCode);
+    	Users findUsers = usersServiceImpl.findUsersById(userId);
+    	findUsers.setUsername(schoolCode);
+    	findUsers.setPassword(new Md5Hash(password,ByteSource.Util.bytes(findUsers.getUsername()+"salt")).toHex());
+    	usersServiceImpl.updateSchoolPassword(findUsers);
     	return "success";
     	} catch (Exception e) {
     		return "false";
@@ -196,12 +195,12 @@ public class JspBaseController {
     @ResponseBody
     @RequestMapping(value = "/resetPassword")
     public String resetPassword(HttpServletRequest request,String schoolCode){
-    	Users users = new Users();
     	try {
-    		users.setEduAreaSchool(schoolCode);
-    		users.setUsername(schoolCode+"111111");
-    		users.setPassword(new Md5Hash("111111",ByteSource.Util.bytes(users.getUsername()+"salt")).toHex());
-    		usersServiceImpl.updateSchoolPassword(users);
+    		Integer userId = usersServiceImpl.findUserByRealName(schoolCode);
+        	Users findUsers = usersServiceImpl.findUsersById(userId);
+        	findUsers.setUsername(schoolCode);
+        	findUsers.setPassword(new Md5Hash("111111",ByteSource.Util.bytes(findUsers.getUsername()+"salt")).toHex());
+    		usersServiceImpl.updateSchoolPassword(findUsers);
     		return "success";
 		} catch (Exception e) {
 			return "false";
@@ -286,6 +285,38 @@ public class JspBaseController {
 	    	area.setItemStatusCode(schoolCode);
 	    	//保存edu_step_school_relation表数据
 	    	sysConfigDictServiceImpl.addEduStepSchool(area);
+	    	//在users表中插入数据
+	    	Users user = new Users();
+	    	//组织机构代码为username
+	    	user.setUsername(schoolCode);
+	    	//默认密码111111
+	    	user.setPassword(new Md5Hash("111111",ByteSource.Util.bytes(user.getUsername()+"salt")).toHex());
+	    	//学校名称作为realname
+	    	user.setRealName(schoolName);
+	    	usersServiceImpl.addNewSchool(user);
+	    	//保存users_area_relation表数据
+	    	Integer userId = usersServiceImpl.findUserByRealName(schoolCode);
+	    	Users srelation = new Users();
+//	    	SysConfigDict configDict = sysConfigDictServiceImpl.findSysConfigDictById(Integer.valueOf(countyCode));
+	    	srelation.setUserCity(countyCode);
+	    	srelation.setId(userId);
+	    	srelation.setSchoolName(schoolCode);
+	    	usersServiceImpl.addUsersAreaRelation(srelation);
+	    	//保存users_comany_relation表数据
+	    	Integer currentCompanyId = WebUtils.getCurrentCompanyId();
+	    	Users s = new Users();
+	    	s.setId(userId);
+	    	s.setCompanyId(currentCompanyId);
+	    	usersServiceImpl.addUsersComanyRelation(s);
+	    	//当前登录用户
+	    	Users currentUser = WebUtils.getCurrentUser();
+	    	//保存auth_user_role表数据
+	    	Users authUser = new Users();
+	    	authUser.setId(userId);
+	    	authUser.setCompanyId(currentUser.getId());
+	    	Integer findRoleUid = usersServiceImpl.findRoleUid(currentCompanyId);
+	    	authUser.setStatus(findRoleUid);
+	    	usersServiceImpl.addAuthUserRole(authUser);
 	    	return "success";
     	} catch (Exception e) {
     		return "false";

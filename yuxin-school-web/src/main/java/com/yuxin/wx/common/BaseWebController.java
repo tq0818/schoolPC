@@ -329,23 +329,6 @@ public class BaseWebController {
                 Integer sessionSchoolId=session.getAttribute(WebUtils.SCHOOL_ID)==null?null:(Integer)session.getAttribute(WebUtils.SCHOOL_ID);
                 users.setSchoolId(sessionSchoolId);
                 session.setAttribute(WebUtils.LOGIN_USER, users);
-                List<SysConfigDict> sysConfigDictList = sysConfigDictServiceImpl.findNameAndComId(users.getId());
-                for (SysConfigDict sysConfigDict : sysConfigDictList) {
-        			if(sysConfigDict.getItemValue().equals("教科院")){
-        				//只有这三种权限能看到学校行政管理
-        				request.getSession().setAttribute("isAdministrativeManagement", 1);
-        			}
-        			if(sysConfigDict.getItemValue().equals("机构管理员") && sysConfigDict.getItemCode().equals("18113")){
-        				request.getSession().setAttribute("isAdministrativeManagement", 1);
-        			}
-        			if(sysConfigDict.getItemValue().equals("区县负责人")){
-        				request.getSession().setAttribute("isAdministrativeManagement", 2);
-        				//对应的区县的sys_config_dict表中的id和item_value值
-//        				request.getSession().setAttribute("countyId", 1019);
-//        				request.getSession().setAttribute("countyName", "青羊区");
-        				
-        			}
-        		}
                 // 设置公司的相关信息 add by jaler 16.11.1
                 Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
                 session.setAttribute(WebUtils.CURRENT_COMAPNY, company);

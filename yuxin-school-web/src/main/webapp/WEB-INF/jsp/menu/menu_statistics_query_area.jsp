@@ -20,9 +20,9 @@
             </shiro:hasAnyRoles>
             <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
             <li class="subentry" code="videoList" mark="/query/areastatistics/videoCourseIndex">点播统计</li>
-            <c:if test="${isAdministrativeManagement eq 1 || isAdministrativeManagement eq 2}">
+            <%-- <c:if test="${isAdministrativeManagement eq 1 || isAdministrativeManagement eq 2}"> --%>
             <li class="subentry" code="AdministrativeManagement" mark="/jsp/AdministrativeManagement"><p class="managelist-parent">学校行政管理</p></li>
-            </c:if>
+            <%-- </c:if> --%>
             </shiro:hasAnyRoles>
        </ul>
     </div>

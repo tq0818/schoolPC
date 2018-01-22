@@ -122,6 +122,18 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	public void insert(Users users){
 		usersMapper.insert(users);
 	}
+	@Override
+	public void addNewSchool(Users users){
+		usersMapper.addNewSchool(users);
+	}
+	@Override
+	public void addUsersComanyRelation(Users users){
+		usersMapper.addUsersComanyRelation(users);
+	}
+	@Override
+	public void addAuthUserRole(Users users){
+		usersMapper.addAuthUserRole(users);
+	}
 	
 	/**
 	 * 
@@ -157,6 +169,10 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	@Override
 	public void updateSchoolPassword(Users users){
 		usersMapper.updateSchoolPassword(users);
+	}
+	@Override
+	public void addUsersAreaRelation(Users users){
+		usersMapper.addUsersAreaRelation(users);
 	}
 	
 	/**
@@ -563,6 +579,14 @@ public class UsersServiceImpl extends BaseServiceImpl implements IUsersService {
 	public Integer isExixits(Users users) {
 		// TODO Auto-generated method stub
 		return usersMapper.isExixits(users);
+	}
+	@Override
+	public Integer findUserByRealName(String schoolCode) {
+		return usersMapper.findUserByRealName(schoolCode);
+	}
+	@Override
+	public Integer findRoleUid(Integer currentCompanyId) {
+		return usersMapper.findRoleUid(currentCompanyId);
 	}
 
 	@Override

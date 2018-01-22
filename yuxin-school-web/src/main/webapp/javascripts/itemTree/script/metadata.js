@@ -45,7 +45,7 @@ var setting = {
        },
         enable: true,
        showRenameBtn: false,
-       showRemoveBtn: true
+       showRemoveBtn: setRemoveBtn
      //   showRenameBtn: showRenameBtn
     },
     callback: {
@@ -58,6 +58,14 @@ var setting = {
         onRemove: zTreeOnRemove
     }
 };
+function setRemoveBtn(treeId, treeNode) {
+    //判断为顶级节点则不显示删除按钮
+    if(treeNode.level == 0)
+        return false;
+    else
+        return true;
+            
+}
 function ajaxDataFilter(treeId, parentNode, responseData){
 
     if(parentNode.children==undefined||(parentNode.children).length<1){

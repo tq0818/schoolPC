@@ -1129,6 +1129,7 @@ public class SysConfigItemController extends BaseWebController {
             	if(sysConfigItemRelations!=null&&sysConfigItemRelations.size()>0){
             		SysConfigItemRelation sysConfigItemRelationInfo=sysConfigItemRelations.get(0);
             		SysConfigItemRelation sysConfigItemRelationUpdate=new SysConfigItemRelation();
+            		sysConfigItemRelationUpdate.setIsParent(true);
             		sysConfigItemRelationUpdate.setId(sysConfigItemRelationInfo.getId());
             		sysConfigItemRelationUpdate.setItemCode(sysConfigItem.getItemCode());
             		sysConfigItemRelationServiceImpl.update(sysConfigItemRelationUpdate);

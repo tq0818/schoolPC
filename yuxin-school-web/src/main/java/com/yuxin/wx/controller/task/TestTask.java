@@ -72,7 +72,7 @@ public class TestTask {
         log.info("获取昨天直播观看信息-----执行时间：" + new Date());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
-        ca.add(Calendar.DAY_OF_YEAR,-2);
+        //ca.add(Calendar.DAY_OF_YEAR,-2);
         //ca.set(Calendar.MONTH,7);
         ca.add(Calendar.DAY_OF_MONTH,-1);
         String lessonDate = sdf.format(ca.getTime());

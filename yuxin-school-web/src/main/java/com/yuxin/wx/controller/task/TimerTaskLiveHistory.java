@@ -132,9 +132,7 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
             // Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
 
             //获取所有用户
-            List<UsersFront> users  = usersFrontServiceImpl.queryAll();
-
-
+            // List<UsersFront> users  = usersFrontServiceImpl.queryAll();
 
             map.put("userId",userId);
             List<SysKnowledgeTreeStatistics> list =  sysKnowledgeTreeStatisticsServiceImpl.findStatistics(map);
@@ -150,6 +148,7 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
             }else{
                 SysKnowledgeTreeStatistics obj = new SysKnowledgeTreeStatistics();
                 obj.setUserId(userId);
+                obj.setKnowledgeTreeId(node.getId());
                 obj.setCommodityId(node.getCommodityId());
                 obj.setClasstypeId(node.getClasstypeId());
                 obj.setLessonId(node.getLessonId());
@@ -167,6 +166,8 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
                 }
                 sysKnowledgeTreeStatisticsServiceImpl.addStatistics(obj);
             }
+
+
         }
     }
 }

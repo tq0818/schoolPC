@@ -101,6 +101,7 @@ public class SysKnowledgeTreeController extends BaseWebController {
         classType.setItemSecondCode(sysKnowledgeTree.getItemSecondCode());
         classType.setItemThirdCode(sysKnowledgeTree.getItemThreeCode());
         classType.setLiveFlag(1);
+        classType.setDelFlag(0);
         classType.setPage(sysKnowledgeTree.getPage());
         classType.setPageSize(sysKnowledgeTree.getPageSize());
         PageFinder<ClassTypeVo> page = classTypeServiceImpl.findClassTypesByPage(classType);

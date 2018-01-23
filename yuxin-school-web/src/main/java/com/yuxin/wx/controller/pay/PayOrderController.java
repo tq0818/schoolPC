@@ -365,10 +365,10 @@ public class PayOrderController {
             // 总数
             count = payOrderServiceImpl.findPrivateSchoolMoneyCountByCondition(map);
         }
-        int totalMoneyAdd = 0;
+        double totalMoneyAdd = 0;
         if(null!=cpoList && cpoList.size()>0){
             for(PayOrder po : cpoList){
-                totalMoneyAdd+=Integer.parseInt(po.getTotalMoney());
+                totalMoneyAdd+=Double.parseDouble(po.getTotalMoney());
             }
         }
         // 分页

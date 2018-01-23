@@ -470,19 +470,23 @@
 
 	<select id="findPrivateSchoolMoneyCountByCondition" resultType="int" parameterType="map">
 		select count(1) from (
-			select t.dateTime,sum(t.totalMoney)as totalMoney,sum(t.handInMoney)as handInMoneyfrom from (
-			select
-				DATE_FORMAT(po.order_time,'%Y-%m-%d') as dateTime,
-				po.pay_price as totalMoney,
-				case when ct.is_public=1 then po.pay_price*c.public_cost/100 else po.pay_price*c.private_cost/100 end as handInMoney
-			 from pay_order po
-			join company c on c.id=po.company_id
-			join class_type ct on ct.id=po.commodity_id
-			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
-			)t GROUP BY t.dateTime)t1
-			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				where t3.dateTime BETWEEN #{inpstart} and #{inpend}
-			</if>
+		select * from (
+		select t.orderTime,sum(t.totalMoney)as totalMoney,sum(t.fetchMoney)as
+		fetchMoney,(sum(t.totalMoney)-sum(t.fetchMoney)) as handInMoney from (
+		select
+		DATE_FORMAT(po.order_time,'%Y-%m-%d') as orderTime,
+		po.pay_price as totalMoney,
+		case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100
+		end as fetchMoney
+		from pay_order po
+		join company c on c.id=po.company_id
+		join class_type ct on ct.id=po.commodity_id
+		where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
+		)t GROUP BY t.orderTime)t3
+		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
+			where t3.orderTime BETWEEN #{inpstart} and #{inpend}
+		</if>
+		)a
 	</select>
 
 

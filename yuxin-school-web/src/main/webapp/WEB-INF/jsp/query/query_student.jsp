@@ -65,11 +65,13 @@
 						</span>
 						</c:if>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+						<span><a href="javascript:;" class="btn btn-primary exportexcle" target="_blank">导出数据</a></span>
 					</div>
-					<!-- <div style="margin-top: 10px;text-align:right;padding:0 10px;">
-			        	<span><a href="javascript:;" class="btn btn-primary addStudent">添加用户</a></span>
-			        	<span><a href="javascript:;" class="btn btn-primary importexcle" target="_blank">导入用户</a></span>
-			        </div> -->
+
+					<div style="margin-top: 10px;text-align:right;padding:0 10px;">
+			        	<%--<span><a href="javascript:;" class="btn btn-primary addStudent">添加用户</a></span>--%>
+
+			        </div>
 				</form>
 				<div class="user-list">
 					<table class="table table-center" id="tableList">

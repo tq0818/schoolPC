@@ -24,6 +24,7 @@ public class SysConfigItem extends BaseEntity {
 	private Integer parentId; /* 父节点id */
 	private String status; /* 项目启用状态：1（启用）；0（未启用） */
 	private Integer delFlag; /* 删除标记：1（已删除）；0（未删除） */
+	private String delFlagStr;
 	private String remark; /* 备注 */
 	private Date createTime;
 	private Integer creator;
@@ -48,6 +49,14 @@ public class SysConfigItem extends BaseEntity {
 
 	private List<SysConfigItem> childrenList = new ArrayList<SysConfigItem>();
 	
+	public String getDelFlagStr() {
+		return delFlagStr;
+	}
+
+	public void setDelFlagStr(String delFlagStr) {
+		this.delFlagStr = delFlagStr;
+	}
+
 	public String getLevelPath() {
 		return levelPath;
 	}

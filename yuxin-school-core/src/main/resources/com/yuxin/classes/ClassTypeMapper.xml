@@ -497,9 +497,10 @@
 		<if test="classType.itemSecondCode != null and classType.itemSecondCode != ''">and a.item_second_code = #{classType.itemSecondCode}</if>
 		<if test="classType.itemThirdCode != null and classType.itemThirdCode != ''">and a.item_third_code = #{classType.itemThirdCode}</if>
 		<if test="classType.itemFourthCode != null and classType.itemFourthCode != ''">
-            and a.item_fourth_code in
-            <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
-        </if>
+			and a.item_fourth_code in
+			<foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		<if test="classType.delFlag != null and classType.delFlag != ''">and a.del_flag = #{classType.delFlag}</if>
 		ORDER BY a.subject_class_order is null,a.subject_class_order asc, a.update_time DESC
 		limit #{classType.firstIndex},#{classType.pageSize}
 	</select>
@@ -528,6 +529,7 @@
             and item_fourth_code in
             <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">#{item}</foreach>
         </if>
+		<if test="classType.delFlag != null and classType.delFlag != ''">and a.del_flag = #{classType.delFlag}</if>
 	</select>
 	
 	<select id="findClassTypeByStuId" parameterType="map" resultMap="classTypeResultMap">

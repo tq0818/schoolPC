@@ -600,7 +600,7 @@
 						FROM
 							sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
-						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId} and ct.origin_type=0
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
 						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id
@@ -621,7 +621,7 @@
 						FROM
 						sys_watch_info_history swih
 						LEFT JOIN sys_watch_info swi ON swi.liveroom_id = swih.room_id
-						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId}
+						inner join class_type ct on ct.id=swi.classtype_id and ct.company_id=#{companyId} and ct.origin_type=0
 						LEFT JOIN class_module_lesson cml ON cml.liveroom_id_gh = swih.room_id
 						LEFT JOIN commodity m ON m.id = swi.commodity_id and m.origin_type=0
 						LEFT JOIN student s ON  s.user_id = swi.user_id

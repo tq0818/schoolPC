@@ -934,11 +934,14 @@ public class SysConfigItemController extends BaseWebController {
                 	SysConfigItemRelation sysConfigItemRelationUpdate=new SysConfigItemRelation();
                 	sysConfigItemRelationUpdate.setId(sysConfigItemRelationInfo.getId());
                 	sysConfigItemRelationUpdate.setItemCode(sysConfigItem.getItemCode());
+                	sysConfigItemRelationUpdate.setIsParent(true);
                 	sysConfigItemRelationServiceImpl.update(sysConfigItemRelationUpdate);
                 }
+                sysConfigItem.setId(sitem.getId());
+                sysConfigItem.setDelFlagStr(sysConfigItem.getDelFlag()+"");
                 sysConfigItemServiceImpl.update(sysConfigItem);
                 sitem.setStatus("1");
-            	sitem.setDelFlag(0);
+            	//sitem.setDelFlag(0);
                 sitem.setItemName(sysConfigItem.getItemName());
             	sitem.setItemCode(sysConfigItem.getItemCode());
             	// 添加关系

@@ -246,7 +246,7 @@
 							<span class="help-block" style="color:red;"></span>
 						</div>
 					<label class="col-md-2 control-label">性别</label>	
-						<div class="col-md-2">
+						<div class="col-md-2" style="margin-top: 7px;">
 							<input type="radio"  id="insertman" class="sSex" name="sSex" value="MALE" >男
 							<input type="radio" id="insertwoman" class="sSex" name="sSex" value="FEMALE">女
 						</div>

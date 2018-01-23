@@ -49,9 +49,21 @@
 <input type="hidden" id="rowCount" value='${pageFinder.rowCount}'/>
 <input type="hidden" id="selectCounts" value="10">
 	<!-- 二级导航 -->
+	<c:choose>
+	<c:when test="${isAreaSchool1 eq 0}">
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics.jsp"></jsp:include>
+	</c:when>
+	<c:otherwise><jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"></jsp:include></c:otherwise>
+	</c:choose>
 	<div class="u-wrap query overflow">
-	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
+		<c:choose>
+			<c:when test="${isAreaSchool1 eq 0}">
+				<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query.jsp"></jsp:include>
+			</c:when>
+			<c:otherwise>
+				<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_area.jsp"></jsp:include>
+			</c:otherwise>
+		</c:choose>
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
@@ -285,20 +297,21 @@
                                     		'<td>'+((jsonData.pageNo-1)*jsonData.pageSize+i+1)+'</td>'+
                 							'<td>'+'<input type="text" value="'+allSchool.itemValue+'" disabled class="editDisable schoolNameLength" title="'+allSchool.itemValue+'" >'+'</td>'+
                 							'<td>'+'<input type="text" value="'+allSchool.itemCode+'" disabled  class="editDisableInput">'+'</td>'+
-                							'<td>'+'<select name="schoolArea" disabled class="editDisable">'+
+                							'<td>'+'<span class="createbefor"><input type="text" value="'+allSchool.dictName+'" disabled  class="editDisableInput"></span>'+
+												'<span style="display: none" class="createover"><select name="schoolArea"   class="editDisable">'+
                 								'<option value="">'+allSchool.dictName+'</option>'+
                 								'<c:forEach items="${areas}" var="area" >'+
                 								'<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>'+
                 								'</c:forEach>'+
-                								'</select>'+
+                								'</select></span>'+
                 							'</td>'+
-                							'<td>'+
-                								'<select name="schoolNature" disabled class="editDisable">'+
+                							'<td>'+'<span class="createbefor"><input type="text" value="'+allSchool.dictCode+'" disabled  class="editDisableInput"></span>'+
+                								'<span style="display: none" class="createover"><select name="schoolNature"  class="editDisable">'+
                 								'<option value="">'+allSchool.dictCode+'</option>'+
                 								'<c:forEach items="${school}" var="school" >'+
                 								'<option value="${school.itemCode}" data-id="${school.id}">${school.itemValue}</option>'+
                 								'</c:forEach>'+
-                								'</select>'+
+                								'</select></span>'+
                 							'</td>'+
                 							 '<td><a href="##" class="modify"  schoolId="'+allSchool.id+'">修改</a>/'+
                 								'<a href="##" class="accountSettings">账号设置</a>'+
@@ -509,6 +522,9 @@ $(function(){
 	});
 	//点击修改
 	$('table').on('click','.modify',function(){
+	    $(".createbefor").hide();
+	    $(".createover").show();
+
 	    $(this).parent('td').siblings('td').children().removeClass('editDisable').attr('disabled',false);
 	    if($(this).html()=='修改'){
             $(this).html("保存");
@@ -606,6 +622,7 @@ $(function(){
 
 
 	$selectSubMenu('AdministrativeManagement');
+	$selectThirdMenu('AdministrativeManagement');
 </script>
 </body>
 </html>

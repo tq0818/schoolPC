@@ -3,6 +3,8 @@ package com.yuxin.wx.system.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.user.mapper.UsersAreaRelationMapper;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,9 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 
 	@Autowired
 	private SysConfigDictMapper sysConfigDictMapper;
-	
+	@Autowired
+	private UsersAreaRelationMapper usersAreaRelationMapper;
+
 	/**
 	 * 
 	* @Title: saveSysConfigDict
@@ -281,8 +285,10 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 		return sysConfigDictMapper.findNameAndComId(id);
 	}
 
-
-
+	@Override
+	public UsersAreaRelation selectUserByUserId(Integer userId){
+		return usersAreaRelationMapper.selectUserByUserId(userId);
+	}
 
 	
 

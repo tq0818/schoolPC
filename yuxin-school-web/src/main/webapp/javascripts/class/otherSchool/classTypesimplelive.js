@@ -935,6 +935,7 @@
 			data.lessonId=$("#lessonUrlId").val();
             data.beforeStudyUrl = $("#beforeStudyUrl").val();
             data.afterStudyUrl =$("#afterStudyUrl").val();
+            data.beforeStudyName =$("#beforeStudyName").val();
 			url=rootPath+"/classModule/addCourseLessonUrl";
             if($(".editson[mark=back]").hasClass("disabled")){
                 return;

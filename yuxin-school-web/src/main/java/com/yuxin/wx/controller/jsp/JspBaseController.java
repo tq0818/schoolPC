@@ -8,8 +8,11 @@ import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 本controller只供前端人员写页面，仅开发阶段用
@@ -75,7 +75,7 @@ public class JspBaseController {
         SysConfigDict areaDict = new SysConfigDict();
         areaDict.setDictCode("EDU_SCHOOL_AREA");
         List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-        model.addAttribute("areas", area);
+
         //查询学校性质
         areaDict.setDictCode("EDU_STEP_NEW");
         List<SysConfigDict> school = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
@@ -84,6 +84,30 @@ public class JspBaseController {
         //查询学校
         areaDict.setPageSize(10);
         List<SysConfigDict> schools = sysConfigDictServiceImpl.queryAllSchools(areaDict);
+
+        List<SysConfigDict> areas =new ArrayList<SysConfigDict>();
+        Integer userId =(Integer) request.getSession().getAttribute("loginUserIdNow");
+        UsersAreaRelation loginArea= sysConfigDictServiceImpl.selectUserByUserId(userId);
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("教科院")){
+            model.addAttribute("areas", area);
+        }else if(subject.hasRole("区县负责人")){
+            for (SysConfigDict areas1:area) {
+                if(areas1.getItemCode().equals(loginArea.getEduArea())){
+                    areas.add(areas1);
+                }
+            }
+            model.addAttribute("areas", areas);
+        }else if(subject.hasRole("学校负责人")||subject.hasRole("任课老师")||subject.hasRole("班主任")){
+            for (SysConfigDict areas1:area) {
+                if(areas1.getItemCode().equals(loginArea.getEduSchool())){
+                    areas.add(areas1);
+                }
+            }
+            model.addAttribute("areas", area);
+        }else{
+            model.addAttribute("areas", area);
+        }
         //查询学校总数
 //        Integer rowCount = sysConfigDictServiceImpl.queryAllSchoolsCount(areaDict);
 //        PageFinder<SysConfigDict> pageFinder = new PageFinder<SysConfigDict>(areaDict.getPage(), areaDict.getPageSize(), rowCount, schools);
@@ -107,7 +131,7 @@ public class JspBaseController {
     	SysConfigDict areaDict = new SysConfigDict();
     	areaDict.setDictCode("EDU_SCHOOL_AREA");
     	List<SysConfigDict> area = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
-    	model.addAttribute("areas", area);
+    	/*model.addAttribute("areas", area);*/
     	//查询学校性质
     	areaDict.setDictCode("EDU_STEP_NEW");
     	List<SysConfigDict> school = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
@@ -116,7 +140,34 @@ public class JspBaseController {
     	//查询学校
     	areaDict.setItemValue(searchName);
     	areaDict.setFirstLetter(searchName);
-		areaDict.setIsArea(eduArea);
+
+        List<SysConfigDict> areas =new ArrayList<SysConfigDict>();
+        Integer userId =(Integer) request.getSession().getAttribute("loginUserIdNow");
+        UsersAreaRelation loginArea= sysConfigDictServiceImpl.selectUserByUserId(userId);
+        //记录区县id 在字典表中筛选
+        String eduID=null;
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.hasRole("教科院")){
+            model.addAttribute("areas", area);
+            areaDict.setIsArea(eduArea);
+        }else if(subject.hasRole("区县负责人")){
+            for (SysConfigDict areas1:area) {
+                if(areas1.getItemCode().equals(loginArea.getEduArea())){
+                    areas.add(areas1);
+                }
+                if(areas1.getItemCode().equals(loginArea.getEduArea())){
+                    eduID=String.valueOf(areas1.getId());
+                }
+            }
+            model.addAttribute("areas", areas);
+            areaDict.setIsArea(eduID);
+        }
+        else if(subject.hasRole("学校负责人")||subject.hasRole("任课老师")||subject.hasRole("班主任")){
+            model.addAttribute("areas", area);
+        }else{
+            model.addAttribute("areas", area);
+            areaDict.setIsArea(eduArea);
+        }
     	areaDict.setGroupCode(eduSchool);
     	areaDict.setPageSize(10);
     	areaDict.setPage(page);

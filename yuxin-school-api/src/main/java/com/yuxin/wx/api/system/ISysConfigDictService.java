@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
+
 /**
  * Service Interface:SysConfigDict
  * @author wang.zx
@@ -187,4 +189,7 @@ public interface ISysConfigDictService  {
   	  * @throws
   	  */
     List<EduMasterClass> queryEduMasterClass(EduMasterClass ems);
+
+
+    UsersAreaRelation selectUserByUserId(Integer userId);
 }

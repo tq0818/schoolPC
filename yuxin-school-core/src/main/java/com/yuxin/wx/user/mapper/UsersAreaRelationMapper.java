@@ -16,4 +16,6 @@ import java.util.Map;
  * @date 2014-12-5
  */
 public interface UsersAreaRelationMapper extends BaseMapper<UsersAreaRelation> {
+
+    UsersAreaRelation selectUserByUserId(Integer userId);
 }

@@ -31,6 +31,28 @@ public class PayorderResultVO implements Serializable {
 	private String payInfo;//wap端支付地址
 	private String wxCodeImgUrl;//微信支付地址
 	private String zfbCodeImgUrl;//支付宝支付地址
+	private String liveFlag;//直播
+	private String videoFlag;//录播
+	private String isMicroClass;//回放或微课
+
+	public String getLiveFlag() {
+		return liveFlag;
+	}
+	public void setLiveFlag(String liveFlag) {
+		this.liveFlag = liveFlag;
+	}
+	public String getVideoFlag() {
+		return videoFlag;
+	}
+	public void setVideoFlag(String videoFlag) {
+		this.videoFlag = videoFlag;
+	}
+	public String getIsMicroClass() {
+		return isMicroClass;
+	}
+	public void setIsMicroClass(String isMicroClass) {
+		this.isMicroClass = isMicroClass;
+	}
 	public Integer getUserId() {
 		return userId;
 	}

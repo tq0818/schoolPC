@@ -329,6 +329,7 @@ public class BaseWebController {
                 Integer sessionSchoolId=session.getAttribute(WebUtils.SCHOOL_ID)==null?null:(Integer)session.getAttribute(WebUtils.SCHOOL_ID);
                 users.setSchoolId(sessionSchoolId);
                 session.setAttribute(WebUtils.LOGIN_USER, users);
+                session.setAttribute("loginUserIdNow",users.getId());
                 // 设置公司的相关信息 add by jaler 16.11.1
                 Company company = companyServiceImpl.findCompanyById(WebUtils.getCurrentCompanyId());
                 session.setAttribute(WebUtils.CURRENT_COMAPNY, company);

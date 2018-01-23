@@ -62,7 +62,14 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 
 	@Override
 	public void updateShareClassLesson(ClassModuleLesson classModuleLesson) {
+		//更新直播课次
 		classModuleLessonMapper.updateShareLesson(classModuleLesson);
+		//更新直播章节的授课时长
+		Integer totalHours=classModuleLessonMapper.queryTotalHours(classModuleLesson);
+		classModuleLesson.setLessonHour(totalHours+"");
+		classModuleLessonMapper.updateTotalHours(classModuleLesson);
+		//更新classModel
+		classModuleLessonMapper.updateTotalHoursByLessonId(classModuleLesson);
 	}
 
 	/**

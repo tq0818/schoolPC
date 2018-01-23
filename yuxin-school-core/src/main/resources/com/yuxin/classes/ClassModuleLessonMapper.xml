@@ -263,6 +263,28 @@
 		<where>alias.out_source_lession_id = #{id}</where>
 	</update>
 	
+	<update id="updateTotalHours" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		update class_module_no cml
+		inner join class_module_lesson cmn on cmn.module_no_id=cml.id
+		set cml.total_hours=#{lessonHour}
+		where cmn.out_source_lession_id=#{id};
+	</update>
+	
+	<update id="updateTotalHoursByLessonId" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		update class_module cmo
+		inner join class_module_no cml on cmo.id=cml.module_id
+		inner join class_module_lesson cmn on cmn.module_no_id=cml.id 
+		set cmo.total_class_hour=#{lessonHour}
+		where cmn.out_source_lession_id=#{id}
+	</update>
+	
+	<select id="queryTotalHours" resultType="Integer" parameterType="com.yuxin.wx.model.classes.ClassModuleLesson">
+		select sum(cmn.lesson_hour) from class_module_lesson cmn
+		inner join class_module_no cml on cmn.module_no_id=cml.id
+		where cmn.out_source_lession_id=#{id}
+		group by cml.id
+	</select>
+	
 	<select id="findById" resultMap="classModuleLessonResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from class_module_lesson

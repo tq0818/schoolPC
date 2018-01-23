@@ -105,8 +105,27 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
     List<ClassModuleLesson> findLessonByCommodityIdNotDel(Map<String, Object> map);
     
     void insert1(ClassModuleLesson classModuleLesson);
-    
+    /**
+     * 更新分享课信息
+     * @param classModuleLesson
+     */
     void updateShareLesson(ClassModuleLesson classModuleLesson);
+    /**
+     * 更新分享课对应的总课时 class_module_no
+     * @param classModuleLesson
+     */
+    void updateTotalHours(ClassModuleLesson classModuleLesson);
+    /**
+     * 更新分享课对应的总课时 class_module
+     * @param classModuleLesson
+     */
+    void updateTotalHoursByLessonId(ClassModuleLesson classModuleLesson);
+    /**
+     * 查询分享课总信息
+     * @param classModuleLesson
+     * @return
+     */
+    Integer queryTotalHours(ClassModuleLesson classModuleLesson);
 
     List<ClassModuleLesson> findLessonByCommodityIds(String[] ids);
 }

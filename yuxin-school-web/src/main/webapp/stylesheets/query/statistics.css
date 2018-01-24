@@ -16,7 +16,7 @@ margin-right: 10px;}
     margin-top: 20px;}
 .content-right .btn.active,.content-right .btn.active:hover{background: #0099ff;}
 .screen-info .date{border: 1px solid #ddd;display: inline-block;vertical-align: middle;
-	height: 30px;line-height: 30px;margin-left: 200px;background: #fff;}
+	height: 30px;line-height: 30px;margin-left: 115px;background: #fff;}
 .screen-info .date .date-picker{    text-align: center;
     border:0;}
 .screen-info .text{background: #f6f6f6;border-right: 1px solid #ddd;display: inline-block;

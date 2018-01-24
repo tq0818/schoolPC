@@ -110,7 +110,7 @@ public class CommodityVo extends BaseEntity {
     private String expiredFlag;
 
     private String isPublic;
-
+    private Double publicPrice;//分校公开课程价格
     /**
      * 涉及查询分校数据时主校id
      */
@@ -126,7 +126,7 @@ public class CommodityVo extends BaseEntity {
         this.isPublic = isPublic;
     }
 
-    private Double publicPrice;//分校公开课程价格
+
 
     public String getMainCompanyId() {
         return mainCompanyId;

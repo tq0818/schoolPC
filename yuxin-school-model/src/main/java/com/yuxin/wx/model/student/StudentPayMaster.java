@@ -97,6 +97,35 @@ public class StudentPayMaster extends BaseEntity {
 
     private int startIndex;//特殊使用，分页启始偏移量
 
+    private String isPublic;
+    private String publicPrice;
+    private String originalPrice;
+
+    public String getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(String originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+
+    public String getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(String isPublic) {
+        this.isPublic = isPublic;
+    }
+
+    public String getPublicPrice() {
+        return publicPrice;
+    }
+
+    public void setPublicPrice(String publicPrice) {
+        this.publicPrice = publicPrice;
+    }
+
     // private Student student;
     // Constructor
     public StudentPayMaster() {

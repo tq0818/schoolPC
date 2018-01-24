@@ -20,7 +20,8 @@ public class VideoCourseVo extends BaseEntity {
 	private String areaName;	 /* 区域名称 */
 	private String eduSchoolStep;	 /* 学校性质编码 */
 	private String schoolStepName;	 /* 学校性质名称 */
-	private String stepName;	 /* 学校属性名称 */
+	private String eduStep;	 /* 课程学段 */
+	private String stepName;	 /* 课程学段名称 */
 	private String eduSchool;	 /* 学校编码 */
 	private String schoolName;	 /* 学校名称 */
 	private String eduSubject;	 /* 学科编码 */
@@ -245,5 +246,13 @@ public class VideoCourseVo extends BaseEntity {
 
 	public void setViewNum(Long viewNum) {
 		this.viewNum = viewNum;
+	}
+
+	public String getEduStep() {
+		return eduStep;
+	}
+
+	public void setEduStep(String eduStep) {
+		this.eduStep = eduStep;
 	}
 }

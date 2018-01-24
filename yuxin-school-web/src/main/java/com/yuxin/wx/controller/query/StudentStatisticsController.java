@@ -15,6 +15,8 @@ import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.common.*;
+import com.yuxin.wx.model.classes.ClassType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -39,10 +41,6 @@ import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.user.IUserHistoryService;
 import com.yuxin.wx.api.user.IUsersService;
-import com.yuxin.wx.common.CCVideoConstant;
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.common.PageFinder2;
-import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyPayConfig;
@@ -3134,5 +3132,41 @@ public class StudentStatisticsController {
         }
     }
 
+
+    /**
+     *
+     * @Description: 统计信息导出学员数据
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/exportVideoExcle")
+    public ModelAndView exportVideoExcle(Model model, String startTime, String endTime) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("companyId", WebUtils.getCurrentCompanyId());
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
+        map.put("type", "microClass");
+        List<VideoCourseVo> videoCourseVoList = sysPlayLogsServiceImpl.queryTotleVideoCourseAll(map);//查询微课
+        map.put("type", "video");
+        List<VideoCourseVo> videoCourseVoList1 = sysPlayLogsServiceImpl.queryTotleVideoCourseAll(map);//查询回看
+        StringBuffer colNames = new StringBuffer(
+                "年级:stepName,学科:subjectName,教师:teaName,课程名称:courseName,累计点播次数:viewNum");
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            List<ExcelSheetEntity> sheets = new ArrayList<ExcelSheetEntity>();
+            ExcelSheetEntity entity = ExcelSheetEntity.newInstance("回放", colNames.toString(), videoCourseVoList1);
+            ExcelSheetEntity entity2 = ExcelSheetEntity.newInstance("微课", colNames.toString(), videoCourseVoList);
+
+            sheets.add(entity);
+            sheets.add(entity2);
+            wb = ExcelUtil.newWorkbook(sheets);
+        } catch (Exception ex) {
+
+        }
+        map.put("workbook", wb);
+        map.put("fileName", "视频观看记录表.xls");
+        return new ModelAndView(excel, map);
+    }
 
 }

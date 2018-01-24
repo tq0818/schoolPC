@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.statistics.Statistics;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
 
@@ -168,4 +169,10 @@ public interface SysPlayLogsMapper extends BaseMapper<Statistics> {
 	 * @return
 	 */
     List<Map<String,Object>> queryTotleVideoCourse1(Map<String, Object> papamMap);
+
+	/**
+	 * 查询所有视频的观看量
+	 * @return
+	 */
+    List<VideoCourseVo> queryTotleVideoCourseAll(Map<String, Object> map);
 }

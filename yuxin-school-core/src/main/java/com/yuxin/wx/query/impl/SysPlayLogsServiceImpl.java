@@ -3,6 +3,7 @@ package com.yuxin.wx.query.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -147,6 +148,11 @@ public class SysPlayLogsServiceImpl implements ISysPlayLogsService{
     @Override
     public List<Map<String, Object>> queryTotleVideoCourse1(Map<String, Object> papamMap) {
         return sysPlayLogsMapper.queryTotleVideoCourse1(papamMap);
+    }
+
+    @Override
+    public List<VideoCourseVo> queryTotleVideoCourseAll(Map<String, Object> map) {
+        return sysPlayLogsMapper.queryTotleVideoCourseAll(map);
     }
 
     @Override

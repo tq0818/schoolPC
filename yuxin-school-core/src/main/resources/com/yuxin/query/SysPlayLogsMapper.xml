@@ -12,6 +12,7 @@
 		<result property="teaName" column="tea_name" />
 		<result property="courseName" column="course_name" />
 		<result property="areaName" column="area_name" />
+		<result property="eduStep" column="edu_step" />
 		<result property="stepName" column="step_name" />
 		<result property="schoolName" column="school_name" />
 		<result property="subjectName" column="subject_name" />
@@ -388,6 +389,44 @@
             ON d.`item_code` = t.edu_area
         GROUP BY d.`item_code`
 		order by d.`item_code`
+	</select>
+
+	<select id="queryTotleVideoCourseAll" resultMap="videoCourseResultMap" parameterType="map">
+		SELECT
+		  count(1) as viewNum,
+		  IFNULL(ct.name,'') as courseName,
+		  ifnull((SELECT item_name FROM `sys_config_item` WHERE ct.`item_second_code` = item_code AND company_id = #{companyId}),'') AS stepName,
+		  ifnull((SELECT item_name FROM `sys_config_item` WHERE ct.`item_third_code` = item_code AND company_id = #{companyId}),'') AS subjectName,
+		  ifnull(ut.name,'') as teaName
+		FROM
+		  sys_play_logs pl
+		  inner join class_type ct
+			on ct.id = pl.class_type_id
+			<if test="companyId!=null">
+			and ct.company_id = #{companyId}
+			</if>
+			<choose>
+				<when test="type!=null and type=='microClass'">
+					and ifnull(ct.`video_flag`,0) = 1
+					and ifNull(ct.`is_micro_class`,0) = 1
+				</when>
+				<otherwise>
+					and ifnull(ct.`video_flag`,0) = 1
+					and ifNull(ct.`is_micro_class`,0) = 0
+				</otherwise>
+			</choose>
+		  LEFT JOIN student s
+			ON s.user_id = pl.user_id
+			AND s.edu_identity = 0
+		left join sys_config_teacher ut on ut.id = ct.teacher_id
+		WHERE s.`edu_area` IS NOT NULL
+		  AND s.`edu_school` IS NOT NULL
+		  and s.delete_flag = 0
+		  and ct.`item_second_code` is not null
+		  and ct.`item_third_code` is not null
+		<if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">and study_time between #{startTime} and #{endTime}</if>
+		GROUP BY pl.class_type_id
+		order by ct.`item_second_code`,ct.`item_third_code`,ct.`create_time`
 	</select>
 	<select id="queryTotleVideoCourse1" resultType="map" parameterType="map">
 		SELECT

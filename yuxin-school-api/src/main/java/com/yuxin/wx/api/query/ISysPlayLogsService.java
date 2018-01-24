@@ -2,10 +2,9 @@ package com.yuxin.wx.api.query;
 
 
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
-import com.yuxin.wx.vo.student.StudentListVo;
-import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 import java.util.List;
 import java.util.Map;
@@ -169,4 +168,10 @@ public interface ISysPlayLogsService {
      * @return
      */
     List<Map<String,Object>> queryTotleVideoCourse1(Map<String, Object> papamMap);
+
+    /**
+     * 查询导出的视频所有观看记录
+     * @return
+     */
+    List<VideoCourseVo> queryTotleVideoCourseAll(Map<String, Object> map);
 }

@@ -63,7 +63,7 @@ public class ExcelUtil{
 	        	Class clazz=data.getClass();
 	        	Field[] fields=clazz.getDeclaredFields();
 	        	for(int i=0;i<entity.getColNames().length;i++){
-	        		HSSFCell cell=row.createCell(0);
+	        		HSSFCell cell=row.createCell(i);
 	        		for(Field field:fields){
 	        			String colName=entity.getColNames()[i];
 		        		if(field.getName().equals(colName)){

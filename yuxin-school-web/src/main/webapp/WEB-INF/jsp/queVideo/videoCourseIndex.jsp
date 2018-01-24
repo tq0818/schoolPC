@@ -37,6 +37,7 @@
 					<button class="btns-default" id="exportData1">导出人次</button>
 					<shiro:hasAnyRoles name="文轩教育">
 						<button class="btns-default" id="exportData">导出数据</button>
+						<button class="btns-default" id="exportData2">导出课程</button>
 					</shiro:hasAnyRoles>
 				</p>
 				<div class="statistics-con">
@@ -103,6 +104,17 @@
         }
 
         window.location.href = rootPath + "/query/exportVideoCourseIndexExcle1?startTime="+$(".from").val()+"&endTime="+$(".to").val();
+    });
+	//导出
+    $("#exportData2").click(function(){
+        if ($(".to").val() != "") {
+            if ($(".to").val() < $(".from").val()) {
+                $.msg("时间范围不正确");
+                return;
+            }
+        }
+
+        window.location.href = rootPath + "/query/exportVideoExcle?startTime="+$(".from").val()+"&endTime="+$(".to").val();
     });
 
 	function searchTotleVideoCourse(startTime, endTime){

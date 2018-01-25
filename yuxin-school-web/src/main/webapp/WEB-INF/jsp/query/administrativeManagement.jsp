@@ -22,7 +22,9 @@
    	}
 	.u-wrap .mainbackground{height: 800px;}
 	table .editDisableInput {text-align: center;background: #f6f6f6 !important;border: none !important;-webkit-appearance:none;}
-	table .editDisable{text-align: center;background: #f6f6f6 !important;border: none !important;-webkit-appearance:none;}
+	table .editDisable{text-align: center;background: #f6f6f6 !important;border: none !important;appearance:none;
+		-moz-appearance:none; /* Firefox */
+		-webkit-appearance:none; /* Safari 和 Chrome */}
 	.opacityPopup,.opacityPopupAccount{display: none;position: fixed;left: 50%;top: 50%;width: 570px;height: 260px;background: #fff;z-index: 10;
 		text-align: left;margin-top: -130px;margin-left: -275px;border: 1px solid #b2b2b2;border-radius: 5px;}
 	.opacityPopupBg{display: none;width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;left: 0;top: 0;}
@@ -297,21 +299,21 @@
                                     		'<td>'+((jsonData.pageNo-1)*jsonData.pageSize+i+1)+'</td>'+
                 							'<td>'+'<input type="text" value="'+allSchool.itemValue+'" disabled class="editDisable schoolNameLength" title="'+allSchool.itemValue+'" >'+'</td>'+
                 							'<td>'+'<input type="text" value="'+allSchool.itemCode+'" disabled  class="editDisableInput">'+'</td>'+
-                							'<td>'+'<span class="createbefor"><input type="text" value="'+allSchool.dictName+'" disabled  class="editDisableInput"></span>'+
-												'<span style="display: none" class="createover"><select name="schoolArea"   class="editDisable">'+
+                							'<td>'+
+												'<select name="schoolArea"  disabled   class="editDisable ">'+
                 								'<option value="">'+allSchool.dictName+'</option>'+
                 								'<c:forEach items="${areas}" var="area" >'+
                 								'<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>'+
                 								'</c:forEach>'+
-                								'</select></span>'+
+                								'</select>'+
                 							'</td>'+
-                							'<td>'+'<span class="createbefor"><input type="text" value="'+allSchool.dictCode+'" disabled  class="editDisableInput"></span>'+
-                								'<span style="display: none" class="createover"><select name="schoolNature"  class="editDisable">'+
+                							'<td>'+
+                								'<select name="schoolNature" disabled class="editDisable ">'+
                 								'<option value="">'+allSchool.dictCode+'</option>'+
                 								'<c:forEach items="${school}" var="school" >'+
                 								'<option value="${school.itemCode}" data-id="${school.id}">${school.itemValue}</option>'+
                 								'</c:forEach>'+
-                								'</select></span>'+
+                								'</select>'+
                 							'</td>'+
                 							 '<td><a href="##" class="modify"  schoolId="'+allSchool.id+'">修改</a>/'+
                 								'<a href="##" class="accountSettings">账号设置</a>'+
@@ -522,9 +524,6 @@ $(function(){
 	});
 	//点击修改
 	$('table').on('click','.modify',function(){
-	    $(".createbefor").hide();
-	    $(".createover").show();
-
 	    $(this).parent('td').siblings('td').children().removeClass('editDisable').attr('disabled',false);
 	    if($(this).html()=='修改'){
             $(this).html("保存");

@@ -631,4 +631,6 @@ public interface ICompanyService  {
 	
 	Integer findSchoolIdByCompanyId(Integer companyId);
 
+	int searchCompany();
+
 }

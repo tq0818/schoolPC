@@ -548,17 +548,17 @@
 									<div class="right server-infos">
 										<p class="infos">
 											<em style="font-size:14px; width: 85px;margin-top: 3px;">
-												<c:if test="${cms.messageTotal ==null }">${cms.giveMessage }</c:if>
-												<c:if test="${cms.messageTotal !=null }">${cms.messageTotal+cms.giveMessage}</c:if>
+												<c:if test="${cm.messageTotal ==null }">${cm.giveMessage }</c:if>
+												<c:if test="${cm.messageTotal !=null }">${cm.messageTotal+cm.giveMessage}</c:if>
 											</em>短信总量<i
 												class="iconfont ask" title="短信总量">&#xe60f;</i>
 										</p>
 										<p class="infos">
-											<em style="font-size:14px; width: 85px;margin-top: 3px;">${css.messageSend }</em>已使用量<i
+											<em style="font-size:14px; width: 85px;margin-top: 3px;">${cs.messageSend }</em>已使用量<i
 												class="iconfont ask" title="已使用短信量">&#xe60f;</i>
 										</p>
 										<p class="infos">
-											<em style="font-size:14px; width: 85px;margin-top: 3px;">${cms.messageTotal - css.messageSend + cms.giveMessage }</em>条剩余
+											<em style="font-size:14px; width: 85px;margin-top: 3px;">${cm.messageTotal - cs.messageSend + cms.giveMessage }</em>条剩余
 										</p>
 									</div>
 								</li>

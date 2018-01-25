@@ -30,4 +30,6 @@ public interface CompanyServiceStaticMapper extends BaseMapper<CompanyServiceSta
 	List<SystemConfigServiceVo> queryCompanyNoService(Integer companyId);
 	
 	List<SystemConfigServiceVo> queryCompanyAllService(Integer companyId);
+
+	CompanyServiceStatic findByCompanyIdMsg();
 }

@@ -1923,8 +1923,8 @@ public class SimpleclassTypeController {
 			if(arr!=null&&arr.size()>0){
 				return false;
 			}
+			return true;
 		}
-		return true;
 	}
 	
 	//排课表相关信息查询

@@ -172,6 +172,7 @@ public interface ICompanyServiceStaticService  {
 
 	void updateByCompanyStatus(Integer companyId);
 	void updateByCompanyStatusl(Integer companyId);
-	
+
+	CompanyServiceStatic findByCompanyIdMsg();
 	
 }

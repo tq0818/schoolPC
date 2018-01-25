@@ -370,6 +370,7 @@ public class CompanyController {
         param.put("concurrentMonth", concurrentMonths);
         CompanyLiveConcurrent clcn = companyLiveConcurrentServiceImpl.findLiveByComidAndDate(param);
 
+
         CompanyMemberService cms = companyMemberServiceServiceImpl.findByCompanyId(companyId);
         CompanyServiceStatic css = companyServiceStaticServiceImpl.findByCompanyId(companyId);
 
@@ -379,6 +380,12 @@ public class CompanyController {
         // 根据companyId查询审核信息
         //Integer caId = companyAuthorityServiceImpl.findByCompanyId(companyId);
 
+        int zhuCompanyId= companyServiceImpl.searchCompany();
+        CompanyMemberService cm = companyMemberServiceServiceImpl.findByCompanyId(zhuCompanyId);
+        CompanyServiceStatic cs = companyServiceStaticServiceImpl.findByCompanyIdMsg();
+
+        model.addAttribute("cm", cm);
+        model.addAttribute("cs", cs);
         model.addAttribute("clc", clc);
         model.addAttribute("clcn", clcn);
         //model.addAttribute("caId", caId);

@@ -180,5 +180,12 @@ public class CompanyServiceStaticServiceImpl extends BaseServiceImpl implements 
 	@Override
 	public void updateByCompanyStatusl(Integer companyId){
 		companyServiceStaticMapper.updateByCompanyStatusl(companyId);
-	};
+	}
+
+	@Override
+	public CompanyServiceStatic findByCompanyIdMsg() {
+		return companyServiceStaticMapper.findByCompanyIdMsg();
+	}
+
+	;
 }

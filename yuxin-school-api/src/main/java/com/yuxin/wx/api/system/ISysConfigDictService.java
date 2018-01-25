@@ -51,6 +51,7 @@ public interface ISysConfigDictService  {
 	void update(SysConfigDict sysConfigDict);
 	void updateSchoolProperty(SysConfigDict sysConfigDict);
 	void updateOthserSchoolProperty(SysConfigDict sysConfigDict);
+	void updateUsersAreaRelation(UsersAreaRelation ual);
 	
 	/**
 	 * 

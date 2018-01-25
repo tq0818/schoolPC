@@ -79,6 +79,10 @@ public class SysConfigDictServiceImpl extends BaseServiceImpl implements ISysCon
 	public void update(SysConfigDict sysConfigDict){
 		sysConfigDictMapper.update(sysConfigDict);
 	}
+	@Override
+	public void updateUsersAreaRelation(UsersAreaRelation ual){
+		sysConfigDictMapper.updateUsersAreaRelation(ual);
+	}
 	
 	/**
 	 * 

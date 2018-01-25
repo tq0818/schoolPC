@@ -210,6 +210,13 @@ public class JspBaseController {
     		//改变其他三个属性
     		areaDict.setParentItemId(parentItemId);
     		sysConfigDictServiceImpl.updateOthserSchoolProperty(areaDict);
+    		//改变users_area_relation表中对应的区域
+    		if(dictCode != null && dictCode != ""){
+    			UsersAreaRelation ual = new UsersAreaRelation();
+    			ual.setEduSchool(itemCode);
+    			ual.setEduArea(dictCode);
+    			sysConfigDictServiceImpl.updateUsersAreaRelation(ual);
+    		}
     		return "success";
 			
 		} catch (Exception e) {

@@ -125,6 +125,13 @@
 		</trim>
 		<where> edu_school_id = #{id}</where>
 	</update>
+	<update id="updateUsersAreaRelation" parameterType="com.yuxin.wx.vo.user.UsersAreaRelation">
+		update users_area_relation 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="eduArea != null and eduArea != ''">edu_area = #{eduArea},</if>
+		</trim>
+		<where> edu_school = #{eduSchool}</where>
+	</update>
 	<update id="updateOthserSchoolProperty" parameterType="com.yuxin.wx.model.system.SysConfigDict">
 		update sys_config_dict 
 		<trim prefix="set" suffixOverrides=",">

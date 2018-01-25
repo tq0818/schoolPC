@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.system.SysConfigDict;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import com.yuxin.wx.common.BaseMapper;
 /**
  * Service Interface:SysConfigDict
@@ -71,4 +72,5 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 	void updateSchoolProperty(SysConfigDict areaDict);
 	void updateOthserSchoolProperty(SysConfigDict areaDict);
 	void addEduStepSchool(SysConfigDict areaDict);
+	void updateUsersAreaRelation(UsersAreaRelation ual);
 }

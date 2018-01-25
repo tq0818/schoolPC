@@ -80,6 +80,11 @@ public class CompanyManageServiceImpl extends BaseServiceImpl implements
 			params.put("areaCompanyList",areaCompanyList);
 			//查询结果集
 			companyVoList=companyMapper.queryReCompanyVoListByCondition(params);
+			for (CompanyVo companyVo : companyVoList) {
+				String registTime = companyVo.getRegistTime();
+				String time = registTime.substring(0,registTime.length()-2 );
+				companyVo.setRegistTime(time);
+			}
 			//查询结果集总数
 			counts=companyMapper.queryCompanyVoListByConditionCount(search);
 		}

@@ -57,14 +57,14 @@ public class ServiceManager {
         int count = iSysConfigDictService.querSysConfigDictCount(companyId);
        if("1".equals(company.getIsArea()) ){
            for(SysConfigDict s:scd){
-               if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_CLASS_SET".equals(s.getGroupCode())){
+               if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_CLASS_SET".equals(s.getGroupCode())&&!"SERVICE_QUESTION_ANSWER".equals(s.getGroupCode())){
                    scd1.add(s);
                }
            }
            count =count - 2;
        }else{
            for(SysConfigDict s:scd){
-               if( ! s.getDictName().trim().equals("短信")){
+               if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_QUESTION_ANSWER".equals(s.getGroupCode())){
                    scd1.add(s);
                }
            }

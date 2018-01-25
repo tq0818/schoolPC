@@ -107,18 +107,29 @@
                     <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
             </li>
+            <script>
+                $(function(){
+                    //propertychange监听input里面的字符变化,属性改变事件
+                    $('.editState').bind('input propertychange', function() {
+                        var $this = $(this);
+                        var text_length = $this.val().length;//获取当前文本框的长度
+                        var current_width = parseInt(text_length) *10;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                        $this.css("width",current_width+"px");
+                    });
+                })
+            </script>
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
-                    <label>流量: ${css.videoFlow}/
-                    <input type="text" style="text-align: center;width: 60px;" id="flowSize"  class="editState " disabled="disabled"
+                    <label>分配流量: ${css.videoFlow}/
+                    <input type="text" style="text-align: center;min-width: 5px;max-width: 60px;" id="flowSize"  class="editState " disabled="disabled"
                            value="${cms.videoFlow}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" >GB</label>
                     <%--<span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量:</span>--%>
                     <%--<input style="width: 115px" type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">--%>
                     <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>
                 </p>
                 <p style="margin-bottom: 5px;">
-                    <label>空间: ${css.videoStorage }/
-                    <input type="text" style="text-align: center;width: 60px;" id="spaceSize"  class="editState " disabled="disabled"
+                    <label>分配空间: ${css.videoStorage }/
+                    <input type="text" style="text-align: center;width: auto;" id="spaceSize"  class="editState " disabled="disabled"
                            value="${cms.videoStorage}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" >GB</label>
                     <%--<span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间:</span>--%>
                     <%--<input style="width: 115px" type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">--%>

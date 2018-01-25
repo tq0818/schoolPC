@@ -191,7 +191,7 @@
 		  user_id as userId
 		from
 		  sys_watch_info
-		  where lesson_id = #{lesson_id} and user_id is not null and user_id != '' and user_id > 0
+		  where lesson_id = #{lessonId} and user_id is not null and user_id != '' and user_id > 0
 		group by user_id,
 		  lesson_id
 

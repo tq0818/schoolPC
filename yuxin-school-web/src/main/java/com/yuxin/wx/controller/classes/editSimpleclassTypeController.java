@@ -283,11 +283,17 @@ public class editSimpleclassTypeController {
     }
 
     @RequestMapping(value = "/editCourseDetail/{id}/{lable}")
-    public String editCourseDetail(Model model, @PathVariable Integer id, @PathVariable String lable) {
+    public String editCourseDetail(Model model, @PathVariable Integer id, @PathVariable String lable,SysConfigItem sysConfigItem) {
         ClassType cs = this.classTypeServiceImpl.findClassTypeById(id);
         model.addAttribute("type2", "update");
         model.addAttribute("ct", cs);
         model.addAttribute("lable", lable);
+
+        Map<String,Object> lessonMap = new HashMap<String,Object>();
+        lessonMap.put("companyId",WebUtils.getCurrentCompanyId()+"");
+        lessonMap.put("itemId",cs.getItemThirdCode());
+        Integer sci = sysConfigItemServiceImpl.findItemNameByLessonMap(lessonMap);
+
         if (cs.getCover() != null && !"".equals(cs.getCover())) {
             String url = "http://" + this.propertiesUtil.getProjectImageUrl() + "/";
             cs.setCover(url + cs.getCover());
@@ -322,7 +328,7 @@ public class editSimpleclassTypeController {
         CommodityProductRealtion comm = this.commodityProductRealtionServiceImpl.findByClassTypeId(cs.getId() + "");
         Integer cId = comm.getComId();
         model.addAttribute("cId", cId);
-        model.addAttribute("itemOneid", cs.getItemOneId());
+        model.addAttribute("itemOneid", sci);
 
         Map<String, String> teacherMap = new HashMap<String, String>();
         teacherMap.put("companyId", WebUtils.getCurrentCompanyId() + "");

@@ -34,7 +34,8 @@ public class PayorderResultVO implements Serializable {
 	private String liveFlag;//直播
 	private String videoFlag;//录播
 	private String isMicroClass;//回放或微课
-
+	private Double payPrice;//真实价格
+	private Long remanentTime;//剩余支付时间
 	public String getLiveFlag() {
 		return liveFlag;
 	}
@@ -154,6 +155,18 @@ public class PayorderResultVO implements Serializable {
 	}
 	public void setZfbCodeImgUrl(String zfbCodeImgUrl) {
 		this.zfbCodeImgUrl = zfbCodeImgUrl;
+	}
+	public Double getPayPrice() {
+		return payPrice;
+	}
+	public void setPayPrice(Double payPrice) {
+		this.payPrice = payPrice;
+	}
+	public Long getRemanentTime() {
+		return remanentTime;
+	}
+	public void setRemanentTime(Long remanentTime) {
+		this.remanentTime = remanentTime;
 	}
 	
 }

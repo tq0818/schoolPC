@@ -437,6 +437,7 @@ public class AuthPrivilegeController {
 			for(SysConfigTeacher t1:teac){
 				t1.setName(user.getRealName());
 				t1.setMobile(user.getMobile());
+				t1.setSex(user.getSex());
 				/*t1.setUserId(null);
 				sysConfigTeacherServiceImpl.updateauthTeacher(t1);*/
 				sysConfigTeacherServiceImpl.updateauthTeacherByUserId(t1);

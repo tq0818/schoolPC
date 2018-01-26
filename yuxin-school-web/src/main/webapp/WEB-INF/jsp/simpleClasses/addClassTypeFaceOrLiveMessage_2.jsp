@@ -273,8 +273,9 @@ input+span{
             <span class="float-right">
 	             <span>${ct.isSale==0?'未上架':'已上架' }</span>
 	            <span>${ct.itemOneName }-${ct.itemSecondName }</span>
-	            <span>定价:${ct.realPrice }</span>
+	            <span>定价:${ct.originalPrice }</span>
             </span>
+
             <span class="line"></span>
         </div>
         <div class="c-main">
@@ -457,8 +458,8 @@ input+span{
 	                <select name="" id="choose_itemOne" class="itemOne">
 	                </select>
 	            </span>
-	            <span class="term-title">学科小类</span>
-	            <span class="term-title">
+	            <span style="display: none" class="term-title">学科小类</span>
+	            <span style="display: none" class="term-title">
 	                <select name="" id="choose_itemSecond" class="itemSecond">
 	                </select>
 	            </span>

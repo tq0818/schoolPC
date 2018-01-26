@@ -166,8 +166,6 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
                 }
                 sysKnowledgeTreeStatisticsServiceImpl.addStatistics(obj);
             }
-
-
         }
     }
 }

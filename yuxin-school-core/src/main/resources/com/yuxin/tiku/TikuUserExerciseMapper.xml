@@ -414,7 +414,7 @@
 			AND tu.exercise_type = 'EXERCISE_TYPE_PAPER'
 			AND tu.status = 'EXERCISE_STATUS_FINISH'
 		  ORDER BY id DESC) t
-		GROUP BY t.user_id
+		GROUP BY t.user_id,t.id
 	</select>
 
 </mapper>

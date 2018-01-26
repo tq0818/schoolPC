@@ -94,9 +94,17 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                 if(StringUtils.isNotBlank(classModuleLesson.getBeforeStudyUrl())){
                     String beforeId = classModuleLesson.getBeforeStudyUrl().substring(classModuleLesson.getBeforeStudyUrl().lastIndexOf("/")+1);
                     sysKnowledgeTree.setCommodityIdWeike(Integer.valueOf(beforeId));
+
+                    String[] id =beforeId.split(",");
+                    List<ClassModuleLesson> list = classModuleLessonServiceImpl.findLessonPaperByCommodityIds(id);
+
+                    if(list.size()>0){
+                        sysKnowledgeTree.setPaperId(list.get(0).getTikuPaper()!=null ? list.get(0).getTikuPaper().getId():null);
+                    }
+
                 }
                 sysKnowledgeTree.setCreateTime(new Date());
-                sysKnowledgeTree.setPaperId(classModuleLesson.getTikuPaper()!=null ? classModuleLesson.getTikuPaper().getId():null);
+                //sysKnowledgeTree.setPaperId(classModuleLesson.getTikuPaper()!=null ? classModuleLesson.getTikuPaper().getId():null);
                 sysKnowledgeTree.setCreatorId(user.getId());
                 sysKnowledgeTree.setCreator(user.getRealName());
                 sysKnowledgeTree.setId(null);
@@ -118,8 +126,8 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
         //查询直播
         param.put("lessonId", sysKnowledgeTree.getLessonId());
         List<Map<String, Object>> liveList = watchInfoServiceImpl.queryWatchInfoByParam(param);
-        for(int i=0; i<liveList.size(); i++){
-            resultMap = liveList.get(i);
+        if(liveList.size()>0){
+            resultMap = liveList.get(0);
             SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = new SysKnowledgeTreeStatistics();
             sysKnowledgeTreeStatistics.setLessonId(sysKnowledgeTree.getLessonId());
             sysKnowledgeTreeStatistics.setLiveFlag(resultMap.get("liveFlag")!=null ? Integer.valueOf(resultMap.get("liveFlag").toString()):0);
@@ -136,8 +144,8 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
             param.put("commodityId", sysKnowledgeTree.getCommodityIdWeike());
             param.put("num", 8);
             List<Map<String, Object>> weikeList = sysPlayLogsServiceImpl.queryPlayLogsByParam(param);
-            for(int i=0; i<weikeList.size(); i++){
-                resultMap = weikeList.get(i);
+            if(weikeList.size()>0){
+                resultMap = weikeList.get(0);
                 if(allMap.containsKey(resultMap.get("userId").toString())){
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = allMap.get(resultMap.get("userId").toString());
                     sysKnowledgeTreeStatistics.setVideoLectrueWeikeId(resultMap.get("lectureId")!=null ? Integer.valueOf(resultMap.get("lectureId").toString()):0);
@@ -163,8 +171,8 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
             param.put("commodityId", sysKnowledgeTree.getCommodityIdHuikan());
             param.put("num", 7);
             List<Map<String, Object>> huifangList = sysPlayLogsServiceImpl.queryPlayLogsByParam(param);
-            for(int i=0; i<huifangList.size(); i++){
-                resultMap = huifangList.get(i);
+            if(huifangList.size()>0){
+                resultMap = huifangList.get(0);
                 if(allMap.containsKey(resultMap.get("userId").toString())){
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = allMap.get(resultMap.get("userId").toString());
                     sysKnowledgeTreeStatistics.setVideoLectrueId(resultMap.get("lectureId")!=null ? Integer.valueOf(resultMap.get("lectureId").toString()):0);
@@ -190,8 +198,8 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
         if(sysKnowledgeTree.getPaperId() != null){
             param.put("paperId", sysKnowledgeTree.getPaperId());
             List<Map<String, Object>> paperList = tikuUserExerciseServiceImpl.findTikuPaperByParam(param);
-            for(int i=0; i<paperList.size(); i++){
-                resultMap = paperList.get(i);
+            if(paperList.size()>0){
+                resultMap = paperList.get(0);
                 if(allMap.containsKey(resultMap.get("userId").toString())){
                     SysKnowledgeTreeStatistics sysKnowledgeTreeStatistics = allMap.get(resultMap.get("userId").toString());
                     sysKnowledgeTreeStatistics.setPaperId(sysKnowledgeTree.getPaperId());

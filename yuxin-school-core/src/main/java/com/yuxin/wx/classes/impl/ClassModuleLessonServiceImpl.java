@@ -285,6 +285,11 @@ public class ClassModuleLessonServiceImpl extends BaseServiceImpl implements ICl
 	}
 
 	@Override
+	public List<ClassModuleLesson> findLessonPaperByCommodityIds(String[] ids) {
+		return classModuleLessonMapper.findLessonPaperByCommodityIds(ids);
+	}
+
+	@Override
 	public CompanyLiveConfig queryCompanyLiveConfigByCompanyId(String companyId) {
 		if(companyId==null||companyId=="") return null;
 		return companyLiveConfigMapper.findByCompanyId(Integer.valueOf(companyId));

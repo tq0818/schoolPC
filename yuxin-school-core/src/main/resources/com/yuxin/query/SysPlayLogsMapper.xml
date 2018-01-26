@@ -952,6 +952,7 @@
 		LEFT JOIN `course_video_lecture` vl ON vl.`id` = p.`lecture_id`
 		LEFT JOIN video v ON v.id = vl.`video_id`
 		where p.commodity_id = #{commodityId}
+		GROUP BY  user_id,p.`lecture_id`
 	</select>
 
 </mapper>

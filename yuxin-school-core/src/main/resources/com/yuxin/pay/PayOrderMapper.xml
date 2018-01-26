@@ -451,9 +451,9 @@
 			join company c on c.id=po.company_id
 			join class_type ct on ct.id=po.commodity_id
 			where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
-			)t GROUP BY t.orderTime)t3
+			)t GROUP BY t.orderTime)t3 where t3.totalMoney &gt; 0
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				where t3.orderTime BETWEEN #{inpstart} and #{inpend}
+				and t3.orderTime BETWEEN #{inpstart} and #{inpend}
 			</if>
 			<if test="totalSort != null and totalSort != ''">
 				${totalSort}
@@ -482,9 +482,9 @@
 		join company c on c.id=po.company_id
 		join class_type ct on ct.id=po.commodity_id
 		where po.pay_status='PAY_SUCCESS' and c.id=#{companyId}
-		)t GROUP BY t.orderTime)t3
+		)t GROUP BY t.orderTime)t3 where t3.totalMoney &gt; 0
 		<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-			where t3.orderTime BETWEEN #{inpstart} and #{inpend}
+			and t3.orderTime BETWEEN #{inpstart} and #{inpend}
 		</if>
 		)a
 	</select>

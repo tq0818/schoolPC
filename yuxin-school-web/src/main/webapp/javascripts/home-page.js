@@ -273,7 +273,7 @@ Array.prototype.containsObj = function(obj){
     		 */
     		queryCompany : function(){
     			var _this = this,
-    				company,cms,css,clc,clcn,service,count,
+    				company,cms,css,msg,clc,clcn,service,count,
     				$companyLi = this.companyStatistics.find('.onlineSchool'),
     				$liveLi	   = this.companyStatistics.find('.liveService'),
     				$videoLi   = this.companyStatistics.find('.videoService'),
@@ -284,6 +284,7 @@ Array.prototype.containsObj = function(obj){
     				company = jsonData.company;
     				cms		= jsonData.cms;
     				css		= jsonData.css;
+                    msg		= jsonData.msg;
     				clc		= jsonData.clc;
     				clcn	= jsonData.clcn;
     				service	= jsonData.serivce;
@@ -302,7 +303,7 @@ Array.prototype.containsObj = function(obj){
     				//短信数量
     				if(!cms.messageTotal) cms.messageTotal = 0;
     				if(!cms.giveMessage) cms.giveMessage = 0;
-    				if(!css.messageSend) css.messageSeng = 0;
+    				if(!msg.messageSend) msg.messageSeng = 0;
     				//邮件数量
     				if(!cms.emailTotal) cms.emailTotal = 0;
     				if(!cms.giveEmail) cms.giveEmail = 0;
@@ -330,8 +331,8 @@ Array.prototype.containsObj = function(obj){
     				
     				if($messageLi.length){
     					$messageLi.find('p').eq(1).children().last().html(cms.messageTotal + cms.giveMessage);
-        				$messageLi.find('p').eq(2).children().last().html(css.messageSend);
-        				$messageLi.find('p').eq(3).children().last().html(cms.messageTotal + cms.giveMessage - css.messageSend);
+        				$messageLi.find('p').eq(2).children().last().html(msg.messageSend);
+        				$messageLi.find('p').eq(3).children().last().html(cms.messageTotal + cms.giveMessage - msg.messageSend);
     				}
     				
     				if($emailLi.length){

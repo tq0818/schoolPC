@@ -228,6 +228,11 @@ public class BaseWebController {
         Integer companyId = company.getId();
         Date date = new Date();
         CompanyServiceStatic css = companyServiceStaticServiecImpl.findByCompanyId(WebUtils.getCurrentCompanyId());
+
+        //查询短信使用总量
+        CompanyServiceStatic msg = companyServiceStaticServiecImpl.findByCompanyIdMsg();
+        map.put("msg",msg);
+
         double usedVideo = (css.getVideoStorage() != null ? css.getVideoStorage() : 0.0);
         long crs = Long.parseLong(css.getResourceStorage() != null ? css.getResourceStorage() : "0");
         usedVideo += FileQNUtils.convertFileSize(crs);

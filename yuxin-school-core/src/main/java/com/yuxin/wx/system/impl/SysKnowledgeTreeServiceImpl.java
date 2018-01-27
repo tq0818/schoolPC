@@ -97,7 +97,6 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
 
                     String[] id =beforeId.split(",");
                     List<ClassModuleLesson> list = classModuleLessonServiceImpl.findLessonPaperByCommodityIds(id);
-
                     if(list.size()>0){
                         sysKnowledgeTree.setPaperId(list.get(0).getTikuPaper()!=null ? list.get(0).getTikuPaper().getId():null);
                     }

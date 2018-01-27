@@ -82,16 +82,16 @@ public class TestTask {
         Map<String,Object> map = new HashMap();
         CompanyLiveConfig config = companyLiveConfigServiceImpl.findByCompanyId(18113);
         String url ="";
-       // if(config==null){
+        if(config==null){
             map.put("loginName", LiveRoomConstant.LOGIN_NAME);
             map.put("password",LiveRoomConstant.PASSWORD);
             url = LiveRoomConstant.DOMIN_NAME;
 
-       // }else{
-         //   map.put("loginName", config.getLoginName());
-        //    map.put("password",config.getPassword());
-      //     url = config.getDomain();
-       // }
+        }else{
+            map.put("loginName", config.getLoginName());
+            map.put("password",config.getPassword());
+           url = config.getDomain();
+        }
 
         map.put("startTime",lessonDate+" 00:00:00");
         map.put("endTime",lessonDate+" 23:59:59");
@@ -120,19 +120,30 @@ public class TestTask {
                     lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
                     lesson.setDevice(mUser.getDevice());
                     lesson.setId(null);
-                   // watchInfoServiceImpl.addWatchInfo(lesson);
-                    try {
-                        setLiveKnowledgeTreeStaticis(lesson,lesson.getUserId());
-                    } catch (ParseException e) {
-                        log.info("树结构数据转换出错");
-                        e.printStackTrace();
-                    }
+                    //watchInfoServiceImpl.addWatchInfo(lesson);
+                    // try {
+                    //    setLiveKnowledgeTreeStaticis(lesson,lesson.getUserId());
+                    // } catch (ParseException e) {
+                    //     log.info("树结构数据转换出错");
+                    //     e.printStackTrace();
+                    // }
                 }
             }
 
-
-
         }
+
+        Map queryDate = new HashMap();
+        queryDate.put("queryDate",lessonDate);
+        List<WatchInfo> sumWatchInfo = watchInfoServiceImpl.findSumInfoByDate(queryDate);
+        for(WatchInfo info  : sumWatchInfo){
+            try {
+                setLiveKnowledgeTreeStaticis(info,info.getUserId());
+            } catch (ParseException e) {
+                log.info("树结构数据转换出错");
+                e.printStackTrace();
+            }
+        }
+
         //获取前一天课次下所有课件
         log.info("获取昨天直播观看信息-----结束");
 
@@ -561,7 +572,7 @@ public class TestTask {
                 uha.setStudyTime(date);
                 uha.setDevice(play.getDevice());
                 //userHistoryServiceImpl.insertPlayLogs(uha);
-                setVideoKnowledgeTreeStaticis(uha.getLectureId(),uha.getUserId(),uha.getStudyLength());
+                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength());
             }
             if(playLog.size()==1000){
                 addPlayLog(date,companyPayConfig,index+1,sdf);

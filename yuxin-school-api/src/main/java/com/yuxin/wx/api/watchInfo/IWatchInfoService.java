@@ -25,8 +25,8 @@ public interface IWatchInfoService {
 	void addWatchInfoFromZSSent(WatchInfoFromZSSend watchInfo);
 	//查询最大并发量
 	Map getCurrentByRoom(Map map);
-
-
+	//根据日期查询累加时间是否超过30分钟
+    List<WatchInfo> findSumInfoByDate(Map map);
 	//根据参数统计人员观看视频是否超过30分钟
 	List<Map<String, Object>> queryWatchInfoByParam(Map<String, Object> param);
 }

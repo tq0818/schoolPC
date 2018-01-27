@@ -71,6 +71,11 @@ public class WatchInfoServiceImpl extends BaseServiceImpl implements IWatchInfoS
     }
 
     @Override
+    public List<WatchInfo> findSumInfoByDate(Map map) {
+        return watchInfoMapper.findSumInfoByDate(map);
+    }
+
+    @Override
     public List<Map<String, Object>> queryWatchInfoByParam(Map<String, Object> param) {
         return watchInfoMapper.queryWatchInfoByParam(param);
     }

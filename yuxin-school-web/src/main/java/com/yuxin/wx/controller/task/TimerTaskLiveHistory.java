@@ -105,13 +105,18 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
                     lesson.setDevice(mUser.getDevice());
                     lesson.setId(null);
                     watchInfoServiceImpl.addWatchInfo(lesson);
-                    try {
-                        setLiveKnowledgeTreeStaticis(lesson,lesson.getUserId());
-                    } catch (ParseException e) {
-                        log.info("树结构数据转换出错");
-                        e.printStackTrace();
-                    }
                 }
+            }
+        }
+        Map queryDate = new HashMap();
+        queryDate.put("queryDate",lessonDate);
+        List<WatchInfo> sumWatchInfo = watchInfoServiceImpl.findSumInfoByDate(queryDate);
+        for(WatchInfo info  : sumWatchInfo){
+            try {
+                setLiveKnowledgeTreeStaticis(info,info.getUserId());
+            } catch (ParseException e) {
+                log.info("树结构数据转换出错");
+                e.printStackTrace();
             }
         }
         //获取前一天课次下所有课件

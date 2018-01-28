@@ -45,7 +45,7 @@
         </div>
         <div class="main-content">
         	<div class="top-content">
-	          	<span class="c-title">规则说明1：</span><br/>
+	          	<span class="c-title">规则说明：</span><br/>
 	          	<span class="c-content">	
 		          	1、导入的文件是excel文件。<br/>
 					2、请下载示例模板，按照示例模板中的格式准备数据。<br/>

@@ -984,7 +984,7 @@
 		from student s
 		inner join users_front uf on s.user_id=uf.id 
 		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
-		where mobile = #{phone} and c.id = #{companyId}
+		where s.mobile = #{phone} and c.id = #{companyId}
 		order by s.id desc
 		limit 0,1
 	</select>

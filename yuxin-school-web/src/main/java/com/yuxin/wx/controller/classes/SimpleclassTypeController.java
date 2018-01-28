@@ -387,6 +387,7 @@ public class SimpleclassTypeController {
 		//根据班型id查询详情
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("classId", "" + ct.getId());
+		map.put("companyId", WebUtils.getCurrentCompanyId().toString());
 		ClassTypeVo classType=classTypeServiceImpl.findClassTypeDetail(map);
 		model.addAttribute("classType", classType);
 		if(null!=type){

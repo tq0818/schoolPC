@@ -120,6 +120,9 @@ var msgCount;
  			var groupTwoId = null;
  			var phone = null;
  			var email = null;
+ 			var oneItemCode = null;
+ 			var twoItemCode = null;
+ 			var threeItemCode = null;
  			if($(".btn-type.btn-primary").attr("data-type")!='STUDENT_MESSAGE_CLASSTYPE' && $(".btn-method.btn-primary").attr("data-type")!='STUDENT_MESSAGE_MOBILE'){
  				if(title == ""){
  					$("#title").focus();
@@ -239,7 +242,7 @@ var msgCount;
  			console.log('send');
  			var isHurry = $('.hurryNotice:checked').val();
  			var lessonId = $('#classLesson').val();
- 			if($.trim(lessonId) ==""){
+ 			if($.trim(lessonId) =="" && types != "STUDENT_MESSAGE_SPECIAL"){
  				 $('<div class="c-fa">'+ "您还没选择课次" +'</div>').appendTo('body').fadeIn(100).delay(2000).fadeOut(200,function(){
 			        	$(this).remove();
 			      });

@@ -260,7 +260,7 @@ input+span{
                       </c:if>
                       <c:if test="${ct.cover!='' }">
                          <span class="view">
-                            <img id="commdotityPic" src="${ct.cover }" realPath="" alt="课程图片">
+                            <img id="commdotityPic" src="${ct.cover }" realPath="${cts.cover }" alt="课程图片">
                         </span>
                         <span class="btns"><a href="javascript:;" class="btn btn-default btn-upload">更换封面</a></span>
                    	  </c:if>

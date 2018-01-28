@@ -16,9 +16,9 @@ function saveCddsRecommendFlag(){
 	         },
 		 success:function(data){
 			 if("success"==data.result){
-				 $.msg("推荐成功");
+				 $.msg("保存成功");
 			 }else{
-				 $.msg("推荐失败");
+				 $.msg("保存失败");
 			 }
 		 },
          complete:function(XMLHttpRequest,textStatus){

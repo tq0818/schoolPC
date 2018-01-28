@@ -572,7 +572,7 @@ public class SimpleclassTypeController {
 		ClassType cs=classTypeServiceImpl.findClassTypeById(ct.getId());
 
 	    model.addAttribute("type2", type1);
-		model.addAttribute("ct", cs);
+		model.addAttribute("cts", cs);
 		model.addAttribute("lable", lable);
 		
 		

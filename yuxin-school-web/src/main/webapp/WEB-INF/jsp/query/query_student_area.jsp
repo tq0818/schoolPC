@@ -62,7 +62,7 @@
 						</span>
 						</c:if>
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
-						<!-- <span class="fr"><a href="javascript:;" class="btn btn-primary exportExcleArea">导出数据</a></span> -->
+						<span class="fr"><a href="javascript:;" class="btn btn-primary exportExcleArea">导出数据</a></span>
 					</div>
 				</form>
 				<div class="user-list">

@@ -111,7 +111,7 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
                 uha.setStudyTime(date);
                 uha.setDevice(play.getDevice());
                 userHistoryServiceImpl.insertPlayLogs(uha);
-                setVideoKnowledgeTreeStaticis(uha.getLectureId(),uha.getUserId(),uha.getStudyLength());
+                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength());
             }
             if(playLog.size()==1000){
                 addPlayLog(date,companyPayConfig,index+1,sdf);

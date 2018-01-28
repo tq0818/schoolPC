@@ -31,4 +31,6 @@ public interface WatchInfoMapper extends BaseMapper<WatchInfo> {
     Map getCurrentByRoom(Map map);
 
     List<Map<String, Object>> queryWatchInfoByParam(Map<String, Object> param);
+
+    List<WatchInfo> findSumInfoByDate(Map map);
 }

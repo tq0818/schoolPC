@@ -36,6 +36,7 @@ public class PayorderResultVO implements Serializable {
 	private String isMicroClass;//回放或微课
 	private Double payPrice;//真实价格
 	private Long remanentTime;//剩余支付时间
+	private String remark;//备注
 	public String getLiveFlag() {
 		return liveFlag;
 	}
@@ -167,6 +168,12 @@ public class PayorderResultVO implements Serializable {
 	}
 	public void setRemanentTime(Long remanentTime) {
 		this.remanentTime = remanentTime;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 }

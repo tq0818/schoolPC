@@ -196,5 +196,9 @@
 		  lesson_id
 
 	</select>
-
+	<select id="findSumInfoByDate" parameterType="map" resultMap="watchInfoResultMap">
+		select lesson_id,lesson_date,SUM(watch_time) as watch_time,user_id from sys_watch_info
+		where  lesson_date=#{queryDate}
+		GROUP BY lesson_id,lesson_date,user_id
+	</select>
 </mapper>

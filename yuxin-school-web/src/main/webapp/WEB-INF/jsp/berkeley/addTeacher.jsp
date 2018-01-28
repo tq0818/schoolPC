@@ -517,7 +517,8 @@
 		            <!--ceshi后台git提交  -->
 		            <div class="m-bo text-center" >
 		                <a href="javascript:;" class="btn btn-sm btn-primary">保存</a>
-		                <a href="<%=rootPath%>/sysConfigTeacher/toTeacherIndex" class="btn btn-sm btn-default">取消</a>
+		              <%--  <a href="<%=rootPath%>/sysConfigTeacher/toTeacherIndex" class="btn btn-sm btn-default">取消</a>--%>
+						  <a href="javascript:history.go(-1);" class="btn btn-sm btn-default">取消</a>
 		            </div>
 		        </div>
 		    </div>

@@ -3384,7 +3384,59 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value = "/exportExcle")
-    public ModelAndView exportStudentsExcle(Model model, StudentListVo search) {
+    public ModelAndView exportStudentsExcle(Model model, StudentListVo search ,HttpServletRequest request) {
+        if("2".equals(WebUtils.getCurrentIsArea())){
+            Subject subject = SecurityUtils.getSubject();
+            if(subject.hasRole("班主任") ){
+                int userId=WebUtils.getCurrentUserId(request);
+                EduMasterClass etc=new EduMasterClass();
+                etc.setUserId(String.valueOf(userId));
+                List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc,WebUtils.getCurrentCompany().getEduAreaSchool());
+                if(null!=list && list.size()>0){
+                    String eduStep=list.get(0).getEduStep();
+                    String eduYear=list.get(0).getEduYear();
+                    String eduClass=list.get(0).getEduClass();
+                    if(null==search.getEduStep() || "".equals(search.getEduStep())){
+                        search.setEduStep(eduStep);
+                    }
+                    if(null==search.getEduYear() || "".equals(search.getEduYear())){
+                        search.setEduYear(eduYear);
+                    }
+                    if(null==search.getEduClass() || "".equals(search.getEduClass())){
+                        search.setEduClass(eduClass);
+                    }
+
+                }
+                search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+            }else if(subject.hasRole("任课老师")){
+                EduMasterClass ets=new EduMasterClass();
+                ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+                ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+                List<EduMasterClass> list=studentServiceImpl.findSubjectClassByTeacherId(ets);
+//     			int userId=WebUtils.getCurrentUserId(request);
+//     			List<EduMasterClass> list=studentServiceImpl.findClassByRKTeacherId(userId);
+                if(null!=list && list.size()>1){
+                    search.setRenke(list);
+                }else if(null!=list && list.size()==1){
+                    if(null==search.getEduStep() || "".equals(search.getEduStep())){
+                        search.setEduStep(list.get(0).getEduStep());
+                    }
+                    if(null==search.getEduYear() || "".equals(search.getEduYear())){
+                        search.setEduYear(list.get(0).getEduYear());
+                    }
+                    if(null==search.getEduClass() || "".equals(search.getEduClass())){
+                        search.setEduClass(list.get(0).getEduClass());
+                    }
+                }
+                search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+            }else{
+                if(null!=search.getEduSchool()){
+
+                }else{
+                    search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+                }
+            }
+        }
         List<StudentListVo> al = new ArrayList<StudentListVo>();
         List<StudentListVo> al2 = new ArrayList<StudentListVo>();
         if (EntityUtil.isNotBlank(search)) {

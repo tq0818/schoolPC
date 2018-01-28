@@ -399,9 +399,22 @@
 	<select id="findTikuPaperByParam" parameterType="map" resultType="map">
 		SELECT
 		  t.user_id AS userId,
-		  t.id,
 		  CASE
 			WHEN t.total_topic = t.error_topic
+			and
+			(select
+			  count(w.id)
+			from
+			  tiku_user_wrong w
+			  left join `tiku_paper_topic` tpt
+				on tpt.`topic_id` = w.`topic_id`
+			where tpt.`paper_id` = #{paperId}
+			  and w.`user_id` = t.user_id) =
+			(select
+			  tp.total_topic_num
+			from
+			  tiku_paper tp
+			where tp.id = #{paperId})
 			THEN 2
 			ELSE 1
 		  END as paperFlag

@@ -6,14 +6,14 @@
 <!-- 二级导航 -->
 <div class="u-wrap company">
     <div class="block clear">
-      <c:choose>
-         	 <c:when test="${ct.publishStatus=='CLASS_ON_SALE' }">
+     	<c:choose>
+         	 <c:when test="${ct.cddsStatus==1 }">
          		 <div class="labels classStatus">
 				            <s id="statusText">售卖中</s>
 				       <div class="sanjiao"></div>
 				   </div>
          	 </c:when>
-         	  <c:when test="${ct.publishStatus=='CLASS_STOP_SALE' }">
+         	  <c:when test="${ct.cddsStatus==0 }">
          		 <div class="labels classStatus else1">
 				            <s id="statusText">已下架</s>
 				       <div class="sanjiao"></div>
@@ -26,6 +26,7 @@
 			        </div>
          	 </c:otherwise>
          </c:choose>
+
         <div class="class-title">课程名称 ： ${ct.name }</div>
         <div class="sum">
         	<c:choose>
@@ -115,6 +116,12 @@
 					success : function(result) {
 						$this.attr("mark","nosale");
 						$this.text("下架");
+                        $(".classStatus").removeClass("else1").removeClass("else");
+                        $("#statusText").text("售卖中");
+                        var txt=$(".courseStatus").text();
+                        if(txt){
+                            $(".courseStatus").text("已上架");
+                        }
 						$.msg("课程上架成功");
 					},
 			        complete:function(XMLHttpRequest,textStatus){
@@ -136,6 +143,12 @@
 							success : function(result) {
 								$this.attr("mark","sale");
 								$this.text("上架");
+                                $(".classStatus").addClass("else1").removeClass("else");
+                                $("#statusText").text("已下架");
+                                var txt=$(".courseStatus").text();
+                                if(txt){
+                                    $(".courseStatus").text("未上架");
+                                }
 								$.msg("课程下架成功");
 							},
 					        complete:function(XMLHttpRequest,textStatus){

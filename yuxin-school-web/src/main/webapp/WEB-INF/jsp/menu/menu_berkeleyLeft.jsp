@@ -28,6 +28,7 @@
         //返回
         $(".hcancle").on('click',function(){
             window.location.href=rootPath+"/company/companyService";
+            /*window.history.go(-1);*/
         });
 //        $selectSubMenu("org_service");
         //        二级菜单加active

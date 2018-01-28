@@ -50,7 +50,7 @@ public class PayOrderVo {
     private Double couponInstead;/* 优惠券代金 */
     private String couponCode;/* 优惠码 */
     private Double usedRecharge;
-
+    private String remark;
     public Integer getUserId() {
         return userId;
     }
@@ -388,4 +388,13 @@ public class PayOrderVo {
     public void setUsedRecharge(Double usedRecharge) {
         this.usedRecharge = usedRecharge;
     }
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+    
 }

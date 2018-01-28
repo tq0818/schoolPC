@@ -267,7 +267,7 @@ public interface IClassModuleLessonService  {
      * @return
 	 */
 	List<ClassModuleLesson> findLessonByCommodityIds(String[] ids);
-
+	List<ClassModuleLesson> findLessonPaperByCommodityIds(String[] ids);
 	/**
 	 * 通过companyId获取直播配置
 	 * @param companyId 机构标识号

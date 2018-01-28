@@ -423,10 +423,10 @@
 	<select id="findDetailById" resultMap="classTypeVoResultMap" parameterType="hashmap" >
 		SELECT 
 		  a.*,
-		  b.item_name AS itemOneName,
-		  c.item_name AS itemSecondName,
-		  d.item_name AS itemThirdName,
-		 a.item_fourth_code AS itemFourthName
+		  b.item_name AS item_one_name,
+		  c.item_name AS item_second_name,
+		  d.item_name AS item_third_name,
+		 a.item_fourth_code AS item_fourthd_name
 		FROM
 		  class_type a
 		LEFT JOIN sys_config_item b on a.item_one_code = b.item_code and b.company_id=#{companyId} and b.del_flag=0

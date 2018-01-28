@@ -85,7 +85,7 @@
 </div>
 <p class="c buyNumSetting none">
     <span class="c-title">课程购买人数限制</span>
-    <span class="c-content"><input name="buyNumMax"  class="readonly"  type="text" value="${ct.buyNumMax }">&nbsp;&nbsp;
+    <span class="c-content"><input name="buyNumMax"  class="readonly"  type="text" value="${ct.buyNumMax }" readonly>&nbsp;&nbsp;
     <%-- <i class="iconfont ask" style="cursor: pointer;color:gray;margin-left:10px;" title="请填写实际限制的购买人数，不包含购买基数">&#xe60f;</i>--%>
     </span>
 </p>

@@ -941,10 +941,11 @@
 	</select>
 
 	<select id="queryPlayLogsByParam" resultType="Map" parameterType="Map">
+		select * from (
 		SELECT
 		user_id as userId,
 		p.`lecture_id` as lectureId,
-		CASE WHEN p.`study_length` - (TIME_TO_SEC(v.video_time)/10*#{num})>0
+		CASE WHEN p.`study_length` - (TIME_TO_SEC(v.video_time)/10*#{num})>=0
 		THEN 2
 		ELSE 1
 		END as videoFlag
@@ -953,6 +954,9 @@
 		LEFT JOIN `course_video_lecture` vl ON vl.`id` = p.`lecture_id`
 		LEFT JOIN video v ON v.id = vl.`video_id`
 		where p.commodity_id = #{commodityId}
+		order by user_id,p.`study_length` desc ) t
+		GROUP BY t.userId,
+		  t.`lectureId`
 	</select>
 
 </mapper>

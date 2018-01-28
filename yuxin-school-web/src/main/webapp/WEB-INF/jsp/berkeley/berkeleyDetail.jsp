@@ -25,7 +25,7 @@
             margin-left: 10px;
             margin-right: 11px;
         }
-        #schoolSummary{height: 210px;margin-left: 10px !important;width: 200px;}
+        #schoolSummary{height: 210px;margin-left: 10px !important;width: 196px;}
     </style>
     <%--tob--%>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css" />
@@ -121,16 +121,16 @@
             <li style="margin-bottom: 30px;">
                 <p style="margin-bottom: 5px;">
                     <label>分配流量: ${css.videoFlow}/
-                    <input type="text" style="text-align: center;min-width: 5px;max-width: 60px;" id="flowSize"  class="editState " disabled="disabled"
-                           value="${cms.videoFlow}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" >GB</label>
+                    <input type="text" style="text-align: center;width: 70px" id="flowSize"  class="editState " disabled="disabled"
+                           value="${cms.videoFlow}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="10">GB</label>
                     <%--<span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量:</span>--%>
                     <%--<input style="width: 115px" type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">--%>
                     <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>分配空间: ${css.videoStorage }/
-                    <input type="text" style="text-align: center;width: auto;" id="spaceSize"  class="editState " disabled="disabled"
-                           value="${cms.videoStorage}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" >GB</label>
+                    <input type="text" style="text-align: center;width: 70px;" id="spaceSize"  class="editState " disabled="disabled"
+                           value="${cms.videoStorage}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="10">GB</label>
                     <%--<span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间:</span>--%>
                     <%--<input style="width: 115px" type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">--%>
                     <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>

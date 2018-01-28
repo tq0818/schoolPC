@@ -587,5 +587,25 @@
 			#{item}
 		</foreach>
 		ORDER  BY  cml.lesson_date asc, cml.lesson_time_start asc
+
+
+
+
+	</select>
+	<select id="findLessonPaperByCommodityIds" resultMap="classModuleLessonResultMap">
+		select cml.id,cml.before_study_url,cml.after_study_url,cvl.lecture_name,m.name as commodity_name,tp.id as paperId,m.id as commodity_id,ctmr.class_type_id from commodity  m
+		LEFT JOIN commodity_product_realtion cpr ON cpr.com_id = m.id
+		LEFT JOIN class_type_module_relation ctmr ON ctmr.class_type_id = cpr.product_id
+		LEFT JOIN class_module_no_onsale cmno on  cmno.classtype_id = cpr.product_id
+		LEFT JOIN class_module_lesson cml on cml.module_no_id = cmno.module_no_id
+		LEFT JOIN course_video_chapter cvc ON cvc.module_id = ctmr.module_id
+		LEFT JOIN course_video_lecture cvl ON cvl.chapter_id = cvc.id
+		LEFT JOIN course_exercise ce ON ce.resource_id = cvl.id
+		left join tiku_paper tp on tp.id = ce.paper_id
+		where cvl.del_flag=0 and m.id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		ORDER  BY  cvl.publish_date asc
 	</select>
 </mapper>

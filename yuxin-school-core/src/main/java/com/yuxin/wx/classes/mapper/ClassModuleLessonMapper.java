@@ -128,4 +128,6 @@ public interface ClassModuleLessonMapper extends BaseMapper<ClassModuleLesson> {
     Integer queryTotalHours(ClassModuleLesson classModuleLesson);
 
     List<ClassModuleLesson> findLessonByCommodityIds(String[] ids);
+
+	List<ClassModuleLesson> findLessonPaperByCommodityIds(String[] ids);
 }

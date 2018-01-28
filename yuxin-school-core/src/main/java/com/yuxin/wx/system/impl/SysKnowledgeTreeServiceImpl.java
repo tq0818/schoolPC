@@ -94,9 +94,16 @@ public class SysKnowledgeTreeServiceImpl extends BaseServiceImpl implements ISys
                 if(StringUtils.isNotBlank(classModuleLesson.getBeforeStudyUrl())){
                     String beforeId = classModuleLesson.getBeforeStudyUrl().substring(classModuleLesson.getBeforeStudyUrl().lastIndexOf("/")+1);
                     sysKnowledgeTree.setCommodityIdWeike(Integer.valueOf(beforeId));
+
+                    String[] id =beforeId.split(",");
+                    List<ClassModuleLesson> list = classModuleLessonServiceImpl.findLessonPaperByCommodityIds(id);
+                    if(list.size()>0){
+                        sysKnowledgeTree.setPaperId(list.get(0).getTikuPaper()!=null ? list.get(0).getTikuPaper().getId():null);
+                    }
+
                 }
                 sysKnowledgeTree.setCreateTime(new Date());
-                sysKnowledgeTree.setPaperId(classModuleLesson.getTikuPaper()!=null ? classModuleLesson.getTikuPaper().getId():null);
+                //sysKnowledgeTree.setPaperId(classModuleLesson.getTikuPaper()!=null ? classModuleLesson.getTikuPaper().getId():null);
                 sysKnowledgeTree.setCreatorId(user.getId());
                 sysKnowledgeTree.setCreator(user.getRealName());
                 sysKnowledgeTree.setId(null);

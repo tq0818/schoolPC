@@ -20,6 +20,7 @@ public class SysKnowledgeTreeStatistics extends BaseEntity {
     private Integer paperFlag;//试卷状态 0：未做  1：做了 2: 全错
     private Integer colorFlag;//叶子颜色  0 灰色  1 红色 2 黄色 3绿色
     private String  lessonName;//课次名称
+    private Integer status;//直播上下架状态
     public Integer getUserId() {
         return userId;
     }
@@ -146,5 +147,13 @@ public class SysKnowledgeTreeStatistics extends BaseEntity {
 
     public void setLessonName(String lessonName) {
         this.lessonName = lessonName;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

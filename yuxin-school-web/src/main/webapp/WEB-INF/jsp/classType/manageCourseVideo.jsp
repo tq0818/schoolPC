@@ -149,7 +149,8 @@
                 </div>
             </div>
         </div> --%>
-        <div class="block-btn is-ok" style="display:none;">
+        <%--<div class="block-btn is-ok" style="display:none;">--%>
+        <div class="block-btn is-ok">
             <button class="ok">保存</button>
             <button class="cancel">取消</button>
         </div>

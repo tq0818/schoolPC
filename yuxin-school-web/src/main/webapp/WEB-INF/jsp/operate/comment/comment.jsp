@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@include file="/decorators/import.jsp" %>
+<%-- <%@include file="../../../../decorators/import.jsp" %> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>评论</title>
-   	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css">
-	<link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/teacher.css">
+   	<link rel="stylesheet" type="text/css" href="../../../../stylesheets/manage.css">
+	<link rel="stylesheet" type="text/css" href="../../../../stylesheets/teacher.css">
     <style type="text/css">
         .iconfont{
             font-size: 13px;
@@ -57,9 +57,9 @@
 	<div class="loading lp-units-loading" style="display:none">
 		<p><i></i>加载中,请稍后...</p>
 	</div>
-	<script type="text/javascript" src="<%=rootPath%>/javascripts/common/utils.js"></script>
-	<script type="text/javascript" src="<%=rootPath %>/javascripts/operate/comment/comment.js"></script>
-    <script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
+	<script type="text/javascript" src="../../../../javascripts/common/utils.js"></script>
+	<script type="text/javascript" src="../../../../javascripts/operate/comment/comment.js"></script>
+    <script type="text/javascript" src="../../../../javascripts/plus/jquery.pagination.js"></script>
     
 </body>
 </html>

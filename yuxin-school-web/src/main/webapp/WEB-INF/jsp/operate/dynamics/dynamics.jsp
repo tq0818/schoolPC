@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@include file="/decorators/import.jsp" %>
+<%-- <%@include file="../../../../decorators/import.jsp" %> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>动态</title>
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css">
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/teacher.css">
-    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/lightbox.css">
-    <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
+    <link rel="stylesheet" type="text/css" href="../../../../stylesheets/manage.css">
+    <link rel="stylesheet" type="text/css" href="../../../../stylesheets/teacher.css">
+    <link rel="stylesheet" type="text/css" href="../../../../stylesheets/lightbox.css">
+    <link rel="stylesheet" type="text/css" href="../../../../stylesheets/popupwin.css">
     <style type="text/css">
         .num_140{
             font-weight: 700;
@@ -354,11 +354,11 @@
         </div>
     </form>
 </div>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/common/utils.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/operate/dynamics/dynamics.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/operate/dynamics/lightbox.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/plus/jquery.pagination.js"></script>
-<script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
-<script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
+<script type="text/javascript" src="../../../../javascripts/common/utils.js"></script>
+<script type="text/javascript" src="../../../../javascripts/operate/dynamics/dynamics.js"></script>
+<script type="text/javascript" src="../../../../javascripts/operate/dynamics/lightbox.js"></script>
+<script type="text/javascript" src="../../../../javascripts/plus/jquery.pagination.js"></script>
+<script type="text/javascript" src="../../../../javascripts/ajaxfileupload.js"></script>
+<script type="text/javascript" src="../../../../javascripts/popupwin.js"></script>
 </body>
 </html>

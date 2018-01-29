@@ -37,6 +37,7 @@ public class PayorderResultVO implements Serializable {
 	private Double payPrice;//真实价格
 	private Long remanentTime;//剩余支付时间
 	private String remark;//备注
+	private Integer Id;//主键id
 	private String status;//订单对应的课程是否上架 1：上架 0：未上架
 
 	public String getStatus() {
@@ -185,5 +186,11 @@ public class PayorderResultVO implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+	public Integer getId() {
+		return Id;
+	}
+	public void setId(Integer id) {
+		Id = id;
+	}
+
 }

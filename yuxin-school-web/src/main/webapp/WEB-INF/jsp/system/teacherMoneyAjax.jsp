@@ -36,7 +36,7 @@
 			<c:if test="${isArea eq 0}">
 			<td>${order.schoolName}</td>
 			</c:if>
-			<td>${order.fetchMoney}</td>
+			<td><fmt:formatNumber type="number" value="${order.fetchMoney}"  groupingUsed="false" pattern="########.##" /></td>
 			<td><a href="##" class="detailIncomeList" id="${order.id}">详情</a></td>
 		</tr>
 	</c:forEach>
@@ -49,10 +49,10 @@
 		$(".pagination").pagination('${payPage.rowCount}', {
 			next_text : "下一页",
 			prev_text : "上一页",
-			current_page :${payPage.pageNo}-1,
+			current_page :'${payPage.pageNo}'-1,
 			link_to : "javascript:void(0)",
 			num_display_entries : 8,
-			items_per_page :  ${payPage.pageSize},
+			items_per_page :  '${payPage.pageSize}',
 			num_edge_entries : 1,
 			callback:function(page,jq){
 				var pageNo = page + 1;

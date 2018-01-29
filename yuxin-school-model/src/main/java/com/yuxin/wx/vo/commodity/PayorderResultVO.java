@@ -38,6 +38,13 @@ public class PayorderResultVO implements Serializable {
 	private Long remanentTime;//剩余支付时间
 	private String remark;//备注
 	private Integer Id;//主键id
+	private String status;//订单对应的课程是否上架 1：上架 0：未上架
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getLiveFlag() {
 		return liveFlag;
 	}
@@ -182,5 +189,5 @@ public class PayorderResultVO implements Serializable {
 	public void setId(Integer id) {
 		Id = id;
 	}
-	
+
 }

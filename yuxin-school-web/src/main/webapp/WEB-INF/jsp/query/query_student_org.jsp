@@ -164,6 +164,239 @@
 		</div>
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
+
+		<!-- popupwin 界面 开始-->
+		<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
+			<div class="popupwin addStudentPopup" style="width:900px; height:auto;top:10px;" data-pupwin="modal">
+				<form id="addStudentForm">
+					<div class="popupwin-title">
+						<h2 class="h5">添加用户</h2>
+						<i class="close iconfont canclekuang"></i>
+					</div>
+					<div class="main form-horizontal" id="lsOne">
+						<div class="form-body">
+							<div class="form-group">
+								<c:if test="${registConfig.mobileFlag==1 }">
+									<label class="col-md-2 control-label">手机号<i class="iconfont ico">&#xe605;</i></label>
+									<div class="col-md-2">
+										<input class="form-control" id="sMobile" name="sMobile" type="text" maxlength="11"/>
+										<span class="tips" style="color:red;"></span>
+									</div>
+								</c:if>
+								<c:if test="${registConfig.usernameFlag==1 }">
+									<label class="col-md-2 control-label"  style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>
+									<div class="col-md-2"  style="display:none">
+										<input type="text" id="suserName" name="suserName" maxlength="30" class="form-control" placeholder="">
+										<span class="help-block" style="color:red;"></span>
+									</div>
+								</c:if>
+								<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>
+								<div class="col-md-2">
+									<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">
+									<span class="help-block" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group" >
+								<%--<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>--%>
+								<%--<div class="col-md-2">--%>
+								<%--<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">--%>
+								<%--<span class="help-block" style="color:red;"></span>--%>
+								<%--</div>--%>
+								<label class="col-md-2 control-label" style="display:none">性别</label>
+								<div class="col-md-2" style="margin-top: 7px;display:none;">
+									<input type="radio"  id="insertman" class="sSex" name="sSex" value="MALE" >男
+									<input type="radio" id="insertwoman" class="sSex" name="sSex" value="FEMALE">女
+								</div>
+							</div>
+
+							<div class="form-group" id="add_div_school">
+								<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
+
+								<div class="col-md-2">
+									<select name="eduArea" id="addEduArea">
+										<option value="">请选择所在区域</option>
+										<c:if test="${isArea ==0 }">
+											<c:forEach items="${areas}" var="area" >
+												<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+											</c:forEach>
+										</c:if>
+										<c:if test="${isArea ==1 }">
+											<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+										</c:if>
+										<c:if test="${isArea ==2 }">
+											<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+										</c:if>
+									</select>
+								</div>
+								<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
+								<c:if test="${isArea !=2}">
+									<div class="col-md-2">
+										<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
+											<option value="">请选择所在学校</option>
+										</select>
+										<span class="tips" style="color:red;"></span>
+									</div>
+								</c:if>
+								<c:if test="${isArea ==2 }">
+									<select name="eduSchool" id="addEduSchools" data-id="${student.eduSchool}">
+										<option value="">请选择所在学校</option>
+										<option value="${schoolName.itemCode}" >${schoolName.itemValue}</option>
+									</select>
+								</c:if>
+							</div>
+							<div class="form-group" id="add_div_class">
+								<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>
+								<div class="col-md-2" style="width: 700px;">
+									<select name="eduStep" id="addEduStep" >
+										<c:if test="${classTeacher ne 1 }">
+											<option value="">请选择当前学段</option>
+											<c:forEach items="${steps}" var="step">
+												<option value="${step.itemCode}">${step.itemValue}</option>
+											</c:forEach>
+										</c:if>
+										<c:if test="${classTeacher eq 1 }">
+											<option value="${step.itemCode}">${step.itemValue}</option>
+										</c:if>
+									</select>
+									<select name="eduYear" id="addEduYear" style="float: left">
+										<c:if test="${classTeacher ne 1 }">
+											<option value="">请选择入学年份</option>
+											<c:forEach items="${years}" var="year">
+												<option value="${year}">${year}</option>
+											</c:forEach>
+										</c:if>
+										<c:if test="${classTeacher eq 1}">
+											<option value="${year}">${year}</option>
+										</c:if>
+									</select>
+									<select name="eduClass" id="addEduClass">
+										<c:if test="${classTeacher ne 1 }">
+											<c:forEach begin="1" end="30" varStatus="index">
+												<option value="${index.index}">${index.index}班</option>
+											</c:forEach>
+										</c:if>
+										<c:if test="${classTeacher eq 1 }">
+											<option value="${eduClassIndex}">${eduClassIndex}班</option>
+										</c:if>
+									</select>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">出生日期</label>
+								<div class="col-md-2">
+									<input class="form-control date-picker " id="sBirth" name="sBirth" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+								<input class="form-control" id="sAge" name="sAge" type="hidden" />
+								<label class="col-md-2 control-label">户口所在地</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sRegist" name="sRegist" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">最高学历</label>
+								<div class="col-md-2">
+									<select name="sEducation" id="sEducation">
+										<option value="">请选择</option>
+									</select>
+								</div>
+								<label class="col-md-2 control-label">家庭电话号</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sTel" name="sTel" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">办公电话</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sOfficeTel" name="sOfficeTel" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+								<label class="col-md-2 control-label">紧急联系人<i class="iconfont ico">&#xe605;</i></label>
+								<div class="col-md-2">
+									<input class="form-control" id="sEmergencyContact" name="sEmergencyContact" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">紧急联系人电话<i class="iconfont ico">&#xe605;</i></label>
+								<div class="col-md-2">
+									<input class="form-control" id="sEmergencyPhone" name="sEmergencyPhone" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+								<label class="col-md-2 control-label">邮箱</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sEmail" name="sEmail" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">QQ号</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sQQ" name="sQQ" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+								<label class="col-md-2 control-label">微信</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sWebChat" name="sWebChat" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">地址</label>
+								<div class="col-md-3">
+					<span class="selectplace clear" id="sAddress">
+							<select id="prov" ></select>
+					    	<select id="city" ></select>
+					        <select id="dist" ></select>
+						</span>
+								</div>
+
+								<div class="col-md-4">
+									<input class="form-control" id="sAddressDetail" name="sAddressDetail" type="text"/>
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display: none;">
+								<label class="col-md-2 control-label">是否生成前台登录账号</label>
+								<div class="col-md-2">
+									<input type="radio" name="sUserFront" value="1" checked="checked">是
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">备注</label>
+								<div class="col-md-2">
+									<input class="form-control" id="remark_name" name="remark_name" type="text" />
+									<span class="tips" style="color:red;"></span>
+								</div>
+							</div>
+							<c:if test="${sgOpen==1 }">
+								<div class="form-group" style="display:none">
+									<label class="col-md-2 control-label">分组</label>
+									<div class="col-md-2" style="width: 350px;">
+										<select id="studentG1_add" name="studentGroup1_add" onchange="javaScript:selectGroup2(this,'_add');">
+										</select>
+										<select id="studentG2_add" name="studentGroup2_add" style="width: 110px;" >
+										</select>
+									</div>
+								</div>
+							</c:if>
+							<div class="form-group" style="text-align: center;" style="display:none">
+								<div class="col-md-3" style="width: 100%;padding: 10px 0 0;">
+									<input type="button" class="m-btn-red addStudentOk" value="确&nbsp;&nbsp;定"/>
+									<a class="m-btn-default canclekuang" data-pupwin-btn="cancle" href="javascript:;">取&nbsp;&nbsp;消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- popupwin 界面结束 -->
+
 	</div>
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student.js"></script>

@@ -4,7 +4,7 @@
 <html lang="zh-cn">
 <head>
 <%@include file="/decorators/import.jsp" %>
-    <title>课程-基本信息</title> 
+    <title>课程-基本信息</title>
    <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/fatstyle.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/manage.css"/>
     <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/company.css"/>
@@ -79,7 +79,7 @@
                 </p>
                 <p class="c">
                     <span class="c-title">课程名称</span>
-                    <span class="c-content"><input type="text" id="classTypeName" class="readonly" name="name" value="${ct.name }" readonly></span>
+                    <span class="c-content"><input type="text" id="classTypeName" class="readonly" name="name" value="${ct.name }" readonly style="width: 400px;"></span>
                 </p>
                 <p class="c">
                     <span class="c-title">定价</span>

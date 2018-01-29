@@ -73,9 +73,9 @@ function test(){
                     <span class="t-title">通知方式</span>
                     <span class="t-content">
                         <a href="javascript:;" class="btn btn-mini btn-method btn-success" data-type="all">全部</a>
-                        <c:if test="${CURRENT_IS_AREA eq 0}">
+                        <%--<c:if test="${CURRENT_IS_AREA eq 0}">--%>
                         	<a href="javascript:;" class="btn btn-mini btn-method" data-type="STUDENT_MESSAGE_MOBILE">短信</a>
-                        </c:if>
+                        <%--</c:if>--%>
                         <a href="javascript:;" class="btn btn-mini btn-method" data-type="STUDENT_MESSAGE_WEB">站内信</a>
                         <c:if test="${CURRENT_IS_AREA eq 0}">
                         	<a href="javascript:;" class="btn btn-mini btn-method" data-type="STUDENT_MESSAGE_EMAIL">邮件</a>

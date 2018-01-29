@@ -1818,9 +1818,13 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 					s.setEduClass(student.getEduClass());
 					s.setEduStep(student.getEduStep());
 					s.setEduYear(student.getEduYear());
+					s.setDeleteFlag(0);
+					s.setEduIdentity(0);
 					this.studentMapper.update(s);
 					usersFront =new UsersFront();
-					usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);
+					usersFront.setId(s.getUserId());
+					usersFront.setMobile(s.getMobile());
+					//usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);
 //					usersFront.setEmail(student.getEmail());
 //					usersFront.setQq(student.getQq());
 					//usersFront.setUsername(student.getUsername());

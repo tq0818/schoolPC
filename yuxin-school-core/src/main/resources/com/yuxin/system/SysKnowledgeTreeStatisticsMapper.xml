@@ -100,8 +100,12 @@
 
     <select id="findLessonInfo" parameterType="Map" resultType="Map">
         SELECT l.id,TIME_TO_SEC(v.video_time) as times,SUBSTRING(v.video_time,1,2) as h,SUBSTRING(v.video_time,4,2) as m,SUBSTRING(v.video_time,7,2) as s, v.video_time from course_video_lecture l
-      LEFT JOIN video v  on  v.id = L.video_id
-        where l.id =#{id}
+      LEFT JOIN video v  on  v.id = l.video_id
+      LEFT JOIN course_video_chapter c on c.id = l.chapter_id
+      LEFT JOIN class_type_module_relation cm on cm.module_id =c.module_id
+      LEFT JOIN commodity_product_realtion cpr  on  cpr.product_id = cm.class_type_id
+      LEFT JOIN commodity co on co.id =cpr.com_id
+        where co.id =#{id}
 
     </select>
 

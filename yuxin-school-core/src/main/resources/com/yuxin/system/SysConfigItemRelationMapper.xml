@@ -140,7 +140,7 @@
          a.*
         from sys_config_item_relation_front a
          LEFT JOIN sys_config_item s on s.item_code=a.item_code
-        where a.level = 0  and a.origin_type=0 and s.company_id=#{companyId} and a.company_id=#{companyId} and s.del_flag=0
+        where a.level = 0  and a.origin_type=0 and s.company_id=#{companyId} and a.company_id=#{companyId} and s.del_flag=0 and s.status=1
     </select>
     <select id="findChildrenFront" resultMap="sysConfigItemRelationResultMap"
             parameterType="com.yuxin.wx.model.system.SysConfigItemRelation">

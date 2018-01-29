@@ -120,7 +120,7 @@ public class TestTask {
                     lesson.setWatchTime(Long.parseLong(mUser.getLeaveTime())-Long.parseLong(mUser.getJoinTime()));
                     lesson.setDevice(mUser.getDevice());
                     lesson.setId(null);
-                    //watchInfoServiceImpl.addWatchInfo(lesson);
+                    watchInfoServiceImpl.addWatchInfo(lesson);
                     // try {
                     //    setLiveKnowledgeTreeStaticis(lesson,lesson.getUserId());
                     // } catch (ParseException e) {
@@ -571,7 +571,7 @@ public class TestTask {
                 uha.setStudyLength(play.getPlay_duration());
                 uha.setStudyTime(date);
                 uha.setDevice(play.getDevice());
-                //userHistoryServiceImpl.insertPlayLogs(uha);
+                userHistoryServiceImpl.insertPlayLogs(uha);
                 setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength());
             }
             if(playLog.size()==1000){

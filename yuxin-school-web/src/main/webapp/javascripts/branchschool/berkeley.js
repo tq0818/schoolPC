@@ -354,7 +354,7 @@ function addBerkeley(biaoshi){
     	        	            			domainManage = domainManage.replace(/\s/g,"");
 	        	            				if(null!=domainManage && ''!= domainManage){
 	        	            					var data={};
-	        	            			    	data.domainManage=domainManage+'.cdds365.manage.com';
+	        	            			    	data.domainManage='manage.'+domainManage+'.cdds365.com';
 	        	            					$.ajax({
 	        	            			               url: rootPath + "/berkeley/checkDomain",
 	        	            			               data: data,
@@ -363,7 +363,7 @@ function addBerkeley(biaoshi){
 	        	            			               },
 	        	            			               success: function (data) {
 	        	            			            	   if(data.msg=="success"){
-	        	            			            		   domainManage=domainManage+'.cdds365.manage.com';
+	        	            			            		   domainManage='manage.'+domainManage+'.cdds365.com';
 	        	            			            		   var privateCost=$("#privateCost").val();
         	            			            				if(null==privateCost || ''==privateCost){
         	            			            					alert("学校私有课程收费比例不能为空");

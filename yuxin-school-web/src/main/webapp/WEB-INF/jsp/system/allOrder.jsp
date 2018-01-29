@@ -175,13 +175,19 @@ $.jeDate('#inpend',end);
 				}
 			}
 			$("#searchForm").empty();
+			var payStates = '';
+			$(".allArderState").find("button").each(function(){
+	                if($(this).hasClass("btn-primary")){
+	                    payStates=$(this).attr("code");
+	                }
+	        });
 			var inputs = '<input type="hidden" name="page" value="1"/>' +
 					'<input type="hidden" name="orderNum" value="'+$("#orderNum").val()+'"/>' +
 					'<input type="hidden" name="inpstart" value="'+$("#inpstart").val()+'"/>'+
 					'<input type="hidden" name="payMethod" value="'+$("#payMethod").val()+'"/>' +
 					'<input type="hidden" name="firstPrice" value="'+$("#payPrice01").val()+'"/>'+
-					'<input type="hidden" name="secondPrice" value="'+$("#payPrice02").val()+'"/>';
-
+					'<input type="hidden" name="secondPrice" value="'+$("#payPrice02").val()+'"/>'+
+					'<input type="hidden" name="payStates" value="'+payStates+'"/>';
 			$("#searchForm").append(inputs);
 			$("#searchForm").submit();
 

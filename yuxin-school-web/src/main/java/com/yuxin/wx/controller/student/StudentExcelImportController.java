@@ -255,7 +255,13 @@ public class StudentExcelImportController {
 			}
 			if("0".equals(isArea)){
 				isAreaHava.putAll(eduAreaMap);
-				isSchoolHava.putAll(eduSchoolMap);
+				Users users=WebUtils.getCurrentUser();
+				if (subject.hasRole("学校负责人")){
+					String eduValue=eduSchoolMap.get(users.getUsername());
+					isSchoolHava.put(users.getUsername(),eduValue);
+				}else{
+					isSchoolHava.putAll(eduSchoolMap);
+				}	
 			}else if("1".equals(isArea)){
 				//学区  区域
 				String eduArea=WebUtils.getCurrentCompany().getEduAreaSchool();
@@ -294,10 +300,7 @@ public class StudentExcelImportController {
 				}
 				
 			}
-			
-			
 			String flag = getCompanyRegisterFlag();					/* 机构注册方式 */
-			
 			for (int i = list.size() - 1; i >= 0; i--) {			/* 倒叙，保留第一个*/
 				List<String> error = new ArrayList<String>();
 				switch (flag) {
@@ -809,7 +812,7 @@ public class StudentExcelImportController {
 		Integer companyId = WebUtils.getCurrentCompanyId();
 		Company company=WebUtils.getCurrentCompany();
 		
-		List<List<String>> list = ImportExcl.read( path );	/* excel转list */
+		List<List<String>> list = ImportExcl.read(path);	/* excel转list */
 		
 		List<Student> studentslist = new ArrayList<Student>();	/* 返回studentList初始化 */
 		Student s = null;
@@ -817,7 +820,6 @@ public class StudentExcelImportController {
 		if ( list != null ) {
 			for (int i = 1; i < list.size(); i++) {           /* 从第二行开始 （第一行表头）*/
 				List<String> studentList = list.get(i);
-				
 				s = new Student();
 				if (!"".equals(studentList.get(0)))  s.setMobile(studentList.get(0)); 
 				//if (!"".equals(studentList.get(1)))  s.setUsername(studentList.get(1)); 
@@ -846,7 +848,13 @@ public class StudentExcelImportController {
 				if (studentList.size()>5&&!"".equals(studentList.get(5))){
 					s.setEduSchool(studentList.get(5)); 
 				}else{
-					s.setEduSchool(company.getEduAreaSchool());
+					Users users=WebUtils.getCurrentUser();
+					Subject subject = SecurityUtils.getSubject();
+					if (subject.hasRole("学校负责人")&&"0".equals(company.getIsArea())){
+						s.setEduSchool(users.getUsername());
+					}else{
+						s.setEduSchool(company.getEduAreaSchool());
+					}
 				}
 				s.setCompanyId(companyId);
 				s.setSchoolId(WebUtils.getCurrentSchoolId());

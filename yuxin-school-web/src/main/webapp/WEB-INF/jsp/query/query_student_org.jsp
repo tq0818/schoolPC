@@ -106,7 +106,7 @@
                         </select>
 					</div>
 					<div style="margin-top: 10px;">
-						<span>创建时间</span>
+						<span>创建时121间</span>
 						<span><input type="text" name="startTime" class="date-picker from"/><em>到</em><input type="text" name="endTime" class="date-picker to"/></span>
 						<c:if test="${address==1}">
 						<span style="padding:0 15px;" id="caddress">
@@ -119,6 +119,7 @@
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
 						<span class="fr">
 							<c:if test="${isArea ne 1}">
+							<a href="javascript:;" class="btn btn-primary addStudent">添加用户</a>
 							<a href="javascript:;" class="btn btn-primary importexcle" >导入用户</a></c:if>
 							<a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
 					</div>

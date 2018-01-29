@@ -39,15 +39,12 @@ public class PayorderResultVO implements Serializable {
 	private String remark;//备注
 	private Integer Id;//主键id
 	private String status;//订单对应的课程是否上架 1：上架 0：未上架
-
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	public String getLiveFlag() {
 		return liveFlag;
 	}

@@ -45,7 +45,7 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar ca = Calendar.getInstance();
         //ca.set(Calendar.MONTH,7);
-        ca.add(Calendar.DAY_OF_MONTH,-1);
+        ca.add(Calendar.DAY_OF_MONTH,-3);
         String lessonDate = sdf.format(ca.getTime());
         Map dateMap = new HashMap();
         dateMap.put("lessonDate",lessonDate);

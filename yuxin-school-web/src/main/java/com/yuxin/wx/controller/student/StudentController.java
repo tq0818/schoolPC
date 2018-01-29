@@ -3050,7 +3050,15 @@ public class StudentController {
      */
     @RequestMapping("/download")
     public String downloadexcleTemplete(HttpServletResponse response, HttpServletRequest request) {
-        String path = request.getSession().getServletContext().getRealPath("/") + "user_example.xls";
+    	
+    	String fileName="";
+    	Subject subject = SecurityUtils.getSubject();
+    	if("2".equals(WebUtils.getCurrentIsArea())||subject.hasRole("学校负责人")){
+    		fileName="user_example_school.xls";
+    	}else{
+    		fileName="user_example.xls";
+    	}
+        String path = request.getSession().getServletContext().getRealPath("/")+fileName;
         File file = new File(path);
         response.setHeader("Content-Disposition", "attachment; filename=user_example.xls");
         response.addHeader("Content-Length", "" + file.length());

@@ -446,7 +446,7 @@
 
                         </select>
                     </div>
-                </div>
+                </div><%--
                 <div class="col">
                     <div class="tt">学科小类</div>
                     <div class="ct">
@@ -454,7 +454,7 @@
 
                         </select>
                     </div>
-                </div>
+                </div>--%>
 
             </div>
             <div class="row">

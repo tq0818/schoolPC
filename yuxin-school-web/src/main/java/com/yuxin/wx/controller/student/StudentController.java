@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -296,6 +298,29 @@ public class StudentController {
         			model.addAttribute("materTeacher", list.get(0));	
         		}
                 model.addAttribute("roleType", 1);
+                //班主任添加学员时，对所在班级进行回显
+                int userId=WebUtils.getCurrentUserId(request);
+     			EduMasterClass etc=new EduMasterClass();
+     			etc.setUserId(String.valueOf(userId));
+     			List<EduMasterClass> listTeacher=studentServiceImpl.findClassByTeacherId(etc,WebUtils.getCurrentCompany().getEduAreaSchool());
+     			if(null!=listTeacher && listTeacher.size()>0){
+     				String eduStep=listTeacher.get(0).getEduStep();
+     				String eduYear=listTeacher.get(0).getEduYear();
+     				String eduClass=listTeacher.get(0).getEduClass();
+     				//学年
+     				model.addAttribute( "year", Integer.valueOf(eduYear));
+     				//班级
+     				model.addAttribute( "eduClassIndex", Integer.valueOf(eduClass));
+     				SysConfigDict areaDictTeacher = new SysConfigDict();
+     				areaDictTeacher.setDictCode("EDU_STEP");
+     				areaDictTeacher.setItemCode(eduStep);
+     		        List<SysConfigDict> step = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDictTeacher);
+     		        //学段
+     		        if(step.size() > 0){
+     		        model.addAttribute("step", step.get(0));
+     		        }
+     		       model.addAttribute("classTeacher", 1);
+     			}
             }else if (subject.hasRole("任课老师") ) {
             	//任课教师
             	EduMasterClass ets =new EduMasterClass();
@@ -3581,7 +3606,7 @@ public class StudentController {
         if (result != null) {
             return false;
         } else {
-            return true;
+        	return true;
         }
     }
 

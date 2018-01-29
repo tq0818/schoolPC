@@ -291,7 +291,7 @@ input+span{
                       </c:if>
                       <c:if test="${ct.cover!='' }">
                          <span class="view">
-                            <img id="commdotityPic" src="${ct.cover }" realPath="" alt="课程图片">
+                            <img id="commdotityPic" src="${ct.cover }" realPath="${cts.cover }" alt="课程图片">
                         </span>
                         <span class="btns"><a href="javascript:;" class="btn btn-default btn-upload">更换封面</a></span>
                    	  </c:if>
@@ -501,14 +501,14 @@ input+span{
 	        			</select>
         			</div>
         		</div>
-        		<div class="col">
+        		<%--<div class="col">
         			<div class="tt">学科小类</div>
         			<div class="ct">
 	        			<select class="itemSecond">
 	        				
 	        			</select>
         			</div>
-        		</div>
+        		</div>--%>
 
         	</div>
         	<div class="row">

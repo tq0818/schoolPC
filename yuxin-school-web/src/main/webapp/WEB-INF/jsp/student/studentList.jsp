@@ -232,8 +232,8 @@
 						</div>
 					</c:if>
 					<c:if test="${registConfig.usernameFlag==1 }">
-						<label class="col-md-2 control-label">用户名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
+						<label class="col-md-2 control-label"  style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>
+						<div class="col-md-2"  style="display:none">
 							<input type="text" id="suserName" name="suserName" maxlength="30" class="form-control" placeholder="">
 							<span class="help-block" style="color:red;"></span>
 						</div>
@@ -245,8 +245,8 @@
 							<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">
 							<span class="help-block" style="color:red;"></span>
 						</div>
-					<label class="col-md-2 control-label">性别</label>	
-						<div class="col-md-2" style="margin-top: 7px;">
+					<label class="col-md-2 control-label" style="display:none">性别</label>	
+						<div class="col-md-2" style="margin-top: 7px;display:none;">
 							<input type="radio"  id="insertman" class="sSex" name="sSex" value="MALE" >男
 							<input type="radio" id="insertwoman" class="sSex" name="sSex" value="FEMALE">女
 						</div>
@@ -272,7 +272,7 @@
 							</select>
 						</div>
 					<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
-					<c:if test="${isArea !=2 }">
+					<c:if test="${isArea !=2}">
 						<div class="col-md-2">
 							<select name="eduSchool" id="addEduSchool" data-id="${student.eduSchool}">
 								<option value="">请选择所在学校</option>
@@ -324,7 +324,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">出生日期</label>
 					<div class="col-md-2">
 						<input class="form-control date-picker " id="sBirth" name="sBirth" type="text" />
@@ -337,7 +337,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">最高学历</label>
 					<div class="col-md-2">
 						<select name="sEducation" id="sEducation">
@@ -351,7 +351,7 @@
 					</div>
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">办公电话</label>
 					<div class="col-md-2">
 						<input class="form-control" id="sOfficeTel" name="sOfficeTel" type="text" />
@@ -363,7 +363,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">紧急联系人电话<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input class="form-control" id="sEmergencyPhone" name="sEmergencyPhone" type="text" />
@@ -375,7 +375,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">QQ号</label>
 					<div class="col-md-2">
 						<input class="form-control" id="sQQ" name="sQQ" type="text" />
@@ -387,7 +387,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">地址</label>
 					<div class="col-md-3">
 					<span class="selectplace clear" id="sAddress">
@@ -408,7 +408,7 @@
 						<input type="radio" name="sUserFront" value="1" checked="checked">是
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">备注</label>
 					<div class="col-md-2">
 						<input class="form-control" id="remark_name" name="remark_name" type="text" />
@@ -416,7 +416,7 @@
 					</div>
 				</div>
 				<c:if test="${sgOpen==1 }">
-					<div class="form-group">
+					<div class="form-group" style="display:none">
 						<label class="col-md-2 control-label">分组</label>
 						<div class="col-md-2" style="width: 350px;">
 							<select id="studentG1_add" name="studentGroup1_add" onchange="javaScript:selectGroup2(this,'_add');">
@@ -426,12 +426,12 @@
 						</div>
 					</div>
 				</c:if>
-				<div class="form-group" style="text-align: center;">
+				<div class="form-group" style="text-align: center;" style="display:none">
                         <div class="col-md-3" style="width: 100%;padding: 10px 0 0;">
                             <input type="button" class="m-btn-red addStudentOk" value="确&nbsp;&nbsp;定"/>
                             <a class="m-btn-default canclekuang" data-pupwin-btn="cancle" href="javascript:;">取&nbsp;&nbsp;消</a>
                         </div>
-                 </div>
+                </div>
 			</div>
 		</div>
 		</form>
@@ -458,10 +458,10 @@
 						</div>
 					</c:if>
 					<c:if test="${registConfig.usernameFlag==1 }">
-						<label class="col-md-2 control-label">用户名<i class="iconfont ico">&#xe605;</i></label>
+						<label class="col-md-2 control-label" style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>
 						<div class="col-md-2">
-							<input type="text" id="uuserName" name="uuserName" maxlength="30" class="form-control" disabled />
-							<span class="help-block" style="color:red;"></span>
+							<input type="text" style="display:none" id="uuserName" name="uuserName" maxlength="30" class="form-control" disabled />
+							<span class="help-block" style="color:red;" style="display:none"></span>
 						</div>
 					</c:if>
 				</div>
@@ -469,24 +469,23 @@
 					<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>
 						<div class="col-md-2">
 							<input type="hidden" id="uId" value="">
-							<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" >
+							<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>
 							<span class="help-block" style="color:red;"></span>
 						</div>
-					<label class="col-md-2 control-label">性别</label>	
-						<div class="col-md-2">
+					<label class="col-md-2 control-label" style="display:none">性别</label>	
+						<div class="col-md-2"  style="display:none">
 							<input type="radio"  id="updateman" class="uSex" name="uSex" value="MALE">男
 							<input type="radio" id="updatewoman" class="uSex" name="uSex" value="FEMALE">女
 						</div>
 					</div>
 
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">个人身份<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input type="radio" value="0" name="editeduIdentity" checked="checked" id="edit_eduIdentity_stu">学生
 						<!-- <input type="radio" value="1" name="editeduIdentity" id="edit_eduIdentity_normal">普通用户 -->
 					</div>
 				</div>
-
 
 				<div class="form-group" id="edit_div_school">
 					<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
@@ -532,7 +531,7 @@
 				</div>
 
 
-				<div class="form-group" id="li_school">
+				<div class="form-group" id="li_school" style="display:none">
 					<label class="col-md-2 control-label">出生日期</label>
 					<div class="col-md-2">
 						<input class="form-control date-picker " id="uBirth" name="uBirth" type="text" />
@@ -545,7 +544,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">最高学历</label>
 					<div class="col-md-2">
 						<select name="uEducation" id="uEducation">
@@ -559,7 +558,7 @@
 					</div>
 				</div>
 			
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">办公电话</label>
 					<div class="col-md-2">
 						<input class="form-control" id="uOfficeTel" name="uOfficeTel" type="text" />
@@ -571,7 +570,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">紧急联系人电话 <i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2">
 						<input class="form-control" id="uEmergencyPhone" name="uEmergencyPhone" type="text" />
@@ -583,7 +582,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">QQ号</label>
 					<div class="col-md-2">
 						<input class="form-control" id="uQQ" name="uQQ" type="text" />
@@ -595,7 +594,7 @@
 						<span class="tips" style="color:red;"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">地址</label>
 					<div class="col-md-3">
 					<span class="selectplace clear" id="uAddress">
@@ -616,7 +615,7 @@
 						<input type="radio" name="uUserFront" value="1" checked="checked">是
 					</div>
 				</div>
-					<div class="form-group">
+				<div class="form-group" style="display:none">
 					<label class="col-md-2 control-label">备注</label>
 					<div class="col-md-2">
 						<input class="form-control remark_names" id="remark_name"  name="remark_name" type="text" />
@@ -624,7 +623,7 @@
 					</div>
 				</div>
 				<c:if test="${sgOpen==1 }">
-					<div class="form-group">
+					<div class="form-group" style="display:none">
 						<label class="col-md-2 control-label">分组</label>
 						<div class="col-md-2" style="width: 350px;">
 							<select id="studentG1_edit" name="studentGroup1_edit" onchange="javaScript:selectGroup2(this,'_edit');">

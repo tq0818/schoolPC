@@ -254,14 +254,14 @@
 								</select>
 							</div>
 						</div>
-						<div class="col">
+						<%--<div class="col">
 							<div class="tt q-term-title">学科小类</div>
 							<div class="ct">
 								<select class="itemSecond q-select">
 
 								</select>
 							</div>
-						</div>
+						</div>--%>
 
 					</div>
         	<div class="row">

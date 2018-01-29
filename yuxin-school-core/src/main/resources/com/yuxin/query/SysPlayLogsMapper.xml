@@ -829,11 +829,12 @@
 		<if test="username!=null and username!=''">and (uf.username like '%${username}%' or uf.mobile like '%${username}%')</if>
 		group by t.name,pl.user_id
 		<choose>
-			<when test="fieldName!=null and fieldName!=''">order by ${fieldName} </when>
-			<otherwise>order by t.name</otherwise>
+			<when test="fieldName!=null and fieldName!=''">order by ${fieldName}</when>
+			<otherwise>order by t.create_time</otherwise>
 		</choose>
 		<choose>
-			<when test="sortType!=null and sortType!=''"> ${sortType} </when>
+			<when test="sortType!=null and sortType!=''"> ${sortType}</when>
+			<otherwise>desc</otherwise>
 		</choose>
 		limit #{firstIndex},#{pageSize}
 	</select>

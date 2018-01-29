@@ -1,6 +1,7 @@
 package com.yuxin.wx.controller.pay;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -376,11 +377,14 @@ public class PayOrderController {
             // 总数
             count = payOrderServiceImpl.findPrivateSchoolMoneyCountByCondition(map);
         }
-        double totalMoneyAdd = 0;
+        double totalMoneyAdd1 = 0;
+        String totalMoneyAdd=null;
+        DecimalFormat df = new DecimalFormat("0.00");
         if(null!=cpoList && cpoList.size()>0){
             for(PayOrder po : cpoList){
-                totalMoneyAdd+=Double.parseDouble(po.getTotalMoney());
+                totalMoneyAdd1+=Double.parseDouble(po.getTotalMoney());
             }
+             totalMoneyAdd = df.format(totalMoneyAdd1);
         }
         // 分页
         PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(payOrder.getPage(), payOrder.getPageSize(), count, cpoList);

@@ -537,38 +537,38 @@
         focusInvalid: false,
         ignore: "",
         rules: {
-            nPassword: {
-                required: true,
-                minlength: 6
-            },
-            rPassword: {
-                required: true,
-                equalTo: "#nPassword"
-            },
+//            nPassword: {
+//                required: true,
+//                minlength: 6
+//            },
+//            rPassword: {
+//                required: true,
+//                equalTo: "#nPassword"
+//            },
             sName: {
                 required: true
             },
-            sBirth: {
-                date: true
-            },
-            sEducation: {},
-            sIdentity: {},
-            sIdentityNum: {
-                minlength: 15,
-                remote: {
-                    url: rootPath + "/student/checkIdentityExist",
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        identityType: function () {
-                            return $("#sIdentity option:selected").val();
-                        },
-                        identityNum: function () {
-                            return $("#sIdentityNum").val();
-                        }
-                    }
-                }
-            },
+//            sBirth: {
+//                date: true
+//            },
+//            sEducation: {},
+//            sIdentity: {},
+//            sIdentityNum: {
+//                minlength: 15,
+//                remote: {
+//                    url: rootPath + "/student/checkIdentityExist",
+//                    type: "post",
+//                    dataType: "json",
+//                    data: {
+//                        identityType: function () {
+//                            return $("#sIdentity option:selected").val();
+//                        },
+//                        identityNum: function () {
+//                            return $("#sIdentityNum").val();
+//                        }
+//                    }
+//                }
+//            },
             sMobile: {
                 required: true,
                 minlength: 8,
@@ -584,73 +584,75 @@
                         }
                     }
                 }
-            },
-            suserName:{
-            	required: true,
-            	remote: {
-                     url: rootPath + "/student/checkFrontUserName",
-                     type: "post",
-                     dataType: "json",
-                     data: {
-                         username: function () {
-                             return $("#suserName").val();
-                         }
-                     }
-                }
-            },
-            sEmergencyPhone: {
-                minlength: 11,
-                maxlength: 11,
-                digits: true
-            },
-            sEmail: {
-                email: true,
-                remote: {
-            		url: rootPath+"/student/check",
-            		type:"post",
-            		dataType:"json",
-            		data:{
-            			email:function(){
-            				return $("#sEmail").val();
-            			}
-            		}
-            	}
             }
+//            },
+//            suserName:{
+//            	required: true,
+//            	remote: {
+//                     url: rootPath + "/student/checkFrontUserName",
+//                     type: "post",
+//                     dataType: "json",
+//                     data: {
+//                         username: function () {
+//                             return $("#suserName").val();
+//                         }
+//                     }
+//                }
+//            },
+//            sEmergencyPhone: {
+//                minlength: 11,
+//                maxlength: 11,
+//                digits: true
+//            },
+//            sEmail: {
+//                email: true,
+//                remote: {
+//            		url: rootPath+"/student/check",
+//            		type:"post",
+//            		dataType:"json",
+//            		data:{
+//            			email:function(){
+//            				return $("#sEmail").val();
+//            			}
+//            		}
+//            	}
+//            }
         },
         messages: {
             sName: {
                 required: "姓名不能为空"
             },
-            sBirth: {
-                date: "请输入正确时间"
-            },
-            sIdentityNum: {
-                minlength: "不是有效的身份证",
-                required: "证件号码不能为空",
-                remote: "该身份证号已经被使用"
-            },
+//            sBirth: {
+//                date: "请输入正确时间"
+//            },
+//            sIdentityNum: {
+//                minlength: "不是有效的身份证",
+//                required: "证件号码不能为空",
+//                remote: "该身份证号已经被使用"
+//            },
             sMobile: {
                 required: "手机号不能为空",
                 maxlength: "请输入正确手机号",
                 minlength: "请输入正确手机号",
                 isMobile: "请输入正确手机号",
                 remote: "手机号已经存在"
-            },
-            suserName:{
-            	 required: "用户名不能为空",
-            	 remote: "用户名已经存在"
-            },
-            nPassword: {
-                required: "密码不能为空，且最少为六位数字或英文字母",
-                minlength: "密码最少为6位数字或英文字母"
-            },
-            rPassword: {
-                required: "请重复输入密码",
-                equalTo: "2次密码不一致，请修改"
-            },
-            sEmail:{
-            	remote: "邮箱已经存在"
             }
+//            },
+//            suserName:{
+//            	 required: "用户名不能为空",
+//            	 remote: "用户名已经存在"
+//            },
+//            nPassword: {
+//                required: "密码不能为空，且最少为六位数字或英文字母",
+//                minlength: "密码最少为6位数字或英文字母"
+//            },
+//            rPassword: {
+//                required: "请重复输入密码",
+//                equalTo: "2次密码不一致，请修改"
+//            },
+//            sEmail:{
+//            	remote: "邮箱已经存在"
+//            }
 
         },
         success: function (label) {
@@ -671,45 +673,45 @@
                 required: true,
                 maxlength: 15
             },
-            uAge: {
-                maxlength: 2,
-                digits: true
-            },
-            uBirth: {
-                date: true
-            },
-            uIdentityNum: {
-               // minlength: 15,
-                remote: {
-                    url: rootPath + "/student/checkUpdateIdentityExist",
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        identityType: function () {
-                            return $("#uIdentity option:selected").val();
-                        },
-                        identityNum: function () {
-                            return $("#uIdentityNum").val();
-                        },
-                        id: function () {
-                            return $("#uId").val();
-                        }
-                    }
-                }
-
-            },
+//            uAge: {
+//                maxlength: 2,
+//                digits: true
+//            },
+//            uBirth: {
+//                date: true
+//            },
+//            uIdentityNum: {
+//               // minlength: 15,
+//                remote: {
+//                    url: rootPath + "/student/checkUpdateIdentityExist",
+//                    type: "post",
+//                    dataType: "json",
+//                    data: {
+//                        identityType: function () {
+//                            return $("#uIdentity option:selected").val();
+//                        },
+//                        identityNum: function () {
+//                            return $("#uIdentityNum").val();
+//                        },
+//                        id: function () {
+//                            return $("#uId").val();
+//                        }
+//                    }
+//                }
+//
+//            },
             uMobile: {
                 required: true,
                 minlength: 8,
                 maxlength: 11,
                 isMobile: true,
 
-            },
-            uEmergencyPhone: {
-            	minlength: 8,
-                maxlength: 20,
-                digits: true
-            },
+            }
+//            uEmergencyPhone: {
+//            	minlength: 8,
+//                maxlength: 20,
+//                digits: true
+//            },
             /*uTel:{
             	  minlength: 8,
             	  maxlength: 20,
@@ -720,39 +722,39 @@
             	  maxlength: 20,
                   digits: true
             },*/
-            uQQ:{
-            	maxlength: 15,
-            	digits: true
-            },
-            uEmergencyContact:{
-            	maxlength: 20
-            },
-            uRegist:{
-            	 maxlength: 200
-            },
-            uWebChat:{
-            	maxlength: 50
-            },
-            uAddressDetail:{
-            	maxlength: 128
-            },
-            uEmail: {
-            	maxlength: 50,
-                email: true
-            }
+//            uQQ:{
+//            	maxlength: 15,
+//            	digits: true
+//            },
+//            uEmergencyContact:{
+//            	maxlength: 20
+//            },
+//            uRegist:{
+//            	 maxlength: 200
+//            },
+//            uWebChat:{
+//            	maxlength: 50
+//            },
+//            uAddressDetail:{
+//            	maxlength: 128
+//            },
+//            uEmail: {
+//            	maxlength: 50,
+//                email: true
+//            }
         },
         messages: {
             uName: {
                 required: "姓名不能为空"
             },
-            uBirth: {
-                date: "请输入正确时间"
-            },
-            uIdentityNum: {
-                minlength: "不是有效的身份证",
-                required: "证件号码不能为空",
-                remote: "该身份证号已经被使用"
-            },
+//            uBirth: {
+//                date: "请输入正确时间"
+//            },
+//            uIdentityNum: {
+//                minlength: "不是有效的身份证",
+//                required: "证件号码不能为空",
+//                remote: "该身份证号已经被使用"
+//            },
             uMobile: {
                 required: "手机号不能为空",
                 maxlength: "请输入正确手机号",
@@ -1173,35 +1175,34 @@
         },
         addTeacher: function () {
             if ($("#addStudentForm").valid()) {
-                var add_eduIdentity = 1;
-                
+            	var add_eduIdentity = 1;
             	var data={};
             	data.roleType=$("#roleType").val();
             	data.isArea=$("#isArea").val();
                 data.name = $("#sName").val();
-                data.sex = $('input:radio[name="sSex"]:checked').val();
-                data.birthday = $("#sBirth").val();
-                data.age = $("#sAge").val();
-                data.hkAddress = $("#sRegist").val();
-                data.educationCode = $("#sEducation option:selected").val();
-                data.identityId = $("#sIdentityNum").val();
-                data.identityTypeCode = $("#sIdentity option:selected").val();
+               //data.sex = $('input:radio[name="sSex"]:checked').val();
+                //data.birthday = $("#sBirth").val();
+                //data.age = $("#sAge").val();
+                //data.hkAddress = $("#sRegist").val();
+                //data.educationCode = $("#sEducation option:selected").val();
+                //data.identityId = $("#sIdentityNum").val();
+                //data.identityTypeCode = $("#sIdentity option:selected").val();
                 data.mobile = $("#sMobile").val();
-                data.homePhone = $("#sTel").val();
-                data.officePhone = $("#sOfficeTel").val();
-                data.emergencyContact = $("#sEmergencyContact").val();
-                data.emergencyPhone = $("#sEmergencyPhone").val();
-                data.email = $("#sEmail").val();
-                data.qq = $("#sQQ").val();
-                data.remarkName = $("#remark_name").val();
-                data.weixinId = $("#sWebChat").val();
-                data.province=$("#sAddress").find("#prov").val();
-                data.city=$("#sAddress").find("#city").val();
-                data.county=$("#sAddress").find("#dist").val();
-                data.addressDetail=$("#sAddressDetail").val();
-                data.username=$("#suserName").val();
-                data.groupOneId=$("#studentG1_add").val();
-                data.groupTwoId=$("#studentG2_add").val();
+                //data.homePhone = $("#sTel").val();
+                //data.officePhone = $("#sOfficeTel").val();
+                //data.emergencyContact = $("#sEmergencyContact").val();
+                //data.emergencyPhone = $("#sEmergencyPhone").val();
+                //data.email = $("#sEmail").val();
+                //data.qq = $("#sQQ").val();
+                //data.remarkName = $("#remark_name").val();
+                //data.weixinId = $("#sWebChat").val();
+                //data.province=$("#sAddress").find("#prov").val();
+                //data.city=$("#sAddress").find("#city").val();
+                //data.county=$("#sAddress").find("#dist").val();
+                //data.addressDetail=$("#sAddressDetail").val();
+                //data.username=$("#suserName").val();
+                //data.groupOneId=$("#studentG1_add").val();
+                //data.groupTwoId=$("#studentG2_add").val();
                 data.eduArea=$("#addEduArea").val();
                 if(null==$("#addEduArea").val() ||''==$("#addEduArea").val()){
                 	 $.msg("请选择所在区域");
@@ -1236,26 +1237,27 @@
                 	$.msg("请选择班级");
                 	return;
                 }
-                data.isUserFront = $('input:radio[name="sUserFront"]:checked').val()==1;
-                data.eduIdentity=add_eduIdentity;
+               //data.isUserFront = $('input:radio[name="sUserFront"]:checked').val()==1;
+                data.isUserFront =true;
+                //data.eduIdentity=add_eduIdentity;
                
-                $(".customData").find(".field").each(function(){
-                	data[$(this).attr("name")]=$(this).val();
-                });
-                var re=/^[a-zA-Z]+[a-zA-Z0-9_]\w{2,14}$/;
-                if($("#suserName").val() && $("#suserName").val()!=""){
-                	if(!$("#suserName").val().match(re) || $("#suserName").val()=="null"){
-                    	$.msg("用户名格式不正确");
-                    	return;
-                    }
-                }
-                var addrflag=$("#addreSet").val();
-                if(addrflag && addrflag==1){
-                	if(!data.province || data.province==""){
-                		$.msg("请选择地址信息");
-                		return;
-                	}
-                }
+//                $(".customData").find(".field").each(function(){
+//                	data[$(this).attr("name")]=$(this).val();
+//                });
+//                var re=/^[a-zA-Z]+[a-zA-Z0-9_]\w{2,14}$/;
+//                if($("#suserName").val() && $("#suserName").val()!=""){
+//                	if(!$("#suserName").val().match(re) || $("#suserName").val()=="null"){
+//                    	$.msg("用户名格式不正确");
+//                    	return;
+//                    }
+//                }
+//                var addrflag=$("#addreSet").val();
+//                if(addrflag && addrflag==1){
+//                	if(!data.province || data.province==""){
+//                		$.msg("请选择地址信息");
+//                		return;
+//                	}
+//                }
                 $.ajax({
                     type: 'post',
                     url: rootPath + "/student/insert",
@@ -1581,15 +1583,15 @@
                         })
 
                         $("#editEduArea option[value="+eduArea+"]").prop("selected",true);
-                        $("#editEduArea").attr("disabled",true);
+                        //$("#editEduArea").attr("disabled",true);
                         $("#editEduStep option[value="+jsonData.eduStep+"]").prop("selected",true);
-                        $("#editEduStep").attr("disabled",true);
+                        //$("#editEduStep").attr("disabled",true);
                         $("#editEduYear option[value="+jsonData.eduYear+"]").prop("selected",true);
-                        $("#editEduYear").attr("disabled",true);
+                       // $("#editEduYear").attr("disabled",true);
                         $("#editEduClass option[value="+jsonData.eduClass+"]").prop("selected",true);
-                        $("#editEduClass").attr("disabled",true);
+                       // $("#editEduClass").attr("disabled",true);
                         $("#editEduSchool").attr("data-id",jsonData.eduSchool);
-                        $("#editEduSchool").attr("disabled",true);
+                       // $("#editEduSchool").attr("disabled",true);
                         $("#editEduArea").change();
 
                     }

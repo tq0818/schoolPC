@@ -111,10 +111,21 @@ public class CommodityVo extends BaseEntity {
 
     private String isPublic;
     private Double publicPrice;//分校公开课程价格
+    private Integer collectCompanyId; 
     /**
      * 涉及查询分校数据时主校id
      */
     private String mainCompanyId;
+
+    public String getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    private String publishStatus;
 
 
 
@@ -250,7 +261,7 @@ public class CommodityVo extends BaseEntity {
 	public CommodityVo(Integer id, String name, String coverUrl, String overview, Double originalPrice, Double realPrice, String type, Integer itemOneId,
             Integer itemSecondId, Integer schoolId, Integer companyId, Integer creator, Date cerateTime, Integer updator, Date updateTime, String status,
             String classType, Integer classTypeId, Integer productId, Integer productType, Integer baseNum, Integer actualNum, Integer totalNum,
-            Integer collectCount, String lableType, Integer faceFlag, Integer liveFlag, Integer videoFlag, Integer remoteFlag) {
+            Integer collectCount, String lableType, Integer faceFlag, Integer liveFlag, Integer videoFlag, Integer remoteFlag,Integer collectCompanyId) {
         super();
         this.name = name;
         this.coverUrl = coverUrl;
@@ -280,6 +291,7 @@ public class CommodityVo extends BaseEntity {
         this.liveFlag = liveFlag;
         this.videoFlag = videoFlag;
         this.remoteFlag = remoteFlag;
+        this.collectCompanyId = collectCompanyId;
     }
 
     public String getName() {
@@ -860,5 +872,13 @@ public class CommodityVo extends BaseEntity {
 		this.specialOrder = specialOrder;
 	}
 
+	public Integer getCollectCompanyId() {
+		return collectCompanyId;
+	}
+
+	public void setCollectCompanyId(Integer collectCompanyId) {
+		this.collectCompanyId = collectCompanyId;
+	}
+	
 
 }

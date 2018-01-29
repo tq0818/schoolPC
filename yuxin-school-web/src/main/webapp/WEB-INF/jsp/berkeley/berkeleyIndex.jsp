@@ -159,9 +159,9 @@
                 </li>
                 <li>
                     <label>分校后台域名<i style="color: red;" class="iconfont ico"></i></label><br/>
-                    <span style="margin-left: 55px;">http://</span>
+                    <span style="margin-left: 55px;">http://manage.</span>
                     <input type="text" name="domainManage" id="domainManage">
-                    <span>.manage.cdds.com</span>
+                    <span>.cdds.com</span>
                 </li>
                 <li>
                     <label>收费配置:</label>

@@ -572,7 +572,7 @@
 			and ct.is_out_source=0
 			LEFT JOIN pay_order po on ct.id = po.commodity_id and po.pay_status='PAY_SUCCESS'
 			<if test="inpstart != null and inpstart != '' and inpend != null and inpend != ''">
-				and po.order_time BETWEEN #{inpstart} and #{inpend}
+				and DATE_FORMAT(po.order_time,'%Y-%m-%d') BETWEEN #{inpstart} and #{inpend}
 			</if>
 			<if test="companyId != null and companyId != ''">
 				where c.id=#{companyId}

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.yuxin.wx.common.*;
 import com.yuxin.wx.utils.EntityUtil;
 import com.yuxin.wx.vo.student.StudentVo;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
@@ -342,14 +344,23 @@ public class PayOrderController {
     @RequestMapping(value = "/querySchoolMoney")
     public String querySchoolMoney(Model model, HttpServletRequest request,PayOrder payOrder) {
         String isArea = WebUtils.getCurrentIsArea();
+        //2018-1-29修改,根据sort来确定根据什么进行排序
+        String sort = request.getParameter("sort");
         Map<String,Object>map = new HashMap<String,Object>();
         map.put("pageSize",payOrder.getPageSize());
         map.put("page",payOrder.getFirstIndex());
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
-        map.put("totalSort",request.getParameter("totalSort"));
-        map.put("fetchSort",request.getParameter("fetchSort"));
-        map.put("handInSort",request.getParameter("handInSort"));
+        map.put("totalSort","");
+    	map.put("fetchSort","");
+    	map.put("handInSort","");
+        if("totalSort".equals(sort)||StringUtils.isEmpty(sort)){
+        	map.put("totalSort",request.getParameter("sortRule"));
+        }else if("fetchSort".equals(sort)){
+        	map.put("fetchSort",request.getParameter("sortRule"));
+        }else if("handInSort".equals(sort)){
+        	map.put("handInSort",request.getParameter("sortRule"));
+        }
         List<PayOrder> cpoList = null;
         Integer count = null;
         //分校收入情况
@@ -404,7 +415,7 @@ public class PayOrderController {
         }else{
             map.put("companyId",WebUtils.getCurrentCompanyId());
             cpoList = payOrderServiceImpl.findPrivateSchoolMoneyByCondition(map);
-            tittle =  "时间:orderTime,总收入:mobile,总收入(元):totalMoney,应缴费用(元):handInMoney,实际收入(元):fetchMoney";
+            tittle =  "时间:orderTime,总收入(元):totalMoney,应缴费用(元):handInMoney,实际收入(元):fetchMoney";
         }
 
         ExcelSheetEntity entity = ExcelSheetEntity.newInstance(
@@ -433,7 +444,9 @@ public class PayOrderController {
         map.put("secondPrice",request.getParameter("secondPrice"));
         map.put("pageSize",1000000);
         map.put("page",payOrder.getFirstIndex());
-
+        
+        //2018-1-29 新增 支付方式
+        map.put("payStates",request.getParameter("payStates"));
         // 查询 订单 集合
         List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
         String tittle  = "订单编号:orderNum,课程名:commodityName,金额（元）:payPrice,姓名:stuName,电话:discountNo,下单时间:orderTime,付款时间:payTime,订单状态:payStatus";

@@ -194,48 +194,62 @@ $.jeDate('#inpend',end);
         var ts = 0;
 		var fs = 0;
 		var hs = 0;
+		var totalSort = "order by t3.totalMoney desc";
+		var fetchSort = "order by t3.fetchMoney desc";
+		var handInSort = "order by t3.handInMoney desc";
 		function querySchoolMoney(pageNo,sort){
-
 			var areaId = $.trim($("#areaId").val());
 			var schoolId = $("#schoolId").val();
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
-			var totalSort = "order by t3.totalMoney desc,";
-			var fetchSort = "t3.fetchMoney desc";
-			var handInSort = ",t3.handInMoney desc";
+			var sortRule = '';
+			if(sort == null || sort == ''){
+				sortRule = totalSort;
+			}
 			if("totalSort"==sort){
 				if(ts==1){
-					totalSort = "order by t3.totalMoney asc,";
+					totalSort = "order by t3.totalMoney desc";
 					ts = 0;
 				}else{
+					totalSort = "order by t3.totalMoney asc";
 					ts = 1;
 				}
+				sortRule = totalSort;
 			}
 
 			if("fetchSort"==sort){
 				if(fs==1){
-					fetchSort = "t3.fetchMoney asc";
+					fetchSort = "order by t3.fetchMoney desc";
 					fs = 0;
 				}else{
+					fetchSort = "order by t3.fetchMoney asc";
 					fs = 1;
 				}
+				sortRule = fetchSort;
 			}
 
 			if("handInSort"==sort){
 				if(hs==1){
-					handInSort = ",t3.handInMoney asc";
+					handInSort = "order by t3.handInMoney desc";
 					hs = 0;
 				}else{
+					handInSort = "order by t3.handInMoney asc";
 					hs = 1;
 				}
+				sortRule = handInSort;
 			}
-
-
 
 			$.ajax({
 				url : "/payOrder/querySchoolMoney",
 				type:"post",
-				data:{"page":pageNo,"pageSize":10,"areaId":areaId,"schoolId":schoolId,"inpstart":inpstart,"inpend":inpend,"totalSort":totalSort,"fetchSort":fetchSort,"handInSort":handInSort},
+				data:{"page":pageNo,
+					"pageSize":10,
+					"areaId":areaId,
+					"schoolId":schoolId,
+					"inpstart":inpstart,
+					"inpend":inpend,
+					"sort":sort,
+					"sortRule":sortRule},
 				dataType:"html",
 				beforeSend:function(XMLHttpRequest){
 					$(".loading").show();

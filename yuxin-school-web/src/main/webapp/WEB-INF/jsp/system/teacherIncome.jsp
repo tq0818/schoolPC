@@ -157,18 +157,19 @@ $.jeDate('#inpend',end);
 			queryTeacherMoney(1);
 		}
 		var ts = 0;
+		var totalSort = "ORDER BY sum(t.fetchMoney) desc";
 		function queryTeacherMoney(pageNo,sort){
 
 			var companyList = $.trim($("#companyList").val());
 			var inpstart = $("#inpstart").val();
 			var inpend = $("#inpend").val();
 
-			var totalSort = "ORDER BY sum(t.fetchMoney) desc";
 			if(sort){
 				if(ts==1){
-					totalSort = "ORDER BY sum(t.fetchMoney) asc";
+					totalSort = "ORDER BY sum(t.fetchMoney) desc";
 					ts = 0;
 				}else{
+					totalSort = "ORDER BY sum(t.fetchMoney) asc";
 					ts = 1;
 				}
 			}

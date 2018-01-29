@@ -37,6 +37,7 @@ public class PayorderResultVO implements Serializable {
 	private Double payPrice;//真实价格
 	private Long remanentTime;//剩余支付时间
 	private String remark;//备注
+	private Integer Id;//主键id
 	public String getLiveFlag() {
 		return liveFlag;
 	}
@@ -174,6 +175,12 @@ public class PayorderResultVO implements Serializable {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public Integer getId() {
+		return Id;
+	}
+	public void setId(Integer id) {
+		Id = id;
 	}
 	
 }

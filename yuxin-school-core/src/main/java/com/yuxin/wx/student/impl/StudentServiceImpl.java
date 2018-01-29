@@ -1800,68 +1800,68 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				//先看时候是电话重复  如果电话重复 直接更新学生及学生账号
 				s = this.studentMapper.findStudentOnlyByMobile(search); 
 				if(null!=s){
-				if(student.getMobile() != null) s.setMobile(student.getMobile());
-				if(student.getName() != null) s.setName(student.getName());
-				if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
-				if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
-				if(student.getEmail() != null) s.setEmail(student.getEmail());
-				if(student.getQq() != null) s.setQq(student.getQq());
-				if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
-				if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
-				if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
-				if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
-				s.setUpdateTime(date);
-				s.setUpdator(userId);
-				s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
-				s.setEduSchool(student.getEduSchool());
-				s.setEduArea(student.getEduArea());
-				s.setEduClass(student.getEduClass());
-				s.setEduStep(student.getEduStep());
-				s.setEduYear(student.getEduYear());
-				this.studentMapper.update(s);
-				usersFront =new UsersFront();
-				usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);
-				usersFront.setEmail(student.getEmail());
-				usersFront.setQq(student.getQq());
-				usersFront.setUsername(student.getUsername());
-				usersFront.setPassword(student.getPassword());
-				usersFront.setStatus(1);
-				this.usersFrontMapper.update(usersFront);
-				}else{
-					//不是手机号重复   而是账号重复       通过账号去修改学生信息  在修改账号信息
-					SelectStudentOrUsersfrontVo search1 = new SelectStudentOrUsersfrontVo();
-					search1.setUsername(student.getUsername());
-					usersFront = this.usersFrontMapper.findUsersFrontOnlyByUsername(search1);
-					s = this.studentMapper.findStudentOnlyByUserId(usersFront.getId());
-					if(s != null){
-						if(student.getMobile() != null) s.setMobile(student.getMobile());
-						if(student.getName() != null) s.setName(student.getName());
-						if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
-						if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
-						if(student.getEmail() != null) s.setEmail(student.getEmail());
-						if(student.getQq() != null) s.setQq(student.getQq());
-						if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
-						if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
-						if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
-						if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
-						s.setUpdateTime(date);
-						s.setUpdator(userId);
-						s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
-						this.studentMapper.update(s);
-						
-						usersFront.setEmail(student.getEmail());
-						usersFront.setQq(student.getQq());
-						usersFront.setUsername(student.getUsername());
-						usersFront.setPassword(student.getPassword());
-						usersFront.setStatus(1);
-						this.usersFrontMapper.update(usersFront);
-					}
-				}
+					if(student.getMobile() != null) s.setMobile(student.getMobile());
+					if(student.getName() != null) s.setName(student.getName());
+					if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
+					if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
+					if(student.getEmail() != null) s.setEmail(student.getEmail());
+					if(student.getQq() != null) s.setQq(student.getQq());
+					if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
+					if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
+					if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
+					if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
+					s.setUpdateTime(date);
+					s.setUpdator(userId);
+					s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
+					s.setEduSchool(student.getEduSchool());
+					s.setEduArea(student.getEduArea());
+					s.setEduClass(student.getEduClass());
+					s.setEduStep(student.getEduStep());
+					s.setEduYear(student.getEduYear());
+					this.studentMapper.update(s);
+					usersFront =new UsersFront();
+					usersFront = this.usersFrontMapper.findUsersFrontOnlyByMobile(search);
+//					usersFront.setEmail(student.getEmail());
+//					usersFront.setQq(student.getQq());
+					//usersFront.setUsername(student.getUsername());
+					usersFront.setPassword(student.getPassword());
+					usersFront.setStatus(1);
+					this.usersFrontMapper.update(usersFront);
+//				}else{
+//					//不是手机号重复   而是账号重复       通过账号去修改学生信息  在修改账号信息
+//					SelectStudentOrUsersfrontVo search1 = new SelectStudentOrUsersfrontVo();
+//					search1.setUsername(student.getUsername());
+//					usersFront = this.usersFrontMapper.findUsersFrontOnlyByUsername(search1);
+//					s = this.studentMapper.findStudentOnlyByUserId(usersFront.getId());
+//					if(s != null){
+//						if(student.getMobile() != null) s.setMobile(student.getMobile());
+//						if(student.getName() != null) s.setName(student.getName());
+//						if(student.getIdentityTypeCode() != null) s.setIdentityTypeCode(student.getIdentityTypeCode());
+//						if(student.getIdentityId() != null) s.setIdentityId(student.getIdentityId());
+//						if(student.getEmail() != null) s.setEmail(student.getEmail());
+//						if(student.getQq() != null) s.setQq(student.getQq());
+//						if(student.getEmergencyContact() != null) s.setEmergencyContact(student.getEmergencyContact());
+//						if(student.getEmergencyPhone() != null) s.setEmergencyPhone(student.getEmergencyPhone());
+//						if(groupOneId!=null) s.setGroupOneId(Integer.parseInt(groupOneId));
+//						if(groupTwoId!=null) s.setGroupTwoId(Integer.parseInt(groupTwoId));
+//						s.setUpdateTime(date);
+//						s.setUpdator(userId);
+//						s.setIsInSchool(Integer.valueOf(student.getIsInSchool()));
+//						this.studentMapper.update(s);
+//						
+//						usersFront.setEmail(student.getEmail());
+//						usersFront.setQq(student.getQq());
+//						usersFront.setUsername(student.getUsername());
+//						usersFront.setPassword(student.getPassword());
+//						usersFront.setStatus(1);
+//						this.usersFrontMapper.update(usersFront);
+//					}
+//				}
 				studentIds.add(s.getId());
 			}
 			
 		}
-			
+		}
 			
 		
 		return studentIds;

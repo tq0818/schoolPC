@@ -117,6 +117,16 @@ public class CommodityVo extends BaseEntity {
      */
     private String mainCompanyId;
 
+    public String getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    private String publishStatus;
+
 
 
     public String getIsPublic() {

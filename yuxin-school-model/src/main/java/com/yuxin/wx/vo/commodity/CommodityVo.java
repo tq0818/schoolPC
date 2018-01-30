@@ -127,7 +127,33 @@ public class CommodityVo extends BaseEntity {
 
     private String publishStatus;
 
+    private String originalPrices;
+    private String realPrices;
+    private String publicPrices;
 
+    public String getOriginalPrices() {
+        return originalPrices;
+    }
+
+    public void setOriginalPrices(String originalPrices) {
+        this.originalPrices = originalPrices;
+    }
+
+    public String getRealPrices() {
+        return realPrices;
+    }
+
+    public void setRealPrices(String realPrices) {
+        this.realPrices = realPrices;
+    }
+
+    public String getPublicPrices() {
+        return publicPrices;
+    }
+
+    public void setPublicPrices(String publicPrices) {
+        this.publicPrices = publicPrices;
+    }
 
     public String getIsPublic() {
         return isPublic;

@@ -285,7 +285,7 @@ public class NewPayOrderController {
         model.addAttribute("stydycardservice", service != null ? service.getDelFlag() : 0);
         return "system/order";
     }
-    @RequestMapping("/selOrder")
+    /*@RequestMapping("/selOrder")
     public String selOrder(Model model, HttpServletRequest request,Integer companyId, Integer page, String payType, String payStatus, String startDate, String endDate,
                            String mobile, String payTime) {
 
@@ -359,9 +359,50 @@ public class NewPayOrderController {
         PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, 5, count, cpoList);
 
         model.addAttribute("payPage", payPage);
-        model.addAttribute("companyId", companyId);
+        model.addAttribute("companyId", companyId);*/
+    @RequestMapping(value = "/queryAllOrder")
+    public String selOrder(Model model, HttpServletRequest request) {
+        String isArea = WebUtils.getCurrentIsArea();
+        Integer companyId = WebUtils.getCurrentCompanyId();
+        Map<String,Object>map = new HashMap<String,Object>();
+        PayOrder payOrder = new PayOrder();
+        if(!"0".equals(isArea)){
+            map.put("companyId",companyId);
+        }
+        map.put("orderNum",request.getParameter("orderNum"));
+        map.put("inpstart",request.getParameter("inpstart"));
+        map.put("inpend",request.getParameter("inpend"));
+        String payMethod=request.getParameter("payMethod");
+       if(null != payMethod  && !"".equals(payMethod) ){
+            if(payMethod.equals("PAY_TYPE_WX_PERSON")){
+                payMethod="WX";
+            }
+            if(payMethod.equals("PAY_TYPE_ZFB")){
+                payMethod="ZFB";
+            }
+        }
+        map.put("payMethod",payMethod);
+        map.put("firstPrice",request.getParameter("firstPrice"));
+        map.put("secondPrice",request.getParameter("secondPrice"));
+        Integer page = Integer.parseInt(request.getParameter("page"));
+        Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        map.put("pageSize",pageSize);
+        payOrder.setPage(page);
+        payOrder.setPageSize(pageSize);
+        map.put("page",payOrder.getFirstIndex());
+        map.put("payStates",request.getParameter("payStates"));
+        // 查询 订单 集合
+        List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
+        // 总数
+        Integer count = this.payOrderServiceImpl.findCountByParams(map);
+        // 分页
+        PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, pageSize, count, cpoList);
+
+        model.addAttribute("payPage", payPage);
+        model.addAttribute("payStates",request.getParameter("payStates"));
         return "system/orderDetail";
     }
+    
     @ResponseBody
     @RequestMapping("/selOrderLast5")
     public PageFinder<PayOrder> selOrder() {

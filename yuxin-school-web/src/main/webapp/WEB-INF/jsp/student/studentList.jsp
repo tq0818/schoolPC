@@ -16,6 +16,7 @@
    		color:red;
    	}
 	.u-wrap .mainbackground{height: 800px;}
+	.updateStudentPopup{top: 20% !important;}
     </style>
 </head>
 
@@ -214,8 +215,8 @@
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
 <!-- popupwin 界面 开始-->
-	<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
-	<div class="popupwin addStudentPopup" style="width:1000px; height:auto;top:10px" data-pupwin="modal">
+<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
+		<div class="popupwin addStudentPopup" style="width:900px; height:auto;top:10px;" data-pupwin="modal">
 	<form id="addStudentForm">
 		<div class="popupwin-title">  
 			<h2 class="h5">添加用户</h2>
@@ -238,13 +239,18 @@
 							<span class="help-block" style="color:red;"></span>
 						</div>
 					</c:if>
-				 </div>
-					<div class="form-group">
 					<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
-							<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">
-							<span class="help-block" style="color:red;"></span>
-						</div>
+					<div class="col-md-2">
+						<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">
+						<span class="help-block" style="color:red;"></span>
+					</div>
+				 </div>
+				<div class="form-group" style="display: none;">
+					<%--<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>--%>
+						<%--<div class="col-md-2">--%>
+							<%--<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">--%>
+							<%--<span class="help-block" style="color:red;"></span>--%>
+						<%--</div>--%>
 					<label class="col-md-2 control-label" style="display:none">性别</label>	
 						<div class="col-md-2" style="margin-top: 7px;display:none;">
 							<input type="radio"  id="insertman" class="sSex" name="sSex" value="MALE" >男
@@ -291,36 +297,36 @@
 					<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2" style="width: 700px;">
 						<select name="eduStep" id="addEduStep" >
-							<c:if test="${classTeacher ne 1 }">
+							<%-- <c:if test="${classTeacher ne 1 }"> --%>
 							<option value="">请选择当前学段</option>
 							<c:forEach items="${steps}" var="step">
 								<option value="${step.itemCode}">${step.itemValue}</option>
 							</c:forEach>
-							</c:if>
+							<%-- </c:if>
 							<c:if test="${classTeacher eq 1 }">
 								<option value="${step.itemCode}">${step.itemValue}</option>
-							</c:if>
+							</c:if> --%>
 						</select>
 						<select name="eduYear" id="addEduYear" style="float: left">
-						<c:if test="${classTeacher ne 1 }">
+						<%-- <c:if test="${classTeacher ne 1 }"> --%>
 							<option value="">请选择入学年份</option>
 							<c:forEach items="${years}" var="year">
 								<option value="${year}">${year}</option>
 							</c:forEach>
-						</c:if>
+						<%-- </c:if>
 						<c:if test="${classTeacher eq 1}">
 							<option value="${year}">${year}</option>
-						</c:if>
+						</c:if> --%>
 						</select>
 						<select name="eduClass" id="addEduClass">
-						<c:if test="${classTeacher ne 1 }">
+						<%-- <c:if test="${classTeacher ne 1 }"> --%>
 							<c:forEach begin="1" end="30" varStatus="index">
 								<option value="${index.index}">${index.index}班</option>
 							</c:forEach>
-						</c:if>
+						<%-- </c:if>
 						<c:if test="${classTeacher eq 1 }">
 							<option value="${eduClassIndex}">${eduClassIndex}班</option>
-						</c:if>
+						</c:if> --%>
 						</select>
 					</div>
 				</div>
@@ -440,8 +446,8 @@
 
 <!-- popupwin 界面结束 -->
 <!-- popupwin 编辑学生界面 开始    -->
-<div class="popupwin-box updateStudentPopup1 clear" style="display: none;">
-	<div class="popupwin updateStudentPopup" style="width:1000px; height: auto;top:10px" data-pupwin="modal">
+<div class="popupwin-box updateStudentPopup1 clear" style="display: none;margin-bottom: 0;">
+	<div class="popupwin updateStudentPopup" style="width:900px; height: auto;top:20%;" data-pupwin="modal">
 	<form id="updateStudentForm">
 		<div class="popupwin-title">
 			<h2 class="h5">修改用户</h2>
@@ -457,21 +463,27 @@
 							<span class="tips" style="color:red;"></span>
 						</div>
 					</c:if>
-					<c:if test="${registConfig.usernameFlag==1 }">
-						<label class="col-md-2 control-label" style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
-							<input type="text" style="display:none" id="uuserName" name="uuserName" maxlength="30" class="form-control" disabled />
-							<span class="help-block" style="color:red;" style="display:none"></span>
-						</div>
-					</c:if>
-				</div>
-				<div class="form-group">
+					<%--<c:if test="${registConfig.usernameFlag==1 }">--%>
+						<%--<label class="col-md-2 control-label" style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>--%>
+						<%--<div class="col-md-2">--%>
+							<%--<input type="text" style="display:none" id="uuserName" name="uuserName" maxlength="30" class="form-control" disabled />--%>
+							<%--<span class="help-block" style="color:red;" style="display:none"></span>--%>
+						<%--</div>--%>
+					<%--</c:if>--%>
 					<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
-							<input type="hidden" id="uId" value="">
-							<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>
-							<span class="help-block" style="color:red;"></span>
-						</div>
+					<div class="col-md-2">
+						<input type="hidden" id="uId" value="">
+						<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>
+						<span class="help-block" style="color:red;"></span>
+					</div>
+				</div>
+				<div class="form-group" style="display: none;">
+					<%--<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>--%>
+						<%--<div class="col-md-2">--%>
+							<%--<input type="hidden" id="uId" value="">--%>
+							<%--<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>--%>
+							<%--<span class="help-block" style="color:red;"></span>--%>
+						<%--</div>--%>
 					<label class="col-md-2 control-label" style="display:none">性别</label>	
 						<div class="col-md-2"  style="display:none">
 							<input type="radio"  id="updateman" class="uSex" name="uSex" value="MALE">男
@@ -647,7 +659,7 @@
 <!-- popupwin 编辑学生界面结束 -->
 <!-- popupwin 修改密码界面 开始-->
 <div class="popupwin-box changePw1 clear" style="display: none;">
-	<div class="popupwin changePw" style="width:1000px;height: auto;top:10%" data-pupwin="modal">
+	<div class="popupwin changePw" style="width:1000px;height: auto;top:10px" data-pupwin="modal">
 	<form id="changePw">
 		<div class="popupwin-title">
 			<h2 class="h5">修改密码</h2>

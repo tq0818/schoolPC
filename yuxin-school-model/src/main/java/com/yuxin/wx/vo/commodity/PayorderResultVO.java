@@ -39,6 +39,43 @@ public class PayorderResultVO implements Serializable {
 	private String remark;//备注
 	private Integer Id;//主键id
 	private String status;//订单对应的课程是否上架 1：上架 0：未上架
+	private String originalPrices;
+	private String realPrices;
+	private String publicPrices;
+	private String payPrices;
+
+	public String getPayPrices() {
+		return payPrices;
+	}
+
+	public void setPayPrices(String payPrices) {
+		this.payPrices = payPrices;
+	}
+
+	public String getOriginalPrices() {
+		return originalPrices;
+	}
+
+	public void setOriginalPrices(String originalPrices) {
+		this.originalPrices = originalPrices;
+	}
+
+	public String getRealPrices() {
+		return realPrices;
+	}
+
+	public void setRealPrices(String realPrices) {
+		this.realPrices = realPrices;
+	}
+
+	public String getPublicPrices() {
+		return publicPrices;
+	}
+
+	public void setPublicPrices(String publicPrices) {
+		this.publicPrices = publicPrices;
+	}
+
 	public String getStatus() {
 		return status;
 	}

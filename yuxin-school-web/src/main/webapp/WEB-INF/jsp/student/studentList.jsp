@@ -245,7 +245,7 @@
 						<span class="help-block" style="color:red;"></span>
 					</div>
 				 </div>
-				<div class="form-group" >
+				<div class="form-group" style="display: none;">
 					<%--<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>--%>
 						<%--<div class="col-md-2">--%>
 							<%--<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">--%>
@@ -446,7 +446,7 @@
 
 <!-- popupwin 界面结束 -->
 <!-- popupwin 编辑学生界面 开始    -->
-<div class="popupwin-box updateStudentPopup1 clear" style="display: none;">
+<div class="popupwin-box updateStudentPopup1 clear" style="display: none;margin-bottom: 0;">
 	<div class="popupwin updateStudentPopup" style="width:900px; height: auto;top:20%;" data-pupwin="modal">
 	<form id="updateStudentForm">
 		<div class="popupwin-title">
@@ -463,21 +463,27 @@
 							<span class="tips" style="color:red;"></span>
 						</div>
 					</c:if>
-					<c:if test="${registConfig.usernameFlag==1 }">
-						<label class="col-md-2 control-label" style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
-							<input type="text" style="display:none" id="uuserName" name="uuserName" maxlength="30" class="form-control" disabled />
-							<span class="help-block" style="color:red;" style="display:none"></span>
-						</div>
-					</c:if>
-				</div>
-				<div class="form-group">
+					<%--<c:if test="${registConfig.usernameFlag==1 }">--%>
+						<%--<label class="col-md-2 control-label" style="display:none">用户名<i class="iconfont ico">&#xe605;</i></label>--%>
+						<%--<div class="col-md-2">--%>
+							<%--<input type="text" style="display:none" id="uuserName" name="uuserName" maxlength="30" class="form-control" disabled />--%>
+							<%--<span class="help-block" style="color:red;" style="display:none"></span>--%>
+						<%--</div>--%>
+					<%--</c:if>--%>
 					<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
-							<input type="hidden" id="uId" value="">
-							<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>
-							<span class="help-block" style="color:red;"></span>
-						</div>
+					<div class="col-md-2">
+						<input type="hidden" id="uId" value="">
+						<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>
+						<span class="help-block" style="color:red;"></span>
+					</div>
+				</div>
+				<div class="form-group" style="display: none;">
+					<%--<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>--%>
+						<%--<div class="col-md-2">--%>
+							<%--<input type="hidden" id="uId" value="">--%>
+							<%--<input type="text" id="uName" name="uName" maxlength="15" class="form-control" placeholder="" disabled>--%>
+							<%--<span class="help-block" style="color:red;"></span>--%>
+						<%--</div>--%>
 					<label class="col-md-2 control-label" style="display:none">性别</label>	
 						<div class="col-md-2"  style="display:none">
 							<input type="radio"  id="updateman" class="uSex" name="uSex" value="MALE">男

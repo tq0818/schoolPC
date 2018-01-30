@@ -82,7 +82,7 @@
             $(".addStudent").on('click', function () {
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
-                $(".addStudentPopup").css("top", "2%");
+                $(".addStudentPopup").css("top", "20%");
                 $("#add_div_school").show();
                 $("#add_div_class").show();
                 Form.clearData();
@@ -1137,7 +1137,7 @@
             $(".addStudent").on('click', function () {
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
-                $(".addStudentPopup").css("top", "2%");
+                $(".addStudentPopup").css("top", "20%");
                 $("#add_div_school").show();
                 $("#add_div_class").show();
                 Form.clearData();
@@ -1561,7 +1561,7 @@
                 });
                 $(".updateStudentPopup1").show();
                 $(".updateStudentPopup").popup("show");
-                $(".updateStudentPopup").css("top", "2%");
+                $(".updateStudentPopup").css("top", "20%");
                 $(".colsekuang").hide();
                 
                 getExpandField(".updateStudentPopup","w",function(){

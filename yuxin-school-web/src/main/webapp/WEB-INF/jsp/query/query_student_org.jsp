@@ -9,10 +9,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>查询统计</title>
+<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -119,7 +121,7 @@
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
 						<span class="fr">
 							<c:if test="${isArea ne 1}">
-							<a href="javascript:;" class="btn btn-primary addStudent">添加用户</a>
+							<a href="javascript:;" class="btn btn-primary addStudent" id="addStudentNew">添加用户</a>
 							<a href="javascript:;" class="btn btn-primary importexcle" >导入用户</a></c:if>
 							<a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
 					</div>
@@ -127,21 +129,21 @@
 				<div class="user-list">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
-							<th width="8%">姓名</th>
-							<th width="5%">身份</th>
-							<th width="8%">区域</th>
-							<th width="12%">学校</th>
-							<th width="10%">所在班级</th>
+							<th width="5%">姓名</th>
+							<th width="3%">身份</th>
+							<th width="5%">区域</th>
+							<th width="10%">学校</th>
+							<th width="7%">所在班级</th>
 							<c:if test="${userorg_roleopenflag==1 }">
 								<shiro:hasAnyRoles name="机构管理员,代理机构">
 									<th width="10%">所属代理机构</th>
 								</shiro:hasAnyRoles>
 							</c:if>
-							<th width="8%">创建时间</th>
-							<th width="6%">前台登录账号</th>
-							<th width="6%">前台账号状态</th>
+							<th width="5%">创建时间</th>
+							<th width="3%">前台登录账号</th>
+							<th width="3%">前台账号状态</th>
 							<%--<th width="5%">报名状态</th>--%>
-							<%--<th width="10%">操作</th>--%>
+							<th width="15%">操作</th>
 						</tr>
 						<c:choose>
 							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
@@ -164,6 +166,337 @@
 		</div>
 		<div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 		<!--  ajax加载中div结束 -->
+
+		<!-- popupwin 界面 开始-->
+		<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
+			<div class="popupwin addStudentPopup" style="width: 900px; height: auto; top: 2%; left: 181.5px; display: none;" data-pupwin="modal">
+				<form id="addStudentForm" novalidate="novalidate">
+					<div class="popupwin-title">
+						<h2 class="h5">添加用户</h2>
+						<i class="close iconfont canclekuang"></i>
+					</div>
+					<div class="main form-horizontal" id="lsOne">
+						<div class="form-body">
+							<div class="form-group">
+
+								<label class="col-md-2 control-label">手机号<i class="iconfont ico" style="color: red;"></i></label>
+								<div class="col-md-2">
+									<input class="form-control" id="sMobile" name="sMobile" type="text" maxlength="11" aria-required="true">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+
+
+								<label class="col-md-2 control-label" style="display:none">用户名<i class="iconfont ico" style="color: red;"></i></label>
+								<div class="col-md-2" style="display:none">
+									<input type="text" id="suserName" name="suserName" maxlength="30" class="form-control" placeholder="">
+									<span class="help-block" style="color:red;"></span>
+								</div>
+
+								<label class="col-md-2 control-label">姓名<i class="iconfont ico" style="color: red;"></i></label>
+								<div class="col-md-2">
+									<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="" aria-required="true">
+									<span class="help-block" style="color:red;"></span>
+								</div>
+							</div>
+							<div class="form-group">
+
+
+
+
+
+								<label class="col-md-2 control-label" style="display:none">性别</label>
+								<div class="col-md-2" style="margin-top: 7px;display:none;">
+									<input type="radio" id="insertman" class="sSex" name="sSex" value="MALE">男
+									<input type="radio" id="insertwoman" class="sSex" name="sSex" value="FEMALE">女
+								</div>
+							</div>
+
+							<div class="form-group" id="add_div_school">
+								<label class="col-md-2 control-label">所在区域<i class="iconfont ico" style="color: red;"></i></label>
+
+								<div class="col-md-2">
+									<select name="eduArea" id="addEduArea">
+										<option value="">请选择所在区域</option>
+
+
+										<option value="510156" data-id="946">天府新区</option>
+
+										<option value="510102" data-id="966">高新区</option>
+
+										<option value="510104" data-id="988">锦江区</option>
+
+										<option value="510105" data-id="1019">青羊区</option>
+
+										<option value="510106" data-id="1053">金牛区</option>
+
+										<option value="510107" data-id="1100">武侯区</option>
+
+										<option value="510108" data-id="1141">成华区</option>
+
+										<option value="510112" data-id="1167">龙泉驿区</option>
+
+										<option value="510113" data-id="1203">青白江区</option>
+
+										<option value="510114" data-id="1215">新都区</option>
+
+										<option value="510115" data-id="1246">温江区</option>
+
+										<option value="510121" data-id="1258">金堂县</option>
+
+										<option value="510116" data-id="1308">双流区</option>
+
+										<option value="510117" data-id="1329">郫都区</option>
+
+										<option value="510129" data-id="1345">大邑县</option>
+
+										<option value="510131" data-id="1360">蒲江县</option>
+
+										<option value="510132" data-id="1368">新津县</option>
+
+										<option value="510181" data-id="1384">都江堰市</option>
+
+										<option value="510182" data-id="1409">彭州市</option>
+
+										<option value="510183" data-id="1432">邛崃市</option>
+
+										<option value="510184" data-id="1464">崇州市</option>
+
+										<option value="510185" data-id="1496">简阳市</option>
+
+
+
+
+									</select>
+								</div>
+								<label class="col-md-2 control-label">所在学校<i class="iconfont ico" style="color: red;"></i></label>
+
+								<div class="col-md-2">
+									<select name="eduSchool" id="addEduSchool" data-id=""><option value="">请选择所在学校</option></select>
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+
+
+							</div>
+							<div class="form-group" id="add_div_class">
+								<label class="col-md-2 control-label">所在班级<i class="iconfont ico" style="color: red;"></i></label>
+								<div class="col-md-2" style="width: 700px;">
+									<select name="eduStep" id="addEduStep">
+
+										<option value="">请选择当前学段</option>
+
+										<option value="STEP_01">小学</option>
+
+										<option value="STEP_02">初中中学</option>
+
+										<option value="STEP_03">高中中学</option>
+
+
+
+									</select>
+									<select name="eduYear" id="addEduYear" style="float: left">
+
+										<option value="">请选择入学年份</option>
+
+										<option value="2018">2018</option>
+
+										<option value="2017">2017</option>
+
+										<option value="2016">2016</option>
+
+										<option value="2015">2015</option>
+
+										<option value="2014">2014</option>
+
+										<option value="2013">2013</option>
+
+										<option value="2012">2012</option>
+
+										<option value="2011">2011</option>
+
+										<option value="2010">2010</option>
+
+										<option value="2009">2009</option>
+
+										<option value="2008">2008</option>
+
+										<option value="2007">2007</option>
+
+
+
+									</select>
+									<select name="eduClass" id="addEduClass">
+
+
+										<option value="1">1班</option>
+
+										<option value="2">2班</option>
+
+										<option value="3">3班</option>
+
+										<option value="4">4班</option>
+
+										<option value="5">5班</option>
+
+										<option value="6">6班</option>
+
+										<option value="7">7班</option>
+
+										<option value="8">8班</option>
+
+										<option value="9">9班</option>
+
+										<option value="10">10班</option>
+
+										<option value="11">11班</option>
+
+										<option value="12">12班</option>
+
+										<option value="13">13班</option>
+
+										<option value="14">14班</option>
+
+										<option value="15">15班</option>
+
+										<option value="16">16班</option>
+
+										<option value="17">17班</option>
+
+										<option value="18">18班</option>
+
+										<option value="19">19班</option>
+
+										<option value="20">20班</option>
+
+										<option value="21">21班</option>
+
+										<option value="22">22班</option>
+
+										<option value="23">23班</option>
+
+										<option value="24">24班</option>
+
+										<option value="25">25班</option>
+
+										<option value="26">26班</option>
+
+										<option value="27">27班</option>
+
+										<option value="28">28班</option>
+
+										<option value="29">29班</option>
+
+										<option value="30">30班</option>
+
+
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">出生日期</label>
+								<div class="col-md-2">
+									<input class="form-control date-picker " id="sBirth" name="sBirth" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+								<input class="form-control" id="sAge" name="sAge" type="hidden">
+								<label class="col-md-2 control-label">户口所在地</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sRegist" name="sRegist" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">最高学历</label>
+								<div class="col-md-2">
+									<select name="sEducation" id="sEducation">
+										<option value="">请选择</option>
+										<option value="UNDER_JUNIOR">大专以下</option><option value="JUNIOR">大专</option><option value="BECHELOR">本科</option><option value="POSTGRADUATE">研究生</option><option value="DOCTOR">博士生及以上</option></select>
+								</div>
+								<label class="col-md-2 control-label">家庭电话号</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sTel" name="sTel" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">办公电话</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sOfficeTel" name="sOfficeTel" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+								<label class="col-md-2 control-label">紧急联系人<i class="iconfont ico" style="color: red;"></i></label>
+								<div class="col-md-2">
+									<input class="form-control" id="sEmergencyContact" name="sEmergencyContact" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">紧急联系人电话<i class="iconfont ico" style="color: red;"></i></label>
+								<div class="col-md-2">
+									<input class="form-control" id="sEmergencyPhone" name="sEmergencyPhone" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+								<label class="col-md-2 control-label">邮箱</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sEmail" name="sEmail" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">QQ号</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sQQ" name="sQQ" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+								<label class="col-md-2 control-label">微信</label>
+								<div class="col-md-2">
+									<input class="form-control" id="sWebChat" name="sWebChat" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">地址</label>
+								<div class="col-md-3">
+					<span class="selectplace clear" id="sAddress">
+							<select id="prov"><option value="">请选择</option><option value="北京">北京</option><option value="天津">天津</option><option value="河北">河北</option><option value="山西">山西</option><option value="内蒙古">内蒙古</option><option value="辽宁">辽宁</option><option value="吉林">吉林</option><option value="黑龙江">黑龙江</option><option value="上海">上海</option><option value="江苏">江苏</option><option value="浙江">浙江</option><option value="安徽">安徽</option><option value="福建">福建</option><option value="江西">江西</option><option value="山东">山东</option><option value="河南">河南</option><option value="湖北">湖北</option><option value="湖南">湖南</option><option value="广东">广东</option><option value="广西">广西</option><option value="海南">海南</option><option value="重庆">重庆</option><option value="四川">四川</option><option value="贵州">贵州</option><option value="云南">云南</option><option value="西藏">西藏</option><option value="陕西">陕西</option><option value="甘肃">甘肃</option><option value="青海">青海</option><option value="宁夏">宁夏</option><option value="新疆">新疆</option><option value="香港">香港</option><option value="澳门">澳门</option><option value="台湾">台湾</option><option value="全国">全国</option><option value="国外">国外</option></select>
+					    	<select id="city" style="display: none;"></select>
+					        <select id="dist" style="display: none;"></select>
+						</span>
+								</div>
+
+								<div class="col-md-4">
+									<input class="form-control" id="sAddressDetail" name="sAddressDetail" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+							<div class="form-group" style="display: none;">
+								<label class="col-md-2 control-label">是否生成前台登录账号</label>
+								<div class="col-md-2">
+									<input type="radio" name="sUserFront" value="1" checked="checked">是
+								</div>
+							</div>
+							<div class="form-group" style="display:none">
+								<label class="col-md-2 control-label">备注</label>
+								<div class="col-md-2">
+									<input class="form-control" id="remark_name" name="remark_name" type="text">
+									<span class="tips" style="color: red; display: none;"></span>
+								</div>
+							</div>
+
+							<div class="form-group" style="text-align: center;">
+								<div class="col-md-3" style="width: 100%;padding: 10px 0 0;">
+									<input type="button" class="m-btn-red addStudentOk" value="确&nbsp;&nbsp;定">
+									<a class="m-btn-default canclekuang" data-pupwin-btn="cancle" href="javascript:;">取&nbsp;&nbsp;消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div><div class="popupwin-bg colsekuang" style="display: none;"></div>
+		</div>
+		<!-- popupwin 界面结束 -->
+
 	</div>
 <input type="hidden" id="selectCounts" value="10">
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student.js"></script>
@@ -246,6 +579,13 @@
          $("#eduClass").append(classesBody);
 		 }
 	});
+</script>
+<script>
+//	添加用户弹窗
+	$('#addStudentNew').click(function () {
+		$('.popupwin-box').show();
+		$('.popupwin').show();
+    });
 </script>
 </body>
 </html>

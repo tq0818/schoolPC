@@ -16,6 +16,7 @@
    		color:red;
    	}
 	.u-wrap .mainbackground{height: 800px;}
+	.updateStudentPopup{top: 20% !important;}
     </style>
 </head>
 
@@ -214,8 +215,8 @@
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
 <!-- popupwin 界面 开始-->
-	<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
-	<div class="popupwin addStudentPopup" style="width:1000px; height:auto;top:10px" data-pupwin="modal">
+<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
+		<div class="popupwin addStudentPopup" style="width:900px; height:auto;top:10px;" data-pupwin="modal">
 	<form id="addStudentForm">
 		<div class="popupwin-title">  
 			<h2 class="h5">添加用户</h2>
@@ -238,13 +239,18 @@
 							<span class="help-block" style="color:red;"></span>
 						</div>
 					</c:if>
-				 </div>
-					<div class="form-group">
 					<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>
-						<div class="col-md-2">
-							<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">
-							<span class="help-block" style="color:red;"></span>
-						</div>
+					<div class="col-md-2">
+						<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">
+						<span class="help-block" style="color:red;"></span>
+					</div>
+				 </div>
+				<div class="form-group" >
+					<%--<label class="col-md-2 control-label">姓名<i class="iconfont ico">&#xe605;</i></label>--%>
+						<%--<div class="col-md-2">--%>
+							<%--<input type="text" id="sName" name="sName" maxlength="15" class="form-control" placeholder="">--%>
+							<%--<span class="help-block" style="color:red;"></span>--%>
+						<%--</div>--%>
 					<label class="col-md-2 control-label" style="display:none">性别</label>	
 						<div class="col-md-2" style="margin-top: 7px;display:none;">
 							<input type="radio"  id="insertman" class="sSex" name="sSex" value="MALE" >男
@@ -441,7 +447,7 @@
 <!-- popupwin 界面结束 -->
 <!-- popupwin 编辑学生界面 开始    -->
 <div class="popupwin-box updateStudentPopup1 clear" style="display: none;">
-	<div class="popupwin updateStudentPopup" style="width:1000px; height: auto;top:10px" data-pupwin="modal">
+	<div class="popupwin updateStudentPopup" style="width:900px; height: auto;top:20%;" data-pupwin="modal">
 	<form id="updateStudentForm">
 		<div class="popupwin-title">
 			<h2 class="h5">修改用户</h2>
@@ -647,7 +653,7 @@
 <!-- popupwin 编辑学生界面结束 -->
 <!-- popupwin 修改密码界面 开始-->
 <div class="popupwin-box changePw1 clear" style="display: none;">
-	<div class="popupwin changePw" style="width:1000px;height: auto;top:10%" data-pupwin="modal">
+	<div class="popupwin changePw" style="width:1000px;height: auto;top:10px" data-pupwin="modal">
 	<form id="changePw">
 		<div class="popupwin-title">
 			<h2 class="h5">修改密码</h2>

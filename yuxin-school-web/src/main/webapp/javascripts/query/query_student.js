@@ -409,7 +409,7 @@
 
                                     + '<td>'
                                         +'<a href="##">修改信息</a>'
-                                        +'<a href="##">&nbsp禁用用户&nbsp</a>'
+                                        +'<a href="##">&nbsp|&nbsp禁用用户&nbsp|&nbsp</a>'
                                         +'<a href="##">修改密码</a>'
                                      +'</td>'
                                     + '</tr>');

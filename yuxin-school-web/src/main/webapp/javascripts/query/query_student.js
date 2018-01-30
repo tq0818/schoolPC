@@ -251,6 +251,30 @@
         	$("#selectCounts").val($("#selectCount").val());
         	student.search();
         },
+       //移除用户
+       removeStatus:function (obj){
+        	var userId = $(obj).attr("stuId");
+        	$.ajax({
+        		type: 'post',
+        		url: rootPath + "/student/updateStatus",
+        		data: {
+        			"userId": userId,
+        			"status": null,
+        			
+        		},
+        		dataType: 'json',
+        		success: function (jsonData) {
+        			if (jsonData == "success") {
+        				$.msg("修改成功");
+        				var pageNo=$("#pageNo").val();
+        				student.search(pageNo);
+        			}
+        			else {
+        				$.msg("发生错误，请重新修改");
+        			}
+        		}
+        	});
+        },
         search: function (page) {
             var $this = this;
             var data = {};
@@ -408,9 +432,9 @@
                                     // + '</ul></td>'
 
                                     + '<td>'
-                                        +'<a href="##">修改信息</a>'
-                                        +'<a href="##">&nbsp|&nbsp禁用用户&nbsp|&nbsp</a>'
-                                        +'<a href="##">修改密码</a>'
+                                        +'<a class="updateStudentMsg" stuid="'+stu.id+'" href="javascript:void(0);">修改信息</a>'
+                                        +'<a class="updateStuStatus" stuid="'+stu.id+'" href="javascript:void(0);" onclick="student.removeStatus(this)">&nbsp|&nbsp移除用户&nbsp|&nbsp</a>'
+                                        +'<a class="changePwd" userid="'+stu.userId+'" href="javascript:void(0);">修改密码</a>'
                                      +'</td>'
                                     + '</tr>');
                             });

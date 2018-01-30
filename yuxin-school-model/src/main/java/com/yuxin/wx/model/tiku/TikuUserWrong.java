@@ -154,4 +154,9 @@ public class TikuUserWrong extends BaseEntity {
 	public void setDoExam(Integer doExam) {
 		this.doExam = doExam;
 	}
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	
 }

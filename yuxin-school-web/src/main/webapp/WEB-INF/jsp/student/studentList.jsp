@@ -291,36 +291,36 @@
 					<label class="col-md-2 control-label">所在班级<i class="iconfont ico">&#xe605;</i></label>
 					<div class="col-md-2" style="width: 700px;">
 						<select name="eduStep" id="addEduStep" >
-							<c:if test="${classTeacher ne 1 }">
+							<%-- <c:if test="${classTeacher ne 1 }"> --%>
 							<option value="">请选择当前学段</option>
 							<c:forEach items="${steps}" var="step">
 								<option value="${step.itemCode}">${step.itemValue}</option>
 							</c:forEach>
-							</c:if>
+							<%-- </c:if>
 							<c:if test="${classTeacher eq 1 }">
 								<option value="${step.itemCode}">${step.itemValue}</option>
-							</c:if>
+							</c:if> --%>
 						</select>
 						<select name="eduYear" id="addEduYear" style="float: left">
-						<c:if test="${classTeacher ne 1 }">
+						<%-- <c:if test="${classTeacher ne 1 }"> --%>
 							<option value="">请选择入学年份</option>
 							<c:forEach items="${years}" var="year">
 								<option value="${year}">${year}</option>
 							</c:forEach>
-						</c:if>
+						<%-- </c:if>
 						<c:if test="${classTeacher eq 1}">
 							<option value="${year}">${year}</option>
-						</c:if>
+						</c:if> --%>
 						</select>
 						<select name="eduClass" id="addEduClass">
-						<c:if test="${classTeacher ne 1 }">
+						<%-- <c:if test="${classTeacher ne 1 }"> --%>
 							<c:forEach begin="1" end="30" varStatus="index">
 								<option value="${index.index}">${index.index}班</option>
 							</c:forEach>
-						</c:if>
+						<%-- </c:if>
 						<c:if test="${classTeacher eq 1 }">
 							<option value="${eduClassIndex}">${eduClassIndex}班</option>
-						</c:if>
+						</c:if> --%>
 						</select>
 					</div>
 				</div>

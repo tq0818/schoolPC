@@ -215,8 +215,8 @@
 <div class="loading-bg lp-units-loading-bg" style="display:none"></div>
 <!--  ajax加载中div结束 -->
 <!-- popupwin 界面 开始-->
-	<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
-	<div class="popupwin addStudentPopup" style="width:900px; height:auto;top:10px;" data-pupwin="modal">
+<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
+		<div class="popupwin addStudentPopup" style="width:900px; height:auto;top:10px;" data-pupwin="modal">
 	<form id="addStudentForm">
 		<div class="popupwin-title">  
 			<h2 class="h5">添加用户</h2>

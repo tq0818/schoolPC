@@ -25,7 +25,7 @@
 			t=(hh-h)/2-100;
 			t=t<150?150:t;
 			console.log(t);
-			this.$ele.css({top:'20%',left:l});
+			// this.$ele.css({top:'20%',left:l});
 			this.$ele.after('<div class="popupwin-bg colsekuang"></div>');
 			//绑定事件
 			$('[data-pupwin="modal"]')

@@ -42,8 +42,8 @@
 					<td>${vs.count}</td>
 					<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd"/></td>
 					<td>${order.totalMoney}</td>
-					<td>${order.fetchMoney - order.fetchMoney}</td>
-					<td>${order.fetchMoney}</td>
+					<td><fmt:formatNumber type="number" value="${order.fetchMoney - order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
+					<td><fmt:formatNumber type="number" value="${order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
 				</tr>
 			</c:forEach>
 
@@ -60,10 +60,10 @@
 		$(".pagination").pagination('${payPage.rowCount}', {
 			next_text : "下一页",
 			prev_text : "上一页",
-			current_page :${payPage.pageNo}-1,
+			current_page :'${payPage.pageNo}'-1,
 			link_to : "javascript:void(0)",
 			num_display_entries : 8,
-			items_per_page :  ${payPage.pageSize},
+			items_per_page :  '${payPage.pageSize}',
 			num_edge_entries : 1,
 			callback:function(page,jq){
 				var pageNo = page + 1;

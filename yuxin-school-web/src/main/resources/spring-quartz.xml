@@ -51,7 +51,7 @@
 	<!-- 直播定时 -->
 	<bean id="liveHistoryTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="liveHistoryDetail" />
-		<property name="cronExpression" value="0 46 16 * * ?" />
+		<property name="cronExpression" value="0 32 02 * * ?" />
 	</bean>
 	<bean id="liveHistoryDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<!-- 指定任务Bean的实现类 -->
@@ -63,7 +63,7 @@
 	<!-- 录播定时 -->
 	<bean id="videoPlaylogTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="videoPlaylogDetail" />
-		<property name="cronExpression" value="0 50 14 * * ?" />
+		<property name="cronExpression" value="0 12 03 * * ?" />
 	</bean>
 	<bean id="videoPlaylogDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<!-- 指定任务Bean的实现类 -->

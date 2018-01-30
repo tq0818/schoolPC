@@ -18,6 +18,8 @@ import com.yuxin.wx.model.watchInfo.WatchInfo;
 import com.yuxin.wx.utils.HttpPostRequest;
 import com.yuxin.wx.utils.MD5;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -92,6 +94,9 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
         try {
             result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
             System.out.println(result);
+            if(StringUtils.isNotEmpty(result)&&result.contains("INVALID_REQUEST")){
+            	return;
+            }
             Gson g = new Gson();
             TestTask.PlayLogsResult plre =  g.fromJson(result,TestTask.PlayLogsResult.class);
             System.out.println(plre.getPlay_logs().getPlay_log().size());

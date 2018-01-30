@@ -18,7 +18,7 @@
 		<tr>
 			<td>${vs.count}</td>
 			<td>${order.commodityName}</td>
-			<td>${order.fetchMoney}</td>
+			<td><fmt:formatNumber type="number" value="${order.fetchMoney}"  groupingUsed="false" pattern="########.##" /></td>
 		</tr>
 	</c:forEach>
 

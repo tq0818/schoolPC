@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.yuxin.wx.common.*;
 import com.yuxin.wx.model.classes.ClassType;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -587,7 +588,34 @@ public class StudentStatisticsController {
         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
         	model.addAttribute("role", "3");//3表示任课老师
         }else{
-        	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());	
+        	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        	if("0".equals(WebUtils.getCurrentCompany().getIsArea())){
+	        	List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(uersAreaRelation.getEduSchool());
+	            model.addAttribute("areas", areas);
+	            SysConfigDict areaDict=new SysConfigDict();
+	            areaDict.setDictCode("EDU_SCHOOL");
+	            List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+	            if(null!=schools && schools.size()>0){
+		           	 SysConfigDict schoolName =new SysConfigDict();
+		           	 for(int i=0;i<schools.size();i++){
+		           		 if(uersAreaRelation.getEduSchool().equals(schools.get(i).getItemCode())){
+		           			 schoolName.setItemCode(uersAreaRelation.getEduSchool());
+		           			 schoolName.setItemValue(schools.get(i).getItemValue());
+		           			 break;
+		           		 }
+	           	 }
+	           	 model.addAttribute("schoolName", schoolName);
+	            }
+	            List<Integer> years = new ArrayList<Integer>();
+	            int curYear = DateUtil.getCurYear();
+	            for(int year = 0;year<7;year++){
+	                years.add(curYear-year);
+	            }
+	            model.addAttribute( "years", years);
+	            areaDict.setDictCode("EDU_STEP");
+	            List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+	            model.addAttribute("steps", steps);
+            }
         }
         if(uersAreaRelation==null){
         	return "/query/query_student_org";
@@ -629,7 +657,11 @@ public class StudentStatisticsController {
         List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
         model.addAttribute("stepList", stepList);
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());
-        return "/query/query_student_org";
+        if("0".equals(WebUtils.getCurrentCompany().getIsArea())){
+        	return "/query/query_student_org";
+        }else{
+        	return "/query/query_student_orgteacher";
+        }
     }
 
     /**

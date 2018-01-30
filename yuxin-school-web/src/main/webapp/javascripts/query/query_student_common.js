@@ -82,8 +82,7 @@
             $(".addStudent").on('click', function () {
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
-                $(".addStudentPopup").css("top", "20%");
-                $(".addStudentPopup").css("left", "25%");
+                $(".addStudentPopup").css("top", "2%");
                 $("#add_div_school").show();
                 $("#add_div_class").show();
                 Form.clearData();
@@ -252,30 +251,6 @@
         	$("#selectCounts").val($("#selectCount").val());
         	student.search();
         },
-       //移除用户
-       removeStatus:function (obj){
-        	var userId = $(obj).attr("stuId");
-        	$.ajax({
-        		type: 'post',
-        		url: rootPath + "/student/updateStatus",
-        		data: {
-        			"userId": userId,
-        			"status": null,
-        			
-        		},
-        		dataType: 'json',
-        		success: function (jsonData) {
-        			if (jsonData == "success") {
-        				$.msg("修改成功");
-        				var pageNo=$("#pageNo").val();
-        				student.search(pageNo);
-        			}
-        			else {
-        				$.msg("发生错误，请重新修改");
-        			}
-        		}
-        	});
-        },
         search: function (page) {
             var $this = this;
             var data = {};
@@ -431,12 +406,6 @@
                                     //         : '')
                                     //     : '')
                                     // + '</ul></td>'
-
-                                    + '<td>'
-                                        +'<a class="updateStudentMsg" stuid="'+stu.id+'" href="javascript:void(0);">修改信息</a>'
-                                        +'<a class="updateStuStatus" stuid="'+stu.id+'" href="javascript:void(0);" onclick="student.removeStatus(this)">&nbsp|&nbsp移除用户&nbsp|&nbsp</a>'
-                                        +'<a class="changePwd" userid="'+stu.userId+'" href="javascript:void(0);">修改密码</a>'
-                                     +'</td>'
                                     + '</tr>');
                             });
                         $("#rowCount").remove();
@@ -549,38 +518,38 @@
         focusInvalid: false,
         ignore: "",
         rules: {
-//            nPassword: {
-//                required: true,
-//                minlength: 6
-//            },
-//            rPassword: {
-//                required: true,
-//                equalTo: "#nPassword"
-//            },
-//            sName: {
-//                required: true
-//            },
-//            sBirth: {
-//                date: true
-//            },
-//            sEducation: {},
-//            sIdentity: {},
-//            sIdentityNum: {
-//                minlength: 15,
-//                remote: {
-//                    url: rootPath + "/student/checkIdentityExist",
-//                    type: "post",
-//                    dataType: "json",
-//                    data: {
-//                        identityType: function () {
-//                            return $("#sIdentity option:selected").val();
-//                        },
-//                        identityNum: function () {
-//                            return $("#sIdentityNum").val();
-//                        }
-//                    }
-//                }
-//            },
+            nPassword: {
+                required: true,
+                minlength: 6
+            },
+            rPassword: {
+                required: true,
+                equalTo: "#nPassword"
+            },
+            sName: {
+                required: true
+            },
+            sBirth: {
+                date: true
+            },
+            sEducation: {},
+            sIdentity: {},
+            sIdentityNum: {
+                minlength: 15,
+                remote: {
+                    url: rootPath + "/student/checkIdentityExist",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        identityType: function () {
+                            return $("#sIdentity option:selected").val();
+                        },
+                        identityNum: function () {
+                            return $("#sIdentityNum").val();
+                        }
+                    }
+                }
+            },
             sMobile: {
                 required: true,
                 minlength: 8,
@@ -596,75 +565,73 @@
                         }
                     }
                 }
+            },
+            suserName:{
+            	required: true,
+            	remote: {
+                     url: rootPath + "/student/checkFrontUserName",
+                     type: "post",
+                     dataType: "json",
+                     data: {
+                         username: function () {
+                             return $("#suserName").val();
+                         }
+                     }
+                }
+            },
+            sEmergencyPhone: {
+                minlength: 11,
+                maxlength: 11,
+                digits: true
+            },
+            sEmail: {
+                email: true,
+                remote: {
+            		url: rootPath+"/student/check",
+            		type:"post",
+            		dataType:"json",
+            		data:{
+            			email:function(){
+            				return $("#sEmail").val();
+            			}
+            		}
+            	}
             }
-//            ,
-//            suserName:{
-//            	required: true,
-//            	remote: {
-//                     url: rootPath + "/student/checkFrontUserName",
-//                     type: "post",
-//                     dataType: "json",
-//                     data: {
-//                         username: function () {
-//                             return $("#suserName").val();
-//                         }
-//                     }
-//                }
-//            },
-//            sEmergencyPhone: {
-//                minlength: 11,
-//                maxlength: 11,
-//                digits: true
-//            },
-//            sEmail: {
-//                email: true,
-//                remote: {
-//            		url: rootPath+"/student/check",
-//            		type:"post",
-//            		dataType:"json",
-//            		data:{
-//            			email:function(){
-//            				return $("#sEmail").val();
-//            			}
-//            		}
-//            	}
-//            }
         },
         messages: {
-//            sName: {
-//                required: "姓名不能为空"
-//            },
-//            sBirth: {
-//                date: "请输入正确时间"
-//            },
-//            sIdentityNum: {
-//                minlength: "不是有效的身份证",
-//                required: "证件号码不能为空",
-//                remote: "该身份证号已经被使用"
-//            },
+            sName: {
+                required: "姓名不能为空"
+            },
+            sBirth: {
+                date: "请输入正确时间"
+            },
+            sIdentityNum: {
+                minlength: "不是有效的身份证",
+                required: "证件号码不能为空",
+                remote: "该身份证号已经被使用"
+            },
             sMobile: {
                 required: "手机号不能为空",
                 maxlength: "请输入正确手机号",
                 minlength: "请输入正确手机号",
                 isMobile: "请输入正确手机号",
                 remote: "手机号已经存在"
+            },
+            suserName:{
+            	 required: "用户名不能为空",
+            	 remote: "用户名已经存在"
+            },
+            nPassword: {
+                required: "密码不能为空，且最少为六位数字或英文字母",
+                minlength: "密码最少为6位数字或英文字母"
+            },
+            rPassword: {
+                required: "请重复输入密码",
+                equalTo: "2次密码不一致，请修改"
+            },
+            sEmail:{
+            	remote: "邮箱已经存在"
             }
-//            ,
-//            suserName:{
-//            	 required: "用户名不能为空",
-//            	 remote: "用户名已经存在"
-//            },
-//            nPassword: {
-//                required: "密码不能为空，且最少为六位数字或英文字母",
-//                minlength: "密码最少为6位数字或英文字母"
-//            },
-//            rPassword: {
-//                required: "请重复输入密码",
-//                equalTo: "2次密码不一致，请修改"
-//            },
-//            sEmail:{
-//            	remote: "邮箱已经存在"
-//            }
 
         },
         success: function (label) {
@@ -681,92 +648,92 @@
         focusInvalid: false,
         ignore: "",
         rules: {
-//            uName: {
-//                required: true,
-//                maxlength: 15
-//            },
-//            uAge: {
-//                maxlength: 2,
-//                digits: true
-//            },
-//            uBirth: {
-//                date: true
-//            },
-//            uIdentityNum: {
-//               // minlength: 15,
-//                remote: {
-//                    url: rootPath + "/student/checkUpdateIdentityExist",
-//                    type: "post",
-//                    dataType: "json",
-//                    data: {
-//                        identityType: function () {
-//                            return $("#uIdentity option:selected").val();
-//                        },
-//                        identityNum: function () {
-//                            return $("#uIdentityNum").val();
-//                        },
-//                        id: function () {
-//                            return $("#uId").val();
-//                        }
-//                    }
-//                }
-//
-//            },
+            uName: {
+                required: true,
+                maxlength: 15
+            },
+            uAge: {
+                maxlength: 2,
+                digits: true
+            },
+            uBirth: {
+                date: true
+            },
+            uIdentityNum: {
+               // minlength: 15,
+                remote: {
+                    url: rootPath + "/student/checkUpdateIdentityExist",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        identityType: function () {
+                            return $("#uIdentity option:selected").val();
+                        },
+                        identityNum: function () {
+                            return $("#uIdentityNum").val();
+                        },
+                        id: function () {
+                            return $("#uId").val();
+                        }
+                    }
+                }
+
+            },
             uMobile: {
                 required: true,
                 minlength: 8,
                 maxlength: 11,
                 isMobile: true,
 
+            },
+            uEmergencyPhone: {
+            	minlength: 8,
+                maxlength: 20,
+                digits: true
+            },
+            uTel:{
+            	  minlength: 8,
+            	  maxlength: 20,
+                  digits: true
+            },
+            uOfficeTel:{
+            	  minlength: 8,
+            	  maxlength: 20,
+                  digits: true
+            },
+            uQQ:{
+            	maxlength: 15,
+            	digits: true
+            },
+            uEmergencyContact:{
+            	maxlength: 20
+            },
+            uRegist:{
+            	 maxlength: 200
+            },
+            uWebChat:{
+            	maxlength: 50
+            },
+            uAddressDetail:{
+            	maxlength: 128
+            },
+            uEmail: {
+            	maxlength: 50,
+                email: true
             }
-//            uEmergencyPhone: {
-//            	minlength: 8,
-//                maxlength: 20,
-//                digits: true
-//            },
-//            uTel:{
-//            	  minlength: 8,
-//            	  maxlength: 20,
-//                  digits: true
-//            },
-//            uOfficeTel:{
-//            	  minlength: 8,
-//            	  maxlength: 20,
-//                  digits: true
-//            },
-//            uQQ:{
-//            	maxlength: 15,
-//            	digits: true
-//            },
-//            uEmergencyContact:{
-//            	maxlength: 20
-//            },
-//            uRegist:{
-//            	 maxlength: 200
-//            },
-//            uWebChat:{
-//            	maxlength: 50
-//            },
-//            uAddressDetail:{
-//            	maxlength: 128
-//            },
-//            uEmail: {
-//            	maxlength: 50,
-//                email: true
-//            }
         },
         messages: {
-//            uName: {
-//                required: "姓名不能为空"
-//            },
-//            uBirth: {
-//                date: "请输入正确时间"
-//            },
-//            uIdentityNum: {
-//                minlength: "不是有效的身份证",
-//                required: "证件号码不能为空",
-//                remote: "该身份证号已经被使用"
-//            },
+            uName: {
+                required: "姓名不能为空"
+            },
+            uBirth: {
+                date: "请输入正确时间"
+            },
+            uIdentityNum: {
+                minlength: "不是有效的身份证",
+                required: "证件号码不能为空",
+                remote: "该身份证号已经被使用"
+            },
             uMobile: {
                 required: "手机号不能为空",
                 maxlength: "请输入正确手机号",
@@ -791,14 +758,14 @@
         init: function () {
             Validator3 = $("#changePw").validate(rules);
             $(".user-list").on("click", ".changePwd", function () {
-                var mobile = $(this).attr("userid");
+                var mobile = $(this).attr("userId");
                 changePw.clearData();
                 $(".changePw").popup("show");
-                $(".changePw").css("left","60%");
                 $(".colsekuang").hide();
                 $("#userId").val(mobile);
                 $(".changePw1").show();
             });
+
         },
         submit: function () {
             if ($("#changePw").valid()) {
@@ -1054,6 +1021,7 @@
                     return false;
                 }
             });
+
             getExpandField(".addStudentPopup","w");
             $.extend($.validator.messages, {
                 required: "必选字段",
@@ -1139,7 +1107,7 @@
             $(".addStudent").on('click', function () {
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
-                $(".addStudentPopup").css("top", "20%");
+                $(".addStudentPopup").css("top", "2%");
                 $("#add_div_school").show();
                 $("#add_div_class").show();
                 Form.clearData();
@@ -1163,14 +1131,15 @@
         addTeacher: function () {
             if ($("#addStudentForm").valid()) {
                 var add_eduIdentity = 1;
-//                if($('input:radio[name="addeduIdentity"]:checked').val()=="0"){
-//                    add_eduIdentity = 0;
-//                }else{
-//                    $("#addEduStep").find("option[value='']").prop("selected","true");
-//                    //$("#addEduArea").find("option[value='']").attr("selected","true");
-//                    $("#addEduSchool").find("option[value='']").prop("selected","true");
-//                    $("#addEduYear").find("option[value='']").prop("selected","true");
-//                }
+                if($('input:radio[name="addeduIdentity"]:checked').val()=="0"){
+                    add_eduIdentity = 0;
+                }else{
+                    $("#addEduStep").find("option[value='']").prop("selected","true");
+                    //$("#addEduArea").find("option[value='']").attr("selected","true");
+                    $("#addEduSchool").find("option[value='']").prop("selected","true");
+                    $("#addEduYear").find("option[value='']").prop("selected","true");
+                }
+
             	var data={};
                 data.name = $("#sName").val();
                 data.sex = $('input:radio[name="sSex"]:checked').val();
@@ -1200,53 +1169,64 @@
 
                 data.eduIdentity=add_eduIdentity;
                 data.eduArea=$("#addEduArea").val();
-                data.eduSchool=$("#addEduSchools").val();
+                data.eduSchool=$("#addEduSchool").val();
                 data.eduStep=$("#addEduStep").val();
                 data.eduYear=$("#addEduYear").val();
                 data.eduClass=$("#addEduClass").val();
-                if(data.name==""||data.name==null){
-                	$.msg("请填写姓名");
-                	return;
+
+
+                if(add_eduIdentity==0){
+                    if(data.eduArea==""){
+                        $.msg("请选择所在区域");
+                        return;
+                    }
+                    if(data.eduSchool==""){
+                        $.msg("请选择学校");
+                        return;
+                    }
+                    if(data.eduStep=="" || data.eduYear==""){
+                        $.msg("请选择班级");
+                        return;
+                    }
+                }else{
+                    if(data.eduArea==""){
+                        $.msg("请选择所在区域");
+                        return;
+                    }
                 }
-                if(data.eduArea==""||data.eduArea==null){
-                    $.msg("请选择所在区域");
-                    return;
-                }
-                if(data.eduSchool==""||data.eduSchool==null){
-                     $.msg("请选择学校");
+                var asdasd =$("#addEduSchoolQuery").val();
+                data.eduSchool = asdasd;
+    			if(null==$("#addEduSchoolQuery").val() ||''==$("#addEduSchoolQuery").val()){
+                	 $.msg("请选择学校");
                      return;
-                }
-    			//data.eduStep=$("#addEduStep option:selected").val();
-                //data.eduYear=$("#addEduYear option:selected").val(); 
-                if(null==data.eduYear||''==data.eduYear){
-                	$.msg("请选择学年");
-                	return;
-                }
-                if(null==$("#addEduStep").val() ||''==$("#addEduStep").val()){
+    			}
+    			data.eduStep=$("#addEduStepQuery").val();
+                if(null==$("#addEduStepQuery").val() ||''==$("#addEduStepQuery").val()){
                 	$.msg("请选择学段");
                 	return;
                 }
-                if(data.eduClass=="" || data.eduClass==null){
-                    $.msg("请选择班级");
-                    return;
+                data.eduYear=$("#addEduYearQuery").val();
+                if(null==$("#addEduYearQuery").val() ||''==$("#addEduYearQuery").val()){
+                	$.msg("请选择学年");
+                	return;
                 }
-//                $(".customData").find(".field").each(function(){
-//                	data[$(this).attr("name")]=$(this).val();
-//                });
-//                var re=/^[a-zA-Z]+[a-zA-Z0-9_]\w{2,14}$/;
-//                if($("#suserName").val() && $("#suserName").val()!=""){
-//                	if(!$("#suserName").val().match(re) || $("#suserName").val()=="null"){
-//                    	$.msg("用户名格式不正确");
-//                    	return;
-//                    }
-//                }
-//                var addrflag=$("#addreSet").val();
-//                if(addrflag && addrflag==1){
-//                	if(!data.province || data.province==""){
-//                		$.msg("请选择地址信息");
-//                		return;
-//                	}
-//                }
+                $(".customData").find(".field").each(function(){
+                	data[$(this).attr("name")]=$(this).val();
+                });
+                var re=/^[a-zA-Z]+[a-zA-Z0-9_]\w{2,14}$/;
+                if($("#suserName").val() && $("#suserName").val()!=""){
+                	if(!$("#suserName").val().match(re) || $("#suserName").val()=="null"){
+                    	$.msg("用户名格式不正确");
+                    	return;
+                    }
+                }
+                var addrflag=$("#addreSet").val();
+                if(addrflag && addrflag==1){
+                	if(!data.province || data.province==""){
+                		$.msg("请选择地址信息");
+                		return;
+                	}
+                }
                 $.ajax({
                     type: 'post',
                     url: rootPath + "/student/insert",
@@ -1432,7 +1412,7 @@
         	selectGroup1('_edit');
             $(".user-list").on("click", ".updateStudentMsg", function () {
                 update.clearData();
-                var id = $(this).attr("stuid");
+                var id = $(this).attr("stuId");
                 $.ajax({
                     type: 'post',
                     url: rootPath + "/student/findById",
@@ -1505,15 +1485,23 @@
                             $('#edit_eduIdentity_normal').prop("checked", true);
                             //$("#edit_div_school").hide();
                             //$("#edit_div_class").hide();
+
+
                             //$("#edit_div_school").hide();
                             $("#editEduSchool").hide();
                             $("#editEduSchool").parent().prev().hide();
                             $("#edit_div_class").hide();
+
+
                         } else {
                             $('#edit_eduIdentity_stu').prop("checked", true);
+
                             $("#editEduSchool").show();
                             $("#editEduSchool").parent().prev().show();
                             $("#edit_div_class").show();
+
+
+
                             //$("#edit_div_school").show();
                            // $("#edit_div_class").show();
                         }
@@ -1543,8 +1531,7 @@
                 });
                 $(".updateStudentPopup1").show();
                 $(".updateStudentPopup").popup("show");
-                $(".updateStudentPopup").css("top", "20%");
-                $(".updateStudentPopup").css("left", "60%");
+                $(".updateStudentPopup").css("top", "2%");
                 $(".colsekuang").hide();
                 
                 getExpandField(".updateStudentPopup","w",function(){

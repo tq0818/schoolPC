@@ -42,6 +42,15 @@ public class PayorderResultVO implements Serializable {
 	private String originalPrices;
 	private String realPrices;
 	private String publicPrices;
+	private String payPrices;
+
+	public String getPayPrices() {
+		return payPrices;
+	}
+
+	public void setPayPrices(String payPrices) {
+		this.payPrices = payPrices;
+	}
 
 	public String getOriginalPrices() {
 		return originalPrices;

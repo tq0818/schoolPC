@@ -131,8 +131,8 @@
 						<tr data-buy="true">
 							<th width="5%">姓名</th>
 							<th width="3%">身份</th>
-							<th width="5%">区域</th>
-							<th width="10%">学校</th>
+							<th width="4%">区域</th>
+							<th width="11%">学校</th>
 							<th width="7%">所在班级</th>
 							<c:if test="${userorg_roleopenflag==1 }">
 								<shiro:hasAnyRoles name="机构管理员,代理机构">
@@ -140,10 +140,10 @@
 								</shiro:hasAnyRoles>
 							</c:if>
 							<th width="5%">创建时间</th>
-							<th width="3%">前台登录账号</th>
-							<th width="3%">前台账号状态</th>
+							<th width="6%">前台登录账号</th>
+							<th width="6%">前台账号状态</th>
 							<%--<th width="5%">报名状态</th>--%>
-							<th width="15%">操作</th>
+							<th width="11%">操作</th>
 						</tr>
 						<c:choose>
 							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">

@@ -82,7 +82,7 @@
             $(".addStudent").on('click', function () {
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
-                $(".addStudentPopup").css("top", "2%");
+                $(".addStudentPopup").css("top", "20%");
                 $("#add_div_school").show();
                 $("#add_div_class").show();
                 Form.clearData();
@@ -408,9 +408,9 @@
                                     // + '</ul></td>'
 
                                     + '<td>'
-                                        +'<a href="##">修改信息</a>'
+                                        +'<a href="##" class="changeInfo">修改信息</a>'
                                         +'<a href="##">&nbsp|&nbsp禁用用户&nbsp|&nbsp</a>'
-                                        +'<a href="##">修改密码</a>'
+                                        +'<a href="##" class="changePassword">修改密码</a>'
                                      +'</td>'
                                     + '</tr>');
                             });
@@ -1113,7 +1113,7 @@
             $(".addStudent").on('click', function () {
             	$(".addStudentPopup1").show();
                 $(".addStudentPopup").popup("show");
-                $(".addStudentPopup").css("top", "2%");
+                $(".addStudentPopup").css("top", "20%");
                 $("#add_div_school").show();
                 $("#add_div_class").show();
                 Form.clearData();
@@ -1537,7 +1537,7 @@
                 });
                 $(".updateStudentPopup1").show();
                 $(".updateStudentPopup").popup("show");
-                $(".updateStudentPopup").css("top", "2%");
+                $(".updateStudentPopup").css("top", "20%");
                 $(".colsekuang").hide();
                 
                 getExpandField(".updateStudentPopup","w",function(){

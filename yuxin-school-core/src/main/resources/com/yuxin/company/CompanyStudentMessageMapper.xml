@@ -292,7 +292,7 @@
 			and item_second_code = #{itemSecondCode}
 		</if>
 		<if test="itemThirdCode != null and  itemThirdCode !=''">
-			and item_second_code = #{itemThirdCode}
+			and item_third_code = #{itemThirdCode}
 		</if>
 		<if test="messageType != null and messageType != '' and messageType != 'all' and messageType!='brachAll'">
 			and message_type = #{messageType}
@@ -326,7 +326,7 @@
 			and item_second_code = #{itemSecondCode}
 		</if>
 		<if test="itemThirdCode != null and  itemThirdCode !=''">
-			and item_second_code = #{itemThirdCode}
+			and item_third_code = #{itemThirdCode}
 		</if>
 		<if test="itemSecondId != null">
 			and item_second_id = #{itemSecondId}

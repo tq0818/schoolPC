@@ -56,7 +56,7 @@ function test(){
                     <span class="t-content" id="two">
                     	<a href="javascript:;" class="btn btn-mini btn-two btn-success" data-id="">全部</a>
                     	<c:forEach var="o" items="${twoItem }">
-                        	<a href="javascript:;" class="btn btn-mini btn-two btn-method " data-id="${o.itemCode }">${o.itemName }</a>
+                        	<a href="javascript:;" class="btn btn-mini btn-two" data-id="${o.itemCode }">${o.itemName }</a>
                     	</c:forEach>
                     </span>
                 </p>
@@ -65,7 +65,7 @@ function test(){
                     <span class="t-content" id="three">
                         <a href="javascript:;" class="btn btn-mini btn-three btn-success" data-id="">全部</a>
                     	<c:forEach var="o" items="${threeItem }">
-                            <a href="javascript:;" class="btn btn-mini  btn-method " data-id="${o.itemCode }">${o.itemName }</a>
+                            <a href="javascript:;" class="btn btn-mini btn-three" data-id="${o.itemCode }">${o.itemName }</a>
                         </c:forEach>
                     </span>
                 </p>

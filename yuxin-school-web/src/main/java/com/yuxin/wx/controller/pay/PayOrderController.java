@@ -335,6 +335,54 @@ public class PayOrderController {
         model.addAttribute("payStates",request.getParameter("payStates"));
         return "system/orderDetail";
     }
+    /**
+     * 查询分校订单
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/queryAllSchoolOrder")
+    public String queryAllSchoolOrder(Model model, HttpServletRequest request) {
+    	/*String isArea = WebUtils.getCurrentIsArea();*/
+    	String companyId = request.getParameter("companyId");
+    	Map<String,Object>map = new HashMap<String,Object>();
+    	PayOrder payOrder = new PayOrder();
+    	/*if(!"0".equals(isArea)){*/
+    		map.put("companyId",companyId);
+    	//}
+    	map.put("orderNum",request.getParameter("orderNum"));
+    	map.put("inpstart",request.getParameter("inpstart"));
+    	map.put("inpend",request.getParameter("inpend"));
+    	String payMethod=request.getParameter("payMethod");
+    	if(null != payMethod  && !"".equals(payMethod) ){
+    		if(payMethod.equals("PAY_TYPE_WX_PERSON")){
+    			payMethod="WX";
+    		}
+    		if(payMethod.equals("PAY_TYPE_ZFB")){
+    			payMethod="ZFB";
+    		}
+    	}
+    	map.put("payMethod",payMethod);
+    	map.put("firstPrice",request.getParameter("firstPrice"));
+    	map.put("secondPrice",request.getParameter("secondPrice"));
+    	Integer page = Integer.parseInt(request.getParameter("page"));
+    	Integer pageSize = Integer.parseInt(request.getParameter("pageSize"));
+    	map.put("pageSize",pageSize);
+    	payOrder.setPage(page);
+    	payOrder.setPageSize(pageSize);
+    	map.put("page",payOrder.getFirstIndex());
+    	map.put("payStates",request.getParameter("payStates"));
+    	// 查询 订单 集合
+    	List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
+    	// 总数
+    	Integer count = this.payOrderServiceImpl.findCountByParams(map);
+    	// 分页
+    	PageFinder<PayOrder> payPage = new PageFinder<PayOrder>(page, pageSize, count, cpoList);
+    	
+    	model.addAttribute("payPage", payPage);
+    	model.addAttribute("payStates",request.getParameter("payStates"));
+    	return "system/orderDetail";
+    }
 
     /**
      * 查询分校收入情况
@@ -462,6 +510,39 @@ public class PayOrderController {
         map01.put("fileName", "订单.xls");
         ViewFiles excel = new ViewFiles();
         return new ModelAndView(excel, map01);
+    }
+    @RequestMapping(value = "/exportExcelAllSchoolOrder", method = RequestMethod.POST)
+    public ModelAndView exportExcelAllSchoolOrder(Model model, HttpServletRequest request) {
+    	
+    	//String isArea = WebUtils.getCurrentIsArea();
+    	String companyId = request.getParameter("companyId");
+    	Map<String,Object>map = new HashMap<String,Object>();
+    	PayOrder payOrder = new PayOrder();
+    	//if(!"0".equals(isArea)){
+    		map.put("companyId",companyId);
+    	//}
+    	map.put("orderNum",request.getParameter("orderNum"));
+    	map.put("inpstart",request.getParameter("inpstart"));
+    	map.put("inpend",request.getParameter("inpend"));
+    	map.put("payMethod",request.getParameter("payMethod"));
+    	map.put("firstPrice",request.getParameter("firstPrice"));
+    	map.put("secondPrice",request.getParameter("secondPrice"));
+    	map.put("pageSize",1000000);
+    	map.put("page",payOrder.getFirstIndex());
+    	
+    	//2018-1-29 新增 支付方式
+    	map.put("payStates",request.getParameter("payStates"));
+    	// 查询 订单 集合
+    	List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
+    	String tittle  = "订单编号:orderNum,课程名:commodityName,金额（元）:payPrice,姓名:stuName,电话:discountNo,下单时间:orderTime,付款时间:payTime,订单状态:payStatus";
+    	ExcelSheetEntity entity = ExcelSheetEntity.newInstance(
+    			tittle,
+    			cpoList);
+    	Map<String,Object>map01 = new HashMap<String,Object>();
+    	map01.put("entity", entity);
+    	map01.put("fileName", "订单.xls");
+    	ViewFiles excel = new ViewFiles();
+    	return new ModelAndView(excel, map01);
     }
 
 

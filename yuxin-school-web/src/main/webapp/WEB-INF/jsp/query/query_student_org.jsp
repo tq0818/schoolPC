@@ -106,7 +106,7 @@
                         </select>
 					</div>
 					<div style="margin-top: 10px;">
-						<span>创建时121间</span>
+						<span>创建时间</span>
 						<span><input type="text" name="startTime" class="date-picker from"/><em>到</em><input type="text" name="endTime" class="date-picker to"/></span>
 						<c:if test="${address==1}">
 						<span style="padding:0 15px;" id="caddress">

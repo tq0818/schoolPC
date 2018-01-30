@@ -21,8 +21,8 @@
 					<td>${vs.count}</td>
 					<td>${order.schoolName}</td>
 					<td>${order.aeraName}</td>
-					<td>${order.totalMoney}</td>
-					<td>${order.fetchMoney}</td>
+					<td><fmt:formatNumber type="number" value="${order.totalMoney}"  groupingUsed="false" pattern="########.##"/></td>
+					<td><fmt:formatNumber type="number" value="${order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
 				</tr>
 			</c:forEach>
 
@@ -41,8 +41,8 @@
 				<tr>
 					<td>${vs.count}</td>
 					<td><fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd"/></td>
-					<td>${order.totalMoney}</td>
-					<td><fmt:formatNumber type="number" value="${order.fetchMoney - order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
+					<td><fmt:formatNumber type="number" value="${order.totalMoney}"  groupingUsed="false" pattern="########.##"/></td>
+					<td><fmt:formatNumber type="number" value="${order.totalMoney - order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
 					<td><fmt:formatNumber type="number" value="${order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
 				</tr>
 			</c:forEach>

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <% String rootPath=request.getContextPath(); %>
 
 <!doctype html>
@@ -50,7 +51,16 @@
 				<tr><td colspan="7">暂无数据</td></tr>
 		</table>
 		</div>
-		<div style="text-align: center;"><!-- <a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a> -->&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/importPage" class="btn btn-primary">继续导入</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/studentList" class="btn btn-primary">返回</a></div>
+		<div style="text-align: center;"><!-- <a href="javascript:;" class="btn btn-primary signUpMany">批量报名</a> -->&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rootPath %>/student/importPage" class="btn btn-primary">继续导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<c:choose>
+			<c:when test="${sourceFromTj eq 1}">
+					<a href="<%=rootPath %>/query/orgstatistics/studentList" class="btn btn-primary">返回</a>
+			</c:when>
+			<c:otherwise>
+				<a href="<%=rootPath%>/student/studentList" class="btn btn-primary">返回</a>
+			</c:otherwise>
+		</c:choose>
+		</div>
         </div>
     </div>
 </div>

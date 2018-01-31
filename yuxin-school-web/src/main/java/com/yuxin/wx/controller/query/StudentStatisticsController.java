@@ -589,7 +589,7 @@ public class StudentStatisticsController {
         	model.addAttribute("role", "3");//3表示任课老师
         }else{
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
-        	if("0".equals(WebUtils.getCurrentCompany().getIsArea())){
+        	if(("0".equals(WebUtils.getCurrentCompany().getIsArea())||"1".equals(WebUtils.getCurrentCompany().getIsArea()))&&subject.hasRole("学校负责人")){
 	        	List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(uersAreaRelation.getEduSchool());
 	            model.addAttribute("areas", areas);
 	            SysConfigDict areaDict=new SysConfigDict();
@@ -657,7 +657,7 @@ public class StudentStatisticsController {
         List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
         model.addAttribute("stepList", stepList);
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());
-        if("0".equals(WebUtils.getCurrentCompany().getIsArea())){
+        if(("0".equals(WebUtils.getCurrentCompany().getIsArea())||"1".equals(WebUtils.getCurrentCompany().getIsArea()))&&subject.hasRole("学校负责人")){
         	return "/query/query_student_org";
         }else{
         	return "/query/query_student_orgteacher";

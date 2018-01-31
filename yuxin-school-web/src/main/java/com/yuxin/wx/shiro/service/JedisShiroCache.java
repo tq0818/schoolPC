@@ -70,7 +70,7 @@ public class JedisShiroCache<K, V> implements Cache<K, V> {
         }
         return previos;
     }
-
+    
     @Override
     public V remove(K key) throws CacheException {
         V previos = get(key);

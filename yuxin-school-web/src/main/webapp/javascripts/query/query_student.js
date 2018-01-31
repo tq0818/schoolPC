@@ -137,7 +137,7 @@
             });
             // 导入用户
             $(".importexcle").on('click', function () {
-                $(this).attr("href", rootPath + "/student/importPage");
+                $(this).attr("href", rootPath + "/student/importPage?sourceFromTj=1");
             });
             // 导出用户
             $(".exportexcle").on(

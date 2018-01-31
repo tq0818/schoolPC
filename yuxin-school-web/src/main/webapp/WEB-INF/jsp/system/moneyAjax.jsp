@@ -22,7 +22,7 @@
 					<td>${order.schoolName}</td>
 					<td>${order.aeraName}</td>
 					<td><fmt:formatNumber type="number" value="${order.totalMoney}"  groupingUsed="false" pattern="########.##"/></td>
-					<td><fmt:formatNumber type="number" value="${order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
+					<td><fmt:formatNumber type="number" value="${order.totalMoney-order.fetchMoney}"  groupingUsed="false" pattern="########.##"/></td>
 				</tr>
 			</c:forEach>
 

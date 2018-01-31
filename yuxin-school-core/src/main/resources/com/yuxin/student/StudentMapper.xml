@@ -3339,4 +3339,126 @@ select * from (
 		<if test="startTime != null and startTime != ''">and date_format(create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
 	 	<if test="endTime != null and endTime != ''">and date_format(create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
 	</select> 
+	
+	<!-- 学员列表功能 -->
+	<select id="queryStudentsListTwo" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
+		select s.id,s.name,s.sex,s.identity_type_code,s.identity_id,s.age,s.birthday,s.education_code,s.hk_address,
+		s.mobile,s.email,s.qq,s.home_phone,s.office_phone,s.weixin_id,s.emergency_contact,s.emergency_phone,
+		s.create_time,s.creator,s.delete_flag,scs.id school_id,c.id
+		company_id,s.province,s.city,s.county,s.address_detail,u.id as userId,u.username,u.mobile,u.email,scs.id
+		school_id,
+		u.status,c.id company_id,u.regist_time,u.vip_flag,u.regist_type,u.user_sign,u.vip_flag as
+		paymaterCount,u.member_id,u.member_level,u.member_buy_length,u.member_status,
+		ccpo.name as proxyOrgName,s.edu_identity,d.item_value as edu_area,d1.item_value as edu_school,d2.item_value as
+		edu_step,s.edu_year,
+		s.edu_class,u.teacher_flag as teacherFlag
+		from student s
+		LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0
+		LEFT JOIN users_front u on s.user_id=u.id
+		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and
+		c.edu_area_school=s.edu_school
+		inner join sys_config_school scs on scs.company_id=c.id
+		left join company_config_proxy_org ccpo on ccpo.id= s.proxy_org_id
+		LEFT JOIN sys_config_dict d ON d.item_code = s.edu_area
+		LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
+		LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
+		where 1=1 
+		<if test="eduMasterClass !=null and eduMasterClass != ''">
+			and
+			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")">
+				s.edu_step=#{item.eduStep} and s.edu_year=#{item.eduYear} and s.edu_class=#{item.eduClass}
+			</foreach>
+		</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+		<if test="renke != null and renke != ''">
+			and
+			<foreach item="renke" collection="renke" open="(" separator="or" close=")">
+				(s.edu_step=#{renke.eduStep} and s.edu_year=#{renke.eduYear} and s.edu_class=#{renke.eduClass})
+			</foreach>
+		</if>
+		<if test="schoolId != null">and scs.id=#{schoolId}</if>
+		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
+		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
+		<if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
+		<if test="classTypeId != null and classTypeId != ''">and sp.commodity_id = #{classTypeId} and sp.delete_flag =
+			0
+		</if>
+		<if test="registType != null">
+			<choose>
+				<when test="registType == 1">
+					and u.id is not null
+				</when>
+				<otherwise>
+					and u.id is null
+				</otherwise>
+			</choose>
+		</if>
+		<if test="status != null">
+			<choose>
+				<when test="status == 1">
+					and u.status = #{status}
+				</when>
+				<otherwise>
+					and (u.status != 1 or u.status is null)
+				</otherwise>
+			</choose>
+		</if>
+		<if test="paymaterCount != null">
+			<choose>
+				<when test="paymaterCount == 1">
+					and u.vip_flag<![CDATA[>=]]>1
+				</when>
+				<otherwise>
+					and u.vip_flag<![CDATA[<=]]>0
+				</otherwise>
+			</choose>
+		</if>
+		<if test="isMember != null and isMember==1">
+			and u.member_status=1 and (u.member_buy_length>0 || u.member_buy_length=-1)
+		</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]>
+			'${startTime}'
+		</if>
+		<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]>
+			'${endTime}'
+		</if>
+		<if test="province != null and province != ''">and province='${province}'</if>
+		<if test="city != null and city != ''">and city= '${city}'</if>
+		<if test="county != null and county != ''">and county= '${county}'</if>
+		<if test="groupOneId != null and groupOneId != ''">and group_one_id= '${groupOneId}'</if>
+		<if test="groupTwoId != null and groupTwoId != ''">and group_two_id= '${groupTwoId}'</if>
+		<if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
+		<if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
+		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
+		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
+		<if test="isStu != null and isStu == 1">and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
+		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
+		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
+		<if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
+		<if test="companyId !=null and companyId !=''">and c.id = #{companyId}</if>
+		GROUP by s.id
+		order by s.id DESC
+		limit #{firstIndex},#{pageSize}
+
+<!--
+		left join (
+		select stu_id,
+		is_Agent
+		from student_pay_master
+		where (pay_status_code='ORDER_PAID' or pay_status_code='ORDER_PART_PAY' or pay_status_code='ORDER_FINISHED' or pay_status_code='ORDER_PAID_NO_COURSE') and delete_flag=0
+		and is_Agent = 1 and commodity_type= 'COMMODITY_CLASS'
+		GROUP BY stu_id
+		) as agent on agent.stu_id = s.id
+		left join (
+		select stu_id,
+		"1" as Ispay
+		from student_pay_master
+		where pay_status_code='ORDER_PART_PAY' and delete_flag=0
+		and commodity_type= 'COMMODITY_CLASS'
+		GROUP BY stu_id
+		) as agent2 on agent.stu_id = s.id
+		-->
+	</select>
 </mapper>

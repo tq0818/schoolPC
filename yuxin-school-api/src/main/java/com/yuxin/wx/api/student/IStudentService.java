@@ -756,4 +756,5 @@ public interface IStudentService  {
 	 */
 	List<EduMasterClass> findClassByRKTeacherId(Integer id);
 	List<SysConfigDict> findEduAreaList();
+	List<StudentListVo> findStudentsDataTwo(StudentListVo search);
 }

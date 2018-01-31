@@ -171,7 +171,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
 
     @Override
     public List<PayOrder> findPayOrderByParams(Map<String, Object> params) {
-        this.dateStr2Ddate(params);
+        /*this.dateStr2Ddate(params);*/
         return payOrderMapper.findPayOrderByParams(params);
     }
 
@@ -295,7 +295,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
 
     @Override
     public List<PayOrder> findSchoolMoneyByCondition(Map<String, Object> map) {
-        this.dateStr2Ddate(map);
+//        this.dateStr2Ddate(map);
         return payOrderMapper.findSchoolMoneyByCondition(map);
     }
 
@@ -316,7 +316,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl implements IPayOrderSer
 
     @Override
     public List<PayOrder> findPrivateSchoolMoneyByCondition(Map<String, Object> map) {
-        this.dateStr2Ddate(map);
+//        this.dateStr2Ddate(map);
         return payOrderMapper.findPrivateSchoolMoneyByCondition(map);
     }
 

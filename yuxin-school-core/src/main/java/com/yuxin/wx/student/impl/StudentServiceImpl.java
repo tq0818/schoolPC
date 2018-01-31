@@ -1958,4 +1958,10 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		
 		return studentMapper.sysConfigDict();
     }
+	
+	@Override
+	public List<StudentListVo> findStudentsDataTwo(StudentListVo search) {
+		List<StudentListVo> data = studentMapper.queryStudentsListTwo(search);
+		return data;
+	}
 }

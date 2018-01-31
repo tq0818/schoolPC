@@ -2590,7 +2590,8 @@ public class StudentController {
         List<SysConfigItemRelation> threeItem = new ArrayList<>();
         for(SysConfigItemRelation relation :allItem){
             if(relation.getLevel()==0){
-                oneItem.add(relation);
+                if(null != relation.getItemName()&&!"".equals(relation.getItemName())){
+                oneItem.add(relation);}
             }else
             if(relation.getLevel()==1){
                 twoItem.add(relation);
@@ -2674,7 +2675,9 @@ public class StudentController {
 
     @RequestMapping("/createWeixin")
     public String createWeixin(Model model, HttpServletRequest request) {
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+    	SysConfigItemRelation scir = new SysConfigItemRelation();
+    	scir.setCompanyId(WebUtils.getCurrentCompanyId());
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(scir);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -3477,7 +3480,7 @@ public class StudentController {
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
             search.setPageSize(20000);
             search.setCompanyId(WebUtils.getCurrentCompanyId());
-            al = studentServiceImpl.findStudentsData(search);
+            al = studentServiceImpl.findStudentsDataTwo(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
         // LongitudinalTableData sql=new LongitudinalTableData();

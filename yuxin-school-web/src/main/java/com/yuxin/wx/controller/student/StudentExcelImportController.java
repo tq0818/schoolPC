@@ -29,6 +29,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.company.ICompanyRegisterConfigService;
 import com.yuxin.wx.api.student.IStudentService;
+import com.yuxin.wx.api.user.IUsersService;
 import com.yuxin.wx.common.JsonMsg;
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.Company;
@@ -46,6 +47,7 @@ import com.yuxin.wx.utils.WebUtils;
 import com.yuxin.wx.vo.student.StudentAll4CompanyVo;
 import com.yuxin.wx.vo.student.StudentImportVo;
 import com.yuxin.wx.vo.student.StudentListVo;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 
 
 /**
@@ -70,6 +72,8 @@ public class StudentExcelImportController {
 	
 	@Autowired
 	private PropertiesUtil propertiesUtil;
+	@Autowired
+    private IUsersService usersServiceImpl;
 	@Autowired
 	private ICompanyRegisterConfigService companyRegisterConfigServiceImpl;
 	@Autowired
@@ -257,8 +261,9 @@ public class StudentExcelImportController {
 				isAreaHava.putAll(eduAreaMap);
 				Users users=WebUtils.getCurrentUser();
 				if (subject.hasRole("学校负责人")){
-					String eduValue=eduSchoolMap.get(users.getUsername());
-					isSchoolHava.put(users.getUsername(),eduValue);
+					UsersAreaRelation uersAreaRelation=usersServiceImpl.findUsersAreaRelation(users.getId());
+					String eduValue=eduSchoolMap.get(uersAreaRelation.getEduSchool());
+					isSchoolHava.put(uersAreaRelation.getEduSchool(),eduValue);
 				}else{
 					isSchoolHava.putAll(eduSchoolMap);
 				}	
@@ -268,16 +273,23 @@ public class StudentExcelImportController {
 				if(eduAreaMap.containsKey(eduArea)){
 					isAreaHava.put(eduAreaMap.get(eduArea),eduArea);
 				}
-				//学区  学校
-				int areaCode=0;
-				for(int k=0;k<dictAreaList.size();k++){
-					if(eduArea.equals(dictAreaList.get(k).getItemCode())){
-						areaCode=dictAreaList.get(k).getId();
+				if (subject.hasRole("学校负责人")){
+					Users users=WebUtils.getCurrentUser();
+					UsersAreaRelation uersAreaRelation=usersServiceImpl.findUsersAreaRelation(users.getId());
+					String eduValue=eduSchoolMap.get(uersAreaRelation.getEduSchool());
+					isSchoolHava.put(uersAreaRelation.getEduSchool(),eduValue);
+				}else{
+					//学区  学校
+					int areaCode=0;
+					for(int k=0;k<dictAreaList.size();k++){
+						if(eduArea.equals(dictAreaList.get(k).getItemCode())){
+							areaCode=dictAreaList.get(k).getId();
+						}
 					}
-				}
-				for(int k=0;k<dictAreaList.size();k++){
-					if(null!=dictAreaList.get(k).getParentItemId() && areaCode==dictAreaList.get(k).getParentItemId()){
-						isSchoolHava.put(dictAreaList.get(k).getItemCode(),dictAreaList.get(k).getItemValue());
+					for(int k=0;k<dictAreaList.size();k++){
+						if(null!=dictAreaList.get(k).getParentItemId() && areaCode==dictAreaList.get(k).getParentItemId()){
+							isSchoolHava.put(dictAreaList.get(k).getItemCode(),dictAreaList.get(k).getItemValue());
+						}
 					}
 				}
 			}else{
@@ -850,8 +862,9 @@ public class StudentExcelImportController {
 				}else{
 					Users users=WebUtils.getCurrentUser();
 					Subject subject = SecurityUtils.getSubject();
-					if (subject.hasRole("学校负责人")&&"0".equals(company.getIsArea())){
-						s.setEduSchool(users.getUsername());
+					if (subject.hasRole("学校负责人")&&("0".equals(company.getIsArea())||"1".equals(company.getIsArea()))){
+						UsersAreaRelation uersAreaRelation=usersServiceImpl.findUsersAreaRelation(users.getId());
+						s.setEduSchool(uersAreaRelation.getEduSchool());
 					}else{
 						s.setEduSchool(company.getEduAreaSchool());
 					}
@@ -988,7 +1001,7 @@ public class StudentExcelImportController {
 	 * @return
 	 */
 	@RequestMapping(value = "/queryData")
-	public String importStudentData(Model model, String stuMobiles) {
+	public String importStudentData(Model model, String stuMobiles,String sourceFromTj) {
 		CompanyFunctionSet search = new CompanyFunctionSet();
 		search.setFunctionCode("COMPANY_FUNCTION_COURSE");
 		search.setCompanyId(WebUtils.getCurrentCompanyId());
@@ -1007,6 +1020,7 @@ public class StudentExcelImportController {
 			crc.setMobileFlag(1);
 		}
 		model.addAttribute("registConfig", crc);
+		model.addAttribute("sourceFromTj",sourceFromTj);
 		return "student/importStudentData";
 	}
 	

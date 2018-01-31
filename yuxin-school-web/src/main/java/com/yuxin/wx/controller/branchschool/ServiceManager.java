@@ -55,13 +55,14 @@ public class ServiceManager {
         List<SysConfigDict> scd1 =new ArrayList<SysConfigDict>();
         //获取服务总数
         int count = iSysConfigDictService.querSysConfigDictCount(companyId);
-       if("1".equals(company.getIsArea()) ){
+       if(!"0".equals(company.getIsArea()) ){
            for(SysConfigDict s:scd){
-               if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_CLASS_SET".equals(s.getGroupCode())&&!"SERVICE_QUESTION_ANSWER".equals(s.getGroupCode())){
+               if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_CLASS_SET".equals(s.getGroupCode())&&!"SERVICE_QUESTION_ANSWER".equals(s.getGroupCode())&&!"SERVICE_PAY_SET".equals(s.getGroupCode())){
                    scd1.add(s);
                }
            }
-           count =count - 2;
+           count =count - 3;
+
        }else{
            for(SysConfigDict s:scd){
                if( ! s.getDictName().trim().equals("短信")&&!"SERVICE_QUESTION_ANSWER".equals(s.getGroupCode())){

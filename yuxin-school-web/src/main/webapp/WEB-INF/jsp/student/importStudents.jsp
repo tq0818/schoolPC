@@ -36,6 +36,7 @@
 <form action="<%=rootPath %>/excelImportStudents/queryData" id="DataForm" method="post">
 	<input type="hidden" id="stuMobiles" value="" name="stuMobiles"/>
 	<input type="hidden" id="xuesheng" value="1" name="xuesheng"/>
+	<input type="hidden" id="sourceFromTj" value="${sourceFromTj}" name="sourceFromTj"/>
 </form>
 <div class="u-wrap set-system">
     <div class="mainbackground nopadding">

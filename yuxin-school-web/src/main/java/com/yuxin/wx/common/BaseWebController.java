@@ -293,7 +293,7 @@ public class BaseWebController {
         	companyId=companyServiceImpl.findComanyIdByRootPath(rootPath);
         	schoolId=companyServiceImpl.findSchoolIdByCompanyId(companyId);
         	if(companyId!=null){
-        		cache.put(rootPath, companyId);
+        		cache.put(rootPath,companyId);
         		cache.put("schoolId_"+rootPath,schoolId);
         	}else{
         		response.sendRedirect(request.getContextPath()+"/fonts/404.html");;

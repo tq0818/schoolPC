@@ -2675,7 +2675,9 @@ public class StudentController {
 
     @RequestMapping("/createWeixin")
     public String createWeixin(Model model, HttpServletRequest request) {
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+    	SysConfigItemRelation scir = new SysConfigItemRelation();
+    	scir.setCompanyId(WebUtils.getCurrentCompanyId());
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(scir);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));
@@ -3018,14 +3020,13 @@ public class StudentController {
         PageFinder<StudentListVo> pageFinder = studentServiceImpl.findStudentsList1(search);
         return pageFinder;
     }
-
     /**
      *
      * @Description: 跳转到导入学员列表页
      * @author zhang.zx
      */
     @RequestMapping(value = "/importPage")
-    public String importStusPage(Model model) {
+    public String importStusPage(Model model,String sourceFromTj) {
         CompanyFunctionSet companyFunctionSet = new CompanyFunctionSet();
         companyFunctionSet.setCompanyId(WebUtils.getCurrentCompanyId());
         companyFunctionSet.setFunctionCode("STUDENT_GROUP");
@@ -3033,6 +3034,7 @@ public class StudentController {
         if (companyFunctionSetList != null && companyFunctionSetList.size() > 0) {
             model.addAttribute("sgOpen", companyFunctionSetList.get(0).getStatus());
         }
+        model.addAttribute("sourceFromTj",sourceFromTj);
         return "student/importStudents";
     }
 
@@ -3752,7 +3754,8 @@ public class StudentController {
         } else if ("0".equals(status)) {
             userFront.setStatus(1);
         }
-        if("0".equals(WebUtils.getCurrentIsArea())){
+        Subject subject = SecurityUtils.getSubject();
+        if("0".equals(WebUtils.getCurrentIsArea())&&!subject.hasRole("学校负责人")){
         	usersFrontServiceImpl.update(userFront);
         }else{
         	Student student=new Student();

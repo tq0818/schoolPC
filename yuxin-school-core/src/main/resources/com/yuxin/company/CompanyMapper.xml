@@ -540,11 +540,19 @@
 	</select>
 
 	<select id="queryCompanyPicCount" resultType="int" parameterType="com.yuxin.wx.vo.company.CompanyPicsVo">
-	   select count(*) from company_pics 
-	   where company_id=#{companyId} 
-	   <if test="picType != null and picType != ''">and pic_type = #{picType}</if>
-	    <if test="picTag != null and picTag != ''">and pic_tag = #{picTag}</if>
-	   <if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>
+		select count(*) from company_pics
+		where company_id=#{companyId}
+		<if test="picType != null and picType != ''">and pic_type = #{picType}</if>
+		<if test="picTag != null and picTag != ''">and pic_tag = #{picTag}</if>
+		<if test="itemOneId != null and itemOneId != '' ">and item_one_id = #{itemOneId}</if>
+		<if test="companyId != 18113 ">and item_one_id  is not NULL and item_one_id>1725 </if>
+
+
+	   <!--select count(*) from company_pics -->
+	   <!--where company_id=#{companyId} -->
+	   <!--<if test="picType != null and picType != ''">and pic_type = #{picType}</if>-->
+	    <!--<if test="picTag != null and picTag != ''">and pic_tag = #{picTag}</if>-->
+	   <!--<if test="itemOneId != null and itemOneId != ''">and item_one_id = #{itemOneId}</if>-->
 	</select>
 
 	<select id="findCompanyVoByPage" resultMap="companyVoResultMap"

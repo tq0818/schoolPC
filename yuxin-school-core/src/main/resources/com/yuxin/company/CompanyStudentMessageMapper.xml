@@ -304,9 +304,9 @@
 			test="messageMethod != null and messageMethod != '' and messageMethod != 'all' and messageMethod!='brachAll'">
 			and message_method = #{messageMethod}
 		</if>
-		<if test="messageMethod=='brachAll'">
+		<!-- <if test="messageMethod=='brachAll'">
 			and message_method in('STUDENT_MESSAGE_WEB')
-		</if>
+		</if> -->
 		order by create_time desc
 		limit #{firstIndex},#{pageSize}
 	</select>

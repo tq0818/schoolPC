@@ -2674,7 +2674,9 @@ public class StudentController {
 
     @RequestMapping("/createWeixin")
     public String createWeixin(Model model, HttpServletRequest request) {
-        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(new SysConfigItemRelation());
+    	SysConfigItemRelation scir = new SysConfigItemRelation();
+    	scir.setCompanyId(WebUtils.getCurrentCompanyId());
+        List<SysConfigItemRelation> relations = sysConfigItemRelationServiceImpl.findItemFront(scir);
         SysConfigItem item = new SysConfigItem();
         item.setCompanyId(WebUtils.getCurrentCompanyId());
         item.setSchoolId( WebUtils.getCurrentUserSchoolId(request));

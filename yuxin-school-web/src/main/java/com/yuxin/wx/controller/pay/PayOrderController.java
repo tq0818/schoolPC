@@ -469,7 +469,17 @@ public class PayOrderController {
             cpoList = payOrderServiceImpl.findPrivateSchoolMoneyByCondition(map);
             tittle =  "时间:orderTime,总收入(元):totalMoney,应缴费用(元):handInMoney,实际收入(元):fetchMoney";
         }
-
+        //将应缴费用和实际收入取小数点后两位
+        for (PayOrder payOrder2 : cpoList) {
+			if(payOrder2.getFetchMoney() != null && payOrder2.getFetchMoney() != ""){
+				String fetchMoney = String.format("%.2f",Double.valueOf(payOrder2.getFetchMoney()));
+				payOrder2.setFetchMoney(fetchMoney);
+			}
+			if(payOrder2.getHandInMoney() != null && payOrder2.getHandInMoney() != ""){
+				String handInMoney = String.format("%.2f",Double.valueOf(payOrder2.getHandInMoney()));
+				payOrder2.setHandInMoney(handInMoney);
+			}
+		}
         ExcelSheetEntity entity = ExcelSheetEntity.newInstance(
                 tittle,
                 cpoList);

@@ -671,14 +671,23 @@
 		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_dict scd ON sct.education_code = scd.item_code
+		left JOIN auth_user_role aur ON sct.user_id = aur.user_id
+		left JOIN auth_role ar ON aur.role_uid = ar.role_uid
 		where sct.del_flag = 0 and scs.company_id = #{companyId}
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
-				and (sct.teacher_type = 'PERSON_MANAGER' or sct.teacher_type =
-				'PERSON_ASSISTANT' or teacher_type = 'PERSON_WAITER')
+				and (ar.role_name = '助教'
+						OR ar.role_name = '班主任'
+						OR ar.role_name = '跟班生')
 			</if>
-			<if test="teacherType != 'all'">
-				and sct.teacher_type = #{teacherType}
+			<if test="teacherType == 'PERSON_MANAGER'">
+				and ar.role_name = '班主任'
+			</if>
+			<if test="teacherType == 'PERSON_WAITER'">
+				and ar.role_name = '跟班生'
+			</if>
+			<if test="teacherType == 'PERSON_ASSISTANT'">
+				and ar.role_name = '助教'
 			</if>
 		</if>
 		<if test="mobile != null and mobile != ''">and sct.mobile = #{mobile}</if>
@@ -711,25 +720,34 @@
 
 	<select id="findByCompanyCount" resultType="Integer"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select count(t1.id)
-		from sys_config_teacher t1
-		inner join users u on u.id=t1.user_id
-		INNER JOIN sys_config_teacher_lesson t2 ON t1.id=t2.teacher_id
-		RIGHT JOIN sys_config_item t3 ON  t3.id=t2.item_one_id
-		INNER JOIN users_comany_relation ucr on ucr.company_id=#{companyId} and ucr.user_id=t1.user_id and ucr.is_used=1
-		where t1.del_flag = 0 and t3.company_id = #{companyId}
+		select count(sct.id)
+		from sys_config_teacher sct
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
+		inner join sys_config_school scs on scs.company_id=ur.company_id
+		LEFT JOIN sys_config_dict scd ON sct.education_code = scd.item_code
+		left JOIN auth_user_role aur ON sct.user_id = aur.user_id
+		left JOIN auth_role ar ON aur.role_uid = ar.role_uid
+		where sct.del_flag = 0 and scs.company_id = #{companyId}
 				<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
-				and (t1.teacher_type = 'PERSON_MANAGER' or t1.teacher_type =
-				'PERSON_ASSISTANT' or t1.teacher_type = 'PERSON_WAITER')
+				and (ar.role_name = '助教'
+						OR ar.role_name = '班主任'
+						OR ar.role_name = '跟班生')
 			</if>
-			<if test="teacherType != 'all'">
-				and t1.teacher_type = #{teacherType}
+			<if test="teacherType == 'PERSON_MANAGER'">
+				and ar.role_name = '班主任'
+			</if>
+			<if test="teacherType == 'PERSON_WAITER'">
+				and ar.role_name = '跟班生'
+			</if>
+			<if test="teacherType == 'PERSON_ASSISTANT'">
+				and ar.role_name = '助教'
 			</if>
 		</if>
-		<if test="mobile != null and mobile != ''">and t1.mobile = #{mobile}</if>
-		<if test="name != null and name != ''">and t1.name LIKE '%${name}%'</if>
-		and t1.status_code = 'TEACHER_USERD'
+		<if test="mobile != null and mobile != ''">and sct.mobile = #{mobile}</if>
+		<if test="name != null and name != ''">and sct.name LIKE '%${name}%'</if>
+		and sct.status_code = 'TEACHER_USERD'
 	</select>
 
 	<select id="findTeacherIdByMobile" parameterType="com.yuxin.wx.model.system.SysConfigTeacher"

@@ -507,8 +507,7 @@ public class StudentExcelImportController {
 				}
 				//入学年份
 				if( list.get(i).getEduYear() != null ){
-					if( CheckImportUtil.isNum(list.get(i).getEduYear()) || list.get(i).getEduYear().length() > 4 ){
-						
+					if( CheckImportUtil.isNum(list.get(i).getEduYear())&&list.get(i).getEduYear().length()==4 ){
 					} else {
 						error.add("第" + (i + 2) + "行中无效年份!");
 					}
@@ -554,6 +553,7 @@ public class StudentExcelImportController {
 						if( list.get(i).getEduYear() == null ){
 							error.add("第" + (i + 2) + "行中入学年份不能为空!");
 						}
+						
 						/* 班级 */
 						if( list.get(i).getEduClass() == null ){
 							error.add("第" + (i + 2) + "行中班级不能为空!");

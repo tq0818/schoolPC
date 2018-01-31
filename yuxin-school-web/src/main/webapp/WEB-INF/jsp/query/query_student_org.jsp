@@ -17,7 +17,10 @@
 
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
-		.changePw,.updateStudentPopup{left: 50%;margin-left: -450px;}
+		.changePw,.updateStudentPopup{left: 60%;margin-left: -450px;}
+		.tips{
+			color: red;
+		}
 	</style>
 </head>
 <body>
@@ -121,9 +124,8 @@
 
 						<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
 						<span class="fr">
-							<c:if test="${isArea ne 1}">
 							<a href="javascript:;" class="btn btn-primary addStudent" id="addStudentNew">添加用户</a>
-							<a href="javascript:;" class="btn btn-primary importexcle" >导入用户</a></c:if>
+							<a href="javascript:;" class="btn btn-primary importexcle" >导入用户</a>
 							<a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
 					</div>
 				</form>
@@ -144,7 +146,7 @@
 							<th width="6%">前台登录账号</th>
 							<th width="6%">前台账号状态</th>
 							<%--<th width="5%">报名状态</th>--%>
-							<th width="11%">操作</th>
+								<th width="11%">操作</th>
 						</tr>
 						<c:choose>
 							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
@@ -170,7 +172,7 @@
 
 		<!-- popupwin 界面 开始-->
 		<div class="popupwin-box addStudentPopup1 clear" style="display: none;">
-			<div class="popupwin addStudentPopup" style="width: 900px; height: auto; top: 2%; left: 181.5px; display: none;" data-pupwin="modal">
+			<div class="popupwin addStudentPopup" style="width: 900px; height: auto; top: 2%; left: 60%; display: none;" data-pupwin="modal">
 				<form id="addStudentForm" novalidate="novalidate">
 					<div class="popupwin-title">
 						<h2 class="h5">添加用户</h2>
@@ -200,11 +202,6 @@
 								</div>
 							</div>
 							<div class="form-group" style="display: none;">
-
-
-
-
-
 								<label class="col-md-2 control-label" style="display:none">性别</label>
 								<div class="col-md-2" style="margin-top: 7px;display:none;">
 									<input type="radio" id="insertman" class="sSex" name="sSex" value="MALE">男
@@ -217,179 +214,39 @@
 
 								<div class="col-md-2">
 									<select name="eduArea" id="addEduArea">
-										<option value="">请选择所在区域</option>
-
-
-										<option value="510156" data-id="946">天府新区</option>
-
-										<option value="510102" data-id="966">高新区</option>
-
-										<option value="510104" data-id="988">锦江区</option>
-
-										<option value="510105" data-id="1019">青羊区</option>
-
-										<option value="510106" data-id="1053">金牛区</option>
-
-										<option value="510107" data-id="1100">武侯区</option>
-
-										<option value="510108" data-id="1141">成华区</option>
-
-										<option value="510112" data-id="1167">龙泉驿区</option>
-
-										<option value="510113" data-id="1203">青白江区</option>
-
-										<option value="510114" data-id="1215">新都区</option>
-
-										<option value="510115" data-id="1246">温江区</option>
-
-										<option value="510121" data-id="1258">金堂县</option>
-
-										<option value="510116" data-id="1308">双流区</option>
-
-										<option value="510117" data-id="1329">郫都区</option>
-
-										<option value="510129" data-id="1345">大邑县</option>
-
-										<option value="510131" data-id="1360">蒲江县</option>
-
-										<option value="510132" data-id="1368">新津县</option>
-
-										<option value="510181" data-id="1384">都江堰市</option>
-
-										<option value="510182" data-id="1409">彭州市</option>
-
-										<option value="510183" data-id="1432">邛崃市</option>
-
-										<option value="510184" data-id="1464">崇州市</option>
-
-										<option value="510185" data-id="1496">简阳市</option>
-
-
-
-
+										<c:forEach items="${areas}" var="area" >
+											<option value="${area.itemCode}" data-id="${area.id}" selected="selected">${area.itemValue}</option>
+										</c:forEach>
 									</select>
 								</div>
 								<label class="col-md-2 control-label">所在学校<i class="iconfont ico" style="color: red;"></i></label>
 
 								<div class="col-md-2">
-									<select name="eduSchool" id="addEduSchool" data-id=""><option value="">请选择所在学校</option></select>
+									<select name="eduSchool" id="addEduSchools" data-id="${schoolName.itemCode}">
+										<option value="${schoolName.itemCode}" selected="selected">${schoolName.itemValue}</option>
+									</select>
 									<span class="tips" style="color: red; display: none;"></span>
 								</div>
-
-
 							</div>
 							<div class="form-group" id="add_div_class">
 								<label class="col-md-2 control-label">所在班级<i class="iconfont ico" style="color: red;"></i></label>
 								<div class="col-md-2" style="width: 700px;">
 									<select name="eduStep" id="addEduStep">
-
 										<option value="">请选择当前学段</option>
-
-										<option value="STEP_01">小学</option>
-
-										<option value="STEP_02">初中中学</option>
-
-										<option value="STEP_03">高中中学</option>
-
-
-
+										<c:forEach items="${steps}" var="step">
+											<option value="${step.itemCode}">${step.itemValue}</option>
+										</c:forEach>
 									</select>
 									<select name="eduYear" id="addEduYear" style="float: left">
-
 										<option value="">请选择入学年份</option>
-
-										<option value="2018">2018</option>
-
-										<option value="2017">2017</option>
-
-										<option value="2016">2016</option>
-
-										<option value="2015">2015</option>
-
-										<option value="2014">2014</option>
-
-										<option value="2013">2013</option>
-
-										<option value="2012">2012</option>
-
-										<option value="2011">2011</option>
-
-										<option value="2010">2010</option>
-
-										<option value="2009">2009</option>
-
-										<option value="2008">2008</option>
-
-										<option value="2007">2007</option>
-
-
-
+										<c:forEach items="${years}" var="year">
+											<option value="${year}">${year}</option>
+										</c:forEach>
 									</select>
 									<select name="eduClass" id="addEduClass">
-
-
-										<option value="1">1班</option>
-
-										<option value="2">2班</option>
-
-										<option value="3">3班</option>
-
-										<option value="4">4班</option>
-
-										<option value="5">5班</option>
-
-										<option value="6">6班</option>
-
-										<option value="7">7班</option>
-
-										<option value="8">8班</option>
-
-										<option value="9">9班</option>
-
-										<option value="10">10班</option>
-
-										<option value="11">11班</option>
-
-										<option value="12">12班</option>
-
-										<option value="13">13班</option>
-
-										<option value="14">14班</option>
-
-										<option value="15">15班</option>
-
-										<option value="16">16班</option>
-
-										<option value="17">17班</option>
-
-										<option value="18">18班</option>
-
-										<option value="19">19班</option>
-
-										<option value="20">20班</option>
-
-										<option value="21">21班</option>
-
-										<option value="22">22班</option>
-
-										<option value="23">23班</option>
-
-										<option value="24">24班</option>
-
-										<option value="25">25班</option>
-
-										<option value="26">26班</option>
-
-										<option value="27">27班</option>
-
-										<option value="28">28班</option>
-
-										<option value="29">29班</option>
-
-										<option value="30">30班</option>
-
-
-
+										<c:forEach begin="1" end="30" varStatus="index">
+											<option value="${index.index}">${index.index}班</option>
+										</c:forEach>
 									</select>
 								</div>
 							</div>
@@ -500,7 +357,7 @@
 
 		<!-- popupwin 编辑学生界面 开始    -->
 		<div class="popupwin-box updateStudentPopup1 clear" style="display: none;">
-			<div class="popupwin updateStudentPopup" style="width:900px; height: auto;top:20%;" data-pupwin="modal">
+			<div class="popupwin updateStudentPopup" style="width:900px; height: auto;top:20%;left:60%;" data-pupwin="modal">
 				<form id="updateStudentForm">
 					<div class="popupwin-title">
 						<h2 class="h5">修改用户</h2>
@@ -556,16 +413,15 @@
 								<label class="col-md-2 control-label">所在区域<i class="iconfont ico">&#xe605;</i></label>
 								<div class="col-md-2">
 									<select name="eduArea" id="editEduArea">
-										<option value="">请选择所在区域</option>
 										<c:forEach items="${areas}" var="area" >
-											<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+											<option value="${area.itemCode}" data-id="${area.id}" selected="selected">${area.itemValue}</option>
 										</c:forEach>
 									</select>
 								</div>
 								<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>
 								<div class="col-md-2">
-									<select name="eduSchool" id="editEduSchool" data-id="${student.eduSchool}">
-										<option value="">请选择所在学校</option>
+									<select name="eduSchool" id="editEduSchool" data-id="${schoolName.itemCode}">
+										<option value="${schoolName.itemCode}" selected="selected">${schoolName.itemValue}</option>
 									</select>
 									<span class="tips" style="color:red;"></span>
 								</div>
@@ -579,7 +435,6 @@
 											<option value="${step.itemCode}">${step.itemValue}</option>
 										</c:forEach>
 									</select>
-
 									<select name="eduYear" id="editEduYear" style="float: left">
 										<option value="">请选择入学年份</option>
 										<c:forEach items="${years}" var="year">

@@ -779,7 +779,7 @@
         init: function () {
             Validator3 = $("#changePw").validate(rules);
             $(".user-list").on("click", ".changePwd", function () {
-                var mobile = $(this).attr("userId");
+                var mobile = $(this).attr("userid");
                 changePw.clearData();
                 $(".changePw").popup("show");
                 $(".colsekuang").hide();

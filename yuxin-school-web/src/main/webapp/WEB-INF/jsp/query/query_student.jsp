@@ -326,7 +326,7 @@
 	</div>
 	</div>
 <input type="hidden" id="selectCounts" value="10">
-<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_common.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>

@@ -62,8 +62,9 @@ public class JedisShiroCache<K, V> implements Cache<K, V> {
     public V put(K key, V value) throws CacheException {
         V previos = get(key);
         try {
+        	//设置20分钟有效期=》暂时
             jedisManager.saveValueByKey(DB_INDEX, SerializeUtil.serialize(buildCacheKey(key)),
-                    SerializeUtil.serialize(value), -1);
+                    SerializeUtil.serialize(value),1200);
         } catch (Exception e) {
         	logger.error("put cache throw exception",e);
         }

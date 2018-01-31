@@ -426,7 +426,7 @@ public class PayOrderController {
             count = payOrderServiceImpl.findPrivateSchoolMoneyCountByCondition(map);
         }
         double totalMoneyAdd1 = 0;
-        String totalMoneyAdd=null;
+        String totalMoneyAdd="0";
         DecimalFormat df = new DecimalFormat("0.00");
         if(null!=cpoList && cpoList.size()>0){
             for(PayOrder po : cpoList){

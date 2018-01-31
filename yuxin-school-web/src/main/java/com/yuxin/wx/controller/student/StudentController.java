@@ -2590,7 +2590,8 @@ public class StudentController {
         List<SysConfigItemRelation> threeItem = new ArrayList<>();
         for(SysConfigItemRelation relation :allItem){
             if(relation.getLevel()==0){
-                oneItem.add(relation);
+                if(null != relation.getItemName()&&!"".equals(relation.getItemName())){
+                oneItem.add(relation);}
             }else
             if(relation.getLevel()==1){
                 twoItem.add(relation);

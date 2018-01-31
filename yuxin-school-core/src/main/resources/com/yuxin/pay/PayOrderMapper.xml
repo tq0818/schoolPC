@@ -497,10 +497,10 @@
 			ct.name as commodityName,
 			<choose>
 				<when test="areaFlag != null and areaFlag != ''">
-					sum(po.pay_price*(100-c.public_cost)/100) as fetchMoney
+					sum(po.pay_price) as fetchMoney
 				</when>
 				<otherwise>
-					sum(case when ct.is_public=1 then po.pay_price*(100-c.public_cost)/100 else po.pay_price*(100-c.private_cost)/100 end) as fetchMoney
+					sum(po.pay_price) as fetchMoney
 				</otherwise>
 			</choose>
 			from
@@ -558,7 +558,7 @@
 					END as teacherLevel,
 				ct.id as courseId,
 				case when scd2.item_value is null then sct.school_name ELSE scd2.item_value end as schoolName,
-				 po.pay_price*(100-c.public_cost)/100 as fetchMoney
+				 po.pay_price as fetchMoney
 
 			from sys_config_teacher sct
 			join sys_config_dict scd1 on scd1.item_code=sct.sex and scd1.dict_code='SEX_CODE'

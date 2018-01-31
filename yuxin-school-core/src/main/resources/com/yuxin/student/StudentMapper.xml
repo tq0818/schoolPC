@@ -3437,7 +3437,7 @@ select * from (
 		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
 		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
 		<if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
-		<if test="companyId !=null and companyId !=''">and c.id = #{companyId}</if>
+		<if test="companyId !=null and companyId !=''">and sp.company_id = #{companyId}</if>
 		GROUP by s.id
 		order by s.id DESC
 		limit #{firstIndex},#{pageSize}

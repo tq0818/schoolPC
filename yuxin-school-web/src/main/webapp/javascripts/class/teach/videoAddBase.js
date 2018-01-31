@@ -2035,8 +2035,7 @@
 				var mm = $(".minute").val() == "" ? 0 : $(".minute").val();
 				var ss = $(".second").val() == "" ? 0 : $(".second").val();
 				/* alert(oneItemId + "\n" + twoItemId + "\n" + videoName + "\n" + url + "\n" + outUrl + "\n" + videoType); */
-				if(oneItemId == null || twoItemId == null || oneItemId < 0 || twoItemId < 0){
-					$.msg('请选择科目');
+				if(oneItemId == null ||  oneItemId < 0 )
 					return false;
 				}
 				if(!outUrl || url == "" || outUrl == ""){

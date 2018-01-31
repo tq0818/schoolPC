@@ -128,7 +128,7 @@
 		remark
 	</sql>
 	<sql id="table_columns_sct">
-		sct.id,
+		distinct sct.id,
 		sct.name,
 		sct.teacher_type,
 		sct.sex,
@@ -667,12 +667,12 @@
 		select
 		<include refid="table_columns_sct" />
 		from sys_config_teacher sct
-		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
+		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1 and ur.company_id=#{companyId}
 		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		LEFT JOIN sys_config_dict scd ON sct.education_code = scd.item_code
 		left JOIN auth_user_role aur ON sct.user_id = aur.user_id
-		left JOIN auth_role ar ON aur.role_uid = ar.role_uid
+		left JOIN auth_role ar ON aur.role_uid = ar.role_uid and ar.company_id=#{companyId}
 		where sct.del_flag = 0 and scs.company_id = #{companyId}
 		<if test="teacherType != null and teacherType != ''">
 			<if test="teacherType == 'all'">
@@ -720,7 +720,7 @@
 
 	<select id="findByCompanyCount" resultType="Integer"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select count(sct.id)
+		select count(distinct sct.id)
 		from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
 		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
@@ -768,7 +768,7 @@
 	<select id="queryAllTeachersWithItemOneId" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		SELECT
-		sct.id,
+		distinct sct.id,
 		sct.`name`,
 		sct.mobile,
 		sct.home_phone,
@@ -845,7 +845,7 @@
 
 	<select id="queryAllTeachersCountWithItemOneId" resultType="Integer"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select count(id) from (
+		select count(distinct id) from (
 		SELECT
 		sct.*
 		FROM

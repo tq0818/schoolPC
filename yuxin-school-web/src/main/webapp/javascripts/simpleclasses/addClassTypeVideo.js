@@ -232,7 +232,7 @@ $(document).ready(function(){
 			var url = $(".add-div").find("#videourl").val();
 			var outUrl=$("#videourl").data("outUrl");
 			/* alert(oneItemId + "\n" + twoItemId + "\n" + videoName + "\n" + url + "\n" + outUrl + "\n" + videoType); */
-			if(oneItemId == null || twoItemId == null || oneItemId < 0 || twoItemId < 0){
+			if(oneItemId == null || oneItemId < 0 ){
 				$.msg('请选择科目');
 				return false;
 			}

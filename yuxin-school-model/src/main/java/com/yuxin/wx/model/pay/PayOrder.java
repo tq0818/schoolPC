@@ -69,7 +69,7 @@ public class PayOrder extends BaseEntity {
 
     public String getHandInMoney() {
         if(StringUtils.isNotBlank(totalMoney) && StringUtils.isNotBlank(fetchMoney)){
-            this.handInMoney = String.valueOf(Double.parseDouble(totalMoney)-Double.parseDouble(fetchMoney));
+            this.handInMoney = String.format("%.2f",Double.parseDouble(totalMoney)-Double.parseDouble(fetchMoney));
         }
         if(StringUtils.isBlank(totalMoney) && StringUtils.isBlank(fetchMoney)){
             this.handInMoney = String.valueOf(0);

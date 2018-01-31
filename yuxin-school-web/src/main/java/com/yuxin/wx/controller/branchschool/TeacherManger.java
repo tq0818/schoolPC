@@ -256,7 +256,7 @@ public class TeacherManger {
             model.addAttribute("companyId", companyId);
             return "berkeley/addTeacher";
         } else {
-            SysConfigTeacherLesson les = sysConfigTeacherLessonServiceImpl.findSysConfigTeacherLessonByTeaId(teacherId);
+            SysConfigTeacherLesson les = sysConfigTeacherLessonServiceImpl.findSysConfigTeacherLessonByTeaId(teacherId,WebUtils.getCurrentCompanyId());
             if (les != null && les.getItemOneId() != null && les.getItemOneId().toString().length() > 0) {
                 teacher.setItemOneId(les.getItemOneId());
             }

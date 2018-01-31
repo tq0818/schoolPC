@@ -70,8 +70,8 @@
 								href="javascript:;" class="btn btn-mini btn-type btn-default"
 								data-type="STUDENT_MESSAGE_MODULENO">班号通知</a>
 	                        </c:if> 
-							<%--<a href="javascript:;" class="btn btn-mini btn-type btn-default"
-							data-type="STUDENT_MESSAGE_SPECIAL">指定通知</a>--%>
+							<a href="javascript:;" class="btn btn-mini btn-type btn-default"
+							data-type="STUDENT_MESSAGE_SPECIAL">指定通知</a>
 							<c:if test="${CURRENT_IS_AREA eq 0}">
 								<a href="javascript:;" class="btn btn-mini btn-type btn-default" data-type="STUDENT_MESSAGE_GROUP">学员分组通知</a>
 							</c:if>

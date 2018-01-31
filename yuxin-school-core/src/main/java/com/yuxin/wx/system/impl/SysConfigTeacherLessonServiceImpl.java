@@ -157,9 +157,12 @@ public class SysConfigTeacherLessonServiceImpl extends BaseServiceImpl implement
 	}
 
 	@Override
-	public SysConfigTeacherLesson findSysConfigTeacherLessonByTeaId(Integer id) {
+	public SysConfigTeacherLesson findSysConfigTeacherLessonByTeaId(Integer id,Integer companyId) {
 		// TODO Auto-generated method stub
-		return sysConfigTeacherLessonMapper.findSysConfigTeacherLessonByTeaId(id);
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("companyId",companyId);
+		params.put("id",id);
+		return sysConfigTeacherLessonMapper.findSysConfigTeacherLessonByTeaId(params);
 	}
 	
 	

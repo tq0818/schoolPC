@@ -103,10 +103,16 @@
 		where id = #{id}
 	</select>
 	
-	<select id="findSysConfigTeacherLessonByTeaId" resultMap="sysConfigTeacherLessonResultMap" parameterType="String" >
-		select <include refid="table_columns" />
-		from sys_config_teacher_lesson
-		where teacher_id = #{id}
+	<select id="findSysConfigTeacherLessonByTeaId" resultMap="sysConfigTeacherLessonResultMap" parameterType="map" >
+		select sct.id,
+		sct.teacher_id,
+		sct.item_one_id,
+		sct.item_second_id,
+		sct.module_id,
+		sct.lesson_fee
+		from sys_config_teacher_lesson sct
+		inner join sys_config_item sci on sct.item_one_id=sci.id and sci.company_id=#{companyId}
+		where sct.teacher_id = #{id}
 		limit 1
 	</select>
 	

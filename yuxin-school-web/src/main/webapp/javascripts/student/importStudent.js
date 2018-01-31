@@ -70,7 +70,7 @@
 						console.log(resp);
 					}
 				});
-				$("#fileNames").val("");
+				//$("#fileNames").val("");
 			})
 			//导入学员信息
 			$(".insertData").on('click',function(){

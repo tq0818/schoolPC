@@ -96,7 +96,7 @@ public interface ISysConfigTeacherLessonService  {
 	 * @param id
 	 * @return
 	 */
-	SysConfigTeacherLesson findSysConfigTeacherLessonByTeaId(Integer id);
+	SysConfigTeacherLesson findSysConfigTeacherLessonByTeaId(Integer id,Integer companyId);
 	
 	/**
 	 * 

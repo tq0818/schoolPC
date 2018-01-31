@@ -3477,7 +3477,7 @@ public class StudentController {
             // search.setSchoolId(WebUtils.getCurrentSchoolId());
             search.setPageSize(20000);
             search.setCompanyId(WebUtils.getCurrentCompanyId());
-            al = studentServiceImpl.findStudentsData(search);
+            al = studentServiceImpl.findStudentsDataTwo(search);
         }
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
         // LongitudinalTableData sql=new LongitudinalTableData();

@@ -330,4 +330,5 @@ public interface StudentMapper extends BaseMapper<Student> {
 	 */
 	List<EduMasterClass> findClassByRKTeacherId(Integer id);
 	List<SysConfigDict> sysConfigDict();
+	List<StudentListVo> queryStudentsListTwo(StudentListVo search);
 }

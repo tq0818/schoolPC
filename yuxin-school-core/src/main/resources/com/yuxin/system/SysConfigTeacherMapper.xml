@@ -1092,7 +1092,7 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
 	</select>
 	
 	<select id="checkSortCountLast" resultType="Integer" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select count(sort_id) from teacher_sort_count where company_id=#{companyId} and teacher_id=#{id}
+		select count(sort_id) from teacher_sort_count where company_id=#{companyId} <!-- and teacher_id=#{id} -->
 	</select>
 	<delete id="deleteSortId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		delete from teacher_sort_count where company_id=#{companyId} and teacher_id=#{id}

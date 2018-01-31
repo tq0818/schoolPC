@@ -196,7 +196,7 @@
 							class="term-title"> <select name="" id="choose_itemOne"
 							class="itemOne">
 						</select>
-						</span> <span class="term-title q-term-title">学科小类</span> <span
+						</span> <span style="display: none" class="term-title q-term-title">学科小类</span> <span style="display: none"
 							class="term-title"> <select name="" id="choose_itemSecond"
 							class="itemSecond">
 						</select>
@@ -427,9 +427,9 @@
                 <select name="" id="choose_tiku1" style="" class="q-select">
                 </select>
             </span>
-                <span class="term-title q-term-title">学科小类</span>
+                <span style="display: none" class="term-title q-term-title">学科小类</span>
                 <span class="term-title">
-                <select name="" id="choose_item1" class="q-select">
+                <select style="display: none" name="" id="choose_item1" class="q-select">
                 </select>
             </span>
                 <span class="term-title q-term-title"></span>

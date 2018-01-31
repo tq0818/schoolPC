@@ -142,7 +142,7 @@
 		select vcc.id,vcc.teacher_id,comment,source,score,video_chapter_id,video_lecture_id,vcc.user_id,vcc.create_time,vcc.class_type_id,(select nick_name from users_front where id=vcc.user_id) as userName from video_course_comment vcc
 		JOIN class_type ct on ct.id=vcc.class_type_id and ct.origin_type=0
 		inner join sys_config_teacher syt on vcc.teacher_id = syt.id
-		where vcc.del_flag=0 and syt.del_flag =0
+		where vcc.del_flag=0 and syt.del_flag =0 and vcc.is_check=1
 		<if test="teacherId != null and teacherId != ''">and vcc.teacher_id = #{teacherId}</if>
 		<if test="companyId != null and companyId != ''">and vcc.company_id = #{companyId}</if>
 		<if test="schoolId != null and schoolId != ''">and vcc.school_id = #{schoolId}</if>
@@ -153,7 +153,7 @@
 		select count(vcc.id) from video_course_comment vcc
 		JOIN class_type ct on ct.id=vcc.class_type_id and ct.origin_type=0
 		inner join sys_config_teacher sct on vcc.teacher_id = sct.id
-		where vcc.del_flag=0 and sct.del_flag = 0
+		where vcc.del_flag=0 and sct.del_flag = 0 and vcc.is_check=1
 		<if test="teacherId != null and teacherId != ''">and vcc.teacher_id = #{teacherId}</if>
 		<if test="companyId != null and companyId != ''">and vcc.company_id = #{companyId}</if>
 		<if test="id != null and id != ''">and vcc.id = #{id}</if>

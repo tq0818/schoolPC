@@ -301,7 +301,7 @@
 					url : rootPath + "/simpleClasses/showAllclassType",
 					type : "post",
 					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
-						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
+						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag,"name":$("#classTypeName").val()},
 					beforeSend:function(XMLHttpRequest){
 			            $(".loading").show();
 			            $(".loading-bg").show();
@@ -383,7 +383,7 @@
 					url : rootPath + "/simpleClasses/showAllclassType",
 					type : "post",
 					data : {"page" : page,"itemOneId" : id,"itemSecondId" : itemSecondId,"publishStatus" : status,"itemTag":lab,"itemTag2":labSec,
-						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag},
+						"faceFlag":faceFlag,"liveFlag":liveFlag,"videoFlag":videoFlag,"remoteFlag":remoteFlag,"name":$("#classTypeName").val()},
 					beforeSend:function(XMLHttpRequest){
 						$(".loading").show();
 						$(".loading-bg").show();
@@ -484,7 +484,8 @@
                         datas.faceFlag = faceFlag;
                         datas.remoteFlag = remoteFlag;
                 }
-
+                var name=$("#classTypeName").val();
+                datas.name=name;
 				$.ajax({
 					url : rootPath + "/simpleClasses/showAllclassType",
 					type : "post",
@@ -505,23 +506,24 @@
 				});
 			},
 			queryCommodityByName : function(page){
-				var name=$("#classTypeName").val();
-				$.ajax({
-					url : rootPath + "/simpleClasses/showAllclassType",
-					type : "post",
-					data : {"page" : page,"name":name},
-					beforeSend:function(XMLHttpRequest){
-			            $(".loading").show();
-			            $(".loading-bg").show();
-			        },
-					success : function(result) {
-						$("#commodityDetailList").html(result);
-					},
-					 complete:function(XMLHttpRequest,textStatus){
-							$(".loading").hide();
-				            $(".loading-bg").hide();
-				     }
-				});
+//				var name=$("#classTypeName").val();
+//				$.ajax({
+//					url : rootPath + "/simpleClasses/showAllclassType",
+//					type : "post",
+//					data : {"page" : page,"name":name},
+//					beforeSend:function(XMLHttpRequest){
+//			            $(".loading").show();
+//			            $(".loading-bg").show();
+//			        },
+//					success : function(result) {
+//						$("#commodityDetailList").html(result);
+//					},
+//					 complete:function(XMLHttpRequest,textStatus){
+//							$(".loading").hide();
+//				            $(".loading-bg").hide();
+//				     }
+//				});
+				Form.queryAllCommdityByItemNew(page);
 			},
 			stopOnsale : function(id){
 				$.confirm("您确定要下架此课程?下架后学员将无法再报名此课程。",function(a){

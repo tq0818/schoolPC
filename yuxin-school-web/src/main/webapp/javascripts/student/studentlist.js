@@ -316,7 +316,7 @@
                         $(".loading-bg").show();
                     },
                     success: function (jsonData) {
-                       var isArea=$("#eduArea").val();
+                       var isArea=$("#isArea").val();
                        var roleType=$("#roleType").val();
                         if (jsonData.data.length == 0) {
                         	if(userorg_roleopenflag == 1 && proxyOrgRole == 1){

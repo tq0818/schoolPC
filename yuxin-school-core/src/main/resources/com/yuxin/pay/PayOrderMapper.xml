@@ -442,7 +442,7 @@
 	<!--lym 查询分校收入情况-->
 	<select id="findPrivateSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
 		select * from (
-			select t.orderTime,sum(t.totalMoney)as totalMoney,sum(t.fetchMoney)as fetchMoney,(sum(t.totalMoney)-sum(t.fetchMoney)) as handInMoney  from (
+			select t.orderTime,ROUND(sum(t.totalMoney),2)as totalMoney,ROUND(sum(t.fetchMoney),2)as fetchMoney,ROUND((sum(t.totalMoney)-sum(t.fetchMoney)),2) as handInMoney  from (
 			select
 				DATE_FORMAT(po.order_time,'%Y-%m-%d') as orderTime,
 				po.pay_price as totalMoney,
@@ -628,7 +628,7 @@
 
 	<!--lym 查询分校收入情况-->
 	<select id="findSchoolMoneyByCondition" resultMap="payOrderResultMap" parameterType="map">
-		select * from (
+		select aeraName,schoolName,ROUND(totalMoney,2) totalMoney,ROUND(fetchMoney,2) fetchMoney from (
 		select t2.aeraName,t2.company_name as schoolName,sum(po.pay_price) as totalMoney,
 		sum(CASE WHEN ct.is_public=1 then po.pay_price*(100-t2.public_cost)/100
 		WHEN ct.is_public=0 then po.pay_price*(100-t2.private_cost)/100 end) as fetchMoney

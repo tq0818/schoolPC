@@ -111,6 +111,7 @@
     							$(".insertData").addClass("none");
     							$(".chooseFile").removeClass("none");
                         	}else if(jsonData.result == "error"){
+                        		//$("#imgData").val("");
                         		html+='<span style="font-size:14px;">校验结果:</span><br/>';
 	                        	if(jsonData.errorMsg2In.length>0){
 	                        		html+='<span style="font-size:14px;">Excel内部校验:</span><br/>';
@@ -148,7 +149,7 @@
                         },
                         complete: function ( XMLHttpRequest, textStatus ) { $(".loading").hide(); $(".loading-bg").hide(); }
                     });
-                    $("#fileNames").val("");
+                    //$("#fileNames").val("");
                 })
                 .on( 'click', '.student-import', function () {
                 	

@@ -205,10 +205,10 @@
 							class="term-title"> <select name="" id="choose_itemOne"
 							class="itemOne">
 						</select>
-						</span> <span style="display: none" class="term-title q-term-title">学科小类</span> <span style="display: none"
+						</span> <%--<span style="display: none" class="term-title q-term-title">学科小类</span> <span style="display: none"
 							class="term-title"> <select name="" id="choose_itemSecond"
 							class="itemSecond">
-						</select>
+						</select>--%>
 						</span> <span class="term-title q-term-title"></span> <span
 							class="term-title"> <input type="text" id="choose_paper1"
 							class="q-select">
@@ -436,11 +436,11 @@
                 <select name="" id="choose_tiku1" style="" class="q-select">
                 </select>
             </span>
-                <span style="display: none" class="term-title q-term-title">学科小类</span>
+               <%-- <span style="display: none" class="term-title q-term-title">学科小类</span>
                 <span style="display: none" class="term-title">
                 <select name="" id="choose_item1" class="q-select">
                 </select>
-            </span>
+            </span>--%>
                 <span class="term-title q-term-title"></span>
                 <span class="term-title">
                 <input type="text" id="choose_paper2" class="q-select">

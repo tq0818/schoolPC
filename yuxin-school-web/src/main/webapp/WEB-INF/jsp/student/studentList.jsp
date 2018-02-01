@@ -42,6 +42,7 @@
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
         	<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
+        	<input type="hidden" id="isStu" name="isStu" value="1"/>
 			<c:if test="${isArea eq 0 }">
 				<select name="eduArea" id="eduArea">
 					<option value="">请选择区域</option>
@@ -98,19 +99,19 @@
 				</select>
 			</c:if>
 			<c:if test="${roleType eq 3}">
-				<select name="EduSteps" id="EduSteps">
+				<select name="eduStep" id="EduSteps">
 					<option value="">请选择学段</option>
 					<c:forEach items="${eduStepGLY}" var="gly">
 						<option value="${gly.eduStep}" >${gly.eduStepName}</option>
 					</c:forEach>
 				</select>
-				<select name="EduYears" id="EduYears">
+				<select name="eduYear" id="EduYears">
 					<option value="">请选择年级</option>
 					<c:forEach items="${eduYearGLY}" var="gly">
 						<option value="${gly.eduYear}" >${gly.eduYear}</option>
 					</c:forEach>
 				</select>
-				<select name="EduClasses" id="EduClasses">
+				<select name="eduClass" id="EduClasses">
 					<option value="">请选择班级</option>
 					<c:forEach items="${eduClassGLY}" var="gly">
 						<option value="${gly.eduClass}">${gly.eduClass}班</option>

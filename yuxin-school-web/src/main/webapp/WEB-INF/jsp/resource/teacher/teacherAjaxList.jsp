@@ -130,8 +130,9 @@
                                              <c:when test="${item.teacherLevel=='MIDDLE_HIGH'}"><c:set var="teacherLevel" value="中学高级"></c:set></c:when>
                                              <c:when test="${item.teacherLevel=='MIDDLE_SUPER'}"><c:set var="teacherLevel" value="特级教师"></c:set></c:when>
                                          </c:choose>
-                                        <input type="text" class="readonly" value="${teacherLevel}" readonly>
-
+                                         <c:if test="${not empty item.teacherLevel}">
+                                        	<input type="text" class="readonly" value="${teacherLevel}" readonly>
+										</c:if>
 									</span>
         </p>
         <p class='c'>
@@ -156,7 +157,9 @@
                     <c:when test="${item.teacherArea=='qing_bai_jiang'}"><c:set var="teacherArea" value="青白江区"></c:set></c:when>
                     <c:when test="${item.teacherArea=='jin_tang_xian'}"><c:set var="teacherArea" value="金堂县"></c:set></c:when>
                 </c:choose>
-                <input type="text" class="readonly" value="${teacherArea}" readonly>
+                <c:if test="${not empty item.teacherArea}">
+                	<input type="text" class="readonly" value="${teacherArea}" readonly>
+                </c:if>
             </span>
         </p>
 

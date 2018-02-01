@@ -584,6 +584,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 			if(student.getEduClass() != null) stt.setEduClass(student.getEduClass());
 			if(student.getDeleteFlag() != null) stt.setDeleteFlag(student.getDeleteFlag());
 			stt.setIsInSchool(1);
+			stt.setEduIdentity(0);
 			studentMapper.update(stt);
 			UsersFront  search1 = new UsersFront();
 			search1.setMobile(student.getMobile());
@@ -626,6 +627,7 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 			if(student.getEduClass() != null) sts.setEduClass(student.getEduClass());
 			if(student.getDeleteFlag() != null) sts.setDeleteFlag(student.getDeleteFlag());
 			sts.setIsInSchool(1);
+			sts.setEduIdentity(0);
 			studentMapper.update(sts);
 		}else{
 			String mobile = student.getMobile();

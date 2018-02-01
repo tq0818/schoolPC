@@ -127,7 +127,7 @@
 				<div class="user-list">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
-							<th width="3%">用户名</th>
+							<th width="6%">用户名</th>
 							<th width="8%">姓名</th>
 							<th width="5%">身份</th>
 							<th width="8%">区域</th>

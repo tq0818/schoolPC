@@ -129,8 +129,13 @@
 			})
 			//返回学员列表
 			$(".backreturn").on('click',function(){
-				/*window.location.href=rootPath+"/query/orgstatistics/studentList";*/
-                window.history.go(-1);
+				var sourceFromTj=$('#sourceFromTj').val();
+				if(sourceFromTj==1){
+					window.location.href=rootPath+"/query/orgstatistics/studentList";
+				}else{
+					window.location.href=rootPath+"/student/studentList";
+				}
+               //window.history.go(-1);
 			})
 		},
 		search: function(page){

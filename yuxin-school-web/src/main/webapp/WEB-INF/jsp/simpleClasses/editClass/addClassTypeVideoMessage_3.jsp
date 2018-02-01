@@ -150,7 +150,7 @@
     <div class="tabs-cont">
 				<div class="layer-content tab1">
 					<div class="term">
-						<span style="display: none" class="term-title q-term-title">学科</span> <span style="display: none"
+						<span style="display: none" class="term-title q-term-title">学科</span> <span
 							class="term-title"> <select name="" id="choose_itemOne"
 							class="itemOne">
 						</select>
@@ -192,7 +192,7 @@
 				<div class="layer-content tab2 none">
 				<div class="default-div">
 					<div class="term">
-						<span style="display: none" class="term-title q-term-title">学科</span> <span   style="display: none"
+						<span style="display: none" class="term-title q-term-title">学科</span> <span
 							class="term-title"> <select name="" id="choose_itemOne"
 							class="itemOne">
 						</select>

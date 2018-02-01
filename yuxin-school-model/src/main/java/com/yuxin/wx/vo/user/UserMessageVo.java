@@ -7,8 +7,17 @@ public class UserMessageVo extends BaseEntity {
 
 	private Integer	userId;		 /* 用户表id */ 
 	private Integer	messageId;		 /* 学员通知表id */ 
-	private Integer	readFlag;		 /* 阅读标记（1：已读；0：未读） */ 
-	
+	private Integer	readFlag;		 /* 阅读标记（1：已读；0：未读） */
+	private Integer companyId;
+
+	public Integer getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+
 	private CompanyStudentMessageVo message;	/* 信息标题*/
 
 	public Integer getUserId() {

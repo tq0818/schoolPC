@@ -504,9 +504,17 @@
 					<div class="col-md-2">
 						<select name="eduArea" id="editEduArea">
 							<option value="">请选择所在区域</option>
-							<c:forEach items="${areas}" var="area" >
-								<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
-							</c:forEach>
+							<c:if test="${isArea ==0 }">
+									<c:forEach items="${areas}" var="area" >
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+									</c:forEach>
+								</c:if>
+								<c:if test="${isArea ==1 }">
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+								</c:if>
+								<c:if test="${isArea ==2 }">
+										<option value="${area.itemCode}" data-id="${area.id}">${area.itemValue}</option>
+							</c:if>
 						</select>
 					</div>
 					<label class="col-md-2 control-label">所在学校<i class="iconfont ico">&#xe605;</i></label>

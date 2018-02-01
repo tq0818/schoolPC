@@ -905,7 +905,7 @@
 		LEFT JOIN sys_config_teacher_lesson b
 		on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
 		a.teacher_type='PERSON_TEACHER' and a.del_flag=0 and
-		scs.company_id=#{companyId}
+		scs.company_id=#{companyId} and a.is_distinguished=1
 		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id= #{itemSecondId}</if>
@@ -1103,6 +1103,7 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
 		sct.id,sct.name
 		from sys_config_teacher sct,sys_config_item sci,sys_config_teacher_lesson sctl,users_comany_relation ur
 		where sci.id = #{teacher.itemOneId} and sci.company_id=#{companyId} and sct.user_id=ur.user_id and ur.is_used=1 and ur.company_id=#{companyId}
+		and sct.is_distinguished=1
 		<if test="teacherIds!=null and teacherIds!=''">
 			and sct.id not in
 			<foreach item="item" collection="teacherIds" open="(" separator=","  close=")">

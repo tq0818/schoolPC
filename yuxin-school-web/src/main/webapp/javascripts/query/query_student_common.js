@@ -320,6 +320,7 @@
 	                                '<tr><td colspan="14">没有查找到数据</td></tr>');
                         	}
                         }
+                        var userNameStr='';
                         $.each(jsonData.data,function (i, stu) {
                             var eduIdentity = null;
                             if(stu.teacherFlag!=null){
@@ -330,10 +331,10 @@
                             if(eduIdentity==null){
                                 eduIdentity = (stu.eduIdentity!=null ? (stu.eduIdentity==0?"学生":"普通用户"): "")
                             }
-                                $(".user-list")
-                                    .find("table")
-                                    .append(
-                                    '<tr data-buy="'+(stu.paymaterCount>0)+'">'
+                            var current_is_area=$('#current_is_area').val();
+//                                $(".user-list")
+//                                    .find("table")
+//                                    .append();
                                     // + '<td>'
                                     // + '<input type="checkbox" class="signUpMany" uName="'+(stu.username?stu.username:"")+'" value="' + (stu.mobile?stu.mobile:"") + '">'
                                     // + '</td>'
@@ -341,11 +342,11 @@
                                     // + (stu.mobile ? stu.mobile
                                     //     : "")
                                     // + '</td>'
-                                    // + '<td>'
-                                    // + (stu.username ? stu.username
-                                    //     : "")
-                                    // + '</td>'
-                                    + '<td>'
+                                userNameStr=userNameStr+'<tr data-buy="'+(stu.paymaterCount>0)+'">';
+                                if(current_is_area==2){
+                                	userNameStr=userNameStr+'<td>'+(stu.username ? stu.username: "")+ '</td>';
+                                }
+                                userNameStr=userNameStr+ '<td>'
                                     + (stu.name ? stu.name
                                         : "")
                                     + '</td>'
@@ -406,8 +407,9 @@
                                     //         : '')
                                     //     : '')
                                     // + '</ul></td>'
-                                    + '</tr>');
+                                    + '</tr>';
                             });
+                        $(".user-list").find("table").append(userNameStr);
                         $("#rowCount").remove();
                         $("#pageNo").remove();
                         $.ajax({

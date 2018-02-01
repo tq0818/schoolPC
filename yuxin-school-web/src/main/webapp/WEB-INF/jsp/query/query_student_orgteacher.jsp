@@ -21,7 +21,8 @@
 <input type="hidden" id="schoolId" value='${schoolId}'/>
 		<input type="hidden" id="schoolName" value='${schoolName}'/>
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
-		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>	
+		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
+		<input type="hidden" id="current_is_area" value='${CURRENT_IS_AREA}'/>	
 		<input type="hidden" id="sourceFromStatic" value='1'/>	
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_org.jsp"></jsp:include>
@@ -126,6 +127,7 @@
 				<div class="user-list">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
+							<th width="3%">用户名</th>
 							<th width="8%">姓名</th>
 							<th width="5%">身份</th>
 							<th width="8%">区域</th>

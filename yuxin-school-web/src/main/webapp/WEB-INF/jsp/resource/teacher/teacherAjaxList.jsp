@@ -103,7 +103,14 @@
              <p class="c">
                  <span class="c-title">性别</span>
                  <span class="c-content">
-                     <input type="text" class="readonly" value="${item.sex != 'MALE' ? '女' : '男' }" readonly>
+                     <c:choose>
+                         <c:when test="${item.sex == null or item.sex == ''}">
+                             <input type="text" class="readonly" value="男" readonly>
+                         </c:when>
+                         <c:otherwise>
+                             <input type="text" class="readonly" value="${item.sex != 'MALE' ? '女' : '男' }" readonly>
+                         </c:otherwise>
+                     </c:choose>
                  </span>
              </p>
              <p class="c">

@@ -460,6 +460,12 @@ public class CommodityController {
 			    String coverPicPath = path + coverRelativePath;
 			    coverPicIS = coverPic.getInputStream();
 			    File coverPicFile = new File(coverPicPath);
+			    Runtime.getRuntime().exec("chmod 777 -R "+coverPicPath); 
+			    coverPicFile.setWritable(true, false);
+			    if(!coverPicFile.getParentFile().exists()){
+			    	coverPicFile.getParentFile().mkdirs();
+			    }
+			    coverPicFile.createNewFile();
 			    FileUtils.copyInputStreamToFile(coverPicIS, coverPicFile);
 				relativePath[0] = coverRelativePath;
 		    }
@@ -467,11 +473,19 @@ public class CommodityController {
 		    	String detailCoverRelativePath =  FileUtil.getPath("special", String.valueOf(WebUtils.getCurrentCompanyId()), detailCoverPic.getOriginalFilename());
 		    	String detailCoverPicPath =path + detailCoverRelativePath;
 				File detailCoverPicFile= new File(detailCoverPicPath);
+				Runtime.getRuntime().exec("chmod 777 -R "+detailCoverPicPath); 
+				detailCoverPicFile.setWritable(true, false);
+			    if(!detailCoverPicFile.getParentFile().exists()){
+			    	detailCoverPicFile.getParentFile().mkdirs();
+			    }
+			    detailCoverPicFile.createNewFile();
 				detailCoverPicIS = detailCoverPic.getInputStream();
 				FileUtils.copyInputStreamToFile(detailCoverPicIS, detailCoverPicFile);
 			    relativePath[1] = detailCoverRelativePath;
 		    }
 			
+		}catch (Exception e){
+			e.printStackTrace();
 		}finally{
 			if(coverPicIS != null){
 				IOUtils.close(coverPicIS);

@@ -425,17 +425,6 @@
                 if(itemThirdCode!='all'){
                     datas.itemThirdCode=itemThirdCode;
                 }
-
-                $("#itemFourthCodeList").find("a").each(function(i){
-                    if($(this).hasClass('btn-success')){
-                        itemFourthCode=$(this).attr("data-code");
-                    }
-                });
-                if(itemFourthCode!='all'){
-                    datas.itemFourthCode=itemFourthCode;
-                }
-
-
                 itemFourthCode = this.getietmList($("#itemFourthCodeList"));
                 if(itemFourthCode.length>0){
                     datas.itemFourthCode=itemFourthCode;

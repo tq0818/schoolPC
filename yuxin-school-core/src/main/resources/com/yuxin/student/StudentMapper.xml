@@ -3379,7 +3379,9 @@ select * from (
 			</foreach>
 		</if>
 		<if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
-		<if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+		<if test="classTypeId == null or classTypeId == ''">
+			<if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+		</if>
 		<if test="renke != null and renke != ''">
 			and
 			<foreach item="renke" collection="renke" open="(" separator="or" close=")">

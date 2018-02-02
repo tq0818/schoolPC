@@ -122,8 +122,9 @@ public class StudentExcelImportController {
 			/* 验证信息 */
 			try {
 				List<Student> studentsList = excel2Student( content + fileName ,null);
-				json2In  = validateDatas2In( studentsList , null);
-				json2Out = validateDatas2Out( (List<Student>)json2In.get("studentlist") );
+				Map<Integer,Student> errorStudentMap=new HashMap<Integer,Student>();
+				json2In  = validateDatas2In( studentsList , null,errorStudentMap);
+				json2Out = validateDatas2Out( (List<Student>)json2In.get("studentlist"),errorStudentMap);
 			} catch (Exception e) {
 				json.put( JsonMsg.RESULT, JsonMsg.EXCEPTION );
 				json.put( JsonMsg.MSG, TEMPLET_ERROR );
@@ -185,8 +186,9 @@ public class StudentExcelImportController {
 			/* 验证信息 */
 			try {
 				List<Student> studentsList = excel2Student( content + fileName ,"1");
-				json2In  = validateDatas2In( studentsList ,"1");
-				json2Out = validateDatas2Out( (List<Student>)json2In.get("studentlist") );
+				Map<Integer,Student> errorStudentMap=new HashMap<Integer,Student>();
+				json2In  = validateDatas2In( studentsList ,"1",errorStudentMap);
+				json2Out = validateDatas2Out( (List<Student>)json2In.get("studentlist"),errorStudentMap);
 			} catch (Exception e) {
 				json.put( JsonMsg.RESULT, JsonMsg.EXCEPTION );
 				json.put( JsonMsg.MSG, TEMPLET_ERROR );
@@ -212,7 +214,7 @@ public class StudentExcelImportController {
 	/*
 	 * Excel 自身校验
 	 */
-	private JSONObject validateDatas2In( List<Student> list ,String biaoji){
+	private JSONObject validateDatas2In( List<Student> list ,String biaoji,Map<Integer,Student> errorStudentMap){
 		JSONObject json = new JSONObject();
 		List<String> errorMsg  = new ArrayList<String>();		/* 错误信息 */
  		List<Student> students = new ArrayList<Student>(); 		/* 验证，去重后的student */
@@ -483,7 +485,9 @@ public class StudentExcelImportController {
 //				}
 				//学校
 				Student student=list.get(i);
-				if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(student.getEduSchool())){
+				if(StringUtils.isBlank(list.get(i).getEduSchool())){
+					error.add("第" + (i + 2) + "行中学校不能为空!");
+				}else if( list.get(i).getEduSchool() != null && !eduSchoolMap.containsKey(student.getEduSchool())){
 					error.add("第" + (i + 2) + "行中学校不存在!");
 				}else{
 					if(list.get(i).getEduSchool() != null && !isSchoolHava.containsKey(student.getEduSchool())){
@@ -533,6 +537,7 @@ public class StudentExcelImportController {
 				}
 				
 				if( error.size() > 0 ){
+					errorStudentMap.put(i,list.get(i));
 					list.set(i, null);
 					errorMsg.addAll(getSortDesc(error));
 				}
@@ -742,6 +747,7 @@ public class StudentExcelImportController {
 				}
 				
 				if( error.size() > 0 ){
+					errorStudentMap.put(i,list.get(i));
 					list.set(i, null);
 					errorMsg.addAll(getSortDesc(error));
 				}
@@ -762,7 +768,7 @@ public class StudentExcelImportController {
 	/*
 	 * Excel 与 机构学员校验
 	 */
-	private JSONObject validateDatas2Out( List<Student> list ){
+	private JSONObject validateDatas2Out( List<Student> list,Map<Integer,Student> errorStudentMap){
 		JSONObject json = new JSONObject();
 		
 		List<String> errorMsg  = new ArrayList<String>();		/* 错误信息 */
@@ -796,6 +802,13 @@ public class StudentExcelImportController {
 //					}
 //				}
 				
+			}else{
+				Student errorStudent=errorStudentMap.get(i);
+				if( errorStudent.getMobile() != null && allStudents.getMobiles().containsKey(errorStudent.getMobile())){
+					if("1".equals(allStudents.getMobiles().get(errorStudent.getMobile()).getIsInSchool())){
+						error.add("第" + (i + 2) + "行中手机号已存在！");	
+					}
+				}
 			}
 			if(null!=student && (flag)){
 				student.setUpdateB(1);
@@ -857,7 +870,7 @@ public class StudentExcelImportController {
 				if (!"".equals(studentList.get(2)))  s.setEduStep(studentList.get(2)); 
 				if (!"".equals(studentList.get(3)))  s.setEduYear(studentList.get(3)); 
 				if (!"".equals(studentList.get(4)))  s.setEduClass(studentList.get(4)); 
-				if (studentList.size()>5&&!"".equals(studentList.get(5))){
+				if (studentList.size()>5){
 					s.setEduSchool(studentList.get(5)); 
 				}else{
 					Users users=WebUtils.getCurrentUser();

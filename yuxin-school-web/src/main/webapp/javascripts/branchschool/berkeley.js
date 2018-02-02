@@ -289,7 +289,7 @@ function addBerkeley(biaoshi){
     	               },
     	               success: function (jsonData) {
     	               	if(jsonData==null || jsonData==''){
-    	               		alert("机构已存在");
+    	               		alert("该学校已创建分校或者输入机构代码不存在");
     	               		$("#branchCode").val("");
     	               		$("#branchSchool").text("");
     	               		$("#eara").text("");

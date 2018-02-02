@@ -165,6 +165,47 @@
 		sct.teacher_level,
 		sct.teacher_area,
 		sct.school_name,
+		sct.school_short_name,
+		sct.remark
+	</sql>
+	<sql id="table_columns_sctt">
+		distinct sct.id,
+		sct.name,
+		sct.teacher_type,
+		sct.sex,
+		sct.mobile,
+		sct.home_phone,
+		sct.birthday,
+		sct.id_number,
+		sct.email,
+		sct.job_type,
+		sct.home_address,
+		sct.address,
+		sct.company,
+		sct.post,
+		sct.work_phone,
+		sct.emergency_contact_name,
+		sct.emergency_contact_phone,
+		sct.work_time,
+		sct.unionpay_no,
+		sct.bank_name,
+		sct.bank_account_name,
+		sct.bank_account_num,
+		sct.status_code,
+		sct.del_flag,
+		sct.create_time,
+		sct.creator,
+		sct.update_time,
+		sct.updator,
+		sct.resume,
+		scd.item_value as education_code,
+		sct.headpic_url,
+		sct.user_id,
+		sct.is_distinguished,
+		sct.invite_code,
+		sct.teacher_level,
+		sct.teacher_area,
+		sct.school_name,
 		tsc.sort_id,
 		sct.school_short_name,
 		sct.remark
@@ -665,7 +706,7 @@
 	<select id="findByCompany" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select
-		<include refid="table_columns_sct" />
+		<include refid="table_columns_sctt" />
 		from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1 and ur.company_id=#{companyId}
 		left join teacher_sort_count tsc on tsc.teacher_id=sct.id and tsc.company_id=#{companyId}
@@ -905,7 +946,7 @@
 		LEFT JOIN sys_config_teacher_lesson b
 		on a.id=b.teacher_id where a.status_code='TEACHER_USERD' and
 		a.teacher_type='PERSON_TEACHER' and a.del_flag=0 and
-		scs.company_id=#{companyId}
+		scs.company_id=#{companyId} and a.is_distinguished=1
 		<if test="schoolId != null and schoolId != ''">and scs.id = #{schoolId}</if>
 		<if test="itemOneId != null and itemOneId != ''">and b.item_one_id = #{itemOneId}</if>
 		<if test="itemSecondId != null and itemSecondId != ''">and b.item_second_id= #{itemSecondId}</if>
@@ -971,7 +1012,8 @@
 	</select>
 	<select id="findSysConfigTeacherByCompany" resultMap="sysConfigTeacherResultMap"
 		parameterType="com.yuxin.wx.model.system.SysConfigTeacher">
-		select <include refid="table_columns_sct" /> from sys_config_teacher sct
+		select <include refid="table_columns_sct" /> 
+		from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
 		inner join sys_config_school scs on scs.company_id=ur.company_id
 		inner join sys_config_dict scd ON sct.education_code = scd.item_code
@@ -1103,6 +1145,7 @@ where com.status=1 and com.origin_type=0 and ct.teacher_id=a.id and com.company_
 		sct.id,sct.name
 		from sys_config_teacher sct,sys_config_item sci,sys_config_teacher_lesson sctl,users_comany_relation ur
 		where sci.id = #{teacher.itemOneId} and sci.company_id=#{companyId} and sct.user_id=ur.user_id and ur.is_used=1 and ur.company_id=#{companyId}
+		and sct.is_distinguished=1
 		<if test="teacherIds!=null and teacherIds!=''">
 			and sct.id not in
 			<foreach item="item" collection="teacherIds" open="(" separator=","  close=")">

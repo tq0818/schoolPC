@@ -240,7 +240,7 @@ $(function(){
 			            $(".loading-bg").show();
 			        },
 					success : function(data) {
-						$("#questionList").html("").html(data);
+						$("#questionList").html("").load(data);
 						
 						//置顶或精华加悬浮效果
 						$(".zdIcon").hover(function(){

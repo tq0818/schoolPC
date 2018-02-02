@@ -132,6 +132,7 @@
 				<div class="user-list">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
+							<th width="5%">用户名</th>
 							<th width="5%">姓名</th>
 							<th width="3%">身份</th>
 							<th width="4%">区域</th>
@@ -150,10 +151,10 @@
 						</tr>
 						<c:choose>
 							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
-								<tr><td colspan="15">暂无数据</td></tr>
+								<tr><td colspan="16">暂无数据</td></tr>
 							</c:when>
 							<c:otherwise>
-								<tr><td colspan="14">暂无数据</td></tr>
+								<tr><td colspan="15">暂无数据</td></tr>
 							</c:otherwise>
 						</c:choose>
 

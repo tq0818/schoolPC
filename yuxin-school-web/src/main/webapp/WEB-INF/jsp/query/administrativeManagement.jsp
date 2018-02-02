@@ -106,14 +106,16 @@
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
 							<th width="10%">序号</th>
-							<th width="30%">学校名称</th>
-							<th width="15%">组织机构代码</th>
-							<th width="20%">区域</th>
+							<!-- <th width="16%">负责人用户名</th> -->
+							<th width="20%">学校名称</th>
+							<th width="20%">组织机构代码</th>
+							<th width="10%">区域</th>
 							<th width="10%">学校性质</th>
 							<th width="30%">操作</th>
 						</tr>
 						<c:forEach items="${pageFinder.data}" var="allSchool" varStatus="stauts">
 						<tr>
+							<td>${stauts.count}</td>
 							<td>${stauts.count}</td>
 							<td><input type="text" value="${allSchool.itemValue}" disabled class="editDisable" ></td>
 							<td><input type="text" value="${allSchool.itemCode}" disabled  class='editDisableInput'></td>

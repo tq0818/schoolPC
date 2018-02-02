@@ -10,9 +10,9 @@
             <%-- <shiro:hasPermission name="course_qa">  
             <li code="course_qa"><a href="<%=request.getContextPath() %>/Question/questionIndex">课程问答</a></li>
             </shiro:hasPermission> --%>
-            <shiro:hasPermission name="community_qa">
+            <%-- <shiro:hasPermission name="community_qa">
             <li code="community_qa"><a href="<%=request.getContextPath() %>/Question/comQuestionIndex">问答 </a></li>
-            </shiro:hasPermission>
+            </shiro:hasPermission> --%>
             <shiro:hasPermission name="teacher_person_status">
             <li code="teacher_person_status"><a href="<%=request.getContextPath() %>/classModule/dynamics">老师动态</a></li>
             </shiro:hasPermission>

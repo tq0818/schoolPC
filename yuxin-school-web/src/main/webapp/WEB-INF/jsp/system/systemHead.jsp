@@ -106,7 +106,7 @@
 										<li class="my_message">
 											<a href="" target="_blank">
 												<i class="iconfont">&#xe6d7;</i>
-												<em>1</em>
+												<em>2</em>
 											</a>
 										</li>
 									</ul>

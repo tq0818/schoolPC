@@ -366,10 +366,10 @@
                                     // + (stu.mobile ? stu.mobile
                                     //     : "")
                                     // + '</td>'
-                                    // + '<td>'
-                                    // + (stu.username ? stu.username
-                                    //     : "")
-                                    // + '</td>'
+                                     + '<td>'
+                                     + (stu.username ? stu.username
+                                         : "")
+                                     + '</td>'
                                     + '<td>'
                                     + (stu.name ? stu.name
                                         : "")

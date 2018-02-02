@@ -394,6 +394,7 @@ public class SysConfigTeacherServiceImpl extends BaseServiceImpl implements ISys
         teacher.setUserId(user.getId());
         teacher.setStatusCode("TEACHER_USERD");
         teacher.setSchoolId(user.getSchoolId());
+        teacher.setIsDistinguished(1);
         sysConfigTeacherMapper.insert(teacher);
         //添加教师学校关系表
         UsersComanyRelation ucr=new UsersComanyRelation();

@@ -397,17 +397,32 @@ public class StudentController {
         areaDict.setDictCode("EDU_SCHOOL");
         areaDict.setParentItemId(id);
         List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        List<SysConfigDict> areasLast=new ArrayList<SysConfigDict>();
+        if("2".equals(WebUtils.getCurrentCompany().getIsArea())&&areas!=null){
+        	for(SysConfigDict area:areas){
+        		if(WebUtils.getCurrentCompany().getEduAreaSchool().equals(area.getItemCode())){
+        			areasLast.add(area);
+        		}
+        	}
+        	return areasLast;
+        }
         return areas;
     }
 
     @ResponseBody
     @RequestMapping(value = "/getSchoolList")
     public List<SysConfigDict> getSchoolList(HttpServletRequest request,String schoolType,String area) {
-
-        Map<String,Object>  map  = new HashMap<>();
-        map.put("schoolType",schoolType);
-        map.put("area",area);
-        List<SysConfigDict> areas = sysConfigDictServiceImpl.findSchoolBySchoolType(map);
+    	List<SysConfigDict> areas=null;
+    	if(!"2".equals(WebUtils.getCurrentCompany().getIsArea())){
+	        Map<String,Object>  map  = new HashMap<>();
+	        map.put("schoolType",schoolType);
+	        map.put("area",area);
+	        areas = sysConfigDictServiceImpl.findSchoolBySchoolType(map);
+    	}else{
+    		 SysConfigDict Dict = new SysConfigDict();
+    	     Dict.setItemCode(WebUtils.getCurrentCompany().getEduAreaSchool());
+    	     areas= sysConfigDictServiceImpl.querySchoolByArea(Dict);
+    	}
         return areas;
     }
 
@@ -2733,6 +2748,7 @@ public class StudentController {
         // 插入学员数据
         String result = "";
         student.setIsInSchool(1);
+        student.setEduIdentity(0);
         String password = student.getMobile();
         if (null != password && !"".equals(password)) {
             student.setPassword(new Md5Hash(password.substring(password.length() - 6)).toHex());
@@ -3472,6 +3488,8 @@ public class StudentController {
                     search.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
                 }
             }
+        }else if("1".equals(WebUtils.getCurrentIsArea())){
+        	search.setEduArea(WebUtils.getCurrentCompany().getEduAreaSchool());
         }
         List<StudentListVo> al = new ArrayList<StudentListVo>();
         List<StudentListVo> al2 = new ArrayList<StudentListVo>();

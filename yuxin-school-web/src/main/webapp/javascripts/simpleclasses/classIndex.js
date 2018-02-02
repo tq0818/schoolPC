@@ -232,7 +232,7 @@
             });
         },
 
-    queryAllCommdityByItem : function(page,id,itemSecondId,status,lab,labTwo){
+    		queryAllCommdityByItem : function(page,id,itemSecondId,status,lab,labTwo){
 				var labSec="";
 				if(id==null){
 					$("#itemOneList").find("a").each(function(i){

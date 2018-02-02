@@ -362,7 +362,7 @@
                                		<c:if test="${list.validFlag==1 }">
                                			<i class="iconfont normal open">&#xe603;</i>
                                     	<span class="open">已启用</span>
-									</c:if> 
+									</c:if>
 									<c:if test="${list.validFlag!=1 }">
 										<i class="iconfont normal close" style="color: #999999;">&#xe604;</i>
 										<span class="close">已禁用</span>
@@ -430,7 +430,49 @@
 
             <c:when test="${list.pageHeadType=='SYS_PAGE_HEAD_BRANCH_SCHOOL'}"> <%--分校专区--%>
                 <c:if test="${sessionScope.isAreaSchool1 eq 0}">
-                <div class="section n true" ids="${list.id }" sort='${list.sequence }'>
+                    <div class="section n true" ids="${list.id }" sort='${list.sequence }' >
+                        <div class="block l-menu">
+                            <div class="title-wrap" data-name="${list.name }">
+                                <ul class="row clear">
+                                    <li class="with20">
+                                        <i class="iconfont nav-name-icon" style="cursor: move;"> &#xe630;</i>
+                                        <span class="title-info in${list.id }" data-name="${list.name }">${list.name }</span>
+                                    </li>
+                                    <li class="with50 link-address"></li>
+                                    <li class="with10">
+                                        <a href="javascript:void(0);" ids="${list.id }" sta="${list.validFlag}"
+                                           class="headStatus" style="text-decoration: none;">
+                                            <c:if test="${list.validFlag==1 }">
+                                                <i class="iconfont normal open">&#xe603;</i>
+                                                <span class="open">已启用</span>
+                                            </c:if>
+                                            <c:if test="${list.validFlag!=1 }">
+                                                <i class="iconfont normal close" style="color: #999999;">&#xe604;</i>
+                                                <span class="close">已禁用</span>
+                                            </c:if>
+                                        </a>
+                                    </li>
+                                    <li class="with20"><i class="iconfont edit-icon mar-lr5">&#xe628;</i></li>
+                                </ul>
+                                <div class="field">
+                                    <div class="content">
+                                        <p>
+                                            <span class="name">显示名称：</span>
+                                            <input type="text" value="${list.name }" class="title-content titleName">
+                                        </p>
+                                        <p>
+                                            <input type="button"  value="保存" class="btn btn-primary save_headtitle" ids="${list.id }" mark="no">
+                                            <input type="button"  value="取消" class="btn btn-primary">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block s-menu">
+                        </div>
+                    </div>
+
+                <%--<div class="section n true" ids="${list.id }" sort='${list.sequence }'>
                     <div class="block l-menu">
                         <div class="title-wrap" data-name="${list.name }">
                             <ul class="row clear">
@@ -440,11 +482,21 @@
                                 </li>
                                 <li class="with50" class="link-address"></li>
                                 <c:if test="${list.validFlag==1 }">
+                                    <i class="iconfont normal open">&#xe603;</i>
+                                    <span class="open">已启用</span>
+                                </c:if>
+                                <c:if test="${list.validFlag!=1 }">
+                                    <i class="iconfont normal close" style="color: #999999;">&#xe604;</i>
+                                    <span class="close">已禁用</span>
+                                </c:if>
+
+
+                               &lt;%&ndash; <c:if test="${list.validFlag==1 }">
                                     <li class="with10"><span class="open">已启用</span></li>
                                 </c:if>
                                 <c:if test="${list.validFlag!=1 }">
                                     <li class="with10"><span class="close">已禁用</span></li>
-                                </c:if>
+                                </c:if>&ndash;%&gt;
                                 <li class="with20">
                                     <i class="iconfont edit-icon mar-lr5">&#xe628;</i>
                                 </li>
@@ -465,7 +517,7 @@
                     </div>
                     <div class="block s-menu">
                     </div>
-                </div>
+                </div>--%>
                 </c:if>
             </c:when>
 			<c:otherwise>

@@ -3353,7 +3353,13 @@ select * from (
 		edu_step,s.edu_year,
 		s.edu_class,u.teacher_flag as teacherFlag
 		from student s
-		LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0
+		<if test="classTypeId == null or classTypeId == ''">
+			LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0 and sp.delete_flag =0
+		</if>
+		<if test="classTypeId != null and classTypeId != ''">
+			inner JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0 and sp.delete_flag =0 and sp.commodity_id = #{classTypeId}
+		</if>
+		<if test="companyId !=null and companyId !=''">and sp.company_id = #{companyId}</if>
 		LEFT JOIN users_front u on s.user_id=u.id
 		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and
 		c.edu_area_school=s.edu_school
@@ -3363,6 +3369,9 @@ select * from (
 		LEFT JOIN sys_config_dict d1 ON d1.item_code = s.edu_school
 		LEFT JOIN sys_config_dict d2 ON d2.item_code = s.edu_step
 		where 1=1 
+		<if test="classTypeId == null or classTypeId == ''">
+			and s.is_in_school=1
+		</if>
 		<if test="eduMasterClass !=null and eduMasterClass != ''">
 			and
 			<foreach item="item" collection="eduMasterClass" open="(" separator="or" close=")">
@@ -3370,7 +3379,9 @@ select * from (
 			</foreach>
 		</if>
 		<if test="eduArea != null and eduArea != ''">and s.edu_area=#{eduArea}</if>
-		<if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+		<if test="classTypeId == null or classTypeId == ''">
+			<if test="eduSchool != null and eduSchool != ''">and s.edu_school=#{eduSchool}</if>
+		</if>
 		<if test="renke != null and renke != ''">
 			and
 			<foreach item="renke" collection="renke" open="(" separator="or" close=")">
@@ -3382,9 +3393,6 @@ select * from (
 		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 		<if test="username != null and username != ''">and u.username like '%${username}%'</if>
 		<if test="identityId != null and identityId != ''">and s.identity_id like '%${identityId}%'</if>
-		<if test="classTypeId != null and classTypeId != ''">and sp.commodity_id = #{classTypeId} and sp.delete_flag =
-			0
-		</if>
 		<if test="registType != null">
 			<choose>
 				<when test="registType == 1">
@@ -3437,7 +3445,6 @@ select * from (
 		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
 		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>
 		<if test="eduStep !=null and eduStep !=''">and edu_step = #{eduStep}</if>
-		<if test="companyId !=null and companyId !=''">and sp.company_id = #{companyId}</if>
 		GROUP by s.id
 		order by s.id DESC
 		limit #{firstIndex},#{pageSize}

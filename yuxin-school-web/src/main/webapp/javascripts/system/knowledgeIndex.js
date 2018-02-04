@@ -1,4 +1,5 @@
 (function ($) {
+    var isFirst = true;
     var idsData = "";
     var knowledge = {
         init: function () {
@@ -40,7 +41,7 @@
             $this.search();
             // 查询
             $(".searchContents").on('click', function () {
-                idsData = "";
+                isFirst = true;
                 $this.search();
             });
             // 清空知识树
@@ -48,7 +49,7 @@
                 $.confirm('确定清空知识树吗？',function(a){
                     if(a){
                         $(".checkboxAll").prop("checked", false);
-                        idsData = "";
+                        isFirst = true;
                         $this.removeKnowledge();
                     }
                 });
@@ -81,7 +82,7 @@
                     },
                     success: function (jsonData) {
                         if(jsonData!=null && jsonData == 'true'){
-                            idsData = "";
+                            isFirst = true;
                             $this.search($("#pageNo").val()!=null ? $("#pageNo").val():1);
                         }
                     },
@@ -139,7 +140,10 @@
                             .append(
                                 '<tr><td colspan="3">没有查找到数据</td></tr>');
                     }
-                    idsData += jsonData.ids;
+                    if(isFirst){
+                        idsData = jsonData.ids;
+                        isFirst = false;
+                    }
                     var html;
                     $.each(jsonData.data.data,function (i, classType) {
                         html+= '<tr>'

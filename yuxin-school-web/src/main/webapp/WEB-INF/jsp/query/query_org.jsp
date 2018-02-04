@@ -54,11 +54,6 @@
 
 					<div style="text-align: center;font-size: 16px;width: 46%;display: none;">总计<span id="studentTotal" style="color:red"></span>人已完善教育信息</div>
 				</div>
-				<div class="biaoge-coment biaoge-left wit50" id="student-qushi">
-					<div class="biaoge-cont">
-						<div class="e-charst" id="perfect-qushi"></div>
-					</div>
-				</div>
 				<div class="user-list">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
@@ -73,6 +68,12 @@
 					</table>
 					<div class="pages pagination"></div>
 				</div>
+				<div class="biaoge-coment biaoge-left wit50" id="student-qushi">
+					<div class="biaoge-cont">
+						<div class="e-charst" id="perfect-qushi"></div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 

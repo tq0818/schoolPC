@@ -223,6 +223,11 @@
                             .append(
                                 '<tr><td colspan="3">没有查找到数据</td></tr>');
                     }
+                    if(jsonData.length > 8){
+                        $(".knowledgePopup").css("height","400px");
+                    }else{
+                        $(".knowledgePopup").css("height","auto");
+                    }
                     var html;
                     $.each(jsonData,function (i, lesson) {
                         html+= '<tr>'

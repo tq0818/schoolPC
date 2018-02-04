@@ -77,12 +77,12 @@
 			</div>
 	</div>
 	<!-- popupwin 界面 开始-->
-	<div class="popupwin knowledgePopup" style="width:600px; height:auto;top:10px;display: none;" data-pupwin="modal">
+	<div class="popupwin knowledgePopup" style="width:600px; height:400px;top:10px;display: none;" data-pupwin="modal">
 		<div class="popupwin-title">
 			<h2 class="h5">预览知识树</h2>
 			<i class="close iconfont"></i>
 		</div>
-		<div class="main form-horizontal" id="lsOne">
+		<div class="main form-horizontal" id="lsOne" style="overflow-y: auto;height: 82%">
 			<div class="knowledge-list">
 				<table class="table table-center">
 					<tr data-buy="true">

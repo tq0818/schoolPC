@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
 
-	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 	http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
 	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd
@@ -16,185 +16,185 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 	">
 	<!-- 开启shiro注解支持 -->
-<aop:config proxy-target-class="true"></aop:config>
-<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-    <property name="securityManager" ref="securityManager"/>
-</bean>
+	<aop:config proxy-target-class="true"></aop:config>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
 
-<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-    <property name="securityManager" ref="securityManager"/>
-    <property name="loginUrl" value="/login.jsp"/>
-    <property name="successUrl" value="/index"/>
-	<property name="unauthorizedUrl" value="/"/>
-    <property name="filters">
-        <util:map>
-            <entry key="user" value-ref="sessionFilter"/>
-        </util:map>
-    </property>
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<property name="loginUrl" value="/login.jsp"/>
+		<property name="successUrl" value="/index"/>
+		<property name="unauthorizedUrl" value="/"/>
+		<property name="filters">
+			<util:map>
+				<entry key="user" value-ref="sessionFilter"/>
+			</util:map>
+		</property>
 
-    <property name="filterChainDefinitions">
-        <value>
-			/call7moor/callback*=anon
-            /check/validate/*=anon
-        	/=user
-        	/login.jsp*=anon
-        	/login*=anon
-        	/logout*=anon
-        	/firstlogin*=anon
-        	/company/register*=anon
-        	/register**=anon
-        	/register/**=anon
-        	/captcha*=anon
-			/video/ccNotify=anon
-			/video/letvNotify=anon
-			/users/findPwd=anon
-			/users/getUserIdByName=anon
-			/users/checkDomain=anon
-			/users/checkUserName=anon
-			/users/sendSMS/*/*=anon
-			/users/isExixts=anon
-			/users/newPwd=anon
-			/users/checkMobileForFind=anon
-			/users/updateInfo=anon
-			/users/error=anon
-			/classModule/checkoutPrivate=anon
-			/classModule/marquee=anon
-			/classModule/CCLiveCheck=anon
-			/classModule/GenseeVilidate=anon
-			/classModule/CCLiveReplay=anon
-			/classModule/QnVideoCallback=anon
-			/classModule/VideoBLVS=anon
-			/classModule/polyvideoMaquee=anon
-			/company/companyService=anon
-			/companyAuthority/show=anon
-			/companyMemberService/showFace=anon
-			/companyMemberService/buyFacePay=anon
-			/serviceGroup/couseMethod =anon
-			/companyPayOrder/companyOrder=anon
-			/console*=anon
-			/uploadTest/test=anon
-			/uploadUtil/upload=anon
-			/uploadUtil/show=anon
-			/sysBody/perview*=anon
-			/moduleLesson/ghReverseAuth= anon
-			/classModule/stuCount=anon
-			/leaveWords=anon
-			/help/*=anon
-			/wap_manageRegiste*=anon
-			/wap_manageRegiste/**=anon
-			/manageLogin/**=anon
-			/toCampaignLogin*=anon
-			/campaignLogin*=anon
-			/payment/aliNotifyUrl=anon
-			/sysNews/yunduoNews=anon
-			/sysNews/yunduoNewsDetail=anon
-			/** = user
-        </value>
-    </property>
+		<property name="filterChainDefinitions">
+			<value>
+				/call7moor/callback*=anon
+				/check/validate/*=anon
+				/=user
+				/login.jsp*=anon
+				/login*=anon
+				/logout*=anon
+				/firstlogin*=anon
+				/company/register*=anon
+				/register**=anon
+				/register/**=anon
+				/captcha*=anon
+				/video/ccNotify=anon
+				/video/letvNotify=anon
+				/users/findPwd=anon
+				/users/getUserIdByName=anon
+				/users/checkDomain=anon
+				/users/checkUserName=anon
+				/users/sendSMS/*/*=anon
+				/users/isExixts=anon
+				/users/newPwd=anon
+				/users/checkMobileForFind=anon
+				/users/updateInfo=anon
+				/users/error=anon
+				/classModule/checkoutPrivate=anon
+				/classModule/marquee=anon
+				/classModule/CCLiveCheck=anon
+				/classModule/GenseeVilidate=anon
+				/classModule/CCLiveReplay=anon
+				/classModule/QnVideoCallback=anon
+				/classModule/VideoBLVS=anon
+				/classModule/polyvideoMaquee=anon
+				/company/companyService=anon
+				/companyAuthority/show=anon
+				/companyMemberService/showFace=anon
+				/companyMemberService/buyFacePay=anon
+				/serviceGroup/couseMethod =anon
+				/companyPayOrder/companyOrder=anon
+				/console*=anon
+				/uploadTest/test=anon
+				/uploadUtil/upload=anon
+				/uploadUtil/show=anon
+				/sysBody/perview*=anon
+				/moduleLesson/ghReverseAuth= anon
+				/classModule/stuCount=anon
+				/leaveWords=anon
+				/help/*=anon
+				/wap_manageRegiste*=anon
+				/wap_manageRegiste/**=anon
+				/manageLogin/**=anon
+				/toCampaignLogin*=anon
+				/campaignLogin*=anon
+				/payment/aliNotifyUrl=anon
+				/sysNews/yunduoNews=anon
+				/sysNews/yunduoNewsDetail=anon
+				/** = user
+			</value>
+		</property>
 
-</bean>
+	</bean>
 
 	<!-- 用户缓存 -->
 	<bean id="customShiroCacheManager" class="com.yuxin.wx.shiro.service.CustomShiroCacheManager">
-	    <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
+		<property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
 	</bean>
-	
+
 	<!-- shiro 缓存实现，对ShiroCacheManager，我是采用redis的实现 -->
 	<bean id="jedisShiroCacheManager" class="com.yuxin.wx.shiro.service.JedisShiroCacheManager">
-	    <property name="jedisManager" ref="jedisManager"/>
+		<property name="jedisManager" ref="jedisManager"/>
 	</bean>
 	<!-- redis 的缓存 -->
 	<bean id="jedisManager" class="com.yuxin.wx.shiro.service.JedisManager">
-	    <property name="jedisPool" ref="jedisPool"/>
+		<property name="jedisPool" ref="jedisPool"/>
 	</bean>
 
-<!-- 会话Cookie模板 -->
-<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-    <constructor-arg value="sid"/>
-    <property name="httpOnly" value="true"/>
-    <property name="maxAge" value="3600000"/>
-</bean>
-<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-    <constructor-arg value="rememberMe"/>
-    <property name="httpOnly" value="true"/>
-    <property name="maxAge" value="68880"/><!-- 7天 -->
-</bean>
-<!-- 会话管理器 -->
-<bean id="sessionManager"
-class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-    <property name="globalSessionTimeout" value="14400000"/>
-    <property name="deleteInvalidSessions" value="true"/>
-    <property name="sessionValidationSchedulerEnabled" value="true"/>
-    <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
-    <!-- <property name="sessionDAO" ref="sessionDAO"/>   -->
-    <property name="sessionIdCookieEnabled" value="true"/>
-    <property name="sessionIdCookie"  ref="sessionIdCookie"/>
-    <!-- <property name="sessionListeners" ref="sessionListener"/> -->
-</bean>
-<!-- <bean id="rememberMeManager"
-class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-    <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
-     <property name="cookie" ref="rememberMeCookie"/>
-</bean> -->
-<!-- 安全管理器 -->
-<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-	<property name="sessionMode" value="native" />
-	<property name="realm" ref="wxRealm"/>
-	<property name="sessionManager" ref="sessionManager"/>
-	<!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
-   	<property name="cacheManager" ref="customShiroCacheManager"/>
-</bean>
-<bean id="wxRealm" class="com.yuxin.wx.shiro.realm.BaseRealm"></bean>
- <bean id="sessionFilter" class="com.yuxin.wx.shiro.filter.GobalSessionFilter">
- 	<property name="loginUrl" value="/login"/>
- 	<property name="firstloginUrl" value="/firstlogin"/>
-    <property name="successUrl" value="/index"/>
-    <property name="baseUrl" value="/"/>
-    <property name="guideUrl" value="/users/error"/>
-    <property name="certificationUrl" value="/company/companyService"/>
-    <property name="captchaUrl" value="/captcha"/>
-    <property name="registCompanyUrl" value="/register/*"/>
-    <property name="chooseServiceUrl" value="/serviceGroup/chooseCompanyService"/>
-    <property name="chooseServiceUrl2" value="/company/updateCompany"/>
-    <property name="chooseServiceUrl3" value="/serviceGroup/addService"/>
-    <!-- 如果使用超期，不过滤的页面 -->
-    <property name="filterPages">
-    	<list>
-    		<value>/student</value>
-    		<value>/companyMemberService/payFace</value>
-    		<value>/company/companyService</value>
-    		<value>/companyMemberService/buyFacePay</value>
-    		<value>/serviceGroup/couseMethod </value>
-    		<value>/company/getNum</value>
-    		<value>/loadMenu </value>
-    		<value>/company/selauth</value>
-    		<value>/company/openService</value>
-    		<value>/company/colseService</value>
-    		<value>/companyMemberService</value>
-    		<value>/companyMemberService/buyFacePay</value>
-    	</list>
-    </property>
+	<!-- 会话Cookie模板 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="3600000"/>
+	</bean>
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="68880"/><!-- 7天 -->
+	</bean>
+	<!-- 会话管理器 -->
+	<bean id="sessionManager"
+		  class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="14400000"/>
+		<property name="deleteInvalidSessions" value="true"/>
+		<property name="sessionValidationSchedulerEnabled" value="true"/>
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+		<!-- <property name="sessionDAO" ref="sessionDAO"/>   -->
+		<property name="sessionIdCookieEnabled" value="true"/>
+		<property name="sessionIdCookie"  ref="sessionIdCookie"/>
+		<!-- <property name="sessionListeners" ref="sessionListener"/> -->
+	</bean>
+	<!-- <bean id="rememberMeManager"
+    class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+         <property name="cookie" ref="rememberMeCookie"/>
+    </bean> -->
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="sessionMode" value="native" />
+		<property name="realm" ref="wxRealm"/>
+		<property name="sessionManager" ref="sessionManager"/>
+		<!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
+		<property name="cacheManager" ref="customShiroCacheManager"/>
+	</bean>
+	<bean id="wxRealm" class="com.yuxin.wx.shiro.realm.BaseRealm"></bean>
+	<bean id="sessionFilter" class="com.yuxin.wx.shiro.filter.GobalSessionFilter">
+		<property name="loginUrl" value="/login"/>
+		<property name="firstloginUrl" value="/firstlogin"/>
+		<property name="successUrl" value="/index"/>
+		<property name="baseUrl" value="/"/>
+		<property name="guideUrl" value="/users/error"/>
+		<property name="certificationUrl" value="/company/companyService"/>
+		<property name="captchaUrl" value="/captcha"/>
+		<property name="registCompanyUrl" value="/register/*"/>
+		<property name="chooseServiceUrl" value="/serviceGroup/chooseCompanyService"/>
+		<property name="chooseServiceUrl2" value="/company/updateCompany"/>
+		<property name="chooseServiceUrl3" value="/serviceGroup/addService"/>
+		<!-- 如果使用超期，不过滤的页面 -->
+		<property name="filterPages">
+			<list>
+				<value>/student</value>
+				<value>/companyMemberService/payFace</value>
+				<value>/company/companyService</value>
+				<value>/companyMemberService/buyFacePay</value>
+				<value>/serviceGroup/couseMethod </value>
+				<value>/company/getNum</value>
+				<value>/loadMenu </value>
+				<value>/company/selauth</value>
+				<value>/company/openService</value>
+				<value>/company/colseService</value>
+				<value>/companyMemberService</value>
+				<value>/companyMemberService/buyFacePay</value>
+			</list>
+		</property>
 
- 	<property name="resources">
- 		<list>
- 			<value>png</value>
- 			<value>jpg</value>
- 			<value>css</value>
- 			<value>js</value>
- 			<value>woff</value>
- 			<value>ico</value>
- 			<value>html</value>
- 			<value>eof</value>
- 			<value>ttf</value>
- 			<value>svg</value>
- 			<value>xml</value>
- 		</list>
- 	</property>
- </bean>
-<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-	<property name="interval" value="3600000"/>
-	<property name="sessionManager" ref="sessionManager"/>
-</bean>
-<!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.SessionDAO"></bean> -->
+		<property name="resources">
+			<list>
+				<value>png</value>
+				<value>jpg</value>
+				<value>css</value>
+				<value>js</value>
+				<value>woff</value>
+				<value>ico</value>
+				<value>html</value>
+				<value>eof</value>
+				<value>ttf</value>
+				<value>svg</value>
+				<value>xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+		<property name="interval" value="3600000"/>
+		<property name="sessionManager" ref="sessionManager"/>
+	</bean>
+	<!-- <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.SessionDAO"></bean> -->
 
 </beans>

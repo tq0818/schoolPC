@@ -189,9 +189,9 @@ public class TestTask {
                     obj.setClasstypeId(node.getClasstypeId());
                     obj.setLessonId(node.getLessonId());
                     obj.setVideoFlag(0);
-                    obj.setVideoLectrueId(node.getCommodityIdHuikan());
+                    //obj.setVideoLectrueId(node.getCommodityIdHuikan());
                     obj.setVideoWeikeFlag(0);
-                    obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
+                    //obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
                     obj.setPaperFlag(0);
                     obj.setPaperId(node.getPaperId());
 
@@ -206,16 +206,16 @@ public class TestTask {
 
         }
     }
-    public void setVideoKnowledgeTreeStaticis (Integer lectureId,Integer userId,Integer watchLength) throws ParseException {
+    public void setVideoKnowledgeTreeStaticis (Integer commodityId,Integer userId,Integer watchLength,Integer lectureId) throws ParseException {
         //统计数据写入
         log.info("知识树统计数据写入-----开始");
         SysKnowledgeTree tree = new SysKnowledgeTree();
-        tree.setCommodityIdHuikan(lectureId);
+        tree.setCommodityIdHuikan(commodityId);
         List<SysKnowledgeTree> nodes = sysKnowledgeTreeServiceImpl.findKnowledgeTreeByClass(tree);
         String flag = "huikan";
         if(nodes.size()==0){
             tree.setCommodityIdHuikan(null);
-            tree.setCommodityIdWeike(lectureId);
+            tree.setCommodityIdWeike(commodityId);
             nodes = sysKnowledgeTreeServiceImpl.findKnowledgeTreeByClass(tree);
             flag="weike";
         }
@@ -223,7 +223,7 @@ public class TestTask {
             SysKnowledgeTree node = nodes.get(0);
             //获取总时长
             Map map = new HashMap();
-            map.put("id",lectureId);
+            map.put("id",commodityId);
             Map classInfo = sysKnowledgeTreeStatisticsServiceImpl.findLessonInfo(map);
             long total = (long)classInfo.get("times");
             //获取所有用户
@@ -572,7 +572,7 @@ public class TestTask {
                 uha.setStudyTime(date);
                 uha.setDevice(play.getDevice());
                 userHistoryServiceImpl.insertPlayLogs(uha);
-                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength());
+                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength(),uha.getLectureId());
             }
             if(playLog.size()==1000){
                 addPlayLog(date,companyPayConfig,index+1,sdf);

@@ -147,7 +147,7 @@
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>展示互动账号:</label><br>
-                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 95px;width: 180px;" disabled="disabled">
+                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 95px;width: 310px;" disabled="disabled">
                     <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
                     <input type="password" class="editState showDetails" id="zsPwd" value="${clc.password}" style="margin-left: 95px;width: 180px;">
                     <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>

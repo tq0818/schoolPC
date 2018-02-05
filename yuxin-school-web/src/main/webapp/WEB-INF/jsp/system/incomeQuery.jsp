@@ -193,9 +193,11 @@ $.jeDate('#inpend',end);
 
         var ts = 0;
 		var fs = 0;
+		var fsTwo = 0;
 		var hs = 0;
 		var totalSort = "order by t3.totalMoney desc";
 		var fetchSort = "order by t3.fetchMoney desc";
+		var fetchSortTow = "order by t3.totalMoney-t3.fetchMoney desc";
 		var handInSort = "order by t3.handInMoney desc";
 		function querySchoolMoney(pageNo,sort){
 			var areaId = $.trim($("#areaId").val());
@@ -224,6 +226,16 @@ $.jeDate('#inpend',end);
 				}else{
 					fetchSort = "order by t3.fetchMoney asc";
 					fs = 1;
+				}
+				sortRule = fetchSort;
+			}
+			if("fetchSortTow"==sort){
+				if(fsTwo==1){
+					fetchSort = "order by t3.totalMoney-t3.fetchMoney desc";
+					fsTwo = 0;
+				}else{
+					fetchSort = "order by t3.totalMoney-t3.fetchMoney asc";
+					fsTwo = 1;
 				}
 				sortRule = fetchSort;
 			}

@@ -377,14 +377,14 @@
                                     + '<td>'
                                     + eduIdentity
                                     + '</td>'
-//                                    + '<td>'
-//                                    + (stu.eduArea ? stu.eduArea
-//                                        : "")
-//                                    + '</td>'
-//                                    + '<td>'
-//                                    + (stu.eduSchool ?stu.eduSchool
-//                                        : "")
-//                                    + '</td>'
+                                    /*+ '<td>'
+                                    + (stu.eduArea ? stu.eduArea
+                                        : "")
+                                    + '</td>'*/
+                                    /*+ '<td>'
+                                    + (stu.eduSchool ?stu.eduSchool
+                                        : "")
+                                    + '</td>'*/
                                     + '<td>'
                                     + (stu.eduStep!=null ? (stu.eduStep+stu.eduYear+"年"+stu.eduClass+"班")
                                         : "")
@@ -401,10 +401,17 @@
                                     + (stu.userId ? '已开通'
                                         : '未开通')
                                     + '</td>'
+<<<<<<< HEAD
 //                                    + '<td class="ustatus">'
 //                                    + (stu.status == 1 ? '正常'
 //                                        : '异常')
 //                                    + '</td>'
+=======
+                                        /*+ '<td class="ustatus">'
+                                        + (stu.status == 1 ? '正常'
+                                            : '异常')
+                                        + '</td>'*/
+>>>>>>> branch 'develop' of http://git.winshare-edu.com:80/winshare/winshare-yuxin-school.git
                                   /*  + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'
                                         : '未报名')

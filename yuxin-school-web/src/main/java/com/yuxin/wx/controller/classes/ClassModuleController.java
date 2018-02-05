@@ -4511,8 +4511,7 @@ public class ClassModuleController {
 		Subject subject = SecurityUtils.getSubject();
 		if (subject.hasRole("机构管理员")||subject.hasRole("分校管理员")) {
 			return "operate/comment/ManageComment";
-		}
-		else {
+		}else {
 			return "operate/comment/comment";
 		}
 
@@ -4527,17 +4526,28 @@ public class ClassModuleController {
 	@ResponseBody
 	@RequestMapping(value="/commentJson")
 	public PageFinder<TeacherCommentVo> commentJson(int page){
-		Users users=WebUtils.getCurrentUser();
-		SysConfigTeacher teacher=sysConfigTeacherServiceImpl.findByUserId(users.getId());
-		TeacherCommentVo teacherCommentVo=new TeacherCommentVo();
-		if (teacher!=null) {
-			teacherCommentVo.setTeacherId(teacher.getId());
+		Subject subject = SecurityUtils.getSubject();
+		if (subject.hasRole("运营") || subject.hasRole("直播老师")) {
+			TeacherCommentVo teacherCommentVo=new TeacherCommentVo();
+			teacherCommentVo.setCompanyId(WebUtils.getCurrentCompanyId());
+			teacherCommentVo.setPageSize(10);
+			teacherCommentVo.setPage(page);
+			PageFinder<TeacherCommentVo> pageFinder=this.ossURl(videoCourseCommentServiceImpl.findVideoCourseCommentByTeacherId(teacherCommentVo));
+			return pageFinder;
+		}else {
+			Users users=WebUtils.getCurrentUser();
+			SysConfigTeacher teacher=sysConfigTeacherServiceImpl.findByUserId(users.getId());
+			TeacherCommentVo teacherCommentVo=new TeacherCommentVo();
+			if (teacher!=null) {
+				teacherCommentVo.setTeacherId(teacher.getId());
+			}
+			teacherCommentVo.setCompanyId(WebUtils.getCurrentCompanyId());
+			teacherCommentVo.setPageSize(10);
+			teacherCommentVo.setPage(page);
+			PageFinder<TeacherCommentVo> pageFinder=this.ossURl(videoCourseCommentServiceImpl.findVideoCourseCommentByTeacherId(teacherCommentVo));
+			return pageFinder;
 		}
-		teacherCommentVo.setCompanyId(WebUtils.getCurrentCompanyId());
-		teacherCommentVo.setPageSize(10);
-		teacherCommentVo.setPage(page);
-		PageFinder<TeacherCommentVo> pageFinder=this.ossURl(videoCourseCommentServiceImpl.findVideoCourseCommentByTeacherId(teacherCommentVo));
-		return pageFinder;
+
 	}
 	/**
 	 *

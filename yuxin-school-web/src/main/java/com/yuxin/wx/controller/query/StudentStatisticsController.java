@@ -412,7 +412,7 @@ public class StudentStatisticsController {
         } else {
             model.addAttribute("address", 0);
         }
-
+        model.addAttribute("isAreaSchool1", request.getSession().getAttribute("isAreaSchool1"));
         CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
         model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
         return "/query/query_student_area";

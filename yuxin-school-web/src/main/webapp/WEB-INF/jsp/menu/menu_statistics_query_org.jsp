@@ -11,9 +11,16 @@
         	<shiro:hasAnyRoles name="教科院,区县负责人,学校负责人,文轩教育,班主任,任课老师">
             <li class="subentry active" code="studentList" mark="/query/orgstatistics/studentList">学员</li>
         	<c:if test="${CURRENT_IS_AREA != '0'}">
-        		<shiro:hasAnyRoles name="区县负责人,学校负责人">
+                <c:if test="${CURRENT_IS_AREA eq 1}">
+        		<shiro:hasAnyRoles name="区县负责人">
         			<li class="subentry " code="userList" mark="/query/areastatistics/userList">用户统计</li>
         		</shiro:hasAnyRoles>
+                </c:if>
+                <c:if test="${CURRENT_IS_AREA eq 2}">
+                    <shiro:hasAnyRoles name="学校负责人">
+                        <li class="subentry " code="userList" mark="/query/areastatistics/userList">用户统计</li>
+                    </shiro:hasAnyRoles>
+                </c:if>
         	</c:if>
         	<shiro:hasAnyRoles name="区县负责人,学校负责人">
             <li class="subentry" code="orgStuList" mark="/query/orgstatistics/queryOrg">学校</li>

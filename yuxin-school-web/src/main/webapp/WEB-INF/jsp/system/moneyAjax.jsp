@@ -14,7 +14,7 @@
 				<th width="10%">分校名称</th>
 				<th width="10%">所属区域</th>
 				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'totalSort');">分校总收入（元）</th>
-				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'fetchSort');">应收费用（元）</th>
+				<th width="10%" class="btn-sort" onclick="querySchoolMoney(1,'fetchSortTow');">应收费用（元）</th>
 			</tr>
 			<c:forEach var="order" items="${payPage.data}" varStatus="vs">
 				<tr>

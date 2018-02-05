@@ -409,7 +409,9 @@ public class PayOrderController {
         	map.put("fetchSort",request.getParameter("sortRule"));
         }else if("handInSort".equals(sort)){
         	map.put("handInSort",request.getParameter("sortRule"));
-        }
+        }else if("fetchSortTow".equals(sort)){
+	    	map.put("fetchSort",request.getParameter("sortRule"));
+	    }
         List<PayOrder> cpoList = null;
         Integer count = null;
         //分校收入情况

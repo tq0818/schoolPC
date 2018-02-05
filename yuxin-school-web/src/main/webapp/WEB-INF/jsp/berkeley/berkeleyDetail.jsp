@@ -46,7 +46,7 @@
             </li>
             <li>
                 <label>分校:</label>
-                <input type="text" disabled="disabled" id="branchSchool" value="${company.companyName }" style="margin-left: 70px;width: 200px;">
+                <input type="text" disabled="disabled" id="branchSchool" value="${company.companyName }" style="margin-left: 70px;width: 190px;">
             </li>
             <li>
                 <label>所属区域:</label>
@@ -80,11 +80,11 @@
             </li>
             <li>
                 <label>分校域名:</label>
-                <input type="text" disabled="disabled" id="domain" value="${company.domain }"  style="margin-left: 50px;width: 200px;">
+                <input type="text" disabled="disabled" id="domain" value="${company.domain }"  style="margin-left: 50px;width: 190px;">
             </li>
             <li>
                 <label>分校后台域名:</label>
-                <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 200px;">
+                <input type="text" disabled="disabled" id="domainManage" value="${company.domainManage }"  style="margin-left: 25px;width: 190px;">
             </li>
             <li>
                 <label>分校简介:</label>
@@ -140,16 +140,16 @@
                 <p style="margin-bottom: 5px;">
                     <label>CC账号:</label><br>
 
-                    <input type="text" class="editState " id="ccUserName" value="${cpc.ccUserId }" style="margin-left: 95px;margin-bottom: 5px;" disabled="disabled">
+                    <input type="text" class="editState " id="ccUserName" value="${cpc.ccUserId }" style="margin-left: 95px;margin-bottom: 5px;width: 180px;" disabled="disabled">
                     <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
-                    <input type="password" class="editState showDetails " id="ccPwd" value="${cpc.ccApiKey}" style="margin-left: 95px;">
+                    <input type="password" class="editState showDetails " id="ccPwd" value="${cpc.ccApiKey}" style="margin-left: 95px;width: 180px;">
                     <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
                 <p style="margin-bottom: 5px;">
                     <label>展示互动账号:</label><br>
-                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 95px;" disabled="disabled">
+                    <input type="text" class="editState " id="zsUserName" value="${clc.loginName }" style="margin-bottom: 5px;margin-left: 95px;width: 180px;" disabled="disabled">
                     <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
-                    <input type="password" class="editState showDetails" id="zsPwd" value="${clc.password}" style="margin-left: 95px;">
+                    <input type="password" class="editState showDetails" id="zsPwd" value="${clc.password}" style="margin-left: 95px;width: 180px;">
                     <span class="showDetails showDetailsMark"> <i style="color: red;" class="iconfont ico"></i></span><br/>
                 </p>
             </li>

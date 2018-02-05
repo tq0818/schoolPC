@@ -337,12 +337,12 @@
 	                            $(".user-list")
 	                                .find("table")
 	                                .append(
-	                                '<tr><td colspan="15">没有查找到数据</td></tr>');
+	                                '<tr><td colspan="12">没有查找到数据</td></tr>');
                         	}else{
                         		  $(".user-list")
 	                                .find("table")
 	                                .append(
-	                                '<tr><td colspan="14">没有查找到数据</td></tr>');
+	                                '<tr><td colspan="11">没有查找到数据</td></tr>');
                         	}
                         }
                         $.each(jsonData.data,function (i, stu) {
@@ -377,14 +377,14 @@
                                     + '<td>'
                                     + eduIdentity
                                     + '</td>'
-                                    + '<td>'
-                                    + (stu.eduArea ? stu.eduArea
-                                        : "")
-                                    + '</td>'
-                                    + '<td>'
-                                    + (stu.eduSchool ?stu.eduSchool
-                                        : "")
-                                    + '</td>'
+//                                    + '<td>'
+//                                    + (stu.eduArea ? stu.eduArea
+//                                        : "")
+//                                    + '</td>'
+//                                    + '<td>'
+//                                    + (stu.eduSchool ?stu.eduSchool
+//                                        : "")
+//                                    + '</td>'
                                     + '<td>'
                                     + (stu.eduStep!=null ? (stu.eduStep+stu.eduYear+"年"+stu.eduClass+"班")
                                         : "")
@@ -401,10 +401,10 @@
                                     + (stu.userId ? '已开通'
                                         : '未开通')
                                     + '</td>'
-                                    + '<td class="ustatus">'
-                                    + (stu.status == 1 ? '正常'
-                                        : '异常')
-                                    + '</td>'
+//                                    + '<td class="ustatus">'
+//                                    + (stu.status == 1 ? '正常'
+//                                        : '异常')
+//                                    + '</td>'
                                   /*  + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'
                                         : '未报名')

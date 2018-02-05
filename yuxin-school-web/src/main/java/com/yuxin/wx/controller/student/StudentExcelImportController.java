@@ -221,6 +221,9 @@ public class StudentExcelImportController {
 		Map <String, String> eduAreaMap=new HashMap<String, String>();
 		Map <String, String> eduSchoolMap=new HashMap<String, String>();
 		Map <String, String> dictMap=new HashMap<String, String>();
+		if(list==null||list.size()<1){
+			errorMsg.add("导入模板数据不能为空");
+		}
 		if(null==biaoji){
 			List<SysConfigDict> dictAreaList=studentServiceImpl.findEduAreaList();
 			if(null!=dictAreaList && dictAreaList.size()>0){

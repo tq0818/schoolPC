@@ -61,7 +61,7 @@ public class ClassType extends BaseEntity {
     private Integer buyNumMax; /* 课程最大购买人数限制 */
 
     private Integer userId;
-
+    private String openWay;
     // 模块
     private List<ClassModule> classModuleList;
     private String itemTag;
@@ -94,7 +94,15 @@ public class ClassType extends BaseEntity {
     private Integer sourceCompanyId;
     private Integer sourceClassTypeId;
     
-    public Integer getSourceCompanyId() {
+    public String getOpenWay() {
+		return openWay;
+	}
+
+	public void setOpenWay(String openWay) {
+		this.openWay = openWay;
+	}
+
+	public Integer getSourceCompanyId() {
 		return sourceCompanyId;
 	}
 

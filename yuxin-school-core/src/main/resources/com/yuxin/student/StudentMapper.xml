@@ -1015,7 +1015,9 @@
 		edu_step,s.edu_year,
 		s.edu_class,u.teacher_flag as teacherFlag
 		from student s
+		<if test="classTypeId != null and classTypeId != ''">
 		LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0
+		</if>
 		LEFT JOIN users_front u on s.user_id=u.id
 		inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and
 		c.edu_area_school=s.edu_school
@@ -1127,7 +1129,9 @@
 	<select id="queryStudentsListCount" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
 		select count(DISTINCT(s.id))
 	 from student s
+	<if test="classTypeId != null and classTypeId != ''">
 	LEFT JOIN student_pay_master sp on s.id=sp.stu_id and sp.origin_type=0 
+	</if>
 	LEFT JOIN users_front u on s.user_id=u.id
 	inner join company c on c.is_area=0 or c.is_area=1 and s.edu_area=c.edu_area_school or c.is_area=2 and c.edu_area_school=s.edu_school
 	inner join sys_config_school scs on scs.company_id=c.id

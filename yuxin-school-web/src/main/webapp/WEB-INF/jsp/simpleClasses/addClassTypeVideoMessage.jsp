@@ -74,7 +74,7 @@
                                 </c:if>
                             </c:forEach>
                         </select>
-                         <c:if test="${empty typeItems }">
+                         <c:if test="${empty typeItems or not empty classType.id}">
                              <input type="text" class="readonly" id="itemOneName" marks="${classType.itemOneCode }" value="${classType.itemOneName }" readonly>
                          </c:if>
                     </span>
@@ -85,7 +85,7 @@
                         <select name="itemSecondCode" id="itemSecondCodeList" onchange="Form.queryItemThird()">
                             <option  value="" data-id="">请选择</option>
                         </select>
-                        <c:if test="${empty typeItems }">
+                        <c:if test="${empty typeItems  or not empty classType.id}">
                             <input type="text" class="readonly" id="itemSecondName" marks="${classType.itemSecondCode }" value="${classType.itemSecondName}" readonly/>
                         </c:if>
                     </span>
@@ -96,7 +96,7 @@
                         <select name="itemThirdCode" id="itemThirdCodeList" onchange="Form.queryTagsList()">
                             <option  value="" data-id="">请选择</option>
                         </select>
-                        <c:if test="${empty typeItems }">
+                        <c:if test="${empty typeItems  or not empty classType.id}">
                             <input type="text" class="readonly" id="itemThirdName" marks="${classType.itemThirdCode }" value="${classType.itemThirdName}" readonly/>
                         </c:if>
                     </span>
@@ -107,7 +107,7 @@
                         <select name="itemFourthCode" id="itemFourthCodeList" >
                             <option  value="" data-id="">请选择</option>
                         </select>
-                        <c:if test="${empty typeItems }">
+                        <c:if test="${empty typeItems  or not empty classType.id}">
                             <input type="text" class="readonly" id="itemFourthName" marks="${classType.itemFourthCode }" value="${classType.itemFourthName}" readonly/>
                         </c:if>
                     </span>
@@ -251,20 +251,20 @@
                		<p class="c ">
 	                    <span class="c-title">是否设为公开课程</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="radio" checked="checked" value="1" name="isPublic">是
-                        	<input type="radio" value="0" name="isPublic">否
+	                     	<input type="radio" <c:if test="${isPublic ne 0 }">checked="checked"</c:if> value="1" name="isPublic">是
+                        	<input type="radio" <c:if test="${isPublic eq 0 }">checked="checked"</c:if> value="0" name="isPublic">否
 	                    </span>
 	               </p>
-                    <p class="c01" id="discriblePub">
+                    <p class="c01" id="discriblePub" <c:if test="${isPublic eq 0 }">style="display:none"</c:if>>
                        <span class="c-title" style="color: red;
                             width: 400px;
                             line-height: 0px;
                             font-size: 10px;">（公开课程将被推送到数校，并允许非本校学生在您的分校官网观看此课程)</span>
                     </p>
-	               <p class="c publicPrice">
+	               <p class="c publicPrice" <c:if test="${isPublic eq 0 }">style="display:none"</c:if>>
 	               		<span class="c-title">设置公开课程价格</span>
 	                    <span class="c-content" style="color:black;">
-	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices"><sb>*</sb>
+	                     	<input type="text" name="publicPrice" id="publicPrice" class="prices" value="${classType.publicPrice}"><sb>*</sb>
 	                    </span>
 	               </p>
                </c:if>

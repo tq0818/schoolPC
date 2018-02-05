@@ -216,10 +216,10 @@
 				$("input[name='isPublic']").on('click',function(){
 					var ispublic=$(this).val();
 					if('1'==ispublic){
-						$(".publicPrice").removeClass("none");
+						$(".publicPrice").attr("style","display:block");
 						$("#discriblePub").show();
 					}else{
-						$(".publicPrice").addClass("none");
+						$(".publicPrice").attr("style","display:none");
 						$("#publicPrice").val(null);
 						$("#discriblePub").hide();
 					}
@@ -288,7 +288,7 @@
 					dataType : "json",
 					success : function(result) {
 						if(result.length>0){
-							$("#itemSecondCodeList").css("display","block");
+							//$("#itemSecondCodeList").css("display","block");
 							$.each(result,function(i,item){
 								if(item.id==$("#twoSecItemCode").val()){
 									$("#itemSecondCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
@@ -297,7 +297,7 @@
 								}
 							});
 						}else{
-							$("#itemSecondCodeList").css("display","none");
+							//$("#itemSecondCodeList").css("display","none");
 						}
 						Form.queryItemThird();
 					}
@@ -325,7 +325,7 @@
                     dataType : "json",
                     success : function(result) {
                         if(result.length>0){
-                            $("#itemThirdCodeList").css("display","block");
+                            //$("#itemThirdCodeList").css("display","block");
                             $.each(result,function(i,item){
                                 if(item.id==$("#itemThirdCode").val()){
                                     $("#itemThirdCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");
@@ -359,7 +359,7 @@
                     dataType : "json",
                     success : function(result) {
                         if(result.length>0){
-                            $("#itemFourthCodeList").css("display","block");
+                           // $("#itemFourthCodeList").css("display","block");
                             $.each(result,function(i,item){
                                 if(item.id==$("#itemFourthCode").val()){
                                     $("#itemFourthCodeList").append("<option selected='selected' value='"+item.itemCode+"' data-id='"+item.id+"'>"+item.itemName+"</option>");

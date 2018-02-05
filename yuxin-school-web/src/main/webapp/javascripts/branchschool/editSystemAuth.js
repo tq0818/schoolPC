@@ -184,9 +184,9 @@
 						$(".pri-list").find("li").hide().find(".iconfont").html('&#xe609;');
 						
 						var cid=$(this).attr("ids");
-						if('直播老师'== $.trim($(this).html())){
+						/*if('直播老师'== $.trim($(this).html())){
 							$("#contactTeacher").css("display","none");
-						}
+						}*/
 						if($(".people-list").find("a.btn-success").length){
 							$.ajax({
 								url : rootPath + "/authRolePrivilege/Category/"+cid,
@@ -238,9 +238,9 @@
 				$(".people-list").find("a").each(function(i){
 					var status=$(this).hasClass("btn-success");
 					if(status){
-						if('直播老师'== $.trim($(this).html())){
+						/*if('直播老师'== $.trim($(this).html())){
 							type=cid;
-						}
+						}*/
 					}
 				});
 				$("#tList").html('');
@@ -309,12 +309,12 @@
 						tId+=$(this).attr("value")+",";
 					}
 				});
-				if(!b){
+				/*if(!b){
 					$.msg("请添加教师");
 					evt.preventDefault();
 					$(".loading-bg").hide();
 					return false;
-				}
+				}*/
 				if(count>1){
 					$.msg("一个账号只能绑定一个老师");
 					evt.preventDefault();
@@ -336,6 +336,7 @@
 					$('#proxyOrgId').val(proxyOrgId);
 				}
 				if(type=="save"){
+
 					var chong=0;
 					var mob=$("#mobile").val();
 					var mob1=$("#mobile1").val();
@@ -368,6 +369,7 @@
 						return false;
 					}
 				}else{
+                    console.log("保存");
 						var name=$("#nameMark").val();
 						$("#usernames").val(name);
 						var chong=0;
@@ -636,9 +638,9 @@
 						}
 					}
 				});
-				if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
+				/*if('直播老师'== $.trim($("a[ids='"+cid+"']").html())){
 					$("#contactTeacher").css("display","block");
-				}
+				}*/
 			}
 		}
 	$(document).ready(function(){

@@ -58,18 +58,18 @@
         <div class="user-list">
             <table class="table table-center" id="tableList">
 	                <tr data-buy="true">
-	                    <th width="3%">序号</th>
-	                    <th width="16%">课程名称</th>
-	                    <th width="10%">学科</th>
-	                    <th width="10%">授课老师</th>
-	                    <th width="8%">课程类型</th>
-	                    <th width="8%" class="btn-sort buyNumMax">
+	                    <th width="5%">序号</th>
+	                    <th width="20%">课程名称</th>
+	                    <th width="17%">学科</th>
+	                    <th width="17%">授课老师</th>
+	                    <th width="17%">课程类型</th>
+	                    <th width="12%" class="btn-sort buyNumMax">
                             报名人数<input type="hidden" id="buyNumMax" value="1"/>
                         </th>
-	                    <th width="8%" class="btn-sort actelNum">
+	                    <th width="12%" class="btn-sort actelNum">
                             购买人数<input type="hidden" id="actelNum" value="3"/>
                         </th>
-	                    <th width="10%">课程详情</th>
+	                    <%--<th width="10%">课程详情</th>--%>
 	                </tr>
                 <tbody class="tbodyList">
 

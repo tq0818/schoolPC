@@ -19,9 +19,9 @@
 				</td>
 				<td>${m.buyNumMax }</td>
 				<td>${m.actualNum }</td>
-				<td> 
+				<%--<td>
 					<a href="http://${m.domain}/sysConfigItem/selectDetail/${m.id }" target="_blank" data-id="${m.id }">查看详情</a>
-				</td>
+				</td>--%>
 			</tr>
 		</c:forEach>
 	</c:when>

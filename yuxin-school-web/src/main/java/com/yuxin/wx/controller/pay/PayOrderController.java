@@ -299,9 +299,11 @@ public class PayOrderController {
         Integer companyId = WebUtils.getCurrentCompanyId();
         Map<String,Object>map = new HashMap<String,Object>();
         PayOrder payOrder = new PayOrder();
-        if(!"0".equals(isArea)){
-            map.put("companyId",companyId);
-        }
+        //2018-2-2 修改，经询问,数校的订单也是查询出数校产生的订单信息
+//        if(!"0".equals(isArea)){
+//            map.put("companyId",companyId);
+//        }
+        map.put("companyId",companyId);
         map.put("orderNum",request.getParameter("orderNum"));
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
@@ -464,7 +466,14 @@ public class PayOrderController {
             map.put("companyId",request.getParameter("schoolId"));
             map.put("aereId",request.getParameter("areaId"));
             cpoList = payOrderServiceImpl.findSchoolMoneyByCondition(map);
-            tittle =  "分校名称:schoolName,所属区域:aeraName,分校总收入(元):totalMoney,应收费用(元):fetchMoney";
+            //处理导出的数据  数校应收 = 总收入 - 实际收入 2018-2-2
+            if(cpoList != null && cpoList.size() > 0){
+            	for(PayOrder p:cpoList){
+            		double d = Double.parseDouble(p.getTotalMoney()) - Double.parseDouble( p.getFetchMoney());
+            		p.setHandInMoney(String.valueOf(d));
+            	}
+            }
+            tittle =  "分校名称:schoolName,所属区域:aeraName,分校总收入(元):totalMoney,应收费用(元):handInMoney";
         }else{
             map.put("companyId",WebUtils.getCurrentCompanyId());
             cpoList = payOrderServiceImpl.findPrivateSchoolMoneyByCondition(map);
@@ -502,14 +511,22 @@ public class PayOrderController {
         map.put("orderNum",request.getParameter("orderNum"));
         map.put("inpstart",request.getParameter("inpstart"));
         map.put("inpend",request.getParameter("inpend"));
-        map.put("payMethod",request.getParameter("payMethod"));
         map.put("firstPrice",request.getParameter("firstPrice"));
         map.put("secondPrice",request.getParameter("secondPrice"));
         map.put("pageSize",1000000);
         map.put("page",payOrder.getFirstIndex());
         
-        //2018-1-29 新增 支付方式
+        //2018-1-29 新增 支付状态
         map.put("payStates",request.getParameter("payStates"));
+        //处理支付方式
+        String payMethod = request.getParameter("payMethod");
+        if(Constant.PAY_TYPE_WX_PERSON.equals(payMethod)){
+       	 map.put("payMethod","WX");
+       }else if("PAY_TYPE_ZFB".equals(payMethod)){
+       	 map.put("payMethod","ZFB");
+       }else{
+       	 map.put("payMethod",payMethod);
+       }
         // 查询 订单 集合
         List<PayOrder> cpoList = this.payOrderServiceImpl.findPayOrderByParams(map);
         String tittle  = "订单编号:orderNum,课程名:commodityName,金额（元）:payPrice,姓名:stuName,电话:discountNo,下单时间:orderTime,付款时间:payTime,订单状态:payStatus";

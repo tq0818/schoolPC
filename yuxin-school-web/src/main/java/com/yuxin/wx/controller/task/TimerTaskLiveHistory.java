@@ -158,9 +158,9 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
                 obj.setClasstypeId(node.getClasstypeId());
                 obj.setLessonId(node.getLessonId());
                 obj.setVideoFlag(0);
-                obj.setVideoLectrueId(node.getCommodityIdHuikan());
+               // obj.setVideoLectrueId(node.getCommodityIdHuikan());
                 obj.setVideoWeikeFlag(0);
-                obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
+                //obj.setVideoLectrueWeikeId(node.getCommodityIdWeike());
                 obj.setPaperFlag(0);
                 obj.setPaperId(node.getPaperId());
 

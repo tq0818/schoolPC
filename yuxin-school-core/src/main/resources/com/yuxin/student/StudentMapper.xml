@@ -3440,7 +3440,6 @@ select * from (
 		<if test="proxyOrgName != null and proxyOrgName != ''">and ccpo.name like '%${proxyOrgName}%'</if>
 		<if test="proxyOrgId != null and proxyOrgId != ''">and s.proxy_org_id= #{proxyOrgId}</if>
 		<if test="eduArea != null and eduArea != ''">and s.edu_area= #{eduArea}</if>
-		<if test="eduSchool != null and eduSchool != ''">and s.edu_school= #{eduSchool}</if>
 		<if test="isStu != null and isStu == 1">and edu_identity = 0 AND IFNULL(u.`teacher_flag`,0) != 1</if>
 		<if test="eduYear !=null and eduYear != ''">and edu_year = #{eduYear}</if>
 		<if test="eduClass !=null and eduClass != ''">and edu_class = #{eduClass}</if>

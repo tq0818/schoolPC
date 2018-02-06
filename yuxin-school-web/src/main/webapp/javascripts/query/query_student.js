@@ -401,17 +401,10 @@
                                     + (stu.userId ? '已开通'
                                         : '未开通')
                                     + '</td>'
-<<<<<<< HEAD
-//                                    + '<td class="ustatus">'
-//                                    + (stu.status == 1 ? '正常'
-//                                        : '异常')
-//                                    + '</td>'
-=======
                                         /*+ '<td class="ustatus">'
                                         + (stu.status == 1 ? '正常'
                                             : '异常')
                                         + '</td>'*/
->>>>>>> branch 'develop' of http://git.winshare-edu.com:80/winshare/winshare-yuxin-school.git
                                   /*  + '<td class="baoming" value="' + stu.ispay + '">'
                                     + (stu.paymaterCount > 0 ? '已报名'
                                         : '未报名')

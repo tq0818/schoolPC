@@ -386,7 +386,7 @@ $(function(){
 		                <ul class="list-infos clear">       
 		                    <li class="long">
 		                        <p class='c'>
-		                            <span class="c-title">学科</span>
+		                            <span class="c-title" style="width:89px;">学科</span>
 		                            <span class="c-content itemOneClass">
 		                                <c:forEach items="${firstItems}" var="item" varStatus="index">
 		                                	<c:choose>

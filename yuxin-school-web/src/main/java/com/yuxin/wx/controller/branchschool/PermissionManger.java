@@ -29,6 +29,7 @@ import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.system.ISysConfigSchoolService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
 import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.Constant;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.auth.AuthRole;
 import com.yuxin.wx.model.auth.AuthUserRole;
@@ -273,17 +274,34 @@ public class PermissionManger {
 					subJectGradeCode, subjectClassCode,r,user.getId());
 		}
 		
-		//修改教师信息
-		if(teachersId!=null&&!"".equals(teachersId)){
-			String t=teachersId.substring(0, teachersId.length()-1);
-			String[] teachers=t.split(",");
-			for(int i=0;i<teachers.length;i++){
-				SysConfigTeacher sysConfigTeacher=new SysConfigTeacher();
-				sysConfigTeacher.setId(Integer.parseInt(teachers[i]));
-				sysConfigTeacher.setUserId(user.getId());
-				sysConfigTeacherServiceImpl.updateauthTeacher(sysConfigTeacher);		
-			}
-		}
+		//插入老师信息
+		SysConfigTeacher sysConfigTeacher = new SysConfigTeacher();
+//		sysConfigTeacher.setCreator(user.getId());
+		sysConfigTeacher.setCreateTime(new Date());
+		sysConfigTeacher.setUpdateTime(new Date());
+		sysConfigTeacher.setUpdator(WebUtils.getCurrentUserId(request));
+		sysConfigTeacher.setCompanyId(WebUtils.getCurrentCompanyId());
+		sysConfigTeacher.setDelFlag(0);
+		sysConfigTeacher.setTeacherType(Constant.PERSON_TEACHER);
+		sysConfigTeacher.setStatusCode(Constant.TEACHER_USERD);
+		sysConfigTeacher.setUserName(user.getUsername());
+		sysConfigTeacher.setName(user.getRealName());
+		sysConfigTeacher.setSex(user.getSex());
+		sysConfigTeacher.setUserId(user.getId());
+		sysConfigTeacher.setMobile(user.getMobile());
+		sysConfigTeacherServiceImpl.insertTeacherInfo(sysConfigTeacher);
+		
+//		//修改教师信息
+//		if(teachersId!=null&&!"".equals(teachersId)){
+//			String t=teachersId.substring(0, teachersId.length()-1);
+//			String[] teachers=t.split(",");
+//			for(int i=0;i<teachers.length;i++){
+//				SysConfigTeacher sysConfigTeacher=new SysConfigTeacher();
+//				sysConfigTeacher.setId(Integer.parseInt(teachers[i]));
+//				sysConfigTeacher.setUserId(user.getId());
+//				sysConfigTeacherServiceImpl.updateauthTeacher(sysConfigTeacher);		
+//			}
+//		}
 		Integer uId=WebUtils.getCurrentUserId(request);
 		if(authRoleServiceImpl.hasRoleFlag(uId,WebUtils.getCurrentCompanyId())){
 			model.addAttribute("peoplemark", "admin");

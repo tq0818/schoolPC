@@ -1,7 +1,6 @@
 package com.yuxin.wx.controller.commodity;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -35,22 +32,17 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.util.IOUtils;
-import com.mysql.jdbc.log.Log;
 import com.yuxin.wx.api.commodity.ICommodityService;
 import com.yuxin.wx.api.commodity.ICommoditySpecialService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.system.ISysConfigTeacherService;
-import com.yuxin.wx.commodity.mapper.CommodityMapper;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.SysConfigConstant;
-import com.yuxin.wx.controller.student.StudentController;
-import com.yuxin.wx.model.classes.ClassModule;
 import com.yuxin.wx.model.commodity.Commodity;
 import com.yuxin.wx.model.commodity.CommoditySpecial;
 import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigTeacher;
 import com.yuxin.wx.model.user.Users;
-import com.yuxin.wx.system.impl.SysConfigTeacherServiceImpl;
 import com.yuxin.wx.utils.FileUtil;
 import com.yuxin.wx.utils.PropertiesUtil;
 import com.yuxin.wx.utils.WebUtils;
@@ -460,7 +452,6 @@ public class CommodityController {
 			    String coverPicPath = path + coverRelativePath;
 			    coverPicIS = coverPic.getInputStream();
 			    File coverPicFile = new File(coverPicPath);
-			    coverPicFile.createNewFile();
 			    FileUtils.copyInputStreamToFile(coverPicIS, coverPicFile);
 				relativePath[0] = coverRelativePath;
 		    }
@@ -468,7 +459,6 @@ public class CommodityController {
 		    	String detailCoverRelativePath =  FileUtil.getPath("special", String.valueOf(WebUtils.getCurrentCompanyId()), detailCoverPic.getOriginalFilename());
 		    	String detailCoverPicPath =path + detailCoverRelativePath;
 				File detailCoverPicFile= new File(detailCoverPicPath);
-			    detailCoverPicFile.createNewFile();
 				detailCoverPicIS = detailCoverPic.getInputStream();
 				FileUtils.copyInputStreamToFile(detailCoverPicIS, detailCoverPicFile);
 			    relativePath[1] = detailCoverRelativePath;

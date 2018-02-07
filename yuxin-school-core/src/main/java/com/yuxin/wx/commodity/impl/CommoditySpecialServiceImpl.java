@@ -35,8 +35,8 @@ public class CommoditySpecialServiceImpl extends BaseServiceImpl implements ICom
 	}
 
 	@Override
-	public int findSpecialByPageCount() {
-		int count = commoditySpecialMapper.findSpecialByPageCount();
+	public int findSpecialByPageCount(CommoditySpecial special) {
+		int count = commoditySpecialMapper.findSpecialByPageCount(special);
 		return count;
 	}
 

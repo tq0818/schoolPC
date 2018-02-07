@@ -32,9 +32,9 @@
         order by status desc, order_flag is null,order_flag asc limit #{firstIndex},#{pageSize}
     </select>
 
-    <select id="findSpecialByPageCount"  resultType="int">
+    <select id="findSpecialByPageCount"  resultType="int" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial">
         select 
-        count(id) from commodity_special order by status desc, update_time desc 
+        count(id) from commodity_special where company_id=#{companyId} order by status desc, update_time desc 
     </select>
 
     <select id="findSpecialById" parameterType="com.yuxin.wx.model.commodity.CommoditySpecial" resultMap="commoditySpecialMap">

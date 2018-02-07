@@ -40,7 +40,7 @@ public interface ICommoditySpecialService  {
 	 * 标题总数
 	 * @return
 	 */
-	public int findSpecialByPageCount();
+	public int findSpecialByPageCount(CommoditySpecial special);
 	
 	/**
 	 * 修改专题

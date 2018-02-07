@@ -212,10 +212,15 @@ public class CommodityController {
 			}
 			special.setCompanyId(WebUtils.getCurrentCompanyId());
 			List<CommoditySpecial> specialList = commoditySpecialServiceImpl.findSpecialByPage(special);
-			int count = commoditySpecialServiceImpl.findSpecialByPageCount();
+			int count = commoditySpecialServiceImpl.findSpecialByPageCount(special);
 			model.addAttribute("specialList", specialList);
 			model.addAttribute("count", count);
-			model.addAttribute("pageNum", pageNum);
+			model.addAttribute("pageNum",pageNum);
+			try{
+				model.addAttribute("pageIndex",Integer.parseInt(pageSize)*(Integer.parseInt(pageNum)-1));
+			}catch(Exception e){
+				model.addAttribute("pageIndex",0);
+			}
 		}catch(Exception e){
 			log.error("findSpecialByapge is error", e);
 		}

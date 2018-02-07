@@ -122,7 +122,7 @@
                 </tr>
                 <c:forEach items="${specialList}" var="special" varStatus="status">
                 <tr>
-                    <td>${status.index +1 }</td>
+                    <td>${pageIndex+status.index +1 }</td>
                     <td>${special.title}</td>
                     <td>${special.label }</td>
                     <td>

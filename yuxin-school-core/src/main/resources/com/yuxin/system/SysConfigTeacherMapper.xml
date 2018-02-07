@@ -1045,7 +1045,7 @@
 	<select id="findTeacherByUserId" parameterType="com.yuxin.wx.model.system.SysConfigTeacher" resultType="com.yuxin.wx.model.system.SysConfigTeacher">
 		select * from sys_config_teacher sct
 		inner join users_comany_relation ur on ur.user_id=sct.user_id and ur.is_used=1
-		where teacher_type = 'PERSON_TEACHER' and ur.company_id = #{companyId} and user_id = #{userId}
+		where teacher_type = 'PERSON_TEACHER' and ur.company_id = #{companyId} and sct.user_id = #{userId}
 	</select>
     <select id="findByInviteCode" resultMap="sysConfigTeacherResultMap" parameterType="com.yuxin.wx.vo.system.TeachersVo">
         select <include refid="table_columns" />

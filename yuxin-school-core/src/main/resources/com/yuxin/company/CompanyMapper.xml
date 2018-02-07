@@ -1267,7 +1267,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="search.eduArea != null and search.eduArea != ''">and ss.item_code = #{search.eduArea}</if>
 			GROUP BY co.id
 			union
-			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,sm.count classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'

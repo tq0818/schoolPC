@@ -304,6 +304,7 @@
                 dataType: "json",
                 async: false,
                 success: function (jsonData) {
+                    $(".teahcerName").html('');
                     $(".teahcerName").append('<li><a class="searchAllTeacher btn btn-mini btn-default" id="" >全部</a></li>');
                     $.each(jsonData, function (index, teacher) {
                     	if(_tid==teacher.id) _index = index;

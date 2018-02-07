@@ -395,6 +395,9 @@ public interface IStudentService  {
 	 * @return
 	 */
 	PageFinder2<StudentListVo> findStudentsList(StudentListVo search);
+	
+	PageFinder2<StudentListVo> findStudentsList2(StudentListVo search);
+	
 	PageFinder2<StudentListVo> queryUserListData(StudentListVo search);
 	List<Map<String, Object>> exportUserInfo(StudentListVo search);
 	PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search);

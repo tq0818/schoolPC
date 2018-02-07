@@ -104,10 +104,19 @@ public class StudentListVo extends BaseEntity{
 	private String eduStep;
 	private String eduYear;
 	private Integer isStu; //是否学生，1是。0否
+	private String isArea;//当前分校级别
 	private Integer sourceFromStatic;//来源，1来源于统计，0来源于学员管理
 	private List<EduMasterClass> renke;
 	private List<EduMasterClass> eduMasterClass;
 	
+	public String getIsArea() {
+		return isArea;
+	}
+
+	public void setIsArea(String isArea) {
+		this.isArea = isArea;
+	}
+
 	public String getPaixu() {
 		return paixu;
 	}

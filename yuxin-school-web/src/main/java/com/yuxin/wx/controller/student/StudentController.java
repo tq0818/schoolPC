@@ -2962,7 +2962,8 @@ public class StudentController {
          if (subject.hasRole("代理机构")) {
              search.setProxyOrgId(WebUtils.getCurrentUser().getProxyOrgId());
          }
-         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList(search);
+         search.setIsArea(WebUtils.getCurrentIsArea());
+         PageFinder2<StudentListVo> pageFinder = studentServiceImpl.findStudentsList2(search);
          return pageFinder;
     }
    /**

@@ -500,6 +500,26 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 				search.getPage(), search.getPageSize(), count, data);
 		return pageFinder;
 	}
+	
+	@Override
+	public PageFinder2<StudentListVo> findStudentsList2(StudentListVo search) {
+		List<StudentListVo> data =null;
+		Integer count = null;
+		if("0".equals(search.getIsArea())){
+			data = studentMapper.queryAllStudentsList(search);
+			count = studentMapper.queryAllStudentsListCount(search);
+		}else if("1".equals(search.getIsArea())){
+			data = studentMapper.queryAreaStudentsList(search);
+			count = studentMapper.queryAreaStudentsListCount(search);
+		}else if("2".equals(search.getIsArea())){
+			data = studentMapper.querySchoolStudentsList(search);
+			count = studentMapper.querySchoolStudentsListCount(search);
+		}
+		PageFinder2<StudentListVo> pageFinder = new PageFinder2<StudentListVo>(
+				search.getPage(), search.getPageSize(), count, data);
+		return pageFinder;
+	}
+
 	@Override
 	public PageFinder2<StudentListVo> queryUserListData(StudentListVo search) {
 		List<StudentListVo> data = studentMapper.queryUserListData(search);

@@ -1308,7 +1308,7 @@ $.extend( $.validator, {
 												var sex=response.sex;
 												var mobile=response.mobile;
 												$('#userName').val(response.username);
-												$('#userName').attr('disabled','disabled');
+                                                $('#userName').attr('disabled',"disabled");
 												$("input[name='sex'][value='"+response.sex+"']").attr("checked",true);
 												$('#password').parent().parent().attr('style',"display:none;");
 												$('#confirmPassword').parent().parent().attr('style',"display:none;");

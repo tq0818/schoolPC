@@ -397,10 +397,10 @@
                                     + (stu.createTime ? stu.createTime
                                         : "")
                                     + '</td>'
-                                    + '<td class="haostatus">'
+                                 /*   + '<td class="haostatus">'
                                     + (stu.userId ? '已开通'
                                         : '未开通')
-                                    + '</td>'
+                                    + '</td>'*/
                                         /*+ '<td class="ustatus">'
                                         + (stu.status == 1 ? '正常'
                                             : '异常')

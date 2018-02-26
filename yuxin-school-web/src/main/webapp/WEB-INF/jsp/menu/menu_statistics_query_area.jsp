@@ -28,8 +28,7 @@
                      <li class="subentry" code="watchInfoList" mark="/query/statistics/watchInfoList">直播统计</li>
                      <li class="subentry" code="videoList" mark="/query/areastatistics/videoCourseIndex">点播统计</li>
                      <c:if test="${isAreaSchool1 ne 2}">
-                         <li class="subentry" code="AdministrativeManagement" mark="/jsp/AdministrativeManagement"><p
-                                 class="managelist-parent">学校行政管理</p></li>
+                         <li class="subentry" code="AdministrativeManagement" mark="/jsp/AdministrativeManagement">学校行政管理</li>
                      </c:if>
                  </shiro:hasAnyRoles>
              </ul>

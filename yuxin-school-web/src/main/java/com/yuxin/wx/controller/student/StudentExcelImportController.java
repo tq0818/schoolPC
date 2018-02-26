@@ -954,7 +954,6 @@ public class StudentExcelImportController {
 		List<StudentImportVo> studentslist = this.studentServiceImpl.queryAllStudentsByCompanyId(companyId);
 		
 		StudentAll4CompanyVo allStudents = new StudentAll4CompanyVo();
-		
 		for (int i = 0; i < studentslist.size(); i++) {
 			if( studentslist.get(i).getMobile() != null ){
 				allStudents.getMobiles().put(studentslist.get(i).getMobile(), studentslist.get(i));

@@ -43,7 +43,7 @@
 		<result property="eduYear" column="edu_year"/>
 		<result property="eduClass" column="edu_class"/>
 	</resultMap>
-	
+
 	<resultMap type="com.yuxin.wx.vo.student.StudentVo" id="studentResultMap2">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
@@ -3683,6 +3683,11 @@ select * from (
 		from student s 
 		left join users_front uf on s.user_id = uf.id ORDER BY s.id desc  
 	</select>
+
+	<select id="queryAllStudents" resultType="String"  parameterType="int">
+		select s.mobile as mobile from student s left join users_front uf on s.user_id = uf.id ORDER BY s.id desc
+	</select>
+
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">
 		select <include refid="table_columns" />
 		from student s

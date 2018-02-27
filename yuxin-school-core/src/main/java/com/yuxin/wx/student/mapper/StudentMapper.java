@@ -21,6 +21,8 @@ import com.yuxin.wx.vo.student.StudentTiKuExcipseVo;
 import com.yuxin.wx.vo.student.StudentTiKuOrSubjectVo;
 import com.yuxin.wx.vo.student.StudentVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
+import org.apache.ibatis.annotations.MapKey;
+
 /**
  * Service Interface:Student
  * @author wang.zx
@@ -341,4 +343,6 @@ public interface StudentMapper extends BaseMapper<Student> {
 	List<EduMasterClass> findClassByRKTeacherId(Integer id);
 	List<SysConfigDict> sysConfigDict();
 	List<StudentListVo> queryStudentsListTwo(StudentListVo search);
+
+	List<String> queryAllStudents(Integer companyId);
 }

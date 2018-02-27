@@ -1986,4 +1986,10 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		List<StudentListVo> data = studentMapper.queryStudentsListTwo(search);
 		return data;
 	}
+
+	@Override
+	public List<String> queryAllStudents(Integer companyId) {
+
+		return studentMapper.queryAllStudents(companyId);
+	}
 }

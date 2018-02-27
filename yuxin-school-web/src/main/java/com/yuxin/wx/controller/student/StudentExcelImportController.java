@@ -2,10 +2,7 @@ package com.yuxin.wx.controller.student;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -951,10 +948,17 @@ public class StudentExcelImportController {
 	 */
 	private StudentAll4CompanyVo getCompanyAllStudents(Integer companyId){
 		
-		List<StudentImportVo> studentslist = this.studentServiceImpl.queryAllStudentsByCompanyId(companyId);
-		
+//		List<StudentImportVo> studentslist = this.studentServiceImpl.queryAllStudentsByCompanyId(companyId);
+
+		List<String> students = this.studentServiceImpl.queryAllStudents(companyId);
+		StudentImportVo student = new StudentImportVo();
 		StudentAll4CompanyVo allStudents = new StudentAll4CompanyVo();
-		for (int i = 0; i < studentslist.size(); i++) {
+		for(String s :students){
+			student.setMobile(s);
+			allStudents.getMobiles().put(s,student);
+		}
+
+		/*for (int i = 0; i < studentslist.size(); i++) {
 			if( studentslist.get(i).getMobile() != null ){
 				allStudents.getMobiles().put(studentslist.get(i).getMobile(), studentslist.get(i));
 			}
@@ -965,7 +969,7 @@ public class StudentExcelImportController {
 				allStudents.getIdentityIds().put(studentslist.get(i).getIdentityId(),studentslist.get(i));
 			}
 			
-		}
+		}*/
 		return allStudents;
 	}
 	

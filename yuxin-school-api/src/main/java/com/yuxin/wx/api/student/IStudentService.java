@@ -721,6 +721,8 @@ public interface IStudentService  {
 	Integer findStudentCountOnlyByMobile(SelectStudentOrUsersfrontVo search);
 	
 	List<StudentImportVo> queryAllStudentsByCompanyId(Integer companyId);
+
+	List<String> queryAllStudents(Integer companyId);
 	
 	List<Integer> insertMoreStudents(List<StudentImportVo> students,String groupOneId,String groupTwoId,Integer userId);
 	

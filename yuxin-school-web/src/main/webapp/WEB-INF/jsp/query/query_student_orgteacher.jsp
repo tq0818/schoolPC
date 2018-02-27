@@ -130,8 +130,8 @@
 							<th width="6%">用户名</th>
 							<th width="8%">姓名</th>
 							<th width="5%">身份</th>
-							<th width="8%">区域</th>
-							<th width="12%">学校</th>
+							<%--<th width="8%">区域</th>--%>
+							<%--<th width="12%">学校</th>--%>
 							<th width="10%">所在班级</th>
 							<c:if test="${userorg_roleopenflag==1 }">
 								<shiro:hasAnyRoles name="机构管理员,代理机构">
@@ -139,7 +139,7 @@
 								</shiro:hasAnyRoles>
 							</c:if>
 							<th width="8%">创建时间</th>
-							<th width="6%">前台登录账号</th>
+						<%--	<th width="6%">前台登录账号</th>--%>
 							<th width="6%">前台账号状态</th>
 							<%--<th width="5%">报名状态</th>--%>
 							<%--<th width="10%">操作</th>--%>
@@ -167,7 +167,7 @@
 		<!--  ajax加载中div结束 -->
 	</div>
 <input type="hidden" id="selectCounts" value="10">
-<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_common.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_orgteachcommon.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>

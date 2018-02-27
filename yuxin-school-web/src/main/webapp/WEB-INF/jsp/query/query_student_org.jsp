@@ -144,10 +144,10 @@
 								</shiro:hasAnyRoles>
 							</c:if>
 							<th width="5%">创建时间</th>
-							<th width="6%">前台登录账号</th>
+							<%--<th width="6%">前台登录账号</th>--%>
 							<%--<th width="6%">前台账号状态</th>--%>
 							<%--<th width="5%">报名状态</th>--%>
-								<th width="11%">操作</th>
+							<th width="11%">操作</th>
 						</tr>
 						<c:choose>
 							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">

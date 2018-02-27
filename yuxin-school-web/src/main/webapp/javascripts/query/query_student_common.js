@@ -347,10 +347,10 @@
                                 	userNameStr=userNameStr+'<td>'+(stu.username ? stu.username: "")+ '</td>';
                                 }
                                 userNameStr=userNameStr+ '<td>'
-                                    + (stu.name ? stu.name
-                                        : "")
-                                    + '</td>'
-                                    + '<td>'
+                                + (stu.name ? stu.name
+                                    : "")
+                                + '</td>'
+                                + '<td>'
                                     + eduIdentity
                                     + '</td>'
                                     + '<td>'
@@ -373,10 +373,10 @@
                                     + (stu.createTime ? stu.createTime
                                         : "")
                                     + '</td>'
-                                    + '<td class="haostatus">'
+                                    /*+ '<td class="haostatus">'
                                     + (stu.userId ? '已开通'
                                         : '未开通')
-                                    + '</td>'
+                                    + '</td>'*/
                                     + '<td class="ustatus">'
                                     + (stu.status == 1 ? '正常'
                                         : '异常')

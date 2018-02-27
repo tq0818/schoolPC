@@ -22,6 +22,7 @@
 		<input type="hidden" id="schoolName" value='${schoolName}'/>
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
 		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
+		<input type="hidden" id="isAreaSchool1" value="${isAreaSchool1}" >
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_area.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
@@ -48,7 +49,7 @@
 							<option value="">请选择学校</option>
 						</select>
 
-						
+
 
 					</div>
 					<div style="margin: 10px 0;">
@@ -73,7 +74,7 @@
 							<%--<th width="8%">用户名</th>--%>
 							<th width="8%">姓名</th>
 							<th width="5%">身份</th>
-							<th width="8%">区域</th>
+							<%--<th width="8%">区域</th>--%>
 							<th width="12%">学校</th>
 							<th width="10%">所在班级</th>
 							<c:if test="${userorg_roleopenflag==1 }">
@@ -82,7 +83,7 @@
 								</shiro:hasAnyRoles>
 							</c:if>
 							<th width="8%">创建时间</th>
-							<th width="6%">前台登录账号</th>
+							<%--<th width="6%">前台登录账号</th>--%>
 							<th width="6%">前台账号状态</th>
 							<!-- <th width="5%">报名状态</th> -->
 							<%--<th width="10%">操作</th>--%>
@@ -110,7 +111,7 @@
 		<!--  ajax加载中div结束 -->
 	</div>
 <input type="hidden" id="selectCounts" value="10">
-<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_common.js"></script>
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_orgcommon.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>

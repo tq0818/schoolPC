@@ -99,14 +99,12 @@
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
     </bean>
-
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+ 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="sessionMode" value="native" />
         <property name="realm" ref="wxRealm"/>
         <property name="sessionManager" ref="sessionManager"/>
-    </bean>
-     -->
-
+    </bean> -->
+    
 	<!-- 会话及缓存管理器  测试环境  end -->
 	<!-- ================================================================== -->
 	<!-- 会话及缓存管理器  正式环境  begin -->
@@ -138,12 +136,10 @@
 		<property name="sessionMode" value="native" />
 		<property name="realm" ref="wxRealm"/>
 		<property name="sessionManager" ref="sessionManager"/>
-		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheManager" ref="customShiroCacheManager" />
 	</bean>
 
 	<!-- 会话及缓存管理器  正式环境 end -->
-
-
 	<bean id="wxRealm" class="com.yuxin.wx.shiro.realm.BaseRealm"></bean>
 	<bean id="sessionFilter" class="com.yuxin.wx.shiro.filter.GobalSessionFilter">
 		<property name="loginUrl" value="/login"/>
@@ -186,10 +182,14 @@
 	<!-- 保证实现shiro内部的生命周期函数bean的执行 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
-		<property name="interval" value="3600"/>
+		<property name="interval" value="3600000"/>
 		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
-
+	
+	<!-- 用户缓存 -->
+	<bean id="customShiroCacheManager" class="com.yuxin.wx.shiro.service.CustomShiroCacheManager">
+	    <property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
+	</bean>
 	<!-- shiro 缓存实现，对ShiroCacheManager，我是采用redis的实现 -->
 	<bean id="jedisShiroCacheManager" class="com.yuxin.wx.shiro.service.JedisShiroCacheManager">
 		<property name="jedisManager" ref="jedisManager"/>

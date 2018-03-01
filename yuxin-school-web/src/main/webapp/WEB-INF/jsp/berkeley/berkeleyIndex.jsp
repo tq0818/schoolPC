@@ -32,7 +32,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/menu/menu_berkeley.jsp"></jsp:include>
-<div class="u-wrap admin overflow berkeleyIndex" style="padding-bottom: 170px;">
+<div class="u-wrap admin overflow berkeleyIndex" style="padding-bottom: 200px;">
     <div>
         <div class="heading">
             <h2 class="h5">分校列表</h2>

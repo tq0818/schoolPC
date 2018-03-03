@@ -276,7 +276,7 @@
 	<select id="findByCompanyId" resultMap="authRoleResultMap" parameterType="Integer">
 		select <include refid="table_columns" />
 		from auth_role
-		where company_id = #{companyId} and company_id!=-1
+		where company_id = #{companyId} and company_id!=-1 and role_name != '分校管理员(信息管理)'
 	</select>
 
 	<select id="queryRolesByCondition" resultMap="authRoleResultMap" parameterType="com.yuxin.wx.model.auth.AuthRole">

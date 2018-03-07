@@ -13,6 +13,7 @@
 	href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="<%=rootPath %>/stylesheets/splitscreen.css"/>
+<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/classList.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
 	</style>
@@ -31,10 +32,12 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5">${school.itemValue}学员列表</h2>
+					<h2 class="h5 active">${school.itemValue}学员列表</h2>
+					<i class="markTitle"></i>
+					<h2 class="h5 studentListTitle " >班级学生列表</h2>
 					<span class="line"></span>
 				</div>
-				<form method="post" id="searchForm">
+				<form method="post" id="searchForm" class="studentListContent">
 					<div>
 						<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
 						<%--<input type="text" id="stuusername" name="username" placeholder="用户名"/>--%>
@@ -124,7 +127,7 @@
 							<a href="javascript:;" class="btn btn-primary exportExcleSchool">导出数据</a></span>
 					</div>
 				</form>
-				<div class="user-list">
+				<div class="user-list studentListContent">
 					<table class="table table-center" id="tableList">
 						<tr data-buy="true">
 							<th width="6%">用户名</th>
@@ -156,6 +159,223 @@
 
 					</table>
 					<div class="pages pagination"></div>
+				</div>
+				<div class="classListContent">
+					<form>
+						<ul>
+							<li>
+								<label for="">学段</label>
+								<select name="" id="">
+									<option value="">小学</option>
+									<option value="">初中</option>
+									<option value="">高中</option>
+								</select>
+							</li>
+							<li>
+								<label for="">入学年份</label>
+								<select name="" id="">
+									<option value="">2017</option>
+									<option value="">2016</option>
+									<option value="">2015</option>
+									<option value="">2014</option>
+								</select>
+							</li>
+							<li>
+								<label for="">班级</label>
+								<select name="" id="">
+									<option value="">1班</option>
+									<option value="">2班</option>
+									<option value="">3班</option>
+								</select>
+							</li>
+							<li>
+								<label for="">学科</label>
+								<select name="" id="">
+									<option value="">语文</option>
+									<option value="">数学</option>
+									<option value="">英语</option>
+								</select>
+							</li>
+							<li>
+								<label for="">课程形式</label>
+								<select name="" id="">
+									<option value="">直播</option>
+									<option value="">点播</option>
+								</select>
+							</li>
+							<li>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;">查询</a>
+								<a href="##" class="btn btn-mb btn-primary">导出</a>
+							</li>
+						</ul>
+					</form>
+					<%--<div class="user-list">--%>
+					<div>
+						<table class="table table-center tableFirst">
+							<tr data-buy="true">
+								<th width="8%">姓名</th>
+								<th width="5%">班级</th>
+								<th width="8%">观课总节数</th>
+								<th width="12%">观课总时长（分钟）</th>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<tr>
+								<td>李翔宇</td>
+								<td>初2017级1班</td>
+								<td>7</td>
+								<td>120</td>
+							</tr>
+							<%--暂无数据提示--%>
+							<%--<c:choose>--%>
+							<%--<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">--%>
+							<%--<tr><td colspan="15">暂无数据</td></tr>--%>
+							<%--</c:when>--%>
+							<%--<c:otherwise>--%>
+							<%--<tr><td colspan="14">暂无数据</td></tr>--%>
+							<%--</c:otherwise>--%>
+							<%--</c:choose>--%>
+						</table>
+						<table  class="table table-center tableSecond">
+							<tr data-buy="true">
+								<th>课次名称1</th>
+								<th>课次名称2</th>
+								<th>课次名称3</th>
+								<th>课次名称4</th>
+								<th>课次名称5</th>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+						</table>
+						<div class="leftIcon changeIcon">
+							<i class="icon iconfont ">&#xe650;</i>
+						</div>
+						<div class="rightIcon changeIcon">
+							<i class="icon iconfont ">&#xe651;</i>
+						</div>
+
+						<div class="pages pagination" style="margin-top: 450px;"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -247,6 +467,120 @@
          $("#eduClass").append(classesBody);
 		 }
 	});
+
+
+
+    //    tab切换
+    $('.heading h2').click(function(){
+        $(this).addClass('active');
+        $(this).siblings('h2').removeClass('active');
+        if(!$(this).index()){
+            //点击的是学员列表
+            $('.studentListContent').show();
+            $('.classListContent').hide();
+        }else {
+            //点击的是班级学生列表
+            $('.studentListContent').hide();
+            $('.classListContent').show();
+            //根据列表的高度设置切换按钮的高度
+            var tableHeight = $('.tableFirst').height()+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight);
+        }
+    });
+
+    //点击上一页
+    var contentHtml =
+        `<tbody>
+							<tr data-buy="true">
+								<th width="20%">课次名称1</th>
+								<th width="20%">课次名称2</th>
+								<th width="20%">课次名称3</th>
+								<th width="20%">课次名称4</th>
+								<th width="20%">课次名称5</th>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+							</tr>
+							<tr>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>√</td>
+								<td>1</td>
+							</tr>
+			</tbody>
+		`;
+
+    $('.leftIcon').click(function(){
+        $('.tableSecond').html("");
+        $('.tableSecond').append(contentHtml);
+    });
+
+    //点击下一页
+    $('.rightIcon').click(function(){
+        $('.tableSecond').html("");
+        $('.tableSecond').append(contentHtml);
+    });
 </script>
 </body>
 </html>

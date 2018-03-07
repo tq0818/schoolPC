@@ -180,12 +180,12 @@
                     <label>资源分配</label>
                     <p style="margin-left: 30px;margin-bottom: 8px;">
                         流量<i style="color: red;" class="iconfont ico"></i>
-                        <input type="text" id="flowSize" name="flowSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
+                        <input type="text" id="flowSize" name="flowSize" maxlength="5" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                         GB
                     </p>
                     <p style="margin-left: 30px;">
                         空间<i style="color: red;" class="iconfont ico"></i>
-                        <input type="text" id="spaceSize" name="spaceSize" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"">
+                        <input type="text" id="spaceSize" name="spaceSize" maxlength="5" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"">
                         GB
                     </p>
                 </li>

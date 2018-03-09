@@ -16,6 +16,13 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/classList.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
+		.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;
+			padding-left: 7px;}
+		.tableSecond th{
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+		}
 	</style>
 </head>
 <body>
@@ -164,7 +171,7 @@
 					<form>
 						<ul>
 							<li>
-								<label for="">学段</label>
+								<label for="" class="xingMark">学段</label>
 								<select name="" id="">
 									<option value="">小学</option>
 									<option value="">初中</option>
@@ -189,7 +196,7 @@
 								</select>
 							</li>
 							<li>
-								<label for="">学科</label>
+								<label for="" class="xingMark">学科</label>
 								<select name="" id="">
 									<option value="">语文</option>
 									<option value="">数学</option>
@@ -197,7 +204,7 @@
 								</select>
 							</li>
 							<li>
-								<label for="">课程形式</label>
+								<label for="" class="xingMark">课程形式</label>
 								<select name="" id="">
 									<option value="">直播</option>
 									<option value="">点播</option>
@@ -210,6 +217,11 @@
 						</ul>
 					</form>
 					<%--<div class="user-list">--%>
+					<div style="width: 100%;height: 80px;line-height: 80px;text-align: right;">
+						<span class="xingMark" style="font-size: 12px;margin-right: 30px;">
+							实际观课效果：√表示观课时间超过了70%，✘表示观课时长未超过70%
+						</span>
+					</div>
 					<div>
 						<table class="table table-center tableFirst">
 							<tr data-buy="true">
@@ -290,11 +302,11 @@
 						</table>
 						<table  class="table table-center tableSecond">
 							<tr data-buy="true">
-								<th>课次名称1</th>
-								<th>课次名称2</th>
-								<th>课次名称3</th>
-								<th>课次名称4</th>
-								<th>课次名称5</th>
+								<th width="20%">课次名称1</th>
+								<th width="20%">课次名称2</th>
+								<th width="20%">课次名称3</th>
+								<th width="20%">课次名称4</th>
+								<th width="20%">课次名称5</th>
 							</tr>
 							<tr>
 								<td>√</td>
@@ -483,8 +495,8 @@
             $('.studentListContent').hide();
             $('.classListContent').show();
             //根据列表的高度设置切换按钮的高度
-            var tableHeight = $('.tableFirst').height()+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight);
+            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','65px');
         }
     });
 

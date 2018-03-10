@@ -633,4 +633,5 @@ public interface ICompanyService  {
 
 	int searchCompany();
 
+	Integer findCompanyByCode(String eduSchool);
 }

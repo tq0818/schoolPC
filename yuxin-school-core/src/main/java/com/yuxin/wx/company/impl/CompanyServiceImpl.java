@@ -542,4 +542,9 @@ public class CompanyServiceImpl extends BaseServiceImpl implements ICompanyServi
 	public int searchCompany() {
 		return companyMapper.searchCompany();
 	}
+
+	@Override
+	public Integer findCompanyByCode(String eduSchool) {
+		return companyMapper.findCompanyByCode(eduSchool);
+	}
 }

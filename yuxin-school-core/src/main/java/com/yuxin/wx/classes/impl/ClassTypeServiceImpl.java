@@ -549,4 +549,19 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		return classTypeMapper.queryCountLiveClassOfOtherSchool(param);
 	}
 
+	@Override
+	public List<ClassType> getClassTypeListVideo(ClassType search) {
+		return classTypeMapper.getClassTypeListVideo(search);
+	}
+
+	@Override
+	public List<ClassType> getClassTypeListLive(ClassType search) {
+		return classTypeMapper.getClassTypeListLive(search);
+	}
+
+	@Override
+	public List<ClassType> getClassTimeList(ClassType search) {
+		return classTypeMapper.getClassTimeList(search);
+	}
+
 }

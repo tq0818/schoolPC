@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.company.CompanyStudentMessage;
@@ -762,4 +763,6 @@ public interface IStudentService  {
 	List<EduMasterClass> findClassByRKTeacherId(Integer id);
 	List<SysConfigDict> findEduAreaList();
 	List<StudentListVo> findStudentsDataTwo(StudentListVo search);
+
+	PageFinder<UsersFrontVo> findStudentsClassList(StudentListVo search,ClassType classType,List<ClassType> classList);
 }

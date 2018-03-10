@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
+import com.yuxin.wx.vo.student.StudentListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
@@ -334,6 +336,31 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
     @Override
     public List<UsersFront> queryAll() {
         return usersFrontMapper.queryAll();
+    }
+
+    @Override
+    public List<UsersFrontVo> getUserLearningList(StudentListVo search) {
+        return usersFrontMapper.getUserLearningList(search);
+    }
+
+    @Override
+    public Integer getUserLearningListCount(StudentListVo search) {
+        return usersFrontMapper.getUserLearningListCount(search);
+    }
+
+    @Override
+    public List<ClassTypeVo> getClassTimeList() {
+        return usersFrontMapper.getClassTimeList();
+    }
+
+    @Override
+    public List<UsersFrontVo> getStuList(StudentListVo search) {
+        return usersFrontMapper.getStuList(search);
+    }
+
+    @Override
+    public Integer getStuListCount(StudentListVo search) {
+        return usersFrontMapper.getStuListCount(search);
     }
 
 }

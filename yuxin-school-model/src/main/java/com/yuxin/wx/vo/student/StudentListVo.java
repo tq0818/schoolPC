@@ -108,7 +108,26 @@ public class StudentListVo extends BaseEntity{
 	private Integer sourceFromStatic;//来源，1来源于统计，0来源于学员管理
 	private List<EduMasterClass> renke;
 	private List<EduMasterClass> eduMasterClass;
-	
+
+	private String liveFlag;
+	private String subject;
+
+	public String getLiveFlag() {
+		return liveFlag;
+	}
+
+	public void setLiveFlag(String liveFlag) {
+		this.liveFlag = liveFlag;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
 	public String getIsArea() {
 		return isArea;
 	}

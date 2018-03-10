@@ -1825,4 +1825,8 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		<if test="domainManage != null and domainManage != ''"> and domain_manage = #{domainManage}</if>
 		
 	</select>
+
+	<select id="findCompanyByCode" resultType="int" parameterType="String">
+		select id from company where edu_area_school = #{eduSchool}
+	</select>
 </mapper>

@@ -474,6 +474,12 @@ public interface IClassTypeService  {
 	 * 查询其他分校的直播课程
 	 */
 	int queryCountLiveClassOfOtherSchool(Map<String, Object> param);
-	
+
+
+	List<ClassType> getClassTypeListVideo(ClassType search);
+
+	List<ClassType> getClassTypeListLive(ClassType search);
+
+	List<ClassType> getClassTimeList(ClassType search);
 	
 }

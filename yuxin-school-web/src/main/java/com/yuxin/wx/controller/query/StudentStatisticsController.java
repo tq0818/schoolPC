@@ -15,9 +15,13 @@ import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.api.user.IUsersFrontService;
 import com.yuxin.wx.common.*;
 import com.yuxin.wx.model.classes.ClassType;
 
+import com.yuxin.wx.model.company.Company;
+import com.yuxin.wx.vo.user.UsersFrontVo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -91,6 +95,10 @@ public class StudentStatisticsController {
     private IClassTypeService classTypeServiceImpl;
     @Autowired
     private IUserHistoryService userHistoryServiceImpl;
+    @Autowired
+    private IUsersFrontService usersFrontService;
+    @Autowired
+    private ICompanyService companyService;
 
 	/**
 	 * 页面跳转
@@ -657,12 +665,82 @@ public class StudentStatisticsController {
         List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
         model.addAttribute("stepList", stepList);
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+
+        //课程科目
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
+        model.addAttribute( "subjectItem", subjectList);
+
         if(("0".equals(WebUtils.getCurrentCompany().getIsArea())||"1".equals(WebUtils.getCurrentCompany().getIsArea()))&&subject.hasRole("学校负责人")){
         	return "/query/query_student_org";
         }else{
         	return "/query/query_student_orgteacher";
         }
     }
+
+    /**
+     * 去数校学员学习详情页面
+     */
+    @RequestMapping(value="/learningDetails/studentList")
+    public String stuLearningDetailsList(Model model, HttpServletRequest request) {
+
+        //学段
+        List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
+        model.addAttribute("stepList", stepList);
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+
+        //课程科目
+        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
+        model.addAttribute( "subjectItem", subjectList);
+        return "";
+    }
+
+    /**
+     * 异步获取数校学员学习详情记录
+     */
+    @ResponseBody
+    @RequestMapping(value="/learningDetails/queryStudentsList")
+    public JSONObject queryStudentsListData(HttpServletRequest request,StudentListVo search) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        //获取当前学校管理员的学校组织机构代码
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+        UsersAreaRelation userAreaRelation=new UsersAreaRelation();
+        userAreaRelation=usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+
+        search.setEduArea(userAreaRelation.getEduArea());
+        search.setEduSchool(userAreaRelation.getEduSchool());
+        //根据组织机构代码获取学校id
+        Integer cId = companyService.findCompanyByCode(userAreaRelation.getEduSchool());
+        search.setCompanyId(cId);
+        //获取所有课程列表
+        List<ClassType> classList;
+        ClassType classType = new ClassType();
+        classType.setEduStep(search.getEduStep());
+        classType.setEduYear(search.getEduYear());
+        if(null != search.getEduClass() && !"".equals(search.getEduClass())){
+            classType.setEduClass(search.getEduClass());
+        }
+        classType.setSubject(search.getSubject());
+        classType.setLiveFlag(Integer.parseInt(search.getLiveFlag()));
+        classType.setCompanyId(search.getCompanyId());
+        search.setPageSize(10);
+        classType.setPageSize(10);
+        if(search.getLiveFlag().equals("0")){
+            //录播课程列表
+            classList = classTypeServiceImpl.getClassTypeListVideo(classType);
+        }else{
+            //直播课程列表
+            classList = classTypeServiceImpl.getClassTypeListLive(classType);
+        }
+
+        PageFinder<UsersFrontVo> pageFinder = studentServiceImpl.findStudentsClassList(search,classType,classList);
+        jsonObject.put("pageFinder",pageFinder);
+        jsonObject.put("classList",classList);
+        return jsonObject;
+    }
+
 
     /**
      * 页面跳转

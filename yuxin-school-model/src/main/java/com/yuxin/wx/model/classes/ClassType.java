@@ -93,7 +93,108 @@ public class ClassType extends BaseEntity {
     
     private Integer sourceCompanyId;
     private Integer sourceClassTypeId;
-    
+
+    private String videoTime;
+
+    private int videoTime2;
+    private String studyLength;
+    private String lessonName;
+    private String lectureName;
+    private String eduArea;
+    private String eduSchool;
+    private String eduStep;
+    private String eduYear;
+    private String eduClass;
+    private String subject;
+
+    public String getEduYear() {
+        return eduYear;
+    }
+
+    public void setEduYear(String eduYear) {
+        this.eduYear = eduYear;
+    }
+
+    public String getEduClass() {
+        return eduClass;
+    }
+
+    public void setEduClass(String eduClass) {
+        this.eduClass = eduClass;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getEduStep() {
+        return eduStep;
+    }
+
+    public void setEduStep(String eduStep) {
+        this.eduStep = eduStep;
+    }
+
+    public String getEduArea() {
+        return eduArea;
+    }
+
+    public void setEduArea(String eduArea) {
+        this.eduArea = eduArea;
+    }
+
+    public String getEduSchool() {
+        return eduSchool;
+    }
+
+    public void setEduSchool(String eduSchool) {
+        this.eduSchool = eduSchool;
+    }
+
+    public String getLectureName() {
+        return lectureName;
+    }
+
+    public void setLectureName(String lectureName) {
+        this.lectureName = lectureName;
+    }
+
+    public String getLessonName() {
+        return lessonName;
+    }
+
+    public void setLessonName(String lessonName) {
+        this.lessonName = lessonName;
+    }
+
+    public String getStudyLength() {
+        return studyLength;
+    }
+
+    public void setStudyLength(String studyLength) {
+        this.studyLength = studyLength;
+    }
+
+    public int getVideoTime2() {
+        return videoTime2;
+    }
+
+    public void setVideoTime2(int videoTime2) {
+        this.videoTime2 = videoTime2;
+    }
+
+    public String getVideoTime() {
+        return videoTime;
+    }
+
+    public void setVideoTime(String videoTime) {
+        this.videoTime = videoTime;
+    }
+
     public String getOpenWay() {
 		return openWay;
 	}

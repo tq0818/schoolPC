@@ -1,5 +1,6 @@
 package com.yuxin.wx.classes.mapper;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo;
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.vo.student.StudentListVo;
+
 /**
  * Service Interface:ClassType
  * @author wang.zx
@@ -164,6 +167,13 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	 * 查询其他分校的直播课程
 	 */
 	int queryCountLiveClassOfOtherSchool(Map<String, Object> param);
+
+	List<ClassType> getClassTypeListVideo(ClassType search);
+
+	List<ClassType> getClassTypeListLive(ClassType search);
+
+	List<ClassType> getClassTimeList(ClassType search);
+	List<ClassType> getClassTimeListLive(ClassType search);
 	
 	
 }

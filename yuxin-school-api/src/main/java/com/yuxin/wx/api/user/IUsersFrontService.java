@@ -3,7 +3,9 @@ package com.yuxin.wx.api.user;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.user.UsersFront;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
 import com.yuxin.wx.vo.user.UsersStudentInfo;
@@ -254,5 +256,15 @@ public interface IUsersFrontService {
     Integer findUsersfrontCountByMobileOrUsername(SelectStudentOrUsersfrontVo search);
 
     List<UsersFront> queryAll();
+
+    List<UsersFrontVo> getUserLearningList(StudentListVo search);
+
+    Integer getUserLearningListCount(StudentListVo search);
+
+    List<ClassTypeVo> getClassTimeList();
+
+    List<UsersFrontVo> getStuList(StudentListVo search);
+
+    Integer getStuListCount(StudentListVo search);
     
 }

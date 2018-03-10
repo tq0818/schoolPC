@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.EduMasterClass;
@@ -345,4 +346,8 @@ public interface StudentMapper extends BaseMapper<Student> {
 	List<StudentListVo> queryStudentsListTwo(StudentListVo search);
 
 	List<String> queryAllStudents(Integer companyId);
+
+
+
+
 }

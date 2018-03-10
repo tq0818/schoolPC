@@ -736,8 +736,22 @@ public class StudentStatisticsController {
         }
 
         PageFinder<UsersFrontVo> pageFinder = studentServiceImpl.findStudentsClassList(search,classType,classList);
+        List<ClassType> classLists = new ArrayList<>();
+        List<String> l = new ArrayList<>();
+
+        ClassType ct;
+        for(int i = 0; i<10;i++){
+            ct = new ClassType();
+            ct.setLessonName("三国");
+            classLists.add(ct);
+            for(int j= 0 ;j<10;j++){
+                l = new ArrayList<>();
+                l.add(Math.random() < 0.5 ? "0" : "1");
+            }
+            pageFinder.getData().get(i).setStudyFlag(l);
+        }
         jsonObject.put("pageFinder",pageFinder);
-        jsonObject.put("classList",classList);
+        jsonObject.put("classList",classLists);
         return jsonObject;
     }
 

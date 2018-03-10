@@ -117,6 +117,70 @@ public class UsersFrontVo extends BaseEntity {
     private Map<String ,String> classTypeList;
     private List<String> studyFlag;//学习进度是否达到70%（1：是，0：否）
 
+    private String lectureId;
+    private String len;
+    private String itemThirdCode;
+    private String lectureName;
+    private String videoTime;
+    private String eduStep;
+    private String originType;
+
+    public String getLectureId() {
+        return lectureId;
+    }
+
+    public void setLectureId(String lectureId) {
+        this.lectureId = lectureId;
+    }
+
+    public String getLen() {
+        return len;
+    }
+
+    public void setLen(String len) {
+        this.len = len;
+    }
+
+    public String getItemThirdCode() {
+        return itemThirdCode;
+    }
+
+    public void setItemThirdCode(String itemThirdCode) {
+        this.itemThirdCode = itemThirdCode;
+    }
+
+    public String getLectureName() {
+        return lectureName;
+    }
+
+    public void setLectureName(String lectureName) {
+        this.lectureName = lectureName;
+    }
+
+    public String getVideoTime() {
+        return videoTime;
+    }
+
+    public void setVideoTime(String videoTime) {
+        this.videoTime = videoTime;
+    }
+
+    public String getEduStep() {
+        return eduStep;
+    }
+
+    public void setEduStep(String eduStep) {
+        this.eduStep = eduStep;
+    }
+
+    public String getOriginType() {
+        return originType;
+    }
+
+    public void setOriginType(String originType) {
+        this.originType = originType;
+    }
+
     public List<String> getStudyFlag() {
         return studyFlag;
     }

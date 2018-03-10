@@ -31,8 +31,11 @@
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
 		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 		<input type="hidden" id="current_is_area" value='${CURRENT_IS_AREA}'/>	
-		<input type="hidden" id="sourceFromStatic" value='1'/>	
-	<!-- 二级导航 -->
+		<input type="hidden" id="sourceFromStatic" value='1'/>
+		<input type="hidden" id="eduYearM" value='${eduYear}'/>
+		<input type="hidden" id="eduClassM" value='${eduClass}'/>
+		<input type="hidden" id="eduStepM" value='${eduStep}'/>
+<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_org.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
 	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
@@ -170,48 +173,50 @@
 				<div class="classListContent">
 					<form>
 						<ul>
-							<li>
+							<%--<li>
 								<label for="" class="xingMark">学段</label>
-								<select name="" id="">
-									<option value="">小学</option>
-									<option value="">初中</option>
-									<option value="">高中</option>
-								</select>
-							</li>
-							<li>
+								<c:if test="${role == '2' }">
+									<select id="eduStep" name="eduStep" style="width:150px;">
+										<option value="">请选择学段</option>
+										<option value="${eduStep}">${eduStepName}</option>
+									</select>
+								</c:if>
+							</li>--%>
+							<%--<li>
 								<label for="">入学年份</label>
-								<select name="" id="">
-									<option value="">2017</option>
-									<option value="">2016</option>
-									<option value="">2015</option>
-									<option value="">2014</option>
-								</select>
-							</li>
-							<li>
+								<c:if test="${role=='2'}">
+									<select id="eduYear" name="eduYear" style="width:150px;">
+										<option value="">请选择入学年份</option>
+											&lt;%&ndash; <option value="${eduYear}">${eduYear}年</option> &ndash;%&gt;
+									</select>
+								</c:if>
+							</li>--%>
+							<%--<li>
 								<label for="">班级</label>
 								<select name="" id="">
-									<option value="">1班</option>
-									<option value="">2班</option>
-									<option value="">3班</option>
+									<c:if test="${role=='2'}">
+										<option value="">请选择班级</option>
+										&lt;%&ndash; <option value="${eduClass}">${eduClass}班</option> &ndash;%&gt;
+									</c:if>
 								</select>
-							</li>
+							</li>--%>
 							<li>
 								<label for="" class="xingMark">学科</label>
-								<select name="" id="">
-									<option value="">语文</option>
-									<option value="">数学</option>
-									<option value="">英语</option>
+								<select name="" id="subject">
+									<c:forEach items="${subjectItem}" var="subject">
+										<option value="${subject.itemCode}">${subject.itemName}</option>
+									</c:forEach>
 								</select>
 							</li>
 							<li>
 								<label for="" class="xingMark">课程形式</label>
-								<select name="" id="">
-									<option value="">直播</option>
-									<option value="">点播</option>
+								<select name="" id="liveFlag">
+									<option value="1">直播</option>
+									<option value="0">点播</option>
 								</select>
 							</li>
 							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(1)">查询</a>
 								<a href="##" class="btn btn-mb btn-primary">导出</a>
 							</li>
 						</ul>
@@ -399,6 +404,7 @@
 		<!--  ajax加载中div结束 -->
 	</div>
 <input type="hidden" id="selectCounts" value="10">
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/master_query_student.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_orgteachcommon.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>

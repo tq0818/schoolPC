@@ -2003,6 +2003,9 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
 		Integer stuListCount = usersFrontMapper.getStuListCount(search);
 
+		List<UsersFrontVo> stuListAll = usersFrontMapper.getAllList(search);
+
+
 		//有学习记录的学生列表
 		List<UsersFrontVo> listLearning = usersFrontMapper.getUserLearningList(search);
 //        Integer count = usersFrontService.getUserLearningListCount(search);

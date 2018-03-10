@@ -107,6 +107,14 @@
 		<result property="studyTime" column="studyTime"/>
 		<result property="commodityId" column="commodity_id"/>
 		<result property="classTypeId" column="class_type_id"/>
+		<result property="lectureId" column="lecture_id"/>
+		<result property="lectureName" column="lecture_name"/>
+		<result property="len" column="len"/>
+		<result property="itemThirdCode" column="item_third_code"/>
+		<result property="videoTime" column="video_time"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="isInSchool" column="is_in_school"/>
+		<result property="originType" column="origin_type"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.user.UsersFrontIntegralVo" id="userFrontIntegralMapVo">
@@ -964,6 +972,32 @@
 		and edu_year = #{eduYear} -- 入学年份
 		and is_in_school = '1'
 		LIMIT #{page},#{pageSize}
+	</select>
+
+	<select id="getAllList" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultMap="usersFrontVoResultMap">
+		SELECT spl.`class_type_id`, spl.`commodity_id`, spl.`id`, spl.`lecture_id`, spl.len, spl.`user_id`, ct.`item_third_code`,
+		cvl.`lecture_name`, v.`video_time`, st.`name`, st.`edu_year`, st.`edu_class`, st.`edu_step` , st.`is_in_school` , ct.`origin_type`
+		FROM
+		(SELECT
+		`class_type_id`,
+		`commodity_id`,
+		`id`,
+		`lecture_id`,
+		MAX(`study_length`) len,
+		`user_id`
+		FROM
+		sys_play_logs
+		GROUP BY `lecture_id`,
+		`user_id`) AS spl,
+		class_type ct,
+		`video` v,
+		course_video_lecture cvl,
+		`student` st
+		WHERE spl.`class_type_id` = ct.`id`
+		AND v.`id` = cvl.`video_id`
+		AND spl.`lecture_id` = cvl.`id`
+		AND spl.`user_id` = st.`user_id`
+		ORDER BY spl.lecture_id
 	</select>
 
 	<select id="getStuListCount" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultType="int">

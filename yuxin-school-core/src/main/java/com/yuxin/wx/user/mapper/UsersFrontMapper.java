@@ -99,5 +99,7 @@ public interface UsersFrontMapper extends BaseMapper<UsersFront> {
 
     List<UsersFrontVo> getStuList(StudentListVo search);
 
+    List<UsersFrontVo> getAllList(StudentListVo search);
+
     Integer getStuListCount(StudentListVo search);
 }

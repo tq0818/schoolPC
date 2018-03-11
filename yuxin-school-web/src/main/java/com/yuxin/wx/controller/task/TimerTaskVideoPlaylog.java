@@ -95,33 +95,33 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
         //System.out.println((c));
         String result = null;
         try {
-//            result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
-//            if(StringUtils.isNotEmpty(result)&&result.contains("INVALID_REQUEST")){
-//            	return;
-//            }
-//            Gson g = new Gson();
-//            TestTask.PlayLogsResult plre =  g.fromJson(result,TestTask.PlayLogsResult.class);
-//            List<TestTask.PlayLog> playLog = plre.getPlay_logs().getPlay_log();
-//            for(int n  = 0 ; n < playLog.size() ; n++){
-//                TestTask.PlayLog play = playLog.get(n);
-//                UserHistoryAllVo uha =new UserHistoryAllVo();
-//                if(play.getCustom_id().indexOf("null")!=-1 || play.getCustom_id().indexOf("NaN")!=-1){
-//                    continue;
-//                }
-//                String  [] info = play.getCustom_id().split("_");
-//                uha.setUserId(Integer.parseInt(info[0]));
-//                uha.setCommodityId(Integer.parseInt(info[1]));
-//                uha.setClassTypeId(Integer.parseInt(info[2]));
-//                uha.setLectureId(Integer.parseInt(info[3]));
-//                uha.setStudyLength(play.getPlay_duration());
-//                uha.setStudyTime(date);
-//                uha.setDevice(play.getDevice());
-//                userHistoryServiceImpl.insertPlayLogs(uha);
-//                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength(),uha.getLectureId());
-//            }
-//            if(playLog.size()==1000){
-//                addPlayLog(date,companyPayConfig,index+1,sdf);
-//            }
+            result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
+            if(StringUtils.isNotEmpty(result)&&result.contains("INVALID_REQUEST")){
+            	return;
+            }
+            Gson g = new Gson();
+            TestTask.PlayLogsResult plre =  g.fromJson(result,TestTask.PlayLogsResult.class);
+            List<TestTask.PlayLog> playLog = plre.getPlay_logs().getPlay_log();
+            for(int n  = 0 ; n < playLog.size() ; n++){
+                TestTask.PlayLog play = playLog.get(n);
+                UserHistoryAllVo uha =new UserHistoryAllVo();
+                if(play.getCustom_id().indexOf("null")!=-1 || play.getCustom_id().indexOf("NaN")!=-1){
+                    continue;
+                }
+                String  [] info = play.getCustom_id().split("_");
+                uha.setUserId(Integer.parseInt(info[0]));
+                uha.setCommodityId(Integer.parseInt(info[1]));
+                uha.setClassTypeId(Integer.parseInt(info[2]));
+                uha.setLectureId(Integer.parseInt(info[3]));
+                uha.setStudyLength(play.getPlay_duration());
+                uha.setStudyTime(date);
+                uha.setDevice(play.getDevice());
+                userHistoryServiceImpl.insertPlayLogs(uha);
+                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength(),uha.getLectureId());
+            }
+            if(playLog.size()==1000){
+                addPlayLog(date,companyPayConfig,index+1,sdf);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

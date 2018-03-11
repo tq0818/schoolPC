@@ -1239,7 +1239,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	<!--分校首页学校列表-->
 	<select id="queryReCompanyVoListByCondition" resultMap="companyVResultMap" parameterType="map">
 		select * from (select su.* from (
-			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,ss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,if(isnull(s.registStudentCounts),0,s.registStudentCounts) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code  and ss.dict_code = 'EDU_SCHOOL_AREA'
 			left join (
@@ -1250,12 +1250,14 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 				) group by edu_area
 			) sm on sm.edu_area=co.edu_area_school
 			left join commodity cc on cc.company_id=co.id and cc.origin_type=0 
-			left join student s on 1=1 and s.edu_area in(
-			<foreach item="item" collection="areaCompanyList" separator="," >
-					#{item.eduAreaSchool}
-			</foreach>
-			)
-			and s.edu_area=co.edu_area_school and s.edu_identity=0
+			left join (
+				select edu_area,count(1) registStudentCounts from student where edu_area in(
+					<foreach item="item" collection="areaCompanyList" separator="," >
+						#{item.eduAreaSchool}
+					</foreach>
+				) and edu_identity=0 
+				group by edu_area
+			) s on 1=1 and s.edu_area=co.edu_area_school
 			where co.is_area=1 and co.edu_area_school in(
 				<foreach item="item" collection="areaCompanyList" separator="," >
 						#{item.eduAreaSchool}
@@ -1267,7 +1269,7 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 	 		<if test="search.eduArea != null and search.eduArea != ''">and ss.item_code = #{search.eduArea}</if>
 			GROUP BY co.id
 			union
-			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,count(distinct s.id) registStudentCounts,count(distinct cc.id) classTypeCounts
+			select co.domain,co.domain_manage as domainManage,co.id,co.company_name companyName,co.regist_time registTime,ss.item_code eduAreaSchool,pss.item_value eduArea,if(isnull(sm.count),0,sm.count) classCounts,if(isnull(s.registStudentCounts),0,s.registStudentCounts) registStudentCounts,count(distinct cc.id) classTypeCounts
 			from company co
 			inner join sys_config_dict ss on co.edu_area_school=ss.item_code and ss.dict_code='EDU_SCHOOL'
 			inner join sys_config_dict pss on pss.id=ss.parent_item_id and pss.dict_code='EDU_SCHOOL_AREA'
@@ -1281,13 +1283,15 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 			 	) 
 			 	group by edu_area
 			 ) sm on sm.edu_school=co.edu_area_school
-			left join commodity cc on cc.company_id=co.id and cc.origin_type=0 
-			left join student s on 1=1 and s.edu_school in(
-			<foreach item="item" collection="schoolCompanyList" separator="," >
-					#{item.eduAreaSchool}
-			</foreach>
-			)
-			and s.edu_school=co.edu_area_school and s.edu_identity=0
+			left join commodity cc on cc.company_id=co.id and cc.origin_type=0
+			left join (
+				select edu_school,count(1) registStudentCounts from student where edu_school in(
+					<foreach item="item" collection="schoolCompanyList" separator="," >
+							#{item.eduAreaSchool}
+					</foreach>
+				) and edu_identity=0 
+				group by edu_school
+			) s on 1=1 and s.edu_school=co.edu_area_school
 			where co.is_area=2  and co.edu_area_school in(
 				<foreach item="item" collection="schoolCompanyList" separator="," >
 						#{item.eduAreaSchool}

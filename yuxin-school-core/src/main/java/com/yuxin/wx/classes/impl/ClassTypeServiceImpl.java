@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.yuxin.wx.user.mapper.UsersFrontMapper;
+import com.yuxin.wx.vo.student.StudentListVo;
+import com.yuxin.wx.vo.user.UsersFrontVo;
+import net.sf.json.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +76,9 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	private ClassTypeModuleRelationMapper relatiomMapper;
 	@Autowired
 	private SysConfigTeacherMapper teacherMapper;
+
+	@Autowired
+	private UsersFrontMapper usersFrontMapper;
 
 	/**
 	 * 
@@ -564,6 +573,155 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		map.put("stuIdsList", stuIdsList);
 		map.put("lessonIdsList", lessonIdsList);
 		return classTypeMapper.getClassLessonLogList( map);
+	}
+
+	@Override
+	public JSONObject getListDatas(StudentListVo search,ClassType classType) {
+		JSONObject jsonObject = new JSONObject();
+		List<ClassLectureVO> classList = null;
+		//获取Redis缓存课程列表
+		Map<Integer,ClassLectureVO> map = RedisHelper.getInstance().getClassLectureMap(Long.valueOf(search.getUserId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject());
+		if(null == map){
+			//Redis中不存在，查询
+			if(search.getLiveFlag().equals("0")){
+				//录播课程列表
+				classList = classTypeMapper.getClassTypeListVideo(classType);
+				map = new HashMap<>();
+				for(ClassLectureVO temp : classList){
+					temp.initVedioLen();//调用方法转换视频格式得到视频长度
+					map.put(Integer.valueOf(temp.getId()),temp);
+				}
+				RedisHelper.getInstance().putClassLectureMap(Long.valueOf(search.getUserId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject(),map);
+			}else{
+				//直播课程列表
+				// classList = classTypeServiceImpl.getClassTypeListLive(classType);
+			}
+		}else{
+			classList = new ArrayList<>();
+			//List<ClassLectureVO>
+			for (Map.Entry< Integer,ClassLectureVO> entry : map.entrySet()) {
+				classList.add(entry.getValue());
+			}
+		}
+
+		//获取年级或班级下的所有学生列表
+		List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
+		int stuCount = usersFrontMapper.getStuListCount(search);
+
+		//根据学生列表和课程列表查询观看记录
+		//组装学生id
+		List<Integer> stuIdsList = new ArrayList<>();
+		for(UsersFrontVo fu : stuList){
+			stuIdsList.add(Integer.valueOf(fu.getUserId()));
+		}
+		//组装课程id
+		List<Integer> lessonIdsList = new ArrayList<>();
+		for (Map.Entry<Integer, ClassLectureVO> entry : map.entrySet()) {
+			lessonIdsList.add(entry.getKey());
+		}
+		Map<String,List<Integer>> maps = new HashMap<>();
+		maps.put("stuIdsList", stuIdsList);
+		maps.put("lessonIdsList", lessonIdsList);
+		//获取录播观看记录
+		List<ClassLessonVO>  lectureVOList = classTypeMapper.getClassLessonLogList(maps);
+
+		if(null == lectureVOList){
+			//TODO  没有获取到记录
+			return jsonObject;
+		}else{
+			System.out.println("lectureVOList size = "+lectureVOList.size());
+			for(ClassLessonVO v : lectureVOList){
+				System.out.println(v);
+			}
+		}
+
+		for(ClassLessonVO vo :lectureVOList ){
+			System.out.println("课程观看记录"+vo);
+		}
+
+		//组装数据
+		//List<UsersFrontVo> stuList
+		//初始化二维关系
+		Map<String,Map<String,Integer> > resultMap = new HashMap<>();
+		Map<String,Map<String,Integer> > studyTimeMap = new HashMap<>();
+		Map<String,Integer> initMap = null;
+		Map<String,Integer> initTimeMap = null;
+		for(int i=0;i<stuList.size();i++){
+			initMap =  new HashMap<String,Integer>();
+			initTimeMap =  new HashMap<String,Integer>();
+			for(Integer ids : map.keySet()){
+				initMap.put(""+ids, 0);
+				initTimeMap.put(""+ids, 0);
+			}
+			resultMap.put(""+stuList.get(i).getUserId(), initMap);
+			studyTimeMap.put(""+stuList.get(i).getUserId(),initTimeMap);
+		}
+
+		//处理录播观看记录
+		Map<String,Integer> temp = null;
+		Map<String,Integer> studyTemp = null;
+
+		for(ClassLessonVO lessonVO : lectureVOList){
+			System.out.println("循环课程查询结果,userId = "+lessonVO.getUserId());
+			temp = resultMap.get(""+lessonVO.getUserId());
+			studyTemp = studyTimeMap.get(""+lessonVO.getUserId());
+			if(null != temp){
+				//Integer flag = 0;
+				ClassLectureVO maplesson = map.get(Integer.valueOf(lessonVO.getLectureId()));
+				if(1.0f*lessonVO.getLen()/maplesson.getVideoLen() >= 0.7){
+					temp.put(""+maplesson.getId(), 1);
+				}
+				studyTemp.put(""+maplesson.getId(), lessonVO.getLen());
+			}else{
+				System.out.println("map中没有找到对应学生的观看记录");
+			}
+		}
+
+		//组装返回web json
+		//组装课程列表
+		JSONObject obj = null;
+
+
+		JSONObject pageFinder = new JSONObject();
+		pageFinder.put("page", 1);
+		pageFinder.put("size", 10);
+		pageFinder.put("count", stuCount);
+
+		JSONArray lessonArr = null;
+		JSONArray arr = new JSONArray();
+		for(UsersFrontVo vo : stuList){
+			Map<String,Integer> flagMap = resultMap.get(""+vo.getUserId());
+			obj = new JSONObject();
+
+			lessonArr = new JSONArray();
+			int countClass = 0;
+			int classTime = 0;
+			for(ClassLectureVO classTemp : classList){
+				lessonArr.add(flagMap.get(""+classTemp.getId()));
+			}
+
+			Map<String,Integer> studyTempMap = studyTimeMap.get(""+vo.getUserId());
+			if(null != studyTempMap){
+				for (Map.Entry< String,Integer> entry : studyTempMap.entrySet()) {
+					//classList.add(entry.getValue());
+					if(entry.getValue() != 0){
+						countClass ++;
+						classTime += entry.getValue();
+					}
+				}
+			}
+			vo.setCountClass(String.valueOf(countClass));
+			vo.setStudyTime(String.valueOf(classTime/60));
+			obj.put("info", vo);
+
+			obj.put("list", lessonArr);
+			arr.add(obj);
+		}
+
+		pageFinder.put("data", arr);
+		jsonObject.put("classList",classList);
+		jsonObject.put("pageFinder", pageFinder);
+		return jsonObject;
 	}
 
 }

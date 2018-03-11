@@ -724,7 +724,10 @@ public class StudentStatisticsController {
         	System.out.println("==========> 查询失败");
         	return jsonObject;
         }
-        
+
+
+
+        search.setUserId(loginUser.getId());
         search.setCompanyId(companySchoolVO.getCompanyId());
         search.setEduSchool(companySchoolVO.getItem_code());
         
@@ -765,6 +768,9 @@ public class StudentStatisticsController {
         classType.setCompanyId(search.getCompanyId());
         search.setPageSize(10);
         classType.setPageSize(10);
+
+        jsonObject = classTypeServiceImpl.getListDatas(search,classType);
+
         //获取Redis缓存课程列表
         Map<Integer,ClassLectureVO> map = RedisHelper.getInstance().getClassLectureMap(Long.valueOf(loginUser.getId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject());
         if(null == map){
@@ -869,6 +875,7 @@ public class StudentStatisticsController {
         JSONObject obj = null;
         
        // PageFinder<UsersFrontVo> pageFinder = new PageFinder(page,pageSize,count,lessonArr);
+
         JSONObject pageFinder = new JSONObject();
         pageFinder.put("page", 1);
         pageFinder.put("size", 10);
@@ -904,11 +911,13 @@ public class StudentStatisticsController {
         	obj.put("list", lessonArr);
         	arr.add(obj);
         }
-        
+
         pageFinder.put("data", arr);
         jsonObject.put("classList",classList);
         jsonObject.put("pageFinder", pageFinder);
-        
+
+
+
         System.out.println(jsonObject);
         return jsonObject;
     }

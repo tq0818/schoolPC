@@ -3,6 +3,7 @@ package com.yuxin.wx.api.classes;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.vo.classes.ClassLessonVO;
@@ -10,6 +11,8 @@ import com.yuxin.wx.vo.classes.ClassPackageConditionVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo;
 import com.yuxin.wx.vo.redis.ClassLectureVO;
+import com.yuxin.wx.vo.student.StudentListVo;
+
 /**
  * Service Interface:ClassType
  * @author wang.zx
@@ -488,5 +491,7 @@ public interface IClassTypeService  {
 	List<ClassType> getClassTimeList(ClassType search);
 	
 	List<ClassLessonVO> getClassLessonLogList(List<Integer> stuIdsList,List<Integer> lessonIdList);
+
+	JSONObject getListDatas(StudentListVo search,ClassType classType);
 	
 }

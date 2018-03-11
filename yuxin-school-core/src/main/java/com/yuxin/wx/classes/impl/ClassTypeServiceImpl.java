@@ -5,16 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.yuxin.wx.user.mapper.UsersFrontMapper;
-import com.yuxin.wx.vo.student.StudentListVo;
-import com.yuxin.wx.vo.user.UsersFrontVo;
-import net.sf.json.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.classes.mapper.ClassModuleLessonMapper;
 import com.yuxin.wx.classes.mapper.ClassModuleMapper;
@@ -34,11 +30,15 @@ import com.yuxin.wx.model.classes.ClassTypeRemoteRelation;
 import com.yuxin.wx.model.course.CourseVideoChapter;
 import com.yuxin.wx.system.mapper.SysConfigItemTagMapper;
 import com.yuxin.wx.system.mapper.SysConfigTeacherMapper;
+import com.yuxin.wx.user.mapper.UsersFrontMapper;
+import com.yuxin.wx.util.redis.RedisHelper;
 import com.yuxin.wx.vo.classes.ClassLessonVO;
 import com.yuxin.wx.vo.classes.ClassPackageConditionVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo;
 import com.yuxin.wx.vo.redis.ClassLectureVO;
+import com.yuxin.wx.vo.student.StudentListVo;
+import com.yuxin.wx.vo.user.UsersFrontVo;
 
 /**
  * Service Implementation:ClassType

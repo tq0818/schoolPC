@@ -26,15 +26,23 @@ function masterFindClassStu(page) {
                     .find(".tableSecond")
                     .html('');
 
-                $(".classListContent")
-                    .find(".tableFirst")
-                    .append(
-                        '<tr><td colspan="12">没有查找到数据</td></tr>');
+                // $(".classListContent")
+                //     .find(".tableFirst")
+                //     .append(
+                //         '<tr><td colspan="12">没有查找到数据</td></tr>');
+
+                $('.studentContent').hide();
+                $('.studentNo').show();
             }
             if(jsonData.classList.length == 0){
-                $(".classListContent")
-                    .find(".tableSecond")
-                    .html('<tr><td colspan="12">没有查找到数据</td></tr>');
+                // $(".classListContent")
+                //     .find(".tableSecond")
+                //     .html('<tr><td colspan="12">没有查找到数据</td></tr>');
+                //无课程数据时，显示默认提示
+                $('.tableSecond').hide();
+                $('.leftIcon').hide();
+                $('.rightIcon').hide();
+                $('.classNo').show();
             }
 
             var eduStep = $('#eduStep2').val();
@@ -106,6 +114,8 @@ function masterFindClassStu(page) {
 
             /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
              $('.changeIcon').height($("#classListTbody").height());*/
+            //根据列表的高度设置切换按钮的高度
+
 
             //分页
             $("#paginationStuList").pagination(jsonData.pageFinder.rowCount,
@@ -129,6 +139,14 @@ function masterFindClassStu(page) {
                     return;
                 }
 
+                //隐藏左侧icon
+                if(nowClass == 1||nowClass == 0){
+                    $(".leftIcon").hide();
+                }else {
+                    $(".leftIcon").show();
+                }
+                $(".rightIcon").show();
+
                 nowClass --;
                 $("#className").html(headArr[nowClass]);
                 $("#classListTbody").html(bodyArr[nowClass]);
@@ -139,6 +157,13 @@ function masterFindClassStu(page) {
                 if(nowClass == headArr.length - 1){
                     return;
                 }
+
+                //隐藏右侧icon
+
+                if(nowClass == headArr.length - 2){
+                    $(".rightIcon").hide();
+                }
+                $(".leftIcon").show();
 
                 nowClass ++;
                 $("#className").html(headArr[nowClass]);

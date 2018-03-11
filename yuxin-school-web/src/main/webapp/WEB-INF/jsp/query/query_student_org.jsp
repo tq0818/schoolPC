@@ -230,7 +230,7 @@
 						</span>
 					</div>
 					<div style="width:100%;">
-						<div style="width:100%;">
+						<div class="studentContent" style="width:100%;">
 							<table class="table table-center tableFirst">
 								<tr data-buy="true">
 									<th width="8%">姓名</th>
@@ -247,16 +247,19 @@
 								<tbody id="classListTbody"></tbody>
 							</table>
 							
-							<div class="leftIcon changeIcon">
+							<div class="leftIcon changeIcon" style="display:none;">
 								<i id="leftIconBtn" class="icon iconfont ">&#xe650;</i>
 							</div>
 							<div class="rightIcon changeIcon">
 								<i id="rightIconBtn" class="icon iconfont ">&#xe651;</i>
 							</div>
-							
+							<div class="classNo" style="display: none;width: 49%; text-align: center;border: 1px solid #666;">
+								<img src="<%=rootPath%>/images/classNew.jpg" alt="" style="margin-top: 150px;">
+							</div>
 						</div>
-						
-
+						<div class="studentNo" style="display: none;width: 100%; text-align: center;">
+							<img src="<%=rootPath%>/images/studentNew.jpg" alt="" style="margin-top: 150px;">
+						</div>
 						<div id="paginationStuList" class="pages pagination" style="margin-top: 450px;"></div>
 					</div>
 				</div>
@@ -839,7 +842,7 @@ $('.heading h2').click(function(){
         $('.classListContent').show();
         //根据列表的高度设置切换按钮的高度
         var tableHeight = ($('.tableFirst').height()-35)+'px';
-        $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','65px');
+        $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
     }
 });
 

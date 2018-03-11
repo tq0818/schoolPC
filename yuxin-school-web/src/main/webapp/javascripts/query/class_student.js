@@ -190,7 +190,6 @@ function findClassStu(page) {
             $(".loading-bg").show();
         },
         success: function (jsonData) {
-        	console.log(jsonData);
             if (jsonData.pageFinder.data.length == 0) {
                 $(".classListContent")
                     .find(".tableFirst")
@@ -199,15 +198,25 @@ function findClassStu(page) {
                     .find(".tableSecond")
                     .html('');
 
-                $(".classListContent")
-                    .find(".tableFirst")
-                    .append(
-                        '<tr><td colspan="12">没有查找到数据</td></tr>');
+                // $(".classListContent")
+                //     .find(".tableFirst")
+                //     .append(
+                //         '<tr><td colspan="12">没有查找到数据</td></tr>');
+                $('.studentContent').hide();
+                $('.studentNo').show();
             }
             if(jsonData.classList.length == 0){
-                $(".classListContent")
-                    .find(".tableSecond")
-                    .html('<tr><td colspan="12">没有查找到数据</td></tr>');
+                // $(".classListContent")
+                //     .find(".tableSecond")
+                //     .html('<tr><td colspan="12">没有查找到数据</td></tr>');
+
+                //无课程数据时，显示默认提示
+                $('.tableSecond').hide();
+                $('.leftIcon').hide();
+                $('.rightIcon').hide();
+                $('.classNo').show();
+
+
             }
 
             var eduStep = $('#eduStep2').val();
@@ -279,13 +288,18 @@ function findClassStu(page) {
             
           /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
            $('.changeIcon').height($("#classListTbody").height());*/
-            
+
+            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+            console.log(tableHeight);
+
+
             //分页
             $("#paginationStuList").pagination(jsonData.pageFinder.count,
                     {
                         next_text: "下一页",
                         prev_text: "上一页",
-                        current_page: jsonData.pageFinder.page - 1,
+                        current_page: jsonData.pageFinder.page,
                         link_to: "javascript:void(0)",
                         num_display_entries: 8,
                         items_per_page: jsonData.pageFinder.size,
@@ -299,8 +313,16 @@ function findClassStu(page) {
             
             $("#leftIconBtn").click(function(){
             	if(nowClass == 0){
+
             		return;
             	}
+            	//隐藏左侧icon
+            	if(nowClass == 1||nowClass == 0){
+                    $(".leftIcon").hide();
+                }else {
+                    $(".leftIcon").show();
+                }
+                $(".rightIcon").show();
             	
             	nowClass --;
             	$("#className").html(headArr[nowClass]);
@@ -312,6 +334,12 @@ function findClassStu(page) {
             	if(nowClass == headArr.length - 1){
             		return;
             	}
+                 //隐藏右侧icon
+
+                 if(nowClass == headArr.length - 2){
+                     $(".rightIcon").hide();
+                 }
+                 $(".leftIcon").show();
             	
             	nowClass ++;
             	$("#className").html(headArr[nowClass]);

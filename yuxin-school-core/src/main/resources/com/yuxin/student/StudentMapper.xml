@@ -3685,7 +3685,7 @@ select * from (
 	</select>
 
 	<select id="queryAllStudents" resultType="String"  parameterType="int">
-		select s.mobile as mobile from student s left join users_front uf on s.user_id = uf.id ORDER BY s.id desc
+		select concat(s.mobile,'_',s.is_in_school) from student s left join users_front uf on s.user_id = uf.id ORDER BY s.id desc
 	</select>
 
 	<select id="findStudentOnlyByUserId" resultMap="studentResultMap" parameterType="int">

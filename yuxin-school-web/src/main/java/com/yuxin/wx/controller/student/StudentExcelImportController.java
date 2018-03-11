@@ -35,6 +35,7 @@ import com.yuxin.wx.model.company.CompanyRegisterConfig;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.util.StringUtil;
 import com.yuxin.wx.utils.CheckImportUtil;
 import com.yuxin.wx.utils.FileUploadUtil;
 import com.yuxin.wx.utils.ImportExcl;
@@ -129,9 +130,9 @@ public class StudentExcelImportController {
 			}
 		
 			json.put( "excelPath", content + fileName );
-			
+			//不管是否有错，都允许导入
 			if( !(Boolean)json2In.get("result") || !(Boolean)json2Out.get("result") ){
-				json.put( JsonMsg.RESULT, JsonMsg.ERROR );
+				json.put( JsonMsg.RESULT, JsonMsg.ERROR);
 				json.put( "errorMsg2In", (List<String>)json2In.get("msg") );
 				json.put( "errorMsg2Out", (List<String>)json2Out.get("msg") );
 				json.put( "students4Update", (List<Student>)json2In.get("students") );
@@ -951,11 +952,14 @@ public class StudentExcelImportController {
 //		List<StudentImportVo> studentslist = this.studentServiceImpl.queryAllStudentsByCompanyId(companyId);
 
 		List<String> students = this.studentServiceImpl.queryAllStudents(companyId);
-		StudentImportVo student = new StudentImportVo();
 		StudentAll4CompanyVo allStudents = new StudentAll4CompanyVo();
 		for(String s :students){
-			student.setMobile(s);
-			allStudents.getMobiles().put(s,student);
+			StudentImportVo student = new StudentImportVo();
+			if(StringUtils.isNotEmpty(s)){
+				student.setMobile(s.split("_")[0]);
+				student.setIsInSchool(s.split("_")[1]);
+				allStudents.getMobiles().put(s.split("_")[0],student);
+			}
 		}
 
 		/*for (int i = 0; i < studentslist.size(); i++) {

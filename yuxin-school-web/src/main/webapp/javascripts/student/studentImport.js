@@ -132,7 +132,14 @@
 	                        	if(jsonData.students4Update.length>0){
 	                        		$(".allupdate").removeClass("none");
 	                        	}
-								$(".chooseInsert").addClass("none");
+	                        	$(".chooseFile").addClass("none");
+								//$(".chooseInsert").addClass("none");
+	                        	$(".chooseInsert").removeClass("none");
+	                        	//只有存在Excel内部校验时，才不允许导入
+	                        	if(jsonData.errorMsg2In.length>0){
+	                        		$(".chooseFile").removeClass("none");
+	                        		$(".chooseInsert").addClass("none");
+	                        	}
 								$("#markUrl").val(JSON.stringify(jsonData.excelPath));
 								_$.setData("students4Update",JSON.stringify(jsonData.students4Update));
 								_$.setData("students4Insert",JSON.stringify(jsonData.students4Insert));
@@ -164,6 +171,7 @@
     					$(this).addClass("btn-primary").removeClass("btn-default");
     					return;
     				}
+    				var obj=this;
     				_$.ajax({ url: '/excelImportStudents/insertMoreStudents', 
     						  data: {"data":mark=="insert"?_$.getData("students4Insert"):_$.getData("students4Update"),"groupOneId":$("#studentG1").val(),"groupTwoId":$("#studentG2").val()}, 
     						  beforeSend: function () { $(".loading.insert").show(); $(".loading-bg").show(); }, 
@@ -172,10 +180,14 @@
 			    					$("#markUrl").val("");
 									if(jsonData.result == "error"){
 										$.msg("导入信息有误！");
-										$this.addClass("btn-primary").removeClass("btn-default");
+										$(obj).addClass("btn-primary").removeClass("btn-default");
+										$(obj).addClass("none");
 										$("#returnInfo").html("");
 										$(".newinsert").addClass("none");
 										$(".allupdate").addClass("none");
+										$("#markUrl").val("insert");
+										$(".loading.insert").hide();
+										$(".loading-bg").hide();
 										return;
 									}
 									$("#stuMobiles").val(jsonData.studentIds);
@@ -186,7 +198,7 @@
 											type: 'post',
 											success:function(data){
 												$("#DataForm")[0].submit();
-												$this.addClass("btn-primary").removeClass("btn-default");
+												$(obj).addClass("btn-primary").removeClass("btn-default");
 											}
 										});
 									});

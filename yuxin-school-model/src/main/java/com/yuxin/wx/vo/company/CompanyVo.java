@@ -64,6 +64,17 @@ public class CompanyVo extends BaseEntity {
 	private Date memberStartDate; /* 会员服务开始日期 */
 	private Date memberEndDate; /* 会员服务结束日期 */
 	
+	private String eduAreaSchool;
+	
+	
+	
+	
+	public String getEduAreaSchool() {
+		return eduAreaSchool;
+	}
+	public void setEduAreaSchool(String eduAreaSchool) {
+		this.eduAreaSchool = eduAreaSchool;
+	}
 	public String getCompanyName() {
 		return companyName;
 	}

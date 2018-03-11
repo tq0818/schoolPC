@@ -99,6 +99,22 @@
 		<result property="weibo" column="weibo" />
 		<result property="invitCode" column="invite_code"/>
         <result property="recharge" column="recharge"/>
+
+		<result property="userId" column="user_id" />
+		<result property="eduYear" column="edu_year"/>
+		<result property="eduClass" column="edu_class"/>
+		<result property="countClass" column="countClass"/>
+		<result property="studyTime" column="studyTime"/>
+		<result property="commodityId" column="commodity_id"/>
+		<result property="classTypeId" column="class_type_id"/>
+		<result property="lectureId" column="lecture_id"/>
+		<result property="lectureName" column="lecture_name"/>
+		<result property="len" column="len"/>
+		<result property="itemThirdCode" column="item_third_code"/>
+		<result property="videoTime" column="video_time"/>
+		<result property="eduStep" column="edu_step"/>
+		<result property="isInSchool" column="is_in_school"/>
+		<result property="originType" column="origin_type"/>
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.user.UsersFrontIntegralVo" id="userFrontIntegralMapVo">
@@ -913,5 +929,84 @@
 
 	<select id="findNickNameByUserFrontId" resultType="String" parameterType="String">
 		select username from users_front where id=#{userid}
+	</select>
+
+	<select id="getUserLearningList"  resultMap="usersFrontVoResultMap" parameterType="com.yuxin.wx.vo.user.UsersFrontVo">
+		select uha.user_id,uha.commodity_id,uha.class_type_id,s.name,s.edu_year,s.edu_class ,COUNT(distinct(commodity_id)) countClass,ROUND(SUM(study_length)/60) studyTime
+		from sys_play_logs uha
+		left join student s on s.user_id = uha.user_id
+		LEFT JOIN commodity c on c.id = uha.commodity_id
+		where study_length is not NULL and s.is_in_school = '1'
+		and s.edu_school = #{eduSchool} -- 分校代码
+		and s.edu_step = #{eduStep} -- 学段
+		<if test="eduClass != null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+		and c.item_third_code =#{subject}
+		and c.live_flag =#{liveFlag}
+		and c.origin_type = '0'
+		GROUP BY user_id DESC
+		LIMIT #{page},#{pageSize}
+	</select>
+
+	<select id="getUserLearningListCount"  resultType="Integer" parameterType="com.yuxin.wx.vo.user.UsersFrontVo">
+		select count(1)
+		from sys_play_logs uha
+		left join student s on s.user_id = uha.user_id
+		LEFT JOIN commodity c on c.id = uha.commodity_id
+		where study_length is not NULL and s.is_in_school = '1'
+		and s.edu_school = #{eduSchool} -- 分校代码
+		and s.edu_step = #{eduStep} -- 学段
+		and s.edu_year = #{eduYear} -- 入学年份
+		<if test="eduClass != null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+		and c.item_third_code =#{subject}
+		and c.live_flag =#{liveFlag}
+		and c.origin_type = '0'
+		GROUP BY user_id DESC
+	</select>
+
+
+	<select id="getStuList" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultMap="usersFrontVoResultMap">
+		select user_id,name,edu_year,edu_class from student
+		where edu_step = #{eduStep} -- 学段
+		<if test="eduClass != null and eduClass != ''"> and edu_class = #{eduClass}</if>
+		and edu_school =#{eduSchool} -- 分校代码
+		and edu_year = #{eduYear} -- 入学年份
+		and is_in_school = '1'
+		ORDER BY user_id
+		LIMIT #{page},#{pageSize}
+	</select>
+
+	<select id="getAllList" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultMap="usersFrontVoResultMap">
+		SELECT spl.`class_type_id`, spl.`commodity_id`, spl.`id`, spl.`lecture_id`, spl.len, spl.`user_id`, ct.`item_third_code`,
+		cvl.`lecture_name`, v.`video_time`, st.`name`, st.`edu_year`, st.`edu_class`, st.`edu_step` , st.`is_in_school` , ct.`origin_type`
+		FROM
+		(SELECT
+		`class_type_id`,
+		`commodity_id`,
+		`id`,
+		`lecture_id`,
+		MAX(`study_length`) len,
+		`user_id`
+		FROM
+		sys_play_logs
+		GROUP BY `lecture_id`,
+		`user_id`) AS spl,
+		class_type ct,
+		`video` v,
+		course_video_lecture cvl,
+		`student` st
+		WHERE spl.`class_type_id` = ct.`id`
+		AND v.`id` = cvl.`video_id`
+		AND spl.`lecture_id` = cvl.`id`
+		AND spl.`user_id` = st.`user_id`
+		ORDER BY spl.lecture_id
+	</select>
+
+	<select id="getStuListCount" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultType="int">
+		select count(1) from student
+		where edu_step = #{eduStep} -- 学段
+		<if test="eduClass != null and eduClass != ''">and edu_class = #{eduClass}</if>
+		and edu_school =#{eduSchool} -- 分校代码
+		and edu_year = #{eduYear} -- 入学年份
+		and is_in_school = '1'
 	</select>
 </mapper>

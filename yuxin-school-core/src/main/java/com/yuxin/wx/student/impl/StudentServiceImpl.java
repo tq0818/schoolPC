@@ -2,12 +2,12 @@ package com.yuxin.wx.student.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.yuxin.wx.classes.mapper.ClassTypeMapper;
+import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.user.Users;
+import com.yuxin.wx.vo.user.UsersAreaRelation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,6 @@ import com.yuxin.wx.vo.student.StudentTiKuExcipseVo;
 import com.yuxin.wx.vo.student.StudentTiKuOrSubjectVo;
 import com.yuxin.wx.vo.student.StudentVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
-
 /**
  * Service Implementation:Student
  * 
@@ -69,6 +68,8 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	private SysConfigSchoolMapper sysConfigSchoolMapper;
 	@Autowired
 	private CompanyRegisterConfigMapper companyRegisterConfigMapper;
+	@Autowired
+	private ClassTypeMapper classTypeMapper;
 
 
 	/**
@@ -1987,9 +1988,111 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 		return data;
 	}
 
+
+
 	@Override
 	public List<String> queryAllStudents(Integer companyId) {
 
 		return studentMapper.queryAllStudents(companyId);
+	}
+
+	@Override
+	public PageFinder<UsersFrontVo> findStudentsClassList(StudentListVo search,ClassType classType,List<ClassType> classList) {
+
+		//获取年级或班级下的所有学生列表
+		List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
+		Integer stuListCount = usersFrontMapper.getStuListCount(search);
+
+//		List<UsersFrontVo> stuListAll = usersFrontMapper.getAllList(search);
+
+
+		//有学习记录的学生列表
+		List<UsersFrontVo> listLearning = usersFrontMapper.getUserLearningList(search);
+//        Integer count = usersFrontService.getUserLearningListCount(search);
+
+		//组装所有学生与有学习记录的学生
+		if(stuList.size()>0 && listLearning.size()>0){
+			for(int i = 0; i< stuList.size(); i++){
+				for(int j = 0; j<listLearning.size();j++){
+					if(stuList.get(i).getUserId().equals(listLearning.get(j).getUserId())){
+						stuList.get(i).setCountClass(listLearning.get(j).getCountClass());
+						stuList.get(i).setStudyTime(listLearning.get(j).getStudyTime());
+					//待修改
+					}
+				}
+			}
+		}
+
+
+		if(null != classList && classList.size()>0){
+			for(int i = 0; i<classList.size(); i++){
+				if(search.getLiveFlag().equals("0")){
+					//判断实际是否为空
+					if(null != classList.get(i).getVideoTime() && !"".equals(classList.get(i).getVideoTime())){
+						String[] l = classList.get(i).getVideoTime().split(":");
+						int h = Integer.parseInt(l[0]);
+						int m = Integer.parseInt(l[1]);
+						int s = Integer.parseInt(l[2]);
+						classList.get(i).setVideoTime2(h*60*60 + m*60+s);
+					}else{
+						classList.get(i).setVideoTime2(0);
+					}
+				}else{
+					if(!"".equals(classList.get(i).getVideoTime()) && null != classList.get(i).getVideoTime()){
+						classList.get(i).setVideoTime2(Integer.parseInt(classList.get(i).getVideoTime())*60*60);
+					}else{
+						classList.get(i).setVideoTime2(0);
+					}
+
+				}
+			}
+		}
+
+		//组装学生与课次(默认每门课学习进度0)
+		if(stuList.size()>0 && null !=classList && classList.size()>0 ){
+			for(int i = 0; i< stuList.size();i++){
+				List<String> s = new ArrayList<>();
+				Map<String,String> map = new HashMap();
+				for(int j=0;j<classList.size();j++){
+					s.add("0");
+					map.put(String.valueOf(classList.get(j).getId()),"0");
+					stuList.get(i).setStudyFlag(s);
+					stuList.get(i).setClassTypeList(map);
+				}
+			}
+		}
+
+		//获取学生学习记录
+		List<ClassType> classTypeVoList;
+		if("0".equals(search.getLiveFlag())){
+			//录播
+			classTypeVoList = classTypeMapper.getClassTimeList(classType);
+		}else {
+			//直播
+			classTypeVoList = classTypeMapper.getClassTimeListLive(classType);
+		}
+		//组装学员列表与学习记录列表
+		for(int i=0; i<stuList.size();i++){
+			for(int j=0; j<classTypeVoList.size();j++){
+				if(String.valueOf(classTypeVoList.get(j).getUserId()).equals(stuList.get(i).getUserId())){
+					Map<String,String> classAll = stuList.get(i).getClassTypeList();
+					for(String key:classAll.keySet()){
+						if(key.equals(String.valueOf(classTypeVoList.get(j).getId()))){
+							int studyLength = Integer.parseInt(classTypeVoList.get(j).getStudyLength());
+							int videoTime = classList.get(classTypeVoList.get(j).getId()).getVideoTime2();
+							if(videoTime == 0){
+								stuList.get(i).getStudyFlag().set(i,"0");
+							}else{
+								if(studyLength/videoTime>=0.7){
+									stuList.get(i).getStudyFlag().set(i,"1");
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		PageFinder<UsersFrontVo> pageFinder = new PageFinder<UsersFrontVo>(search.getPage(),search.getPageSize(),stuListCount,stuList);
+		return pageFinder;
 	}
 }

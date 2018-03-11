@@ -1825,4 +1825,24 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		<if test="domainManage != null and domainManage != ''"> and domain_manage = #{domainManage}</if>
 		
 	</select>
+
+	<select id="findCompanyByCode" resultType="com.yuxin.wx.vo.company.CompanySchoolVO" parameterType="Integer">
+		SELECT 
+		  scd.`item_code`,
+		  c.`edu_area_school`,
+		  scd.`item_value`,
+		  c.`id` companyId,
+		  c.`company_name` 
+		FROM
+		  `company` c,
+		  `users` u,
+		  `users_area_relation` uar,
+		  `users_comany_relation` ucr,
+		  `sys_config_dict` scd 
+		WHERE u.`id` = uar.`user_id` 
+		  AND uar.`edu_school` = scd.`item_code` 
+		  AND ucr.`user_id` = u.`id` 
+		  AND c.`id` = ucr.`company_id` 
+		  AND u.`id` = #{userId}
+	</select>
 </mapper>

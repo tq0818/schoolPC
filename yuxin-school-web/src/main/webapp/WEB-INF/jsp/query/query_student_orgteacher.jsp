@@ -16,6 +16,13 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/classList.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
+		/*.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;*/
+			padding-left: 7px;}
+		.tableSecond th{
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+		}
 	</style>
 </head>
 <body>
@@ -24,8 +31,11 @@
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
 		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>
 		<input type="hidden" id="current_is_area" value='${CURRENT_IS_AREA}'/>	
-		<input type="hidden" id="sourceFromStatic" value='1'/>	
-	<!-- 二级导航 -->
+		<input type="hidden" id="sourceFromStatic" value='1'/>
+		<input type="hidden" id="eduYearM" value='${eduYear}'/>
+		<input type="hidden" id="eduClassM" value='${eduClass}'/>
+		<input type="hidden" id="eduStepM" value='${eduStep}'/>
+<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_org.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
 	 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_query_org.jsp"></jsp:include>
@@ -163,218 +173,86 @@
 				<div class="classListContent">
 					<form>
 						<ul>
-							<li>
-								<label for="">学段</label>
-								<select name="" id="">
-									<option value="">小学</option>
-									<option value="">初中</option>
-									<option value="">高中</option>
-								</select>
-							</li>
-							<li>
+							<%--<li>
+								<label for="" class="xingMark">学段</label>
+								<c:if test="${role == '2' }">
+									<select id="eduStep" name="eduStep" style="width:150px;">
+										<option value="">请选择学段</option>
+										<option value="${eduStep}">${eduStepName}</option>
+									</select>
+								</c:if>
+							</li>--%>
+							<%--<li>
 								<label for="">入学年份</label>
-								<select name="" id="">
-									<option value="">2017</option>
-									<option value="">2016</option>
-									<option value="">2015</option>
-									<option value="">2014</option>
-								</select>
-							</li>
-							<li>
+								<c:if test="${role=='2'}">
+									<select id="eduYear" name="eduYear" style="width:150px;">
+										<option value="">请选择入学年份</option>
+											&lt;%&ndash; <option value="${eduYear}">${eduYear}年</option> &ndash;%&gt;
+									</select>
+								</c:if>
+							</li>--%>
+							<%--<li>
 								<label for="">班级</label>
 								<select name="" id="">
-									<option value="">1班</option>
-									<option value="">2班</option>
-									<option value="">3班</option>
+									<c:if test="${role=='2'}">
+										<option value="">请选择班级</option>
+										&lt;%&ndash; <option value="${eduClass}">${eduClass}班</option> &ndash;%&gt;
+									</c:if>
+								</select>
+							</li>--%>
+
+							<li>
+								<label for="" class="xingMark">学科</label>
+								<select name="" id="subject">
+									<c:forEach items="${subjectItem}" var="subject">
+										<option value="${subject.itemCode}">${subject.itemName}</option>
+									</c:forEach>
 								</select>
 							</li>
 							<li>
-								<label for="">学科</label>
-								<select name="" id="">
-									<option value="">语文</option>
-									<option value="">数学</option>
-									<option value="">英语</option>
+								<label for="" class="xingMark">课程形式</label>
+								<select name="" id="liveFlag">
+									<option value="1">直播</option>
+									<option value="0">点播</option>
 								</select>
 							</li>
 							<li>
-								<label for="">课程形式</label>
-								<select name="" id="">
-									<option value="">直播</option>
-									<option value="">点播</option>
-								</select>
-							</li>
-							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(1)">查询</a>
 								<a href="##" class="btn btn-mb btn-primary">导出</a>
 							</li>
 						</ul>
 					</form>
 					<%--<div class="user-list">--%>
+					<div style="width: 100%;height: 80px;line-height: 80px;text-align: right;">
+						<span class="xingMark" style="font-size: 12px;margin-right: 30px;">
+							实际观课效果：√表示观课时间超过了70%，✘表示观课时长未超过70%
+						</span>
+					</div>
 					<div>
 						<table class="table table-center tableFirst">
 							<tr data-buy="true">
 								<th width="8%">姓名</th>
-								<th width="5%">班级</th>
-								<th width="8%">观课总节数</th>
-								<th width="12%">观课总时长（分钟）</th>
+								<th width="7%">班级</th>
+								<th width="7%">观课总节数</th>
+								<th width="11%">观课总时长（分钟）</th>
 							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<%--暂无数据提示--%>
-							<%--<c:choose>--%>
-							<%--<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">--%>
-							<%--<tr><td colspan="15">暂无数据</td></tr>--%>
-							<%--</c:when>--%>
-							<%--<c:otherwise>--%>
-							<%--<tr><td colspan="14">暂无数据</td></tr>--%>
-							<%--</c:otherwise>--%>
-							<%--</c:choose>--%>
+							<tbody id="stuListTbody"></tbody>
 						</table>
 						<table  class="table table-center tableSecond">
-							<tr data-buy="true">
-								<th>课次名称1</th>
-								<th>课次名称2</th>
-								<th>课次名称3</th>
-								<th>课次名称4</th>
-								<th>课次名称5</th>
+
+							<tr id="className" data-buy="true">
+
 							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
+							<tbody id="classListTbody"></tbody>
 						</table>
 						<div class="leftIcon changeIcon">
-							<i class="icon iconfont ">&#xe650;</i>
+							<i id="leftIconBtn" class="icon iconfont ">&#xe650;</i>
 						</div>
 						<div class="rightIcon changeIcon">
-							<i class="icon iconfont ">&#xe651;</i>
+							<i id="rightIconBtn" class="icon iconfont ">&#xe651;</i>
 						</div>
 
-						<div class="pages pagination" style="margin-top: 450px;"></div>
+						<div id="paginationStuList" class="pages pagination" style="margin-top: 450px;"></div>
 					</div>
 				</div>
 			</div>
@@ -387,6 +265,7 @@
 		<!--  ajax加载中div结束 -->
 	</div>
 <input type="hidden" id="selectCounts" value="10">
+<script type="text/javascript" src="<%=rootPath %>/javascripts/query/master_query_student.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student_orgteachcommon.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
@@ -483,94 +362,12 @@
             $('.studentListContent').hide();
             $('.classListContent').show();
             //根据列表的高度设置切换按钮的高度
-            var tableHeight = $('.tableFirst').height()+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight);
+            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','65px');
         }
     });
 
-    //点击上一页
-    var contentHtml =
-        `<tbody>
-							<tr data-buy="true">
-								<th width="20%">课次名称1</th>
-								<th width="20%">课次名称2</th>
-								<th width="20%">课次名称3</th>
-								<th width="20%">课次名称4</th>
-								<th width="20%">课次名称5</th>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>1</td>
-							</tr>
-			</tbody>
-		`;
-
+/*
     $('.leftIcon').click(function(){
         $('.tableSecond').html("");
         $('.tableSecond').append(contentHtml);
@@ -580,7 +377,7 @@
     $('.rightIcon').click(function(){
         $('.tableSecond').html("");
         $('.tableSecond').append(contentHtml);
-    });
+    });*/
 </script>
 </body>
 </html>

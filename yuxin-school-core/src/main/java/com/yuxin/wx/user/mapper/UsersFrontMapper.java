@@ -6,7 +6,9 @@ import java.util.Map;
 import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.student.Student;
 import com.yuxin.wx.model.user.UsersFront;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
 import com.yuxin.wx.vo.user.UsersStudentInfo;
@@ -88,4 +90,16 @@ public interface UsersFrontMapper extends BaseMapper<UsersFront> {
     List<UsersFrontVo> findUserFrontAndStudent(Student student);
 
     String findNickNameByUserFrontId(String userid);
+
+    List<UsersFrontVo> getUserLearningList(StudentListVo search);
+
+    Integer getUserLearningListCount(StudentListVo search);
+
+    List<ClassTypeVo> getClassTimeList();
+
+    List<UsersFrontVo> getStuList(StudentListVo search);
+
+    List<UsersFrontVo> getAllList(StudentListVo search);
+
+    Integer getStuListCount(StudentListVo search);
 }

@@ -6,10 +6,10 @@ h2.active{color: #6b6b6b;}
 .classListContent ul li{display: inline-block;margin-right: 10px;}
 .classListContent ul li select{width: 100px;}
 .classListContent{display: none;}
-.tableFirst,.tableSecond{display: table;width: 49% !important;position: absolute;}
-.tableFirst{left: 0;top: 80px;}
-.tableSecond{left: 492px;top: 80px;}
-.leftIcon,.rightIcon{width: 20px;text-align: center;position: absolute;top: 100px;
+.tableFirst,.tableSecond{display: table;width: 49% !important;}
+.tableFirst{left: 0;top: 110px;}
+.tableSecond{left: 492px;top: 110px;}
+.leftIcon,.rightIcon{width: 20px;text-align: center;position:absolute;top: 100px;
 background: #f2f2f2;font-weight: bold;}
 .leftIcon{left: 492px;}
 .rightIcon{right: 23px;}

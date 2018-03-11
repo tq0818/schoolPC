@@ -51,6 +51,11 @@
 		<result property="isOutSource" column="is_out_source" />
 		<result property="isPublic" column="is_public" />
 		<result property="publicPrice" column="public_price" />
+		<result property="videoTime" column="video_time" />
+		<result property="studyLength" column="study_length" />
+		<result property="userId" column="user_id" />
+		<result property="lessonName" column="lesson_name" />
+		<result property="lectureName" column="lecture_name" />
 	</resultMap>
 	
 	<resultMap type="com.yuxin.wx.vo.classes.ClassTypeVo" id="classTypeVoResultMap">
@@ -972,6 +977,132 @@
 			<if test="schoolName != null and schoolName != ''">
 				and c1.company_name like '%${schoolName}%'
 			</if>
+	</select>
+
+	<select id="getClassTypeListVideo" resultType="com.yuxin.wx.vo.redis.ClassLectureVO" parameterType="com.yuxin.wx.model.classes.ClassType">
+		SELECT
+		  cvl.id,
+		  cvl.lecture_name lesson_name,
+		  v.video_time,
+		  ct.`item_one_code`,
+		  sci.`item_name` ,
+		  ct.`item_second_code`
+		FROM
+		  class_type ct
+		  LEFT JOIN class_type_module_relation ctmr
+			ON ct.id = ctmr.class_type_id
+		  LEFT JOIN class_module cm
+			ON cm.id = ctmr.module_id
+		  LEFT JOIN class_module_no cmn
+			ON cmn.module_id = cm.id
+		  LEFT JOIN class_module_lesson cml
+			ON cml.module_no_id = cmn.id
+		  LEFT JOIN course_video_chapter cvc
+			ON cvc.module_id = cm.id
+		  LEFT JOIN course_video_lecture cvl
+			ON cvl.chapter_id = cvc.id
+		  LEFT JOIN video v
+			ON v.id = cvl.video_id
+		  LEFT JOIN sys_config_item sci
+			ON ct.`item_one_code` = sci.`item_code`
+		WHERE ct.live_flag = '0'
+		  AND ct.origin_type = '0'
+		  AND ct.publish_status = 'CLASS_ON_SALE'
+		  AND ct.`company_id` = #{companyId}
+		  AND ct.`item_second_code` = #{itemSecondName}
+		  AND sci.`item_name` LIKE #{itemName}
+		ORDER BY ct.create_time
+		LIMIT #{page},#{pageSize}
+	</select>
+
+
+	<select id="getClassTypeListLive" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
+		select ct.id, cml.lesson_name,cml.lesson_hour video_time
+		from class_type ct
+		LEFT JOIN class_type_module_relation ctmr on ct.id = ctmr.class_type_id
+		LEFT JOIN class_module cm on cm.id = ctmr.module_id
+		LEFT JOIN class_module_no cmn on cmn.module_id = cm.id
+		LEFT JOIN class_module_lesson cml on cml.module_no_id = cmn.id
+		where ct.company_id=#{companyId}
+				and ct.live_flag ='1'
+				and ct.origin_type ='0'
+				and ct.publish_status='CLASS_ON_SALE'
+				and ct.item_third_code =#{subject}
+		ORDER BY cml.create_time desc
+		LIMIT #{page},#{pageSize}
+	</select>
+
+	<select id="getClassTimeList" parameterType="com.yuxin.wx.model.classes.ClassType" resultMap="classTypeResultMap">
+		select uh.user_id,ct.id,ct.name lesson_name, uh.study_length
+		from user_history uh
+		LEFT JOIN class_type ct on ct.id = uh.class_type_id
+		where ct.company_id=#{companyId}
+		and ct.live_flag ='0'
+		and ct.origin_type ='0'
+		and ct.publish_status='CLASS_ON_SALE'
+		and ct.item_third_code =#{subject}
+		LIMIT #{page},#{pageSize}
+	</select>
+
+	<select id="getClassTimeListLive" parameterType="com.yuxin.wx.model.classes.ClassType" resultMap="classTypeResultMap">
+		select ct.id, cml.lesson_name,clsd.user_id,
+		MAX((UNIX_TIMESTAMP(clsd.out_time)-UNIX_TIMESTAMP(clsd.in_time))) study_length
+		from company_live_static_detail clsd
+		 JOIN class_module_lesson cml on cml.id = clsd.class_lesson_id
+		 join class_module_no cmn on cml.module_no_id = cmn.id
+		 JOIN class_module cm on cmn.module_id = cm.id
+		 JOIN class_type_module_relation ctmr on cm.id = ctmr.module_id
+		 JOIN class_type ct on ct.id = ctmr.class_type_id
+		where ct.company_id=#{companyId}
+		and ct.live_flag ='1'
+		and ct.origin_type ='0'
+		and ct.publish_status='CLASS_ON_SALE'
+		and ct.item_third_code =#{subject}
+		and clsd.out_time is not null
+		GROUP BY clsd.user_id
+		LIMIT #{page},#{pageSize}
+	</select>
+	
+	<select id="getClassLessonLogList"  resultType="com.yuxin.wx.vo.classes.ClassLessonVO">
+		SELECT 
+			  spl.`class_type_id`,
+			  spl.`commodity_id`,
+			  spl.`id`,
+			  spl.`lecture_id`,
+			  spl.len,
+			  spl.`user_id`,
+			  ct.`item_third_code`,
+			  cvl.`lecture_name`,
+			  v.`video_time`,
+			  st.`name`,
+			  st.`edu_year`,
+			  st.`edu_class`,
+			  st.`edu_step`,
+			  st.`is_in_school`,
+			  ct.`origin_type` 
+			FROM
+			  (SELECT 
+			    `class_type_id`,
+			    `commodity_id`,
+			    `id`,
+			    `lecture_id`,
+			    MAX(`study_length`) len,
+			    `user_id` 
+			  FROM
+			    sys_play_logs 
+			  WHERE user_id IN (#{0}) 
+			  GROUP BY `lecture_id`,
+			    `user_id`) AS spl,
+			  class_type ct,
+			  `video` v,
+			  course_video_lecture cvl,
+			  `student` st 
+			WHERE spl.`class_type_id` = ct.`id` 
+			  AND v.`id` = cvl.`video_id` 
+			  AND spl.`lecture_id` = cvl.`id` 
+			  AND spl.`user_id` = st.`user_id`
+			  AND cvl.`id` in (#{1})
+   
 	</select>
 	
 </mapper>

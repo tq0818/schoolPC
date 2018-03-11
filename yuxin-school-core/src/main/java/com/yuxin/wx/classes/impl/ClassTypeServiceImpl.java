@@ -2,8 +2,6 @@ package com.yuxin.wx.classes.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.classes.mapper.ClassModuleLessonMapper;
 import com.yuxin.wx.classes.mapper.ClassModuleMapper;
@@ -19,26 +16,23 @@ import com.yuxin.wx.classes.mapper.ClassModuleNoMapper;
 import com.yuxin.wx.classes.mapper.ClassTypeMapper;
 import com.yuxin.wx.classes.mapper.ClassTypeModuleRelationMapper;
 import com.yuxin.wx.classes.mapper.ClassTypeRemoteRelationMapper;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.course.mapper.CourseRemoteMapper;
 import com.yuxin.wx.course.mapper.CourseVideoChapterMapper;
 import com.yuxin.wx.course.mapper.CourseVideoMapper;
 import com.yuxin.wx.model.classes.ClassModule;
-import com.yuxin.wx.model.classes.ClassModuleLesson;
-import com.yuxin.wx.model.classes.ClassModuleNo;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.ClassTypeModuleRelation;
 import com.yuxin.wx.model.classes.ClassTypeRemoteRelation;
-import com.yuxin.wx.model.commodity.Commodity;
 import com.yuxin.wx.model.course.CourseVideoChapter;
-import com.yuxin.wx.model.system.SysConfigItemTag;
-import com.yuxin.wx.model.system.SysConfigTeacher;
-import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.system.mapper.SysConfigItemTagMapper;
 import com.yuxin.wx.system.mapper.SysConfigTeacherMapper;
+import com.yuxin.wx.vo.classes.ClassLessonVO;
 import com.yuxin.wx.vo.classes.ClassPackageConditionVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo;
+import com.yuxin.wx.vo.redis.ClassLectureVO;
 
 /**
  * Service Implementation:ClassType
@@ -547,6 +541,29 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	public int queryCountLiveClassOfOtherSchool(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		return classTypeMapper.queryCountLiveClassOfOtherSchool(param);
+	}
+
+	@Override
+	public List<ClassLectureVO> getClassTypeListVideo(ClassType search) {
+		return classTypeMapper.getClassTypeListVideo(search);
+	}
+
+	@Override
+	public List<ClassType> getClassTypeListLive(ClassType search) {
+		return classTypeMapper.getClassTypeListLive(search);
+	}
+
+	@Override
+	public List<ClassType> getClassTimeList(ClassType search) {
+		return classTypeMapper.getClassTimeList(search);
+	}
+
+	@Override
+	public List<ClassLessonVO> getClassLessonLogList(String studentIds, String lessonIds) {
+		if(null == studentIds || null == lessonIds){
+			return null;
+		}
+		return classTypeMapper.getClassLessonLogList( studentIds,  lessonIds);
 	}
 
 }

@@ -1,6 +1,15 @@
 package com.yuxin.wx.company.impl;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yuxin.wx.api.company.ICompanyService;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.company.mapper.CompanyMapper;
 import com.yuxin.wx.company.mapper.CompanyMemberServiceMapper;
@@ -12,18 +21,14 @@ import com.yuxin.wx.model.company.NewCompanyVo;
 import com.yuxin.wx.model.system.SysConfigDict;
 import com.yuxin.wx.student.mapper.StudentPayMasterMapper;
 import com.yuxin.wx.system.mapper.SysConfigDictMapper;
-import com.yuxin.wx.vo.company.*;
+import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
+import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
+import com.yuxin.wx.vo.company.CompanyPicsVo;
+import com.yuxin.wx.vo.company.CompanySchoolVO;
+import com.yuxin.wx.vo.company.CompanyTotalVo;
+import com.yuxin.wx.vo.company.CompanyVo;
+import com.yuxin.wx.vo.company.companySpecialDomain;
 import com.yuxin.wx.vo.query.RegisterInfoVo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.yuxin.wx.common.BaseServiceImpl;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service Implementation:Company
@@ -541,5 +546,10 @@ public class CompanyServiceImpl extends BaseServiceImpl implements ICompanyServi
 	@Override
 	public int searchCompany() {
 		return companyMapper.searchCompany();
+	}
+
+	@Override
+	public CompanySchoolVO findCompanyByCode(Integer userId) {
+		return companyMapper.findCompanyByCode(userId);
 	}
 }

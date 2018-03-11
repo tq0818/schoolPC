@@ -1,7 +1,11 @@
 package com.yuxin.wx.vo.user;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
+import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.yuxin.wx.common.BaseEntity;
@@ -99,7 +103,163 @@ public class UsersFrontVo extends BaseEntity {
     private String isBaseSchool;//是否为基地校学生
 
     private String isArea;
-    
+
+
+
+    private String userId;//用户id
+    private String commodityId;//课程id
+    private String eduYear;//入学年份
+    private String eduClass;//班级
+    private String countClass;//学习课程数
+    private String studyTime;//学习总时长
+    private String classTypeId;
+    private List<ClassType> classTypeVoList;
+    private Map<String ,String> classTypeList;
+    private List<String> studyFlag;//学习进度是否达到70%（1：是，0：否）
+
+    private String lectureId;
+    private String len;
+    private String itemThirdCode;
+    private String lectureName;
+    private String videoTime;
+    private String eduStep;
+    private String originType;
+
+    public String getLectureId() {
+        return lectureId;
+    }
+
+    public void setLectureId(String lectureId) {
+        this.lectureId = lectureId;
+    }
+
+    public String getLen() {
+        return len;
+    }
+
+    public void setLen(String len) {
+        this.len = len;
+    }
+
+    public String getItemThirdCode() {
+        return itemThirdCode;
+    }
+
+    public void setItemThirdCode(String itemThirdCode) {
+        this.itemThirdCode = itemThirdCode;
+    }
+
+    public String getLectureName() {
+        return lectureName;
+    }
+
+    public void setLectureName(String lectureName) {
+        this.lectureName = lectureName;
+    }
+
+    public String getVideoTime() {
+        return videoTime;
+    }
+
+    public void setVideoTime(String videoTime) {
+        this.videoTime = videoTime;
+    }
+
+    public String getEduStep() {
+        return eduStep;
+    }
+
+    public void setEduStep(String eduStep) {
+        this.eduStep = eduStep;
+    }
+
+    public String getOriginType() {
+        return originType;
+    }
+
+    public void setOriginType(String originType) {
+        this.originType = originType;
+    }
+
+    public List<String> getStudyFlag() {
+        return studyFlag;
+    }
+
+    public void setStudyFlag(List<String> studyFlag) {
+        this.studyFlag = studyFlag;
+    }
+
+    public Map<String, String> getClassTypeList() {
+        return classTypeList;
+    }
+
+    public void setClassTypeList(Map<String,String> classTypeList) {
+        this.classTypeList = classTypeList;
+    }
+
+    public List<ClassType> getClassTypeVoList() {
+        return classTypeVoList;
+    }
+    public String getClassTypeId() {
+        return classTypeId;
+    }
+
+    public void setClassTypeId(String classTypeId) {
+        this.classTypeId = classTypeId;
+    }
+
+    public void setClassTypeVoList(List<ClassType> classTypeVoList) {
+        this.classTypeVoList = classTypeVoList;
+    }
+
+    public String getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(String commodityId) {
+        this.commodityId = commodityId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEduYear() {
+        return eduYear;
+    }
+
+    public void setEduYear(String eduYear) {
+        this.eduYear = eduYear;
+    }
+
+    public String getEduClass() {
+        return eduClass;
+    }
+
+    public void setEduClass(String eduClass) {
+        this.eduClass = eduClass;
+    }
+
+    public String getCountClass() {
+        return countClass;
+    }
+
+    public void setCountClass(String countClass) {
+        this.countClass = countClass;
+    }
+
+    public String getStudyTime() {
+        return studyTime;
+    }
+
+    public void setStudyTime(String studyTime) {
+        this.studyTime = studyTime;
+    }
+
     public String getIsInSchool() {
 		return isInSchool;
 	}

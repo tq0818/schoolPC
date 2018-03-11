@@ -173,6 +173,6 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	List<ClassType> getClassTimeList(ClassType search);
 	List<ClassType> getClassTimeListLive(ClassType search);
 	
-	List<ClassLessonVO> getClassLessonLogList(String studentIds, String lessonIds);
+	List<ClassLessonVO> getClassLessonLogList(Map<String, List<Integer>> map);
 		
 }

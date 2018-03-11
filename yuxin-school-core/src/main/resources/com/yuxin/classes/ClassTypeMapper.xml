@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yuxin.wx.classes.mapper.ClassTypeMapper">
+	<resultMap type="com.yuxin.wx.vo.classes.ClassLessonVO" id="classLessonVOMap">
+		<result property="id" column="id" />
+		<result property="classTypeId" column="classTypeId" />
+		<!-- <result property="commodityId" column="commodityId" /> -->
+		<result property="lectureId" column="lectureId" />
+		<result property="len" column="len" />
+		<result property="userId" column="userId" />
+		<result property="itemThirdCode" column="itemThirdCode" />
+		<result property="lectureName" column="lectureName" />
+		<result property="videoTime" column="videoTime" />
+		<result property="name" column="name" />
+		<result property="eduYear" column="eduYear" />
+		<result property="eduClass" column="eduClass" />
+		<result property="eduStep" column="eduStep" />
+		<result property="isInSchool" column="isInSchool" />
+		<result property="originType" column="originType" />
+	</resultMap>
+
 	<resultMap type="com.yuxin.wx.model.classes.ClassType" id="classTypeResultMap">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
@@ -1063,45 +1081,55 @@
 		LIMIT #{page},#{pageSize}
 	</select>
 	
-	<select id="getClassLessonLogList"  resultType="com.yuxin.wx.vo.classes.ClassLessonVO">
+	<select id="getClassLessonLogList"  parameterType="map"  resultMap="classLessonVOMap">
 		SELECT 
-			  spl.`class_type_id`,
-			  spl.`commodity_id`,
-			  spl.`id`,
-			  spl.`lecture_id`,
-			  spl.len,
-			  spl.`user_id`,
-			  ct.`item_third_code`,
-			  cvl.`lecture_name`,
-			  v.`video_time`,
-			  st.`name`,
-			  st.`edu_year`,
-			  st.`edu_class`,
-			  st.`edu_step`,
-			  st.`is_in_school`,
-			  ct.`origin_type` 
-			FROM
-			  (SELECT 
-			    `class_type_id`,
-			    `commodity_id`,
-			    `id`,
-			    `lecture_id`,
-			    MAX(`study_length`) len,
-			    `user_id` 
-			  FROM
-			    sys_play_logs 
-			  WHERE user_id IN (#{0}) 
-			  GROUP BY `lecture_id`,
-			    `user_id`) AS spl,
-			  class_type ct,
-			  `video` v,
-			  course_video_lecture cvl,
-			  `student` st 
-			WHERE spl.`class_type_id` = ct.`id` 
-			  AND v.`id` = cvl.`video_id` 
-			  AND spl.`lecture_id` = cvl.`id` 
-			  AND spl.`user_id` = st.`user_id`
-			  AND cvl.`id` in (#{1})
+		  spl.`class_type_id` classTypeId,
+		  spl.`id`,
+		  spl.`lecture_id` lectureId,
+		  spl.len,
+		  spl.`user_id` userId,
+		  ct.`item_third_code` itemThirdCode,
+		  cvl.`lecture_name` lectureName,
+		  v.`video_time` videoTime,
+		  st.`name`,
+		  st.`edu_year` eduYear,
+		  st.`edu_class` eduClass,
+		  st.`edu_step` eduStep,
+		  st.`is_in_school` isInSchool,
+		  ct.`origin_type` originType 
+		FROM
+		  (SELECT 
+		    `class_type_id`,
+		    `commodity_id`,
+		    `id`,
+		    `lecture_id`,
+		    MAX(`study_length`) len,
+		    `user_id` 
+		  FROM
+		    sys_play_logs 
+		  WHERE user_id IN (
+		  	<foreach collection="stuIdsList" index="index" item="item1"  separator="," >
+            	#{item1}
+        	</foreach>
+		  ) 
+		  GROUP BY `lecture_id`,
+		    `user_id`
+		  ) AS spl,
+		  class_type ct,
+		  `video` v,
+		  course_video_lecture cvl,
+		  `student` st 
+		  WHERE spl.`class_type_id` = ct.`id` 
+		    AND v.`id` = cvl.`video_id` 
+		    AND spl.`lecture_id` = cvl.`id` 
+		    AND spl.`user_id` = st.`user_id` 
+		    AND spl.lecture_id IN (
+		    	<foreach collection="lessonIdsList" index="index" item="item2"  separator="," >
+            		#{item2}
+        		</foreach>
+		    ) 
+   
+   			order by userId
    
 	</select>
 	

@@ -559,11 +559,11 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	}
 
 	@Override
-	public List<ClassLessonVO> getClassLessonLogList(String studentIds, String lessonIds) {
-		if(null == studentIds || null == lessonIds){
-			return null;
-		}
-		return classTypeMapper.getClassLessonLogList( studentIds,  lessonIds);
+	public List<ClassLessonVO> getClassLessonLogList(List<Integer> stuIdsList, List<Integer> lessonIdsList) {
+		Map<String,List<Integer>> map = new HashMap<>();
+		map.put("stuIdsList", stuIdsList);
+		map.put("lessonIdsList", lessonIdsList);
+		return classTypeMapper.getClassLessonLogList( map);
 	}
 
 }

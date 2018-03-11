@@ -25,6 +25,28 @@ public class ClassLectureVO implements Serializable{
 		
 	}
 	
+	public void initVedioLen(){
+		/*this.id = id;
+		this.lesson_name = lesson_name;
+		this.video_time = video_time;
+		this.item_one_code = item_one_code;
+		this.item_name = item_name;
+		this.item_second_code = item_second_code;*/
+		
+		if(null == this.video_time || "".equals(this.video_time)){
+			this.videoLen = -1;
+		}
+		
+		String[] arr = this.video_time.split(":");
+		try{
+			int len = Integer.valueOf(arr[0])*3600 + Integer.valueOf(arr[1])*60 + Integer.valueOf(arr[2]);
+			this.videoLen = len;
+		}catch(Exception e){
+			System.out.println("====> Calculate videlLen failed when create ClassLectureVO with video_time =  "+this.video_time);
+			this.videoLen = -1;
+		}
+	}
+	
 	/**
 	 * 带参数构造函数
 	 * @param id	lessonId

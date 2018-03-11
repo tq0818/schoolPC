@@ -67,11 +67,11 @@ public class CommonUtils {
 	}
 
 	
-	public static Map<Integer,Integer> initLessonLogMap(Map<Integer,ClassLectureVO> map){
+	public static Map<Integer,Integer> initLessonLogMap(Map<Integer,ClassLectureVO> map,Map<Integer,Integer> initMap){
 		if(null == map){
 			return null;
 		}
-		Map<Integer,Integer> initMap = new HashMap<>();
+		//Map<Integer,Integer> initMap = new HashMap<>();
 		for(Integer ids : map.keySet()){
 			initMap.put(ids, 0);
 		}

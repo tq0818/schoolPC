@@ -487,6 +487,6 @@ public interface IClassTypeService  {
 
 	List<ClassType> getClassTimeList(ClassType search);
 	
-	List<ClassLessonVO> getClassLessonLogList(String studentIds,String lessonIds);
+	List<ClassLessonVO> getClassLessonLogList(List<Integer> stuIdsList,List<Integer> lessonIdList);
 	
 }

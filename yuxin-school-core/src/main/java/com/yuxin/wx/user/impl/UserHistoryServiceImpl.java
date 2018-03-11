@@ -1,14 +1,17 @@
 package com.yuxin.wx.user.impl;
 
 
+import java.util.Date;
 import java.util.List;
 
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
-
+import org.springframework.transaction.annotation.Transactional;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.api.user.IUserHistoryService;
+import com.yuxin.wx.model.user.SysPlayLogsVo;
 import com.yuxin.wx.model.user.UserHistory;
 import com.yuxin.wx.user.mapper.UserHistoryMapper;
 
@@ -149,7 +152,24 @@ public class UserHistoryServiceImpl extends BaseServiceImpl implements IUserHist
 		userHistoryMapper.insertPlayLogs(uha);
 	}
 
-
-
-
+	@Override
+	public List<SysPlayLogsVo> querySysPlayLogsVosByDate(Date date,String mode) {
+		UserHistory search=new UserHistory();
+		search.setStudyDate(date);
+		search.setMode(mode);
+		return userHistoryMapper.querySysPlayLogsVosByDate(search);
+	}
+	@Override
+	public void updatePlayLogs(SysPlayLogsVo sysPlayLogsVo) {
+		if(sysPlayLogsVo==null) return;
+		UserHistory updateVo=new UserHistory();
+		updateVo.setStudyDate(sysPlayLogsVo.getStudyDate());
+		updateVo.setId(Integer.valueOf(sysPlayLogsVo.getSplId()));
+		updateVo.setStudyLength(Integer.valueOf(sysPlayLogsVo.getStudyLength()));
+	}
+	@Override
+	public void insertPlayLogs(SysPlayLogsVo sysPlayLogsVo) {
+		if(sysPlayLogsVo==null) return;
+		userHistoryMapper.insertSysPlayLogs(sysPlayLogsVo);
+	}
 }

@@ -1,6 +1,10 @@
 package com.yuxin.wx.user.mapper;
 
+import java.util.Date;
+import java.util.List;
+
 import com.yuxin.wx.common.BaseMapper;
+import com.yuxin.wx.model.user.SysPlayLogsVo;
 import com.yuxin.wx.model.user.UserHistory;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 
@@ -16,4 +20,10 @@ public interface UserHistoryMapper extends BaseMapper<UserHistory> {
     void insertHistoryAll(UserHistoryAllVo userHistoryAllVo);
 
     void insertPlayLogs(UserHistoryAllVo uha);
+    
+    void updatePlayLogs(UserHistory updateUserHistory);
+    
+    void insertSysPlayLogs(SysPlayLogsVo sysPlayLogsVo);
+    
+    List<SysPlayLogsVo> querySysPlayLogsVosByDate(UserHistory search);
 }

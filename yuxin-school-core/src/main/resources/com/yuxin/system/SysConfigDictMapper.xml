@@ -300,6 +300,10 @@
 		<if test="itemValue != null and itemValue != ''">and d.item_value like '%${itemValue}%'</if>
 		<if test="firstLetter != null and firstLetter != ''">or d.item_code like '%${firstLetter}%'</if>
 	</select>
+	
+	<select id="findGetAPPDateMode" resultType="String">
+		select item_code from sys_config_dict where dict_code='GET_APP_DATA_MODE'
+	</select>
 
 	<select id="findSchoolBySchoolType"  parameterType="Map" resultMap="sysConfigDictResultMap">
 		select  scd.item_code,scd.item_value from edu_step_school_relation  essr

@@ -6,11 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.yuxin.wx.common.BaseServiceImpl;
+
 import com.yuxin.wx.api.company.ICompanyPayConfigService;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.company.mapper.CompanyPayConfigMapper;
-import com.yuxin.wx.model.company.Company;
 import com.yuxin.wx.model.company.CompanyPayConfig;
+import com.yuxin.wx.system.mapper.SysConfigDictMapper;
 
 /**
  * Service Implementation:CompanyPayConfig
@@ -23,6 +24,8 @@ public class CompanyPayConfigServiceImpl extends BaseServiceImpl implements ICom
 
 	@Autowired
 	private CompanyPayConfigMapper payConfigMapper;
+	@Autowired
+	private SysConfigDictMapper sysConfigDictMapper;
 	@Override
 	public void insert(CompanyPayConfig companyPayConfig) {
 		// TODO Auto-generated method stub
@@ -62,7 +65,9 @@ public class CompanyPayConfigServiceImpl extends BaseServiceImpl implements ICom
 		// TODO Auto-generated method stub
 		return payConfigMapper.findByComIdAndPayType(config);
 	}
-
-	
+	@Override
+	public String findGetAPPDateMode() {
+		return sysConfigDictMapper.findGetAPPDateMode();
+	}
 }
 

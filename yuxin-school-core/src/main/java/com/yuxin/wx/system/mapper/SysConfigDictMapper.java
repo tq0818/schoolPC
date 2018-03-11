@@ -73,4 +73,6 @@ public interface SysConfigDictMapper extends BaseMapper<SysConfigDict> {
 	void updateOthserSchoolProperty(SysConfigDict areaDict);
 	void addEduStepSchool(SysConfigDict areaDict);
 	void updateUsersAreaRelation(UsersAreaRelation ual);
+	
+	String findGetAPPDateMode();
 }

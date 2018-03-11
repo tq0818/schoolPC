@@ -210,6 +210,7 @@ public class PermissionManger {
 		}
 		//查询菜单列表
 		PrivilegeListVo privilege=new PrivilegeListVo();
+		privilege.setCompanyId(company.getId());
 		List<PrivilegeListVo> privilegeList=authPrivilegeCategoryServiceImpl.queryOnePrivilege(privilege);
 		model.addAttribute("privilegeList", privilegeList);
 		model.addAttribute("type", type);

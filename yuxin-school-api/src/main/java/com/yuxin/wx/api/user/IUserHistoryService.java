@@ -1,7 +1,9 @@
 package com.yuxin.wx.api.user;
 
+import java.util.Date;
 import java.util.List;
 
+import com.yuxin.wx.model.user.SysPlayLogsVo;
 import com.yuxin.wx.model.user.UserHistory;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 
@@ -104,4 +106,14 @@ public interface IUserHistoryService  {
 	void insertHistoryAll(UserHistoryAllVo userHistoryAllVo);
 
     void insertPlayLogs(UserHistoryAllVo uha);
+    
+    void updatePlayLogs(SysPlayLogsVo sysPlayLogsVo);
+    
+    void insertPlayLogs(SysPlayLogsVo sysPlayLogsVo);
+    /**
+     * 
+     * @param date 获取制定时间的录播数据
+     * @return 需要操作的录播数据集合
+     */
+    List<SysPlayLogsVo> querySysPlayLogsVosByDate(Date date,String mode);
 }

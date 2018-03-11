@@ -24,10 +24,20 @@ public class UserHistory extends BaseEntity {
 	private Integer	studyStatus;		 /* 学习状态（1：未学习；2：未完成；3：已学习） */ 
 	private Integer studyLength;	/*学习时长(秒)*/
 	
+	private String mode;//查询方式
+	
 	// Constructor
 	public UserHistory() {
 	}
 	
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
 	/**
 	 * full Constructor
 	 */

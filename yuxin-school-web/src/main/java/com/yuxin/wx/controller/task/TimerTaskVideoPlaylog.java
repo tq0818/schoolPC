@@ -1,23 +1,14 @@
 package com.yuxin.wx.controller.task;
 
-import com.google.gson.Gson;
-import com.yuxin.wx.api.company.ICompanyLiveConfigService;
-import com.yuxin.wx.api.company.ICompanyPayConfigService;
-import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
-import com.yuxin.wx.api.system.ISysKnowledgeTreeStatisticsService;
-import com.yuxin.wx.api.user.IUserHistoryService;
-import com.yuxin.wx.api.user.IUsersFrontService;
-import com.yuxin.wx.api.watchInfo.IWatchInfoService;
-import com.yuxin.wx.common.LiveRoomConstant;
-import com.yuxin.wx.model.company.CompanyLiveConfig;
-import com.yuxin.wx.model.company.CompanyPayConfig;
-import com.yuxin.wx.model.system.SysKnowledgeTree;
-import com.yuxin.wx.model.system.SysKnowledgeTreeStatistics;
-import com.yuxin.wx.model.user.UsersFront;
-import com.yuxin.wx.model.watchInfo.WatchInfo;
-import com.yuxin.wx.utils.HttpPostRequest;
-import com.yuxin.wx.utils.MD5;
-import com.yuxin.wx.vo.user.UserHistoryAllVo;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -26,10 +17,18 @@ import org.quartz.JobExecutionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.google.gson.Gson;
+import com.yuxin.wx.api.company.ICompanyPayConfigService;
+import com.yuxin.wx.api.system.ISysKnowledgeTreeService;
+import com.yuxin.wx.api.system.ISysKnowledgeTreeStatisticsService;
+import com.yuxin.wx.api.user.IUserHistoryService;
+import com.yuxin.wx.model.company.CompanyPayConfig;
+import com.yuxin.wx.model.system.SysKnowledgeTree;
+import com.yuxin.wx.model.system.SysKnowledgeTreeStatistics;
+import com.yuxin.wx.model.user.SysPlayLogsVo;
+import com.yuxin.wx.util.HttpPostRequest;
+import com.yuxin.wx.utils.MD5;
+import com.yuxin.wx.vo.user.UserHistoryAllVo;
 
 public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable {
     private Logger log = Logger.getLogger(getClass());
@@ -54,19 +53,23 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             //查询出所有的机构
             List<Integer> comapnyIds=companyPayConfigServiceImpl.findAllCompanyId();
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_YEAR,-1);
+            Date date  = c.getTime();
             if(comapnyIds!=null&&comapnyIds.size()>0){
             	for(Integer companyId:comapnyIds){
             		try{
-			            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(companyId);//暂时写死为数校公司id
-			            Calendar c = Calendar.getInstance();
-			            c.add(Calendar.DAY_OF_YEAR,-1);
-			            Date date  = c.getTime();
+			            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(companyId);
 			            addPlayLog(date,companyPayConfig,1,sdf);
             		}catch(Exception e){
             			e.printStackTrace();
             		}
             	}
             }
+            //获取用户在APP的观看点播数据到2B中汇总
+            String mode=companyPayConfigServiceImpl.findGetAPPDateMode();
+            synchronizedAppUserHistory(date,mode);
+            log.info("获取昨天录播观看信息-----结束");
         }catch (Exception e){
             e.printStackTrace();
             log.info("初始化watchInfoServiceImpl和companyLiveConfigServiceImpl出现错误！");
@@ -92,41 +95,75 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
         //System.out.println((c));
         String result = null;
         try {
-            result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
-            System.out.println(result);
-            if(StringUtils.isNotEmpty(result)&&result.contains("INVALID_REQUEST")){
-            	return;
-            }
-            Gson g = new Gson();
-            TestTask.PlayLogsResult plre =  g.fromJson(result,TestTask.PlayLogsResult.class);
-            System.out.println(plre.getPlay_logs().getPlay_log().size());
-            List<TestTask.PlayLog> playLog = plre.getPlay_logs().getPlay_log();
-            for(int n  = 0 ; n < playLog.size() ; n++){
-                TestTask.PlayLog play = playLog.get(n);
-                UserHistoryAllVo uha =new UserHistoryAllVo();
-                if(play.getCustom_id().indexOf("null")!=-1 || play.getCustom_id().indexOf("NaN")!=-1){
-                    continue;
-                }
-                String  [] info = play.getCustom_id().split("_");
-                uha.setUserId(Integer.parseInt(info[0]));
-                uha.setCommodityId(Integer.parseInt(info[1]));
-                uha.setClassTypeId(Integer.parseInt(info[2]));
-                uha.setLectureId(Integer.parseInt(info[3]));
-                uha.setStudyLength(play.getPlay_duration());
-                uha.setStudyTime(date);
-                uha.setDevice(play.getDevice());
-                userHistoryServiceImpl.insertPlayLogs(uha);
-                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength(),uha.getLectureId());
-            }
-            if(playLog.size()==1000){
-                addPlayLog(date,companyPayConfig,index+1,sdf);
-            }
-            log.info("获取昨天录播观看信息-----结束");
+//            result = HttpPostRequest.get("http://spark.bokecc.com/api/playlog/user/v2?"+infoUrl);
+//            if(StringUtils.isNotEmpty(result)&&result.contains("INVALID_REQUEST")){
+//            	return;
+//            }
+//            Gson g = new Gson();
+//            TestTask.PlayLogsResult plre =  g.fromJson(result,TestTask.PlayLogsResult.class);
+//            List<TestTask.PlayLog> playLog = plre.getPlay_logs().getPlay_log();
+//            for(int n  = 0 ; n < playLog.size() ; n++){
+//                TestTask.PlayLog play = playLog.get(n);
+//                UserHistoryAllVo uha =new UserHistoryAllVo();
+//                if(play.getCustom_id().indexOf("null")!=-1 || play.getCustom_id().indexOf("NaN")!=-1){
+//                    continue;
+//                }
+//                String  [] info = play.getCustom_id().split("_");
+//                uha.setUserId(Integer.parseInt(info[0]));
+//                uha.setCommodityId(Integer.parseInt(info[1]));
+//                uha.setClassTypeId(Integer.parseInt(info[2]));
+//                uha.setLectureId(Integer.parseInt(info[3]));
+//                uha.setStudyLength(play.getPlay_duration());
+//                uha.setStudyTime(date);
+//                uha.setDevice(play.getDevice());
+//                userHistoryServiceImpl.insertPlayLogs(uha);
+//                setVideoKnowledgeTreeStaticis(uha.getCommodityId(),uha.getUserId(),uha.getStudyLength(),uha.getLectureId());
+//            }
+//            if(playLog.size()==1000){
+//                addPlayLog(date,companyPayConfig,index+1,sdf);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
+    //同步用户在app上看的直播数据
+    public void synchronizedAppUserHistory(Date date,String mode){
+    	//从app处获取学生观看录播数据并插入到sys_play_logs表中
+        //1、查询所有相关数据
+        List<SysPlayLogsVo> sysPlayLogsVos=userHistoryServiceImpl.querySysPlayLogsVosByDate(date,mode);
+        //2、根据sys_play_logs标识判断是更新还是插入
+        if(sysPlayLogsVos!=null&&sysPlayLogsVos.size()>0){
+        	for(SysPlayLogsVo sysPlayLogsVo:sysPlayLogsVos){
+        		if(sysPlayLogsVo.getSplId()!=null){
+        			//更新
+        			try{
+        				userHistoryServiceImpl.updatePlayLogs(sysPlayLogsVo);
+        			}catch(Exception e){
+        				//如果更新失败，则记录该数据
+        				log.error("数据更新失败，id为"+sysPlayLogsVo.getSourceId(),e);
+        			}
+        		}else{
+        			//插入
+        			try{
+        				userHistoryServiceImpl.insertPlayLogs(sysPlayLogsVo);
+        			}catch(Exception e){
+        				//如果插入失败，则记录该数据
+        				log.error("数据插入失败，id为"+sysPlayLogsVo.getSourceId(),e);
+        			}
+        		}
+        		//更新知识树数据
+        		try{
+        			setVideoKnowledgeTreeStaticis(sysPlayLogsVo.getCommodityId()==null?null:Integer.valueOf(sysPlayLogsVo.getCommodityId()),
+        					sysPlayLogsVo.getUserId()==null?null:Integer.valueOf(sysPlayLogsVo.getUserId()),
+        					sysPlayLogsVo.getStudyLength()==null?null:Integer.valueOf(sysPlayLogsVo.getStudyLength()),
+        					sysPlayLogsVo.getLectureId()==null?null:Integer.valueOf(sysPlayLogsVo.getLectureId()));
+        		}catch(Exception e){
+        			e.printStackTrace();
+        		}
+        	}
+        }
+    }
     public void setVideoKnowledgeTreeStaticis (Integer commodityId,Integer userId,Integer watchLength,Integer lectureId) throws ParseException {
         //统计数据写入
         log.info("知识树统计数据写入-----开始");

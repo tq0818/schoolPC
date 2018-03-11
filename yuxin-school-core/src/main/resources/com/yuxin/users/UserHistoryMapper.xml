@@ -12,6 +12,18 @@
 		<result property="studyLength" column="study_length" />
 	</resultMap>
 	
+	<resultMap type="com.yuxin.wx.model.user.SysPlayLogsVo" id="sysPlayLogsVoResults">
+		<result property="userId" column="user_id" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="classTypeId" column="class_type_id" />
+		<result property="lectureId" column="lecture_id" />
+		<result property="studyDate" column="study_date" />
+		<result property="studyLength" column="study_length" />
+		<result property="sourceId" column="source_id" />
+		<result property="device" column="device"/>
+		<result property="splId" column="spl_id"/>
+	</resultMap>
+	
 	<sql id="table_columns">
 		id,
 		user_id,
@@ -127,6 +139,15 @@
 		<where>id = #{id}</where>
 	</update>
 	
+	<update id="updatePlayLogs" parameterType="com.yuxin.wx.model.user.UserHistory">
+		update user_history 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="studyDate != null and studyDate != ''">study_date = #{studyDate},</if>
+			<if test="studyLength != null and studyLength != ''">study_length = #{studyLength},</if>
+		</trim>
+		<where>id = #{id}</where>
+	</update>
+	
 	<select id="findById" resultMap="userHistoryResultMap" parameterType="String" >
 		select <include refid="table_columns" />
 		from user_history
@@ -174,7 +195,6 @@
 		select count(id) from user_history where class_type_id = #{classTypeId} and user_id = #{userId} and study_status = 3
 	</select>
 
-
 	<insert id="insertHistoryAll" parameterType="com.yuxin.wx.vo.user.UserHistoryAllVo"
 			useGeneratedKeys="true" keyProperty="id">
 		insert into user_history_all(
@@ -193,4 +213,39 @@
 		<include refid="entity_properties_log" />
 		)
 	</insert>
+	
+	<insert id="insertSysPlayLogs" parameterType="com.yuxin.wx.model.user.SysPlayLogsVo"
+			useGeneratedKeys="true" keyProperty="id">
+		insert into sys_play_logs(user_id,commodity_id,class_type_id,lecture_id,study_time,study_length,source_id,device,origin_type)
+		values (#{userId},#{commodityId},#{classTypeId},#{lectureId},#{studyDate},#{studyLength},#{sourceId},#{device},1)
+	</insert>
+	
+	<!-- 其他自定义SQL -->
+	<select id="querySysPlayLogsVosByDate" resultMap="sysPlayLogsVoResults" parameterType="com.yuxin.wx.model.user.UserHistory">
+		select user_id,commodity_id,class_type_id,lecture_id,study_date,
+		CASE WHEN seconds<![CDATA[<]]>study_length then seconds
+		ELSE study_length END study_length,source_id,'PC' device,1,spl_id
+		from (
+			select uh.user_id,ct.id class_type_id,cd.com_id commodity_id,uh.lecture_id,uh.study_date,uh.study_status,
+			(SUBSTRING_INDEX(vd.video_time,':',1)*3600+substring_index(substring_index(vd.video_time,':', -2), ':', 1)*60+SUBSTRING_INDEX(vd.video_time,':',-1)) seconds,
+			uh.study_length,uh.id source_id,spl.id spl_id
+			from user_history uh
+			inner join course_video_lecture cvl on cvl.id=uh.`lecture_id`
+			inner join video vd on vd.id=cvl.video_id
+			inner join course_video_chapter cvc on cvc.id=cvl.chapter_id
+			inner join class_type_module_relation ctm on ctm.`module_id`=cvc.module_id
+			inner join class_type ct on ct.id=ctm.`class_type_id` and ct.origin_type=0
+			inner join commodity_product_realtion cd on cd.product_id=ct.id
+			left join sys_play_logs spl on spl.source_id=uh.id
+			where uh.origin_type=1
+			<if test="studyDate != null and studyDate != ''">
+				<if test="mode!='ALL'">
+					and uh.study_date = #{studyDate}
+				</if>
+				<if test="mode=='ALL'">
+					and uh.study_date <![CDATA[<=]]> #{studyDate}
+				</if>
+			</if>
+		) dt
+	</select>
 </mapper>

@@ -58,7 +58,8 @@ public interface ICompanyPayConfigService  {
 	CompanyPayConfig findByCompanyId(Integer companyId);
 	
 	List<Integer> findAllCompanyId();
-	
+	//获取APP数据方式
+	String findGetAPPDateMode();
 	/**
 	 * 
 	 * Class Name: ICompanyPayConfigService.java

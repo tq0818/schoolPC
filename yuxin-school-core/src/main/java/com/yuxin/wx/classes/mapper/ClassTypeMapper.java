@@ -4,15 +4,13 @@ package com.yuxin.wx.classes.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.yuxin.wx.model.classes.ClassModule;
+import com.yuxin.wx.common.BaseMapper;
 import com.yuxin.wx.model.classes.ClassType;
-import com.yuxin.wx.model.commodity.Commodity;
+import com.yuxin.wx.vo.classes.ClassLessonVO;
 import com.yuxin.wx.vo.classes.ClassPackageConditionVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
 import com.yuxin.wx.vo.company.MemberLevelAndClassTypeVo;
-import com.yuxin.wx.common.BaseMapper;
-import com.yuxin.wx.common.PageFinder;
-import com.yuxin.wx.vo.student.StudentListVo;
+import com.yuxin.wx.vo.redis.ClassLectureVO;
 
 /**
  * Service Interface:ClassType
@@ -168,12 +166,13 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 	 */
 	int queryCountLiveClassOfOtherSchool(Map<String, Object> param);
 
-	List<ClassType> getClassTypeListVideo(ClassType search);
+	List<ClassLectureVO> getClassTypeListVideo(ClassType search);
 
 	List<ClassType> getClassTypeListLive(ClassType search);
 
 	List<ClassType> getClassTimeList(ClassType search);
 	List<ClassType> getClassTimeListLive(ClassType search);
 	
-	
+	List<ClassLessonVO> getClassLessonLogList(String studentIds, String lessonIds);
+		
 }

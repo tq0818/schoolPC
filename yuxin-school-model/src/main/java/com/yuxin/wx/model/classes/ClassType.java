@@ -107,7 +107,20 @@ public class ClassType extends BaseEntity {
     private String eduClass;
     private String subject;
 
-    public String getEduYear() {
+    private String itemName;
+    
+    
+    
+    
+    public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getEduYear() {
         return eduYear;
     }
 

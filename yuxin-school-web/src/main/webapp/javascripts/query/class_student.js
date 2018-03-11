@@ -222,10 +222,10 @@ function findClassStu(page) {
             var stuHtml = "";
             $.each(jsonData.pageFinder.data,function (i, stu) {
             	stuHtml += "<tr>";
-            	stuHtml += '<td>'+(stu.name ? stu.name : "") + '</td>';
-            	stuHtml += '<td>'+  eduStep+stu.eduYear+"年"+stu.eduClass+"班"+ '</td>';
-            	stuHtml += '<td>'+ (stu.countClass!=null ? stu.countClass: "0") +'</td>';
-            	stuHtml += '<td>'+ (stu.studyTime!=null ? stu.studyTime : "0") +'</td>';
+            	stuHtml += '<td>'+(stu.info.name ? stu.info.name : "") + '</td>';
+            	stuHtml += '<td>'+  eduStep+stu.info.eduYear+"年"+stu.info.eduClass+"班"+ '</td>';
+            	stuHtml += '<td>'+ (stu.info.countClass!=null ? stu.info.countClass: "0") +'</td>';
+            	stuHtml += '<td>'+ (stu.info.studyTime!=null ? stu.info.studyTime : "0") +'</td>';
             	stuHtml += "</tr>";
             })
             $("#stuListTbody").html(stuHtml);
@@ -240,7 +240,7 @@ function findClassStu(page) {
             		headArr.push(headHtml);
             		headHtml = "";
             	}
-            	headHtml += '<th>'+(clas.lessonName ? clas.lessonName: "") + "</th>";
+            	headHtml += '<th>'+(clas.lesson_name ? clas.lesson_name: "") + "</th>";
             })
             if(headHtml != ''){
             	headArr.push(headHtml);
@@ -262,7 +262,7 @@ function findClassStu(page) {
             }
             $.each(jsonData.pageFinder.data,function (i,cla) {
             	var tempHtml = "";
-                $.each(cla.studyFlag ,function (i,study) {
+                $.each(cla.list ,function (i,study) {
                 	if(i % 5 == 0 && i > 0){
                 		bodyArr[parseInt(i/5) - 1] += "<tr>"+tempHtml+"</tr>";
                 		tempHtml = "";
@@ -281,14 +281,14 @@ function findClassStu(page) {
            $('.changeIcon').height($("#classListTbody").height());*/
             
             //分页
-            $("#paginationStuList").pagination(jsonData.pageFinder.rowCount,
+            $("#paginationStuList").pagination(jsonData.pageFinder.count,
                     {
                         next_text: "下一页",
                         prev_text: "上一页",
-                        current_page: jsonData.pageFinder.pageNo - 1,
+                        current_page: jsonData.pageFinder.page - 1,
                         link_to: "javascript:void(0)",
                         num_display_entries: 8,
-                        items_per_page: jsonData.pageFinder.pageSize,
+                        items_per_page: jsonData.pageFinder.size,
                         num_edge_entries: 1,
                         callback: function (page, jq) {
                             var pageNo = page + 1;

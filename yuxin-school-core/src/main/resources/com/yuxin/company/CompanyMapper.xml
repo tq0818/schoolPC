@@ -1826,7 +1826,23 @@ values(#{id},#{messageType},#{title},#{content},#{status},#{companyId},#{sendTim
 		
 	</select>
 
-	<select id="findCompanyByCode" resultType="int" parameterType="String">
-		select id from company where edu_area_school = #{eduSchool}
+	<select id="findCompanyByCode" resultType="com.yuxin.wx.vo.company.CompanySchoolVO" parameterType="Integer">
+		SELECT 
+		  scd.`item_code`,
+		  c.`edu_area_school`,
+		  scd.`item_value`,
+		  c.`id` companyId,
+		  c.`company_name` 
+		FROM
+		  `company` c,
+		  `users` u,
+		  `users_area_relation` uar,
+		  `users_comany_relation` ucr,
+		  `sys_config_dict` scd 
+		WHERE u.`id` = uar.`user_id` 
+		  AND uar.`edu_school` = scd.`item_code` 
+		  AND ucr.`user_id` = u.`id` 
+		  AND c.`id` = ucr.`company_id` 
+		  AND u.`id` = #{userId}
 	</select>
 </mapper>

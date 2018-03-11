@@ -1,11 +1,13 @@
 package com.yuxin.wx.vo.redis;
 
+import java.io.Serializable;
+
 /**
  * 查询统计时候缓存当前登录用户所管理的学校、年级拥有的lesson信息,避免多次查询数据库
  * @author liutingrong
  *
  */
-public class ClassLectureVO {
+public class ClassLectureVO implements Serializable{
 	/*
 	 * cvl.id, cvl.lecture_name lesson_name, v.video_time, ct.`item_one_code`,
 	 * sci.`item_name` , ct.`item_second_code`
@@ -19,6 +21,10 @@ public class ClassLectureVO {
 	private String item_second_code; // 年级code
 	private Integer videoLen; // 视频长度数字表示，单位:秒
 
+	public ClassLectureVO(){
+		
+	}
+	
 	/**
 	 * 带参数构造函数
 	 * @param id	lessonId
@@ -38,7 +44,7 @@ public class ClassLectureVO {
 		this.item_second_code = item_second_code;
 		
 		if(null == this.video_time || "".equals(this.video_time)){
-			this.videoLen = 0;
+			this.videoLen = -1;
 		}
 		
 		String[] arr = this.video_time.split(":");
@@ -47,7 +53,7 @@ public class ClassLectureVO {
 			this.videoLen = len;
 		}catch(Exception e){
 			System.out.println("====> Calculate videlLen failed when create ClassLectureVO with video_time =  "+this.video_time);
-			this.videoLen = 0;
+			this.videoLen = -1;
 		}
 		
 	}

@@ -15,13 +15,6 @@ import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.yuxin.wx.api.company.ICompanyService;
-import com.yuxin.wx.api.user.IUsersFrontService;
-import com.yuxin.wx.common.*;
-import com.yuxin.wx.model.classes.ClassType;
-
-import com.yuxin.wx.model.company.Company;
-import com.yuxin.wx.vo.user.UsersFrontVo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -34,10 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.classes.IClassTypeService;
 import com.yuxin.wx.api.company.ICompanyFunctionSetService;
 import com.yuxin.wx.api.company.ICompanyPayConfigService;
+import com.yuxin.wx.api.company.ICompanyService;
 import com.yuxin.wx.api.query.IStudentStatisticsService;
 import com.yuxin.wx.api.query.ISysPlayLogsService;
 import com.yuxin.wx.api.student.IStudentService;
@@ -45,7 +40,14 @@ import com.yuxin.wx.api.system.ISysConfigDictService;
 import com.yuxin.wx.api.system.ISysConfigItemRelationService;
 import com.yuxin.wx.api.system.ISysConfigItemService;
 import com.yuxin.wx.api.user.IUserHistoryService;
+import com.yuxin.wx.api.user.IUsersFrontService;
 import com.yuxin.wx.api.user.IUsersService;
+import com.yuxin.wx.common.CCVideoConstant;
+import com.yuxin.wx.common.ExcelSheetEntity;
+import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.common.ViewFiles;
+import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.EduMasterClass;
 import com.yuxin.wx.model.company.CompanyFunctionSet;
 import com.yuxin.wx.model.company.CompanyPayConfig;
@@ -54,18 +56,25 @@ import com.yuxin.wx.model.system.SysConfigItem;
 import com.yuxin.wx.model.system.SysConfigItemRelation;
 import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.watchInfo.WatchInfoResult;
+import com.yuxin.wx.shiro.service.RedisHelper;
+import com.yuxin.wx.utils.CommonUtils;
 import com.yuxin.wx.utils.DateUtil;
 import com.yuxin.wx.utils.EntityUtil;
 import com.yuxin.wx.utils.ExcelUtil;
 import com.yuxin.wx.utils.HttpPostRequest;
 import com.yuxin.wx.utils.MD5;
 import com.yuxin.wx.utils.WebUtils;
+import com.yuxin.wx.vo.classes.ClassLessonVO;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
+import com.yuxin.wx.vo.company.CompanySchoolVO;
+import com.yuxin.wx.vo.company.CompanyVo;
 import com.yuxin.wx.vo.course.UserVideoVo;
 import com.yuxin.wx.vo.course.VideoCourseVo;
+import com.yuxin.wx.vo.redis.ClassLectureVO;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
+import com.yuxin.wx.vo.user.UsersFrontVo;
 
 @Controller
 @RequestMapping("/query")
@@ -706,17 +715,46 @@ public class StudentStatisticsController {
         if(loginUser==null || loginUser.getId()==null){
             throw new Exception("数据出现异常，请联系管理员！");
         }
-        UsersAreaRelation userAreaRelation=new UsersAreaRelation();
-        userAreaRelation=usersServiceImpl.findUsersAreaRelation(loginUser.getId());
-
-        /*search.setEduArea(userAreaRelation.getEduArea());
-        search.setEduSchool(userAreaRelation.getEduSchool());*/
-        //根据组织机构代码获取学校id
-        /*Integer cId = companyService.findCompanyByCode(userAreaRelation.getEduSchool());
-        search.setCompanyId(cId);*/
+       
+        //判断是否是班主任
+        Subject subject = SecurityUtils.getSubject();
+        Integer comId = null;
+        CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
+        if(null == companySchoolVO){
+        	System.out.println("==========> 查询失败");
+        	return jsonObject;
+        }
+        
+        search.setCompanyId(companySchoolVO.getCompanyId());
+        search.setEduSchool(companySchoolVO.getItem_code());
+        
+       /* if(subject.hasRole("班主任")){
+        	UsersAreaRelation userAreaRelation=new UsersAreaRelation();
+        	       userAreaRelation=usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        
+        	       search.setEduArea(userAreaRelation.getEduArea());
+        	       search.setEduSchool(userAreaRelation.getEduSchool());
+        	        //根据组织机构代码获取学校id
+        	       
+        	       CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
+        	       search.setCompanyId(companySchoolVO.getCompanyId());
+        	//uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
+        }else{
+        	//学校负责人
+        	 CompanyVo companyVo = companyService.findCompanyByCode(loginUser.getId());
+             search.setCompanyId(companyVo.getId());
+             search.setEduSchool(companyVo.getEduAreaSchool());
+        }
+       */
         //获取所有课程列表
-        List<ClassType> classList;
-        ClassType classType = new ClassType();
+        
+        //计算当前年级
+        ClassType classType = CommonUtils.getClassTypeByStep(search.getEduStep(), search.getEduYear());
+        if(null == classType){
+        	//TODO 参数错误
+        
+        }
+        List<ClassLectureVO> classList = null;
         classType.setEduStep(search.getEduStep());
         classType.setEduYear(search.getEduYear());
         if(null != search.getEduClass() && !"".equals(search.getEduClass())){
@@ -727,31 +765,101 @@ public class StudentStatisticsController {
         classType.setCompanyId(search.getCompanyId());
         search.setPageSize(10);
         classType.setPageSize(10);
-        if(search.getLiveFlag().equals("0")){
-            //录播课程列表
-            classList = classTypeServiceImpl.getClassTypeListVideo(classType);
-        }else{
-            //直播课程列表
-            classList = classTypeServiceImpl.getClassTypeListLive(classType);
-        }
-
-        PageFinder<UsersFrontVo> pageFinder = studentServiceImpl.findStudentsClassList(search,classType,classList);
-        List<ClassType> classLists = new ArrayList<>();
-        List<String> l = new ArrayList<>();
-
-        ClassType ct;
-        for(int i = 0; i<10;i++){
-            ct = new ClassType();
-            ct.setLessonName("三国"+i);
-            classLists.add(ct);
-            l = new ArrayList<>();
-            for(int j= 0 ;j<10;j++){
-                l.add(Math.random() < 0.5 ? "0" : "1");
+        //获取Redis缓存课程列表
+        Map<Integer,ClassLectureVO> map = RedisHelper.getInstance().getClassLectureMap(Long.valueOf(loginUser.getId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject());
+        if(null == map){
+        	//Redis中不存在，查询
+            if(search.getLiveFlag().equals("0")){
+                //录播课程列表
+                classList = classTypeServiceImpl.getClassTypeListVideo(classType);
+                map = new HashMap<>();
+                for(ClassLectureVO temp : classList){
+                    map.put(temp.getId(),temp);
+                }
+                RedisHelper.getInstance().putClassLectureMap(Long.valueOf(loginUser.getId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject(),map);
+            }else{
+                //直播课程列表
+               // classList = classTypeServiceImpl.getClassTypeListLive(classType);
             }
-            pageFinder.getData().get(i).setStudyFlag(l);
+        }else{
+        	 classList = new ArrayList<>();
+        	 //List<ClassLectureVO>
+        	for (Map.Entry< Integer,ClassLectureVO> entry : map.entrySet()) {  
+         	  classList.add(entry.getValue());
+        	}  
         }
-        jsonObject.put("pageFinder",pageFinder);
-        jsonObject.put("classList",classLists);
+        
+        //获取年级或班级下的所有学生列表
+        List<UsersFrontVo> stuList = usersFrontService.getStuList(search);
+        int stuCount = usersFrontService.getStuListCount(search);
+        
+        //根据学生列表和课程列表查询观看记录
+        //组装学生id
+        StringBuffer sIdBuild =  new StringBuffer();
+        for(UsersFrontVo fu : stuList){
+            sIdBuild.append(",").append(fu.getUserId());
+        }
+        //组装课程id
+        StringBuffer lessonBuild =  new StringBuffer();
+        for (Map.Entry<Integer, ClassLectureVO> entry : map.entrySet()) {
+            lessonBuild.append(",").append(entry.getKey().toString());
+        }
+        //获取录播观看记录
+        List<ClassLessonVO>  lectureVOList = classTypeServiceImpl.getClassLessonLogList(sIdBuild.toString().replaceFirst(",",""),lessonBuild.toString().replaceFirst(",",""));
+        if(null == lectureVOList){
+        	//TODO  没有获取到记录
+        	return jsonObject;
+        }
+        
+        //组装数据
+        //List<UsersFrontVo> stuList
+        //初始化二维关系
+        Map<String,Map<Integer,Integer> > resultMap = new HashMap<>(); 
+        for(UsersFrontVo vo : stuList){
+        	resultMap.put(vo.getUserId(), CommonUtils.initLessonLogMap(map));
+        }
+        
+        //处理录播观看记录
+        Map<Integer,Integer> temp = null;
+        for(ClassLessonVO lessonVO : lectureVOList){
+        	temp = resultMap.get(lessonVO.getUser_id());
+        	if(null != temp){
+        		//Integer flag = 0;
+        		ClassLectureVO maplesson = map.get(lessonVO.getId());
+        		if(1.0f*lessonVO.getLen()/maplesson.getVideoLen() >= 0.7){
+        			temp.put(maplesson.getId(), 1);
+        		}
+        	}
+        }
+        
+        //组装返回web json
+        //组装课程列表
+        JSONObject obj = null;
+        
+       // PageFinder<UsersFrontVo> pageFinder = new PageFinder(page,pageSize,count,lessonArr);
+        JSONObject pageFinder = new JSONObject();
+        pageFinder.put("page", 1);
+        pageFinder.put("size", 10);
+        pageFinder.put("count", stuCount);
+        
+        JSONArray lessonArr = null;
+        JSONArray arr = new JSONArray();
+        for(UsersFrontVo vo : stuList){
+        	Map<Integer,Integer> flagMap = resultMap.get(vo.getUserId());
+        	obj = new JSONObject();
+        	obj.put("info", vo);
+        	lessonArr = new JSONArray();
+        	for(ClassLectureVO classTemp : classList){
+        		lessonArr.add(flagMap.get(classTemp.getId()));
+        	}
+        	obj.put("list", lessonArr);
+        	arr.add(obj);
+        }
+        
+        pageFinder.put("data", arr);
+        jsonObject.put("classList",classList);
+        jsonObject.put("pageFinder", pageFinder);
+        System.out.println(jsonObject);
         return jsonObject;
     }
 

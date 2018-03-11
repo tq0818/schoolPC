@@ -971,6 +971,7 @@
 		and edu_school =#{eduSchool} -- 分校代码
 		and edu_year = #{eduYear} -- 入学年份
 		and is_in_school = '1'
+		ORDER BY user_id
 		LIMIT #{page},#{pageSize}
 	</select>
 

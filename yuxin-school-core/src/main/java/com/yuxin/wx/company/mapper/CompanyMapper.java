@@ -39,6 +39,7 @@ import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.vo.company.CompanyOrgMessageReadVo;
 import com.yuxin.wx.vo.company.CompanyOrgMessageVo;
 import com.yuxin.wx.vo.company.CompanyPicsVo;
+import com.yuxin.wx.vo.company.CompanySchoolVO;
 import com.yuxin.wx.vo.company.CompanyTotalVo;
 import com.yuxin.wx.vo.company.CompanyVo;
 import com.yuxin.wx.vo.company.companySpecialDomain;
@@ -322,5 +323,5 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	
 	Integer findSchoolIdByCompanyId(Integer companyId);
 
-	Integer findCompanyByCode(String eduSchool);
+	CompanySchoolVO findCompanyByCode(Integer userId);
 }

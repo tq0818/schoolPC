@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/classList.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
-		.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;
+		/*.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;*/
 			padding-left: 7px;}
 		.tableSecond th{
 			overflow: hidden;
@@ -200,6 +200,7 @@
 									</c:if>
 								</select>
 							</li>--%>
+
 							<li>
 								<label for="" class="xingMark">学科</label>
 								<select name="" id="subject">
@@ -231,167 +232,27 @@
 						<table class="table table-center tableFirst">
 							<tr data-buy="true">
 								<th width="8%">姓名</th>
-								<th width="5%">班级</th>
-								<th width="8%">观课总节数</th>
-								<th width="12%">观课总时长（分钟）</th>
+								<th width="7%">班级</th>
+								<th width="7%">观课总节数</th>
+								<th width="11%">观课总时长（分钟）</th>
 							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<tr>
-								<td>李翔宇</td>
-								<td>初2017级1班</td>
-								<td>7</td>
-								<td>120</td>
-							</tr>
-							<%--暂无数据提示--%>
-							<%--<c:choose>--%>
-							<%--<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">--%>
-							<%--<tr><td colspan="15">暂无数据</td></tr>--%>
-							<%--</c:when>--%>
-							<%--<c:otherwise>--%>
-							<%--<tr><td colspan="14">暂无数据</td></tr>--%>
-							<%--</c:otherwise>--%>
-							<%--</c:choose>--%>
+							<tbody id="stuListTbody"></tbody>
 						</table>
 						<table  class="table table-center tableSecond">
-							<tr data-buy="true">
-								<th width="20%">课次名称1</th>
-								<th width="20%">课次名称2</th>
-								<th width="20%">课次名称3</th>
-								<th width="20%">课次名称4</th>
-								<th width="20%">课次名称5</th>
+
+							<tr id="className" data-buy="true">
+
 							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
+							<tbody id="classListTbody"></tbody>
 						</table>
 						<div class="leftIcon changeIcon">
-							<i class="icon iconfont ">&#xe650;</i>
+							<i id="leftIconBtn" class="icon iconfont ">&#xe650;</i>
 						</div>
 						<div class="rightIcon changeIcon">
-							<i class="icon iconfont ">&#xe651;</i>
+							<i id="rightIconBtn" class="icon iconfont ">&#xe651;</i>
 						</div>
 
-						<div class="pages pagination" style="margin-top: 450px;"></div>
+						<div id="paginationStuList" class="pages pagination" style="margin-top: 450px;"></div>
 					</div>
 				</div>
 			</div>
@@ -506,89 +367,7 @@
         }
     });
 
-    //点击上一页
-    var contentHtml =
-        `<tbody>
-							<tr data-buy="true">
-								<th width="20%">课次名称1</th>
-								<th width="20%">课次名称2</th>
-								<th width="20%">课次名称3</th>
-								<th width="20%">课次名称4</th>
-								<th width="20%">课次名称5</th>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-							</tr>
-							<tr>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>√</td>
-								<td>1</td>
-							</tr>
-			</tbody>
-		`;
-
+/*
     $('.leftIcon').click(function(){
         $('.tableSecond').html("");
         $('.tableSecond').append(contentHtml);
@@ -598,7 +377,7 @@
     $('.rightIcon').click(function(){
         $('.tableSecond').html("");
         $('.tableSecond').append(contentHtml);
-    });
+    });*/
 </script>
 </body>
 </html>

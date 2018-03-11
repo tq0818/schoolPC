@@ -709,11 +709,11 @@ public class StudentStatisticsController {
         UsersAreaRelation userAreaRelation=new UsersAreaRelation();
         userAreaRelation=usersServiceImpl.findUsersAreaRelation(loginUser.getId());
 
-        search.setEduArea(userAreaRelation.getEduArea());
-        search.setEduSchool(userAreaRelation.getEduSchool());
+        /*search.setEduArea(userAreaRelation.getEduArea());
+        search.setEduSchool(userAreaRelation.getEduSchool());*/
         //根据组织机构代码获取学校id
-        Integer cId = companyService.findCompanyByCode(userAreaRelation.getEduSchool());
-        search.setCompanyId(cId);
+        /*Integer cId = companyService.findCompanyByCode(userAreaRelation.getEduSchool());
+        search.setCompanyId(cId);*/
         //获取所有课程列表
         List<ClassType> classList;
         ClassType classType = new ClassType();
@@ -742,10 +742,10 @@ public class StudentStatisticsController {
         ClassType ct;
         for(int i = 0; i<10;i++){
             ct = new ClassType();
-            ct.setLessonName("三国");
+            ct.setLessonName("三国"+i);
             classLists.add(ct);
+            l = new ArrayList<>();
             for(int j= 0 ;j<10;j++){
-                l = new ArrayList<>();
                 l.add(Math.random() < 0.5 ? "0" : "1");
             }
             pageFinder.getData().get(i).setStudyFlag(l);

@@ -65,7 +65,7 @@ function findClassStu(page,year) {
                 $('.tableSecond').hide();
                 $('.leftIcon').hide();
                 $('.rightIcon').hide();
-                $('.classNo').show();
+                $('.classNo').css('display','inline-block');
 
 
             }

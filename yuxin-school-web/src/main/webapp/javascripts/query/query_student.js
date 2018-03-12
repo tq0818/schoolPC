@@ -165,6 +165,25 @@
                     }
 
                 });
+            // 课程导出用户
+            $(".exportExcleCourse").on(
+                'click',
+                    function () {
+                        if ($("#tableClassList").find("tr").eq(1).find("td").length <= 1) {
+                            $.msg("没有数据可以导出");
+                        } else {
+                            $("#eduStepL").val($('#eduStep2').val());
+                            $("#eduYearL").val($('#eduYear2').val());
+                            $("#eduClassL").val($('#eduClass2').val());
+                            $("#flagL").val($('#liveFlag').val());
+                            $("#subjectL").val($('#subject').val());
+                            $("#eduSchoolL").val($('#eduSchool').val());
+                            $("#searchClassList").attr("action",
+                                rootPath + "/query/exportExcleCourse")
+                                .submit();
+                        }
+                    }
+            )
             // 学校导出用户
             $(".exportExcleSchool").on(
                 'click',

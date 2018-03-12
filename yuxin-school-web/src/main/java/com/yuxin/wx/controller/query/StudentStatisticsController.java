@@ -75,6 +75,7 @@ import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UserHistoryAllVo;
 import com.yuxin.wx.vo.user.UsersAreaRelation;
 import com.yuxin.wx.vo.user.UsersFrontVo;
+import redis.clients.jedis.BinaryClient;
 
 @Controller
 @RequestMapping("/query")
@@ -755,7 +756,7 @@ public class StudentStatisticsController {
         ClassType classType = CommonUtils.getClassTypeByStep(search.getEduStep(), search.getEduYear());
         if(null == classType){
         	//TODO 参数错误
-        
+
         }
         List<ClassLectureVO> classList = null;
         classType.setEduStep(search.getEduStep());
@@ -997,6 +998,146 @@ public class StudentStatisticsController {
         Map map = new HashMap();
         map.put("workbook", wb);
         map.put("fileName", "学员列表.xls");
+        return new ModelAndView(excel, map);
+    }
+    /**
+     * @Description: 导出班级学生观课记录
+     * @param model
+     * @param search
+     * @return
+     * 2018-3-11
+     */
+    @RequestMapping(value = "/exportExcleCourse")
+    public ModelAndView exportExcleCourse(Model model, StudentListVo search,HttpServletRequest request) throws Exception{
+        List<StudentListVo> al = new ArrayList<StudentListVo>();
+        JSONObject jsonObject = new JSONObject();
+        //获取当前学校管理员的学校组织机构代码
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+        //判断是否是班主任
+        Subject subject = SecurityUtils.getSubject();
+        Integer comId = null;
+        CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
+        if(null == companySchoolVO){
+            System.out.println("==========> 查询失败");
+            return null;
+        }
+        search.setUserId(loginUser.getId());
+        search.setCompanyId(companySchoolVO.getCompanyId());
+        search.setEduSchool(companySchoolVO.getItem_code());
+        //计算当前年级
+        ClassType classType = CommonUtils.getClassTypeByStep(search.getEduStep(), search.getEduYear());
+        if(null == classType){
+            //TODO 参数错误
+        }
+        classType.setEduStep(search.getEduStep());
+        classType.setEduYear(search.getEduYear());
+        if(null != search.getEduClass() && !"".equals(search.getEduClass())){
+            classType.setEduClass(search.getEduClass());
+        }
+        classType.setSubject(search.getSubject());
+        classType.setLiveFlag(Integer.parseInt(search.getLiveFlag()));
+        classType.setCompanyId(search.getCompanyId());
+        search.setPageSize(20000);
+
+        jsonObject = classTypeServiceImpl.getListDatas(search,classType);
+        JSONObject study = jsonObject.getJSONObject("pageFinder");
+        List<ClassLectureVO> classList1 =null;
+        try {
+            JSONArray jsonArray =jsonObject.getJSONArray("classList");
+            if(jsonArray!=null) {
+                classList1 = JSONArray.parseArray(jsonArray.toJSONString(), ClassLectureVO.class);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        JSONArray data = study.getJSONArray("data");
+        JSONObject obj=null;
+
+        for(int i=0;i<data.size();i++){
+            StudentListVo slv = new StudentListVo();
+           obj = data.getJSONObject(i);
+            JSONObject info =  obj.getJSONObject("info");
+            slv.setName(info.getString("name"));
+            slv.setEduYear(info.getString("eduYear"));
+            slv.setEduClass(info.getString("eduClass"));
+            slv.setCounty(info.getString("countClass"));
+            slv.setIsAgent(info.getString("studyTime"));
+
+            JSONArray list=  obj.getJSONArray("list");
+            List<String> list1 =new ArrayList<>();
+            for(int j =0; j<list.size();j++){
+                list1.add(list.getInteger(j)==0?"X":"√");
+            }
+            slv.setCourse(list1);
+
+            al.add(slv);
+        }
+        String step =search.getEduStep();
+        if("STEP_01".equals(step)){
+            step="小学";
+        }else if("STEP_02".equals(step)){
+            step="初中中学";
+        }else{
+            step="高中中学";
+        }
+
+        List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
+        for (StudentListVo s : al) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            String name = s.getName();
+            map.put("name", name);
+            String eduClass = "";
+            String eduYear ="";
+            String studyTime=s.getIsAgent();
+            String countClass = s.getCounty();
+
+            if(!StringUtils.isBlank(s.getEduYear())){
+                eduYear = s.getEduYear();
+            }
+            if(!StringUtils.isBlank(s.getEduClass())){
+                eduClass = step+s.getEduYear()+"年"+s.getEduClass()+"班";
+            }
+            map.put("eduYear", eduYear);
+            map.put("eduClass", eduClass);
+            map.put("studyTime",studyTime);
+            map.put("countClass",countClass);
+            List<String> couseAll=s.getCourse();
+            for(int i=0;i<couseAll.size();i++){
+                map.put("lession"+i,couseAll.get(i));
+            }
+            lists.add(map);
+        }
+
+        StringBuffer title = new StringBuffer(
+                "姓名:name,班  级:eduClass,观课总节数:studyTime,观课总时长（分钟）:countClass,");
+
+        StringBuilder  waj =new StringBuilder();
+        for (int i = 0 ; i < classList1.size(); i++)
+        {
+            if(i==classList1.size()-1){
+                waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
+                waj.append(":lession"+i);
+                break;
+            }
+                waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
+                waj.append(":lession"+i+",");
+        }
+        title.append(waj);
+
+        ViewFiles excel = new ViewFiles();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        try {
+            wb = ExcelUtil.newWorkbook(lists, "sheet1", title.toString());
+        } catch (Exception ex) {
+
+        }
+        Map map = new HashMap();
+        map.put("workbook", wb);
+        map.put("fileName", "学生观课记录.xls");
         return new ModelAndView(excel, map);
     }
 

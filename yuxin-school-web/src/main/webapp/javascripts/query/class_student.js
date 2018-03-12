@@ -10,6 +10,7 @@ var headArr = null;
 var bodyArr = null;
 
 function findClassStu(page,year) {
+    $("#paginationStuList").html('');
     $.ajax({
         url: rootPath + "/query/learningDetails/queryStudentsList",
         data: {
@@ -34,7 +35,6 @@ function findClassStu(page,year) {
                  $('.studentNo').show();
                  $('#paginationStuList').hide();
                  $('.tipsWord').hide();
-                 
         		return;
         	}
         	var json = jsonData;
@@ -167,7 +167,7 @@ function findClassStu(page,year) {
 
 
 
-            //分页
+            //分页paginationStuList
             $("#paginationStuList").pagination(json.count,
                     {
                         next_text: "下一页",
@@ -192,7 +192,6 @@ function findClassStu(page,year) {
             
             $("#leftIconBtn").click(function(){
             	if(nowClass == 0){
-
             		return;
             	}
             	//隐藏左侧icon

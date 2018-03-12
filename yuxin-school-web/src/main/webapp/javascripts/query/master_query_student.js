@@ -10,7 +10,7 @@ $(document).ready(function () {
 })
 
 function masterFindClassStu(page,year) {
-
+    $("#paginationStuList").html('');
     var eduYear2;
     var eduClass2;
     var eduStep2;
@@ -50,6 +50,7 @@ function masterFindClassStu(page,year) {
             $(".loading-bg").show();
         },
         success: function (jsonData) {
+
             var json = jsonData;
             //console.log(jsonData);
             if(jsonData.data == null){
@@ -162,6 +163,7 @@ function masterFindClassStu(page,year) {
             if(jsonData.classList.length == 0){
                 //没有课程学习记录，清空table
                 // $(".classListContent").find(".tableSecond").html('')
+
                 return;
             }
 

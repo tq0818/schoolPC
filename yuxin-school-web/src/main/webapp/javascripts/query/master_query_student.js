@@ -33,6 +33,7 @@ function masterFindClassStu(page) {
 
                 $('.studentContent').hide();
                 $('.studentNo').show();
+                $('#paginationStuList').hide();
             }
             if(jsonData.classList.length == 0){
                 // $(".classListContent")
@@ -47,7 +48,7 @@ function masterFindClassStu(page) {
 
             var eduStep = $('#eduStep2').val();
             if(eduStep=='STEP_01'){
-                eduStep='小学';
+                eduStep='小';
             }else if(eduStep=='STEP_02'){
                 eduStep='初';
             }else{
@@ -115,7 +116,9 @@ function masterFindClassStu(page) {
             /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
              $('.changeIcon').height($("#classListTbody").height());*/
             //根据列表的高度设置切换按钮的高度
-
+            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
 
             //分页
             $("#paginationStuList").pagination(jsonData.pageFinder.rowCount,

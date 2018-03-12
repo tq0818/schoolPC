@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>查询统计</title>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
@@ -16,12 +17,16 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/classList.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
-		/*.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;*/
+		.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;
 			padding-left: 7px;}
 		.tableSecond th{
 			overflow: hidden;
 			text-overflow:ellipsis;
 			white-space: nowrap;
+		}
+		.classNo{
+			display: none;width: 49%; text-align: center;border: 1px solid #666;
+			margin: 20px 0 10px;border: 1px solid #ddd;
 		}
 	</style>
 </head>
@@ -223,7 +228,7 @@
 						</ul>
 					</form>
 					<%--<div class="user-list">--%>
-					<div style="width: 100%;height: 80px;line-height: 80px;text-align: right;">
+					<div style="width: 100%;height: 50px;line-height: 110px;text-align: right;">
 						<span class="xingMark" style="font-size: 12px;margin-right: 30px;">
 							实际观课效果：√表示观课时间超过了70%，✘表示观课时长未超过70%
 						</span>
@@ -252,14 +257,14 @@
 							<div class="rightIcon changeIcon">
 								<i id="rightIconBtn" class="icon iconfont ">&#xe651;</i>
 							</div>
-							<div class="classNo" style="display: none;width: 49%; text-align: center;border: 1px solid #666;">
+							<div class="classNo">
 								<img src="<%=rootPath%>/images/classNew.jpg" alt="" style="margin-top: 150px;">
 							</div>
 						</div>
 						<div class="studentNo" style="display: none;width: 100%; text-align: center;">
 							<img src="<%=rootPath%>/images/studentNew.jpg" alt="" style="margin-top: 150px;">
 						</div>
-						<div id="paginationStuList" class="pages pagination" style="margin-top: 450px;"></div>
+						<div id="paginationStuList" class="pages pagination"></div>
 					</div>
 				</div>
 			</div>
@@ -372,6 +377,7 @@
             //根据列表的高度设置切换按钮的高度
             var tableHeight = ($('.tableFirst').height()-35)+'px';
             $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
         }
     });
 

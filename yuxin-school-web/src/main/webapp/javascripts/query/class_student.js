@@ -34,7 +34,6 @@ function findClassStu(page,year) {
                  $('.studentNo').show();
                  $('#paginationStuList').hide();
                  $('.tipsWord').hide();
-                 
         		return;
         	}
         	var json = jsonData;
@@ -133,6 +132,7 @@ function findClassStu(page,year) {
             if(jsonData.classList.length == 0){
             	//没有课程学习记录，清空table
 //            	$(".classListContent").find(".tableSecond").html('')
+                $("#paginationStuList").html('');
             	return;
             }
             
@@ -167,7 +167,7 @@ function findClassStu(page,year) {
 
 
 
-            //分页
+            //分页paginationStuList
             $("#paginationStuList").pagination(json.count,
                     {
                         next_text: "下一页",
@@ -192,7 +192,6 @@ function findClassStu(page,year) {
             
             $("#leftIconBtn").click(function(){
             	if(nowClass == 0){
-
             		return;
             	}
             	//隐藏左侧icon

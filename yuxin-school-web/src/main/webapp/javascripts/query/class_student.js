@@ -10,6 +10,7 @@ var headArr = null;
 var bodyArr = null;
 
 function findClassStu(page,year) {
+    $("#paginationStuList").html('');
     $.ajax({
         url: rootPath + "/query/learningDetails/queryStudentsList",
         data: {
@@ -132,7 +133,6 @@ function findClassStu(page,year) {
             if(jsonData.classList.length == 0){
             	//没有课程学习记录，清空table
 //            	$(".classListContent").find(".tableSecond").html('')
-                $("#paginationStuList").html('');
             	return;
             }
             

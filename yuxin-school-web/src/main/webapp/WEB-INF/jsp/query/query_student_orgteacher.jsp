@@ -247,7 +247,7 @@
 							</li>
 							</c:if>
 							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(1)">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(0)">查询</a>
 								<a href="##" class="btn btn-mb btn-primary">导出</a>
 							</li>
 						</ul>

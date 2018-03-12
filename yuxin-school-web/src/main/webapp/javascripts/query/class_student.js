@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    findClassStu(1,2018);
+    var myDate = new Date();
+    console.log(myDate.getFullYear());
+    findClassStu(0,myDate.getFullYear());
 })
 
 

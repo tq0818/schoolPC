@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    masterFindClassStu(1,2018);
+    var myDate = new Date();
+    console.log(myDate.getFullYear());
+    masterFindClassStu(0,myDate.getFullYear());
 })
 
 function masterFindClassStu(page,year) {
@@ -133,7 +135,7 @@ function masterFindClassStu(page,year) {
                     num_edge_entries: 1,
                     callback: function (page, jq) {
                         var pageNo = page + 1;
-                        findClassStu(pageNo);
+                        masterFindClassStu(pageNo);
                     }
                 });
 

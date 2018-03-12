@@ -383,6 +383,8 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	public SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, Users loginUser  ) {
 		search.setUserId(loginUser.getId());
         
+		search.setPageSize(2);
+		
         //组装年级信息，用于查询课程列表
         ClassType classType = getClassTypeByEduStepYear(search.getEduStep(), search.getEduYear());
         if(null == classType){
@@ -578,7 +580,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         SimplePage pg = new SimplePage();
         pg.setCount(stuCount);
         pg.setData(jsonObject);
-        pg.setPage(search.getPage());
+        pg.setPage(search.getPage() / search.getPageSize() + 1);
         pg.setSize(search.getPageSize());
         
 		return pg;

@@ -37,7 +37,7 @@ function findClassStu(page,year) {
                  
         		return;
         	}
-        	
+        	var json = jsonData;
         	jsonData = jsonData.data;
         	
             if (jsonData.pageFinder.data.length == 0) {
@@ -83,7 +83,7 @@ function findClassStu(page,year) {
             $.each(jsonData.pageFinder.data,function (i, stu) {
             	stuHtml += "<tr>";
             	stuHtml += '<td>'+(stu.info.name ? stu.info.name : "") + '</td>';
-                stuHtml += '<td>'+  eduStep+stu.eduYear+"年"+stu.info.eduClass+"班"+ '</td>';
+                stuHtml += '<td>'+  eduStep+stu.info.eduYear+"年"+stu.info.eduClass+"班"+ '</td>';
             	stuHtml += '<td>'+ (stu.info.countClass!=null ? stu.info.countClass: "0") +'</td>';
             	stuHtml += '<td>'+ (stu.info.studyTime!=null ? stu.info.studyTime : "0") +'</td>';
             	stuHtml += "</tr>";
@@ -145,14 +145,14 @@ function findClassStu(page,year) {
 
 
             //分页
-            $("#paginationStuList").pagination(jsonData.count,
+            $("#paginationStuList").pagination(json.count,
                     {
                         next_text: "下一页",
                         prev_text: "上一页",
-                        current_page: jsonData.page,
+                        current_page: json.page,
                         link_to: "javascript:void(0)",
                         num_display_entries: 8,
-                        items_per_page: jsonData.size,
+                        items_per_page: json.size,
                         num_edge_entries: 1,
                         callback: function (page, jq) {
                             var pageNo = page + 1;

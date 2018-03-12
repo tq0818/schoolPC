@@ -1,17 +1,21 @@
 package com.yuxin.wx.api.user;
 
+import java.util.List;
+import java.util.Map;
+
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.SimplePage;
+import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
+import com.yuxin.wx.vo.company.CompanySchoolVO;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
 import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
 import com.yuxin.wx.vo.user.UsersStudentInfo;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Service Interface:UsersFront
@@ -266,5 +270,12 @@ public interface IUsersFrontService {
     List<UsersFrontVo> getStuList(StudentListVo search);
 
     Integer getStuListCount(StudentListVo search);
+    
+    
+    SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search,  CompanySchoolVO companySchoolVO, Users loginUser  );
+    
+    ClassType getClassTypeByEduStepYear(String eduStep,String eduYear);
+    
+    
     
 }

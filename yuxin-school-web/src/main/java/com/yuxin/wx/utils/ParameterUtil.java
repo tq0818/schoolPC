@@ -3,6 +3,8 @@ package com.yuxin.wx.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 参数工具,用于处理参数
  * @author chopin
@@ -16,7 +18,7 @@ public class ParameterUtil {
 	 */
 	public static Boolean isMobilePhone(String str){
 		Pattern pattern = Pattern.compile("^09[0-9]{8}|[1][3,4,5,7,8][0-9]{9}$");
-		Matcher matcher = pattern.matcher(str);
+		Matcher matcher = pattern.matcher(StringUtils.trim(str));
 		return matcher.matches();
 	}
 	

@@ -712,6 +712,19 @@ public class StudentStatisticsController {
             if(null != companyId){
                 search.setCompanyId(companyId);
             }
+            if(!"".equals(search.getPage()) && null != search.getPage() && !search.getPage().equals("1")&&!search.getPage().equals("0")){
+                search.setPage((search.getPage()-1)*10);
+                search.setPageSize(10);
+            }else if("0".equals(search.getPage())){
+                search.setPage(0);
+                search.setPageSize(10);
+            }else {
+                search.setPage(0);
+                search.setPageSize(10);
+            }
+            
+            search.setPage(search.getPage() < 0 ? 0 : search.getPage());
+            
             //TODO 设定用户身份
             int isResponse = 1;
           //  待完成

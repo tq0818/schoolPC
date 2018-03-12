@@ -386,7 +386,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         //组装年级信息，用于查询课程列表
         ClassType classType = getClassTypeByEduStepYear(search.getEduStep(), search.getEduYear());
         if(null == classType){
-        	return SimplePage.getFailed("获取年级信息失败");
+        	return getFaild();
         }
         classType.setEduStep(search.getEduStep());
         classType.setEduYear(search.getEduYear());
@@ -404,7 +404,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
         if(null == stuList || stuList.size() == 0){
         	//如果获取学生信息失败，直接返回，不再进行下一步查询
-        	return new SimplePage();
+        	return getFaild();
         }
         int stuCount = usersFrontMapper.getStuListCount(search);
         
@@ -420,14 +420,18 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         	}
         	System.out.println("课程数量为:"+classList.size());
         	if(classList.size() == 0){
-        		return new SimplePage();
+        		SimplePage pg = new SimplePage();
+        		pg.setData(getStudentList(stuList));
+        		return pg;
         	}
         	
         }else{
         	//直播课程
         	classList = classTypeMapper.getClassTypeListLive(classType);
         	if(null == classList || classList.size() == 0){
-        		return new SimplePage();
+        		SimplePage pg = new SimplePage();
+        		pg.setData(getStudentList(stuList));
+        		return pg;
         	}
         	
         	for(int i = 0;i<classList.size();i++){
@@ -465,7 +469,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 			lessonVOList = classTypeMapper.getClassLessonLogList(pmap);
 			// classTypeServiceImpl.getClassLessonLogList(stuIdsList,lessonIdsList);
 			if (null == lessonVOList) {
-				return SimplePage.getFailed("获取录播信息失败");
+				return getFaild();
 			}
 			
 		} else {
@@ -476,7 +480,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 			pmap.put("lessonIdsList", lessonIdsList);
 			lessonVOList = classTypeMapper.getClassLessonLiveList(pmap);
 			if (null == lessonVOList) {
-				return SimplePage.getFailed("获取直播信息失败");
+				return getFaild();
 			}
 			
 			for(int j = 0;j< lessonVOList.size();j++){
@@ -521,7 +525,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         		}
         		studyTemp.put(""+maplesson.getId(), lessonVO.getLen());
         	}else{
-        		System.out.println("map中没有找到对应学生的观看记录");
+        		return getFaild();
         	}
         }
         
@@ -580,6 +584,42 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 		return pg;
 	}
 
+	
+	private SimplePage getFaild(){
+		SimplePage pg = new SimplePage();
+		JSONObject obj = new JSONObject();
+		obj.put("classList", new JSONArray());
+		JSONObject pageFinder = new JSONObject();
+		pageFinder.put("data", new JSONArray());
+		pageFinder.put("count", 0);
+		obj.put("pageFinder", pageFinder);
+		pg.setData(obj);
+		return pg;
+	}
+	
+	private JSONObject getStudentList( List<UsersFrontVo> stuList){
+		/* pageFinder.put("data", arr);
+	        JSONObject jsonObject = new JSONObject();
+	        jsonObject.put("classList",classList);
+	        jsonObject.put("pageFinder", pageFinder);*/
+	        
+	      JSONObject json = new JSONObject();
+	      if(null == stuList){
+	    	  return json;
+	      }
+		
+	      JSONArray arr = new JSONArray();
+	      JSONObject obj = null;
+	      for(UsersFrontVo vo : stuList){
+	    	  obj = new JSONObject();
+	    	  obj.put("info", vo);
+	    	  arr.add(obj);
+	      }
+	      json.put("pageFinder", new JSONObject().put("data", arr));
+	      
+		return json;
+	}
+	
 	@Override
 	public ClassType getClassTypeByEduStepYear(String step, String eduYear) {
 		try {

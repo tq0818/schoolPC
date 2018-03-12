@@ -383,12 +383,20 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	public SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, Users loginUser  ) {
 		search.setUserId(loginUser.getId());
         
-		search.setPageSize(2);
+		 //获取年级或班级下的所有学生列表
+        List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
+        if(null == stuList || stuList.size() == 0){
+        	//如果获取学生信息失败，直接返回，不再进行下一步查询
+        	return getFaild();
+        }
+        int stuCount = usersFrontMapper.getStuListCount(search);
 		
         //组装年级信息，用于查询课程列表
         ClassType classType = getClassTypeByEduStepYear(search.getEduStep(), search.getEduYear());
         if(null == classType){
-        	return getFaild();
+        	SimplePage pg = new SimplePage();
+        	pg.setData(getStudentList(stuList));
+        	return pg;
         }
         classType.setEduStep(search.getEduStep());
         classType.setEduYear(search.getEduYear());
@@ -402,13 +410,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
       //  List<ClassLectureVO>  classList = classTypeServiceImpl.getClassTypeListVideo(classType);
         
         
-        //获取年级或班级下的所有学生列表
-        List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
-        if(null == stuList || stuList.size() == 0){
-        	//如果获取学生信息失败，直接返回，不再进行下一步查询
-        	return getFaild();
-        }
-        int stuCount = usersFrontMapper.getStuListCount(search);
+       
         
         
         //录播课程
@@ -580,9 +582,8 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         SimplePage pg = new SimplePage();
         pg.setCount(stuCount);
         pg.setData(jsonObject);
-        pg.setPage(search.getPage() / search.getPageSize() + 1);
+        pg.setPage(search.getPage() / search.getPageSize() );
         pg.setSize(search.getPageSize());
-        
 		return pg;
 	}
 

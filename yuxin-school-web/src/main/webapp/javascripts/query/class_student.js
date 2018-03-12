@@ -69,6 +69,11 @@ function findClassStu(page,year) {
 
 
             }
+            
+            $('.tableSecond').show();
+            $('.leftIcon').show();
+            $('.rightIcon').show();
+            $('.classNo').css('display','none');
 
             var eduStep = $('#eduStep2').val();
             if(eduStep=='STEP_01'){
@@ -117,7 +122,7 @@ function findClassStu(page,year) {
             
             if(jsonData.classList.length == 0){
             	//没有课程学习记录，清空table
-            	$(".classListContent").find(".tableSecond").html('')
+//            	$(".classListContent").find(".tableSecond").html('')
             	return;
             }
             
@@ -142,6 +147,8 @@ function findClassStu(page,year) {
             })
             
            $("#classListTbody").html(bodyArr[0]);
+            
+            //console.log()
             
           /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
            $('.changeIcon').height($("#classListTbody").height());*/

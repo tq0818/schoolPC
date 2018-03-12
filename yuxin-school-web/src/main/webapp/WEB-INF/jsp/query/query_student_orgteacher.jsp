@@ -47,9 +47,23 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5 active">${school.itemValue}学员列表</h2>
-					<i class="markTitle"></i>
-					<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						<c:if test="${role==1}">
+							<h2 class="h5 active">学员列表</h2>
+							<i class="markTitle"></i>
+							<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						</c:if>
+						<c:if test="${role==2}">
+							<h2 class="h5 active">用户列表</h2>
+							<i class="markTitle"></i>
+							<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						</c:if>
+						<c:if test="${role!=1 and role != 2}">
+							<h2 class="h5 active">${school.itemValue}学员列表</h2>
+							<i class="markTitle"></i>
+							<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						</c:if>
+					<%--<i class="markTitle"></i>
+					<h2 class="h5 studentListTitle " >班级学生列表</h2>--%>
 					<span class="line"></span>
 				</div>
 				<form method="post" id="searchForm" class="studentListContent">
@@ -178,34 +192,44 @@
 				<div class="classListContent">
 					<form>
 						<ul>
-							<%--<li>
-								<label for="" class="xingMark">学段</label>
-								<c:if test="${role == '2' }">
-									<select id="eduStep" name="eduStep" style="width:150px;">
-										<option value="">请选择学段</option>
-										<option value="${eduStep}">${eduStepName}</option>
+							<c:if test="${role == 2}">
+								<li>
+									<label for="" class="xingMark">学科</label>
+									<select name="" id="subject">
+										<c:forEach items="${subjectItem}" var="subject">
+											<option value="${subject.itemCode}">${subject.itemName}</option>
+										</c:forEach>
 									</select>
-								</c:if>
-							</li>--%>
-							<%--<li>
-								<label for="">入学年份</label>
-								<c:if test="${role=='2'}">
-									<select id="eduYear" name="eduYear" style="width:150px;">
-										<option value="">请选择入学年份</option>
-											&lt;%&ndash; <option value="${eduYear}">${eduYear}年</option> &ndash;%&gt;
+								</li>
+								<li>
+									<label for="" class="xingMark">课程形式</label>
+									<select name="" id="liveFlag">
+										<option value="1">直播</option>
+										<option value="0">点播</option>
 									</select>
-								</c:if>
-							</li>--%>
-							<%--<li>
-								<label for="">班级</label>
-								<select name="" id="">
-									<c:if test="${role=='2'}">
-										<option value="">请选择班级</option>
-										&lt;%&ndash; <option value="${eduClass}">${eduClass}班</option> &ndash;%&gt;
-									</c:if>
-								</select>
-							</li>--%>
+								</li>
+							</c:if>
+							<c:if test="${role != 2}">
+								<li>
+									<label for="" class="xingMark">学段</label>
+										<select id="eduStep2" name="eduStep" >
+											<c:forEach items="${stepList}" var="step">
+												<option value="${step.itemCode}">${step.itemValue}</option>
+											</c:forEach>
+										</select>
+								</li>
+								<li>
+									<label for="">入学年份</label>
+										<select id="eduYear2" name="eduYear" >
 
+										</select>
+								</li>
+								<li>
+									<label for="">班级</label>
+									<select name="" id="eduClass2">
+											<option value="">请选择班级</option>
+									</select>
+								</li>
 							<li>
 								<label for="" class="xingMark">学科</label>
 								<select name="" id="subject">
@@ -221,6 +245,7 @@
 									<option value="0">点播</option>
 								</select>
 							</li>
+							</c:if>
 							<li>
 								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(1)">查询</a>
 								<a href="##" class="btn btn-mb btn-primary">导出</a>
@@ -333,6 +358,24 @@
     }
 	
 	$(document).ready(function(){
+        var currdate = new Date();
+        var year = currdate.getFullYear();
+        var yearBody = "";
+        for(i = 0;i < 12;i++){
+            var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
+            yearBody += li;
+        }
+        $("#eduYear2").append(yearBody);
+        var classesBody = "";
+        for(i = 1;i <=30; i++){
+            var li ="<option value='"+i+"'>"+i+"班</option>";
+            classesBody += li;
+        }
+        $("#eduClass2").append(classesBody);
+
+
+
+
 		 var role='${role}';
 		 if(role=='2'){
 			 var yearBody ="<option value='"+$("#hiddenEduYear").val()+"'>"+$("#hiddenEduYear").val()+"年</option>";

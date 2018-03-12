@@ -53,9 +53,24 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5 active">${school.itemValue}学员列表</h2>
+					<c:if test="${role==1}">
+						<h2 class="h5 active">学员列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					</c:if>
+					<c:if test="${role==2}">
+						<h2 class="h5 active">用户列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					</c:if>
+					<c:if test="${role!=1 and role != 2}">
+						<h2 class="h5 active">${school.itemValue}学员列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					</c:if>
+					<%--<h2 class="h5 active">${school.itemValue}学员列表</h2>
 					<i class="markTitle"></i>
-					<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					<h2 class="h5 studentListTitle " >班级学生列表</h2>--%>
 					<span class="line"></span>
 				</div>
 				<form method="post" id="searchForm" class="studentListContent">

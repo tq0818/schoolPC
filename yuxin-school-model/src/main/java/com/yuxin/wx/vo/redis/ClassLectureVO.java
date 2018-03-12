@@ -20,6 +20,7 @@ public class ClassLectureVO implements Serializable{
 	private String item_name; // 课程名
 	private String item_second_code; // 年级code
 	private Integer videoLen; // 视频长度数字表示，单位:秒
+	private Integer liveLessonTime;//直播视频总时长
 
 	public ClassLectureVO(){
 		
@@ -85,6 +86,14 @@ public class ClassLectureVO implements Serializable{
 		return "ClassLectureVO [id=" + id + ", lesson_name=" + lesson_name + ", video_time=" + video_time
 				+ ", item_one_code=" + item_one_code + ", item_name=" + item_name + ", item_second_code="
 				+ item_second_code + ", videoLen=" + videoLen + "]";
+	}
+
+	public Integer getLiveLessonTime() {
+		return liveLessonTime;
+	}
+
+	public void setLiveLessonTime(Integer liveLessonTime) {
+		this.liveLessonTime = liveLessonTime;
 	}
 
 	public Integer getId() {

@@ -1,21 +1,33 @@
 package com.yuxin.wx.user.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yuxin.wx.model.student.Student;
-import com.yuxin.wx.vo.classes.ClassTypeVo;
-import com.yuxin.wx.vo.student.StudentListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;import com.yuxin.wx.common.BaseServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.yuxin.wx.api.user.IUsersFrontService;
+import com.yuxin.wx.classes.mapper.ClassTypeMapper;
+import com.yuxin.wx.common.BaseServiceImpl;
 import com.yuxin.wx.common.PageFinder;
+import com.yuxin.wx.common.SimplePage;
+import com.yuxin.wx.model.classes.ClassType;
+import com.yuxin.wx.model.student.Student;
+import com.yuxin.wx.model.user.Users;
 import com.yuxin.wx.model.user.UsersFront;
 import com.yuxin.wx.user.mapper.UsersFrontMapper;
+import com.yuxin.wx.vo.classes.ClassLessonVO;
+import com.yuxin.wx.vo.classes.ClassTypeVo;
+import com.yuxin.wx.vo.company.CompanySchoolVO;
+import com.yuxin.wx.vo.redis.ClassLectureVO;
 import com.yuxin.wx.vo.student.SelectStudentOrUsersfrontVo;
+import com.yuxin.wx.vo.student.StudentListVo;
 import com.yuxin.wx.vo.user.UsersFrontIntegralVo;
 import com.yuxin.wx.vo.user.UsersFrontVo;
 import com.yuxin.wx.vo.user.UsersStudentInfo;
@@ -33,6 +45,10 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
     @Autowired
     private UsersFrontMapper usersFrontMapper;
 
+    
+    @Autowired
+    private ClassTypeMapper classTypeMapper;
+    
     /**
      * 
      * @Title: saveUsersFront
@@ -363,4 +379,229 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         return usersFrontMapper.getStuListCount(search);
     }
 
+	@Override
+	public SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, Users loginUser  ) {
+		search.setUserId(loginUser.getId());
+        
+        //组装年级信息，用于查询课程列表
+        ClassType classType = getClassTypeByEduStepYear(search.getEduStep(), search.getEduYear());
+        if(null == classType){
+        	return SimplePage.getFailed("获取年级信息失败");
+        }
+        classType.setEduStep(search.getEduStep());
+        classType.setEduYear(search.getEduYear());
+        if(null != search.getEduClass() && !"".equals(search.getEduClass())){
+            classType.setEduClass(search.getEduClass());
+        }
+        classType.setSubject(search.getSubject());
+        classType.setLiveFlag(Integer.parseInt(search.getLiveFlag()));
+        classType.setCompanyId(search.getCompanyId());
+        //获取课程列表并放入map
+      //  List<ClassLectureVO>  classList = classTypeServiceImpl.getClassTypeListVideo(classType);
+        //录播课程
+        List<ClassLectureVO>  classList = null;
+        if ("0".equals(search.getLiveFlag())){
+        	classList = classTypeMapper.getClassTypeListVideo(classType);
+        	if(null != classList){
+        		for(int i = 0;i<classList.size();i++){
+            		classList.get(i).initVedioLen();//调用方法转换视频格式得到视频长度
+            	}
+        	}
+        }else{
+        	//直播课程
+        	classList = classTypeMapper.getClassTypeListLive(classType);
+        }
+        
+        Map<Integer,ClassLectureVO> map = new HashMap<>();
+        for(ClassLectureVO temp : classList){
+            map.put(Integer.valueOf(temp.getId()),temp);
+        }
+        
+        //获取年级或班级下的所有学生列表
+        List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
+        if(null == stuList || stuList.size() == 0){
+        	//如果获取学生信息失败，直接返回，不再进行下一步查询
+        	return new SimplePage();
+        }
+        int stuCount = usersFrontMapper.getStuListCount(search);
+        
+      //组装学生id
+        List<Integer> stuIdsList = new ArrayList<>();
+        for(UsersFrontVo fu : stuList){
+        	stuIdsList.add(Integer.valueOf(fu.getUserId()));
+        }
+        //组装课程id
+        List<Integer> lessonIdsList = new ArrayList<>();
+        for (Map.Entry<Integer, ClassLectureVO> entry : map.entrySet()) {
+        	lessonIdsList.add(entry.getKey());
+        }
+        
+        List<ClassLessonVO>  lessonVOList  = null;
+		if ("0".equals(search.getLiveFlag())) {
+			// 录播
+			Map<String, List<Integer>> pmap = new HashMap<>();
+			pmap.put("stuIdsList", stuIdsList);
+			pmap.put("lessonIdsList", lessonIdsList);
+			lessonVOList = classTypeMapper.getClassLessonLogList(pmap);
+			// classTypeServiceImpl.getClassLessonLogList(stuIdsList,lessonIdsList);
+			if (null == lessonVOList) {
+				return SimplePage.getFailed("获取录播信息失败");
+			}
+			
+		} else {
+			// 直播
+			
+			if (null == lessonVOList) {
+				return SimplePage.getFailed("获取直播信息失败");
+			}
+		}
+        
+        //组装数据
+        Map<String,Map<String,Integer> > resultMap = new HashMap<>(); 
+        Map<String,Map<String,Integer> > studyTimeMap = new HashMap<>(); 
+        Map<String,Integer> initMap = null;
+        Map<String,Integer> initTimeMap = null;
+        for(int i=0;i<stuList.size();i++){
+        	initMap =  new HashMap<String,Integer>();
+        	initTimeMap =  new HashMap<String,Integer>();
+        	for(Integer ids : map.keySet()){
+    			initMap.put(""+ids, 0);
+    			initTimeMap.put(""+ids, 0);
+    		}
+        	resultMap.put(""+stuList.get(i).getUserId(), initMap);
+        	studyTimeMap.put(""+stuList.get(i).getUserId(),initTimeMap);
+        }
+        
+        
+        
+       
+        //处理录播观看记录
+        Map<String,Integer> temp = null;
+        Map<String,Integer> studyTemp = null;
+        
+       
+        for(ClassLessonVO lessonVO : lessonVOList){
+        	System.out.println("循环课程查询结果,userId = "+lessonVO.getUserId());
+        	temp = resultMap.get(""+lessonVO.getUserId());
+        	studyTemp = studyTimeMap.get(""+lessonVO.getUserId());
+        	if(null != temp){
+        		//Integer flag = 0;
+        		ClassLectureVO maplesson = map.get(Integer.valueOf(lessonVO.getLectureId()));
+        		if(1.0f*lessonVO.getLen()/maplesson.getVideoLen() >= 0.7){
+        			temp.put(""+maplesson.getId(), 1);
+        		}
+        		studyTemp.put(""+maplesson.getId(), lessonVO.getLen());
+        	}else{
+        		System.out.println("map中没有找到对应学生的观看记录");
+        	}
+        }
+        
+        //组装返回web json
+        //组装课程列表
+        JSONObject obj = null;
+        
+       // PageFinder<UsersFrontVo> pageFinder = new PageFinder(page,pageSize,count,lessonArr);
+
+        JSONObject pageFinder = new JSONObject();
+        pageFinder.put("page", 1);
+        pageFinder.put("size", 10);
+        pageFinder.put("count", stuCount);
+        
+        JSONArray lessonArr = null;
+        JSONArray arr = new JSONArray();
+        for(UsersFrontVo vo : stuList){
+        	Map<String,Integer> flagMap = resultMap.get(""+vo.getUserId());
+        	obj = new JSONObject();
+        	
+        	lessonArr = new JSONArray();
+        	int countClass = 0;
+        	int classTime = 0;
+        	for(ClassLectureVO classTemp : classList){
+        		lessonArr.add(flagMap.get(""+classTemp.getId()));
+        	}
+        	
+        	Map<String,Integer> studyTempMap = studyTimeMap.get(""+vo.getUserId());
+        	if(null != studyTempMap){
+        		for (Map.Entry< String,Integer> entry : studyTempMap.entrySet()) {  
+               	  //classList.add(entry.getValue());
+        			if(entry.getValue() != 0){
+        				countClass ++;
+        				classTime += entry.getValue();
+        			}
+              	} 
+        	}
+        	vo.setCountClass(String.valueOf(countClass));
+        	vo.setStudyTime(String.valueOf(classTime/60));
+        	obj.put("info", vo);
+        	
+        	obj.put("list", lessonArr);
+        	arr.add(obj);
+        }
+
+        pageFinder.put("data", arr);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("classList",classList);
+        jsonObject.put("pageFinder", pageFinder);
+        SimplePage pg = new SimplePage();
+        pg.setCount(stuCount);
+        pg.setData(jsonObject);
+        pg.setPage(search.getPage());
+        pg.setSize(search.getPageSize());
+        
+		return pg;
+	}
+
+	@Override
+	public ClassType getClassTypeByEduStepYear(String step, String eduYear) {
+		try {
+			ClassType classType = new ClassType();
+			// 获取当前时间
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+
+			if ("STEP_01".equals(step)) {
+				classType.setItemName("小%");
+				if (month >= 9) {
+					if (year - Integer.parseInt(eduYear) + 1 <= 3) {
+						classType.setItemSecondName("TYPE_LOW");
+					} else if (year - Integer.parseInt(eduYear) + 1 == 4) {
+						classType.setItemSecondName("GRADE_FOUR");
+					} else if (year - Integer.parseInt(eduYear) + 1 == 5) {
+						classType.setItemSecondName("GRADE_FIVE");
+					} else {
+						classType.setItemSecondName("GRADE_SIX");
+					}
+				} else {
+					if (year - Integer.parseInt(eduYear) <= 3) {
+						classType.setItemSecondName("TYPE_LOW");
+					} else if (year - Integer.parseInt(eduYear) == 4) {
+						classType.setItemSecondName("GRADE_FOUR");
+					} else if (year - Integer.parseInt(eduYear) == 5) {
+						classType.setItemSecondName("GRADE_FIVE");
+					} else {
+						classType.setItemSecondName("GRADE_SIX");
+					}
+				}
+			} else if ("STEP_02".equals(step)) {
+				classType.setItemName("初%");
+				classType.setItemSecondName("MID_ONE");
+			} else if ("STEP_03".equals(step)) {
+				classType.setItemName("高%");
+				classType.setItemSecondName("HIHER_ONE");
+			} else {
+				return null;
+			}
+			return classType;
+		} catch (Exception e) {
+			return null;
+		}
+
+	}
+	
+	
+
+	
+	
+	
 }

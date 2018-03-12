@@ -27,13 +27,13 @@ function findClassStu(page,year) {
         },
         success: function (jsonData) {
             if (jsonData.pageFinder.data.length == 0) {
-                $(".classListContent")
+            /*    $(".classListContent")
                     .find(".tableFirst")
                     .html('');
                 $(".classListContent")
                     .find(".tableSecond")
                     .html('');
-
+*/
                 // $(".classListContent")
                 //     .find(".tableFirst")
                 //     .append(

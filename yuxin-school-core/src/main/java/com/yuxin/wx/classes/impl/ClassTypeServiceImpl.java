@@ -557,7 +557,7 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	}
 
 	@Override
-	public List<ClassType> getClassTypeListLive(ClassType search) {
+	public List<ClassLectureVO> getClassTypeListLive(ClassType search) {
 		return classTypeMapper.getClassTypeListLive(search);
 	}
 

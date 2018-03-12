@@ -1,6 +1,10 @@
 $(document).ready(function () {
     var myDate = new Date();
     masterFindClassStu(0,myDate.getFullYear());
+    $('#classLstMast').click(function () {
+        masterFindClassStu(0,myDate.getFullYear());
+    });
+
 })
 
 function masterFindClassStu(page,year) {
@@ -10,9 +14,9 @@ function masterFindClassStu(page,year) {
             "page": page,
             "pageSize":$("#selectCounts").val() || 10,
             "eduSchool":$("#eduSchool").val(),
-            "eduStep" : $('#eduStepM').val(),
-            "eduYear" : $('#eduYearM').val() || year,
-            "eduClass" : $('#eduClassM').val(),
+            "eduStep" : $('#eduStep2').val(),
+            "eduYear" : $('#eduYear2').val() || year,
+            "eduClass" : $('#eduClass2').val(),
             "liveFlag":$('#liveFlag').val(),
             "subject":$('#subject').val()
         },
@@ -22,6 +26,7 @@ function masterFindClassStu(page,year) {
             $(".loading-bg").show();
         },
         success: function (jsonData) {
+            var json = jsonData;
             //console.log(jsonData);
             if(jsonData.data == null){
                 $('.studentContent').hide();
@@ -33,28 +38,18 @@ function masterFindClassStu(page,year) {
             }
 
             jsonData = jsonData.data;
-
             if (jsonData.pageFinder.data.length == 0) {
-                /*    $(".classListContent")
-                        .find(".tableFirst")
-                        .html('');
-                    $(".classListContent")
-                        .find(".tableSecond")
-                        .html('');
-    */
-                // $(".classListContent")
-                //     .find(".tableFirst")
-                //     .append(
-                //         '<tr><td colspan="12">没有查找到数据</td></tr>');
+
                 $('.studentContent').hide();
                 $('.studentNo').show();
                 $('#paginationStuList').hide();
+
+            }else{
+                $('.studentContent').show();
+                $('.studentNo').hide();
+                $('#paginationStuList').show();
             }
             if(jsonData.classList.length == 0){
-                // $(".classListContent")
-                //     .find(".tableSecond")
-                //     .html('<tr><td colspan="12">没有查找到数据</td></tr>');
-
                 //无课程数据时，显示默认提示
                 $('.tableSecond').hide();
                 $('.leftIcon').hide();
@@ -135,7 +130,7 @@ function masterFindClassStu(page,year) {
 
             if(jsonData.classList.length == 0){
                 //没有课程学习记录，清空table
-                $(".classListContent").find(".tableSecond").html('')
+                // $(".classListContent").find(".tableSecond").html('')
                 return;
             }
 
@@ -159,6 +154,8 @@ function masterFindClassStu(page,year) {
 
             })
 
+
+
             $("#classListTbody").html(bodyArr[0]);
 
             /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
@@ -167,20 +164,19 @@ function masterFindClassStu(page,year) {
 
 
 
-
             //分页
-            $("#paginationStuList").pagination(jsonData.count,
+            $("#paginationStuList").pagination(json.count,
                 {
                     next_text: "下一页",
                     prev_text: "上一页",
-                    current_page: jsonData.page,
+                    current_page: json.page,
                     link_to: "javascript:void(0)",
                     num_display_entries: 8,
-                    items_per_page: jsonData.size,
+                    items_per_page: json.size,
                     num_edge_entries: 1,
                     callback: function (page, jq) {
                         var pageNo = page + 1;
-                        findClassStu(pageNo);
+                        masterFindClassStu(pageNo);
                     }
                 });
 

@@ -198,7 +198,7 @@
 
 
 					</table>
-					<div class="pages pagination"></div>
+					<div class="pages pagination" id="paginationStudent"></div>
 				</div>
 				<div class="classListContent">
 					<form>
@@ -258,7 +258,7 @@
 							</li>
 							</c:if>
 							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(0)">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" id="classLstMast" >查询</a>
 								<span><a href="##" class="btn btn-mb btn-primary exportExcleCourse">导出</a></span>
 							</li>
 						</ul>
@@ -424,11 +424,13 @@
             //点击的是学员列表
             $('.studentListContent').show();
             $('.classListContent').hide();
+            $('.pagination').show();
         }else {
 
             //点击的是班级学生列表
             $('.studentListContent').hide();
             $('.classListContent').show();
+            $('.pagination').hide();
             //根据列表的高度设置切换按钮的高度
             var tableHeight = ($('.tableFirst').height()-35)+'px';
             $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');

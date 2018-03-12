@@ -37,7 +37,10 @@
 		.classNo{
 			display: none;width: 49%; text-align: center;border: 1px solid #666;
 			margin: 20px 0 10px;border: 1px solid #ddd;
+			height: 374px;
 		}
+		.table{margin: 0 !important;float: right;}
+		.tableFirst{height: 374px;border: 1px solid #ddd;width: 49.5%;display: inline-block;margin-top: 20px;}
 	</style>
 </head>
 <body>
@@ -247,22 +250,24 @@
 					</div>
 					<div style="width:100%;">
 						<div class="studentContent" style="width:100%;">
-							<table class="table table-center tableFirst">
-								<tr data-buy="true">
-									<th width="8%">姓名</th>
-									<th width="7%">班级</th>
-									<th width="7%">观课总节数</th>
-									<th width="11%">观课总时长（分钟）</th>
-								</tr>
-								<tbody id="stuListTbody"></tbody>
-							</table>
+							<div class="tableFirst">
+								<table class="table table-center">
+									<tr data-buy="true">
+										<th width="8%">姓名</th>
+										<th width="7%">班级</th>
+										<th width="7%">观课总节数</th>
+										<th width="11%">观课总时长（分钟）</th>
+									</tr>
+									<tbody id="stuListTbody"></tbody>
+								</table>
+							</div>
 							<table  class="table table-center tableSecond">
-								<tr id="className" data-buy="true">
-									
-								</tr>
-								<tbody id="classListTbody"></tbody>
-							</table>
-							
+									<tr id="className" data-buy="true">
+
+									</tr>
+									<tbody id="classListTbody"></tbody>
+								</table>
+
 							<div class="leftIcon changeIcon" style="display:none;">
 								<i id="leftIconBtn" class="icon iconfont ">&#xe650;</i>
 							</div>
@@ -859,7 +864,7 @@ $('.heading h2').click(function(){
         //根据列表的高度设置切换按钮的高度
         var tableHeight = ($('.tableFirst').height()-35)+'px';
         $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
-		$('.classNo').css('height',($('.tableFirst').height()-2)+'px');
+//		$('.classNo').css('height',($('.tableFirst').height()-2)+'px');
     }
 });
 

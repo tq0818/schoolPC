@@ -212,7 +212,7 @@ function findClassStu(page,year) {
             //设置右侧icon的高度
             var tableHeight = ($('.tableFirst').height()-35)+'px';
             $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
-            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
+            // $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
             console.log($('.tableFirst').height());
         }
     });

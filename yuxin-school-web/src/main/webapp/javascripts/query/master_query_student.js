@@ -1,4 +1,8 @@
-function masterFindClassStu(page) {
+$(document).ready(function () {
+    masterFindClassStu(1,2018);
+})
+
+function masterFindClassStu(page,year) {
     $.ajax({
         url: rootPath + "/query/learningDetails/queryStudentsList",
         data: {
@@ -6,7 +10,7 @@ function masterFindClassStu(page) {
             "pageSize":$("#selectCounts").val() || 10,
             "eduSchool":$("#eduSchool").val(),
             "eduStep" : $('#eduStepM').val(),
-            "eduYear" : $('#eduYearM').val(),
+            "eduYear" : $('#eduYearM').val() || year,
             "eduClass" : $('#eduClassM').val(),
             "liveFlag":$('#liveFlag').val(),
             "subject":$('#subject').val()

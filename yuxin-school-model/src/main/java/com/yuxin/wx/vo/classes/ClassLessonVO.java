@@ -26,6 +26,10 @@ public class ClassLessonVO implements Serializable {
 	private Integer isInSchool;
 	private String originType;
 
+	private Integer liveTime;
+	private Integer liveWatchTime;
+	
+	
 	public Integer getClassTypeId() {
 		return classTypeId;
 	}
@@ -136,6 +140,22 @@ public class ClassLessonVO implements Serializable {
 
 	public void setOriginType(String originType) {
 		this.originType = originType;
+	}
+
+	public Integer getLiveTime() {
+		return liveTime;
+	}
+
+	public void setLiveTime(Integer liveTime) {
+		this.liveTime = liveTime;
+	}
+
+	public Integer getLiveWatchTime() {
+		return liveWatchTime;
+	}
+
+	public void setLiveWatchTime(Integer liveWatchTime) {
+		this.liveWatchTime = liveWatchTime;
 	}
 
 	@Override

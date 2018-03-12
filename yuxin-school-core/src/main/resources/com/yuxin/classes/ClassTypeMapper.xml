@@ -17,6 +17,10 @@
 		<result property="eduStep" column="eduStep" />
 		<result property="isInSchool" column="isInSchool" />
 		<result property="originType" column="originType" />
+		
+		<result property="liveTime" column="liveTime" />
+		<result property="liveWatchTime" column="liveWatchTime" />
+		
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.classes.ClassType" id="classTypeResultMap">
@@ -1028,25 +1032,42 @@
 		  AND ct.publish_status = 'CLASS_ON_SALE'
 		  AND ct.`company_id` = #{companyId}
 		  AND ct.`item_second_code` = #{itemSecondName}
+		  AND ct.item_third_code =#{subject}
 		  AND sci.`item_name` LIKE #{itemName}
 		ORDER BY ct.create_time
 		LIMIT #{page},#{pageSize}
 	</select>
 
 
-	<select id="getClassTypeListLive" resultMap="classTypeResultMap" parameterType="com.yuxin.wx.model.classes.ClassType">
-		select ct.id, cml.lesson_name,cml.lesson_hour video_time
-		from class_type ct
-		LEFT JOIN class_type_module_relation ctmr on ct.id = ctmr.class_type_id
-		LEFT JOIN class_module cm on cm.id = ctmr.module_id
-		LEFT JOIN class_module_no cmn on cmn.module_id = cm.id
-		LEFT JOIN class_module_lesson cml on cml.module_no_id = cmn.id
-		where ct.company_id=#{companyId}
-				and ct.live_flag ='1'
-				and ct.origin_type ='0'
-				and ct.publish_status='CLASS_ON_SALE'
-				and ct.item_third_code =#{subject}
-		ORDER BY cml.create_time desc
+	<select id="getClassTypeListLive" resultType="com.yuxin.wx.vo.redis.ClassLectureVO" parameterType="com.yuxin.wx.model.classes.ClassType">
+		SELECT
+			cml.id,
+			cml.lesson_name,
+			cml.lesson_time_start,
+			cml.lesson_time_end,
+			( substring_index(cml.lesson_time_end, ':', 1) * 60 * 60 + substring_index(cml.lesson_time_end, ':', - 1) * 60
+			) - (
+				substring_index( cml.lesson_time_start, ':', 1 ) * 60 * 60 + substring_index( cml.lesson_time_start, ':', - 1 ) * 60
+			) liveLessonTime,
+			ct.`item_one_code`,
+			ct.`item_second_code`,
+			sci.`item_name`
+		FROM
+			class_type ct
+		LEFT JOIN class_type_module_relation ctmr ON ct.id = ctmr.class_type_id
+		LEFT JOIN class_module cm ON cm.id = ctmr.module_id
+		LEFT JOIN class_module_no cmn ON cmn.module_id = cm.id
+		LEFT JOIN class_module_lesson cml ON cml.module_no_id = cmn.id
+		LEFT JOIN sys_config_item sci ON ct.`item_one_code` = sci.`item_code`
+		WHERE
+			ct.live_flag = '1'
+		AND ct.origin_type = '0'
+		AND ct.publish_status = 'CLASS_ON_SALE'
+		AND !ISNULL(cml.id)
+		 AND ct.`item_second_code` = #{itemSecondName}
+		 AND sci.`item_name` LIKE #{itemName}
+		ORDER BY
+			ct.create_time DESC
 		LIMIT #{page},#{pageSize}
 	</select>
 
@@ -1103,7 +1124,7 @@
 		    `commodity_id`,
 		    `id`,
 		    `lecture_id`,
-		    MAX(`study_length`) len,
+		    SUM(`study_length`) len,
 		    `user_id` 
 		  FROM
 		    sys_play_logs 
@@ -1132,5 +1153,45 @@
    			order by userId
    
 	</select>
+	
+	
+	<select id="getClassLessonLiveList"  parameterType="map"  resultMap="classLessonVOMap">
+		SELECT 
+		  swi.lesson_id lectureId,
+		  swi.classtype_id classTypeId,
+		  swi.id,
+		  swi.user_id userId,
+		  swi.lesson_name lectureName,
+		  SUM(swi.watch_time) liveWatchTime,
+		  ct.item_third_code,
+		  (
+		    SUBSTRING_INDEX(cml.lesson_time_end, ':', 1) * 60 * 60 + SUBSTRING_INDEX(cml.lesson_time_end, ':', - 1) * 60
+		  ) - (
+		    SUBSTRING_INDEX(cml.lesson_time_start, ':', 1) * 60 * 60 + SUBSTRING_INDEX(cml.lesson_time_start, ':', - 1) * 60
+		  ) liveTime 
+		FROM
+		  sys_watch_info swi 
+		  LEFT JOIN class_type ct 
+		    ON swi.classtype_id = ct.id 
+		  LEFT JOIN class_module_lesson cml 
+		    ON cml.id = swi.lesson_id 
+		WHERE ct.live_flag = 1   
+		
+		AND swi.user_id IN (
+			<foreach collection="stuIdsList" index="index" item="item1"  separator="," >
+            	#{item1}
+        	</foreach>
+		) 
+		
+		AND swi.lesson_id IN (
+			<foreach collection="lessonIdsList" index="index" item="item2"  separator="," >
+            		#{item2}
+        	</foreach>
+		)
+		 
+		GROUP BY user_id , lectureId
+   
+	</select>
+	
 	
 </mapper>

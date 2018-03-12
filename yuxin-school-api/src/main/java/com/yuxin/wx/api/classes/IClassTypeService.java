@@ -486,7 +486,7 @@ public interface IClassTypeService  {
 	 */
 	List<ClassLectureVO> getClassTypeListVideo(ClassType search);
 
-	List<ClassType> getClassTypeListLive(ClassType search);
+	List<ClassLectureVO> getClassTypeListLive(ClassType search);
 
 	List<ClassType> getClassTimeList(ClassType search);
 	

@@ -323,5 +323,5 @@ public interface CompanyMapper extends BaseMapper<Company> {
 	
 	Integer findSchoolIdByCompanyId(Integer companyId);
 
-	CompanySchoolVO findCompanyByCode(Integer userId);
+	Integer findCompanyByCode(String eduCode);
 }

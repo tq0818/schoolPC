@@ -46,6 +46,7 @@ import com.yuxin.wx.common.CCVideoConstant;
 import com.yuxin.wx.common.ExcelSheetEntity;
 import com.yuxin.wx.common.PageFinder;
 import com.yuxin.wx.common.PageFinder2;
+import com.yuxin.wx.common.SimplePage;
 import com.yuxin.wx.common.ViewFiles;
 import com.yuxin.wx.model.classes.ClassType;
 import com.yuxin.wx.model.classes.EduMasterClass;
@@ -605,6 +606,7 @@ public class StudentStatisticsController {
         	uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
         	model.addAttribute("role", "3");//3表示任课老师
         }else{
+        	model.addAttribute("role", "1");
         	uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
         	if(("0".equals(WebUtils.getCurrentCompany().getIsArea())||"1".equals(WebUtils.getCurrentCompany().getIsArea()))&&subject.hasRole("学校负责人")){
 	        	List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(uersAreaRelation.getEduSchool());
@@ -687,239 +689,59 @@ public class StudentStatisticsController {
     }
 
     /**
-     * 去数校学员学习详情页面
-     */
-    @RequestMapping(value="/learningDetails/studentList")
-    public String stuLearningDetailsList(Model model, HttpServletRequest request) {
-
-        //学段
-        List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
-        model.addAttribute("stepList", stepList);
-        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
-
-        //课程科目
-        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
-        model.addAttribute( "subjectItem", subjectList);
-        return "";
-    }
-
-    /**
      * 异步获取数校学员学习详情记录
      */
     @ResponseBody
     @RequestMapping(value="/learningDetails/queryStudentsList")
-    public JSONObject queryStudentsListData(HttpServletRequest request,StudentListVo search) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        //获取当前学校管理员的学校组织机构代码
-        Users loginUser = WebUtils.getCurrentUser(request);
-        if(loginUser==null || loginUser.getId()==null){
-            throw new Exception("数据出现异常，请联系管理员！");
-        }
-       
-        //判断是否是班主任
-        Subject subject = SecurityUtils.getSubject();
-        Integer comId = null;
-        CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
-        if(null == companySchoolVO){
-        	System.out.println("==========> 查询失败");
-        	return jsonObject;
-        }
-
-
-
-        search.setUserId(loginUser.getId());
-        search.setCompanyId(companySchoolVO.getCompanyId());
-        search.setEduSchool(companySchoolVO.getItem_code());
-        
-       /* if(subject.hasRole("班主任")){
-        	UsersAreaRelation userAreaRelation=new UsersAreaRelation();
-        	       userAreaRelation=usersServiceImpl.findUsersAreaRelation(loginUser.getId());
-        
-        	       search.setEduArea(userAreaRelation.getEduArea());
-        	       search.setEduSchool(userAreaRelation.getEduSchool());
-        	        //根据组织机构代码获取学校id
-        	       
-        	       CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
-        	       search.setCompanyId(companySchoolVO.getCompanyId());
-        	//uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
-        }else{
-        	//学校负责人
-        	 CompanyVo companyVo = companyService.findCompanyByCode(loginUser.getId());
-             search.setCompanyId(companyVo.getId());
-             search.setEduSchool(companyVo.getEduAreaSchool());
-        }
-       */
-        //获取所有课程列表
-        
-        //计算当前年级
-        ClassType classType = CommonUtils.getClassTypeByStep(search.getEduStep(), search.getEduYear());
-        if(null == classType){
-        	//TODO 参数错误
-        
-        }
-        List<ClassLectureVO> classList = null;
-        classType.setEduStep(search.getEduStep());
-        classType.setEduYear(search.getEduYear());
-        if(null != search.getEduClass() && !"".equals(search.getEduClass())){
-            classType.setEduClass(search.getEduClass());
-        }
-        classType.setSubject(search.getSubject());
-        classType.setLiveFlag(Integer.parseInt(search.getLiveFlag()));
-        classType.setCompanyId(search.getCompanyId());
-        search.setPageSize(10);
-        classType.setPageSize(10);
-
-        jsonObject = classTypeServiceImpl.getListDatas(search,classType);
-
-        //获取Redis缓存课程列表
-        Map<Integer,ClassLectureVO> map = RedisHelper.getInstance().getClassLectureMap(Long.valueOf(loginUser.getId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject());
-        if(null == map){
-        	//Redis中不存在，查询
-            if(search.getLiveFlag().equals("0")){
-                //录播课程列表
-                classList = classTypeServiceImpl.getClassTypeListVideo(classType);
-                map = new HashMap<>();
-                for(ClassLectureVO temp : classList){
-                	temp.initVedioLen();//调用方法转换视频格式得到视频长度
-                    map.put(Integer.valueOf(temp.getId()),temp);
-                }
-                RedisHelper.getInstance().putClassLectureMap(Long.valueOf(loginUser.getId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject(),map);
-            }else{
-                //直播课程列表
-               // classList = classTypeServiceImpl.getClassTypeListLive(classType);
+    public SimplePage queryStudentsListData(HttpServletRequest request,StudentListVo search) throws Exception {
+    	SimplePage pg = new SimplePage();
+    	try{
+            //获取当前学校管理员的学校组织机构代码
+            Users loginUser = WebUtils.getCurrentUser(request);
+            if(loginUser==null || loginUser.getId()==null){
+                return SimplePage.getFailed("获取学校信息失败 ");
             }
-        }else{
-        	 classList = new ArrayList<>();
-        	 //List<ClassLectureVO>
-        	for (Map.Entry< Integer,ClassLectureVO> entry : map.entrySet()) {  
-         	  classList.add(entry.getValue());
-        	}  
-        }
-        
-        //获取年级或班级下的所有学生列表
-        List<UsersFrontVo> stuList = usersFrontService.getStuList(search);
-        int stuCount = usersFrontService.getStuListCount(search);
-        
-        //根据学生列表和课程列表查询观看记录
-        //组装学生id
-        List<Integer> stuIdsList = new ArrayList<>();
-        for(UsersFrontVo fu : stuList){
-        	stuIdsList.add(Integer.valueOf(fu.getUserId()));
-        }
-        //组装课程id
-        List<Integer> lessonIdsList = new ArrayList<>();
-        for (Map.Entry<Integer, ClassLectureVO> entry : map.entrySet()) {
-        	lessonIdsList.add(entry.getKey());
-        }
-        //获取录播观看记录
-        List<ClassLessonVO>  lectureVOList = classTypeServiceImpl.getClassLessonLogList(stuIdsList,lessonIdsList);
-       
-        if(null == lectureVOList){
-        	//TODO  没有获取到记录
-        	return jsonObject;
-        }else{
-        	System.out.println("lectureVOList size = "+lectureVOList.size());
-        	for(ClassLessonVO v : lectureVOList){
-        		System.out.println(v);
-        	}
-        }
-        
-        for(ClassLessonVO vo :lectureVOList ){
-        	System.out.println("课程观看记录"+vo);
-        }
-        
-        //组装数据
-        //List<UsersFrontVo> stuList
-        //初始化二维关系
-        Map<String,Map<String,Integer> > resultMap = new HashMap<>(); 
-        Map<String,Map<String,Integer> > studyTimeMap = new HashMap<>(); 
-        Map<String,Integer> initMap = null;
-        Map<String,Integer> initTimeMap = null;
-        for(int i=0;i<stuList.size();i++){
-        	initMap =  new HashMap<String,Integer>();
-        	initTimeMap =  new HashMap<String,Integer>();
-        	for(Integer ids : map.keySet()){
-    			initMap.put(""+ids, 0);
-    			initTimeMap.put(""+ids, 0);
-    		}
-        	resultMap.put(""+stuList.get(i).getUserId(), initMap);
-        	studyTimeMap.put(""+stuList.get(i).getUserId(),initTimeMap);
-        }
-        
-        
-        
-       
-        //处理录播观看记录
-        Map<String,Integer> temp = null;
-        Map<String,Integer> studyTemp = null;
-        
-       
-        for(ClassLessonVO lessonVO : lectureVOList){
-        	System.out.println("循环课程查询结果,userId = "+lessonVO.getUserId());
-        	temp = resultMap.get(""+lessonVO.getUserId());
-        	studyTemp = studyTimeMap.get(""+lessonVO.getUserId());
-        	if(null != temp){
-        		//Integer flag = 0;
-        		ClassLectureVO maplesson = map.get(Integer.valueOf(lessonVO.getLectureId()));
-        		if(1.0f*lessonVO.getLen()/maplesson.getVideoLen() >= 0.7){
-        			temp.put(""+maplesson.getId(), 1);
-        		}
-        		studyTemp.put(""+maplesson.getId(), lessonVO.getLen());
-        	}else{
-        		System.out.println("map中没有找到对应学生的观看记录");
-        	}
-        }
-        
-        //组装返回web json
-        //组装课程列表
-        JSONObject obj = null;
-        
-       // PageFinder<UsersFrontVo> pageFinder = new PageFinder(page,pageSize,count,lessonArr);
-
-        JSONObject pageFinder = new JSONObject();
-        pageFinder.put("page", 1);
-        pageFinder.put("size", 10);
-        pageFinder.put("count", stuCount);
-        
-        JSONArray lessonArr = null;
-        JSONArray arr = new JSONArray();
-        for(UsersFrontVo vo : stuList){
-        	Map<String,Integer> flagMap = resultMap.get(""+vo.getUserId());
-        	obj = new JSONObject();
-        	
-        	lessonArr = new JSONArray();
-        	int countClass = 0;
-        	int classTime = 0;
-        	for(ClassLectureVO classTemp : classList){
-        		lessonArr.add(flagMap.get(""+classTemp.getId()));
-        	}
-        	
-        	Map<String,Integer> studyTempMap = studyTimeMap.get(""+vo.getUserId());
-        	if(null != studyTempMap){
-        		for (Map.Entry< String,Integer> entry : studyTempMap.entrySet()) {  
-               	  //classList.add(entry.getValue());
-        			if(entry.getValue() != 0){
-        				countClass ++;
-        				classTime += entry.getValue();
-        			}
-              	} 
-        	}
-        	vo.setCountClass(String.valueOf(countClass));
-        	vo.setStudyTime(String.valueOf(classTime/60));
-        	obj.put("info", vo);
-        	
-        	obj.put("list", lessonArr);
-        	arr.add(obj);
-        }
-
-        pageFinder.put("data", arr);
-        jsonObject.put("classList",classList);
-        jsonObject.put("pageFinder", pageFinder);
-
-
-
-        System.out.println(jsonObject);
-        return jsonObject;
+            //判断用户身份
+            Subject subject = SecurityUtils.getSubject();
+           /* Integer companyId = companyService.findCompanyByCode(loginUser.getId());
+            if(null == companySchoolVO){
+            	return SimplePage.getFailed("获取用户所负责学校失败");
+            }*/
+            //获取当前用户管辖的分校id
+            Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+            if(null != companyId){
+                search.setCompanyId(companyId);
+            }
+            if(!"".equals(search.getPage()) && null != search.getPage() && !search.getPage().equals("1")&&!search.getPage().equals("0")){
+                search.setPage((search.getPage()-1)*10);
+                search.setPageSize(10);
+            }else if("0".equals(search.getPage())){
+                search.setPage(0);
+                search.setPageSize(10);
+            }else {
+                search.setPage(0);
+                search.setPageSize(10);
+            }
+            
+            search.setPage(search.getPage() < 0 ? 0 : search.getPage());
+            
+            //TODO 设定用户身份
+            int isResponse = 1;
+          //  待完成
+            if(1 == isResponse){
+            	//学校负责人
+            	pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
+            	System.out.println(JSONObject.toJSON(pg).toString());
+            }else{
+            	//班主任
+            }
+            
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return SimplePage.getFailed("服务器错误");
+    	}
+    	
+        return pg;
     }
 
 

@@ -33,10 +33,11 @@
 			width:49%;
 			float:left;
 		}
-		
-		
-		
 		table{display: table;}
+		.classNo{
+			display: none;width: 49%; text-align: center;border: 1px solid #666;
+			margin: 20px 0 10px;border: 1px solid #ddd;
+		}
 	</style>
 </head>
 <body>
@@ -52,9 +53,24 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5 active">${school.itemValue}学员列表</h2>
+					<c:if test="${role==1}">
+						<h2 class="h5 active">学员列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					</c:if>
+					<c:if test="${role==2}">
+						<h2 class="h5 active">用户列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					</c:if>
+					<c:if test="${role!=1 and role != 2}">
+						<h2 class="h5 active">${school.itemValue}学员列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					</c:if>
+					<%--<h2 class="h5 active">${school.itemValue}学员列表</h2>
 					<i class="markTitle"></i>
-					<h2 class="h5 studentListTitle " >班级学生列表</h2>
+					<h2 class="h5 studentListTitle " >班级学生列表</h2>--%>
 					<span class="line"></span>
 				</div>
 				<form method="post" id="searchForm" class="studentListContent">
@@ -218,13 +234,13 @@
 								</select>
 							</li>
 							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="findClassStu(1)">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="findClassStu(0)">查询</a>
 								<a href="##" class="btn btn-mb btn-primary">导出</a>
 							</li>
 						</ul>
 					</form>
 					<%--<div class="user-list">--%>
-					<div style="width: 100%;height: 80px;line-height: 80px;text-align: right;">
+					<div class='tipsWord' style="width: 100%;height: 50px;line-height: 110px;text-align: right;">
 						<span class="xingMark" style="font-size: 12px;margin-right: 30px;">
 							实际观课效果：√表示观课时间超过了70%，✘表示观课时长未超过70%
 						</span>
@@ -253,14 +269,14 @@
 							<div class="rightIcon changeIcon">
 								<i id="rightIconBtn" class="icon iconfont ">&#xe651;</i>
 							</div>
-							<div class="classNo" style="display: none;width: 49%; text-align: center;border: 1px solid #666;">
+							<div class="classNo">
 								<img src="<%=rootPath%>/images/classNew.jpg" alt="" style="margin-top: 150px;">
 							</div>
 						</div>
 						<div class="studentNo" style="display: none;width: 100%; text-align: center;">
 							<img src="<%=rootPath%>/images/studentNew.jpg" alt="" style="margin-top: 150px;">
 						</div>
-						<div id="paginationStuList" class="pages pagination" style="margin-top: 450px;"></div>
+						<div id="paginationStuList" class="pages pagination"></div>
 					</div>
 				</div>
 			</div>
@@ -842,7 +858,8 @@ $('.heading h2').click(function(){
         $('.classListContent').show();
         //根据列表的高度设置切换按钮的高度
         var tableHeight = ($('.tableFirst').height()-35)+'px';
-        $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+        $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+		$('.classNo').css('height',($('.tableFirst').height()-2)+'px');
     }
 });
 

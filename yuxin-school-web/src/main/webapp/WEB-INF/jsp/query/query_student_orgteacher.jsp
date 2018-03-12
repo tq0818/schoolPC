@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>查询统计</title>
+	<link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/popupwin.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=rootPath%>/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" />
 <link href="<%=rootPath%>/stylesheets/query.css" rel="stylesheet" type="text/css" />
@@ -16,12 +17,16 @@
 <link rel="stylesheet" type="text/css" href="<%=rootPath%>/stylesheets/classList.css">
 	<style type="text/css">
 		.pages li.disabled{padding:0px;}
-		/*.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;*/
+		.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;
 			padding-left: 7px;}
 		.tableSecond th{
 			overflow: hidden;
 			text-overflow:ellipsis;
 			white-space: nowrap;
+		}
+		.classNo{
+			display: none;width: 49%; text-align: center;border: 1px solid #666;
+			margin: 20px 0 10px;border: 1px solid #ddd;
 		}
 	</style>
 </head>
@@ -42,9 +47,23 @@
 		<div class="right-side set-system">
 			<div class="mainbackground nopadding">
 				<div class="heading">
-					<h2 class="h5 active">${school.itemValue}学员列表</h2>
-					<i class="markTitle"></i>
-					<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						<c:if test="${role==1}">
+							<h2 class="h5 active">学员列表</h2>
+							<i class="markTitle"></i>
+							<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						</c:if>
+						<c:if test="${role==2}">
+							<h2 class="h5 active">用户列表</h2>
+							<i class="markTitle"></i>
+							<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						</c:if>
+						<c:if test="${role!=1 and role != 2}">
+							<h2 class="h5 active">${school.itemValue}学员列表</h2>
+							<i class="markTitle"></i>
+							<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						</c:if>
+					<%--<i class="markTitle"></i>
+					<h2 class="h5 studentListTitle " >班级学生列表</h2>--%>
 					<span class="line"></span>
 				</div>
 				<form method="post" id="searchForm" class="studentListContent">
@@ -173,34 +192,44 @@
 				<div class="classListContent">
 					<form>
 						<ul>
-							<%--<li>
-								<label for="" class="xingMark">学段</label>
-								<c:if test="${role == '2' }">
-									<select id="eduStep" name="eduStep" style="width:150px;">
-										<option value="">请选择学段</option>
-										<option value="${eduStep}">${eduStepName}</option>
+							<c:if test="${role == 2}">
+								<li>
+									<label for="" class="xingMark">学科</label>
+									<select name="" id="subject">
+										<c:forEach items="${subjectItem}" var="subject">
+											<option value="${subject.itemCode}">${subject.itemName}</option>
+										</c:forEach>
 									</select>
-								</c:if>
-							</li>--%>
-							<%--<li>
-								<label for="">入学年份</label>
-								<c:if test="${role=='2'}">
-									<select id="eduYear" name="eduYear" style="width:150px;">
-										<option value="">请选择入学年份</option>
-											&lt;%&ndash; <option value="${eduYear}">${eduYear}年</option> &ndash;%&gt;
+								</li>
+								<li>
+									<label for="" class="xingMark">课程形式</label>
+									<select name="" id="liveFlag">
+										<option value="1">直播</option>
+										<option value="0">点播</option>
 									</select>
-								</c:if>
-							</li>--%>
-							<%--<li>
-								<label for="">班级</label>
-								<select name="" id="">
-									<c:if test="${role=='2'}">
-										<option value="">请选择班级</option>
-										&lt;%&ndash; <option value="${eduClass}">${eduClass}班</option> &ndash;%&gt;
-									</c:if>
-								</select>
-							</li>--%>
+								</li>
+							</c:if>
+							<c:if test="${role != 2}">
+								<li>
+									<label for="" class="xingMark">学段</label>
+										<select id="eduStep2" name="eduStep" >
+											<c:forEach items="${stepList}" var="step">
+												<option value="${step.itemCode}">${step.itemValue}</option>
+											</c:forEach>
+										</select>
+								</li>
+								<li>
+									<label for="">入学年份</label>
+										<select id="eduYear2" name="eduYear" >
 
+										</select>
+								</li>
+								<li>
+									<label for="">班级</label>
+									<select name="" id="eduClass2">
+											<option value="">请选择班级</option>
+									</select>
+								</li>
 							<li>
 								<label for="" class="xingMark">学科</label>
 								<select name="" id="subject">
@@ -216,14 +245,15 @@
 									<option value="0">点播</option>
 								</select>
 							</li>
+							</c:if>
 							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(1)">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(0)">查询</a>
 								<a href="##" class="btn btn-mb btn-primary">导出</a>
 							</li>
 						</ul>
 					</form>
 					<%--<div class="user-list">--%>
-					<div style="width: 100%;height: 80px;line-height: 80px;text-align: right;">
+					<div style="width: 100%;height: 50px;line-height: 110px;text-align: right;">
 						<span class="xingMark" style="font-size: 12px;margin-right: 30px;">
 							实际观课效果：√表示观课时间超过了70%，✘表示观课时长未超过70%
 						</span>
@@ -252,14 +282,14 @@
 							<div class="rightIcon changeIcon">
 								<i id="rightIconBtn" class="icon iconfont ">&#xe651;</i>
 							</div>
-							<div class="classNo" style="display: none;width: 49%; text-align: center;border: 1px solid #666;">
+							<div class="classNo">
 								<img src="<%=rootPath%>/images/classNew.jpg" alt="" style="margin-top: 150px;">
 							</div>
 						</div>
 						<div class="studentNo" style="display: none;width: 100%; text-align: center;">
 							<img src="<%=rootPath%>/images/studentNew.jpg" alt="" style="margin-top: 150px;">
 						</div>
-						<div id="paginationStuList" class="pages pagination" style="margin-top: 450px;"></div>
+						<div id="paginationStuList" class="pages pagination"></div>
 					</div>
 				</div>
 			</div>
@@ -328,6 +358,24 @@
     }
 	
 	$(document).ready(function(){
+        var currdate = new Date();
+        var year = currdate.getFullYear();
+        var yearBody = "";
+        for(i = 0;i < 12;i++){
+            var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
+            yearBody += li;
+        }
+        $("#eduYear2").append(yearBody);
+        var classesBody = "";
+        for(i = 1;i <=30; i++){
+            var li ="<option value='"+i+"'>"+i+"班</option>";
+            classesBody += li;
+        }
+        $("#eduClass2").append(classesBody);
+
+
+
+
 		 var role='${role}';
 		 if(role=='2'){
 			 var yearBody ="<option value='"+$("#hiddenEduYear").val()+"'>"+$("#hiddenEduYear").val()+"年</option>";
@@ -371,7 +419,8 @@
             $('.classListContent').show();
             //根据列表的高度设置切换按钮的高度
             var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
         }
     });
 

@@ -168,11 +168,13 @@ public interface ClassTypeMapper extends BaseMapper<ClassType> {
 
 	List<ClassLectureVO> getClassTypeListVideo(ClassType search);
 
-	List<ClassType> getClassTypeListLive(ClassType search);
+	List<ClassLectureVO> getClassTypeListLive(ClassType search);
 
 	List<ClassType> getClassTimeList(ClassType search);
 	List<ClassType> getClassTimeListLive(ClassType search);
 	
 	List<ClassLessonVO> getClassLessonLogList(Map<String, List<Integer>> map);
-		
+	
+	List<ClassLessonVO> getClassLessonLiveList(Map<String, List<Integer>> map);
+	
 }

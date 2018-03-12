@@ -39,7 +39,7 @@ function findClassStu(page,year) {
         	}
         	var json = jsonData;
         	jsonData = jsonData.data;
-        	
+
             if (jsonData.pageFinder.data.length == 0) {
             /*    $(".classListContent")
                     .find(".tableFirst")
@@ -55,7 +55,14 @@ function findClassStu(page,year) {
                 $('.studentContent').hide();
                 $('.studentNo').show();
                 $('#paginationStuList').hide();
+            }else {
+                $('.studentContent').show();
+                $('.studentNo').hide();
+                $('#paginationStuList').show();
             }
+
+
+
             if(jsonData.classList.length == 0){
                 // $(".classListContent")
                 //     .find(".tableSecond")
@@ -68,12 +75,14 @@ function findClassStu(page,year) {
                 $('.classNo').css('display','inline-block');
 
 
+            }else{
+                $('.tableSecond').show();
+                $('.leftIcon').show();
+                $('.rightIcon').show();
+                $('.classNo').css('display','none');
             }
             
-            $('.tableSecond').show();
-            $('.leftIcon').show();
-            $('.rightIcon').show();
-            $('.classNo').css('display','none');
+
 
             var eduStep = $('#eduStep2').val();
             if(eduStep=='STEP_01'){
@@ -224,10 +233,9 @@ function findClassStu(page,year) {
             $(".loading-bg").hide();
 
             //设置右侧icon的高度
-            var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+            var tableHeight = $('#stuListTbody').height()+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','77px');
             // $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
-            console.log($('.tableFirst').height());
         }
     });
 }

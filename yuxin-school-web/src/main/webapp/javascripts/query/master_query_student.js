@@ -81,6 +81,11 @@ function masterFindClassStu(page,year) {
                 $('.classNo').css('display','inline-block');
 
 
+            }else{
+                $('.tableSecond').show();
+                $('.leftIcon').show();
+                $('.rightIcon').show();
+                $('.classNo').css('display','none');
             }
 
             var eduStep = $('#eduStep2').val();
@@ -257,8 +262,8 @@ function masterFindClassStu(page,year) {
 
 
             //根据列表的高度设置切换按钮的高度
-            var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+            var tableHeight = $('#stuListTbody').height()+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','77px');
             // $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
         }
     });

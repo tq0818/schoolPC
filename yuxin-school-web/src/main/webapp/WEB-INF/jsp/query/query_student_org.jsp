@@ -871,7 +871,7 @@ $('.heading h2').click(function(){
         $('.classListContent').show();
         //根据列表的高度设置切换按钮的高度
         var tableHeight = $('#stuListTbody').height()+'px';
-        $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+        $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','77px');
 //		$('.classNo').css('height',($('.tableFirst').height()-2)+'px');
     }
 });

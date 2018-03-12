@@ -703,16 +703,21 @@ public class StudentStatisticsController {
             }
             //判断用户身份
             Subject subject = SecurityUtils.getSubject();
-            CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
+           /* Integer companyId = companyService.findCompanyByCode(loginUser.getId());
             if(null == companySchoolVO){
             	return SimplePage.getFailed("获取用户所负责学校失败");
+            }*/
+            //获取当前用户管辖的分校id
+            Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+            if(null != companyId){
+                search.setCompanyId(companyId);
             }
             //TODO 设定用户身份
             int isResponse = 1;
           //  待完成
             if(1 == isResponse){
             	//学校负责人
-            	pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search, companySchoolVO, loginUser);
+            	pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
             	System.out.println(JSONObject.toJSON(pg).toString());
             }else{
             	//班主任

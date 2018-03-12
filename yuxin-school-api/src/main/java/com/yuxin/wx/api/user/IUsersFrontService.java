@@ -272,7 +272,7 @@ public interface IUsersFrontService {
     Integer getStuListCount(StudentListVo search);
     
     
-    SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search,  CompanySchoolVO companySchoolVO, Users loginUser  );
+    SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, Users loginUser  );
     
     ClassType getClassTypeByEduStepYear(String eduStep,String eduYear);
     

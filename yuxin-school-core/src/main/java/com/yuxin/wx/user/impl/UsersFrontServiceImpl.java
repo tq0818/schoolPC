@@ -380,10 +380,8 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
     }
 
 	@Override
-	public SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, CompanySchoolVO companySchoolVO, Users loginUser  ) {
+	public SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, Users loginUser  ) {
 		search.setUserId(loginUser.getId());
-        search.setCompanyId(companySchoolVO.getCompanyId());
-        search.setEduSchool(companySchoolVO.getItem_code());
         
         //组装年级信息，用于查询课程列表
         ClassType classType = getClassTypeByEduStepYear(search.getEduStep(), search.getEduYear());

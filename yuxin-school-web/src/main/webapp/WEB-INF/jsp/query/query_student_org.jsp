@@ -255,7 +255,7 @@
 					</div>
 					<div style="width:100%;">
 						<div class="studentContent" style="width:100%;">
-							<table class="table table-center tableFirst" id="tableClassList">
+							<table class="table table-center tableFirst">
 								<tr data-buy="true">
 									<th width="8%">姓名</th>
 									<th width="7%">班级</th>

@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    findClassStu(1,2018);
+    var myDate = new Date();
+    console.log(myDate.getFullYear());
+    findClassStu(0,myDate.getFullYear());
 })
 
 
@@ -138,9 +140,7 @@ function findClassStu(page,year) {
           /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
            $('.changeIcon').height($("#classListTbody").height());*/
 
-            var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
-            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
+
 
 
 
@@ -208,7 +208,14 @@ function findClassStu(page,year) {
         complete: function (XMLHttpRequest, textStatus) {
             $(".loading").hide();
             $(".loading-bg").hide();
+
+            //设置右侧icon的高度
+            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
+            console.log($('.tableFirst').height());
         }
     });
 }
+
 

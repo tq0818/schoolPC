@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    masterFindClassStu(1,2018);
+    var myDate = new Date();
+    console.log(myDate.getFullYear());
+    masterFindClassStu(0,myDate.getFullYear());
 })
 
 function masterFindClassStu(page,year) {
@@ -119,10 +121,7 @@ function masterFindClassStu(page,year) {
 
             /* $(".changeIcon").css("margin-top",$("#className").height()+'px');
              $('.changeIcon').height($("#classListTbody").height());*/
-            //根据列表的高度设置切换按钮的高度
-            var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
-            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
+
 
             //分页
             $("#paginationStuList").pagination(jsonData.pageFinder.rowCount,
@@ -136,7 +135,7 @@ function masterFindClassStu(page,year) {
                     num_edge_entries: 1,
                     callback: function (page, jq) {
                         var pageNo = page + 1;
-                        findClassStu(pageNo);
+                        masterFindClassStu(pageNo);
                     }
                 });
 
@@ -183,6 +182,12 @@ function masterFindClassStu(page,year) {
         complete: function (XMLHttpRequest, textStatus) {
             $(".loading").hide();
             $(".loading-bg").hide();
+
+
+            //根据列表的高度设置切换按钮的高度
+            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
+            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
         }
     });
 }

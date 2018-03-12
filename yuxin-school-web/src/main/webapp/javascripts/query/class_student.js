@@ -95,6 +95,12 @@ function findClassStu(page,year) {
             //组装课程head
             var headHtml = "";
             headArr = new Array();
+
+            //初始化长度小于5，隐藏左侧icon
+            if(jsonData.classList.length<6){
+                $('.rightIcon').hide();
+            }
+
             $.each(jsonData.classList,function (i,clas) {
             	if(i % 5 == 0 && i > 0){
             		headArr.push(headHtml);

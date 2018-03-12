@@ -1,6 +1,5 @@
 $(document).ready(function () {
     var myDate = new Date();
-    console.log(myDate.getFullYear());
     masterFindClassStu(0,myDate.getFullYear());
 })
 
@@ -23,20 +22,30 @@ function masterFindClassStu(page,year) {
             $(".loading-bg").show();
         },
         success: function (jsonData) {
-            console.log(jsonData);
-            if (jsonData.pageFinder.data.length == 0) {
-                $(".classListContent")
-                    .find(".tableFirst")
-                    .html('');
-                $(".classListContent")
-                    .find(".tableSecond")
-                    .html('');
+            //console.log(jsonData);
+            if(jsonData.data == null){
+                $('.studentContent').hide();
+                $('.studentNo').show();
+                $('#paginationStuList').hide();
+                $('.tipsWord').hide();
 
+                return;
+            }
+
+            jsonData = jsonData.data;
+
+            if (jsonData.pageFinder.data.length == 0) {
+                /*    $(".classListContent")
+                        .find(".tableFirst")
+                        .html('');
+                    $(".classListContent")
+                        .find(".tableSecond")
+                        .html('');
+    */
                 // $(".classListContent")
                 //     .find(".tableFirst")
                 //     .append(
                 //         '<tr><td colspan="12">没有查找到数据</td></tr>');
-
                 $('.studentContent').hide();
                 $('.studentNo').show();
                 $('#paginationStuList').hide();
@@ -45,11 +54,14 @@ function masterFindClassStu(page,year) {
                 // $(".classListContent")
                 //     .find(".tableSecond")
                 //     .html('<tr><td colspan="12">没有查找到数据</td></tr>');
+
                 //无课程数据时，显示默认提示
                 $('.tableSecond').hide();
                 $('.leftIcon').hide();
                 $('.rightIcon').hide();
-                $('.classNo').show();
+                $('.classNo').css('display','inline-block');
+
+
             }
 
             var eduStep = $('#eduStep2').val();
@@ -64,14 +76,13 @@ function masterFindClassStu(page,year) {
             var stuHtml = "";
             $.each(jsonData.pageFinder.data,function (i, stu) {
                 stuHtml += "<tr>";
-                stuHtml += '<td>'+(stu.name ? stu.name : "") + '</td>';
-                stuHtml += '<td>'+  eduStep+stu.eduYear+"年"+stu.eduClass+"班"+ '</td>';
-                stuHtml += '<td>'+ (stu.countClass!=null ? stu.countClass: "0") +'</td>';
-                stuHtml += '<td>'+ (stu.studyTime!=null ? stu.studyTime : "0") +'</td>';
+                stuHtml += '<td>'+(stu.info.name ? stu.info.name : "") + '</td>';
+                stuHtml += '<td>'+  eduStep+stu.info.eduYear+"年"+stu.info.eduClass+"班"+ '</td>';
+                stuHtml += '<td>'+ (stu.info.countClass!=null ? stu.info.countClass: "0") +'</td>';
+                stuHtml += '<td>'+ (stu.info.studyTime!=null ? stu.info.studyTime : "0") +'</td>';
                 stuHtml += "</tr>";
             })
             $("#stuListTbody").html(stuHtml);
-
 
 
             //组装课程head
@@ -82,7 +93,7 @@ function masterFindClassStu(page,year) {
                     headArr.push(headHtml);
                     headHtml = "";
                 }
-                headHtml += '<th>'+(clas.lessonName ? clas.lessonName: "") + "</th>";
+                headHtml += '<th title='+(clas.lesson_name ? clas.lesson_name: "") + '>'+(clas.lesson_name ? clas.lesson_name: "") + "</th>";
             })
             if(headHtml != ''){
                 headArr.push(headHtml);
@@ -104,7 +115,7 @@ function masterFindClassStu(page,year) {
             }
             $.each(jsonData.pageFinder.data,function (i,cla) {
                 var tempHtml = "";
-                $.each(cla.studyFlag ,function (i,study) {
+                $.each(cla.list ,function (i,study) {
                     if(i % 5 == 0 && i > 0){
                         bodyArr[parseInt(i/5) - 1] += "<tr>"+tempHtml+"</tr>";
                         tempHtml = "";
@@ -123,28 +134,37 @@ function masterFindClassStu(page,year) {
              $('.changeIcon').height($("#classListTbody").height());*/
 
 
+
+
+
             //分页
-            $("#paginationStuList").pagination(jsonData.pageFinder.rowCount,
+            $("#paginationStuList").pagination(jsonData.count,
                 {
                     next_text: "下一页",
                     prev_text: "上一页",
-                    current_page: jsonData.pageFinder.pageNo - 1,
+                    current_page: jsonData.page,
                     link_to: "javascript:void(0)",
                     num_display_entries: 8,
-                    items_per_page: jsonData.pageFinder.pageSize,
+                    items_per_page: jsonData.size,
                     num_edge_entries: 1,
                     callback: function (page, jq) {
                         var pageNo = page + 1;
-                        masterFindClassStu(pageNo);
+                        findClassStu(pageNo);
                     }
                 });
 
 
+            $('.studentContent').show();
+            $('.studentNo').hide();
+            $('#paginationStuList').show();
+            $('.tipsWord').show();
+
+
             $("#leftIconBtn").click(function(){
                 if(nowClass == 0){
+
                     return;
                 }
-
                 //隐藏左侧icon
                 if(nowClass == 1||nowClass == 0){
                     $(".leftIcon").hide();
@@ -163,7 +183,6 @@ function masterFindClassStu(page,year) {
                 if(nowClass == headArr.length - 1){
                     return;
                 }
-
                 //隐藏右侧icon
 
                 if(nowClass == headArr.length - 2){

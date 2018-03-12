@@ -29,7 +29,7 @@
 			margin: 20px 0 10px;border: 1px solid #ddd;
 			height: 374px;
 		}
-		.table{margin: 0 !important;float: right;}
+		.table{margin: 0 !important;}
 		.tableFirst{height: 374px;border: 1px solid #ddd;width: 49.5%;display: inline-block;margin-top: 20px;}
 	</style>
 </head>
@@ -264,7 +264,7 @@
 					<div>
 						<div class="studentContent" style="width:100%;">
 							<div class="tableFirst">
-								<table class="table table-center">
+								<table class="table table-center" style="float: right;">
 									<tr data-buy="true">
 										<th width="8%">姓名</th>
 										<th width="7%">班级</th>

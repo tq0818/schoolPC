@@ -27,7 +27,8 @@
 			overflow: hidden;
 			text-overflow:ellipsis;
 			white-space: nowrap;
-			max-width: 120px;
+			max-width: 83px;
+			min-width: 83px;
 		}
 		.tableFirst,.tableSecond{
 			width:49%;
@@ -204,7 +205,7 @@
 
 
 					</table>
-					<div class="pages pagination"></div>
+					<div class="pages pagination" id="paginationStudent"></div>
 				</div>
 				<div class="classListContent">
 					<form>
@@ -869,7 +870,7 @@ $('.heading h2').click(function(){
         $('.studentListContent').hide();
         $('.classListContent').show();
         //根据列表的高度设置切换按钮的高度
-        var tableHeight = ($('.tableFirst').height()-35)+'px';
+        var tableHeight = $('#stuListTbody').height()+'px';
         $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
 //		$('.classNo').css('height',($('.tableFirst').height()-2)+'px');
     }

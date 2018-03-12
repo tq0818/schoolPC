@@ -84,9 +84,10 @@ function masterFindClassStu(page,year) {
             }
 
             var eduStep = $('#eduStep2').val();
-            if(eduStep=='STEP_01'){
+            console.log(eduStep);
+            if(eduStep2=='STEP_01'){
                 eduStep='小';
-            }else if(eduStep=='STEP_02'){
+            }else if(eduStep2=='STEP_02'){
                 eduStep='初';
             }else{
                 eduStep='高';
@@ -134,6 +135,7 @@ function masterFindClassStu(page,year) {
             headArr = new Array();
             //初始化长度小于5，隐藏左侧icon
             if(jsonData.classList.length<6){
+               $('.leftIcon').hide();
                $('.rightIcon').hide();
             }
 

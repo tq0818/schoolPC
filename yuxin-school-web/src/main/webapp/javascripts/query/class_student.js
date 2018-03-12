@@ -103,6 +103,7 @@ function findClassStu(page,year) {
 
             //初始化长度小于5，隐藏左侧icon
             if(jsonData.classList.length<6){
+                $('.leftIcon').hide();
                 $('.rightIcon').hide();
             }
 

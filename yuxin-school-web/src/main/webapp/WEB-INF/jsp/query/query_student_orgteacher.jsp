@@ -23,6 +23,8 @@
 			overflow: hidden;
 			text-overflow:ellipsis;
 			white-space: nowrap;
+			max-width: 83px;
+			min-width: 83px;
 		}
 		.classNo{
 			display: none;width: 49%; text-align: center;border: 1px solid #666;
@@ -433,7 +435,7 @@
             $('.classListContent').show();
             $('.pagination').hide();
             //根据列表的高度设置切换按钮的高度
-            var tableHeight = ($('.tableFirst').height()-35)+'px';
+            var tableHeight = $('#stuListTbody').height()+'px';
             $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
 //            $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
 

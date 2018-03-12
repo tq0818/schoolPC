@@ -477,7 +477,7 @@
                         $(".user-list").after('<input type="hidden" id="pageNo" value="'+jsonData.pageNo+'"/>');
                         
                         if (jsonData.rowCount >$("#selectCounts").val()) {
-                            $(".pagination").pagination(jsonData.rowCount,
+                            $("#paginationStudent").pagination(jsonData.rowCount,
                                 {
                                     next_text: "下一页",
                                     prev_text: "上一页",
@@ -491,8 +491,8 @@
                                         $this.search(pageNo);
                                     }
                                 });
-                            $(".pagination").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
-                            $(".pagination").find("li:first").before('每页：<select id="selectCount"  onchange="javascript:student.searchCount()">'+
+                            $("#paginationStudent").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
+                            $("#paginationStudent").find("li:first").before('每页：<select id="selectCount"  onchange="javascript:student.searchCount()">'+
                 					' <option value="10">10</option>'+
                 					' <option value="20">20</option>'+
                 					' <option value="30">30</option>'+
@@ -502,7 +502,7 @@
                             $("#selectCount").val($("#selectCounts").val());
 //                            $("#selectCount").css("margin-bottom","").css("margin-bottom","-78px");
                         } else {
-                            $(".pagination").html('');
+                            $("#paginationStudent").html('');
 //                            $("#selectCount").css("margin-bottom","").css("margin-bottom","-30px");
                         }
                         $(".haostatus").each(function (i) {

@@ -618,6 +618,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	      JSONObject json2 = new JSONObject();
 	      json2.put("data", arr);
 	      json.put("pageFinder", json2);
+	      json.put("classList", new JSONArray());
 		return json;
 	}
 	

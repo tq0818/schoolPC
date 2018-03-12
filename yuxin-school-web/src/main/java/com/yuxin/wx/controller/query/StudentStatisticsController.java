@@ -722,6 +722,9 @@ public class StudentStatisticsController {
                 search.setPage(0);
                 search.setPageSize(10);
             }
+            
+            search.setPage(search.getPage() < 0 ? 0 : search.getPage());
+            
             //TODO 设定用户身份
             int isResponse = 1;
           //  待完成

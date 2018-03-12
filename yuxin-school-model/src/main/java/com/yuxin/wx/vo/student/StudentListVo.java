@@ -108,6 +108,15 @@ public class StudentListVo extends BaseEntity{
 	private Integer sourceFromStatic;//来源，1来源于统计，0来源于学员管理
 	private List<EduMasterClass> renke;
 	private List<EduMasterClass> eduMasterClass;
+	private List<String> course; //0:错误
+
+	public List<String> getCourse() {
+		return course;
+	}
+
+	public void setCourse(List<String> course) {
+		this.course = course;
+	}
 
 	private String liveFlag;
 	private String subject;

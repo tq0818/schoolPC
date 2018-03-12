@@ -83,6 +83,31 @@ function masterFindClassStu(page,year) {
                 stuHtml += "</tr>";
             })
             $("#stuListTbody").html(stuHtml);
+            // 课程导出用户
+            $(".exportExcleCourse").on(
+                'click',
+                function () {
+                    //console.log($("#stuListTbody").find('tr'))
+                    if(!$("#stuListTbody").find('tr').length > 0){
+
+                        $.msg("没有数据可以导出");
+                    }
+                    // if ($("#tableClassList").find("tr").eq(1).find("td").length <= 1) {
+                    //
+                    // }
+                    else {
+                        $("#eduStepL").val($('#eduStep2').val());
+                        $("#eduYearL").val($('#eduYear2').val());
+                        $("#eduClassL").val($('#eduClass2').val());
+                        $("#flagL").val($('#liveFlag').val());
+                        $("#subjectL").val($('#subject').val());
+                        $("#eduSchoolL").val($('#eduSchool').val());
+                        $("#searchClassList").attr("action",
+                            rootPath + "/query/exportExcleCourse")
+                            .submit();
+                    }
+                }
+            )
 
 
             //组装课程head

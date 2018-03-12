@@ -69,6 +69,14 @@
 					<h2 class="h5 studentListTitle " >班级学生列表</h2>--%>
 					<span class="line"></span>
 				</div>
+				<form method="post" id="searchClassList" >
+					<input type="hidden" name="eduStep" id="eduStepL"  value="">
+					<input type="hidden" name="eduClass" id="eduClassL"  value="">
+					<input type="hidden" name="eduYear" id="eduYearL"  value="">
+					<input type="hidden" name="subject" id="subjectL"  value="">
+					<input type="hidden" name="liveFlag" id="flagL"  value="">
+					<input type="hidden" name="eduSchool" id="eduSchoolL"  value="">
+				</form>
 				<form method="post" id="searchForm" class="studentListContent">
 					<div>
 						<%--<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>--%>
@@ -251,7 +259,7 @@
 							</c:if>
 							<li>
 								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="masterFindClassStu(0)">查询</a>
-								<a href="##" class="btn btn-mb btn-primary">导出</a>
+								<span><a href="##" class="btn btn-mb btn-primary exportExcleCourse">导出</a></span>
 							</li>
 						</ul>
 					</form>

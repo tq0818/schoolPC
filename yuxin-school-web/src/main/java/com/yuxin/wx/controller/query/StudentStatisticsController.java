@@ -689,23 +689,6 @@ public class StudentStatisticsController {
     }
 
     /**
-     * 去数校学员学习详情页面
-     */
-    @RequestMapping(value="/learningDetails/studentList")
-    public String stuLearningDetailsList(Model model, HttpServletRequest request) {
-
-        //学段
-        List<SysConfigDict> stepList = sysConfigDictServiceImpl.findByDicCode("EDU_STEP");
-        model.addAttribute("stepList", stepList);
-        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
-
-        //课程科目
-        List<SysConfigItemRelation> subjectList = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());
-        model.addAttribute( "subjectItem", subjectList);
-        return "";
-    }
-
-    /**
      * 异步获取数校学员学习详情记录
      */
     @ResponseBody

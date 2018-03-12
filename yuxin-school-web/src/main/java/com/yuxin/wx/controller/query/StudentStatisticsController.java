@@ -950,7 +950,7 @@ public class StudentStatisticsController {
             lists.add(map);
         }
         StringBuffer title = new StringBuffer(
-                "姓名:name,班  级:eduClass,观课总节数:studyTime,观课总时长（分钟）:countClass,");
+                "姓名:name,班  级:eduClass,观课总节数:countClass,观课总时长（分钟）:studyTime,");
         StringBuilder  waj =new StringBuilder();
         if(null!=classList1 && classList1.size()>0){
             for (int i = 0 ; i < classList1.size(); i++)

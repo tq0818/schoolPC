@@ -953,9 +953,9 @@
 		left join student s on s.user_id = uha.user_id
 		LEFT JOIN commodity c on c.id = uha.commodity_id
 		where study_length is not NULL and s.is_in_school = '1'
-		and s.edu_school = #{eduSchool} -- 分校代码
-		and s.edu_step = #{eduStep} -- 学段
-		and s.edu_year = #{eduYear} -- 入学年份
+		and s.edu_school = #{eduSchool}
+		and s.edu_step = #{eduStep}
+		and s.edu_year = #{eduYear}
 		<if test="eduClass != null and eduClass != ''">and s.edu_class = #{eduClass}</if>
 		and c.item_third_code =#{subject}
 		and c.live_flag =#{liveFlag}
@@ -966,10 +966,10 @@
 
 	<select id="getStuList" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultMap="usersFrontVoResultMap">
 		select user_id,name,edu_year,edu_class from student
-		where edu_step = #{eduStep} -- 学段
+		where edu_step = #{eduStep}
 		<if test="eduClass != null and eduClass != ''"> and edu_class = #{eduClass}</if>
-		and edu_school =#{eduSchool} -- 分校代码
-		and edu_year = #{eduYear} -- 入学年份
+		and edu_school =#{eduSchool}
+		and edu_year = #{eduYear}
 		and is_in_school = '1'
 		ORDER BY user_id
 		LIMIT #{page},#{pageSize}
@@ -1003,10 +1003,10 @@
 
 	<select id="getStuListCount" parameterType="com.yuxin.wx.vo.user.UsersFrontVo" resultType="int">
 		select count(1) from student
-		where edu_step = #{eduStep} -- 学段
+		where edu_step = #{eduStep}
 		<if test="eduClass != null and eduClass != ''">and edu_class = #{eduClass}</if>
-		and edu_school =#{eduSchool} -- 分校代码
-		and edu_year = #{eduYear} -- 入学年份
+		and edu_school =#{eduSchool}
+		and edu_year = #{eduYear}
 		and is_in_school = '1'
 	</select>
 </mapper>

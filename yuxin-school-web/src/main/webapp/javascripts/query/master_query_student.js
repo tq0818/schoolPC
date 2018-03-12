@@ -122,9 +122,15 @@ function masterFindClassStu(page,year) {
                     //
                     // }
                     else {
-                        $("#eduStepL").val($('#eduStep2').val());
-                        $("#eduYearL").val($('#eduYear2').val());
-                        $("#eduClassL").val($('#eduClass2').val());
+                        if(role == 2){
+                            $("#eduStepL").val(eduStep2);
+                            $("#eduYearL").val(eduYear2);
+                            $("#eduClassL").val(eduClass2);
+                        }else{
+                            $("#eduStepL").val($('#eduStep2').val());
+                            $("#eduYearL").val($('#eduYear2').val());
+                            $("#eduClassL").val($('#eduClass2').val());
+                        }
                         $("#flagL").val($('#liveFlag').val());
                         $("#subjectL").val($('#subject').val());
                         $("#eduSchoolL").val($('#eduSchool').val());

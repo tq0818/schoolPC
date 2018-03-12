@@ -81,7 +81,7 @@
 					<input type="hidden" name="eduYear" id="eduYearL"  value="">
 					<input type="hidden" name="subject" id="subjectL"  value="">
 					<input type="hidden" name="liveFlag" id="flagL"  value="">
-					<input type="hidden" name="eduSchoool" id="eduSchoolL"  value="">
+					<input type="hidden" name="eduSchool" id="eduSchoolL"  value="">
 				</form>
 				<form method="post" id="searchForm" class="studentListContent">
 					<div>
@@ -244,7 +244,7 @@
 								</select>
 							</li>
 							<li>
-								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="findClassStu(1)">查询</a>
+								<a href="##" class="btn btn-mb btn-primary" style="margin-right: 10px;" onclick="findClassStu(0)">查询</a>
 								<span><a href="##" class="btn btn-primary exportExcleCourse">导出</a></span>
 							</li>
 						</ul>

@@ -728,6 +728,7 @@ public class StudentStatisticsController {
             //TODO 设定用户身份
             int isResponse = 1;
           //  待完成
+
             if(1 == isResponse){
             	//学校负责人
             	pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
@@ -735,7 +736,6 @@ public class StudentStatisticsController {
             }else{
             	//班主任
             }
-
     	}catch(Exception e){
     		e.printStackTrace();
     		return SimplePage.getFailed("服务器错误");
@@ -830,8 +830,9 @@ public class StudentStatisticsController {
      */
     @RequestMapping(value = "/exportExcleCourse")
     public ModelAndView exportExcleCourse(Model model, StudentListVo search,HttpServletRequest request) throws Exception{
+
         List<StudentListVo> al = new ArrayList<StudentListVo>();
-        JSONObject jsonObject = new JSONObject();
+//        JSONObject jsonObject = new JSONObject();
         //获取当前学校管理员的学校组织机构代码
         Users loginUser = WebUtils.getCurrentUser(request);
         if(loginUser==null || loginUser.getId()==null){
@@ -840,30 +841,43 @@ public class StudentStatisticsController {
         //判断是否是班主任
         Subject subject = SecurityUtils.getSubject();
         Integer comId = null;
-        CompanySchoolVO companySchoolVO = companyService.findCompanyByCode(loginUser.getId());
-        if(null == companySchoolVO){
-            System.out.println("==========> 查询失败");
-            return null;
+        Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+        if(null != companyId){
+            search.setCompanyId(companyId);
         }
         search.setUserId(loginUser.getId());
-        search.setCompanyId(companySchoolVO.getCompanyId());
-        search.setEduSchool(companySchoolVO.getItem_code());
-        //计算当前年级
-        ClassType classType = CommonUtils.getClassTypeByStep(search.getEduStep(), search.getEduYear());
-        if(null == classType){
-            //TODO 参数错误
-        }
-        classType.setEduStep(search.getEduStep());
-        classType.setEduYear(search.getEduYear());
-        if(null != search.getEduClass() && !"".equals(search.getEduClass())){
-            classType.setEduClass(search.getEduClass());
-        }
-        classType.setSubject(search.getSubject());
-        classType.setLiveFlag(Integer.parseInt(search.getLiveFlag()));
-        classType.setCompanyId(search.getCompanyId());
-        search.setPageSize(20000);
+//        //计算当前年级
+//        ClassType classType = CommonUtils.getClassTypeByStep(search.getEduStep(), search.getEduYear());
+//        if(null == classType){
+//            //TODO 参数错误
+//        }
+//        classType.setEduStep(search.getEduStep());
+//        classType.setEduYear(search.getEduYear());
+//        if(null != search.getEduClass() && !"".equals(search.getEduClass())){
+//            classType.setEduClass(search.getEduClass());
+//        }
+//        classType.setSubject(search.getSubject());
+//        classType.setLiveFlag(Integer.parseInt(search.getLiveFlag()));
+//        classType.setCompanyId(search.getCompanyId());
 
-        jsonObject = classTypeServiceImpl.getListDatas(search,classType);
+//
+//        jsonObject = classTypeServiceImpl.getListDatas(search,classType);
+
+        search.setPageSize(20000);
+        SimplePage pg = queryStudentsListData(request,search);
+        System.out.println(JSONObject.toJSON(pg));
+        if(pg.getStatus() == 0){
+//            ViewFiles excel = new ViewFiles();
+            return new ModelAndView();
+        }
+        JSONObject jsonObject=null;
+        if(null!=pg.getData()){
+            jsonObject = JSONObject.parseObject(JSONObject.toJSON(pg.getData()).toString());
+        }else{
+            return new ModelAndView();
+        }
+
+
         JSONObject study = jsonObject.getJSONObject("pageFinder");
         List<ClassLectureVO> classList1 =null;
         try {
@@ -890,11 +904,12 @@ public class StudentStatisticsController {
 
             JSONArray list=  obj.getJSONArray("list");
             List<String> list1 =new ArrayList<>();
-            for(int j =0; j<list.size();j++){
-                list1.add(list.getInteger(j)==0?"X":"√");
+            if(null!=list &&list.size()>0 ){
+                for(int j =0; j<list.size();j++){
+                    list1.add(list.getInteger(j)==0?"X":"√");
+                }
+                slv.setCourse(list1);
             }
-            slv.setCourse(list1);
-
             al.add(slv);
         }
         String step =search.getEduStep();
@@ -927,26 +942,29 @@ public class StudentStatisticsController {
             map.put("studyTime",studyTime);
             map.put("countClass",countClass);
             List<String> couseAll=s.getCourse();
-            for(int i=0;i<couseAll.size();i++){
-                map.put("lession"+i,couseAll.get(i));
+            if(null!=couseAll && couseAll.size()>0){
+                for(int i=0;i<couseAll.size();i++){
+                    map.put("lession"+i,couseAll.get(i));
+                }
             }
             lists.add(map);
         }
-
         StringBuffer title = new StringBuffer(
                 "姓名:name,班  级:eduClass,观课总节数:studyTime,观课总时长（分钟）:countClass,");
-
         StringBuilder  waj =new StringBuilder();
-        for (int i = 0 ; i < classList1.size(); i++)
-        {
-            if(i==classList1.size()-1){
-                waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
-                waj.append(":lession"+i);
-                break;
-            }
+        if(null!=classList1 && classList1.size()>0){
+            for (int i = 0 ; i < classList1.size(); i++)
+            {
+                if(i==classList1.size()-1){
+                    waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
+                    waj.append(":lession"+i);
+                    break;
+                }
                 waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
                 waj.append(":lession"+i+",");
+            }
         }
+
         title.append(waj);
 
         ViewFiles excel = new ViewFiles();

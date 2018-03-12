@@ -169,9 +169,15 @@
             $(".exportExcleCourse").on(
                 'click',
                     function () {
-                        if ($("#tableClassList").find("tr").eq(1).find("td").length <= 1) {
+                        //console.log($("#stuListTbody").find('tr'))
+                        if(!$("#stuListTbody").find('tr').length > 0){
+
                             $.msg("没有数据可以导出");
-                        } else {
+                        }
+                        // if ($("#tableClassList").find("tr").eq(1).find("td").length <= 1) {
+                        //
+                        // }
+                        else {
                             $("#eduStepL").val($('#eduStep2').val());
                             $("#eduYearL").val($('#eduYear2').val());
                             $("#eduClassL").val($('#eduClass2').val());

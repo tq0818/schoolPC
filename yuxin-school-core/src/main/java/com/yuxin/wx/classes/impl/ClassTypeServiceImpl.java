@@ -31,7 +31,6 @@ import com.yuxin.wx.model.course.CourseVideoChapter;
 import com.yuxin.wx.system.mapper.SysConfigItemTagMapper;
 import com.yuxin.wx.system.mapper.SysConfigTeacherMapper;
 import com.yuxin.wx.user.mapper.UsersFrontMapper;
-import com.yuxin.wx.util.redis.RedisHelper;
 import com.yuxin.wx.vo.classes.ClassLessonVO;
 import com.yuxin.wx.vo.classes.ClassPackageConditionVo;
 import com.yuxin.wx.vo.classes.ClassTypeVo;
@@ -578,8 +577,12 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 	@Override
 	public JSONObject getListDatas(StudentListVo search,ClassType classType) {
 		JSONObject jsonObject = new JSONObject();
-		List<ClassLectureVO> classList = null;
-		//获取Redis缓存课程列表
+		List<ClassLectureVO> classList =classTypeMapper.getClassTypeListVideo(classType);
+		Map<Integer,ClassLectureVO> map = new HashMap<>();
+		for(ClassLectureVO tempClassLessonVO : classList){
+			map.put(tempClassLessonVO.getId(), tempClassLessonVO);
+		}
+		/*//获取Redis缓存课程列表
 		Map<Integer,ClassLectureVO> map = RedisHelper.getInstance().getClassLectureMap(Long.valueOf(search.getUserId()),Long.parseLong(String.valueOf(search.getCompanyId())),classType.getItemSecondCode(),search.getEduStep(),classType.getSubject());
 		if(null == map){
 			//Redis中不存在，查询
@@ -602,7 +605,7 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 			for (Map.Entry< Integer,ClassLectureVO> entry : map.entrySet()) {
 				classList.add(entry.getValue());
 			}
-		}
+		}*/
 
 		//获取年级或班级下的所有学生列表
 		List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);

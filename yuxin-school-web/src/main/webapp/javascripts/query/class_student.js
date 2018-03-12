@@ -26,6 +26,18 @@ function findClassStu(page,year) {
             $(".loading-bg").show();
         },
         success: function (jsonData) {
+        	//console.log(jsonData);
+        	if(jsonData.data == null){
+        		 $('.studentContent').hide();
+                 $('.studentNo').show();
+                 $('#paginationStuList').hide();
+                 $('.tipsWord').hide();
+                 
+        		return;
+        	}
+        	
+        	jsonData = jsonData.data;
+        	
             if (jsonData.pageFinder.data.length == 0) {
             /*    $(".classListContent")
                     .find(".tableFirst")
@@ -137,7 +149,7 @@ function findClassStu(page,year) {
                     {
                         next_text: "下一页",
                         prev_text: "上一页",
-                        current_page: jsonData.pageFinder.page,
+                        current_page: jsonData.pageFinder.page - 1,
                         link_to: "javascript:void(0)",
                         num_display_entries: 8,
                         items_per_page: jsonData.pageFinder.size,
@@ -147,6 +159,12 @@ function findClassStu(page,year) {
                             findClassStu(pageNo);
                         }
                     });
+            
+            
+            $('.studentContent').show();
+            $('.studentNo').hide();
+            $('#paginationStuList').show();
+            $('.tipsWord').show();
             
             
             $("#leftIconBtn").click(function(){

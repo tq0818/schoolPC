@@ -240,7 +240,7 @@
 						</ul>
 					</form>
 					<%--<div class="user-list">--%>
-					<div style="width: 100%;height: 50px;line-height: 110px;text-align: right;">
+					<div class='tipsWord' style="width: 100%;height: 50px;line-height: 110px;text-align: right;">
 						<span class="xingMark" style="font-size: 12px;margin-right: 30px;">
 							实际观课效果：√表示观课时间超过了70%，✘表示观课时长未超过70%
 						</span>

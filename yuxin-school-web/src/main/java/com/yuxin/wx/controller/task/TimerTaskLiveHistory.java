@@ -49,6 +49,8 @@ public class TimerTaskLiveHistory extends QuartzJobBean implements Serializable 
         String lessonDate = sdf.format(ca.getTime());
         Map dateMap = new HashMap();
         dateMap.put("lessonDate",lessonDate);
+       // String lessonDate="2018-03-09";
+        dateMap.put("lessonDate",lessonDate);
         List<WatchInfo> list = new ArrayList<WatchInfo>();
         try{
             ApplicationContext ctx = (ApplicationContext) context.getScheduler().getContext().get("applicationContext");

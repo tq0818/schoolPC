@@ -98,7 +98,7 @@
                 <label>收费配置:</label>
                 <p style="margin-left: 95px;margin-bottom: 5px;">
                     <label>分校私有课程收费比例:</label>
-                    <input type="text" style="text-align: right;width: 24px;" id="privateCost" disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" class="editState">%
+                    <input type="text" style="text-align: right;width: 24px;" id="privateCost"  disabled="disabled" value="${company.privateCost }" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"  class="editState">%
                     <span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>
                 </p>
                 <p style="margin-left: 95px;">
@@ -122,7 +122,7 @@
                 <p style="margin-bottom: 5px;">
                     <label>分配流量: ${css.videoFlow}/
                     <input type="text" style="text-align: center;width: 70px" id="flowSize"  class="editState " disabled="disabled"
-                           value="${cms.videoFlow}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="10">GB</label>
+                           value="${cms.videoFlow}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="5">GB</label>
                     <%--<span style="margin-left: 95px;" class="showDetails showDetailsMark">增加流量:</span>--%>
                     <%--<input style="width: 115px" type="text" id="flowSize" class="editState showDetails " onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">--%>
                     <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>
@@ -130,7 +130,7 @@
                 <p style="margin-bottom: 5px;">
                     <label>分配空间: ${css.videoStorage }/
                     <input type="text" style="text-align: center;width: 70px;" id="spaceSize"  class="editState " disabled="disabled"
-                           value="${cms.videoStorage}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="10">GB</label>
+                           value="${cms.videoStorage}" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/" maxlength="5">GB</label>
                     <%--<span style="margin-left: 95px;" class="showDetails showDetailsMark">增加空间:</span>--%>
                     <%--<input style="width: 115px" type="text" id="spaceSize" class="editState showDetails "  onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">--%>
                     <%--<span class="showDetails showDetailsMark"><i style="color: red;" class="iconfont ico"></i></span>--%>
@@ -184,6 +184,20 @@
         var currentBtn = document.getElementById("save");
         currentBtn.style.display = 'inline-block';
 
+    });
+
+    //收费配置弹窗
+    $('#privateCost').blur(function () {
+        if(Number($(this).val())>100 || Number($(this).val())<=0 ){
+            $(this).val("");
+            $.msg("只能输入0~100之间的数字");
+        }
+    });
+    $('#publicCost').blur(function () {
+        if(Number($(this).val())>100 || Number($(this).val())<=0 ){
+            $(this).val("");
+            $.msg("只能输入0~100之间的数字");
+        }
     });
 </script>
 <script>

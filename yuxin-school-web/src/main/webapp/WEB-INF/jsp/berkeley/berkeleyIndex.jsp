@@ -185,7 +185,7 @@
                     </p>
                     <p style="margin-left: 30px;">
                         空间<i style="color: red;" class="iconfont ico"></i>
-                        <input type="text" id="spaceSize" name="spaceSize" maxlength="5" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"">
+                        <input type="text" id="spaceSize" name="spaceSize" maxlength="5" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/">
                         GB
                     </p>
                 </li>
@@ -246,6 +246,20 @@
     $('table').on('mouseleave','.box',function(){
         $(this).hide();
     });
+
+//收费配置弹窗
+$('#privateCost').blur(function () {
+    if(Number($(this).val())>100 || Number($(this).val())<=0 ){
+        $(this).val("");
+        $.msg("只能输入0~100之间的数字");
+    }
+});
+$('#publicCost').blur(function () {
+    if(Number($(this).val())>100 || Number($(this).val())<=0 ){
+        $(this).val("");
+        $.msg("只能输入0~100之间的数字");
+    }
+});
 </script>
 <script>
 //    点击更多显示菜单

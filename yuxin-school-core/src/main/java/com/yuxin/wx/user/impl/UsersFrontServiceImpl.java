@@ -398,6 +398,17 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         classType.setCompanyId(search.getCompanyId());
         //获取课程列表并放入map
       //  List<ClassLectureVO>  classList = classTypeServiceImpl.getClassTypeListVideo(classType);
+        
+        
+        //获取年级或班级下的所有学生列表
+        List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
+        if(null == stuList || stuList.size() == 0){
+        	//如果获取学生信息失败，直接返回，不再进行下一步查询
+        	return new SimplePage();
+        }
+        int stuCount = usersFrontMapper.getStuListCount(search);
+        
+        
         //录播课程
         List<ClassLectureVO>  classList = null;
         if ("0".equals(search.getLiveFlag())){
@@ -407,23 +418,32 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
             		classList.get(i).initVedioLen();//调用方法转换视频格式得到视频长度
             	}
         	}
+        	System.out.println("课程数量为:"+classList.size());
+        	if(classList.size() == 0){
+        		return new SimplePage();
+        	}
+        	
         }else{
         	//直播课程
         	classList = classTypeMapper.getClassTypeListLive(classType);
+        	if(null == classList || classList.size() == 0){
+        		return new SimplePage();
+        	}
+        	
+        	for(int i = 0;i<classList.size();i++){
+        		classList.get(i).setVideoLen(classList.get(i).getLiveLessonTime());
+        	}
+        	
         }
         
         Map<Integer,ClassLectureVO> map = new HashMap<>();
         for(ClassLectureVO temp : classList){
-            map.put(Integer.valueOf(temp.getId()),temp);
+        	if(temp.getId() != null){
+        		map.put(Integer.valueOf(temp.getId()),temp);
+        	}
         }
         
-        //获取年级或班级下的所有学生列表
-        List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
-        if(null == stuList || stuList.size() == 0){
-        	//如果获取学生信息失败，直接返回，不再进行下一步查询
-        	return new SimplePage();
-        }
-        int stuCount = usersFrontMapper.getStuListCount(search);
+       
         
       //组装学生id
         List<Integer> stuIdsList = new ArrayList<>();
@@ -450,10 +470,19 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 			
 		} else {
 			// 直播
-			
+//			/
+			Map<String, List<Integer>> pmap = new HashMap<>();
+			pmap.put("stuIdsList", stuIdsList);
+			pmap.put("lessonIdsList", lessonIdsList);
+			lessonVOList = classTypeMapper.getClassLessonLiveList(pmap);
 			if (null == lessonVOList) {
 				return SimplePage.getFailed("获取直播信息失败");
 			}
+			
+			for(int j = 0;j< lessonVOList.size();j++){
+				lessonVOList.get(j).setLen(lessonVOList.get(j).getLiveWatchTime() / 1000);
+			}
+			
 		}
         
         //组装数据

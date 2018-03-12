@@ -17,6 +17,10 @@
 		<result property="eduStep" column="eduStep" />
 		<result property="isInSchool" column="isInSchool" />
 		<result property="originType" column="originType" />
+		
+		<result property="liveTime" column="liveTime" />
+		<result property="liveWatchTime" column="liveWatchTime" />
+		
 	</resultMap>
 
 	<resultMap type="com.yuxin.wx.model.classes.ClassType" id="classTypeResultMap">
@@ -1059,6 +1063,7 @@
 			ct.live_flag = '1'
 		AND ct.origin_type = '0'
 		AND ct.publish_status = 'CLASS_ON_SALE'
+		AND !ISNULL(cml.id)
 		 AND ct.`item_second_code` = #{itemSecondName}
 		 AND sci.`item_name` LIKE #{itemName}
 		ORDER BY
@@ -1119,7 +1124,7 @@
 		    `commodity_id`,
 		    `id`,
 		    `lecture_id`,
-		    MAX(`study_length`) len,
+		    SUM(`study_length`) len,
 		    `user_id` 
 		  FROM
 		    sys_play_logs 
@@ -1148,5 +1153,45 @@
    			order by userId
    
 	</select>
+	
+	
+	<select id="getClassLessonLiveList"  parameterType="map"  resultMap="classLessonVOMap">
+		SELECT 
+		  swi.lesson_id lectureId,
+		  swi.classtype_id classTypeId,
+		  swi.id,
+		  swi.user_id userId,
+		  swi.lesson_name lectureName,
+		  SUM(swi.watch_time) liveWatchTime,
+		  ct.item_third_code,
+		  (
+		    SUBSTRING_INDEX(cml.lesson_time_end, ':', 1) * 60 * 60 + SUBSTRING_INDEX(cml.lesson_time_end, ':', - 1) * 60
+		  ) - (
+		    SUBSTRING_INDEX(cml.lesson_time_start, ':', 1) * 60 * 60 + SUBSTRING_INDEX(cml.lesson_time_start, ':', - 1) * 60
+		  ) liveTime 
+		FROM
+		  sys_watch_info swi 
+		  LEFT JOIN class_type ct 
+		    ON swi.classtype_id = ct.id 
+		  LEFT JOIN class_module_lesson cml 
+		    ON cml.id = swi.lesson_id 
+		WHERE ct.live_flag = 1   
+		
+		AND swi.user_id IN (
+			<foreach collection="stuIdsList" index="index" item="item1"  separator="," >
+            	#{item1}
+        	</foreach>
+		) 
+		
+		AND swi.lesson_id IN (
+			<foreach collection="lessonIdsList" index="index" item="item2"  separator="," >
+            		#{item2}
+        	</foreach>
+		)
+		 
+		GROUP BY user_id , lectureId
+   
+	</select>
+	
 	
 </mapper>

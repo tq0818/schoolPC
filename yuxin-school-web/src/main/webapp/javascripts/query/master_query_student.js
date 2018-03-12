@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+
     var myDate = new Date();
     masterFindClassStu(0,myDate.getFullYear());
     $('#classLstMast').click(function () {
@@ -8,15 +10,37 @@ $(document).ready(function () {
 })
 
 function masterFindClassStu(page,year) {
+
+    var eduYear2;
+    var eduClass2;
+    var eduStep2;
+    var role = $("#role").val();
+    if(role == 2){
+        //班主任
+        var eduYearM = $("#eduYearM").val();
+        var eduClassM = $("#eduClassM").val();
+        var eduStepM = $("#eduStepM").val();
+        eduYear2 = eduYearM;
+        eduClass2 = eduClassM;
+        eduStep2 = eduStepM;
+    }else{
+        //校级分校管理员
+        console.log($('#eduYear2').val(),$('#eduClass2').val(),$('#eduStep2').val());
+        eduYear2 = $('#eduYear2').val() || year;
+        eduClass2 = $('#eduClass2').val();
+        eduStep2 = $('#eduStep2').val();
+    }
+
+
     $.ajax({
         url: rootPath + "/query/learningDetails/queryStudentsList",
         data: {
             "page": page,
             "pageSize":$("#selectCounts").val() || 10,
             "eduSchool":$("#eduSchool").val(),
-            "eduStep" : $('#eduStep2').val(),
-            "eduYear" : $('#eduYear2').val() || year,
-            "eduClass" : $('#eduClass2').val(),
+            "eduStep" : eduStep2,
+            "eduYear" : eduYear2,
+            "eduClass" : eduClass2,
             "liveFlag":$('#liveFlag').val(),
             "subject":$('#subject').val()
         },

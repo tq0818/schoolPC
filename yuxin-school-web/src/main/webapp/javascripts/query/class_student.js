@@ -302,7 +302,7 @@ function findClassStu(page) {
            $('.changeIcon').height($("#classListTbody").height());*/
 
             var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
             $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
 
 

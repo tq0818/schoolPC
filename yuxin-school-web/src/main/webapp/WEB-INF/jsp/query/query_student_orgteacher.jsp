@@ -376,7 +376,7 @@
             $('.classListContent').show();
             //根据列表的高度设置切换按钮的高度
             var tableHeight = ($('.tableFirst').height()-35)+'px';
-            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','105px');
+            $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','75px');
             $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
         }
     });

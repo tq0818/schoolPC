@@ -105,11 +105,13 @@ function masterFindClassStu(page, year) {
 				$('.studentContent').hide();
 				$('.studentNo').show();
 				$('#paginationStuList').hide();
+				$('.tipsWord').hide();
 
 			} else {
 				$('.studentContent').show();
 				$('.studentNo').hide();
 				$('#paginationStuList').show();
+				$('.tipsWord').show();
 			}
 			if (jsonData.classList.length == 0) {
 				// 无课程数据时，显示默认提示

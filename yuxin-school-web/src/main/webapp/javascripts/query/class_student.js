@@ -81,10 +81,12 @@ function findClassStu(page, year) {
 				$('.studentContent').hide();
 				$('.studentNo').show();
 				$('#paginationStuList').hide();
+				$('.tipsWord').hide();
 			} else {
 				$('.studentContent').show();
 				$('.studentNo').hide();
 				$('#paginationStuList').show();
+				$('.tipsWord').show();
 			}
 
 			if (jsonData.classList.length == 0) {

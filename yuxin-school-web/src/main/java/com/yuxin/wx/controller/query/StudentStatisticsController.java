@@ -899,9 +899,10 @@ public class StudentStatisticsController {
             slv.setName(info.getString("name"));
             slv.setEduYear(info.getString("eduYear"));
             slv.setEduClass(info.getString("eduClass"));
-            slv.setCounty(info.getString("countClass"));
-            slv.setIsAgent(info.getString("studyTime"));
-
+            String countyNew=info.getString("countClass");
+            slv.setCounty(countyNew==null?"0":countyNew);
+            String isAgentNew=info.getString("studyTime");
+            slv.setIsAgent(isAgentNew==null?"0":isAgentNew);
             JSONArray list=  obj.getJSONArray("list");
             List<String> list1 =new ArrayList<>();
             if(null!=list &&list.size()>0 ){

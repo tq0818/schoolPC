@@ -729,10 +729,11 @@ public class StudentStatisticsController {
             //TODO 设定用户身份
             int isResponse = 1;
           //  待完成
-
+            pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
+            
             if(1 == isResponse){
             	//学校负责人
-            	pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
+            	
             }else{
             	//班主任
             }

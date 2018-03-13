@@ -36,9 +36,6 @@ $(document).ready(function() {
 		nowClass++;
 		$("#className").html(headArr[nowClass]);
 		$("#classListTbody").html(bodyArr[nowClass]);
-
-		console.log("page = "+nowClass)
-		console.log(headArr[nowClass]);
 		
 	})
 	
@@ -150,8 +147,7 @@ function findClassStu(page, year) {
 						+ ">" + (clas.lesson_name ? clas.lesson_name : "")
 						+ "</th>";
 			})
-			console.log(jsonData.classList);
-			console.log(headArr);
+
 			if (headHtml != '') {
 				headArr.push(headHtml);
 			}

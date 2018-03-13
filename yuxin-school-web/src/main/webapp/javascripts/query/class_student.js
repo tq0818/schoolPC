@@ -121,7 +121,7 @@ function findClassStu(page,year) {
             		headArr.push(headHtml);
             		headHtml = "";
             	}
-            	headHtml += '<th title='+(clas.lesson_name ? clas.lesson_name: "") + '>'+(clas.lesson_name ? clas.lesson_name: "") + "</th>";
+                headHtml += "<th title="+'"'+(clas.lesson_name ? clas.lesson_name: "") +'"'+">"+(clas.lesson_name ? clas.lesson_name: "") + "</th>";
             })
             if(headHtml != ''){
             	headArr.push(headHtml);
@@ -235,6 +235,7 @@ function findClassStu(page,year) {
             var tableHeight = $('#stuListTbody').height()+'px';
             $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','77px');
             // $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
+            $('.leftIcon').hide();
         }
     });
 }

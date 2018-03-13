@@ -157,7 +157,7 @@ function masterFindClassStu(page,year) {
                     headArr.push(headHtml);
                     headHtml = "";
                 }
-                headHtml += '<th title='+(clas.lesson_name ? clas.lesson_name: "") + '>'+(clas.lesson_name ? clas.lesson_name: "") + "</th>";
+                headHtml += "<th title="+'"'+(clas.lesson_name ? clas.lesson_name: "") +'"'+">"+(clas.lesson_name ? clas.lesson_name: "") + "</th>";
             })
             if(headHtml != ''){
                 headArr.push(headHtml);
@@ -272,6 +272,7 @@ function masterFindClassStu(page,year) {
             //根据列表的高度设置切换按钮的高度
             var tableHeight = $('#stuListTbody').height()+'px';
             $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','77px');
+            $('.leftIcon').hide();
             // $('.classNo').css('height',($('.tableFirst').height()-2)+'px');
         }
     });

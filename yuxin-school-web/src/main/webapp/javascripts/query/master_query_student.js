@@ -99,12 +99,22 @@ function masterFindClassStu(page, year) {
 
 			var stuHtml = "";
 			$.each(jsonData.pageFinder.data, function(i, stu) {
-				stuHtml += "<tr>";
-				stuHtml += '<td>' + (stu.info.name ? stu.info.name : "") + '</td>';
-				stuHtml += '<td>' + eduStep + stu.info.eduYear + "年" + stu.info.eduClass + "班" + '</td>';
-				stuHtml += '<td>' + (stu.info.countClass != null ? stu.info.countClass : "0") + '</td>';
-				stuHtml += '<td>' + (stu.info.studyTime != null ? stu.info.studyTime : "0") + '</td>';
-				stuHtml += "</tr>";
+				var role = $("#role").val();
+				if(role == 2){
+                    stuHtml += "<tr>";
+                    stuHtml += '<td>' + (stu.info.name ? stu.info.name : "") + '</td>';
+                   /* stuHtml += '<td>' + eduStep + stu.info.eduYear + "年" + stu.info.eduClass + "班" + '</td>';*/
+                    stuHtml += '<td>' + (stu.info.countClass != null ? stu.info.countClass : "0") + '</td>';
+                    stuHtml += '<td>' + (stu.info.studyTime != null ? stu.info.studyTime : "0") + '</td>';
+                    stuHtml += "</tr>";
+				}else{
+                    stuHtml += "<tr>";
+                    stuHtml += '<td>' + (stu.info.name ? stu.info.name : "") + '</td>';
+                    stuHtml += '<td>' + eduStep + stu.info.eduYear + "年" + stu.info.eduClass + "班" + '</td>';
+                    stuHtml += '<td>' + (stu.info.countClass != null ? stu.info.countClass : "0") + '</td>';
+                    stuHtml += '<td>' + (stu.info.studyTime != null ? stu.info.studyTime : "0") + '</td>';
+                    stuHtml += "</tr>";
+				}
 			})
 			$("#stuListTbody").html(stuHtml);
 			// 课程导出用户

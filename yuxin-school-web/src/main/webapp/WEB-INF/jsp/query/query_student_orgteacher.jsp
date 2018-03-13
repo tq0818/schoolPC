@@ -277,10 +277,17 @@
 							<div class="tableFirst">
 								<table class="table table-center" style="float: right;margin: 0 !important;">
 									<tr data-buy="true">
-										<th width="8%">姓名</th>
-										<th width="7%">班级</th>
-										<th width="7%">观课总节数</th>
-										<th width="11%">观课总时长（分钟）</th>
+										<c:if test="${role == 2}">
+											<th width="8%">姓名</th>
+											<th width="7%">观课总节数</th>
+											<th width="11%">观课总时长（分钟）</th>
+										</c:if>
+										<c:if test="${role != 2}">
+											<th width="8%">姓名</th>
+											<th width="7%">班级</th>
+											<th width="7%">观课总节数</th>
+											<th width="11%">观课总时长（分钟）</th>
+										</c:if>
 									</tr>
 									<tbody id="stuListTbody"></tbody>
 								</table>

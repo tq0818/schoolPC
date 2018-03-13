@@ -382,7 +382,6 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	@Override
 	public SimplePage getUserClassStudyAsSchoolResponse(StudentListVo search, Users loginUser  ) {
 		search.setUserId(loginUser.getId());
-        
 		 //获取年级或班级下的所有学生列表
         List<UsersFrontVo> stuList = usersFrontMapper.getStuList(search);
         if(null == stuList || stuList.size() == 0){

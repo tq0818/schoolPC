@@ -732,7 +732,6 @@ public class StudentStatisticsController {
             if(1 == isResponse){
             	//学校负责人
             	pg =  usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
-            	System.out.println(JSONObject.toJSON(pg).toString());
             }else{
             	//班主任
             }

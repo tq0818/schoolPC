@@ -1032,7 +1032,8 @@
 		  AND ct.`company_id` = #{companyId}
 		  AND ct.`item_second_code` = #{itemSecondName}
 		  AND ct.item_third_code =#{subject}
-		  AND sci.`item_name` LIKE #{itemName}
+		  AND sci.`item_name` LIKE #{itemName} 
+		  AND !ISNULL((cvl.id))  
 		ORDER BY ct.create_time
 	</select>
 

@@ -27,9 +27,9 @@ background: #f2f2f2;font-weight: bold;}
 }
 @media screen and (min-width: 1920px){
     .tableSecond th{
-        max-width: 130px;
-        min-width: 130px;
+        max-width: 122px;
+        min-width: 122px;
     }
-    .classListTbody td{width: 130px;}
+    .classListTbody td{width: 122px;}
 }
 

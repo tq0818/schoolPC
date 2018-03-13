@@ -38,6 +38,7 @@ public class ClassLectureVO implements Serializable{
 			this.videoLen = -1;
 		}
 		
+		
 		String[] arr = this.video_time.split(":");
 		try{
 			int len = Integer.valueOf(arr[0])*3600 + Integer.valueOf(arr[1])*60 + Integer.valueOf(arr[2]);

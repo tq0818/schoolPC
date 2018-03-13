@@ -396,6 +396,9 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         if(null == classType){
         	SimplePage pg = new SimplePage();
         	pg.setData(getStudentList(stuList));
+        	pg.setCount(stuCount);
+            pg.setPage(search.getPage() / search.getPageSize() );
+            pg.setSize(search.getPageSize());
         	return pg;
         }
         classType.setEduStep(search.getEduStep());

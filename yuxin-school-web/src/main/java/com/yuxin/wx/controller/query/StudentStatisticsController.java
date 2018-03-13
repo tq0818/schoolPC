@@ -914,11 +914,11 @@ public class StudentStatisticsController {
         }
         String step =search.getEduStep();
         if("STEP_01".equals(step)){
-            step="小学";
+            step="小";
         }else if("STEP_02".equals(step)){
-            step="初中中学";
+            step="初";
         }else{
-            step="高中中学";
+            step="高";
         }
 
         List<Map<String, Object>> lists = new ArrayList<Map<String, Object>>();
@@ -956,11 +956,11 @@ public class StudentStatisticsController {
             for (int i = 0 ; i < classList1.size(); i++)
             {
                 if(i==classList1.size()-1){
-                    waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
+                    waj.append(classList1.get(i).getLesson_name().replaceAll("[,:]",""));
                     waj.append(":lession"+i);
                     break;
                 }
-                waj.append(classList1.get(i).getLesson_name().replaceAll(",",""));
+                waj.append(classList1.get(i).getLesson_name().replaceAll("[,:]",""));
                 waj.append(":lession"+i+",");
             }
         }

@@ -19,13 +19,7 @@
 		.pages li.disabled{padding:0px;}
 		.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;
 			padding-left: 7px;}
-		.tableSecond th{
-			overflow: hidden;
-			text-overflow:ellipsis;
-			white-space: nowrap;
-			max-width: 83px;
-			min-width: 83px;
-		}
+
 		.classNo{
 			display: none;width: 49%; text-align: center;border: 1px solid #666;
 			margin: 20px 0 10px;border: 1px solid #ddd;

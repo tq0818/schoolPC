@@ -23,13 +23,7 @@
 		}
 		.xingMark{background: url("../../../images/xing.png") no-repeat left 3px ;
 			padding-left: 7px;}
-		.tableSecond th{
-			overflow: hidden;
-			text-overflow:ellipsis;
-			white-space: nowrap;
-			max-width: 83px;
-			min-width: 83px;
-		}
+
 		.tableFirst,.tableSecond{
 			width:49%;
 			float:left;

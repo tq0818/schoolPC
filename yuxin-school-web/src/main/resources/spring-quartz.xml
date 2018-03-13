@@ -64,7 +64,7 @@
 	<bean id="videoPlaylogTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="videoPlaylogDetail" />
 		<property name="cronExpression" value="0 0 8 * * ?" />
-		<!-- <property name="cronExpression" value="0 21 20 * * ?" /> -->
+		<!-- <property name="cronExpression" value="0 41 14 * * ?" /> -->
 	</bean>
 	<bean id="videoPlaylogDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<!-- 指定任务Bean的实现类 -->

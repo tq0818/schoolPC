@@ -224,7 +224,7 @@
 	<select id="querySysPlayLogsVosByDate" resultMap="sysPlayLogsVoResults" parameterType="com.yuxin.wx.model.user.UserHistory">
 		select user_id,commodity_id,class_type_id,lecture_id,study_date,
 		CASE WHEN seconds<![CDATA[<]]>study_length then seconds
-		ELSE study_length END study_length,source_id,'PC' device,spl_id
+		ELSE study_length END study_length,source_id,'Mobile' device,spl_id
 		from (
 			select uh.user_id,ct.id class_type_id,cd.com_id commodity_id,uh.lecture_id,DATE_FORMAT(uh.study_time,'%Y-%m-%d') study_date,
 			(SUBSTRING_INDEX(vd.video_time,':',1)*3600+substring_index(substring_index(vd.video_time,':', -2), ':', 1)*60+SUBSTRING_INDEX(vd.video_time,':',-1)) seconds,
@@ -240,10 +240,10 @@
 			where uh.origin_type=1
 			<if test="studyDate != null and studyDate != ''">
 				<if test="mode!='ALL'">
-					and DATE_FORMAT(uh.study_time,'%Y-%m-%d') = #{studyDate}
+					and DATE_FORMAT(uh.study_time,'%Y-%m-%d') = DATE_FORMAT(#{studyDate},'%Y-%m-%d')
 				</if>
 				<if test="mode=='ALL'">
-					and DATE_FORMAT(uh.study_time,'%Y-%m-%d') <![CDATA[<=]]> #{studyDate}
+					and DATE_FORMAT(uh.study_time,'%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#{studyDate},'%Y-%m-%d')
 				</if>
 			</if>
 		) dt

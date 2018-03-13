@@ -376,7 +376,7 @@
         var currdate = new Date();
         var year = currdate.getFullYear();
         var yearBody = "";
-        for(i = 0;i < 6;i++){
+        for(i = 0;i < 7;i++){
             var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
             yearBody += li;
         }

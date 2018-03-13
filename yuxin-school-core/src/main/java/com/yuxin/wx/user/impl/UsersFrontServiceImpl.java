@@ -1,5 +1,6 @@
 package com.yuxin.wx.user.impl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -478,6 +479,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 			Map<String, List<Integer>> pmap = new HashMap<>();
 			pmap.put("stuIdsList", stuIdsList);
 			pmap.put("lessonIdsList", lessonIdsList);
+			//pmap.put("companyId", classType.getCompanyId());
 			lessonVOList = classTypeMapper.getClassLessonLogList(pmap);
 			// classTypeServiceImpl.getClassLessonLogList(stuIdsList,lessonIdsList);
 			if (null == lessonVOList) {
@@ -576,7 +578,11 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
               	} 
         	}
         	vo.setCountClass(String.valueOf(countClass));
-        	vo.setStudyTime(String.valueOf(classTime/60));
+        	
+        	//DecimalFormat decimalFormat=new DecimalFormat("0.0");
+    		//return decimalFormat.format(f);
+        	//格式化学习时长保留小数点一位
+        	vo.setStudyTime(new DecimalFormat("0.0").format(1.0*classTime/60));
         	obj.put("info", vo);
         	
         	obj.put("list", lessonArr);
@@ -608,6 +614,11 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 		return pg;
 	}
 	
+	/**
+	 * 返回当前学生列表，只有在学生列表不为空，课程列表为空的时候调用该函数
+	 * @param stuList
+	 * @return
+	 */
 	private JSONObject getStudentList( List<UsersFrontVo> stuList){
 		/* pageFinder.put("data", arr);
 	        JSONObject jsonObject = new JSONObject();
@@ -622,6 +633,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 	      JSONArray arr = new JSONArray();
 	      JSONObject obj = null;
 	      for(UsersFrontVo vo : stuList){
+	    	  vo.setStudyTime("0.0");
 	    	  obj = new JSONObject();
 	    	  obj.put("info", vo);
 	    	  arr.add(obj);

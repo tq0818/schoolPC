@@ -1003,11 +1003,10 @@
 
 	<select id="getClassTypeListVideo" resultType="com.yuxin.wx.vo.redis.ClassLectureVO" parameterType="com.yuxin.wx.model.classes.ClassType">
 		SELECT
-		  cvl.id,
+		  DISTINCT(cvl.id),
 		  cvl.lecture_name lesson_name,
 		  v.video_time,
 		  ct.`item_one_code`,
-		  sci.`item_name` ,
 		  ct.`item_second_code`
 		FROM
 		  class_type ct
@@ -1035,13 +1034,12 @@
 		  AND ct.item_third_code =#{subject}
 		  AND sci.`item_name` LIKE #{itemName}
 		ORDER BY ct.create_time
-		LIMIT #{page},#{pageSize}
 	</select>
 
 
 	<select id="getClassTypeListLive" resultType="com.yuxin.wx.vo.redis.ClassLectureVO" parameterType="com.yuxin.wx.model.classes.ClassType">
 		SELECT
-			cml.id,
+			DISTINCT(cml.id),
 			cml.lesson_name,
 			cml.lesson_time_start,
 			cml.lesson_time_end,
@@ -1050,8 +1048,8 @@
 				substring_index( cml.lesson_time_start, ':', 1 ) * 60 * 60 + substring_index( cml.lesson_time_start, ':', - 1 ) * 60
 			) liveLessonTime,
 			ct.`item_one_code`,
-			ct.`item_second_code`,
-			sci.`item_name`
+			ct.`item_second_code`
+			
 		FROM
 			class_type ct
 		LEFT JOIN class_type_module_relation ctmr ON ct.id = ctmr.class_type_id
@@ -1066,9 +1064,11 @@
 		AND !ISNULL(cml.id)
 		 AND ct.`item_second_code` = #{itemSecondName}
 		 AND sci.`item_name` LIKE #{itemName}
+		 AND ct.item_third_code =#{subject}
+		 AND ct.company_id = #{companyId}
 		ORDER BY
 			ct.create_time DESC
-		LIMIT #{page},#{pageSize}
+		
 	</select>
 
 	<select id="getClassTimeList" parameterType="com.yuxin.wx.model.classes.ClassType" resultMap="classTypeResultMap">

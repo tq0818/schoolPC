@@ -709,7 +709,8 @@ public class StudentStatisticsController {
             	return SimplePage.getFailed("获取用户所负责学校失败");
             }*/
             //获取当前用户管辖的分校id
-            Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+          //  Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+            Integer		companyId = WebUtils.getCurrentCompanyId();
             if(null != companyId){
                 search.setCompanyId(companyId);
             }
@@ -840,7 +841,8 @@ public class StudentStatisticsController {
         //判断是否是班主任
         Subject subject = SecurityUtils.getSubject();
         Integer comId = null;
-        Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+       // Integer companyId = companyService.findCompanyByCode(search.getEduSchool());
+        Integer		companyId = WebUtils.getCurrentCompanyId();
         if(null != companyId){
             search.setCompanyId(companyId);
         }

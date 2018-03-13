@@ -864,7 +864,7 @@ public class StudentStatisticsController {
 //        jsonObject = classTypeServiceImpl.getListDatas(search,classType);
 
         search.setPageSize(20000);
-        SimplePage pg = queryStudentsListData(request,search);
+        SimplePage pg = usersFrontService.getUserClassStudyAsSchoolResponse(search,loginUser);
         System.out.println(JSONObject.toJSON(pg));
         if(pg.getStatus() == 0){
 //            ViewFiles excel = new ViewFiles();

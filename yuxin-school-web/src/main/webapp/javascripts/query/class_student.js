@@ -2,6 +2,47 @@ $(document).ready(function() {
 	var myDate = new Date();
 	console.log(myDate.getFullYear());
 	findClassStu(0, myDate.getFullYear());
+	
+	
+	$("#leftIconBtn").click(function() {
+		if (nowClass == 0) {
+			return;
+		}
+		// 隐藏左侧icon
+		if (nowClass == 1 || nowClass == 0) {
+			$(".leftIcon").hide();
+		} else {
+			$(".leftIcon").show();
+		}
+		$(".rightIcon").show();
+
+		nowClass--;
+		$("#className").html(headArr[nowClass]);
+		$("#classListTbody").html(bodyArr[nowClass]);
+
+	})
+
+	$("#rightIconBtn").click(function() {
+		if (nowClass == headArr.length - 1) {
+			return;
+		}
+		// 隐藏右侧icon
+
+		if (nowClass == headArr.length - 2) {
+			$(".rightIcon").hide();
+		}
+		$(".leftIcon").show();
+
+		nowClass++;
+		$("#className").html(headArr[nowClass]);
+		$("#classListTbody").html(bodyArr[nowClass]);
+
+		console.log("page = "+nowClass)
+		console.log(headArr[nowClass]);
+		
+	})
+	
+	
 })
 
 var nowClass = 0;
@@ -109,6 +150,8 @@ function findClassStu(page, year) {
 						+ ">" + (clas.lesson_name ? clas.lesson_name : "")
 						+ "</th>";
 			})
+			console.log(jsonData.classList);
+			console.log(headArr);
 			if (headHtml != '') {
 				headArr.push(headHtml);
 			}
@@ -165,7 +208,7 @@ function findClassStu(page, year) {
 			// $('#paginationStuList').show();
 			// $('.tipsWord').show();
 
-			$("#leftIconBtn").click(function() {
+			/*$("#leftIconBtn").click(function() {
 				if (nowClass == 0) {
 					return;
 				}
@@ -198,7 +241,10 @@ function findClassStu(page, year) {
 				$("#className").html(headArr[nowClass]);
 				$("#classListTbody").html(bodyArr[nowClass]);
 
-			})
+				console.log("page = "+nowClass)
+				console.log(headArr[nowClass]);
+				
+			})*/
 
 		},
 		complete : function(XMLHttpRequest, textStatus) {

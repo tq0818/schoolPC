@@ -582,7 +582,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         	//DecimalFormat decimalFormat=new DecimalFormat("0.0");
     		//return decimalFormat.format(f);
         	//格式化学习时长保留小数点一位
-        	vo.setStudyTime(new DecimalFormat("0.0").format(1.0*classTime/60));
+        	vo.setStudyTime(new DecimalFormat("0.0").format( (float)(Math.round(1.0*classTime/60*10))/10 ));
         	obj.put("info", vo);
         	
         	obj.put("list", lessonArr);

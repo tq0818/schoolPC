@@ -184,9 +184,19 @@
                             $("#flagL").val($('#liveFlag').val());
                             $("#subjectL").val($('#subject').val());
                             $("#eduSchoolL").val($('#eduSchool').val());
+
+                            $(".loading").show();
+                            $(".loading-bg").show();
+
                             $("#searchClassList").attr("action",
                                 rootPath + "/query/exportExcleCourse")
                                 .submit();
+
+                            setTimeout(function(){
+                                    $(".loading").hide();
+                                    $(".loading-bg").hide();
+                                },500
+                            );
                         }
                     }
             )

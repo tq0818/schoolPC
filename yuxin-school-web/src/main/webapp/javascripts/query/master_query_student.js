@@ -144,9 +144,19 @@ function masterFindClassStu(page, year) {
 							$("#flagL").val($('#liveFlag').val());
 							$("#subjectL").val($('#subject').val());
 							$("#eduSchoolL").val($('#eduSchool').val());
+
+                                $(".loading").show();
+                                $(".loading-bg").show();
+
 							$("#searchClassList").attr("action",
 									rootPath + "/query/exportExcleCourse")
 									.submit();
+                            setTimeout(function(){
+                                $(".loading").hide();
+                                $(".loading-bg").hide();
+								},500
+							);
+
 						}
 					})
 
@@ -216,10 +226,10 @@ function masterFindClassStu(page, year) {
 				}
 			});
 
-			$('.studentContent').show();
-			$('.studentNo').hide();
-			$('#paginationStuList').show();
-			$('.tipsWord').show();
+			// $('.studentContent').show();
+			// $('.studentNo').hide();
+			// $('#paginationStuList').show();
+			// $('.tipsWord').show();
 
 			$("#leftIconBtn").click(function() {
 				if (nowClass == 0) {

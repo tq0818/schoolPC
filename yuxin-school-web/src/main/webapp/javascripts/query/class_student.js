@@ -160,10 +160,10 @@ function findClassStu(page, year) {
 				}
 			});
 
-			$('.studentContent').show();
-			$('.studentNo').hide();
-			$('#paginationStuList').show();
-			$('.tipsWord').show();
+			// $('.studentContent').show();
+			// $('.studentNo').hide();
+			// $('#paginationStuList').show();
+			// $('.tipsWord').show();
 
 			$("#leftIconBtn").click(function() {
 				if (nowClass == 0) {

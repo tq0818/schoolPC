@@ -657,24 +657,32 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 			
 			if ("STEP_01".equals(step)) {
 				classType.setItemName("小%");
-				if (year - Integer.parseInt(eduYear) + needAdd <= 3) {
-					classType.setItemSecondName("TYPE_LOW");
-				} else if (year - Integer.parseInt(eduYear) + needAdd == 4) {
+				if (year - Integer.parseInt(eduYear) + needAdd == 1) {
+					classType.setItemSecondName("GRADE_ONE");
+				}else if (year - Integer.parseInt(eduYear) + needAdd ==2) {
+					classType.setItemSecondName("GRADE_SED");
+				} else if (year - Integer.parseInt(eduYear) + needAdd ==3) {
+					classType.setItemSecondName("GRADE_THREE");
+				}else if (year - Integer.parseInt(eduYear) + needAdd == 4) {
 					classType.setItemSecondName("GRADE_FOUR");
 				} else if (year - Integer.parseInt(eduYear) + needAdd == 5) {
 					classType.setItemSecondName("GRADE_FIVE");
-				} else {
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 6) {
 					classType.setItemSecondName("GRADE_SIX");
+				} else {
+					classType.setItemSecondName("");
 				}
 			} else if ("STEP_02".equals(step)) {
 				classType.setItemName("初%");
-				if (year - Integer.parseInt(eduYear) + needAdd <= 1) {
+				if (year - Integer.parseInt(eduYear) + needAdd == 1) {
 					classType.setItemSecondName("MID_ONE");
 				} else if (year - Integer.parseInt(eduYear) + needAdd == 2) {
 					classType.setItemSecondName("MID_SED");
 				} else if (year - Integer.parseInt(eduYear) + needAdd == 3) {
 					classType.setItemSecondName("MID_THREE");
-				} 
+				}else {
+					classType.setItemSecondName("");
+				}
 			} else if ("STEP_03".equals(step)) {
 				classType.setItemName("高%");
 				//classType.setItemSecondName("HIHER_ONE");
@@ -684,7 +692,9 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 					classType.setItemSecondName("HIHER_TWO");
 				} else if (year - Integer.parseInt(eduYear) + needAdd == 3) {
 					classType.setItemSecondName("HIHER_THREE");
-				} 
+				} else {
+					classType.setItemSecondName("");
+				}
 				
 			} else {
 				return null;

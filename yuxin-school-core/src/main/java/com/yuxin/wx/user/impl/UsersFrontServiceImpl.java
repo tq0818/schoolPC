@@ -534,9 +534,8 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         	if(null != temp){
         		//Integer flag = 0;
         		ClassLectureVO maplesson = map.get(Integer.valueOf(lessonVO.getLectureId()));
-        		if(1.0f*lessonVO.getLen()/maplesson.getVideoLen() >= 0.7){
-        			temp.put(""+maplesson.getId(), 1);
-        		}
+        		//判断是否完成观看,maplesson.getVideoLen() < 0 表示视频数据异常的
+        		temp.put(""+maplesson.getId(), (maplesson.getVideoLen() < 0 || 1.0f*lessonVO.getLen()/maplesson.getVideoLen() < 0.7 ) ?  0 : 1);
         		studyTemp.put(""+maplesson.getId(), lessonVO.getLen());
         	}else{
         		return getFaild();

@@ -40,8 +40,17 @@ public class ClassLectureVO implements Serializable{
 		
 		
 		String[] arr = this.video_time.split(":");
+		
 		try{
-			int len = Integer.valueOf(arr[0])*3600 + Integer.valueOf(arr[1])*60 + Integer.valueOf(arr[2]);
+			int len = 0;
+			switch(arr.length){
+			case 3:
+				len = Integer.valueOf(arr[0])*3600 + Integer.valueOf(arr[1])*60 + Integer.valueOf(arr[2]);
+			case 2:
+				len =  Integer.valueOf(arr[0])*60 + Integer.valueOf(arr[1]);
+			case 1:
+				len = Integer.valueOf(arr[0]);
+			}
 			this.videoLen = len;
 		}catch(Exception e){
 			System.out.println("====> Calculate videlLen failed when create ClassLectureVO with video_time =  "+this.video_time);

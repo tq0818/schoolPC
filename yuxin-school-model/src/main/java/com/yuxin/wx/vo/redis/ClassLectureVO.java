@@ -39,9 +39,10 @@ public class ClassLectureVO implements Serializable{
 		}
 		
 		
-		String[] arr = this.video_time.split(":");
-		
 		try{
+			
+			String[] arr = this.video_time.split(":");
+			
 			int len = 0;
 			switch(arr.length){
 			case 3:

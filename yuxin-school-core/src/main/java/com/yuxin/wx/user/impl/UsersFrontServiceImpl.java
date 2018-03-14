@@ -448,7 +448,7 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
         	}
         	
         	for(int i = 0;i<classList.size();i++){
-        		classList.get(i).setVideoLen(classList.get(i).getLiveLessonTime());
+        		classList.get(i).setVideoLen(classList.get(i).getLiveLessonTime() != null ? classList.get(i).getLiveLessonTime() : -1);
         	}
         	
         }

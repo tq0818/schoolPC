@@ -1034,7 +1034,8 @@
 		  AND ct.item_third_code =#{subject}
 		  AND sci.`item_name` LIKE #{itemName} 
 		  AND !ISNULL((cvl.id))  
-		ORDER BY cvl.create_time DESC
+		  AND !ISNULL(v.video_time) 
+		ORDER BY cvl.create_time DESC , cvl.id DESC 
 	</select>
 
 
@@ -1068,7 +1069,7 @@
 		 AND ct.item_third_code =#{subject}
 		 AND ct.company_id = #{companyId}
 		ORDER BY
-			ct.create_time DESC
+			ct.create_time DESC , cml.create_time DESC
 		
 	</select>
 

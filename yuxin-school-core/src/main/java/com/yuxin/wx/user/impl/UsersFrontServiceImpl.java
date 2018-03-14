@@ -654,35 +654,39 @@ public class UsersFrontServiceImpl extends BaseServiceImpl implements IUsersFron
 			int year = cal.get(Calendar.YEAR);
 			int month = cal.get(Calendar.MONTH) + 1;
 
+			int needAdd = month >= 9 ? 1 : 0;
+			
 			if ("STEP_01".equals(step)) {
 				classType.setItemName("小%");
-				if (month >= 9) {
-					if (year - Integer.parseInt(eduYear) + 1 <= 3) {
-						classType.setItemSecondName("TYPE_LOW");
-					} else if (year - Integer.parseInt(eduYear) + 1 == 4) {
-						classType.setItemSecondName("GRADE_FOUR");
-					} else if (year - Integer.parseInt(eduYear) + 1 == 5) {
-						classType.setItemSecondName("GRADE_FIVE");
-					} else {
-						classType.setItemSecondName("GRADE_SIX");
-					}
+				if (year - Integer.parseInt(eduYear) + needAdd <= 3) {
+					classType.setItemSecondName("TYPE_LOW");
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 4) {
+					classType.setItemSecondName("GRADE_FOUR");
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 5) {
+					classType.setItemSecondName("GRADE_FIVE");
 				} else {
-					if (year - Integer.parseInt(eduYear) <= 3) {
-						classType.setItemSecondName("TYPE_LOW");
-					} else if (year - Integer.parseInt(eduYear) == 4) {
-						classType.setItemSecondName("GRADE_FOUR");
-					} else if (year - Integer.parseInt(eduYear) == 5) {
-						classType.setItemSecondName("GRADE_FIVE");
-					} else {
-						classType.setItemSecondName("GRADE_SIX");
-					}
+					classType.setItemSecondName("GRADE_SIX");
 				}
 			} else if ("STEP_02".equals(step)) {
 				classType.setItemName("初%");
-				classType.setItemSecondName("MID_ONE");
+				if (year - Integer.parseInt(eduYear) + needAdd <= 1) {
+					classType.setItemSecondName("MID_ONE");
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 2) {
+					classType.setItemSecondName("MID_SED");
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 3) {
+					classType.setItemSecondName("MID_THREE");
+				} 
 			} else if ("STEP_03".equals(step)) {
 				classType.setItemName("高%");
-				classType.setItemSecondName("HIHER_ONE");
+				//classType.setItemSecondName("HIHER_ONE");
+				if (year - Integer.parseInt(eduYear) + needAdd <= 1) {
+					classType.setItemSecondName("HIHER_ONE");
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 2) {
+					classType.setItemSecondName("HIHER_TWO");
+				} else if (year - Integer.parseInt(eduYear) + needAdd == 3) {
+					classType.setItemSecondName("HIHER_THREE");
+				} 
+				
 			} else {
 				return null;
 			}

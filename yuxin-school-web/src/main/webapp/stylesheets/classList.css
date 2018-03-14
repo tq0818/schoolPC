@@ -16,20 +16,22 @@ background: #f2f2f2;font-weight: bold;}
 .rightIcon{right: 1.9%;}
 .leftIcon i,.rightIcon i{font-size: 20px;}
 .tableSecond tbody{display: table;}
-.classListTbody td{width:83px;}
+.classListTbody td{width: 122px;}
 .pages{padding-top: 20px;}
 .tableSecond th{
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    max-width: 83px;
-    min-width: 83px;
+    max-width: 122px;
+    min-width: 122px;
+    
 }
-@media screen and (min-width: 1920px){
+@media screen and (max-width: 1400px){
     .tableSecond th{
-        max-width: 122px;
-        min-width: 122px;
+        max-width: 83px;
+    	min-width: 83px;
     }
-    .classListTbody td{width: 122px;}
+    .classListTbody td{width:83px;}
+    
 }
 

@@ -618,7 +618,7 @@ public class StudentStatisticsController {
 	            if(null!=schools && schools.size()>0){
 		           	 SysConfigDict schoolName =new SysConfigDict();
 		           	 for(int i=0;i<schools.size();i++){
-		           		 if(uersAreaRelation.getEduSchool().equals(schools.get(i).getItemCode())){
+		           		 if(StringUtils.isNotBlank(uersAreaRelation.getEduSchool())&&uersAreaRelation.getEduSchool().equals(schools.get(i).getItemCode())){
 		           			 schoolName.setItemCode(uersAreaRelation.getEduSchool());
 		           			 schoolName.setItemValue(schools.get(i).getItemValue());
 		           			 break;

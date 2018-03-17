@@ -2,6 +2,8 @@ package com.yuxin.wx.model.user;
 
 import com.yuxin.wx.common.BaseEntity;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/10/11.
  */
@@ -22,6 +24,11 @@ public class UsersLoginFromOther extends BaseEntity{
     private String pwd;
     private String pwdS;
     private String userGuid;
+
+    private Date startDate;//学年开始时间
+    private Date endDate;//学年结束时间
+
+
 
     public String getUserGuid() {
         return userGuid;
@@ -136,5 +143,21 @@ public class UsersLoginFromOther extends BaseEntity{
 
     public void setSchoolId(Integer schoolId) {
         this.schoolId = schoolId;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

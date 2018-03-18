@@ -39,6 +39,9 @@
 						<button class="btns-default" id="exportData">导出数据</button>
 						<button class="btns-default" id="exportData2">导出课程</button>
 					</shiro:hasAnyRoles>
+					<shiro:hasAnyRoles name="运营">
+						<button class="btns-default" id="exportData2">导出课程</button>
+					</shiro:hasAnyRoles>
 				</p>
 				<div class="statistics-con">
 					<div class="demand-count" id="demandCount" style="width:100%;height: 380px;"></div>

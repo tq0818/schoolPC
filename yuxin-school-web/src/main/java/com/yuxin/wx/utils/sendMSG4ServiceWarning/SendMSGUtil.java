@@ -34,13 +34,13 @@ public class SendMSGUtil {
 	@Autowired
 	public void setSysUseRecordNoticTaskServiceImpl(ISysUseRecordNoticTaskService sysUseRecordNoticTaskServiceImpl) {
 		SendMSGUtil.sysUseRecordNoticTaskServiceImpl = sysUseRecordNoticTaskServiceImpl;
+
 	}
 	
 	private static ISysSmsLogService sysSmsLogServiceimpl;
 	@Autowired
 	public void setSysSmsLogServiceimpl(ISysSmsLogService sysSmsLogServiceimpl) {
 		SendMSGUtil.sysSmsLogServiceimpl = sysSmsLogServiceimpl;
-
 	}
 
 	/**

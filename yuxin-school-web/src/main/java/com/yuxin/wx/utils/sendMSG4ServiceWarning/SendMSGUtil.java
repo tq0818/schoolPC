@@ -40,6 +40,7 @@ public class SendMSGUtil {
 	@Autowired
 	public void setSysSmsLogServiceimpl(ISysSmsLogService sysSmsLogServiceimpl) {
 		SendMSGUtil.sysSmsLogServiceimpl = sysSmsLogServiceimpl;
+
 	}
 
 	/**

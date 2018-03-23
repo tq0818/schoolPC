@@ -3443,4 +3443,137 @@ public class StudentStatisticsController {
         return new ModelAndView(excel, map);
     }
 
+
+    @RequestMapping(value="/statistics/watchInfoListAdmin")
+    public String watchInfoListAdmin(Model model, HttpServletRequest request) throws Exception {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String endDate = sdf.format(c.getTime());
+        c.add(Calendar.MONTH,-1);
+        String startDate = sdf.format(c.getTime());
+        model.addAttribute("endDate",endDate);
+        model.addAttribute("startDate",startDate);
+        //权限判断
+        //Users user = WebUtils.getCurrentUser();
+        //UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        Subject subject = SecurityUtils.getSubject();
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+        if(subject.hasRole("学校负责人")) {
+            return "/query/query_student_watchInfo_Admin";
+        }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
+            model.addAttribute("role","all");
+        }else if(subject.hasRole("区县负责人")){
+            model.addAttribute("isArea",true);
+            SysConfigDict  search = new SysConfigDict();
+            search.setDictCode("EDU_STEP_NEW");
+            model.addAttribute("eduStep",sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+            model.addAttribute("role","area");
+        }else if(subject.hasRole("班主任")){
+            return "/query/query_student_school_watchInfo";
+        }else if(subject.hasRole("任课老师")){
+            return "/query/query_student_school_watchInfo";
+        }
+        return "/query/query_student_school_watchInfo_Admin";
+    }
+
+    @RequestMapping(value="/statistics/watchInfoCurrentCountAdmin")
+    public String watchInfoCurrentCountAdmin(Model model, HttpServletRequest request){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String endTime = sdf.format(c.getTime());
+        model.addAttribute("endTime",endTime);
+        c.add(Calendar.MONTH,-1);
+        String startTime  = sdf.format(c.getTime());
+
+        model.addAttribute("startTime",startTime);
+
+
+        List<SysConfigItemRelation> seconds = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1,WebUtils.getCurrentCompanyId());
+        model.addAttribute("secondItem",seconds);
+        //sysConfigItemRelationServiceImpl.findItem
+
+        return "/query/query_student_watchCurrentCount_Admin";
+    }
+
+    @RequestMapping(value="/statistics/videoCourseIndexAdmin")
+    public String videoCourseIndexAdmin(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        //查询区域的录播观看人数
+        Map<String, Object> papamMap = new HashMap<String, Object>();
+        papamMap.put("startTime", startTime);
+        papamMap.put("endTime", endTime);
+
+        return "/queVideo/videoCourseIndexAdmin";
+    }
+
+    @RequestMapping(value="/statistics/teacherVideoListAdmin")
+    public String teacherVideoListAdmin(Model model, HttpServletRequest request){
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
+
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP_NEW");
+        List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("stepNews", stepNews);
+
+        //学校所属学科
+        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());//查询学科
+        model.addAttribute("subjectItem", subjectItem);
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        return "/queVideo/queryTeacherVideoListAdmin";
+    }
+
+    @RequestMapping(value="/statistics/userVideoListAdmin")
+    public String userVideoListAdmin(Model model, HttpServletRequest request){
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
+
+        //查询学校所属学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP_NEW");
+        List<SysConfigDict> stepNews = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("stepNews", stepNews);
+
+        //年份列表
+        List<Integer> years = new ArrayList<Integer>();
+        int curYear = DateUtil.getCurYear();
+        for(int year = 0;year<12;year++){
+            years.add(curYear-year);
+        }
+        model.addAttribute( "years", years);
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        model.addAttribute("endTime" ,sdf.format(cal.getTime()));
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        model.addAttribute("startTime" ,sdf.format(cal.getTime()));
+        return "/queVideo/queryUserVideoListAdmin";
+    }
 }

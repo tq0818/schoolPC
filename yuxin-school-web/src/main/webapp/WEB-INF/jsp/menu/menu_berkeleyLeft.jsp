@@ -16,6 +16,21 @@
         <li class="subentry" code="getFirstItems" mark="/teacherManger/getFirstItems/${companyId}">老师管理</li>
         <li class="subentry" code="classQueryGetClassList" mark="/classQuery/getClassList/${companyId}">分校课程查询</li>
         <li class="subentry" code="getVideoResourceAndMessageStatistics" mark="/computingResource/getVideoResourceAndMessageStatistics/${companyId}">计算资源查询</li>
+        <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoListAdmin">
+            <p class="managelist-parent">直播统计</p>
+            <b class="arrow-bottom"><i class="bottom-arrow1"></i><i class="bottom-arrow2"></i></b>
+            <ul class="managelist-child">
+                <li class="item-child" code="watchInfoCurrentCoun" mark="/query/statistics/watchInfoCurrentCountAdmin" >— 直播课程并发</li>
+            </ul>
+        </li>
+        <li class="subentry" code="videoList" mark="/query/statistics/videoCourseIndexAdmin">
+            <p class="managelist-parent">点播统计</p>
+            <b class="arrow-bottom"><i class="bottom-arrow1"></i><i class="bottom-arrow2"></i></b>
+            <ul class="managelist-child">
+                <li class="item-child" code="teacherVideoList" mark="/query/statistics/teacherVideoListAdmin">教师授课详情</li>
+                <li class="item-child" code="userVideoList" mark="/query/statistics/userVideoListAdmin">用户点播统计</li>
+            </ul>
+        </li>
     </ul>
 </div>
 <script>

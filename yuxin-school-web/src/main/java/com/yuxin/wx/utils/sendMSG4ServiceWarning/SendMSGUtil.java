@@ -34,6 +34,7 @@ public class SendMSGUtil {
 	@Autowired
 	public void setSysUseRecordNoticTaskServiceImpl(ISysUseRecordNoticTaskService sysUseRecordNoticTaskServiceImpl) {
 		SendMSGUtil.sysUseRecordNoticTaskServiceImpl = sysUseRecordNoticTaskServiceImpl;
+
 	}
 	
 	private static ISysSmsLogService sysSmsLogServiceimpl;

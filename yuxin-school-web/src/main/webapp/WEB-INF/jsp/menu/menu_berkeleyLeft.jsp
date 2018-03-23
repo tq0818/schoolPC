@@ -16,7 +16,7 @@
         <li class="subentry" code="getFirstItems" mark="/teacherManger/getFirstItems/${companyId}">老师管理</li>
         <li class="subentry" code="classQueryGetClassList" mark="/classQuery/getClassList/${companyId}">分校课程查询</li>
         <li class="subentry" code="getVideoResourceAndMessageStatistics" mark="/computingResource/getVideoResourceAndMessageStatistics/${companyId}">计算资源查询</li>
-        <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoListAdmin">
+        <li class="subentry"  code="watchInfoList" mark="/query/statistics/watchInfoListAdmin/${companyId}">
             <p class="managelist-parent">直播统计</p>
             <b class="arrow-bottom"><i class="bottom-arrow1"></i><i class="bottom-arrow2"></i></b>
             <ul class="managelist-child">

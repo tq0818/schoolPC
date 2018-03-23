@@ -3444,8 +3444,8 @@ public class StudentStatisticsController {
     }
 
 
-    @RequestMapping(value="/statistics/watchInfoListAdmin")
-    public String watchInfoListAdmin(Model model, HttpServletRequest request) throws Exception {
+    @RequestMapping(value="/statistics/watchInfoListAdmin/{companyId}")
+    public String watchInfoListAdmin(Model model, HttpServletRequest request ,@PathVariable Integer companyId) throws Exception {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String endDate = sdf.format(c.getTime());
@@ -3458,9 +3458,9 @@ public class StudentStatisticsController {
         //UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
         Subject subject = SecurityUtils.getSubject();
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());
-        if(subject.hasRole("学校负责人")) {
+        //if(subject.hasRole("学校负责人")) {
             return "/query/query_student_watchInfo_Admin";
-        }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
+       /* }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
             model.addAttribute("role","all");
         }else if(subject.hasRole("区县负责人")){
             model.addAttribute("isArea",true);
@@ -3472,8 +3472,8 @@ public class StudentStatisticsController {
             return "/query/query_student_school_watchInfo";
         }else if(subject.hasRole("任课老师")){
             return "/query/query_student_school_watchInfo";
-        }
-        return "/query/query_student_school_watchInfo_Admin";
+        }*/
+      //  return "/query/query_student_school_watchInfo_Admin";
     }
 
     @RequestMapping(value="/statistics/watchInfoCurrentCountAdmin")

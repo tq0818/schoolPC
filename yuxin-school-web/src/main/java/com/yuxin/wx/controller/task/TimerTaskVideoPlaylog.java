@@ -203,20 +203,19 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
                 //计算观看比例
                 if(flag.equals("huikan")){
                     obj.setVideoLectrueId(lectureId);
-                    if((float)(watchLength/total)>=0.7){
+                    if((watchLength/(float)total)>=0.7){
                         obj.setVideoFlag(2);
                     }else{
                         obj.setVideoFlag(1);
                     }
                 } else if(flag.equals("weike")){
                     obj.setVideoLectrueWeikeId(lectureId);
-                    if((float)(watchLength/total)>=0.8){
+                    if((watchLength/(float)total)>=0.8){
                         obj.setVideoWeikeFlag(2);
                     }else{
                         obj.setVideoWeikeFlag(1);
                     }
                 }
-
                 sysKnowledgeTreeStatisticsServiceImpl.updateStatistics(obj);
             }else{
                 SysKnowledgeTreeStatistics obj = new SysKnowledgeTreeStatistics();
@@ -232,14 +231,14 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
                 obj.setLiveFlag(0);
                 if(flag.equals("huikan")){
                     obj.setVideoWeikeFlag(0);
-                    if((float)(watchLength/total)>=0.7){
+                    if((watchLength/(float)total)>=0.7){
                         obj.setVideoFlag(2);
                     }else{
                         obj.setVideoFlag(1);
                     }
                 } else if(flag.equals("weike")){
                     obj.setVideoFlag(0);
-                    if((float)(watchLength/total)>=0.8){
+                    if((watchLength/(float)total)>=0.8){
                         obj.setVideoWeikeFlag(2);
                     }else{
                         obj.setVideoWeikeFlag(1);
@@ -247,7 +246,6 @@ public class TimerTaskVideoPlaylog extends QuartzJobBean implements Serializable
                 }
                 sysKnowledgeTreeStatisticsServiceImpl.addStatistics(obj);
             }
-
         }
     }
 }

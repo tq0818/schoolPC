@@ -3444,6 +3444,17 @@ public class StudentStatisticsController {
     }
 
 
+
+
+    /*#####################################################分校直播#######################################################*/
+    /**
+     * 分校直播情况概况
+     * @param model
+     * @param request
+     * @param companyId
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value="/statistics/watchInfoListAdmin/{companyId}")
     public String watchInfoListAdmin(Model model, HttpServletRequest request,@PathVariable Integer companyId) throws Exception {
         Calendar c = Calendar.getInstance();
@@ -3459,7 +3470,7 @@ public class StudentStatisticsController {
         Subject subject = SecurityUtils.getSubject();
         model.addAttribute("isArea", WebUtils.getCurrentIsArea());
        /* if(subject.hasRole("学校负责人")) {*/
-            return "/query/query_student_watchInfo_Admin";
+        return "/query/query_student_watchInfo_Admin";
         /*}else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
             model.addAttribute("role","all");
         }else if(subject.hasRole("区县负责人")){
@@ -3476,6 +3487,7 @@ public class StudentStatisticsController {
         return "/query/query_student_school_watchInfo_Admin";*/
     }
 
+    //跳转到分校直播并发
     @RequestMapping(value="/statistics/watchInfoCurrentCountAdmin")
     public String watchInfoCurrentCountAdmin(Model model, HttpServletRequest request){
         Calendar c = Calendar.getInstance();
@@ -3495,6 +3507,238 @@ public class StudentStatisticsController {
         return "/query/query_student_watchCurrentCount_Admin";
     }
 
+    //分校直播情况概况
+    @RequestMapping(value="/statistics/watchInfoListAdmin")
+    public String watchInfoListAdmin(Model model, HttpServletRequest request) throws Exception {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String endDate = sdf.format(c.getTime());
+        c.add(Calendar.MONTH,-1);
+        String startDate = sdf.format(c.getTime());
+        model.addAttribute("endDate",endDate);
+        model.addAttribute("startDate",startDate);
+        //权限判断
+        //Users user = WebUtils.getCurrentUser();
+        //UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        Subject subject = SecurityUtils.getSubject();
+        model.addAttribute("isArea", WebUtils.getCurrentIsArea());
+        /*if(subject.hasRole("学校负责人")) {*/
+        return "/query/query_student_watchInfo_Admin";
+        /*}else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
+            model.addAttribute("role","all");
+        }else if(subject.hasRole("区县负责人")){
+            model.addAttribute("isArea",true);
+            SysConfigDict  search = new SysConfigDict();
+            search.setDictCode("EDU_STEP_NEW");
+            model.addAttribute("eduStep",sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+            model.addAttribute("role","area");
+        }else if(subject.hasRole("班主任")){
+            return "/query/query_student_school_watchInfo";
+        }else if(subject.hasRole("任课老师")){
+            return "/query/query_student_school_watchInfo";
+        }
+        return "/query/query_student_watchInfo";*/
+    }
+
+    //分校直播情况详情
+    @RequestMapping(value="/statistics/studentWatchInfoListAdmin")
+    public String studentWatchInfoListAdmin(Model model, HttpServletRequest request) throws Exception {
+        // 查询课程的多课程单元和多班号功能
+        CompanyFunctionSet search = new CompanyFunctionSet();
+        search.setFunctionCode("COMPANY_FUNCTION_COURSE");
+        search.setCompanyId(WebUtils.getCurrentCompanyId());
+        //查询学校所在区域
+        SysConfigDict areaDict = new SysConfigDict();
+        areaDict.setDictCode("EDU_SCHOOL_AREA");
+
+        List<SysConfigDict> areas = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
+        model.addAttribute("areas", areas);
+        //查询学段
+        SysConfigDict stepDict = new SysConfigDict();
+        stepDict.setDictCode("EDU_STEP");
+
+        List<SysConfigDict> steps = sysConfigDictServiceImpl.queryConfigDictListByDictCode(stepDict);
+        model.addAttribute("steps", steps);
+        // 学员分组
+        CompanyFunctionSet companyFunctionSet = new CompanyFunctionSet();
+        companyFunctionSet.setCompanyId(WebUtils.getCurrentCompanyId());
+        companyFunctionSet.setFunctionCode("STUDENT_GROUP");
+        List<CompanyFunctionSet> companyFunctionSetList = companyFunctionSetServiceImpl.findCompanyFunctionSetByPage(companyFunctionSet);
+        if (companyFunctionSetList != null && companyFunctionSetList.size() > 0) {
+            model.addAttribute("sgOpen", companyFunctionSetList.get(0).getStatus());
+        }
+
+        // 查看该机构学员地址信息配置功能
+        search.setFunctionCode("STUDENT_ADDRESS_INFO");
+        CompanyFunctionSet address = companyFunctionSetServiceImpl.findCompanyUseCourse(search);
+        if (address != null && "1".equals(address.getStatus())) {
+            model.addAttribute("address", 1);
+        } else {
+            model.addAttribute("address", 0);
+        }
+
+        CompanyFunctionSet userorg_roleopenflag = WebUtils.getFunctionSet("USERORG_ROLEOPENFLAG");
+        model.addAttribute("userorg_roleopenflag", userorg_roleopenflag==null?0:userorg_roleopenflag.getStatus());
+        SysConfigItem item = new SysConfigItem();
+        item.setParentCode("SUBJECT");
+        item.setCompanyId(WebUtils.getCurrentCompanyId());
+        item.setSchoolId(WebUtils.getCurrentSchoolId());
+        List<SysConfigItem> items = sysConfigItemService.findByParentCode(item);
+        model.addAttribute("subject", items);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        model.addAttribute("endTime",sdf.format(c.getTime()));
+        c.add(Calendar.MONTH,-1);
+        model.addAttribute("startTime",sdf.format(c.getTime()));
+
+
+        UsersAreaRelation uersAreaRelation=new UsersAreaRelation();
+        Subject subject = SecurityUtils.getSubject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if( subject.hasRole("班主任")){
+            uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
+            int userId=WebUtils.getCurrentUserId(request);
+            EduMasterClass etc=new EduMasterClass();
+            etc.setUserId(String.valueOf(userId));
+            List<EduMasterClass> list=studentServiceImpl.findClassByTeacherId(etc,WebUtils.getCurrentCompany().getEduAreaSchool());
+            if(null!=list && list.size()>0){
+                String eduStep=list.get(0).getEduStep();
+                String eduYear=list.get(0).getEduYear();
+                String eduClass=list.get(0).getEduClass();
+                model.addAttribute("eduStep", eduStep);
+                if("STEP_01".equals(eduStep)){
+                    model.addAttribute("eduStepName", "小学");
+                }else if("STEP_02".equals(eduStep)){
+                    model.addAttribute("eduStepName", "初中中学");
+                }else{
+                    model.addAttribute("eduStepName", "高中中学");
+                }
+                model.addAttribute("eduYear", eduYear);
+                model.addAttribute("eduClass", eduClass);
+                model.addAttribute("roles", "2");//2表示教师
+            }
+        }else if(subject.hasRole("任课老师")){
+            EduMasterClass ets =new EduMasterClass();
+            ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+            ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+            ets.setEduStep("1");
+            List<EduMasterClass> eduStepGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
+            ets.setEduStep("");
+            ets.setEduYear("1");
+            List<EduMasterClass> eduYearGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
+            ets.setEduYear("");
+            ets.setEduClass("1");
+            List<EduMasterClass> eduClassGLY=studentServiceImpl.findSubjectClassByTeacherId(ets);
+            model.addAttribute("eduStep", eduStepGLY);
+            model.addAttribute("eduYear", eduYearGLY);
+            model.addAttribute("eduClass", eduClassGLY);
+            uersAreaRelation=usersServiceImpl.findUsersAreaRelationR(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
+            model.addAttribute("roles", "3");//2表示教师
+        }else{
+            uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+        }
+        if(uersAreaRelation==null){
+            model.addAttribute("role","all");
+        }else{
+
+            if(subject.hasRole("学校负责人")) {
+                model.addAttribute("role","school");
+                model.addAttribute("area",uersAreaRelation.getEduArea());
+                model.addAttribute("eduSchool",uersAreaRelation.getEduSchool());
+            }else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
+                // map.put("areaId",uersAreaRelation.getE);
+//                map.put("groupBy","edu_area");
+                model.addAttribute("role","all");
+            }else if(subject.hasRole("区县负责人")){
+//                map.put("areaId",uersAreaRelation.getEduArea());
+//                map.put("groupBy","edu_school");
+                model.addAttribute("role","area");
+                model.addAttribute("area",uersAreaRelation.getEduArea());
+                SysConfigDict dic  = new SysConfigDict();
+                dic.setItemCode(uersAreaRelation.getEduArea());
+                model.addAttribute("areaId", sysConfigDictServiceImpl.findSysConfigDictByCode(dic).getId());
+                model.addAttribute("schoolType", sysConfigDictServiceImpl.findByDicCode("EDU_STEP_NEW"));
+            }else if(subject.hasRole("班主任")){
+                model.addAttribute("role","school");
+            }else if(subject.hasRole("任课老师")){
+                model.addAttribute("role","school");
+            }
+        }
+
+        return "/query/query_student_watchList_Admin";
+    }
+
+    //分校直播观看总人数
+    @RequestMapping(value="/statistics/watchInfoTotalAamin")
+    @ResponseBody
+    public Map<String,Object> watchInfoTotalAamin(String startDate,String endDate,Model model, HttpServletRequest request,String eduStep) throws Exception{
+        Users user = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = usersServiceImpl.findUsersAreaRelation(user.getId());
+        Map<String,Object> map = new HashMap<>();
+        map.put("eduStep",eduStep);
+        if(uersAreaRelation==null){
+            map.put("groupBy","edu_area");
+        }else{
+
+            Subject subject = SecurityUtils.getSubject();
+            /*if(subject.hasRole("学校负责人")) {*/
+            map.put("eduSchool",uersAreaRelation.getEduSchool());
+            map.put("groupBy","edu_year");
+            /*}else if(subject.hasRole("教科院") || subject.hasRole("文轩教育")){
+                // map.put("areaId",uersAreaRelation.getE);
+                map.put("groupBy","edu_area");
+            }else if(subject.hasRole("区县负责人")){
+                map.put("eduArea",uersAreaRelation.getEduArea());
+                map.put("groupBy","edu_school");
+            }*/
+        }
+        map.put("endDate",endDate);
+        map.put("startDate",startDate);
+        map.put("companyId", WebUtils.getCurrentCompanyId());
+        List<Map> index = studentStatisticsServiceImpl.getWatchInfoIndex(map);
+        List<Map> all =   studentStatisticsServiceImpl.getWatchInfoAll(map);
+        Map<String,Object> result = new HashMap<>();
+        if(index.size()>0&&index.get(0)!=null){
+            result.put("index",index.get(0).get("times"));
+        }else{
+            result.put("index",0);
+        }
+        if(all.size()>0&&all.get(0)!=null){
+            result.put("all",all.get(0).get("times"));
+        }else{
+            result.put("all",0);
+        }
+        return result;
+    }
+
+    //分校直播并发异步列表
+    @ResponseBody
+    @RequestMapping(value="/statistics/queryStudentsWatchInfoCountCurrentAdmin")
+    public Map queryStudentsWatchInfoCountCurrentAdmin(
+            String startDate,String endDate,String secondItemCode,String itemThirdCode,
+            String comId,String lesson,Integer page,String orderBy, HttpServletRequest request){
+
+        Map<String,Object> map  = new HashMap<>();
+        map.put("startDate",startDate);
+        map.put("endDate",endDate);
+        map.put("secondItemCode",secondItemCode);
+        map.put("itemThirdCode",itemThirdCode);
+        map.put("comId",comId);
+        map.put("lesson",lesson);
+        map.put("firstPage",(page-1)*10);
+        map.put("page",page);
+        map.put("pageSize",10);
+        map.put("orderBy",orderBy);
+        map.put("companyId",WebUtils.getCurrentCompanyId());
+
+        PageFinder2<Map> list =studentStatisticsServiceImpl.queryStudentsWatchInfoCountCurrent(map);
+
+        Map<String,Object> result = new HashMap<>();
+        result.put("pageFinder",list);
+
+        return result;
+    }
+    /*#####################################################分校点播#################################################*/
     @RequestMapping(value="/statistics/videoCourseIndexAdmin")
     public String videoCourseIndexAdmin(Model model, HttpServletRequest request) throws Exception {
         Users loginUser = WebUtils.getCurrentUser(request);
@@ -3576,4 +3820,195 @@ public class StudentStatisticsController {
         model.addAttribute("startTime" ,sdf.format(cal.getTime()));
         return "/queVideo/queryUserVideoListAdmin";
     }
+
+    //点播统计详情(观看比例)
+    @RequestMapping(value="/statistics/queryVideoCourseDailyAdmin")
+    @ResponseBody
+    public JSONObject queryVideoCourseDailyAdmin(HttpServletRequest request, String startTime, String endTime,Integer classId, String className) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        if(classId == null && StringUtils.isBlank(className)){
+            CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
+            long nowtime = System.currentTimeMillis()/1000L;
+            StringBuffer a = new StringBuffer("end_date="+ endTime);
+            a.append("&start_date=" + startTime);
+            a.append("&userid=" + companyPayConfig.getCcUserId());
+            a.append("&time="+nowtime);
+            String infoUrl = a.toString();
+            a.append("&salt=" + companyPayConfig.getCcApiKey());
+            System.out.println(MD5.getMD5(a.toString()));
+            infoUrl+="&hash="+MD5.getMD5(a.toString());
+            // 创建一个数值格式化对象
+            String result = HttpPostRequest.get(CCVideoConstant.CC_ATTENTION_VIDEO_USER_DAILY + infoUrl);
+            System.out.println("请求地址：" + CCVideoConstant.CC_ATTENTION_VIDEO_USER_DAILY + infoUrl);
+            System.out.println("接口返回参数："+ result);
+            if(StringUtils.isNotBlank(result)){
+                JSONObject resultJson = JSONObject.parseObject(result);
+                if(resultJson.get("attentions")!=null){
+                    resultJson = (JSONObject) resultJson.get("attentions");
+                    if(resultJson.get("attention")!=null){
+                        List<Map<String, Object>>list = (List<Map<String, Object>>) resultJson.get("attention");
+                        Collections.sort(list, new Comparator<Map<String, Object>>(){
+                            /*
+                             * int compare(Student o1, Student o2) 返回一个基本类型的整型，
+                             * 返回负数表示：o1 小于o2，
+                             * 返回0 表示：o1和o2相等，
+                             * 返回正数表示：o1大于o2。
+                             */
+                            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                                String o1section = (String) o1.get("section");
+                                String o2section = (String) o2.get("section");
+                                return o1section.compareToIgnoreCase(o2section);
+                            }
+                        });
+                        System.out.println("排序后："+list);
+                        jsonObject.put("attentions", list);
+                    }
+                }
+            }
+        }else{
+            Map<String, Object> papamMap = new HashMap<String, Object>();
+            papamMap.put("classId", classId);
+            papamMap.put("className",className);
+            Map<String, Object> video = sysPlayLogsServiceImpl.queryVideo(papamMap);
+            if(video!=null){
+                CompanyPayConfig companyPayConfig = companyPayConfigServiceImpl.findByCompanyId(loginUser.getCompanyId());
+                long nowtime = System.currentTimeMillis()/1000L;
+                StringBuffer a = new StringBuffer("end_date="+ endTime);
+                a.append("&start_date=" + startTime);
+                a.append("&userid=" + companyPayConfig.getCcUserId());
+                a.append("&videoid=" + video.get("video_cc_id"));
+                a.append("&time="+nowtime);
+                String infoUrl = a.toString();
+                a.append("&salt=" + companyPayConfig.getCcApiKey());
+                System.out.println(MD5.getMD5(a.toString()));
+                infoUrl+="&hash="+MD5.getMD5(a.toString());
+                // 创建一个数值格式化对象
+                String result = HttpPostRequest.get(CCVideoConstant.CC_ATTENTION_VIDEO_DAILY + infoUrl);
+                System.out.println("请求地址：" + CCVideoConstant.CC_ATTENTION_VIDEO_DAILY + infoUrl);
+                System.out.println("接口返回参数："+ result);
+                if(StringUtils.isNotBlank(result)){
+                    JSONObject resultJson = JSONObject.parseObject(result);
+                    if(resultJson.get("attentions")!=null){
+                        resultJson = (JSONObject) resultJson.get("attentions");
+                        if(resultJson.get("attention")!=null){
+                            List<Map<String, Object>>list = (List<Map<String, Object>>) resultJson.get("attention");
+                            Collections.sort(list, new Comparator<Map<String, Object>>(){
+                                /*
+                                 * int compare(Student o1, Student o2) 返回一个基本类型的整型，
+                                 * 返回负数表示：o1 小于o2，
+                                 * 返回0 表示：o1和o2相等，
+                                 * 返回正数表示：o1大于o2。
+                                 */
+                                public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                                    String o1section = (String) o1.get("section");
+                                    String o2section = (String) o2.get("section");
+                                    return o1section.compareToIgnoreCase(o2section);
+                                }
+                            });
+                            System.out.println("排序后："+list);
+                            jsonObject.put("attentions", list);
+                        }
+                    }
+                }
+            }
+        }
+
+        return jsonObject;
+    }
+
+    //分校教师授课详情
+    @ResponseBody
+    @RequestMapping(value = "/queryTeacherCourseListAdmin")
+    public PageFinder<VideoCourseVo> queryTeacherCourseListAdmin(VideoCourseVo videoCourseVo) {
+        videoCourseVo.setCompanyId(WebUtils.getCurrentCompanyId());
+        // 分页调整
+        if (videoCourseVo.getPageSize() == null) {
+            videoCourseVo.setPageSize(10);
+        }
+
+        PageFinder<VideoCourseVo> pageFinder = sysPlayLogsServiceImpl.queryVideoCoursePage(videoCourseVo);
+        return pageFinder;
+    }
+
+    //分校用户点播统计
+    @ResponseBody
+    @RequestMapping(value = "/queryUserVideoListAdmin")
+    public PageFinder<UserVideoVo> queryUserVideoListAdmin(UserVideoVo userVideoVo, HttpServletRequest request) {
+        userVideoVo.setCompanyId(WebUtils.getCurrentCompanyId());
+        // 分页调整
+        if (userVideoVo.getPageSize() == null) {
+            userVideoVo.setPageSize(10);
+        }
+        Users loginUser = WebUtils.getCurrentUser();
+        UsersAreaRelation uersAreaRelation = null;
+        Subject subject = SecurityUtils.getSubject();
+      /*  if(subject.hasRole("区县负责人")){
+            uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+            if(uersAreaRelation!=null){
+                userVideoVo.setEduArea(uersAreaRelation.getEduArea());
+            }
+        }else if(subject.hasRole("学校负责人")) {*/
+            uersAreaRelation = usersServiceImpl.findUsersAreaRelation(loginUser.getId());
+            if(uersAreaRelation!=null){
+                userVideoVo.setEduArea(uersAreaRelation.getEduArea());
+                userVideoVo.setEduSchool(uersAreaRelation.getEduSchool());
+           /* }
+        }else if(subject.hasRole("班主任")||subject.hasRole("任课老师")){
+            uersAreaRelation=usersServiceImpl.findUsersAreaRelationT(loginUser.getId(),WebUtils.getCurrentCompany().getEduAreaSchool());
+            if(uersAreaRelation!=null){
+                userVideoVo.setEduArea(uersAreaRelation.getEduArea());
+                userVideoVo.setEduSchool(uersAreaRelation.getEduSchool());
+            }
+            List<EduMasterClass> list=null;
+            if(subject.hasRole("班主任")){
+                EduMasterClass etc=new EduMasterClass();
+                etc.setUserId(String.valueOf(loginUser.getId()));
+                list=studentServiceImpl.findClassByTeacherId(etc,WebUtils.getCurrentCompany().getEduAreaSchool());
+            }else if(subject.hasRole("任课老师")){
+                EduMasterClass ets =new EduMasterClass();
+                ets.setUserId(String.valueOf(WebUtils.getCurrentUserId(request)));
+                ets.setEduSchool(WebUtils.getCurrentCompany().getEduAreaSchool());
+                ets.setEduYear("");
+                ets.setEduClass("1");
+                list=studentServiceImpl.findSubjectClassByTeacherId(ets);
+            }
+            userVideoVo.setEduMasterClass(list);*/
+        }
+        PageFinder<UserVideoVo> pageFinder = sysPlayLogsServiceImpl.queryUserVideoPage(userVideoVo);
+        return pageFinder;
+    }
+
+    //分校点播情况详情
+    @RequestMapping(value="/statistics/videoCourseDetailAdmin")
+    public String videoCourseDetailAdmin(Model model, HttpServletRequest request) throws Exception {
+        Users loginUser = WebUtils.getCurrentUser(request);
+        if(loginUser==null || loginUser.getId()==null){
+            throw new Exception("数据出现异常，请联系管理员！");
+        }
+
+        //计算时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        String endTime = sdf.format(cal.getTime());
+        model.addAttribute("endTime" ,endTime);
+        cal.add(Calendar.DAY_OF_MONTH, -6);
+        String startTime = sdf.format(cal.getTime());
+        model.addAttribute("startTime" ,startTime);
+
+        //学校所属学科
+        List<SysConfigItemRelation> subjectItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(2,WebUtils.getCurrentCompanyId());//查询学科
+        model.addAttribute("subjectItem", subjectItem);
+
+        //学校所属学段
+        List<SysConfigItemRelation> stepItem = sysConfigItemRelationServiceImpl.findItemFrontByLevel(1,WebUtils.getCurrentCompanyId());//查询学段
+        model.addAttribute("stepItem", stepItem);
+
+        return "/queVideo/videoCourseDetailAdmin";
+    }
+
 }

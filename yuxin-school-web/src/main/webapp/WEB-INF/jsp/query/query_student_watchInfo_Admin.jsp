@@ -42,8 +42,8 @@
 				<div class="content-right">
 					<form id="searchForm">
 						<p class="screen-info" style="margin-bottom: 20px;">
-							<a href="/query/statistics/watchInfoList" class="btn active">概况</a>
-							<a href="/query/statistics/studentWatchInfoList" class="btn">详情</a>
+							<a href="/query/statistics/watchInfoListAdmin" class="btn active">概况</a>
+							<a href="/query/statistics/studentWatchInfoListAdmin" class="btn">详情</a>
 							<span class="pull-right">
 								<c:if test="${isArea}">
 									<select class="select-box" id="eduStep" name="eduStep">

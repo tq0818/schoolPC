@@ -17,10 +17,12 @@ public class ParameterUtil {
 	 * @return
 	 */
 	public static Boolean isMobilePhone(String str){
-		Pattern pattern = Pattern.compile("^09[0-9]{8}|[1][3,4,5,7,8][0-9]{9}$");
+		Pattern pattern = Pattern.compile("^09[0-9]{8}|[1][3,4,5,6,7,8,9][0-9]{9}$");
 		Matcher matcher = pattern.matcher(StringUtils.trim(str));
 		return matcher.matches();
 	}
+	
+	
 	
 	
 	public static Boolean isEmail(String str){
@@ -69,6 +71,10 @@ public class ParameterUtil {
 		String str="李四";
 		System.out.println(str.length());
 		System.out.println(isChinese("张三3_"));
+		
+		String tel = "13800138000";
+		System.out.println(isMobilePhone(tel));
+		
 	}
 
 	public static String GenseeMd5(Integer userId,Integer lessonId,Integer companyId

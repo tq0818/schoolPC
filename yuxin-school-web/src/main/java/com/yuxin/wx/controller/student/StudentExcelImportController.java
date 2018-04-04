@@ -318,6 +318,7 @@ public class StudentExcelImportController {
 			String flag = getCompanyRegisterFlag();					/* 机构注册方式 */
 			for (int i = list.size() - 1; i >= 0; i--) {			/* 倒叙，保留第一个*/
 				List<String> error = new ArrayList<String>();
+				
 				switch (flag) {
 					case "mobile":
 						/* 手机号 */

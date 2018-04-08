@@ -108,7 +108,7 @@
 				    </div>
 			    </div>
 			    <div class="infos-tips clear">
-			        <p><span class="price">￥ ${allCommdotity.realPrice }</span><del>${allCommdotity.originalPrice }</del><span style="float:right; color: gray;font-size: 10px;">${allCommdotity.actualNum }人学习</span></p>
+			        <p><span class="price">￥ ${allCommdotity.strRealPrice }</span><del>${allCommdotity.strOriginalPrice }</del><span style="float:right; color: gray;font-size: 10px;">${allCommdotity.actualNum }人学习</span></p>
 			    </div>
 		        <div class="course-sort">
 		        	<label for="" class="sort-txt">学科课程排序：</label>

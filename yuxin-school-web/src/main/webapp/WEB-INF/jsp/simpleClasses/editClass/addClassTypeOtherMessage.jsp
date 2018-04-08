@@ -106,14 +106,16 @@
                     		<input id="prices" class="prices" name="originalPrice" type="text"><sb>*</sb>
                     	</c:when>
                     	<c:otherwise>
-                    		<input type="text" name="originalPrice" id="prices" class="prices" value="${classType.originalPrice }"><sb>*</sb>
+                    		<%--<input type="text" name="originalPrice" id="prices" class="prices" value="${classType.originalPrice }"><sb>*</sb>--%>
+                            <input type="text" name="originalPrice" id="prices" class="prices" value="${originalPrice }"><sb>*</sb>
                     	</c:otherwise>
                     </c:choose>
                     </span>
                 </p>
                 <p class="c">
                     <span class="c-title">优惠价</span>
-                    <span class="c-content"><input name="realPrice" type="text" class="prices" id="realPrice" value="${classType.realPrice }"><sb>*</sb></span>
+                    <%--<span class="c-content"><input name="realPrice" type="text" class="prices" id="realPrice" value="${classType.realPrice }"><sb>*</sb></span>--%>
+                    <span class="c-content"><input name="realPrice" type="text" class="prices" id="realPrice" value="${realPrice }"><sb>*</sb></span>
                 </p>
                 <%@include file="/WEB-INF/jsp/classType/common_member_integral.jsp" %>
                  <p class="c">

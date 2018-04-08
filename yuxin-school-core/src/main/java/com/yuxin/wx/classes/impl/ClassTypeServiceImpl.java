@@ -1,5 +1,6 @@
 package com.yuxin.wx.classes.impl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -330,8 +331,8 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 		map.put("classType",search);
 		map.put("codes",codes);
 		data=classTypeMapper.queryClassTypesByPage(map);
-		
-	
+
+
 			for(ClassTypeVo comm:data)
 			{
 			Integer videoFlag=comm.getVideoFlag();
@@ -350,7 +351,10 @@ public class ClassTypeServiceImpl extends BaseServiceImpl implements IClassTypeS
 			if(remoteFlag==null){
 				comm.setRemoteFlag(0);
 			}
-		}
+				DecimalFormat df=new DecimalFormat("0.00");
+				comm.setStrOriginalPrice( df.format(comm.getOriginalPrice()));
+				comm.setStrRealPrice( df.format(comm.getRealPrice()));
+			}
 		int rowCount=classTypeMapper.queryCounts(map);
 		PageFinder<ClassTypeVo> pageFinder=new PageFinder<ClassTypeVo>(search.getPage(), search.getPageSize(), rowCount, data);
 		return pageFinder;

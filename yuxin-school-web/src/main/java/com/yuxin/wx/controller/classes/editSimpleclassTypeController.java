@@ -1,5 +1,6 @@
 package com.yuxin.wx.controller.classes;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -115,6 +116,13 @@ public class editSimpleclassTypeController {
         map.put("classId", "" + ct.getId());
         map.put("companyId",""+WebUtils.getCurrentCompanyId());
         ClassTypeVo classType = this.classTypeServiceImpl.findClassTypeDetail(map);
+//       价格转换两位数
+        DecimalFormat df   = new DecimalFormat("######0.00");
+        String originalPrice=df.format(classType.getOriginalPrice());
+        String realPrice=df.format(classType.getRealPrice());
+        model.addAttribute("originalPrice",originalPrice);
+        model.addAttribute("realPrice",realPrice);
+        
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");
@@ -225,6 +233,13 @@ public class editSimpleclassTypeController {
         map.put("classId", "" + id);
         map.put("companyId",""+WebUtils.getCurrentCompanyId());
         ClassTypeVo classType = this.classTypeServiceImpl.findClassTypeDetail(map);
+        //价格转换
+        DecimalFormat df   = new DecimalFormat("######0.00");
+        String originalPrice=df.format(classType.getOriginalPrice());
+        String realPrice=df.format(classType.getRealPrice());
+        model.addAttribute("originalPrice",originalPrice);
+        model.addAttribute("realPrice",realPrice);
+
         model.addAttribute("classType", classType);
         model.addAttribute("ct", classType);
         model.addAttribute("type", "update");

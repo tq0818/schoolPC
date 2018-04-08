@@ -54,16 +54,22 @@
 						<h2 class="h5 active">学员列表</h2>
 						<i class="markTitle"></i>
 						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5  studentReview" >学员审核</h2>
 					</c:if>
 					<c:if test="${role==2}">
 						<h2 class="h5 active">用户列表</h2>
 						<i class="markTitle"></i>
 						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5  studentReview" >学员审核</h2>
 					</c:if>
 					<c:if test="${role!=1 and role != 2}">
 						<h2 class="h5 active">${school.itemValue}学员列表</h2>
 						<i class="markTitle"></i>
 						<h2 class="h5 studentListTitle " >班级学生列表</h2>
+						<i class="markTitle"></i>
+						<h2 class="h5  studentReview" >学员审核</h2>
 					</c:if>
 					<%--<h2 class="h5 active">${school.itemValue}学员列表</h2>
 					<i class="markTitle"></i>
@@ -284,6 +290,71 @@
 							<img src="<%=rootPath%>/images/studentNew.jpg" alt="" style="margin-top: 150px;">
 						</div>
 						<div id="paginationStuList" class="pages pagination"></div>
+					</div>
+				</div>
+				<div class="studentReviewContent">
+					<form  style="display: block;">
+						<div>
+							<input type="text"   placeholder="手机号">
+							<input type="text"   placeholder="姓名">
+							<select  name="eduStep" style="width:150px;">
+								<option value="">请选择学段</option>
+								<option value="STEP_01">小学</option>
+								<option value="STEP_02">初中中学</option>
+								<option value="STEP_03">高中中学</option>
+							</select>
+							<select  name="eduYear" style="width:150px;">
+								<option value="">请选择入学年份</option>
+								<option value="2018">2018年</option>
+								<option value="2017">2017年</option>
+								<option value="2016">2016年</option>
+							</select>
+							<select  name="eduClass" style="width:150px;">
+								<option value="">请选择班级</option>
+								<option value="1">1班</option>
+							</select>
+						</div>
+						<div style="margin-top: 10px;">
+							<span>创建时间</span>
+							<span>
+								<input type="text" name="startTime" class="date-picker from">
+								<em>到</em>
+								<input type="text" name="endTime" class="date-picker to">
+							</span>
+							<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+							<span class="fr">
+								<a href="javascript:;" class="btn btn-primary" >批量审批</a>
+							</span>
+						</div>
+					</form>
+					<div  style="display: block;">
+						<table class="table table-center" >
+							<tbody>
+								<tr>
+									<th width="5%"><input type="checkbox"></th>
+									<th width="5%">手机号</th>
+									<th width="5%">用户名</th>
+									<th width="3%">姓名</th>
+									<th width="9%">学段</th>
+									<th width="7%">所在班级</th>
+									<th width="5%">创建时间</th>
+									<th width="11%">操作</th>
+								</tr>
+								<tr>
+									<td><input type="checkbox"></td>
+									<td>15184432637</td>
+									<td>sdaw</td>
+									<td>夏欣月</td>
+									<td>小学</td>
+									<td>2017年4班</td>
+									<td>2018-02-07</td>
+									<td>
+										<a href="javascript:void(0);" class="btn btn-mb btn-primary">通过</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="pages pagination" ></div>
 					</div>
 				</div>
 			</div>
@@ -859,28 +930,26 @@ $('.heading h2').click(function(){
         //点击的是学员列表
         $('.studentListContent').show();
         $('.classListContent').hide();
-    }else {
+        $('.studentReviewContent').hide();
+
+    }else if($(this).index()==2){
         //点击的是班级学生列表
         $('.studentListContent').hide();
         $('.classListContent').show();
+        $('.studentReviewContent').hide();
+
         //根据列表的高度设置切换按钮的高度
         var tableHeight = $('#stuListTbody').height()+'px';
         $('.changeIcon').css('height',tableHeight).css('line-height',tableHeight).css('margin-top','77px');
 //		$('.classNo').css('height',($('.tableFirst').height()-2)+'px');
-    }
+    }else if($(this).index()==4){
+        //点击的是学员审核
+        $('.studentListContent').hide();
+        $('.classListContent').hide();
+        $('.studentReviewContent').show();
+
+	}
 });
-
-
-/* $('.leftIcon').click(function(){
-    $('.tableSecond').html("");
-    $('.tableSecond').append(contentHtml);
-});
-
-//点击下一页
-$('.rightIcon').click(function(){
-    $('.tableSecond').html("");
-    $('.tableSecond').append(contentHtml);
-}); */
 </script>
 </body>
 </html>

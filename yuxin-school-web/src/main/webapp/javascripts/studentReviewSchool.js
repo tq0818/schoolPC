@@ -55,11 +55,12 @@ $(function () {
         })
     });
 
+
     //分页
-    $(".pagination").pagination(23, {
+    $(".paginationNew").pagination(23, {
         next_text : "下一页",
         prev_text : "上一页",
-        current_page :'1',
+        current_page :'2',
         link_to : "javascript:void(0)",
         num_display_entries : 8,
         items_per_page : '8',
@@ -74,6 +75,19 @@ $(function () {
     // $('.loading').show();
     // $('.loading-bg').show();
 
+    //头部切换
+    $('.heading').children('h2').click(function () {
+        $(this).addClass('active');
+        $(this).siblings('h2').removeClass('active');
+        if($(this).index()==0){
+            $('.studentListAll').show();
+            $('.studentReviewContent').hide();
+        }else if($(this).index()==2){
+            $('.studentListAll').hide();
+            $('.studentReviewContent').show();
+        }
+
+    });
 
 
 

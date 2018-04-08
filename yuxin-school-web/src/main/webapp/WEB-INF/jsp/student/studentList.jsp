@@ -17,6 +17,13 @@
    	}
 	.u-wrap .mainbackground{height: 800px;}
 	.updateStudentPopup{top: 20% !important;}
+	.h5{display: inline-block;margin-right: 10px;cursor: pointer;color: #cccccc;}
+	h2.active{color: #6b6b6b;}
+	.markTitle{height: 20px;width: 3px;display: inline-block;background: #fa6900;position: absolute;}
+	.heading{border-left: none;position: relative;}
+	.studentReview{margin-left: 10px !important;}
+	.studentReviewContent{display: none;}
+	.checkbox{margin: auto !important;}
     </style>
 </head>
 
@@ -33,10 +40,12 @@
 <div class="u-wrap set-system">
     <div class="mainbackground nopadding">
         <div class="heading"> 
-            <h2 class="h5">学员列表</h2>
+            <h2 class="h5 active">学员列表</h2>
+			<i class="markTitle"></i>
+			<h2 class="h5  studentReview" >学员审核</h2>
             <span class="line"></span>
         </div>
-        <form method="post" id="searchForm">
+        <form method="post" class="studentListAll" id="searchForm">
         <div>
         	<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
@@ -170,7 +179,7 @@
 	        </div>
         </c:if>
         </form>
-        <div class="user-list">
+        <div class="user-list studentListAll ">
           	<table class="table table-center" id="tableList">
 				<tr data-buy="true">
 					<th width="3%"><input type="checkbox" class="checkboxAll"></th>
@@ -207,6 +216,86 @@
 		</table>
 			<div class="pages pagination"></div>
         </div>
+		<div class="studentReviewContent">
+			<form  style="display: block;">
+				<div>
+					<input type="text"   placeholder="手机号">
+					<input type="text"   placeholder="姓名">
+					<select  name="eduStep" style="width:150px;">
+						<option value="">请选择学段</option>
+						<option value="STEP_01">小学</option>
+						<option value="STEP_02">初中中学</option>
+						<option value="STEP_03">高中中学</option>
+					</select>
+					<select  name="eduYear" style="width:150px;">
+						<option value="">请选择入学年份</option>
+						<option value="2018">2018年</option>
+						<option value="2017">2017年</option>
+						<option value="2016">2016年</option>
+					</select>
+					<select  name="eduClass" style="width:150px;">
+						<option value="">请选择班级</option>
+						<option value="1">1班</option>
+					</select>
+				</div>
+				<div style="margin-top: 10px;">
+					<span>创建时间</span>
+					<span>
+								<input type="text" name="startTime" class="date-picker from">
+								<em>到</em>
+								<input type="text" name="endTime" class="date-picker to">
+							</span>
+					<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+					<span class="fr">
+								<a href="javascript:;" class="btn btn-primary batchAudit" >批量审批</a>
+							</span>
+				</div>
+			</form>
+			<div  style="display: block;">
+				<table class="table table-center" >
+					<tbody>
+					<tr>
+						<th width="3%"><input type="checkbox" id="checkBoxList"></th>
+						<th width="5%">手机号</th>
+						<th width="5%">用户名</th>
+						<th width="5%">姓名</th>
+						<th width="5%">学段</th>
+						<th width="7%">所在班级</th>
+						<th width="7%">创建时间</th>
+						<th width="11%">操作</th>
+					</tr>
+					<tr class="dataLine">
+						<td><input type="checkbox" class="checkbox"></td>
+						<td>15184432637</td>
+						<td>sdaw</td>
+						<td>夏欣月</td>
+						<td>小学</td>
+						<td>2017年4班</td>
+						<td>2018-02-07</td>
+						<td>
+							<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
+						</td>
+					</tr>
+					<tr class="dataLine">
+						<td><input type="checkbox" class="checkbox"></td>
+						<td>15184432637</td>
+						<td>sdaw</td>
+						<td>夏欣月</td>
+						<td>小学</td>
+						<td>2017年4班</td>
+						<td>2018-02-07</td>
+						<td>
+							<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				<div class="pages paginationNew">
+
+				</div>
+			</div>
+
+		</div>
     </div>
 </div>
 <!-- ajax加载中div开始 -->
@@ -720,5 +809,8 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/studentReviewSchool.js"></script>
+
+
 </body>
 </html>

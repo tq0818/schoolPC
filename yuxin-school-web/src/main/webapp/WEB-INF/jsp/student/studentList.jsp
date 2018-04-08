@@ -241,11 +241,11 @@
 				<div style="margin-top: 10px;">
 					<span>创建时间</span>
 					<span>
-								<input type="text" name="startTime" class="date-picker from">
+								<input type="text" name="startTime" class="date-picker from " id="starTime">
 								<em>到</em>
-								<input type="text" name="endTime" class="date-picker to">
+								<input type="text" name="endTime" class="date-picker to" id="endTime">
 							</span>
-					<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
+					<span><a href="javascript:;" class="btn btn-primary" id="searchAll">搜索</a></span>
 					<span class="fr">
 								<a href="javascript:;" class="btn btn-primary batchAudit" >批量审批</a>
 							</span>
@@ -288,6 +288,14 @@
 							<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
 						</td>
 					</tr>
+					<c:choose>
+						<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
+							<tr><td colspan="15">暂无数据</td></tr>
+						</c:when>
+						<c:otherwise>
+							<tr><td colspan="14">暂无数据</td></tr>
+						</c:otherwise>
+					</c:choose>
 					</tbody>
 				</table>
 				<div class="pages paginationNew">

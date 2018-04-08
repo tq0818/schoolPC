@@ -74,6 +74,27 @@ $(function () {
     // $('.loading').show();
     // $('.loading-bg').show();
 
+    //时间先后顺序判断
+    $('#searchBtnAll').click(function () {
+
+        var beginDate= $('#starTime').val();
+        var endDate=$('#endTime').val();
+
+        function tab(date1,date2){
+            var oDate1 = new Date(date1);
+            var oDate2 = new Date(date2);
+            if(oDate1.getTime() > oDate2.getTime()){
+                console.log('第一个大');
+                $.msg('开始时间不能大于结束时间');
+            } else {
+                console.log('第二个大');
+            }
+        }
+        tab(beginDate,endDate);
+
+    });
+
+
 
 
 

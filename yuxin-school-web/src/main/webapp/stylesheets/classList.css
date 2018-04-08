@@ -38,3 +38,4 @@ background: #f2f2f2;font-weight: bold;}
 /*学员审核*/
 .studentReview{margin-left: 10px;}
 .studentReviewContent{display: none;}
+.checkbox{margin: auto !important;}

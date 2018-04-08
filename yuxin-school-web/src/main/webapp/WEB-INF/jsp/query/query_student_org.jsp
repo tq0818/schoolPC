@@ -323,7 +323,7 @@
 							</span>
 							<span><a href="javascript:;" class="btn btn-primary searchContents">搜索</a></span>
 							<span class="fr">
-								<a href="javascript:;" class="btn btn-primary" >批量审批</a>
+								<a href="javascript:;" class="btn btn-primary batchAudit" >批量审批</a>
 							</span>
 						</div>
 					</form>
@@ -331,17 +331,17 @@
 						<table class="table table-center" >
 							<tbody>
 								<tr>
-									<th width="5%"><input type="checkbox"></th>
+									<th width="3%"><input type="checkbox" id="checkBoxList"></th>
 									<th width="5%">手机号</th>
 									<th width="5%">用户名</th>
-									<th width="3%">姓名</th>
-									<th width="9%">学段</th>
+									<th width="5%">姓名</th>
+									<th width="5%">学段</th>
 									<th width="7%">所在班级</th>
-									<th width="5%">创建时间</th>
+									<th width="7%">创建时间</th>
 									<th width="11%">操作</th>
 								</tr>
-								<tr>
-									<td><input type="checkbox"></td>
+								<tr class="dataLine">
+									<td><input type="checkbox" class="checkbox"></td>
 									<td>15184432637</td>
 									<td>sdaw</td>
 									<td>夏欣月</td>
@@ -349,13 +349,26 @@
 									<td>2017年4班</td>
 									<td>2018-02-07</td>
 									<td>
-										<a href="javascript:void(0);" class="btn btn-mb btn-primary">通过</a>
+										<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
+									</td>
+								</tr>
+								<tr class="dataLine">
+									<td><input type="checkbox" class="checkbox"></td>
+									<td>15184432637</td>
+									<td>sdaw</td>
+									<td>夏欣月</td>
+									<td>小学</td>
+									<td>2017年4班</td>
+									<td>2018-02-07</td>
+									<td>
+										<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<div class="pages pagination" ></div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -819,6 +832,7 @@
 <script type="text/javascript" src="<%=rootPath%>/javascripts/popupwin.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/company/jquery.cityselect.js"></script>
 <script type="text/javascript" src="<%=rootPath%>/javascripts/selectStudentGroup.js"></script>
+<script type="text/javascript" src="<%=rootPath%>/javascripts/studentReview.js"></script>
 <script type="text/javascript">
 	//$selectSubMenu('statistics_org_detail');
     //    左侧active切换

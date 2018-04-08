@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	var myDate = new Date();
-	console.log(myDate.getFullYear());
 	findClassStu(0, myDate.getFullYear());
 	
 	

@@ -55,6 +55,25 @@ $(function () {
         })
     });
 
+    //分页
+    $(".pagination").pagination('0', {
+        next_text : "下一页",
+        prev_text : "上一页",
+        current_page :'1',
+        link_to : "javascript:void(0)",
+        num_display_entries : 8,
+        items_per_page : '8',
+        num_edge_entries : 1,
+        callback:function(){
+            // var pageNo = page + 1;
+            // getWatchInfo(pageNo);
+        }
+    });
+
+    //加载中
+    // $('.loading').show();
+    // $('.loading-bg').show();
+
 
 
 

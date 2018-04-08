@@ -20,8 +20,10 @@ public class ClassTypeVo extends BaseEntity {
 	private String	name;		 /* 班型名称 */ 
 	private String	typeCode;		 /* 班型类型代码（普通班；远程班），使用字典表数据 */ 
 	private Double	originalPrice;		 /* 原始价格 */ 
-	private Double	realPrice;		 /* 真实价格（优惠之后的价格）保留字段，目前和original_price存一样的值 */ 
-	private String	schoolsId;		 /* 所属分校主键，以逗号分隔开 */ 
+	private Double	realPrice;		 /* 真实价格（优惠之后的价格）保留字段，目前和original_price存一样的值 */
+	private String strOriginalPrice;/*String类型的 原始价格*/
+	private String	strRealPrice;	/*String类型的真实价格*/
+	private String	schoolsId;		 /* 所属分校主键，以逗号分隔开 */
 	private Integer	itemOneId;		 /* 一级项目主键 */ 
 	private Integer	itemSecondId;		 /* 二级项目主键 */ 
 	private String	itemOneName;		 /* 一级项目name */ 
@@ -615,5 +617,18 @@ public class ClassTypeVo extends BaseEntity {
 	}
 	public void setSchoolName(String schoolName) {
 		this.schoolName = schoolName;
+	}
+	//保留两位小数的价格
+	public String getStrOriginalPrice() {
+		return strOriginalPrice;
+	}
+	public void setStrOriginalPrice(String strOriginalPrice) {
+		this.strOriginalPrice = strOriginalPrice;
+	}
+	public String getStrRealPrice() {
+		return strRealPrice;
+	}
+	public void setStrRealPrice(String strRealPrice) {
+		this.strRealPrice = strRealPrice;
 	}
 }

@@ -18,6 +18,8 @@ public class CommodityVo extends BaseEntity {
     private String overview; /* 商品概述 */
     private Double originalPrice; /* 商品原始价格 */
     private Double realPrice; /* 商品的真实价格（优惠后价格） */
+    private String strOriginalPrice;
+    private String strRealPrice;
     private String type; /* 商品类型：班型、书籍、组合商品，字典表数据 */
     private Integer itemOneId;
     private Integer itemSecondId;
@@ -905,6 +907,17 @@ public class CommodityVo extends BaseEntity {
 	public void setCollectCompanyId(Integer collectCompanyId) {
 		this.collectCompanyId = collectCompanyId;
 	}
-	
 
+    public String getStrOriginalPrice() {
+        return strOriginalPrice;
+    }
+    public void setStrOriginalPrice(String strOriginalPrice) {
+        this.strOriginalPrice = strOriginalPrice;
+    }
+    public String getStrRealPrice() {
+        return strRealPrice;
+    }
+    public void setStrRealPrice(String strRealPrice) {
+        this.strRealPrice = strRealPrice;
+    }
 }

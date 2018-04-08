@@ -106,7 +106,7 @@
                     		<input id="prices" class="prices" name="originalPrice" type="text"><sb>*</sb>
                     	</c:when>
                     	<c:otherwise>
-                    		<input type="text" name="originalPrice" id="prices" class="prices" value="${classType.originalPrice }"><sb>*</sb>
+                    		<input type="text" name="originalPrice" id="prices" class="prices" value="${originalPrice }"><sb>*</sb>
                     	</c:otherwise>
                     </c:choose>
                     </span>

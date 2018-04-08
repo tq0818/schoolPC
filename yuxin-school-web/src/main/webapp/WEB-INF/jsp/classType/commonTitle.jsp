@@ -47,7 +47,8 @@
         	</c:choose>
         </div>
         <div class="price">
-        	价格：${ct.realPrice }元
+        	<%--价格：${ct.realPrice }元--%>
+			价格：${realPrice }元
         </div>
         <c:choose>
           	 <c:when test="${ct.publishStatus=='CLASS_ON_SALE' }">

@@ -747,6 +747,42 @@ public class StudentStatisticsController {
 
 
     /**
+     * 学员审核
+     */
+    @ResponseBody
+    @RequestMapping(value = "/learningDetails/studentReview")
+    public PageFinder<StudentListVo> studentReview(HttpServletRequest request,StudentListVo search) {
+        Integer	companyId = WebUtils.getCurrentCompanyId();
+        if(null != companyId){
+            search.setCompanyId(companyId);
+        }
+        if(search.getPage() == 1){
+            search.setPage(0);
+        }
+        search.setPageSize(10);
+        PageFinder<StudentListVo> pageFinder = studentServiceImpl.findStudentReviewList(search);
+        return pageFinder;
+    }
+
+    /**
+     * 通过审核
+     */
+    @ResponseBody
+    @RequestMapping(value = "/learningDetails/reviewPass")
+    public Boolean reviewPass(String stuId,String flag){
+        int j = 0;
+        if(""!= flag && null != flag && "1".equals(flag)){
+            studentServiceImpl.updateById(stuId);
+            return true;
+        }else{
+            String[] stuIds = stuId.split(",");
+            studentServiceImpl.updateByIds(stuIds);
+            return true;
+        }
+    }
+
+
+    /**
      * 页面跳转
      * @param model
      * @param request

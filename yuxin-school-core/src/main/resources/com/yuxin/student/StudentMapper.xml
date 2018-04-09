@@ -3990,4 +3990,48 @@ select * from (
 		) as agent2 on agent.stu_id = s.id
 		-->
 	</select>
+
+	<select id="findStudentReviewList" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultMap="studentsListMap">
+		select s.id,s.name,uf.username,s.mobile,s.edu_step,s.edu_year,s.edu_class,s.create_time
+		from users_front uf LEFT JOIN student s on s.user_id = uf.id
+		where uf.regist_type = 4
+		and s.edu_area is not null and s.edu_school is not null and s.edu_step is not null
+		and s.edu_year is not null and s.edu_class is not null
+		and s.is_in_school = 0
+		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
+		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+		<if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+		<if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+		<if test="eduStep !=null and eduStep !=''">and s.edu_step = #{eduStep}</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+		ORDER BY s.id desc
+		limit #{firstIndex},#{pageSize}
+	</select>
+
+	<select id="findStudentReviewListCount" parameterType="com.yuxin.wx.vo.student.StudentListVo" resultType="int">
+		select count(1) from users_front uf LEFT JOIN student s on s.user_id = uf.id
+		where uf.regist_type = 4
+		and s.edu_area is not null and s.edu_school is not null and s.edu_step is not null
+		and s.edu_year is not null and s.edu_class is not null
+		and s.is_in_school = 0
+		<if test="name != null and name != ''">and s.name like '%${name}%'</if>
+		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
+		<if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
+		<if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+		<if test="eduStep !=null and eduStep !=''">and s.edu_step = #{eduStep}</if>
+		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
+		<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
+	</select>
+
+	<!-- 根据ID批量审核 -->
+	<delete id="updateByIds">
+		UPDATE student SET is_in_school='1' WHERE id in
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	<delete id="updateById">
+		UPDATE student SET is_in_school='1' WHERE id=#{stuId}
+	</delete>
 </mapper>

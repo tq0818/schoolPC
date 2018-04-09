@@ -1,5 +1,6 @@
 package com.yuxin.wx.api.student;
 
+import java.sql.Array;
 import java.util.List;
 import java.util.Map;
 
@@ -404,6 +405,11 @@ public interface IStudentService  {
 	PageFinder2<StudentListVo> findNewStudentsList(StudentListVo search);
 	
 	PageFinder<StudentListVo> findStudentsList1(StudentListVo search);
+	//学员审核
+	PageFinder<StudentListVo> findStudentReviewList(StudentListVo search);
+
+	void updateById(String stuId);
+	void updateByIds(String[] ids);
 	
 	/**
 	 * 

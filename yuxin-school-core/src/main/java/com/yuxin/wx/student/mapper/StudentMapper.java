@@ -347,7 +347,9 @@ public interface StudentMapper extends BaseMapper<Student> {
 
 	List<String> queryAllStudents(Integer companyId);
 
-
-
-
+	//学员审核
+	List<StudentListVo> findStudentReviewList(StudentListVo search);
+	Integer findStudentReviewListCount(StudentListVo search);
+	void updateById(String stuId);
+	void updateByIds(String[] ids);
 }

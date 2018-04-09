@@ -949,6 +949,24 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	}
 
 	@Override
+	public PageFinder<StudentListVo> findStudentReviewList(StudentListVo search) {
+		List<StudentListVo> data = studentMapper.findStudentReviewList(search);
+		Integer count = studentMapper.findStudentReviewListCount(search);
+		PageFinder<StudentListVo> pageFinder = new PageFinder<>(search.getPage(), search.getPageSize(), count, data);
+		return pageFinder;
+	}
+
+	@Override
+	public void updateById(String stuId) {
+		studentMapper.updateById(stuId);
+	}
+
+	@Override
+	public void updateByIds(String[] ids) {
+		studentMapper.updateByIds(ids);
+	}
+
+	@Override
 	public List<StudentVo> findListByPayments(StudentVo search) {
 
 		return studentMapper.queryListByPayment(search);

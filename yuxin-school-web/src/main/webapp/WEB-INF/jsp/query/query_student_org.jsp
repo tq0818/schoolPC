@@ -295,23 +295,19 @@
 				<div class="studentReviewContent">
 					<form  style="display: block;">
 						<div>
-							<input type="text"   placeholder="手机号">
-							<input type="text"   placeholder="姓名">
-							<select  name="eduStep" style="width:150px;">
+							<input type="text"  id="mobile" placeholder="手机号">
+							<input type="text"   id = "name" placeholder="姓名">
+							<select name="eduStep" style="width:150px;" id="eduStep3">
 								<option value="">请选择学段</option>
-								<option value="STEP_01">小学</option>
-								<option value="STEP_02">初中中学</option>
-								<option value="STEP_03">高中中学</option>
+								<c:forEach items="${stepList}" var="step">
+									<option value="${step.itemCode}">${step.itemValue}</option>
+								</c:forEach>
 							</select>
-							<select  name="eduYear" style="width:150px;">
+							<select name="eduYear" style="width:150px;" id="eduYear3">
 								<option value="">请选择入学年份</option>
-								<option value="2018">2018年</option>
-								<option value="2017">2017年</option>
-								<option value="2016">2016年</option>
 							</select>
-							<select  name="eduClass" style="width:150px;">
-								<option value="">请选择班级</option>
-								<option value="1">1班</option>
+							<select name="eduClass" style="width:150px;" id="eduClass3">
+								<option value=''>请选择班级</option>
 							</select>
 						</div>
 						<div style="margin-top: 10px;">
@@ -321,7 +317,7 @@
 								<em>到</em>
 								<input type="text" name="endTime" class="date-picker to " id="endTime">
 							</span>
-							<span><a href="javascript:;" class="btn btn-primary" id="searchBtnAll">搜索</a></span>
+							<span><a href="javascript:;" class="btn btn-primary" id="searchBtnAll" onclick="studentReview(0)">搜索</a></span>
 							<span class="fr">
 								<a href="javascript:;" class="btn btn-primary batchAudit" >批量审批</a>
 							</span>
@@ -329,41 +325,17 @@
 					</form>
 					<div  style="display: block;">
 						<table class="table table-center" >
-							<tbody>
-								<tr>
-									<th width="3%"><input type="checkbox" id="checkBoxList"></th>
-									<th width="5%">手机号</th>
-									<th width="5%">用户名</th>
-									<th width="5%">姓名</th>
-									<th width="5%">学段</th>
-									<th width="7%">所在班级</th>
-									<th width="7%">创建时间</th>
-									<th width="11%">操作</th>
-								</tr>
-								<tr class="dataLine">
-									<td><input type="checkbox" class="checkbox"></td>
-									<td>15184432637</td>
-									<td>sdaw</td>
-									<td>夏欣月</td>
-									<td>小学</td>
-									<td>2017年4班</td>
-									<td>2018-02-07</td>
-									<td>
-										<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
-									</td>
-								</tr>
-								<tr class="dataLine">
-									<td><input type="checkbox" class="checkbox"></td>
-									<td>15184432637</td>
-									<td>sdaw</td>
-									<td>夏欣月</td>
-									<td>小学</td>
-									<td>2017年4班</td>
-									<td>2018-02-07</td>
-									<td>
-										<a href="javascript:void(0);" class="btn btn-mb btn-primary passBtn">通过</a>
-									</td>
-								</tr>
+							<tr>
+								<th width="3%"><input type="checkbox" id="checkBoxList"></th>
+								<th width="5%">手机号</th>
+								<th width="5%">用户名</th>
+								<th width="5%">姓名</th>
+								<th width="5%">学段</th>
+								<th width="7%">所在班级</th>
+								<th width="7%">创建时间</th>
+								<th width="11%">操作</th>
+							</tr>
+							<tbody id ="review">
 								<c:choose>
 									<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
 										<tr><td colspan="15">暂无数据</td></tr>
@@ -372,11 +344,9 @@
 										<tr><td colspan="14">暂无数据</td></tr>
 									</c:otherwise>
 								</c:choose>
-
-
 							</tbody>
 						</table>
-						<div class="pages pagination"></div>
+						<div class="pages pagination" id = "studentReview"></div>
 					</div>
 
 				</div>
@@ -893,12 +863,14 @@
             yearBody += li;
         }
         $("#eduYear2").append(yearBody);
+        $("#eduYear3").append(yearBody);
         var classesBody = "";
         for(i = 1;i <=30; i++){
             var li ="<option value='"+i+"'>"+i+"班</option>";
             classesBody += li;
         }
         $("#eduClass2").append(classesBody);
+        $("#eduClass3").append(classesBody);
 
 
 		 var role='${role}';

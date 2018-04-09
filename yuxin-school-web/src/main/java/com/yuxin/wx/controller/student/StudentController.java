@@ -285,8 +285,9 @@ public class StudentController {
             //年份列表
             List<Integer> years = new ArrayList<Integer>();
             int curYear = DateUtil.getCurYear();
+            curYear=curYear-6;
             for(int year = 0;year<6;year++){
-                years.add(curYear-year);
+                years.add(curYear+year);
             }
             model.addAttribute( "years", years);
         	if (subject.hasRole("班主任")) {
@@ -364,8 +365,9 @@ public class StudentController {
         //年份列表
         List<Integer> years = new ArrayList<Integer>();
         int curYear = DateUtil.getCurYear();
+        curYear=curYear-12;
         for(int year = 0;year<12;year++){
-            years.add(curYear-year);
+            years.add(curYear+year);
         }
         model.addAttribute( "years", years);
         // 跳转多班号或单班号

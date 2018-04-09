@@ -3718,16 +3718,16 @@ select * from (
 		<result property="eduStepName" column="eduStepName"/>
 	</resultMap>
 	<select id="findClassByTeacherId" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">
-		select scd.item_value as eduStepName,t1.edu_school,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass 
+		select scd.item_value as eduStepName,t1.edu_school,t1.edu_step as eduStep,t1.edu_year as eduYear,t1.edu_class as eduClass
 		from edu_master_class t1
 		LEFT JOIN sys_config_dict scd ON scd.item_code=t1.edu_step 
 		where t1.is_used=1 
 		<if test="userId != null and userId != ''"> and t1.user_id=#{userId}</if>
 	 	<if test="eduSchool != null and eduSchool != ''"> and t1.edu_school=#{eduSchool}</if>
-	 	<if test="eduStep != null and eduStep != ''"> GROUP BY t1.edu_step</if>
-	 	<if test="eduYear != null and eduYear != ''"> GROUP BY t1.edu_year</if>
-	 	<if test="eduClass != null and eduClass != ''"> GROUP BY t1.edu_class</if>
-	 	ORDER BY t1.id
+	 	<if test="eduStep != null and eduStep != ''"> GROUP BY t1.edu_step ORDER BY  eduYear ASC ,t1.id ASC</if>
+	 	<if test="eduYear != null and eduYear != ''"> GROUP BY t1.edu_year  ORDER BY  eduYear ASC</if>
+	 	<if test="eduClass != null and eduClass != ''"> GROUP BY t1.edu_class ORDER BY t1.id ASC </if>
+	 	/*ORDER BY  eduYear ASC ,t1.id ASC*/
 	</select>
 	
 	<select id="findSubjectClassByTeacherId" resultMap="eduMasterClassResultMap" parameterType="com.yuxin.wx.model.classes.EduMasterClass">

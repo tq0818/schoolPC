@@ -433,7 +433,6 @@ $(function(){
 		var schoolCode = $("#schoolCode").val();
 		var countyCode = $("#countyCode").val();
 		var schoolPro  = $("#schoolPro").val();
-		
 		if(schoolName == null || schoolName == ''){
 			$.msg("学校名称不能为空");
 			return;
@@ -469,6 +468,10 @@ $(function(){
    	        },
    	        success : function(data){
    	        	if(data=="success"){
+                    $("#addSchoolName").val("")
+                    $("#schoolCode").val("")
+                    $("#countyCode").val("")
+                    $("#schoolPro").val("")
    	        		$.msg("添加成功");
    	        	}else{
    	        		alert("添加失败");
@@ -481,6 +484,8 @@ $(function(){
 		if($('.chooseBtn').children('li').eq(0).hasClass('active')){
 			var password = $('.modefyPassword').children('li').eq(0).children('input').val();
 			var passwordNew = $('.modefyPassword').children('li').eq(1).children('input').val();
+            $('.modefyPassword').children('li').eq(0).children('input').val("");
+            $('.modefyPassword').children('li').eq(1).children('input').val("");
 			if(password == null){
 				$.msg("密码为空");
 				return;
@@ -566,6 +571,10 @@ $(function(){
 	});
 	//点击确定取消，隐藏弹窗
 	$('.btnOpacity').children().click(function () {
+        $('.chooseBtn').children('li').eq(0).addClass("active");
+        $('.chooseBtn').children('li').eq(1).removeClass("active");
+        $('.modefyPassword').show();
+        $('.resetPassword').hide();
 		$('.opacityPopup').fadeOut();
 		$('.opacityPopupBg').fadeOut();
         $('.opacityPopupAccount').fadeOut();

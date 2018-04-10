@@ -759,7 +759,9 @@ public class StudentStatisticsController {
         if(search.getPage() == 1){
             search.setPage(0);
         }
-        search.setPageSize(10);
+        if(null==search.getPageSize()&&"".equals(search.getPageSize())){
+            search.setPageSize(10);
+        }
         PageFinder<StudentListVo> pageFinder = studentServiceImpl.findStudentReviewList(search);
         return pageFinder;
     }

@@ -296,7 +296,7 @@
 				<div class="studentReviewContent">
 					<form  style="display: block;">
 						<div>
-							<input type="text"  id="mobile" placeholder="手机号">
+							<input type="text" maxlength="11"   onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "  id="mobile" placeholder="手机号">
 							<input type="text"   id = "name" placeholder="姓名">
 							<select name="eduStep" style="width:150px;" id="eduStep3">
 								<option value="">请选择学段</option>
@@ -799,6 +799,8 @@
 
 	</div>
 <input type="hidden" id="selectCounts" value="10">
+<input type="hidden" id="selectCountSchool" value="10">
+
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/class_student.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/query/query_student.js"></script>
 <script type="text/javascript" src="<%=rootPath %>/javascripts/ajaxfileupload.js"></script>
@@ -818,7 +820,16 @@
 	//$selectSubMenu('statistics_org_detail');
     //    左侧active切换
    // $selectSubMenus('studentList');
-	
+    $("#name").blur(function(){
+        var username = /^[\u4E00-\u9FA5A-Za-z]+$/;
+
+        if($("#name").val() != '' && !username.test($("#name").val())){
+            alert("只能输入中文或英文");
+            $("#name").val("");
+        }else{
+
+        }
+    });
 	function changeGrade (obj){
     	var gradeCode=$(obj).val();
     	$("#eduClass").find("option").each(function(){

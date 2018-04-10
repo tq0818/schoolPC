@@ -48,15 +48,17 @@
     <div class="mainbackground nopadding">
         <div class="heading"> 
             <h2 class="h5 active">学员列表</h2>
-			<i class="markTitle"></i>
+			<c:if test="${sessionScope.isAreaSchool1 eq 2}">
 			<shiro:hasAnyRoles name="机构管理员,班主任">
+				<i class="markTitle"></i>
 				<h2 class="h5  studentReview" >学员审核</h2>
 				<span class="line"></span>
 			</shiro:hasAnyRoles>
+			</c:if>
         </div>
         <form method="post" class="studentListAll" id="searchForm">
         <div>
-        	<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"/>
+        	<input type="text" id="stuMobile" name="mobile" placeholder="手机号" maxlength="11"   onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " maxlength="11"/>
         	<input type="text" id="stuusername" name="username" placeholder="用户名"/>
         	<input type="text" id="stuName" name="name" placeholder="姓名"/>
         	<input type="hidden" id="sfzh" name="identityId" placeholder="证件号码"/>
@@ -228,8 +230,8 @@
 		<div class="studentReviewContent">
 			<form  style="display: block;">
 				<div>
-					<input type="text"  id="mobile" placeholder="手机号">
-					<input type="text"   id = "name" placeholder="姓名">
+					<input type="text" maxlength="11"   onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') "  id="mobile" placeholder="手机号">
+					<input type="text"    id = "name" placeholder="姓名">
 					<c:if test="${roleType eq 1}">
 						<select name="EduSteps" id="eduStep3">
 							<option value="">请选择学段</option>
@@ -808,6 +810,8 @@
 </form>	
 <!-- popupwin 修改密码界面结束 -->
 <input type="hidden" id="selectCounts" value="10">
+<input type="hidden" id="selectCountSchool" value="10">
+
 
 
 <script type="text/javascript" src="<%=rootPath %>/javascripts/student/studentlist.js"></script>
@@ -840,6 +844,14 @@
             classesBody += li;
         }
 //        $("#eduClass3").append(classesBody);
+    });
+    $("#name").blur(function(){
+        var username = /^[\u4E00-\u9FA5A-Za-z]+$/;
+
+        if($("#name").val() != '' && !username.test($("#name").val())){
+            alert("只能输入中文或英文");
+            $("#name").val("");
+        }
     });
 </script>
 

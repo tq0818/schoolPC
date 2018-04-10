@@ -114,6 +114,7 @@ function studentReview(pageNum){
     var eduStep;
     var eduYear;
     var eduClass;
+    var pageSize=$("#selectCountSchool").val();
     if(roleType == 1){
         eduStep = $("#eduStepMaster").val();
         eduYear = $("#eduYearMaster").val();
@@ -137,7 +138,8 @@ function studentReview(pageNum){
             "eduSchool" : eduSchool,
             "eduStep" : eduStep,
             "eduYear" : eduYear,
-            "eduClass" : eduClass
+            "eduClass" : eduClass,
+            "pageSize": pageSize
         },
         type : 'post',
         beforeSend : function(XMLHttpRequest) {
@@ -168,7 +170,6 @@ function studentReview(pageNum){
             })
             $("#review").html(html);
             pageId = jsonData.pageNo;
-
             // 分页
             if(pageId ==0){
                 if(jsonData.rowCount>10){
@@ -185,6 +186,15 @@ function studentReview(pageNum){
                             studentReview(pageNo);
                         }
                     });
+                    $("#studentReview").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
+                    $("#studentReview").find("li:first").before('每页：<select id="selectCountSl"  onchange="javascript:changePageSize()">'+
+                        ' <option value="10">10</option>'+
+                        ' <option value="20">20</option>'+
+                        ' <option value="30">30</option>'+
+                        ' <option value="50">50</option>'+
+                        ' <option value="100">100</option>'+
+                        ' </select> 条   ');
+                    $("#selectCountSl").val($("#selectCountSchool").val());
                 }else{
                     $("#studentReview").html('');
                 }
@@ -204,7 +214,15 @@ function studentReview(pageNum){
                             studentReview(pageNo);
                         }
                     });
-
+                    $("#studentReview").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
+                    $("#studentReview").find("li:first").before('每页：<select id="selectCountSl"  onchange="javascript:changePageSize()">'+
+                        ' <option value="10">10</option>'+
+                        ' <option value="20">20</option>'+
+                        ' <option value="30">30</option>'+
+                        ' <option value="50">50</option>'+
+                        ' <option value="100">100</option>'+
+                        ' </select> 条   ');
+                    $("#selectCountSl").val($("#selectCountSchool").val());
                 }else{
                     $("#studentReview").html('');
                 }
@@ -262,4 +280,8 @@ function review(stuId,flag){
             }
         });
     }
+}
+function changePageSize(){
+    $("#selectCountSchool").val($("#selectCountSl").val());
+    studentReview(0);
 }

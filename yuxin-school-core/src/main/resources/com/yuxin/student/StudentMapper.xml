@@ -4025,13 +4025,13 @@ select * from (
 	</select>
 
 	<!-- 根据ID批量审核 -->
-	<delete id="updateByIds">
+	<update id="updateByIds">
 		UPDATE student SET is_in_school='1' WHERE id in
 		<foreach item="item" collection="array" open="(" separator="," close=")">
 			#{item}
 		</foreach>
-	</delete>
-	<delete id="updateById">
+	</update>
+	<update id="updateById">
 		UPDATE student SET is_in_school='1' WHERE id=#{stuId}
-	</delete>
+	</update>
 </mapper>

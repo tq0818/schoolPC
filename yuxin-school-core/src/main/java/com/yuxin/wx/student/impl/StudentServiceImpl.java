@@ -957,13 +957,13 @@ public class StudentServiceImpl extends BaseServiceImpl implements IStudentServi
 	}
 
 	@Override
-	public void updateById(String stuId) {
-		studentMapper.updateById(stuId);
+	public int updateById(String stuId) {
+		 return studentMapper.updateById(stuId);
 	}
 
 	@Override
-	public void updateByIds(String[] ids) {
-		studentMapper.updateByIds(ids);
+	public int updateByIds(String[] ids) {
+		return studentMapper.updateByIds(ids);
 	}
 
 	@Override

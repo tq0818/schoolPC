@@ -350,6 +350,6 @@ public interface StudentMapper extends BaseMapper<Student> {
 	//学员审核
 	List<StudentListVo> findStudentReviewList(StudentListVo search);
 	Integer findStudentReviewListCount(StudentListVo search);
-	void updateById(String stuId);
-	void updateByIds(String[] ids);
+	int updateById(String stuId);
+	int updateByIds(String[] ids);
 }

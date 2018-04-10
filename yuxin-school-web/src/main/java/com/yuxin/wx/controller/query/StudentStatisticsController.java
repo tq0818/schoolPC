@@ -774,12 +774,18 @@ public class StudentStatisticsController {
     public Boolean reviewPass(String stuId,String flag){
         int j = 0;
         if(""!= flag && null != flag && "1".equals(flag)){
-            studentServiceImpl.updateById(stuId);
-            return true;
+            int a = studentServiceImpl.updateById(stuId);
+            if(a==1){
+                return true;
+            }
+            return false;
         }else{
             String[] stuIds = stuId.split(",");
-            studentServiceImpl.updateByIds(stuIds);
-            return true;
+            int b = studentServiceImpl.updateByIds(stuIds);
+            if(b == stuIds.length){
+                return true;
+            }
+            return false;
         }
     }
 

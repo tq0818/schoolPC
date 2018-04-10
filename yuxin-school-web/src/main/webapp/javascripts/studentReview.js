@@ -33,7 +33,7 @@ $(function () {
                 if(data){
                     console.log("点击了是");
                     //认证成功后，所选择学生已认证为本校用户！
-                    $.msg("所选择学生已认证为本校用户！");
+                    /*$.msg("所选择学生已认证为本校用户！");*/
                     //认证通过，删除该条学生数据
                     if(checkListArr.length>0){
                         for(var i= checkListArr.length;i > 0;i--){
@@ -201,7 +201,7 @@ function studentReview(page){
 }
 
 function review(stuId,flag){
-    if(flag == 1){
+    if(flag == 1){//通过
         $.ajax({
             url : rootPath + "/query/learningDetails/reviewPass",
             data : {
@@ -213,17 +213,24 @@ function review(stuId,flag){
                 $(".loading").show();
                 $(".loading-bg").show();
             },
-            success : function(jsonData) {
+            success : function(data) {
                 var myDate = new Date();
-                //学员审核
-                studentReview(pageId,myDate.getFullYear());
+                if(data){
+                    $.msg("所选择学生已认证为本校用户！");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }else{
+                    $.msg("服务器异常，认证失败，请稍后再试");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }
             },
             complete : function(XMLHttpRequest, textStatus) {
                 $(".loading").hide();
                 $(".loading-bg").hide();
             }
         });
-    }else{
+    }else{//批量
         $.ajax({
             url : rootPath + "/query/learningDetails/reviewPass",
             data : {
@@ -237,8 +244,16 @@ function review(stuId,flag){
             },
             success : function(data) {
                 var myDate = new Date();
-                //学员审核
-                studentReview(pageId,myDate.getFullYear());
+                if(data){
+                    $.msg("所选择学生已认证为本校用户！");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }else{
+                    $.msg("服务器异常，认证失败，请稍后再试");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }
+
             },
             complete : function(XMLHttpRequest, textStatus) {
                 $(".loading").hide();

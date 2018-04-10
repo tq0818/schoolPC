@@ -35,7 +35,7 @@ $(function () {
                 if(data){
                     console.log("点击了是");
                     //认证成功后，所选择学生已认证为本校用户！
-                    $.msg("所选择学生已认证为本校用户！");
+                    /*$.msg("所选择学生已认证为本校用户！");*/
                     //认证通过，删除该条学生数据
                     if(checkListArr.length>0){
                         for(var i= checkListArr.length;i > 0;i--){
@@ -250,8 +250,15 @@ function review(stuId,flag){
             },
             success : function(jsonData) {
                 var myDate = new Date();
-                //学员审核
-                studentReview(pageId,myDate.getFullYear());
+                if(data){
+                    $.msg("所选择学生已认证为本校用户！");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }else{
+                    $.msg("服务器异常，认证失败，请稍后再试");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }
             },
             complete : function(XMLHttpRequest, textStatus) {
                 $(".loading").hide();
@@ -272,7 +279,15 @@ function review(stuId,flag){
             },
             success : function(data) {
                 var myDate = new Date();
-                studentReview(pageId,myDate.getFullYear());
+                if(data){
+                    $.msg("所选择学生已认证为本校用户！");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }else{
+                    $.msg("服务器异常，认证失败，请稍后再试");
+                    //学员审核
+                    studentReview(pageId,myDate.getFullYear());
+                }
             },
             complete : function(XMLHttpRequest, textStatus) {
                 $(".loading").hide();

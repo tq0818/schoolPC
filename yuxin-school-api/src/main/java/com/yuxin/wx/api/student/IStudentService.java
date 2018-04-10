@@ -408,8 +408,8 @@ public interface IStudentService  {
 	//学员审核
 	PageFinder<StudentListVo> findStudentReviewList(StudentListVo search);
 
-	void updateById(String stuId);
-	void updateByIds(String[] ids);
+	int  updateById(String stuId);
+	int  updateByIds(String[] ids);
 	
 	/**
 	 * 

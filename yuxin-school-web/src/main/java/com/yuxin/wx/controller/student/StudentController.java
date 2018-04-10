@@ -268,7 +268,7 @@ public class StudentController {
         }else{
         	 List<SysConfigDict> areas = sysConfigDictServiceImpl.queryAreaBySchool(WebUtils.getCurrentCompany().getEduAreaSchool());
         	 
-             model.addAttribute("area", areas.get(0));	
+             model.addAttribute("area", areas.get(0));
              areaDict.setDictCode("EDU_SCHOOL");
              List<SysConfigDict> schools = sysConfigDictServiceImpl.queryConfigDictListByDictCode(areaDict);
              if(null!=schools && schools.size()>0){

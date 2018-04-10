@@ -95,10 +95,9 @@ $(function () {
             var oDate1 = new Date(date1);
             var oDate2 = new Date(date2);
             if(oDate1.getTime() > oDate2.getTime()){
-                console.log('第一个大');
                 $.msg('开始时间不能大于结束时间');
             } else {
-                console.log('第二个大');
+                studentReview(0);
             }
         }
         tab(beginDate,endDate);
@@ -110,20 +109,35 @@ $(function () {
 });
 
 function studentReview(pageNum){
-    console.log('start get page data , pageNum = '+pageNum)
+    var roleType = $("#roleType").val();
+    var eduSchool = $("#eduSchoolCode").val();
+    var eduStep;
+    var eduYear;
+    var eduClass;
+    if(roleType == 1){
+        eduStep = $("#eduStepMaster").val();
+        eduYear = $("#eduYearMaster").val();
+        eduClass = $("#eduClassMaster").val();
+    }else{
+        eduStep = $('#eduStep3').val();
+        eduYear = $("#eduYear3").val();
+        eduClass = $("#eduClass3").val();
+    }
+    console.log("BB:"+$("#startTime").val());
+    console.log("AA:"+$("#endTime").val());
     $.ajax({
         url : rootPath + "/query/learningDetails/studentReview",
         data : {
             "name":$("#name").val(),
             "mobile":$("#mobile").val(),
-            "startTime":$("#startTime").val(),
+            "startTime":$("#starTime").val(),
             "endTime":$("#endTime").val(),
             "page" : pageNum,
             "pageSize" : $("#selectCounts").val() || 10,
-            "eduSchool" : $("#eduSchool").val(),
-            "eduStep" : $('#eduStep3').val(),
-            "eduYear" : $('#eduYear3').val(),
-            "eduClass" : $('#eduClass3').val()
+            "eduSchool" : eduSchool,
+            "eduStep" : eduStep,
+            "eduYear" : eduYear,
+            "eduClass" : eduClass
         },
         type : 'post',
         beforeSend : function(XMLHttpRequest) {

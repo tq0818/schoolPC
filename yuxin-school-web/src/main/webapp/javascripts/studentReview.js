@@ -83,6 +83,7 @@ $(function () {
                 $.msg('开始时间不能大于结束时间');
             } else {
                 console.log('第二个大');
+                studentReview(0);
             }
         }
         tab(beginDate,endDate);
@@ -95,7 +96,7 @@ function studentReview(page){
         data : {
             "name":$("#name").val(),
             "mobile":$("#mobile").val(),
-            "startTime":$("#startTime").val(),
+            "startTime":$("#starTime").val(),
             "endTime":$("#endTime").val(),
             "page" : page,
             "pageSize" : $("#selectCounts").val() || 10,

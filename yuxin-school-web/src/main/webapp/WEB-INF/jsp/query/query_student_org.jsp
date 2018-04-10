@@ -42,7 +42,8 @@
 		<input type="hidden" id="schoolName" value='${schoolName}'/>
 		<input type="hidden" id="isAdmin" value='${isAdmin}'/>
 		<input type="hidden" id="isSubAdmin" value='${isSubAdmin}'/>	
-		<input type="hidden" id="sourceFromStatic" value='1'/>	
+		<input type="hidden" id="sourceFromStatic" value='1'/>
+		<input type="hidden" id="eduSchoolCode" name="eduSchool" value='${schoolName.itemCode}'/>
 	<!-- 二级导航 -->
 	<jsp:include page="/WEB-INF/jsp/menu/menu_statistics_org.jsp"></jsp:include>
 	<div class="u-wrap query overflow">
@@ -313,11 +314,11 @@
 						<div style="margin-top: 10px;">
 							<span>创建时间</span>
 							<span>
-								<input type="text" name="startTime" class="date-picker from " id="starTime">
+								<input type="text" name="startTime" class="date-picker from " id="starTime" readonly>
 								<em>到</em>
-								<input type="text" name="endTime" class="date-picker to " id="endTime">
+								<input type="text" name="endTime" class="date-picker to " id="endTime" readonly>
 							</span>
-							<span><a href="javascript:;" class="btn btn-primary" id="searchBtnAll" onclick="studentReview(0)">搜索</a></span>
+							<span><a href="javascript:;" class="btn btn-primary" id="searchBtnAll" >搜索</a></span>
 							<span class="fr">
 								<a href="javascript:;" class="btn btn-primary batchAudit" >批量审批</a>
 							</span>

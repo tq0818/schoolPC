@@ -37,6 +37,12 @@
 <input type="hidden" value="${address }" id="addreSet"/>
 <input type="hidden" value="${proxyOrgRole }" id="proxyOrgRole"/>
 <input type="hidden" value="${userorg_roleopenflag }" id="userorg_roleopenflag"/>
+<input type="hidden" value="${schoolName.itemCode}" id="eduSchoolCode"/>
+<c:if test="${roleType eq 1}"><%--1：班主任 3：学校负责人--%>
+	<input type="hidden" value="${materTeacher.eduStep}" id="eduStepMaster"/>
+	<input type="hidden" value="${materTeacher.eduClass}" id="eduClassMaster"/>
+	<input type="hidden" value="${materTeacher.eduYear}" id="eduYearMaster"/>
+</c:if>
 <jsp:include page="/WEB-INF/jsp/menu/menu_student.jsp"/>
 <div class="u-wrap set-system">
     <div class="mainbackground nopadding">
@@ -263,11 +269,11 @@
 				<div style="margin-top: 10px;">
 					<span>创建时间</span>
 					<span>
-								<input type="text" name="startTime" class="date-picker from " id="starTime">
+								<input type="text" name="startTime" class="date-picker from " id="starTime" readonly>
 								<em>到</em>
-								<input type="text" name="endTime" class="date-picker to" id="endTime">
+								<input type="text" name="endTime" class="date-picker to" id="endTime" readonly>
 							</span>
-					<span><a href="javascript:;" class="btn btn-primary" id="searchAll" onclick="studentReview(0)">搜索</a></span>
+					<span><a href="javascript:;" class="btn btn-primary" id="searchAll" >搜索</a></span>
 					<span class="fr">
 								<a href="javascript:;" class="btn btn-primary batchAudit" >批量审批</a>
 							</span>

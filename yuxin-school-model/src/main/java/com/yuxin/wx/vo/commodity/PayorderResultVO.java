@@ -13,7 +13,6 @@ public class PayorderResultVO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private Integer userId;
 	private String comName;//课程名称
 	private String coverUrl;//图片地址
@@ -34,15 +33,6 @@ public class PayorderResultVO implements Serializable {
 	private String liveFlag;//直播
 	private String videoFlag;//录播
 	private String isMicroClass;//回放或微课
-
-	public String getCddsStatus() {
-		return cddsStatus;
-	}
-
-	public void setCddsStatus(String cddsStatus) {
-		this.cddsStatus = cddsStatus;
-	}
-
 	private Double payPrice;//真实价格
 	private Long remanentTime;//剩余支付时间
 	private String remark;//备注
@@ -53,49 +43,44 @@ public class PayorderResultVO implements Serializable {
 	private String publicPrices;
 	private String payPrices;
 	private String publicPrice;
+	private String cddsStatus;//是否数校上架（1：是，0：否）
 
 	public String getPublicPrice() {
 		return publicPrice;
 	}
-
 	public void setPublicPrice(String publicPrice) {
 		this.publicPrice = publicPrice;
 	}
-
-	private String cddsStatus;//是否数校上架（1：是，0：否）
-
 	public String getPayPrices() {
 		return payPrices;
 	}
-
 	public void setPayPrices(String payPrices) {
 		this.payPrices = payPrices;
 	}
-
 	public String getOriginalPrices() {
 		return originalPrices;
 	}
-
 	public void setOriginalPrices(String originalPrices) {
 		this.originalPrices = originalPrices;
 	}
-
 	public String getRealPrices() {
 		return realPrices;
 	}
-
 	public void setRealPrices(String realPrices) {
 		this.realPrices = realPrices;
 	}
-
 	public String getPublicPrices() {
 		return publicPrices;
 	}
-
 	public void setPublicPrices(String publicPrices) {
 		this.publicPrices = publicPrices;
 	}
-
+	public String getCddsStatus() {
+		return cddsStatus;
+	}
+	public void setCddsStatus(String cddsStatus) {
+		this.cddsStatus = cddsStatus;
+	}
 	public String getStatus() {
 		return status;
 	}

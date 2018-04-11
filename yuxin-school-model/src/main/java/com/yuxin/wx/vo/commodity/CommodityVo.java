@@ -179,8 +179,8 @@ public class CommodityVo extends BaseEntity {
         this.publicPrice = publicPrice;
     }
 
-    private Integer cddsStatus;//课程上架状态(数校)
-    private Integer cddsRecommendFlag;//课程推荐状态(数校)
+    private String cddsStatus;//课程上架状态(数校)
+    private String cddsRecommendFlag;//课程推荐状态(数校)
     
     public Double getPublicPrice() {
 		return publicPrice;
@@ -190,19 +190,19 @@ public class CommodityVo extends BaseEntity {
 		this.publicPrice = publicPrice;
 	}
 
-	public Integer getCddsStatus() {
+	public String getCddsStatus() {
 		return cddsStatus;
 	}
 
-	public void setCddsStatus(Integer cddsStatus) {
+	public void setCddsStatus(String cddsStatus) {
 		this.cddsStatus = cddsStatus;
 	}
 
-	public Integer getCddsRecommendFlag() {
+	public String getCddsRecommendFlag() {
 		return cddsRecommendFlag;
 	}
 
-	public void setCddsRecommendFlag(Integer cddsRecommendFlag) {
+	public void setCddsRecommendFlag(String cddsRecommendFlag) {
 		this.cddsRecommendFlag = cddsRecommendFlag;
 	}
 

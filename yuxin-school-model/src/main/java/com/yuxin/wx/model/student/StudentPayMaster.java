@@ -100,6 +100,15 @@ public class StudentPayMaster extends BaseEntity {
     private String isPublic;
     private String publicPrice;
     private String originalPrice;
+    private String cddsStatus;//是否在数校上架
+
+    public String getCddsStatus() {
+        return cddsStatus;
+    }
+
+    public void setCddsStatus(String cddsStatus) {
+        this.cddsStatus = cddsStatus;
+    }
 
     public String getOriginalPrice() {
         return originalPrice;

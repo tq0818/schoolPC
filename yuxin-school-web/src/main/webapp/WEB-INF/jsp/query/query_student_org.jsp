@@ -868,10 +868,16 @@
 	
 	$(document).ready(function(){
         var currdate = new Date();
+        var month = currdate.getMonth() + 1;
         var year = currdate.getFullYear();
+        if(month<9){
+            year = year-7;
+        }else{
+            year = year-6;
+		}
         var yearBody = "";
         for(i = 0;i < 7;i++){
-            var li ="<option value='"+(year - i)+"'>"+(year - i)+"年</option>";
+            var li ="<option value='"+(year + i)+"'>"+(year + i)+"年</option>";
             yearBody += li;
         }
         $("#eduYear2").append(yearBody);

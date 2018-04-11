@@ -4002,6 +4002,7 @@ select * from (
 		<if test="mobile != null and mobile != ''">and s.mobile like '%${mobile}%'</if>
 		<if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
 		<if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
+		<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 		<if test="eduStep !=null and eduStep !=''">and s.edu_step = #{eduStep}</if>
 		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
 		<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
@@ -4020,18 +4021,19 @@ select * from (
 		<if test="eduYear !=null and eduYear != ''">and s.edu_year = #{eduYear}</if>
 		<if test="eduClass !=null and eduClass != ''">and s.edu_class = #{eduClass}</if>
 		<if test="eduStep !=null and eduStep !=''">and s.edu_step = #{eduStep}</if>
+		<if test="eduSchool !=null and eduSchool != ''">and s.edu_school = #{eduSchool}</if>
 		<if test="startTime != null and startTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[>=]]> '${startTime}'</if>
 		<if test="endTime != null and endTime != ''">and date_format(s.create_time,"%Y-%m-%d") <![CDATA[<=]]> '${endTime}'</if>
 	</select>
 
 	<!-- 根据ID批量审核 -->
 	<update id="updateByIds">
-		UPDATE student SET is_in_school='1' WHERE id in
+		UPDATE student SET is_in_school='1',edu_identity = '0' WHERE id in
 		<foreach item="item" collection="array" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</update>
 	<update id="updateById">
-		UPDATE student SET is_in_school='1' WHERE id=#{stuId}
+		UPDATE student SET is_in_school='1', edu_identity = '0' WHERE id=#{stuId}
 	</update>
 </mapper>

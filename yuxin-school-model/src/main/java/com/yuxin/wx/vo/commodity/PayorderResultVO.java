@@ -34,6 +34,15 @@ public class PayorderResultVO implements Serializable {
 	private String liveFlag;//直播
 	private String videoFlag;//录播
 	private String isMicroClass;//回放或微课
+
+	public String getCddsStatus() {
+		return cddsStatus;
+	}
+
+	public void setCddsStatus(String cddsStatus) {
+		this.cddsStatus = cddsStatus;
+	}
+
 	private Double payPrice;//真实价格
 	private Long remanentTime;//剩余支付时间
 	private String remark;//备注
@@ -43,6 +52,17 @@ public class PayorderResultVO implements Serializable {
 	private String realPrices;
 	private String publicPrices;
 	private String payPrices;
+	private String publicPrice;
+
+	public String getPublicPrice() {
+		return publicPrice;
+	}
+
+	public void setPublicPrice(String publicPrice) {
+		this.publicPrice = publicPrice;
+	}
+
+	private String cddsStatus;//是否数校上架（1：是，0：否）
 
 	public String getPayPrices() {
 		return payPrices;

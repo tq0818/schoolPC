@@ -163,7 +163,7 @@
         </div>
         <div style="margin-top: 10px;">
         	<span>创建时间</span>
-        	<span><input type="text" name="startTime" class="date-picker from"/><em>到</em><input type="text" name="endTime" class="date-picker to"/></span>
+        	<span><input type="text" name="startTime" class="date-picker from" readonly/><em>到</em><input type="text" name="endTime" class="date-picker to" readonly/></span>
         	<c:if test="${address eq 1}">
         	<span style="padding:0 15px;" id="caddress">
 	        	<select id="prov" name="province"></select> 

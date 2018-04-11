@@ -248,7 +248,7 @@ function review(stuId,flag){
                 $(".loading").show();
                 $(".loading-bg").show();
             },
-            success : function(jsonData) {
+            success : function(data) {
                 var myDate = new Date();
                 if(data){
                     $.msg("所选择学生已认证为本校用户！");

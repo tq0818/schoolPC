@@ -366,7 +366,7 @@
                         $(".loading-bg").show();
                     },
                     success: function (jsonData) {
-                       
+
                         if (jsonData.data.length == 0) {
                         	if(userorg_roleopenflag == 1 && proxyOrgRole == 1){
 	                            $(".user-list")

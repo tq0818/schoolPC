@@ -281,6 +281,7 @@ function review(stuId,flag){
                 var myDate = new Date();
                 if(data){
                     $.msg("所选择学生已认证为本校用户！");
+                    $('#checkBoxList').prop('checked',false);
                     //学员审核
                     studentReview(pageId,myDate.getFullYear());
                 }else{

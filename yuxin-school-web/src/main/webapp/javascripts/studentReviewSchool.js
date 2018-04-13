@@ -172,7 +172,8 @@ function studentReview(pageNum){
             pageId = jsonData.pageNo;
             // 分页
             if(pageId ==0){
-                if(jsonData.rowCount>10){
+
+                if(jsonData.rowCount>$("#selectCountSchool").val()){
                     $("#studentReview").pagination(jsonData.rowCount, {
                         next_text : "下一页",
                         prev_text : "上一页",
@@ -199,7 +200,7 @@ function studentReview(pageNum){
                     $("#studentReview").html('');
                 }
             }else{
-                if(jsonData.rowCount>10){
+                if(jsonData.rowCount>$("#selectCountSchool").val()){
                     $("#studentReview").pagination(jsonData.rowCount, {
                         next_text : "下一页",
                         prev_text : "上一页",

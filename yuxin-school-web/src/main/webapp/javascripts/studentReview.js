@@ -31,7 +31,6 @@ $(function () {
             //弹窗再次确认 是否认证所选择学生？
             $.confirm('是否认证所选择学生？',function (data) {
                 if(data){
-                    console.log("点击了是");
                     //认证成功后，所选择学生已认证为本校用户！
                     /*$.msg("所选择学生已认证为本校用户！");*/
                     //认证通过，删除该条学生数据
@@ -138,7 +137,7 @@ function studentReview(page){
             pageId = jsonData.pageNo;
             // 分页
             if(page ==0){
-                if(jsonData.rowCount>10){
+                if(jsonData.rowCount>$("#selectCountSchool").val()){
                     $("#studentReview").pagination(jsonData.rowCount, {
                         next_text : "下一页",
                         prev_text : "上一页",
@@ -161,12 +160,11 @@ function studentReview(page){
                         ' <option value="100">100</option>'+
                         ' </select> 条   ');
                     $("#selectCountSl").val($("#selectCountSchool").val());
-
                 }else{
                     $("#studentReview").html('');
                 }
             }else{
-                if(jsonData.rowCount>10){
+                if(jsonData.rowCount>$("#selectCountSchool").val()){
                     $("#studentReview").pagination(jsonData.rowCount, {
                         next_text : "下一页",
                         prev_text : "上一页",

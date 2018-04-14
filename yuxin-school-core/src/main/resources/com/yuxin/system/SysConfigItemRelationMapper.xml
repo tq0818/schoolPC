@@ -10,6 +10,7 @@
         <result property="levelPath" column="level_path" />
         <result property="isParent" column="is_parent" />
         <result property="itemName" column="item_name" />
+        <result property="itemCode" column="item_code"></result>
     </resultMap>
     <sql id="table_columns">
         id,
@@ -79,7 +80,7 @@
 
     <select id="findFirstLevel" resultMap="sysConfigItemRelationResultMap"
             parameterType="String">
-        select
+        select DISTINCT
         <include refid="table_columns_sci" />
         from sys_config_item_relation sci
         inner join sys_config_item syc on sci.item_code=syc.item_code and syc.company_id=#{companyId}

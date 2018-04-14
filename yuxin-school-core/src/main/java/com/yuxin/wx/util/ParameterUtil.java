@@ -17,7 +17,7 @@ public class ParameterUtil {
 	 * @return
 	 */
 	public static Boolean isMobilePhone(String str){
-		Pattern pattern = Pattern.compile("^09[0-9]{8}|[1][3,4,5,7,8][0-9]{9}$");
+		Pattern pattern = Pattern.compile("^09[0-9]{8}|[1][3,4,5,6,7,8,9][0-9]{9}$");
 		Matcher matcher = pattern.matcher(str);
 		return matcher.matches();
 	}

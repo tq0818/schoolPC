@@ -1060,7 +1060,7 @@
         init: function () {
         	var $this=this;
             $.validator.addMethod("isMobile", function (value, element, params) {
-                if (/^09\d{8}|1[3,4,5,7,8]\d{9}$/.test(value)) {
+                if (/^09\d{8}|1[3-9]\d{9}$/.test(value)) {
                     return true;
                 } else {
                     return false;

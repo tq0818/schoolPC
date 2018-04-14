@@ -205,7 +205,7 @@ public class SysConfigItemTreeController {
         relation.setId(pid);
         relation.setCompanyId(WebUtils.getCurrentCompanyId());
         List<SysConfigItemRelation> list= sysConfigItemRelationServieImpl.findItemFront(relation);
-        Map<String, Object> param = new HashMap<>();
+       /* Map<String, Object> param = new HashMap<>();
         param.put("schoolId",WebUtils.getCurrentUserSchoolId(request));
         param.put("companyId",WebUtils.getCurrentCompanyId());
         List<SysConfigItem> names = sysConfigItemServieImpl.findItemBySchoolCompanyId(param);
@@ -221,7 +221,14 @@ public class SysConfigItemTreeController {
                     }
                 }
             }
-        }
+        }*/
+
+       for(int i = 0;i<list.size();i++){
+           if(list.get(i).getLevel() == 3){
+               list.get(i).setItemName(list.get(i).getItemCode());
+           }
+       }
+
         return list;
     }
 }

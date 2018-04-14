@@ -70,7 +70,9 @@ public class SysConfigItemRelationServiceImpl extends BaseServiceImpl implements
         if(item.getId()==null){
             return sysConfigItemRelationMapper.findFirstLevelFront(item.getCompanyId());
         }else{
-            return sysConfigItemRelationMapper.findChildrenFront(item);
+            //findChildrenFrontNew
+           // return sysConfigItemRelationMapper.findChildrenFront(item);
+            return sysConfigItemRelationMapper.findChildrenFrontNew(item);
         }
     }
 

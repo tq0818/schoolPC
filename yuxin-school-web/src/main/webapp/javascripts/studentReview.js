@@ -112,8 +112,9 @@ function studentReview(page){
             $(".loading-bg").show();
         },
         success : function(jsonData) {
-
             if(jsonData.data.length ==0){
+                $("#review").html("");
+                $("#studentReview").html('');
                 $('#noData').show();
                 return;
             }

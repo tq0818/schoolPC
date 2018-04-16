@@ -218,7 +218,14 @@
 					<th width="10%">操作</th>
 					</c:if>
 				</tr>
-				<tr id="noData"><td colspan="13">暂无数据</td></tr>
+				<c:choose>
+					<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
+						<tr><td colspan="15">暂无数据</td></tr>
+					</c:when>
+					<c:otherwise>
+						<tr><td colspan="14">暂无数据</td></tr>
+					</c:otherwise>
+				</c:choose>
 			</table>
 			<div class="pages pagination"></div>
         </div>
@@ -289,15 +296,9 @@
 						<th width="11%">操作</th>
 					</tr>
 					<tbody id ="review">
-					<c:choose>
-						<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
-							<tr><td colspan="15">暂无数据</td></tr>
-						</c:when>
-						<c:otherwise>
-							<tr><td colspan="14">暂无数据</td></tr>
-						</c:otherwise>
-					</c:choose>
+
 					</tbody>
+					<tr id="noData"><td colspan="13">暂无数据</td></tr>
 				</table>
 				<div class="pages paginationNew" id = "studentReview">
 

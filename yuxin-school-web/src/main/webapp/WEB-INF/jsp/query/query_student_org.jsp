@@ -200,10 +200,15 @@
 							<th width="11%">操作</th>
 						</tr>
 
-								<tr id="noData"><td colspan="13">暂无数据</td></tr>
 
-								<%--<tr><td colspan="12">暂无数据</td></tr>--%>
-
+						<c:choose>
+							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
+								<tr><td colspan="15">暂无数据</td></tr>
+							</c:when>
+							<c:otherwise>
+								<tr><td colspan="14">暂无数据</td></tr>
+							</c:otherwise>
+						</c:choose>
 
 
 					</table>
@@ -338,15 +343,11 @@
 								<th width="11%">操作</th>
 							</tr>
 							<tbody id ="review">
-								<c:choose>
-									<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
-										<tr><td colspan="15">暂无数据</td></tr>
-									</c:when>
-									<c:otherwise>
-										<tr><td colspan="14">暂无数据</td></tr>
-									</c:otherwise>
-								</c:choose>
+
 							</tbody>
+							<tr id="noData"><td colspan="13">暂无数据</td></tr>
+
+							<%--<tr><td colspan="12">暂无数据</td></tr>--%>
 						</table>
 						<div class="pages pagination" id = "studentReview"></div>
 					</div>

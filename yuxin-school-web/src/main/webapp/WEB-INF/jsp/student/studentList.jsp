@@ -25,6 +25,10 @@
 	.studentReview{margin-left: 10px !important;}
 	.studentReviewContent{display: none;}
 	.checkbox{margin: auto !important;}
+	.table.table-center > tbody > tr > th, .table.table-center > tbody > tr > td{
+		vertical-align : middle !important;
+	}
+	#noData{display: none;}
     </style>
 </head>
 
@@ -214,17 +218,8 @@
 					<th width="10%">操作</th>
 					</c:if>
 				</tr>
-				<c:choose>
-					<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
-						<tr><td colspan="15">暂无数据</td></tr>
-					</c:when>
-					<c:otherwise>
-						<tr><td colspan="14">暂无数据</td></tr>
-					</c:otherwise>
-				</c:choose>
-				
-				
-		</table>
+				<tr id="noData"><td colspan="13">暂无数据</td></tr>
+			</table>
 			<div class="pages pagination"></div>
         </div>
 		<div class="studentReviewContent">

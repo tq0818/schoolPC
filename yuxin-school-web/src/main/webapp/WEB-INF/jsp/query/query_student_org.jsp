@@ -35,6 +35,10 @@
 			height: 374px;
 		}
 		.tableFirst{height: 374px;border: 1px solid #ddd;width: 49.5%;display: inline-block;margin-top: 20px;}
+		.table.table-center > tbody > tr > th, .table.table-center > tbody > tr > td{
+			vertical-align : middle !important;
+		}
+		#noData{display: none;}
 	</style>
 </head>
 <body>
@@ -195,14 +199,11 @@
 							<%--<th width="5%">报名状态</th>--%>
 							<th width="11%">操作</th>
 						</tr>
-						<c:choose>
-							<c:when test="${userorg_roleopenflag==1 && proxyOrgRole ==1 }">
-								<tr><td colspan="13">暂无数据</td></tr>
-							</c:when>
-							<c:otherwise>
-								<tr><td colspan="12">暂无数据</td></tr>
-							</c:otherwise>
-						</c:choose>
+
+								<tr id="noData"><td colspan="13">暂无数据</td></tr>
+
+								<%--<tr><td colspan="12">暂无数据</td></tr>--%>
+
 
 
 					</table>

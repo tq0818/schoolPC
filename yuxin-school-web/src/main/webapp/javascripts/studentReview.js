@@ -112,9 +112,11 @@ function studentReview(page){
             $(".loading-bg").show();
         },
         success : function(jsonData) {
-            /*if(jsonData.data.length <=2){
-                $("#studentReview").html("");
-            }*/
+
+            if(jsonData.data.length ==0){
+                $('#noData').show();
+                return;
+            }
             var html ="";
             $.each(jsonData.data, function(i,stu){
                 html+="<tr class='dataLine'>";
@@ -149,6 +151,8 @@ function studentReview(page){
                         callback:function(page,jq){
                             var pageNo = page + 1;
                             studentReview(pageNo);
+                            //点击分页，复选框不选中
+                            $('#checkBoxList').prop('checked',false);
                         }
                     });
                     $("#studentReview").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
@@ -176,6 +180,9 @@ function studentReview(page){
                         callback:function(page,jq){
                             var pageNo = page + 1;
                             studentReview(pageNo);
+                            //点击分页，复选框不选中
+                            $('#checkBoxList').prop('checked',false);
+
                         }
                     });
                     $("#studentReview").find("li:first").css("background-color","#fff").css("border","1px solid #999").css('cursor','default');
